@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+@WebServlet(displayName = "TaskServlet", urlPatterns = {"/tasks"})
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
