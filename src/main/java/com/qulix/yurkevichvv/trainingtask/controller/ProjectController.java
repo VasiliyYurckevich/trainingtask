@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.controller;
+package com.qulix.yurkevichvv.trainingtask.controller;
 
 
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(displayName = "ProjectsServlet", urlPatterns = {"/projects"})
+@WebServlet(displayName = "projectServlet", urlPatterns = {"/projects"})
 public class ProjectController extends HttpServlet {
 
 
