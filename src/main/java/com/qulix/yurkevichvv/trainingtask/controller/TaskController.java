@@ -40,7 +40,7 @@ public class TaskController extends HttpServlet {
             String theCommand = req.getParameter("command");
 
             if (theCommand == null) {
-                theCommand = "LIST";
+                theCommand = "/list";
             }
 
             switch (theCommand) {
@@ -64,9 +64,6 @@ public class TaskController extends HttpServlet {
                     break;
               /*  case "/add":
                     addProblemEmployee(request, response);
-                    break;*/
-                /*case "REMOVEEMPLOYEE":
-                    removeProblemEmployee(request, response);
                     break;*/
                 default:
                     listTasks(req, resp);
@@ -106,10 +103,7 @@ public class TaskController extends HttpServlet {
     }
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String projectTitle = req.getParameter("title");
-
-        String tempID = req.getParameter("maxID");
-
+        String projectTitle = req.getParameter("projectTitle");
         String flag = req.getParameter("flag");
         String title = req.getParameter("title");
         int projectId = Integer.valueOf(req.getParameter("projectId"));
