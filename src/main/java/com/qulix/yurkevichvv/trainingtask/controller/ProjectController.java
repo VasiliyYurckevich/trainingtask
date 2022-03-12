@@ -119,7 +119,7 @@ public class ProjectController extends HttpServlet {
 
         req.setAttribute("PROJECT_LIST", projects);
 
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("project_list.jsp");
 
         dispatcher.forward(req, resp);
     }
