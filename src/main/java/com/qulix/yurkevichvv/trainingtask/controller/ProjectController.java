@@ -9,7 +9,6 @@ import com.qulix.yurkevichvv.trainingtask.model.Tasks;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(displayName = "projectServlet", urlPatterns = {"/projects"})
+
 public class ProjectController extends HttpServlet {
 
 
@@ -45,13 +44,13 @@ public class ProjectController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
 
-            String theCommand = req.getParameter("command");
+            String action = req.getParameter("action");
 
-            if (theCommand == null) {
-                theCommand = "/list";
+            if (action == null) {
+                action = "/list";
             }
 
-            switch (theCommand) {
+            switch (action) {
                 case "/list":
                     listProjects(req, resp);
                     break;
@@ -70,6 +69,9 @@ public class ProjectController extends HttpServlet {
                 case "/addTask":
                     addTask(req, resp);
                     break;
+                case  "/edit":
+                    editProjectForm(req, resp);
+                    break;
                 case "/new":
                     addProjectForm(req, resp);
                     break;
@@ -83,6 +85,14 @@ public class ProjectController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void editProjectForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("projectId"));
+        Project existingProject = projectInterface.getById(id);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("project-form.jsp");
+        req.setAttribute("project", existingProject);
+        dispatcher.forward(req, resp);
     }
 
     private void loadProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
@@ -119,7 +129,7 @@ public class ProjectController extends HttpServlet {
 
         req.setAttribute("PROJECT_LIST", projects);
 
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("project_list.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
 
         dispatcher.forward(req, resp);
     }

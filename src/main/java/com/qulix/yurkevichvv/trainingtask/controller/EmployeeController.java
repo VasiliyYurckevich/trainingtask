@@ -1,23 +1,20 @@
 package com.qulix.yurkevichvv.trainingtask.controller;
 
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOEmployee;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.model.Employee;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(displayName = "EmployeeServlet", urlPatterns = {"/employees"})
+
 public class EmployeeController extends HttpServlet {
 
     private static final long serialVersionUID = 12345L;
@@ -43,13 +40,13 @@ public class EmployeeController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
 
-            String theCommand = req.getParameter("command");
+            String action = req.getParameter("action");
 
-            if (theCommand == null) {
-                theCommand = "/list";
+            if (action == null) {
+                action = "/list";
             }
 
-            switch (theCommand) {
+            switch (action) {
                 case "/list":
                     listEmployees(req, resp);
                     break;
@@ -61,9 +58,6 @@ public class EmployeeController extends HttpServlet {
                     break;
                 case "/delete":
                     deleteEmployee(req, resp);
-                    break;
-                case "/load":
-                    loadEmployee(req, resp);
                     break;
                 case "/new ":
                     addEmployeeForm(req, resp);
@@ -84,27 +78,13 @@ public class EmployeeController extends HttpServlet {
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("employeeId"));
         Employee existingEmployee = employeeInterface.getById(id);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("employee-form.jsp");
-        req.setAttribute("user", existingEmployee);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/employee-form.jsp");
+        req.setAttribute("employee", existingEmployee);
         dispatcher.forward(req, resp);
     }
 
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/add-employee-form.jsp");
-        dispatcher.forward(req, resp);
-    }
-
-    private void loadEmployee(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String theEmployeeId = req.getParameter("employeeId");
-        Employee theEmployee = employeeInterface.getById(Integer.parseInt(theEmployeeId));
-
-        req.setAttribute("THE_ID", theEmployee.getId());
-        req.setAttribute("THE_SURNAME", theEmployee.getSurname());
-        req.setAttribute("THE_FIRSTNAME", theEmployee.getFirstName());
-        req.setAttribute("THE_LASTNAME", theEmployee.getLastName());
-        req.setAttribute("THE_POST", theEmployee.getPost());
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/update-employee-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/employee-form.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -124,7 +104,7 @@ public class EmployeeController extends HttpServlet {
         String lastName = req.getParameter("lastName");
         String post= req.getParameter("post");
 
-        Employee theEmployee = new Employee(id, surname, firstName, lastName, post);
+        Employee theEmployee = new Employee( surname, firstName, lastName, post);
 
         employeeInterface.update(theEmployee);
 
@@ -148,9 +128,8 @@ public class EmployeeController extends HttpServlet {
 
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Employee> employees = employeeInterface.getAll();
-
         req.setAttribute("EMPLOYEE_LIST", employees);
-
+        System.out.println( employees.size());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
 

@@ -1,7 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.DAO;
 
 import com.qulix.yurkevichvv.trainingtask.Connection.DBConnection;
-import com.qulix.yurkevichvv.trainingtask.model.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.Project;
 
 import java.sql.Connection;
@@ -103,6 +102,7 @@ public class DAOProject implements DAOInterface<Project>{
             resultSet = connection.createStatement().executeQuery(SELECT_ALL_PROJECTS);
             while (resultSet.next()) {
                 Project project = new Project();
+                project.setId(resultSet.getInt(PROJECT_ID));
                 project.setTitle(resultSet.getString(TITLE));
                 project.setDiscription(resultSet.getString(DISCRIPTION));
                 projects.add(project);
