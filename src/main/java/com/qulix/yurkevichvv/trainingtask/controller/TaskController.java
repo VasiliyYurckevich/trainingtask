@@ -1,13 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.controller;
 
-
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
 import com.qulix.yurkevichvv.trainingtask.model.Tasks;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet(displayName = "TaskServlet", urlPatterns = {"/tasks"})
+
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -37,13 +35,13 @@ public class TaskController extends HttpServlet {
 
         try {
 
-            String theCommand = req.getParameter("command");
+            String action = req.getParameter("action");
 
-            if (theCommand == null) {
-                theCommand = "/list";
+            if (action == null) {
+                action = "/list";
             }
 
-            switch (theCommand) {
+            switch (action) {
                 case "/list":
                     listTasks(req, resp);
                     break;
@@ -82,9 +80,9 @@ public class TaskController extends HttpServlet {
 
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(req.getParameter("taskId"));
-        Tasks existingUser = tasksInterface.getById(id);
+        Tasks existingTask = tasksInterface.getById(id);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/problem-form.jsp");
-        req.setAttribute("user", existingUser);
+        req.setAttribute("task", existingTask);
         dispatcher.forward(req, resp);
 
     }
@@ -98,7 +96,6 @@ public class TaskController extends HttpServlet {
         String theProblemId = req.getParameter("problemId");
 
         tasksInterface.delete(Integer.valueOf(theProblemId));
-
         listTasks(req, resp);
     }
 
@@ -107,24 +104,20 @@ public class TaskController extends HttpServlet {
         String flag = req.getParameter("flag");
         String title = req.getParameter("title");
         int projectId = Integer.valueOf(req.getParameter("projectId"));
-        int workHour = Integer.parseInt(req.getParameter("workHour"));
-        LocalDate startDate = LocalDate.parse(req.getParameter("startDate"));
+        int workTime = Integer.parseInt(req.getParameter("workTime"));
+        LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
         LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
         int employeeId = Integer.parseInt(req.getParameter("employeeId"));
 
-
-
-        Tasks task = new Tasks( flag, title, projectId, workHour, startDate, endDate, employeeId);
+        Tasks task = new Tasks( flag, title, projectId, workTime, beginDate, endDate, employeeId);
         tasksInterface.add(task);
 
         listTasks(req, resp);
     }
 
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        List<Tasks> problems =  tasksInterface.getAll();
-
-        req.setAttribute("TASKS_LIST", problems);
-
+        List<Tasks> tasks =  tasksInterface.getAll();
+        req.setAttribute("TASKS_LIST", tasks);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
 

@@ -1,8 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.DAO;
 
 import com.qulix.yurkevichvv.trainingtask.Connection.DBConnection;
-import com.qulix.yurkevichvv.trainingtask.model.Employee;
-import com.qulix.yurkevichvv.trainingtask.model.Project;
 import com.qulix.yurkevichvv.trainingtask.model.Tasks;
 
 import java.sql.Connection;
@@ -23,21 +21,20 @@ public class DAOTask implements DAOInterface<Tasks>{
     private static String TASK_ID = "taskId";
     private static String FLAG = "flag";
     private static String TITLE = "title";
-    private static String PROJECT_ID = "projectId";
+    private static String PROJECT_ID = "project_id";
     private static String WORK_TIME = "workTime";
     private static String BEGIN_DATE = "beginDate";
     private static String END_DATE = "endDate";
-    private static String EMPLOYEE_ID = "employeeId";
+    private static String EMPLOYEE_ID = "employee_id";
 
 
-    private final String INSERT_TASK_SQL = "INSERT INTO " + TABLE_NAME + " (flag, title, projectId, workTime, beginDate," +
-            " endDate, employeeId ) VALUES (?,?,?,?,?,?,?);";
+    private final String INSERT_TASK_SQL = "INSERT INTO " + TABLE_NAME + " (flag, title, project_id, workTime, beginDate,endDate, employeeId ) VALUES (?,?,?,?,?,?,?);";
     private final String SELECT_ALL_TASK = "SELECT * FROM "+ TABLE_NAME + ";";
     private final String SELECT_TASK_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
     private final String SELECT_TASK_BY_PROJECT = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
     //private final String SELECT_EMPLOYEE_BY_NAME = "SELECT * FROM " + TABLE_NAME + " WHERE " + FIRST_NAME + " = ?;";
     private final String DELETE_TASK_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
-    private final String UPDATE_TASK_SQL = "UPDATE " + TABLE_NAME + " SET title = ?,  discription = ? WHERE " + TASK_ID + " = ?;";
+    private final String UPDATE_TASK_SQL = "UPDATE " + TABLE_NAME + " SET flag = ?,  title = ?,project_id = ?,  workTime = ?,beginDate = ?,  endDate = ?,employeeId = ? WHERE " + TASK_ID + " = ?;";
 
 
 
@@ -139,8 +136,7 @@ public class DAOTask implements DAOInterface<Tasks>{
                 task.setWorkTime(resultSet.getInt(WORK_TIME));
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-                task.setProject_id(resultSet.getInt(PROJECT_ID));
-
+                task.setEmployee_id(resultSet.getInt(EMPLOYEE_ID));
                 tasks.add(task);
             }
 

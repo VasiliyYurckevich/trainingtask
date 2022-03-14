@@ -5,30 +5,31 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: rgba(66, 196, 208, 0.37);
     position: fixed;
     top: 0;
     width: 100%;
 }
 
 li {
+
     float: left;
 }
 
 li a {
     display: block;
-    color: white;
+    color: rgba(1, 99, 245, 0.81);
     text-align: center;
     padding: 18px 50px;
     text-decoration: none;
 }
 
 li a:hover:not(.active) {
-    background-color: #111;
+    background-color: #424ed0;
 }
 
 .active {
-    background-color: #0185F5;
+    background-color: #4fb446;
 }
 
 .add-button {
@@ -39,7 +40,6 @@ li a:hover:not(.active) {
     font-weight: bold;
     width: 120px;
     padding: 5px 10px;
-
     margin-bottom: 15px;
     background: #cccccc;
 }

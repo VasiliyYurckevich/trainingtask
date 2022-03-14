@@ -1,15 +1,14 @@
 package com.qulix.yurkevichvv.trainingtask.Connection;
-import javax.servlet.annotation.WebServlet;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@WebServlet(displayName = "DBConnectionServlet", urlPatterns = {"/dbcon"})
 
 public class DBConnection {
 
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
-    private static final String PATH = "jdbc:hsqldb:file:/etc/hsqldb/hsqldb-2.6.1/hsqldb/data/mydb";
+    private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb";
     private static final String USER = "sa";
     private static final String PASS = "";
     private static Connection connection = null;
@@ -22,6 +21,7 @@ public class DBConnection {
             e.printStackTrace();
         }
         connection = DriverManager.getConnection(PATH, USER, PASS);
+        System.out.println("wfww");
         return connection;
     }
 
@@ -31,4 +31,8 @@ public class DBConnection {
         }
     }
 
+
 }
+
+
+

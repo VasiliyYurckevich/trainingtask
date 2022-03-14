@@ -9,7 +9,6 @@
         <webroots>
           <root url="file://$MODULE_DIR$/build/libs/exploded/TrainingTask-1.1-SNAPSHOT.war" relative="/" />
         </webroots>
-        <sourceRoots />
       </configuration>
     </facet>
     <facet type="jpa" name="JPA">
