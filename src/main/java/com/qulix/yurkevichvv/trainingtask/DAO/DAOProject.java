@@ -17,17 +17,18 @@ public class DAOProject implements DAOInterface<Project>{
     private ResultSet resultSet = null;
     private boolean query;
 
+    private static String SCHEMA_NAME = "PUBLIC";
     private static String TABLE_NAME = "project";
-    private static String PROJECT_ID = "projectId";
+    private static String PROJECT_ID = "project_Id";
     private static String TITLE = "title";
     private static String DISCRIPTION = "discription";
 
-    private final String INSERT_PROJECT_SQL = "INSERT INTO " + TABLE_NAME + " (title, discription) VALUES (?,?);";
-    private final String SELECT_ALL_PROJECTS = "SELECT * FROM "+ TABLE_NAME + ";";
-    private final String SELECT_PROJECT_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
+    private final String INSERT_PROJECT_SQL = "INSERT INTO " + SCHEMA_NAME +"."+TABLE_NAME + " (title, discription) VALUES (?,?);";
+    private final String SELECT_ALL_PROJECTS = "SELECT * FROM "+SCHEMA_NAME +"."+ TABLE_NAME + ";";
+    private final String SELECT_PROJECT_BY_ID = "SELECT * FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
     //private final String SELECT_EMPLOYEE_BY_NAME = "SELECT * FROM " + TABLE_NAME + " WHERE " + FIRST_NAME + " = ?;";
-    private final String DELETE_PROJECT_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    private final String UPDATE_PROJECT_SQL = "UPDATE " + TABLE_NAME + " SET title = ?,  discription = ? WHERE " + PROJECT_ID + " = ?;";
+    private final String DELETE_PROJECT_SQL = "DELETE FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
+    private final String UPDATE_PROJECT_SQL = "UPDATE " + SCHEMA_NAME +"."+TABLE_NAME + " SET title = ?,  discription = ? WHERE " + PROJECT_ID + " = ?;";
 
 
 
@@ -72,7 +73,6 @@ public class DAOProject implements DAOInterface<Project>{
             preparedStatement.setString(2, project.getDiscription());
             preparedStatement.setInt(3, project.getId());
             query = preparedStatement.execute();
-
             return query;
         }finally {
             DBConnection.closeConnection();
@@ -86,7 +86,7 @@ public class DAOProject implements DAOInterface<Project>{
             preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
             preparedStatement.setInt(1, id);
             query = preparedStatement.execute();
-
+            System.out.println(preparedStatement);
             return query;
         }finally {
             DBConnection.closeConnection();
@@ -120,9 +120,11 @@ public class DAOProject implements DAOInterface<Project>{
         try {
             preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
             preparedStatement.setInt(1, id);
+            System.out.println(id);
             resultSet = preparedStatement.executeQuery();
             Project project = new Project();
             while (resultSet.next()) {
+                project.setId(id);
                 project.setTitle(resultSet.getString(TITLE));
                 project.setDiscription(resultSet.getString(DISCRIPTION));
 

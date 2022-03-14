@@ -29,6 +29,7 @@
             </form>
             <table id="table" class="table table-striped">
                 <tr>
+                    <th>ID</th>
                     <th>Фамилия</th>
                     <th>Имя</th>
                     <th>Отчество</th>
@@ -44,18 +45,18 @@
                     </c:url>
                     <c:url var="deleteLink" value="employees">
                         <c:param name="action" value="/delete"/>
-                        <c:param name="employeeId" value="${tempEmployee.id}"/>
+                        <c:param name="employeeId" value="${tempEmployee.id+1}"/>
                     </c:url>
 
                     <tr>
+                        <td>${tempEmployee.id}</td>
                         <td> ${tempEmployee.surname}</td>
                         <td> ${tempEmployee.firstName} </td>
                         <td> ${tempEmployee.lastName}</td>
                         <td> ${tempEmployee.post} </td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
-                            |
-                            <a href="${deleteLink}"
+                            <a style="padding-left: 15px" href="${deleteLink}"
                                onclick="if (!(confirm('Are you sure you want to delete this project?'))) return false">Удалить</a>
                         </td>
                     </tr>

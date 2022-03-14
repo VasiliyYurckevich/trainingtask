@@ -17,7 +17,7 @@ public class Tasks {
     public Tasks() {
     }
 
-    public Tasks(String flag, String title, int project_id,int workTime ,LocalDate beginDate, LocalDate endDate, int employee_id) {
+    public Tasks(String flag, String title, int workTime ,LocalDate beginDate, LocalDate endDate, int project_id,int employee_id) {
         this.flag = flag;
         this.title = title;
         this.project_id = project_id;
@@ -27,7 +27,7 @@ public class Tasks {
         this.employee_id = employee_id;
     }
 
-    public Tasks(int id, String flag, String title, int project_id, LocalDate beginDate, LocalDate endDate, int employee_id) {
+    public Tasks(int id, String flag, String title, LocalDate beginDate, LocalDate endDate, int project_id,int employee_id) {
         this.id = id;
         this.flag = flag;
         this.title = title;

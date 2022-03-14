@@ -129,7 +129,6 @@ public class EmployeeController extends HttpServlet {
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Employee> employees = employeeInterface.getAll();
         req.setAttribute("EMPLOYEE_LIST", employees);
-        System.out.println( employees.size());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
 
