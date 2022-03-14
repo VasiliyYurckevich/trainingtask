@@ -28,7 +28,7 @@ tr {
 tr:nth-child(even) {background: #FFFFFF}
 tr:nth-child(odd) {background: #DDDDDD50}
 
-.add-student-button {
+.add-button {
     border: 1px solid #666;
     border-radius: 5px;
     padding: 4px;
