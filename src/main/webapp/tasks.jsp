@@ -24,11 +24,12 @@
     <div class="row">
         <div class="col-md-6">
             <form action="tasks" method="get">
-                <input type="hidden" name="action" value="/add" />
+                <input type="hidden" name="action" value="/new" />
                 <input type="submit" value="Добавть" class="add-button">
             </form>
             <table id="table" class="table table-striped">
                 <tr>
+                    <th>ID</th>
                     <th>Статус</th>
                     <th>Наименование</th>
                     <th>Проект</th>
@@ -52,17 +53,18 @@
                     </c:url>
 
                     <tr>
+                        <td> ${tempTask.id}</td>
                         <td> ${tempTask.flag}</td>
                         <td> ${tempTask.title} </td>
                         <td> ${tempTask.project_id}</td>
                         <td> ${tempTask.workTime} </td>
-                        <td> ${tempTask.startDate}</td>
+                        <td> ${tempTask.beginDate}</td>
                         <td> ${tempTask.endDate} </td>
                         <td> ${tempTask.employee_id}</td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
-                            |
-                            <a href="${deleteLink}"
+
+                            <a style="padding-left: 15px" href="${deleteLink}"
                                onclick="if (!(confirm('Are you sure you want to delete this project?'))) return false">Удалить</a>
                         </td>
                     </tr>

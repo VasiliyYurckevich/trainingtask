@@ -29,6 +29,7 @@
             </form>
             <table id="table" class="table table-striped">
                 <tr>
+                    <th>ID</th>
                     <th>Наименование</th>
                     <th>Описание</th>
                     <th>Действия</th>
@@ -37,7 +38,7 @@
                 <c:forEach var="tempProject" items="${PROJECT_LIST}">
 
                     <c:url var="editLink" value="/projects">
-                        <c:param name="action" value="/load"/>
+                        <c:param name="action" value="/edit"/>
                         <c:param name="projectId" value="${tempProject.id}"/>
                     </c:url>
                     <c:url var="deleteLink" value="/projects">
@@ -46,12 +47,12 @@
                     </c:url>
 
                     <tr>
+                        <td> ${tempProject.id}</td>
                         <td> ${tempProject.title}</td>
                         <td> ${tempProject.discription} </td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
-                            |
-                            <a href="${deleteLink}"
+                            <a style="padding-left: 15px" href="${deleteLink}"
                                onclick="if (!(confirm('Are you sure you want to delete this project?'))) return false">Удалить</a>
                         </td>
                     </tr>

@@ -60,9 +60,6 @@ public class TaskController extends HttpServlet {
                 case "/new":
                     newTaskForm(req, resp);
                     break;
-              /*  case "/add":
-                    addProblemEmployee(request, response);
-                    break;*/
                 default:
                     listTasks(req, resp);
                     break;
@@ -79,8 +76,8 @@ public class TaskController extends HttpServlet {
     }
 
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        int id = Integer.parseInt(req.getParameter("taskId"));
-        Tasks existingTask = tasksInterface.getById(id);
+        int taskId = Integer.parseInt(req.getParameter("id"));
+        Tasks existingTask = tasksInterface.getById(taskId);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/problem-form.jsp");
         req.setAttribute("task", existingTask);
         dispatcher.forward(req, resp);
@@ -88,28 +85,26 @@ public class TaskController extends HttpServlet {
     }
 
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/problem-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/task-form.jsp");
         dispatcher.forward(req, resp);
     }
 
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String theProblemId = req.getParameter("problemId");
-
-        tasksInterface.delete(Integer.valueOf(theProblemId));
+        String theTaskId = req.getParameter("taskId");
+        tasksInterface.delete(Integer.valueOf(theTaskId));
         listTasks(req, resp);
     }
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String projectTitle = req.getParameter("projectTitle");
         String flag = req.getParameter("flag");
         String title = req.getParameter("title");
-        int projectId = Integer.valueOf(req.getParameter("projectId"));
-        int workTime = Integer.parseInt(req.getParameter("workTime"));
-        LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
-        LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
-        int employeeId = Integer.parseInt(req.getParameter("employeeId"));
+        int workTime = Integer.parseInt(req.getParameter("work_time"));
+        LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
+        LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
+        int projectId = Integer.parseInt(req.getParameter("project_id"));
+        int employeeId = Integer.parseInt(req.getParameter("employee_id"));
 
-        Tasks task = new Tasks( flag, title, projectId, workTime, beginDate, endDate, employeeId);
+        Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
         tasksInterface.add(task);
 
         listTasks(req, resp);

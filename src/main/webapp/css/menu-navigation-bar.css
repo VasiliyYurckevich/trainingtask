@@ -32,14 +32,4 @@ li a:hover:not(.active) {
     background-color: #4fb446;
 }
 
-.add-button {
-    border: 1px solid #666;
-    border-radius: 5px;
-    padding: 4px;
-    font-size: 12px;
-    font-weight: bold;
-    width: 120px;
-    padding: 5px 10px;
-    margin-bottom: 15px;
-    background: #cccccc;
-}
+
