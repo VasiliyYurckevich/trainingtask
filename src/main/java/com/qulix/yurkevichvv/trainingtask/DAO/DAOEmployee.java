@@ -19,18 +19,19 @@ public class DAOEmployee implements DAOInterface<Employee> {
     private ResultSet resultSet = null;
     private boolean query;
 
-    private static String TABLE_NAME = "employee";
-    private static String EMPLOYEE_ID = "employeeId";
+    private static String SCHEMA_NAME = "PUBLIC";
+    private static String TABLE_NAME = "EMPLOYEE";
+    private static String EMPLOYEE_ID = "employee_id";
     private static String SURNAME = "surname";
     private static String FIRST_NAME = "first_name";
     private static String LAST_NAME = "last_name";
     private static String POST = "post";
 
-    private final String INSERT_EMPLOYEE_SQL = "INSERT INTO " + TABLE_NAME + " (surname, first_name, last_name, post) VALUES (?,?,?,?);";
-    private final String SELECT_ALL_CLIENT = "SELECT * FROM "+ TABLE_NAME + ";";
-    private final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
+    private final String INSERT_EMPLOYEE_SQL = "INSERT INTO " +SCHEMA_NAME +"."+ TABLE_NAME + " (surname, first_name, last_name, post) VALUES (?,?,?,?);";
+    private final String SELECT_ALL_CLIENT = "SELECT * FROM "+ SCHEMA_NAME +"."+TABLE_NAME + ";";
+    private final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM " +SCHEMA_NAME +"."+ TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
     //private final String SELECT_EMPLOYEE_BY_NAME = "SELECT * FROM " + TABLE_NAME + " WHERE " + FIRST_NAME + " = ?;";
-    private final String DELETE_EMPLOYEE_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
+    private final String DELETE_EMPLOYEE_SQL = "DELETE FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
     private final String UPDATE_CLIENT_SQL = "UPDATE " + TABLE_NAME + " SET surname = ?, first_name = ?, last_name = ?, post = ? WHERE employeeId = ?;";
 
 
@@ -100,6 +101,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             resultSet = connection.createStatement().executeQuery(SELECT_ALL_CLIENT);
             while (resultSet.next()) {
                 Employee employee = new Employee();
+                employee.setId(resultSet.getInt(EMPLOYEE_ID));
                 employee.setSurname(resultSet.getString(SURNAME));
                 employee.setFirstName(resultSet.getString(FIRST_NAME));
                 employee.setLastName(resultSet.getString(LAST_NAME));
