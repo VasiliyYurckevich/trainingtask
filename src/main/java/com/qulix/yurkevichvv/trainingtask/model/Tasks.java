@@ -3,48 +3,47 @@ package com.qulix.yurkevichvv.trainingtask.model;
 import java.time.LocalDate;
 
 public class Tasks {
-    protected int id;
+    protected int taskId;
     protected String flag;
     protected String title;
-    protected int project_id;
     protected int workTime;
     protected LocalDate beginDate;
     protected LocalDate endDate;
+    protected int project_id;
     protected int employee_id;
 
 
-    public Tasks(int id, String flag, String title,  int workTime, LocalDate beginDate, LocalDate endDate, int project_id,int employee_id) {
-        this.id = id;
-        this.flag = flag;
-        this.title = title;
-        this.project_id = project_id;
-        this.workTime = workTime;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.employee_id = employee_id;
-    }
 
     public Tasks() {
     }
 
-    public Tasks(String flag, String title, int workTime ,LocalDate beginDate, LocalDate endDate, int project_id,int employee_id) {
+    public Tasks(String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, int employee_id) {
         this.flag = flag;
         this.title = title;
-        this.project_id = project_id;
-        this.beginDate = beginDate;
         this.workTime = workTime;
+        this.beginDate = beginDate;
         this.endDate = endDate;
+        this.project_id = project_id;
         this.employee_id = employee_id;
     }
 
-
+    public Tasks(int taskId, String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, int employee_id) {
+        this.taskId = taskId;
+        this.flag = flag;
+        this.title = title;
+        this.workTime = workTime;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.project_id = project_id;
+        this.employee_id = employee_id;
+    }
 
     public int getId() {
-        return id;
+        return taskId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.taskId = id;
     }
 
     public String getFlag() {
