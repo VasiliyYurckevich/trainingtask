@@ -39,9 +39,8 @@
         </tbody>
       </table>
 
-      <r/><br/>
-      <input type="submit" value="Save" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Cancel</button>
-
+      <br><br/>
+      <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
     </form>
 
   </div>

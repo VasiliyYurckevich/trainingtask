@@ -30,7 +30,7 @@
 
             <table>
                 <div>
-                    <input type="submit" value="Save" class="add-button"> <button onclick="location.href='employees'" type="button" class="add-button">Cancel</button>
+                    <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
                 </div>
                 <tbody>
                 <tr>

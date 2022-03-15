@@ -45,7 +45,7 @@
             </table>
 
             <r/><br/>
-            <input type="submit" value="Save" class="add-button"> <button onclick="location.href='employees.jsp'" type="button" class="add-button">Cancel</button>
+            <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
         </form>
     </div>
 </div>
