@@ -23,7 +23,7 @@
 
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
-    <h3>Редактировать проект</h3>
+    <h3 >Редактировать проект</h3>
 
     <form action="projects" method="get">
 
@@ -37,12 +37,12 @@
         <tbody>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input type="text" name="title"
+          <td><input type="text" maxlength="50" name="title"
                      value="${title}"></td>
         </tr>
         <tr>
           <td><label>Описание:</label></td>
-          <td><input type="text" name="discription"
+          <td><input type="text" maxlength="250" name="discription"
                      value="${discription}"></td>
         </tr>
         </tbody>
@@ -61,11 +61,8 @@
           <th>Проект</th>
           <th>Исполнитель</th>
           <th>Действия</th>
-
         </tr>
-
         <c:forEach var="tempTask" items="${TASKS_LIST}">
-
         <c:url var="editLink" value="/tasks">
           <c:param name="action" value="/edit"/>
           <c:param name="taskId" value="${tempTask.id}"/>
@@ -100,11 +97,8 @@
         </form>
         </tbody>
       <br/><br/>
-
     </form>
-
   </div>
 </div>
-
 </body>
 </html>

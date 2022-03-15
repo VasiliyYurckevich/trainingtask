@@ -30,15 +30,14 @@
         <tbody>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required ="required"  type="text" name="title"></td>
+          <td><input required ="required" maxlength="50"  type="text" name="title"></td>
         </tr>
         <tr>
           <td><label>Описание:</label></td>
-          <td><input  required ="required"  type="text" name="discription" ></td>
+          <td><input  required ="required" maxlength="250"   type="text" name="discription" ></td>
         </tr>
         </tbody>
       </table>
-
       <br><br/>
       <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
     </form>

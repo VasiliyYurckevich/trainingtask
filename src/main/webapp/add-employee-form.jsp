@@ -22,24 +22,24 @@
     <div id="container">
         <h3>Добавить сотрудника</h3>
         <form action="employees" method="get">
-            <input type="hidden" name="action" value="/add" />
+            <input type="hidden"  name="action" value="/add" />
             <table>
                 <tbody>
                 <tr>
                     <td><label>Фамилия:</label></td>
-                    <td><input required ="required"  type="text" name=surname></td>
+                    <td><input required ="required"  maxlength="50" type="text" name=surname></td>
                 </tr>
                 <tr>
                     <td><label>Имя:</label></td>
-                    <td><input  required ="required"  type="text" name="firstName" ></td>
+                    <td><input  required ="required" maxlength="50"  type="text" name="firstName" ></td>
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
-                    <td><input required ="required"  type="text" name="lastName"></td>
+                    <td><input required ="required"   maxlength="50" type="text" name="lastName"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
-                    <td><input  required ="required"  type="text" name="post" ></td>
+                    <td><input  required ="required"  maxlength="50" type="text" name="post" ></td>
                 </tr>
                 </tbody>
             </table>
