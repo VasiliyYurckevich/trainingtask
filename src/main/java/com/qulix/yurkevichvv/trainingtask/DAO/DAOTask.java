@@ -33,7 +33,6 @@ public class    DAOTask implements DAOInterface<Tasks>{
     private final String SELECT_ALL_TASK = "SELECT * FROM "+ TABLE_NAME + ";";
     private final String SELECT_TASK_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
     private final String SELECT_TASK_BY_PROJECT = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    //private final String SELECT_EMPLOYEE_BY_NAME = "SELECT * FROM " + TABLE_NAME + " WHERE " + FIRST_NAME + " = ?;";
     private final String DELETE_TASK_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
     private final String UPDATE_TASK_SQL = "UPDATE " + TABLE_NAME + " SET flag = ?,  title = ?,  work_time = ?,begin_date = ?,  end_date = ?,project_id = ?,employee_id = ? WHERE " + TASK_ID + " = ?;";
 
@@ -116,8 +115,7 @@ public class    DAOTask implements DAOInterface<Tasks>{
                 task.setWorkTime(resultSet.getInt(WORK_TIME));
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-                task.setProject_id(resultSet.getInt(PROJECT_ID));
-
+                task.setEmployee_id(resultSet.getInt(EMPLOYEE_ID));
                 tasks.add(task);
             }
             return tasks;
@@ -164,13 +162,14 @@ public class    DAOTask implements DAOInterface<Tasks>{
             resultSet = preparedStatement.executeQuery();
             Tasks task = new Tasks();
             while (resultSet.next()) {
-                task.setId(resultSet.getInt(taskID));
+                task.setId(resultSet.getInt(TASK_ID));
                 task.setFlag(resultSet.getString(FLAG));
                 task.setTitle(resultSet.getString(TITLE));
-                task.setProject_id(resultSet.getInt(PROJECT_ID));
                 task.setWorkTime(resultSet.getInt(WORK_TIME));
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
+                task.setProject_id(resultSet.getInt(PROJECT_ID));
+                task.setEmployee_id(resultSet.getInt(EMPLOYEE_ID));
             }
             return task;
         }finally {

@@ -86,7 +86,6 @@ public class DAOProject implements DAOInterface<Project>{
             preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
             preparedStatement.setInt(1, id);
             query = preparedStatement.execute();
-            System.out.println(preparedStatement);
             return query;
         }finally {
             DBConnection.closeConnection();
@@ -120,7 +119,6 @@ public class DAOProject implements DAOInterface<Project>{
         try {
             preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
             preparedStatement.setInt(1, id);
-            System.out.println(id);
             resultSet = preparedStatement.executeQuery();
             Project project = new Project();
             while (resultSet.next()) {

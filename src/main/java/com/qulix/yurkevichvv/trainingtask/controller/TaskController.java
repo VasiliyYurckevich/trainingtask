@@ -105,7 +105,7 @@ public class TaskController extends HttpServlet {
     }
 
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/task-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-form.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -117,20 +117,14 @@ public class TaskController extends HttpServlet {
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         String flag = req.getParameter("flag");
-        System.out.println(flag);
         String title = req.getParameter("title");
-        System.out.println(title);
         int workTime = Integer.parseInt(req.getParameter("work_time"));
-        System.out.println(workTime);
         LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
-        System.out.println(beginDate.toString());
         LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
-        System.out.println(endDate.toString());
         int projectId = Integer.parseInt(req.getParameter("project_id"));
         int employeeId = Integer.parseInt(req.getParameter("employee_id"));
         Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
         tasksInterface.add(task);
-
         listTasks(req, resp);
     }
 
@@ -139,6 +133,5 @@ public class TaskController extends HttpServlet {
         req.setAttribute("TASKS_LIST", tasks);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
-
     }
 }

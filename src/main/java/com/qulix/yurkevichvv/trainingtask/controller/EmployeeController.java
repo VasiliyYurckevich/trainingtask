@@ -4,6 +4,7 @@ package com.qulix.yurkevichvv.trainingtask.controller;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOEmployee;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.model.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.Project;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -59,7 +60,7 @@ public class EmployeeController extends HttpServlet {
                 case "/delete":
                     deleteEmployee(req, resp);
                     break;
-                case "/new ":
+                case "/new":
                     addEmployeeForm(req, resp);
                     break;
                 case "/edit":
@@ -76,15 +77,21 @@ public class EmployeeController extends HttpServlet {
     }
 
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("employeeId"));
-        Employee existingEmployee = employeeInterface.getById(id);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/employee-form.jsp");
+        Integer employeeId = Integer.valueOf(req.getParameter("employeeId"));
+        Employee existingEmployee= employeeInterface.getById(employeeId);
+        req.setAttribute("employeeId",employeeId);
+        req.setAttribute("surname", existingEmployee.getSurname());
+        req.setAttribute("firstName", existingEmployee.getFirstName());
+        req.setAttribute("lastName", existingEmployee.getLastName());
+        req.setAttribute("post", existingEmployee.getPost());
+        RequestDispatcher dispatcher = req.getRequestDispatcher(    "/edit-employee-form.jsp");
+        existingEmployee.setId(employeeId);
         req.setAttribute("employee", existingEmployee);
         dispatcher.forward(req, resp);
     }
 
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/employee-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/add-employee-form.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -98,16 +105,13 @@ public class EmployeeController extends HttpServlet {
     }
 
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("employeeId"));
+        int employeeId = Integer.parseInt(req.getParameter("employeeId"));
         String surname = req.getParameter("surname");
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String post= req.getParameter("post");
-
-        Employee theEmployee = new Employee( surname, firstName, lastName, post);
-
+        Employee theEmployee = new Employee(employeeId, surname, firstName, lastName, post);
         employeeInterface.update(theEmployee);
-
         listEmployees(req, resp);
     }
 
@@ -118,11 +122,8 @@ public class EmployeeController extends HttpServlet {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String post = req.getParameter("post");
-
         Employee employee = new Employee( surname, firstName, lastName, post);
-
         employeeInterface.add(employee);
-
         listEmployees(req, resp);
     }
 
@@ -133,6 +134,4 @@ public class EmployeeController extends HttpServlet {
         dispatcher.forward(req, resp);
 
     }
-
-
 }

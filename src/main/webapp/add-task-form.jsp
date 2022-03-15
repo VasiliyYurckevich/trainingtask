@@ -14,7 +14,7 @@
 <head>
   <title>Добавить задачу</title>
 
-  <link type="text/css" rel="stylesheet" href="css/menu-navigation-bar.css">
+  <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
   <link type="text/css" rel="stylesheet" href="css/style.css">
 
 </head>
@@ -22,27 +22,29 @@
 
 <ul>
   <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-  <li style="font-family: Arial"><a class="active" href="tasks">Задачи</a></li>
+  <li style="font-family: Arial"><a class="choose" href="tasks">Задачи</a></li>
   <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
     <h3>Добавить задачу</h3>
-
     <form action="tasks" method="get">
       <input type="hidden" name="action" value="/add" />
-
       <table>
+        <div>
+           <input type="submit" value="Save" class="add-button"> <button onclick="location.href='tasks'" type="button" class="add-button">Cancel</button>
+        </div>
         <tbody>
         <tr>
           <td><label>Flag:</label></td>
           <td>
             <select name="flag">
               <option></option>
-              <option>in progress</option>
-              <option>completed</option>
-              <option>postponed</option>
+              <option>Не начата</option>
+              <option>В процессе </option>
+              <option>Завершена </option>
+              <option>Отложена </option>
             </select>
           </td>
         <tr>
@@ -55,7 +57,7 @@
         </tr>
         <tr>
           <td><label>Начало работы:</label></td>
-          <td><input required ="required"  type="date" name="begin_date" ></td>
+          <td><input required ="required"  type="date" name="begin_date"></td>
         </tr>
         <tr>
           <td><label>Конец работы:</label></td>
@@ -74,10 +76,7 @@
         </tbody>
       </table>
       <br/><br/>
-      <input type="submit" value="Save" class="add-button"> <button onclick="location.href='tasks'" type="button" class="add-button">Cancel</button>
-
     </form>
-
   </div>
 </div>
 

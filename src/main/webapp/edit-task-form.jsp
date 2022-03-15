@@ -7,7 +7,7 @@
 <head>
     <title>Редактировать проект</title>
 
-    <link type="text/css" rel="stylesheet" href="css/menu-navigation-bar.css">
+    <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="css/temp.css">
 
@@ -16,7 +16,7 @@
 
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a class="active"  href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a class="choose"  href="tasks">Задачи</a></li>
     <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
@@ -31,10 +31,8 @@
 
             <table>
                 <tbody>
-                <tr>
-                    <td><label>ID:</label></td>
-                    <td><input style="background-color: #f6f6f6" type="number" value="${taskId}" name="" readonly></td>
-                </tr>
+                <input type="submit" value="Save" class="add-button"> <button onclick="location.href='tasks'" type="button" class="add-button">Cancel</button>
+
                 <tr>
                     <td><label>Статус:</label></td>
                     <td>
@@ -60,7 +58,7 @@
                 <tr>
                     <td><label>Дата начала:</label></td>
                     <td><input type="date" name="begin_date"
-                               value="${THE_STARTDATE}"></td>
+                               value="${begin_date}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата окончания:</label></td>
@@ -78,7 +76,6 @@
                 </tr>
                 </tbody>
                 <br/><br/>
-                <input type="submit" value="Save" class="add-button"> <button onclick="location.href='tasks.jsp'" type="button" class="add-button">Cancel</button>
 
         </form>
 
