@@ -74,6 +74,9 @@
           <c:param name="action" value="/delete"/>
           <c:param name="taskId" value="${tempTask.id}"/>
         </c:url>
+          <c:url var="addLink" value="/tasks">
+            <c:param name="action" value="/new"/>
+          </c:url>
 
         <tr>
           <td> ${tempTask.flag}</td>
@@ -92,6 +95,9 @@
         </tr>
         </c:forEach>
         </table>
+        <form></form>
+             <button onclick="location.href ='add-task-form.jsp'" type="button" class="add-button">Add</button>
+        </form>
         </tbody>
       <br/><br/>
 

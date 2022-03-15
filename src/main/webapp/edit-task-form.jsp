@@ -31,7 +31,7 @@
 
             <table>
                 <tbody>
-                <input type="submit" value="Save" class="add-button"> <button onclick="location.href='tasks'" type="button" class="add-button">Cancel</button>
+                <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
 
                 <tr>
                     <td><label>Статус:</label></td>
@@ -57,12 +57,12 @@
                 </tr>
                 <tr>
                     <td><label>Дата начала:</label></td>
-                    <td><input type="date" name="begin_date"
+                    <td><input type="date" min="0001-01-01" max="9999-12-31" name="begin_date"
                                value="${begin_date}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата окончания:</label></td>
-                    <td><input type="date" name="end_date"
+                    <td><input type="date"  min="0001-01-01" max="9999-12-31" name="end_date"
                                value="${end_date}"></td>
                 </tr>
 

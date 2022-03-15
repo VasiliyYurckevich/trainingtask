@@ -33,7 +33,7 @@
       <input type="hidden" name="action" value="/add" />
       <table>
         <div>
-           <input type="submit" value="Save" class="add-button"> <button onclick="location.href='tasks'" type="button" class="add-button">Cancel</button>
+           <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
         </div>
         <tbody>
         <tr>
@@ -57,11 +57,11 @@
         </tr>
         <tr>
           <td><label>Начало работы:</label></td>
-          <td><input required ="required"  type="date" name="begin_date"></td>
+          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" name="begin_date"></td>
         </tr>
         <tr>
           <td><label>Конец работы:</label></td>
-          <td><input required ="required"  type="date" name="end_date"></td>
+          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" name="end_date"></td>
         </tr>
         <tr>
           <td><label>Проект:</label></td>
@@ -75,7 +75,7 @@
         </tr>
         </tbody>
       </table>
-      <br/><br/>
+      <br><br/>
     </form>
   </div>
 </div>
