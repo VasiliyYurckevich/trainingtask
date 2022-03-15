@@ -3,10 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.controller;
 
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOProject;
-import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
-import com.qulix.yurkevichvv.trainingtask.model.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.Project;
-import com.qulix.yurkevichvv.trainingtask.model.Tasks;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
