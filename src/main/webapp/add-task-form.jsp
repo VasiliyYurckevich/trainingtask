@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yurkevichvv
-  Date: 14.03.2022
-  Time: 13:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -40,7 +33,6 @@
           <td><label>Flag:</label></td>
           <td>
             <select name="flag">
-              <option></option>
               <option>Не начата</option>
               <option>В процессе </option>
               <option>Завершена </option>
@@ -49,11 +41,11 @@
           </td>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required ="required" type="text" name="title"></td>
+          <td><input required ="required" maxlength="50"  type="text" name="title"></td>
         </tr>
         <tr>
           <td><label>Работа:</label></td>
-          <td><input required ="required"  type="number" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+          <td><input required ="required"  min="-2,147,483,648"  max="2,147,483,647"type="number" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
         </tr>
         <tr>
           <td><label>Начало работы:</label></td>
@@ -79,6 +71,5 @@
     </form>
   </div>
 </div>
-
 </body>
 </html>

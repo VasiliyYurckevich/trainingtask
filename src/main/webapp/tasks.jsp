@@ -32,10 +32,10 @@
                     <th>ID</th>
                     <th>Статус</th>
                     <th>Наименование</th>
-                    <th>Проект</th>
                     <th>Работа</th>
                     <th>Дата начала</th>
                     <th>Дата окончания</th>
+                    <th>Проект</th>
                     <th>Исполнитель</th>
                     <th>Действия</th>
 
@@ -56,10 +56,10 @@
                         <td> ${tempTask.id}</td>
                         <td> ${tempTask.flag}</td>
                         <td> ${tempTask.title} </td>
-                        <td> ${tempTask.project_id}</td>
                         <td> ${tempTask.workTime} </td>
                         <td> ${tempTask.beginDate}</td>
                         <td> ${tempTask.endDate} </td>
+                        <td> ${tempTask.project_id}</td>
                         <td> ${tempTask.employee_id}</td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
