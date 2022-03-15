@@ -41,16 +41,15 @@
           <td><input type="text" name="title"
                      value="${title}"></td>
         </tr>
-        <tr>
+
           <td><label>Description:</label></td>
           <td><input type="text" name="discription"
                      value="${discription}"></td>
         </tr>
         </tbody>
       <br/><br/>
-        <div>
-          <input type="submit" value="Save" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Cancel</button>
-        </div>
+      <input type="submit" value="Save" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Cancel</button>
+
     </form>
 
   </div>

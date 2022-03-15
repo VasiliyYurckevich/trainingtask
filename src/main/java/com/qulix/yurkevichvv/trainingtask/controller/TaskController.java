@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.controller;
 
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
-import com.qulix.yurkevichvv.trainingtask.model.Project;
 import com.qulix.yurkevichvv.trainingtask.model.Tasks;
 
 import javax.servlet.RequestDispatcher;
@@ -74,36 +73,35 @@ public class TaskController extends HttpServlet {
     }
 
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        Integer theTaskId = Integer.valueOf(req.getParameter("taskId"));
-        Tasks existingProject = tasksInterface.getById(theTaskId);
-        req.setAttribute("taskId",existingProject.getId());
-        req.setAttribute("flag", existingProject.getFlag());
-        req.setAttribute("title", existingProject.getTitle());
-        req.setAttribute("work_time", existingProject.getWorkTime());
-        req.setAttribute("begin_date", existingProject.getBeginDate());
-        req.setAttribute("end_date", existingProject.getEndDate());
-        req.setAttribute("project_id", existingProject.getProject_id());
-        req.setAttribute("employee_id", existingProject.getEmployee_id());
-
+        String theTaskId = req.getParameter("taskId");
+        System.out.println(theTaskId);
+        Tasks existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
+        req.setAttribute("taskId",existingTask.getId());
+        req.setAttribute("flag", existingTask.getFlag());
+        req.setAttribute("title",existingTask.getTitle());
+        req.setAttribute("work_time", existingTask.getWorkTime());
+        req.setAttribute("begin_date",existingTask.getBeginDate());
+        req.setAttribute("end_date", existingTask.getEndDate());
+        req.setAttribute("project_id",existingTask.getProject_id());
+        req.setAttribute("employee_id", existingTask.getEmployee_id());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-form.jsp");
-        existingProject.setId(theTaskId);
-        req.setAttribute("project", existingProject);
+        req.setAttribute("task", existingTask);
         dispatcher.forward(req, resp);
+
     }
 
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        int taskId = Integer.parseInt(req.getParameter("id"));
+        int taskId = Integer.parseInt(req.getParameter("taskId"));
+        String flag = req.getParameter("flag");
         String title = req.getParameter("title");
-        String flag= req.getParameter("flag");
-        Integer work_time = Integer.valueOf(req.getParameter("work_time"));
-        LocalDate begin_date = LocalDate.parse(req.getParameter("begin_date"));
-        LocalDate end_date = LocalDate.parse(req.getParameter("end_date"));
-        Integer projectId = Integer.valueOf(req.getParameter("project_id"));
-        Integer employeeId = Integer.valueOf(req.getParameter("employee_id"));
-        Tasks task = new Tasks( taskId, flag,title, work_time, begin_date,end_date,projectId,employeeId);
+        int workTime = Integer.parseInt(req.getParameter("work_time"));
+        LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
+        LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
+        int projectId = Integer.parseInt(req.getParameter("project_id"));
+        int employeeId = Integer.parseInt(req.getParameter("employee_id"));
+        Tasks task = new Tasks(taskId,flag,title,workTime,beginDate,endDate,projectId,employeeId);
         tasksInterface.update(task);
         listTasks(req, resp);
-
     }
 
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -119,13 +117,17 @@ public class TaskController extends HttpServlet {
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         String flag = req.getParameter("flag");
+        System.out.println(flag);
         String title = req.getParameter("title");
+        System.out.println(title);
         int workTime = Integer.parseInt(req.getParameter("work_time"));
+        System.out.println(workTime);
         LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
+        System.out.println(beginDate.toString());
         LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
+        System.out.println(endDate.toString());
         int projectId = Integer.parseInt(req.getParameter("project_id"));
         int employeeId = Integer.parseInt(req.getParameter("employee_id"));
-
         Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
         tasksInterface.add(task);
 
