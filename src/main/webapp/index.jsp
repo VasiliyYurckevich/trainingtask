@@ -5,7 +5,7 @@
 <html lang="ru">
 <meta charset="utf-8">
 <head>
-    <link type="text/css" rel="stylesheet" href="css/menu-navigation-bar.css">
+    <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
     <ul>

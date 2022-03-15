@@ -32,7 +32,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
     private final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM " +SCHEMA_NAME +"."+ TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
     //private final String SELECT_EMPLOYEE_BY_NAME = "SELECT * FROM " + TABLE_NAME + " WHERE " + FIRST_NAME + " = ?;";
     private final String DELETE_EMPLOYEE_SQL = "DELETE FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
-    private final String UPDATE_CLIENT_SQL = "UPDATE " + TABLE_NAME + " SET surname = ?, first_name = ?, last_name = ?, post = ? WHERE employeeId = ?;";
+    private final String UPDATE_CLIENT_SQL = "UPDATE " + TABLE_NAME + " SET surname = ?, first_name = ?, last_name = ?, post = ? WHERE employee_id = ?;";
 
 
 

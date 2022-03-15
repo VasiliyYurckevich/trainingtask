@@ -4,14 +4,14 @@
 <html lang="ru">
 <!DOCTYPE html>
 <head>
-    <link type="text/css" rel="stylesheet" href="css/menu-navigation-bar.css">
+    <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a class="active" href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a class="choose" href="tasks">Задачи</a></li>
     <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 <div style="padding-top: 50px;horiz-align: center">

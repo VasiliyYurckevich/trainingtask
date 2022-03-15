@@ -4,6 +4,8 @@ package com.qulix.yurkevichvv.trainingtask.controller;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOProject;
 import com.qulix.yurkevichvv.trainingtask.model.Project;
+import com.qulix.yurkevichvv.trainingtask.model.Tasks;
+import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,6 +22,7 @@ public class ProjectController extends HttpServlet {
 
     private static final long serialVersionUID = 1424266234L;
     private DAOInterface<Project> projectInterface;
+    private DAOTask tasksInterface;
 
     @Override
     public void init() throws ServletException {
@@ -84,13 +87,16 @@ public class ProjectController extends HttpServlet {
 
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
+        System.out.println(theProjectId);
         Project existingProject = projectInterface.getById(theProjectId);
         req.setAttribute("projectId",existingProject.getId());
         req.setAttribute("title", existingProject.getTitle());
         req.setAttribute("discription", existingProject.getDiscription());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
         existingProject.setId(theProjectId);
+        List<Tasks> projectTasks = new DAOTask().getTaskInProject(existingProject.getId());
         req.setAttribute("project", existingProject);
+        req.setAttribute("TASKS_LIST", projectTasks);
         dispatcher.forward(req, resp);
     }
 
@@ -139,7 +145,6 @@ public class ProjectController extends HttpServlet {
         String title = req.getParameter("title");
         String discription = req.getParameter("discription");
         Project theProject = new Project( title, discription);
-
         try {
             projectInterface.add(theProject);
         } catch (Exception e) {
