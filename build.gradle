@@ -33,3 +33,42 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task startDatabase() {
+    doLast {
+        def dbUser = project.properties['dbUser'] ?: gradle.dbUser
+        def dbPassword = project.properties['dbPassword'] ?: gradle.dbPassword
+        def dbName = project.properties['dbName'] ?: gradle.dbName
+
+        def className = "org.hsqldb.server.Server";
+        def filePath = "file:${projectDir}/hsqldb-2.6.1/hsqldb/mydb;user=${dbUser};password=${dbPassword}";
+
+        def process = buildProcess(className, filePath, dbName)
+        wait(process)
+    }
+}
+
+def buildProcess(className, filePath, dbName) {
+    def javaHome = System.getProperty("java.home");
+    def javaBin = javaHome + File.separator + "bin" + File.separator + "java";
+    def classpath = projectDir+" \\hsqldb-2.6.1\\hsqldb\\lib\\hsqldb.jar";
+
+    def builder = new ProcessBuilder(javaBin, "-cp", classpath, className, "-database.0", filePath, "-dbname.0", dbName);
+    builder.redirectErrorStream(true)
+    builder.directory(projectDir)
+    def process = builder.start()
+    process
+}
+
+def wait(Process process) {
+    def ready = "From command line, use [Ctrl]+[C] to abort abruptly"
+    def reader = new BufferedReader(new InputStreamReader(process.getInputStream()))
+
+    def line;
+    while ((line = reader.readLine()) != null) {
+        logger.quiet line
+        if (line.contains(ready)) {
+            break;
+        }
+    }
+}

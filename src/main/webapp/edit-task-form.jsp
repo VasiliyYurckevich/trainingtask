@@ -31,16 +31,16 @@
 
             <table>
                 <tbody>
-                <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
+                <input type="submit" value="Сохранить" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
 
                 <tr>
                     <td><label>Статус:</label></td>
                     <td>
                         <select type="text"name="flag" data-selected="${flag}">
-                            <option>Не начата</option>
-                            <option>В процессе </option>
-                            <option>Завершена </option>
-                            <option>Отложена </option>
+                            <option ${flag == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
+                            <option ${flag == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
+                            <option ${flag == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>
+                            <option ${flag == "Отложена"  ? 'selected="selected"' : ''}>Отложена</option>
                         </select>
                     </td>
                 </tr>
@@ -67,11 +67,20 @@
 
                 <tr>
                     <td><label>Наименование проекта:</label></td>
-                    <td><input type="number" name="project_id" value="${project_id}" ></td>
+                    <td> <select name="project_id">
+                        <c:forEach items="${PROJECT_LIST}" var="projects">
+                            <option value="${projects.id}" ${projects.id == project_id ? 'selected="selected"' : ''}>${projects.title}</option>
+                        </c:forEach>
+                    </select>
                 </tr>
                 <tr>
-                    <td><label>Исполнитель :</label></td>
-                    <td><input type="number" name="employee_id" value="${employee_id}" ></td>
+                    <td><label>Сотрудник:</label></td>
+                    <td> <select name="employee_id" >
+                        <c:forEach items="${EMPLOYEE_LIST}" var="employees">
+                            <option value="${employees.id}" ${employees.id == employee_id ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.lastName}</option>
+                        </c:forEach>
+                    </select>
+                    </td>
                 </tr>
                 </tbody>
                 <br/><br/>

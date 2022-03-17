@@ -8,5 +8,13 @@
       <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/../hsqldb/hsqldb-2.6.1/hsqldb/mydb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="HSQLDB (Local)" uuid="06bd410a-97ee-4698-988a-621a998d4520">
+      <driver-ref>hsqldb.local</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
+      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/hsqldb-2.6.1/hsqldb/data/mydb/</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
