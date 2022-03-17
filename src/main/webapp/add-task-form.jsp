@@ -26,7 +26,7 @@
       <input type="hidden" name="action" value="/add" />
       <table>
         <div>
-           <input type="submit" value="Save" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Cancel</button>
+           <input type="submit" onclick="window.history.back()"  value="Сохранить" class="add-button"> <button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
         </div>
         <tbody>
         <tr>
@@ -57,13 +57,23 @@
         </tr>
         <tr>
           <td><label>Проект:</label></td>
-          <td><input required ="required"  type="number" name="project_id" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+            <td> <select name="project_id" ${thisProjectId != null ? '  disabled="true"' : ''}>
+                <c:forEach items="${PROJECT_LIST}" var="projects">
+                    <option value="${projects.id}" ${projects.id == thisProjectId ? 'selected="selected"' : ''} >${projects.title} </option>
+                </c:forEach>
+            </select>
+              <input type="hidden" name="project_id" value=${thisProjectId} />
+            </td>
         </tr>
         <tr>
           <td><label>Сотрудник:</label></td>
-          <td><input  required ="required"  type="number" name="employee_id"  ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+          <td> <select name="employee_id">
+            <c:forEach items="${EMPLOYEE_LIST}" var="employees">
+              <option value="${employees.id}">${employees.surname} ${employees.firstName} ${employees.lastName}</option>
+            </c:forEach>
+          </select>
+        </td>
         </tr>
-
         </tr>
         </tbody>
       </table>

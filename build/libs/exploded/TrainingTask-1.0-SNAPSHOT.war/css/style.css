@@ -36,9 +36,7 @@ tr:nth-child(odd) {background: #DDDDDD50}
     font-weight: bold;
     width: 120px;
     padding: 5px 10px;
-
     margin-bottom: 15px;
-    background: #cccccc;
 }
 
 h2, .h2 {

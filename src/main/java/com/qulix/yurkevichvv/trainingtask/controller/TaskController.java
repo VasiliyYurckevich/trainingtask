@@ -1,7 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.controller;
 
+import com.qulix.yurkevichvv.trainingtask.DAO.DAOEmployee;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
+import com.qulix.yurkevichvv.trainingtask.DAO.DAOProject;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
+import com.qulix.yurkevichvv.trainingtask.model.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.Project;
 import com.qulix.yurkevichvv.trainingtask.model.Tasks;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -74,7 +79,6 @@ public class TaskController extends HttpServlet {
 
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         String theTaskId = req.getParameter("taskId");
-        System.out.println(theTaskId);
         Tasks existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
         req.setAttribute("taskId",existingTask.getId());
         req.setAttribute("flag", existingTask.getFlag());
@@ -84,13 +88,18 @@ public class TaskController extends HttpServlet {
         req.setAttribute("end_date", existingTask.getEndDate());
         req.setAttribute("project_id",existingTask.getProject_id());
         req.setAttribute("employee_id", existingTask.getEmployee_id());
+        List<Employee> employees = new DAOEmployee().getAll();
+        List<Project> projects = new DAOProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-form.jsp");
         req.setAttribute("task", existingTask);
+        req.setAttribute("EMPLOYEE_LIST", employees);
+        req.setAttribute("PROJECT_LIST", projects);
         dispatcher.forward(req, resp);
 
     }
 
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+
         int taskId = Integer.parseInt(req.getParameter("taskId"));
         String flag = req.getParameter("flag");
         String title = req.getParameter("title");
@@ -104,8 +113,15 @@ public class TaskController extends HttpServlet {
         listTasks(req, resp);
     }
 
-    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+        String referer =  req.getHeader("referer");
+        String refererUp =referer.substring(96);
+        List<Employee> employees = new DAOEmployee().getAll();
+        List<Project> projects = new DAOProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-form.jsp");
+        req.setAttribute("EMPLOYEE_LIST", employees);
+        req.setAttribute("ref", refererUp);
+        req.setAttribute("PROJECT_LIST", projects);
         dispatcher.forward(req, resp);
     }
 
@@ -125,12 +141,23 @@ public class TaskController extends HttpServlet {
         int employeeId = Integer.parseInt(req.getParameter("employee_id"));
         Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
         tasksInterface.add(task);
-        listTasks(req, resp);
-    }
+        listTasks(req,resp);
+      }
 
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Tasks> tasks =  tasksInterface.getAll();
+        List<Employee> employeeOfTask = new ArrayList<>();
+        List<Project> projectsOfTask = new ArrayList<>();
+        for (Tasks t: tasks){
+            Employee employee = new DAOEmployee().getById(t.getEmployee_id());
+            employeeOfTask.add(employee);
+            Project project = new DAOProject().getById(t.getProject_id());
+            projectsOfTask.add(project);
+        }
+        System.out.println(employeeOfTask.size());
         req.setAttribute("TASKS_LIST", tasks);
+        req.setAttribute("EMP_LIST", employeeOfTask);
+        req.setAttribute("PROJ_LIST", projectsOfTask);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
     }

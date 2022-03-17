@@ -1,11 +1,13 @@
 package com.qulix.yurkevichvv.trainingtask.controller;
 
 
+import com.qulix.yurkevichvv.trainingtask.DAO.DAOEmployee;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOProject;
+import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
+import com.qulix.yurkevichvv.trainingtask.model.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.Project;
 import com.qulix.yurkevichvv.trainingtask.model.Tasks;
-import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -65,7 +68,10 @@ public class ProjectController extends HttpServlet {
                     deleteProject(req, resp);
                     break;
                 case "/addTask":
-                    addTask(req, resp);
+                    newTaskForm(req, resp);
+                    break;
+                case "/updateTask":
+                    newTaskForm(req, resp);
                     break;
                 case  "/edit":
                     editProjectForm(req, resp);
@@ -87,7 +93,6 @@ public class ProjectController extends HttpServlet {
 
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
-        System.out.println(theProjectId);
         Project existingProject = projectInterface.getById(theProjectId);
         req.setAttribute("projectId",existingProject.getId());
         req.setAttribute("title", existingProject.getTitle());
@@ -95,8 +100,16 @@ public class ProjectController extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
         existingProject.setId(theProjectId);
         List<Tasks> projectTasks = new DAOTask().getTaskInProject(existingProject.getId());
+        List<Employee> employeeOfTask = new ArrayList<>();
+        for (Tasks t:projectTasks){
+            Employee employee = new DAOEmployee().getById(t.getEmployee_id());
+            employeeOfTask.add(employee);
+        }
+        System.out.println(employeeOfTask.size());
+        System.out.println(projectTasks.size());
         req.setAttribute("project", existingProject);
         req.setAttribute("TASKS_LIST", projectTasks);
+        req.setAttribute("EMP_LIST", employeeOfTask);
         dispatcher.forward(req, resp);
     }
 
@@ -107,8 +120,15 @@ public class ProjectController extends HttpServlet {
         listProjects(req, resp);
     }
 
-    private void addTask(HttpServletRequest req, HttpServletResponse resp) {
-        // ??????????????????????????????
+    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+        Integer thisProjectId = Integer.valueOf(req.getParameter("projectId"));
+        List<Employee> employees = new DAOEmployee().getAll();
+        List<Project> projects = new DAOProject().getAll();
+        req.setAttribute("thisProjectId",thisProjectId);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-form.jsp");
+        req.setAttribute("EMPLOYEE_LIST", employees);
+        req.setAttribute("PROJECT_LIST", projects);
+        dispatcher.forward(req, resp);
     }
 
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

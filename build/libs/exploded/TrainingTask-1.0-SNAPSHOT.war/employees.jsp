@@ -4,7 +4,7 @@
 <html lang="ru">
 <!DOCTYPE html>
 <head>
-    <link type="text/css" rel="stylesheet" href="css/menu-navigation-bar.css">
+    <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
@@ -12,7 +12,7 @@
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
     <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
-    <li style="font-family: Arial"><a class="active" href="employees">Сотрудники</a></li>
+    <li style="font-family: Arial"><a class="choose" href="employees">Сотрудники</a></li>
 </ul>
 <div style="padding-top: 50px;horiz-align: center">
     <div>
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-6">
             <form action="employees" method="get">
-                <input type="hidden" name="action" value="add" />
+                <input type="hidden" name="action" value="/new" />
                 <input type="submit" value="Добавть" class="add-button">
             </form>
             <table id="table" class="table table-striped">
@@ -45,7 +45,7 @@
                     </c:url>
                     <c:url var="deleteLink" value="employees">
                         <c:param name="action" value="/delete"/>
-                        <c:param name="employeeId" value="${tempEmployee.id+1}"/>
+                        <c:param name="employeeId" value="${tempEmployee.id}"/>
                     </c:url>
 
                     <tr>
