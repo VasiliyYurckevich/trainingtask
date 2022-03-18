@@ -18,10 +18,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    public static final Logger logger = Logger.getLogger(TaskController.class.getName());
 
     private DAOInterface<Tasks> tasksInterface;
 
@@ -99,50 +102,62 @@ public class TaskController extends HttpServlet {
     }
 
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+        try{
+            int taskId = Integer.parseInt(req.getParameter("taskId"));
+            String flag = req.getParameter("flag");
+            String title = req.getParameter("title");
+            int workTime = Integer.parseInt(req.getParameter("work_time"));
+            LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
+            LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
+            int projectId = Integer.parseInt(req.getParameter("project_id"));
+            int employeeId = Integer.parseInt(req.getParameter("employee_id"));
 
-        int taskId = Integer.parseInt(req.getParameter("taskId"));
-        String flag = req.getParameter("flag");
-        String title = req.getParameter("title");
-        int workTime = Integer.parseInt(req.getParameter("work_time"));
-        LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
-        LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
-        int projectId = Integer.parseInt(req.getParameter("project_id"));
-        int employeeId = Integer.parseInt(req.getParameter("employee_id"));
-        Tasks task = new Tasks(taskId,flag,title,workTime,beginDate,endDate,projectId,employeeId);
-        tasksInterface.update(task);
-        listTasks(req, resp);
+            Tasks task = new Tasks(taskId,flag,title,workTime,beginDate,endDate,projectId,employeeId);
+
+            tasksInterface.update(task);
+            listTasks(req, resp);
+            logger.info("Task with id "+taskId+" update");
+        }catch ( SQLException| ServletException | IOException ex){
+            logger.log(Level.SEVERE, "Error message", ex);
+        }
     }
 
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        String referer =  req.getHeader("referer");
-        String refererUp =referer.substring(96);
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-form.jsp");
         req.setAttribute("EMPLOYEE_LIST", employees);
-        req.setAttribute("ref", refererUp);
         req.setAttribute("PROJECT_LIST", projects);
         dispatcher.forward(req, resp);
     }
 
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String theTaskId = req.getParameter("taskId");
-        tasksInterface.delete(Integer.valueOf(theTaskId));
-        listTasks(req, resp);
+        try {
+            String theTaskId = req.getParameter("taskId");
+            tasksInterface.delete(Integer.valueOf(theTaskId));
+            listTasks(req, resp);
+            logger.info("Task with id "+theTaskId+" delete");
+        }catch ( SQLException| ServletException | IOException ex){
+           logger.log(Level.SEVERE, "Error message", ex);
+        }
     }
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String flag = req.getParameter("flag");
-        String title = req.getParameter("title");
-        int workTime = Integer.parseInt(req.getParameter("work_time"));
-        LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
-        LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
-        int projectId = Integer.parseInt(req.getParameter("project_id"));
-        int employeeId = Integer.parseInt(req.getParameter("employee_id"));
-        Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
-        tasksInterface.add(task);
-        listTasks(req,resp);
-      }
+       try { String flag = req.getParameter("flag");
+            String title = req.getParameter("title");
+            int workTime = Integer.parseInt(req.getParameter("work_time"));
+            LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
+            LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
+            int projectId = Integer.parseInt(req.getParameter("project_id"));
+            int employeeId = Integer.parseInt(req.getParameter("employee_id"));
+            Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+            tasksInterface.add(task);
+            listTasks(req,resp);
+            logger.info("New task created");
+       }catch ( SQLException| ServletException | IOException ex){
+            logger.log(Level.SEVERE, "Error message", ex);
+       }
+    }
 
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Tasks> tasks =  tasksInterface.getAll();
@@ -154,7 +169,6 @@ public class TaskController extends HttpServlet {
             Project project = new DAOProject().getById(t.getProject_id());
             projectsOfTask.add(project);
         }
-        System.out.println(employeeOfTask.size());
         req.setAttribute("TASKS_LIST", tasks);
         req.setAttribute("EMP_LIST", employeeOfTask);
         req.setAttribute("PROJ_LIST", projectsOfTask);
