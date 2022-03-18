@@ -8,7 +8,7 @@
 <head>
   <title> Добавить проект</title>
 
-  <link type="text/css" rel="stylesheet" href="css/menu-navigation-bar.css">
+  <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/temp.css">
 
@@ -16,14 +16,14 @@
 <body>
 
 <ul>
-  <li style="font-family: Arial"><a class="active"  href="projects">Проекты</a></li>
+  <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
   <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
   <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
-    <h3>Редактировать проект</h3>
+    <h3 >Редактировать проект</h3>
 
     <form action="projects" method="get">
 
@@ -31,29 +31,78 @@
       <input type="hidden" name="projectId" value="${projectId}" />
 
       <table>
+        <div>
+          <input type="submit" value="Сохранить" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Отмена</button>
+        </div>
         <tbody>
         <tr>
-          <td><label>ID:</label></td>
-          <td><input style="background-color: #f6f6f6" type="number" value="${projectId}" name="" readonly></td>
-        </tr>
-        <tr>
-          <td><label>Title:</label></td>
-          <td><input type="text" name="title"
+          <td><label>Наименование:</label></td>
+          <td><input type="text" maxlength="50" name="title"
                      value="${title}"></td>
         </tr>
-
-          <td><label>Description:</label></td>
-          <td><input type="text" name="discription"
+        <tr>
+          <td><label>Описание:</label></td>
+          <td><input type="text" maxlength="250" name="discription"
                      value="${discription}"></td>
         </tr>
         </tbody>
+      </table>
+        <tbody>
+        <div>
+          <h4>Задачи проекта</h4>
+        </div>
+        <table>
+        <tr>
+          <th>Статус</th>
+          <th>Наименование</th>
+          <th>Работа</th>
+          <th>Дата начала</th>
+          <th>Дата окончания</th>
+          <th>Проект</th>
+          <th>Исполнитель</th>
+          <th>Действия</th>
+        </tr>
+          <c:url var="addLink" value="/projects">
+            <c:param name="action" value="/addTask"/>
+            <c:param name="projectId" value="${projectId}"/>
+          </c:url>
+         <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
+
+          <c:url var="editLink" value="/tasks">
+            <c:param name="action" value="/edit"/>
+            <c:param name="taskId" value="${tempTask.id}"/>
+          </c:url>
+          <c:url var="deleteLink" value="/tasks">
+            <c:param name="action" value="/delete"/>
+            <c:param name="taskId" value="${tempTask.id}"/>
+          </c:url>
+
+
+
+          <tr>
+            <td> ${tempTask.flag}</td>
+            <td> ${tempTask.title} </td>
+            <td> ${tempTask.workTime} </td>
+            <td> ${tempTask.beginDate}</td>
+            <td> ${tempTask.endDate} </td>
+            <td> ${title}</td>
+            <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).lastName}</td>
+            <td>
+              <a href="${editLink}">Редактировать</a>
+
+              <a style="padding-left: 15px" href="${deleteLink}"
+                 onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
+            </td>
+          </tr>
+        </c:forEach>
+        </table>
+        <form></form>
+        <a href="${addLink}">Добавить задачу</a>
+        </form>
+        </tbody>
       <br/><br/>
-      <input type="submit" value="Save" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Cancel</button>
-
     </form>
-
   </div>
 </div>
-
 </body>
 </html>

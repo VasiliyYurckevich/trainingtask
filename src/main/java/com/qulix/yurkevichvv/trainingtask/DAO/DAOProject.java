@@ -106,7 +106,6 @@ public class DAOProject implements DAOInterface<Project>{
                 project.setDiscription(resultSet.getString(DISCRIPTION));
                 projects.add(project);
             }
-
             return projects;
         }finally {
             DBConnection.closeConnection();
@@ -125,9 +124,7 @@ public class DAOProject implements DAOInterface<Project>{
                 project.setId(id);
                 project.setTitle(resultSet.getString(TITLE));
                 project.setDiscription(resultSet.getString(DISCRIPTION));
-
             }
-
             return project;
         }finally {
             DBConnection.closeConnection();

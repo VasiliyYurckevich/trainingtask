@@ -51,9 +51,8 @@ public class    DAOTask implements DAOInterface<Tasks>{
             preparedStatement.setInt(6, tasks.getProject_id());
             preparedStatement.setInt(7, tasks.getEmployee_id());
             query = preparedStatement.execute();
-
             return query;
-        }
+            }
         finally {
             DBConnection.closeConnection();
         }

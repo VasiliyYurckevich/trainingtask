@@ -32,7 +32,7 @@
 
       <table>
         <div>
-          <input type="submit" value="Save" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Cancel</button>
+          <input type="submit" value="Сохранить" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Отмена</button>
         </div>
         <tbody>
         <tr>
@@ -62,38 +62,42 @@
           <th>Исполнитель</th>
           <th>Действия</th>
         </tr>
-        <c:forEach var="tempTask" items="${TASKS_LIST}">
-        <c:url var="editLink" value="/tasks">
-          <c:param name="action" value="/edit"/>
-          <c:param name="taskId" value="${tempTask.id}"/>
-        </c:url>
-        <c:url var="deleteLink" value="/tasks">
-          <c:param name="action" value="/delete"/>
-          <c:param name="taskId" value="${tempTask.id}"/>
-        </c:url>
-          <c:url var="addLink" value="/tasks">
-            <c:param name="action" value="/new"/>
+          <c:url var="addLink" value="/projects">
+            <c:param name="action" value="/addTask"/>
+            <c:param name="projectId" value="${projectId}"/>
+          </c:url>
+         <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
+
+          <c:url var="editLink" value="/tasks">
+            <c:param name="action" value="/edit"/>
+            <c:param name="taskId" value="${tempTask.id}"/>
+          </c:url>
+          <c:url var="deleteLink" value="/tasks">
+            <c:param name="action" value="/delete"/>
+            <c:param name="taskId" value="${tempTask.id}"/>
           </c:url>
 
-        <tr>
-          <td> ${tempTask.flag}</td>
-          <td> ${tempTask.title} </td>
-          <td> ${tempTask.workTime} </td>
-          <td> ${tempTask.beginDate}</td>
-          <td> ${tempTask.endDate} </td>
-          <td> ${tempTask.project_id}</td>
-          <td> ${tempTask.employee_id}</td>
-          <td>
-            <a href="${editLink}">Редактировать</a>
 
-            <a style="padding-left: 15px" href="${deleteLink}"
-               onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
-          </td>
-        </tr>
+
+          <tr>
+            <td> ${tempTask.flag}</td>
+            <td> ${tempTask.title} </td>
+            <td> ${tempTask.workTime} </td>
+            <td> ${tempTask.beginDate}</td>
+            <td> ${tempTask.endDate} </td>
+            <td> ${title}</td>
+            <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).lastName}</td>
+            <td>
+              <a href="${editLink}">Редактировать</a>
+
+              <a style="padding-left: 15px" href="${deleteLink}"
+                 onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
+            </td>
+          </tr>
         </c:forEach>
         </table>
         <form></form>
-             <button onclick="location.href ='add-task-form.jsp'" type="button" class="add-button">Add</button>
+        <a href="${addLink}">Добавить задачу</a>
         </form>
         </tbody>
       <br/><br/>

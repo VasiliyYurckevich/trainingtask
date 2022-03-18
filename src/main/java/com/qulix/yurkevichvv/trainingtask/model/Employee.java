@@ -67,4 +67,9 @@ public class Employee {
     public void setPost(String post) {
         this.post = post;
     }
+
+    public String FIO() {
+        return surname + firstName + lastName ;
+
+    }
 }

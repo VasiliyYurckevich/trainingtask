@@ -4,14 +4,14 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgba(196, 196, 196, 0.37);
+    background-color: rgb(255, 255, 255);
     position: fixed;
     top: 0;
     width: 100%;
+    border: 1px solid #6e6d6d;
 }
 
 li {
-
     float: left;
 }
 
