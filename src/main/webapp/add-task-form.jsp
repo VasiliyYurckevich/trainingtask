@@ -30,7 +30,7 @@
         </div>
         <tbody>
         <tr>
-          <td><label>Flag:</label></td>
+          <td><label>Cтатус:</label></td>
           <td>
             <select name="flag">
               <option>Не начата</option>
