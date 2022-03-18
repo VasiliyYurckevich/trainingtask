@@ -4,13 +4,13 @@
 <html lang="ru">
 <!DOCTYPE html>
 <head>
-    <link type="text/css" rel="stylesheet" href="css/menu-navigation-bar.css">
+    <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 <ul>
-    <li style="font-family: Arial"><a class="active"  href="projects">Проекты</a></li>
+    <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
     <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
     <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
@@ -29,7 +29,6 @@
             </form>
             <table id="table" class="table table-striped">
                 <tr>
-                    <th>ID</th>
                     <th>Наименование</th>
                     <th>Описание</th>
                     <th>Действия</th>
@@ -47,7 +46,6 @@
                     </c:url>
 
                     <tr>
-                        <td> ${tempProject.id}</td>
                         <td> ${tempProject.title}</td>
                         <td> ${tempProject.discription} </td>
                         <td>

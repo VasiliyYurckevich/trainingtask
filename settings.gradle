@@ -1,1 +1,11 @@
 rootProject.name = "TrainingTask"
+gradle.ext.hsqldbVersion = '2.6.1'
+//default database config
+gradle.ext.dbName = "mydb"
+gradle.ext.dbUser = "SA"
+gradle.ext.dbPassword = ""
+gradle.ext.dbPort = 9001
+gradle.ext.dbHost = "localhost"
+gradle.ext.dbFile = "mydb"
+gradle.ext.dbUrl = "jdbc:hsqldb:hsql://${gradle.dbHost}}/${gradle.dbName}"
+gradle.ext.dbDrive = "org.hsqldb.jdbc.JDBCDriver"

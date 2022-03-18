@@ -3,6 +3,7 @@
 
 <html lang="ru">
 <!DOCTYPE html>
+<meta charset="UTF-8">
 <head>
     <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
@@ -29,7 +30,6 @@
             </form>
             <table id="table" class="table table-striped">
                 <tr>
-                    <th>ID</th>
                     <th>Фамилия</th>
                     <th>Имя</th>
                     <th>Отчество</th>
@@ -49,7 +49,6 @@
                     </c:url>
 
                     <tr>
-                        <td>${tempEmployee.id}</td>
                         <td> ${tempEmployee.surname}</td>
                         <td> ${tempEmployee.firstName} </td>
                         <td> ${tempEmployee.lastName}</td>

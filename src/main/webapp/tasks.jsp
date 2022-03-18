@@ -4,6 +4,7 @@
 <html lang="ru">
 <!DOCTYPE html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
@@ -29,7 +30,6 @@
             </form>
             <table id="table" class="table table-striped">
                 <tr>
-                    <th>ID</th>
                     <th>Статус</th>
                     <th>Наименование</th>
                     <th>Работа</th>
@@ -41,7 +41,7 @@
 
                 </tr>
 
-                <c:forEach var="tempTask" items="${TASKS_LIST}">
+                <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
 
                     <c:url var="editLink" value="/tasks">
                         <c:param name="action" value="/edit"/>
@@ -53,14 +53,13 @@
                     </c:url>
 
                     <tr>
-                        <td> ${tempTask.id}</td>
                         <td> ${tempTask.flag}</td>
                         <td> ${tempTask.title} </td>
                         <td> ${tempTask.workTime} </td>
                         <td> ${tempTask.beginDate}</td>
                         <td> ${tempTask.endDate} </td>
-                        <td> ${tempTask.project_id}</td>
-                        <td> ${tempTask.employee_id}</td>
+                        <td> ${PROJ_LIST.get(theCount.index).title}</td>
+                        <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).lastName}</td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
 
@@ -75,8 +74,6 @@
 
     </div>
 </div>
-
-
 
 </body>
 </html>
