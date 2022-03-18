@@ -6,5 +6,6 @@ gradle.ext.dbUser = "SA"
 gradle.ext.dbPassword = ""
 gradle.ext.dbPort = 9001
 gradle.ext.dbHost = "localhost"
-gradle.ext.dbUrl = "jdbc:hsqldb:hsql://${gradle.dbHost}:${gradle.dbPort}/${gradle.dbName}"
+gradle.ext.dbFile = "mydb"
+gradle.ext.dbUrl = "jdbc:hsqldb:hsql://${gradle.dbHost}}/${gradle.dbName}"
 gradle.ext.dbDrive = "org.hsqldb.jdbc.JDBCDriver"

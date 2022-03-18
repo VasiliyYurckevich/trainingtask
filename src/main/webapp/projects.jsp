@@ -29,7 +29,6 @@
             </form>
             <table id="table" class="table table-striped">
                 <tr>
-                    <th>ID</th>
                     <th>Наименование</th>
                     <th>Описание</th>
                     <th>Действия</th>
@@ -47,7 +46,6 @@
                     </c:url>
 
                     <tr>
-                        <td> ${tempProject.id}</td>
                         <td> ${tempProject.title}</td>
                         <td> ${tempProject.discription} </td>
                         <td>

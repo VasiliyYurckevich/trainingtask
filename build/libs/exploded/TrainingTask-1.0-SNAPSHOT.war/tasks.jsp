@@ -4,6 +4,7 @@
 <html lang="ru">
 <!DOCTYPE html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
@@ -29,7 +30,6 @@
             </form>
             <table id="table" class="table table-striped">
                 <tr>
-                    <th>ID</th>
                     <th>Статус</th>
                     <th>Наименование</th>
                     <th>Работа</th>
@@ -53,7 +53,6 @@
                     </c:url>
 
                     <tr>
-                        <td> ${tempTask.id}</td>
                         <td> ${tempTask.flag}</td>
                         <td> ${tempTask.title} </td>
                         <td> ${tempTask.workTime} </td>
@@ -75,8 +74,6 @@
 
     </div>
 </div>
-
-
 
 </body>
 </html>
