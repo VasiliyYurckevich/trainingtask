@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 
 public class EmployeeController extends HttpServlet {
@@ -21,7 +24,7 @@ public class EmployeeController extends HttpServlet {
     private static final long serialVersionUID = 12345L;
     private DAOInterface<Employee> employeeInterface;
 
-    @Override
+    public static final Logger logger = Logger.getLogger(EmployeeController.class.getName());
     public void init() throws ServletException {
         super.init();
 
@@ -40,7 +43,7 @@ public class EmployeeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setContentType("text/html");
+        resp.setContentType("text/html;charset=utf-8");
         PrintWriter out = resp.getWriter();
 
         try {
@@ -100,40 +103,54 @@ public class EmployeeController extends HttpServlet {
     }
 
 
-    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-
-        Integer theEmployeeId = Integer.valueOf(req.getParameter("employeeId"));
-        employeeInterface.delete(theEmployeeId);
-        listEmployees(req, resp);
+    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp){
+        try {
+            Integer theEmployeeId = Integer.valueOf(req.getParameter("employeeId"));
+            employeeInterface.delete(theEmployeeId);
+            listEmployees(req, resp);
+            logger.info("Employee with id "+theEmployeeId+"delited");
+        } catch ( SQLException| ServletException | IOException ex){
+            logger.log(Level.SEVERE, "Error message", ex);
+        }
 
     }
 
-    private void updateEmployee(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        int employeeId = Integer.parseInt(req.getParameter("employeeId"));
-        String surname = req.getParameter("surname");
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String post= req.getParameter("post");
-        Employee theEmployee = new Employee(employeeId, surname, firstName, lastName, post);
-        employeeInterface.update(theEmployee);
-        listEmployees(req, resp);
+    private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)  {
+        try {
+            int employeeId = Integer.parseInt(req.getParameter("employeeId"));
+            String surname = req.getParameter("surname");
+            String firstName = req.getParameter("firstName");
+            String lastName = req.getParameter("lastName");
+            String post= req.getParameter("post");
+            Employee theEmployee = new Employee(employeeId, surname, firstName, lastName, post);
+            employeeInterface.update(theEmployee);
+            listEmployees(req, resp);
+            logger.info("Employee with id "+employeeId+"update");
+        }catch ( SQLException| ServletException | IOException ex){
+            logger.log(Level.SEVERE, "Error message", ex);
+        }
     }
 
 
 
-    private void addEmployee(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String surname = req.getParameter("surname");
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String post = req.getParameter("post");
-        Employee employee = new Employee( surname, firstName, lastName, post);
-        employeeInterface.add(employee);
-        listEmployees(req, resp);
+    private void addEmployee(HttpServletRequest req, HttpServletResponse resp) {
+       try {
+           String surname = req.getParameter("surname");
+           String firstName = req.getParameter("firstName");
+           String lastName = req.getParameter("lastName");
+           String post = req.getParameter("post");
+           Employee employee = new Employee( surname, firstName, lastName, post);
+           employeeInterface.add(employee);
+           listEmployees(req, resp);
+           logger.info("Employee with id created");
+    }catch ( SQLException| ServletException | IOException ex){
+        logger.log(Level.SEVERE, "Error message", ex);
+    }
     }
 
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Employee> employees = employeeInterface.getAll();
-
+        req.setCharacterEncoding("UTF-8");
         req.setAttribute("EMPLOYEE_LIST", employees);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);

@@ -26,7 +26,7 @@
       <input type="hidden" name="action" value="/add" />
       <table>
         <div>
-           <input type="submit" onclick="window.history.back()"  value="Сохранить" class="add-button"> <button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+           <input type="submit" value="Сохранить" class="add-button"> <button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
         </div>
         <tbody>
         <tr>

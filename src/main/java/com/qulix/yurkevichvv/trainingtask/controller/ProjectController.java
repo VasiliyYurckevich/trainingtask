@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ProjectController extends HttpServlet {
@@ -25,7 +27,11 @@ public class ProjectController extends HttpServlet {
 
     private static final long serialVersionUID = 1424266234L;
     private DAOInterface<Project> projectInterface;
+
     private DAOTask tasksInterface;
+    public static final Logger logger = Logger.getLogger(ProjectController.class.getName());
+
+
 
     @Override
     public void init() throws ServletException {
@@ -79,9 +85,6 @@ public class ProjectController extends HttpServlet {
                 case "/new":
                     addProjectForm(req, resp);
                     break;
-                case "/deleteTask":
-                    deleteTask(req, resp);
-                    break;
                 default:
                     listProjects(req, resp);
                     break;
@@ -115,9 +118,14 @@ public class ProjectController extends HttpServlet {
 
 
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
-        projectInterface.delete(theProjectId);
-        listProjects(req, resp);
+        try {
+            Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
+            projectInterface.delete(theProjectId);
+            listProjects(req, resp);
+            logger.info("Project with id "+theProjectId+"delete");
+        }catch ( SQLException| ServletException | IOException ex){
+            logger.log(Level.SEVERE, "Error message", ex);
+        }
     }
 
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
@@ -145,31 +153,32 @@ public class ProjectController extends HttpServlet {
     }
 
     private void updateProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        int projectId = Integer.parseInt(req.getParameter("projectId"));
-        String title = req.getParameter("title");
-        String discription = req.getParameter("discription");
-        Project theProject = new Project( projectId, title, discription);
-        projectInterface.update(theProject);
-        listProjects(req, resp);
-    }
-
-    private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
-//???????????????????????????????????????????????????????????????
-
-        // new DAOTask().delete();
-
-        editProjectForm(req, resp);
-    }
-
-    private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
-        String title = req.getParameter("title");
-        String discription = req.getParameter("discription");
-        Project theProject = new Project( title, discription);
-        try {
-            projectInterface.add(theProject);
-        } catch (Exception e) {
-            e.printStackTrace();
+        try{
+            int projectId = Integer.parseInt(req.getParameter("projectId"));
+            String title = req.getParameter("title");
+            String discription = req.getParameter("discription");
+            Project theProject = new Project( projectId, title, discription);
+            projectInterface.update(theProject);
+            listProjects(req, resp);
+            logger.info("Project with id "+projectId+" update");
+        }catch ( SQLException| ServletException | IOException ex){
+            logger.log(Level.SEVERE, "Error message", ex);
         }
-        listProjects(req, resp);
+    }
+
+
+
+    private void addProject(HttpServletRequest req, HttpServletResponse resp)  {
+        try {
+            String title = req.getParameter("title");
+            String discription = req.getParameter("discription");
+            Project theProject = new Project( title, discription);
+            projectInterface.add(theProject);
+            listProjects(req, resp);
+            logger.info("New project create");
+        }catch ( SQLException| ServletException | IOException ex){
+            logger.log(Level.SEVERE, "Error message", ex);
+        }
+
     }
 }

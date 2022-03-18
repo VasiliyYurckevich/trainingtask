@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath "org.hsqldb:hsqldb:${gradle.hsqldbVersion}"
         classpath 'org.codehaus.groovy:groovy-sql:3.0.8'
-        classpath 'com.bmuschko:gradle-tomcat-plugin:2.7.0'
+
 
     }
 }
@@ -15,7 +15,7 @@ buildscript {
 plugins {
     id 'java'
     id 'war'
-    id 'com.github.sahara3.tomcat-runner' version '0.2.1'
+    id "com.bmuschko.tomcat" version "2.7.0"
 }
 group 'com.qulix.yurkevichvv'
 version '1.0-SNAPSHOT'
@@ -42,8 +42,8 @@ dependencies {
     implementation group: 'taglibs', name: 'standard', version: '1.1.2'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    def tomcatVersion = '9.0.56'
-    tomcat"org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+    def tomcatVersion = '8.0.42'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 
@@ -53,5 +53,16 @@ test {
     useJUnitPlatform()
 }
 
-apply from: 'database.gradle'
-apply from: 'serverStart.gradle'
+apply from: 'startDatabase.gradle'
+
+
+tomcat {
+    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    ajpProtocol = 'org.apache.coyote.ajp.AjpNio2Protocol'
+}
+
+task startServer(type: com.bmuschko.gradle.tomcat.tasks.TomcatRun) {
+    httpPort = 8080
+    httpsPort = 8080
+}
+tomcatRun.contextPath = '/'
