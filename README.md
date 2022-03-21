@@ -5,7 +5,11 @@
     Скачать проект;
     Выполнить команду: build;
     Выполнить команду: startDatabase.
-    Выполнить create.sql скрипт в СУБД.
+    Выполнить create.sql скрипт в СУБД:
+        1)Запустить hsqldb.jar находящийся  в папаке src/main/webapp/lib/hsqldb-2.6.1.jar
+        2) В появившемся окне ввести данные (dbName,dbPassword, dbUrl) из  settings.gradle и нажать OK
+        3) File -> Open Script-> выбрать скрипт create.sql
+        4) Нажать Execute script
     Выполнить команду: startServer.
 Инструкция по Запуску:
     
