@@ -1,6 +1,5 @@
 rootProject.name = "TrainingTask"
 gradle.ext.hsqldbVersion = '2.6.1'
-//default database config
 gradle.ext.dbName = "mydb"
 gradle.ext.dbUser = "SA"
 gradle.ext.dbPassword = ""
