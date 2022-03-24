@@ -67,14 +67,15 @@
         </tr>
         <tr>
           <td><label>Сотрудник:</label></td>
-          <td> <select name="employee_id">
+          <td> <select name="employee_id" >
+            <option value="null">  </option>
             <c:forEach items="${EMPLOYEE_LIST}" var="employees">
               <option value="${employees.id}">${employees.surname} ${employees.firstName} ${employees.lastName}</option>
             </c:forEach>
           </select>
         </td>
         </tr>
-        </tr>
+        </tr>                             
         </tbody>
       </table>
       <br><br/>

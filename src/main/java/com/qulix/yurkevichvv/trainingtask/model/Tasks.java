@@ -10,14 +10,14 @@ public class Tasks {
     protected LocalDate beginDate;
     protected LocalDate endDate;
     protected int project_id;
-    protected int employee_id;
+    protected Integer employee_id;
 
 
 
     public Tasks() {
     }
 
-    public Tasks(String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, int employee_id) {
+    public Tasks(String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, Integer employee_id) {
         this.flag = flag;
         this.title = title;
         this.workTime = workTime;
@@ -27,7 +27,7 @@ public class Tasks {
         this.employee_id = employee_id;
     }
 
-    public Tasks(int taskId, String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, int employee_id) {
+    public Tasks(int taskId, String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, Integer employee_id) {
         this.taskId = taskId;
         this.flag = flag;
         this.title = title;
@@ -94,11 +94,11 @@ public class Tasks {
         this.workTime = workTime;
     }
 
-    public int getEmployee_id() {
+    public Integer getEmployee_id() {
         return employee_id;
     }
 
-    public void setEmployee_id(int employee_id) {
+    public void setEmployee_id(Integer employee_id) {
         this.employee_id = employee_id;
     }
 }
