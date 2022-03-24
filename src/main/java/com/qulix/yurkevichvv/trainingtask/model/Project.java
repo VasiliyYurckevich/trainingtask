@@ -1,5 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.model;
 
+import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
+
 public class Project {
     protected int id;
     protected String title;
@@ -9,14 +11,14 @@ public class Project {
     }
 
     public Project(String title, String discription) {
-        this.title = title;
-        this.discription = discription;
+        this.title = htmlSpecialChars(title);
+        this.discription = htmlSpecialChars(discription);
     }
 
     public Project(int id, String title, String discription) {
         this.id = id;
-        this.title = title;
-        this.discription = discription;
+        this.title = htmlSpecialChars(title);
+        this.discription = htmlSpecialChars(discription);
     }
 
     public int getId() {
@@ -42,4 +44,6 @@ public class Project {
     public void setDiscription(String discription) {
         this.discription = discription;
     }
+
+
 }
