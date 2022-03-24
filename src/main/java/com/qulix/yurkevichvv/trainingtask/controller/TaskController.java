@@ -110,10 +110,15 @@ public class TaskController extends HttpServlet {
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
             int projectId = Integer.parseInt(req.getParameter("project_id"));
             Integer employeeId = (Integer) req.getAttribute("employee_id");
-            Tasks task = new Tasks(taskId,flag,title,workTime,beginDate,endDate,projectId,employeeId);
-            tasksInterface.update(task);
-            listTasks(req, resp);
-            logger.info("Task with id "+taskId+" update");
+            if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
+                Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+                tasksInterface.add(task);
+                listTasks(req,resp);
+                logger.info("New task created");}
+            else{
+                req.setAttribute("taskId", taskId);
+                editTaskForm(req,resp);
+            }
         }catch ( SQLException| ServletException | IOException ex){
             logger.log(Level.SEVERE, "Error message", ex);
         }
