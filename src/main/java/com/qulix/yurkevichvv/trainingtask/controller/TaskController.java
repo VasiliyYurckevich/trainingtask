@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static final Logger logger = Logger.getLogger(TaskController.class.getName());
-
     private DAOInterface<Tasks> tasksInterface;
 
     @Override
@@ -141,19 +140,24 @@ public class TaskController extends HttpServlet {
     }
 
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-       try { String flag = req.getParameter("flag");
+       try {
+            String flag = req.getParameter("flag");
             String title = req.getParameter("title");
             int workTime = Integer.parseInt(req.getParameter("work_time"));
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
             int projectId = Integer.parseInt(req.getParameter("project_id"));
             Integer employeeId = (Integer) req.getAttribute("employee_id");
-            Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
-            tasksInterface.add(task);
-            listTasks(req,resp);
-            logger.info("New task created");
+           if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
+               Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+               tasksInterface.add(task);
+               listTasks(req,resp);
+               logger.info("New task created");}
+           else{
+               newTaskForm(req,resp);
+           }
        }catch ( SQLException| ServletException | IOException ex){
-            logger.log(Level.SEVERE, "Error message", ex);
+            logger.log(Level.SEVERE, "Error message :", ex);
        }
     }
 

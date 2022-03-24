@@ -1,5 +1,10 @@
 package com.qulix.yurkevichvv.trainingtask.model;
 
+
+import com.qulix.yurkevichvv.trainingtask.util.Util;
+
+import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
+
 public class Employee {
 
     protected int id;
@@ -14,18 +19,18 @@ public class Employee {
     public Employee(int id, String surname, String firstName, String lastName, String post) {
         super();
         this.id = id;
-        this.surname = surname;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.post = post;
+        this.surname = htmlSpecialChars(surname);
+        this.firstName = htmlSpecialChars(firstName);
+        this.lastName = htmlSpecialChars(lastName);
+        this.post = htmlSpecialChars(post);
     }
 
     public Employee(String surname, String firstName, String lastName, String post) {
         super();
-        this.surname = surname;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.post = post;
+        this.surname = htmlSpecialChars(surname);
+        this.firstName = htmlSpecialChars(firstName);
+        this.lastName = htmlSpecialChars(lastName);
+        this.post = htmlSpecialChars(post);
     }
 
     public int getId() {
@@ -68,8 +73,5 @@ public class Employee {
         this.post = post;
     }
 
-    public String FIO() {
-        return surname + firstName + lastName ;
 
-    }
 }
