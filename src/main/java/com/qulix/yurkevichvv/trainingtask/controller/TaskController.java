@@ -109,10 +109,10 @@ public class TaskController extends HttpServlet {
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
             int projectId = Integer.parseInt(req.getParameter("project_id"));
-            Integer employeeId = (Integer) req.getAttribute("employee_id");
+            Integer employeeId = Integer.parseInt(req.getParameter("employee_id"));
             if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
-                Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
-                tasksInterface.add(task);
+                Tasks task = new Tasks( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+                tasksInterface.update(task);
                 listTasks(req,resp);
                 logger.info("New task created");}
             else{
@@ -152,14 +152,15 @@ public class TaskController extends HttpServlet {
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
             int projectId = Integer.parseInt(req.getParameter("project_id"));
-            Integer employeeId = (Integer) req.getAttribute("employee_id");
-           if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
-               Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
-               tasksInterface.add(task);
-               listTasks(req,resp);
-               logger.info("New task created");}
-           else{
-               newTaskForm(req,resp);
+            Integer employeeId = Integer.parseInt(req.getParameter("employee_id"));
+            System.out.println(employeeId);
+            if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
+                Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+                tasksInterface.add(task);
+                listTasks(req,resp);
+                logger.info("New task created");}
+            else{
+                newTaskForm(req,resp);
            }
        }catch ( SQLException| ServletException | IOException ex){
             logger.log(Level.SEVERE, "Error message :", ex);
