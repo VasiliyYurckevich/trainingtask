@@ -49,7 +49,12 @@ public class    DAOTask implements DAOInterface<Tasks>{
             preparedStatement.setString(4, tasks.getBeginDate().toString());
             preparedStatement.setString(5, tasks.getEndDate().toString());
             preparedStatement.setInt(6, tasks.getProject_id());
-            preparedStatement.setInt(7, tasks.getEmployee_id());
+            System.out.println(tasks.getEmployee_id());
+            if (tasks.getEmployee_id()==null){
+                preparedStatement.setNull(7,5);
+            }else {
+                preparedStatement.setInt(7, tasks.getEmployee_id());
+            }
             query = preparedStatement.execute();
             return query;
             }
@@ -69,10 +74,11 @@ public class    DAOTask implements DAOInterface<Tasks>{
             preparedStatement.setString(4, tasks.getBeginDate().toString());
             preparedStatement.setString(5, tasks.getEndDate().toString());
             preparedStatement.setInt(6, tasks.getProject_id());
-            preparedStatement.setInt(7, tasks.getEmployee_id());
-            preparedStatement.setInt(8, tasks.getId());
-
-
+            if (tasks.getEmployee_id()==null){
+                preparedStatement.setNull(7,5);
+            }else {
+                preparedStatement.setInt(7, tasks.getEmployee_id());
+            }            preparedStatement.setInt(8, tasks.getId());
 
             query = preparedStatement.execute();
 

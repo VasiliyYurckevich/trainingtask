@@ -76,6 +76,7 @@
                 <tr>
                     <td><label>Сотрудник:</label></td>
                     <td> <select name="employee_id" >
+                        <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                             <option value="${employees.id}" ${employees.id == employee_id ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.lastName}</option>
                         </c:forEach>
