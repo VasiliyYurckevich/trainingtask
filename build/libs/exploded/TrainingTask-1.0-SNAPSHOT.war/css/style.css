@@ -45,3 +45,6 @@ h2, .h2 {
     font-weight: 500;
     color: inherit;
 }
+select{
+    width: 150px;
+}
