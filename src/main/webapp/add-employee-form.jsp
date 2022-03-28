@@ -21,7 +21,7 @@
 <div style="padding:20px; margin-top:50px;height:600px;">
     <div id="container">
         <h3>Добавить сотрудника</h3>
-        <form action="employees" method="get">
+        <form action="employees" method="post">
             <input type="hidden"  name="action" value="/add" />
             <table>
                 <tbody>

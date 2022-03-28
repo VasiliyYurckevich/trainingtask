@@ -38,7 +38,33 @@ public class TaskController extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=utf-8");
+
+        try {
+
+            String action = req.getParameter("action");
+
+            if (action == null) {
+                action = "/list";
+            }
+
+            switch (action) {
+                case "/add":
+                    addTask(req, resp);
+                    break;
+                case "/update":
+                    updateTask(req, resp);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=utf-8");
 
         try {
 
@@ -52,14 +78,8 @@ public class TaskController extends HttpServlet {
                 case "/list":
                     listTasks(req, resp);
                     break;
-                case "/add":
-                    addTask(req, resp);
-                    break;
                 case "/edit":
                     editTaskForm(req, resp);
-                    break;
-                case "/update":
-                    updateTask(req, resp);
                     break;
                 case "/delete":
                     deleteTask(req, resp);
@@ -67,12 +87,8 @@ public class TaskController extends HttpServlet {
                 case "/new":
                     newTaskForm(req, resp);
                     break;
-                default:
-                    listTasks(req, resp);
-                    break;
+
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,11 +172,11 @@ public class TaskController extends HttpServlet {
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
             int projectId = Integer.parseInt(req.getParameter("project_id"));
-           Integer employeeId = null;
-           try {
-               employeeId = Integer.parseInt(req.getParameter("employee_id"));
-           }catch (NumberFormatException e){
-           }
+            Integer employeeId = null;
+            try {
+                employeeId = Integer.parseInt(req.getParameter("employee_id"));
+            }catch (NumberFormatException e){
+            }
             if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
                 Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
                 tasksInterface.add(task);
