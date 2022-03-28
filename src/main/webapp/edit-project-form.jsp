@@ -37,7 +37,7 @@
         <tbody>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required="required" type="text" maxlength="50" m name="title"
+          <td><input required="required"  type="text" maxlength="50" m name="title"
                      value="${title}"></td>
         </tr>
         <tr>
