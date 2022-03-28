@@ -35,19 +35,31 @@ public class EmployeeController extends HttpServlet {
         }
     }
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        doGet(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=utf-8");
+
+        try {
+            String action = req.getParameter("action");
+
+            switch (action) {
+                case "/add":
+                    addEmployee(req, resp);
+                    break;
+                case "/update":
+                    updateEmployee(req, resp);
+                    break;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         resp.setContentType("text/html;charset=utf-8");
-        PrintWriter out = resp.getWriter();
 
         try {
-
             String action = req.getParameter("action");
 
             if (action == null) {
@@ -58,12 +70,6 @@ public class EmployeeController extends HttpServlet {
                 case "/list":
                     listEmployees(req, resp);
                     break;
-                case "/add":
-                    addEmployee(req, resp);
-                    break;
-                case "/update":
-                    updateEmployee(req, resp);
-                    break;
                 case "/delete":
                     deleteEmployee(req, resp);
                     break;
@@ -72,9 +78,6 @@ public class EmployeeController extends HttpServlet {
                     break;
                 case "/edit":
                     updateEmployeeForm(req, resp);
-                default:
-                    listEmployees(req, resp);
-                    break;
             }
 
 
@@ -143,8 +146,8 @@ public class EmployeeController extends HttpServlet {
            employeeInterface.add(employee);
            listEmployees(req, resp);
            logger.info("Employee with id created");
-    }catch ( SQLException| ServletException | IOException ex){
-        logger.log(Level.SEVERE, "Error message", ex);
+      }catch ( SQLException| ServletException | IOException ex){
+           logger.log(Level.SEVERE, "Error message", ex);
     }
     }
 
@@ -154,6 +157,5 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute("EMPLOYEE_LIST", employees);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
-
     }
 }

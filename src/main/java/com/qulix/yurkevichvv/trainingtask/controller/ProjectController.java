@@ -47,11 +47,33 @@ public class ProjectController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        doGet(req, resp);
+
+        resp.setContentType("text/html;charset=utf-8");
+
+        try {
+
+            String action = req.getParameter("action");
+
+
+            switch (action) {
+                case "/add":
+                addProject(req, resp);
+                break;
+                case "/update":
+                updateProject(req, resp);
+                break;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=utf-8");
+
         try {
 
             String action = req.getParameter("action");
@@ -64,17 +86,8 @@ public class ProjectController extends HttpServlet {
                 case "/list":
                     listProjects(req, resp);
                     break;
-                case "/add":
-                    addProject(req, resp);
-                    break;
-                case "/update":
-                    updateProject(req, resp);
-                    break;
                 case "/delete":
                     deleteProject(req, resp);
-                    break;
-                case "/addTask":
-                    newTaskForm(req, resp);
                     break;
                 case "/updateTask":
                     newTaskForm(req, resp);
@@ -85,8 +98,8 @@ public class ProjectController extends HttpServlet {
                 case "/new":
                     addProjectForm(req, resp);
                     break;
-                default:
-                    listProjects(req, resp);
+                case "/addTask":
+                    newTaskForm(req, resp);
                     break;
             }
         } catch (Exception e) {

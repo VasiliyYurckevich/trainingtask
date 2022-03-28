@@ -22,7 +22,7 @@
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
     <h3>Добавить задачу</h3>
-    <form action="tasks" method="get">
+    <form action="tasks" method="post">
       <input type="hidden" name="action" value="/add" />
       <table>
         <div>

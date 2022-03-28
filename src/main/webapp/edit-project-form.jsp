@@ -25,7 +25,7 @@
   <div id="container">
     <h3 >Редактировать проект</h3>
 
-    <form action="projects" method="get">
+    <form action="projects" method="post">
 
       <input type="hidden" name="action" value="/update" />
       <input type="hidden" name="projectId" value="${projectId}" />
@@ -37,7 +37,7 @@
         <tbody>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required="required"  type="text" maxlength="50" m name="title"
+          <td><input required="required"  type="text" maxlength="50"  name="title"
                      value="${title}"></td>
         </tr>
         <tr>

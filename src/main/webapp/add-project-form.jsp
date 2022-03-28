@@ -24,7 +24,7 @@
   <div id="container">
     <h3>Добавить проект</h3>
 
-    <form action="projects" method="get">
+    <form action="projects" method="post">
       <input type="hidden" name="action" value="/add" />
       <table>
         <tbody>
