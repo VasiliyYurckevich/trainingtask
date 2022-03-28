@@ -35,22 +35,22 @@
                 <tbody>
                 <tr>
                     <td><label>Фамилия:</label></td>
-                    <td><input type="text" maxlength="50"  name="surname"
+                    <td><input required="required"  type="text" maxlength="50"  name="surname"
                                value="${surname}"></td>
                 </tr>
                 <tr>
                     <td><label>Имя:</label></td>
-                    <td><input type="text"  maxlength="50"  name="firstName"
+                    <td><input type="text" required="required"  maxlength="50"  name="firstName"
                                value="${firstName}"></td>
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
-                    <td><input type="text" maxlength="50"  name="lastName"
+                    <td><input type="text"  required="required" maxlength="50"  name="lastName"
                                value="${lastName}"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
-                    <td><input type="text" maxlength="50"  name="post"
+                    <td><input type="text" required="required" maxlength="50"  name="post"
                                value="${post}"></td>
                 </tr>
                 </tbody>
