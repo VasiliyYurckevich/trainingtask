@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>
-                    <td><input type="number" min="-2,147,483,648"  max="2,147,483,647" name="work_time"
+                    <td><input type="number" min="-2,147,483,648"  max="2,147,483,647" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
                                value="${work_time}"></td>
                 </tr>
                 <tr>
@@ -76,6 +76,7 @@
                 <tr>
                     <td><label>Сотрудник:</label></td>
                     <td> <select name="employee_id" >
+                        <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                             <option value="${employees.id}" ${employees.id == employee_id ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.lastName}</option>
                         </c:forEach>
