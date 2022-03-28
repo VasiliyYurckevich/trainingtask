@@ -109,7 +109,11 @@ public class TaskController extends HttpServlet {
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
             int projectId = Integer.parseInt(req.getParameter("project_id"));
-            Integer employeeId = Integer.parseInt(req.getParameter("employee_id"));
+            Integer employeeId = null;
+            try {
+                 employeeId = Integer.parseInt(req.getParameter("employee_id"));
+            }catch (NumberFormatException e){
+            }
             if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
                 Tasks task = new Tasks( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
                 tasksInterface.update(task);
@@ -152,8 +156,11 @@ public class TaskController extends HttpServlet {
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
             int projectId = Integer.parseInt(req.getParameter("project_id"));
-            Integer employeeId = Integer.parseInt(req.getParameter("employee_id"));
-            System.out.println(employeeId);
+           Integer employeeId = null;
+           try {
+               employeeId = Integer.parseInt(req.getParameter("employee_id"));
+           }catch (NumberFormatException e){
+           }
             if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
                 Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
                 tasksInterface.add(task);

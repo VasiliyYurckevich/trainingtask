@@ -26,7 +26,7 @@
         <div class="col-md-6">
             <form action="tasks" method="get">
                 <input type="hidden" name="action" value="/new" />
-                <input type="submit" value="Добавть" class="add-button">
+                <input type="submit" value="Добавить" class="add-button">
             </form>
             <table id="table" class="table table-striped">
                 <tr>
