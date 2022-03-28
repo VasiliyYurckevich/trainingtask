@@ -37,12 +37,12 @@
         <tbody>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input type="text" maxlength="50" name="title"
+          <td><input required="required" type="text" maxlength="50" m name="title"
                      value="${title}"></td>
         </tr>
         <tr>
           <td><label>Описание:</label></td>
-          <td><input type="text" maxlength="250" name="discription"
+          <td><input type="text" required="required"  maxlength="250" name="discription"
                      value="${discription}"></td>
         </tr>
         </tbody>
