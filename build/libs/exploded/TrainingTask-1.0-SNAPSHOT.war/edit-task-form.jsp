@@ -23,20 +23,16 @@
 <div style="padding:20px; margin-top:50px;height:600px;">
     <div id="container">
         <h3>Редактировать задачу</h3>
-
-        <form action="tasks" method="post">
-
+        <form action="tasks" onsubmit="check(event)" method="post" id ="form">
             <input type="hidden" name="action" value="/update" />
             <input type="hidden" name="taskId" value="${taskId}" />
-
             <table>
                 <tbody>
-                <input type="submit" value="Сохранить" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
-
+                <input class="add-button" type="submit"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
                 <tr>
                     <td><label>Статус:</label></td>
                     <td>
-                        <select type="text"name="flag" data-selected="${flag}">
+                        <select type="text" name="flag" data-selected="${flag}">
                             <option ${flag == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
                             <option ${flag == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
                             <option ${flag == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>
@@ -56,12 +52,12 @@
                 </tr>
                 <tr>
                     <td><label>Дата начала:</label></td>
-                    <td><input type="date" min="0001-01-01" max="9999-12-31" name="begin_date"
+                    <td><input type="date" min="0001-01-01" max="9999-12-31" name="begin_date" id="begin_date"
                                value="${begin_date}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата окончания:</label></td>
-                    <td><input type="date"  min="0001-01-01" max="9999-12-31" name="end_date"
+                    <td><input type="date"  min="0001-01-01" max="9999-12-31" name="end_date" id="end_date"
                                value="${end_date}"></td>
                 </tr>
 
@@ -89,5 +85,18 @@
         </form>
     </div>
 </div>
+<script type='text/javascript'>
+    function check(event) {
+        const startDt = document.getElementById("begin_date").value;
+        const endDt = document.getElementById("end_date").value;
+
+        if( (new Date(endDt).getTime() < new Date(startDt).getTime()))
+        {
+            alert("Дата начала работы не может быть позже даты окончания работы");
+            event.preventDefault();
+
+        }
+    }
+</script>
 </body>
 </html>

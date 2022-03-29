@@ -11,7 +11,6 @@ public class DBConnection {
     private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb;ifexists=true";
     private static final String USER = "sa";
     private static final String PASS = "";
-    static final String dbLocation = "/home/yurkevichvv/IdeaProjects/hsqldb/hsqldb-2.6.1/hsqldb/";
     private static Connection connection = null;
 
 
