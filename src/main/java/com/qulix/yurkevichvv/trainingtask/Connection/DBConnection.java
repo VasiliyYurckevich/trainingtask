@@ -13,21 +13,8 @@ public class DBConnection {
     private static final String PASS = "";
     static final String dbLocation = "/home/yurkevichvv/IdeaProjects/hsqldb/hsqldb-2.6.1/hsqldb/";
     private static Connection connection = null;
-  //  static org.hsqldb.server.Server sonicServer;
-   /* static {
-        HsqlProperties props = new HsqlProperties();
-        props.setProperty("server.database.0","mydb");
-        props.setProperty("server.dbname.0", "mydb");
-        sonicServer = new org.hsqldb.Server();
-        try {
-            sonicServer.setProperties(props);
-        } catch (Exception e) {
-        }
-        sonicServer.start();
-    }
-*/  /*public void stopDBServer() {
-        sonicServer.shutdown();
-    }*/
+
+
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName(JDBC_DRIVER);

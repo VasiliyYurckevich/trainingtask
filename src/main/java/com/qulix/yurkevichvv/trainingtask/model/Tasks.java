@@ -21,7 +21,7 @@ public class Tasks  {
     }
 
     public Tasks(String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, Integer employee_id) {
-        this.flag = htmlSpecialChars(flag);
+        this.flag = flag;
         this.title = htmlSpecialChars(title);
         this.workTime = workTime;
         this.beginDate = beginDate;
@@ -32,7 +32,7 @@ public class Tasks  {
 
     public Tasks(int taskId, String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, Integer employee_id) {
         this.taskId = taskId;
-        this.flag = htmlSpecialChars(flag);
+        this.flag = flag;
         this.title = htmlSpecialChars(title);
         this.workTime = workTime;
         this.beginDate = beginDate;

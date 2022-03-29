@@ -22,11 +22,11 @@
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
     <h3>Добавить задачу</h3>
-    <form action="tasks" method="post" id="form">
+    <form action="tasks" onsubmit="check(event)" method="post" id="form">
       <input type="hidden" name="action" value="/add"/>
       <table>
         <div>
-          <input  type="submit" value="Сохранить"> <button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+          <input class="add-button" type="submit"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
         </div>
         <tbody>
         <tr>
@@ -49,11 +49,11 @@
         </tr>
         <tr>
           <td><label>Начало работы:</label></td>
-          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" name="begin_date"></td>
+          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="begin_date" name="begin_date"> </td>
         </tr>
         <tr>
           <td><label>Конец работы:</label></td>
-          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" name="end_date"></td>
+          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="end_date" name="end_date" ></td>
         </tr>
         <tr>
           <td><label>Проект:</label></td>
@@ -75,13 +75,25 @@
           </select>
         </td>
         </tr>
-        </tr>                             
+        </tr>
         </tbody>
       </table>
       <br><br/>
     </form>
   </div>
 </div>
+<script type='text/javascript'>
+  function check(event) {
+    const startDt = document.getElementById("begin_date").value;
+    const endDt = document.getElementById("end_date").value;
+
+    if( (new Date(endDt).getTime() < new Date(startDt).getTime()))
+    {
+      event.preventDefault();
+      alert("Дата начала работы не может быть позже даты окончания работы");
+    }
+  }
+</script>
 </body>
 </html>
 

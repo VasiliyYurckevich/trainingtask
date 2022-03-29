@@ -126,15 +126,10 @@ public class TaskController extends HttpServlet {
                  employeeId = Integer.parseInt(req.getParameter("employee_id"));
             }catch (NumberFormatException e){
             }
-            if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
-                Tasks task = new Tasks( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
-                tasksInterface.update(task);
-                listTasks(req,resp);
-                logger.info("New task created");}
-            else{
-                req.setAttribute("taskId", taskId);
-                editTaskForm(req,resp);
-            }
+            Tasks task = new Tasks( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+            tasksInterface.update(task);
+            listTasks(req,resp);
+            logger.info("Update task with id: " + taskId);
         }catch ( SQLException| ServletException | IOException ex){
             logger.log(Level.SEVERE, "Error message", ex);
         }

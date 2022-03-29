@@ -105,6 +105,7 @@ public class ProjectController extends HttpServlet {
         }
     }
 
+    // переход на страницу с формой редактирования проекта
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
         Project existingProject = projectInterface.getById(theProjectId);
@@ -128,6 +129,7 @@ public class ProjectController extends HttpServlet {
     }
 
 
+    // удаление проекта
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         try {
             Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
@@ -138,7 +140,7 @@ public class ProjectController extends HttpServlet {
             logger.log(Level.SEVERE, "Error message", ex);
         }
     }
-
+    // переход на страницу с формой добавления задачи в проект
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         Integer thisProjectId = Integer.valueOf(req.getParameter("projectId"));
         List<Employee> employees = new DAOEmployee().getAll();
