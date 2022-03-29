@@ -22,11 +22,11 @@
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
     <h3>Добавить задачу</h3>
-    <form action="tasks" method="post">
-      <input type="hidden" name="action" value="/add" />
+    <form action="tasks" method="post" id="form">
+      <input type="hidden" name="action" value="/add"/>
       <table>
         <div>
-           <input type="submit" value="Сохранить" class="add-button"> <button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+          <input  type="submit" value="Сохранить"> <button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
         </div>
         <tbody>
         <tr>
@@ -34,9 +34,9 @@
           <td>
             <select name="flag">
               <option>Не начата</option>
-              <option>В процессе </option>
-              <option>Завершена </option>
-              <option>Отложена </option>
+              <option>В процессе</option>
+              <option>Завершена</option>
+              <option>Отложена</option>
             </select>
           </td>
         <tr>
@@ -45,7 +45,7 @@
         </tr>
         <tr>
           <td><label>Работа:</label></td>
-          <td><input required ="required"  min="-2,147,483,648"  max="2,147,483,647"type="number" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+          <td><input required ="required"  min="-2,147,483,648"  max="2,147,483,647" type="number" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
         </tr>
         <tr>
           <td><label>Начало работы:</label></td>
@@ -84,3 +84,4 @@
 </div>
 </body>
 </html>
+

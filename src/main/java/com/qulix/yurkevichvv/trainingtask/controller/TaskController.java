@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,13 +44,8 @@ public class TaskController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
 
         try {
-
             String action = req.getParameter("action");
-
-            if (action == null) {
-                action = "/list";
-            }
-
+            
             switch (action) {
                 case "/add":
                     addTask(req, resp);
@@ -177,14 +173,11 @@ public class TaskController extends HttpServlet {
                 employeeId = Integer.parseInt(req.getParameter("employee_id"));
             }catch (NumberFormatException e){
             }
-            if (endDate.isAfter(beginDate) || endDate.isEqual(beginDate)){
-                Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
-                tasksInterface.add(task);
-                listTasks(req,resp);
-                logger.info("New task created");}
-            else{
-                newTaskForm(req,resp);
-           }
+            Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+            tasksInterface.add(task);
+            listTasks(req,resp);
+            logger.info("New task created");
+
        }catch ( SQLException| ServletException | IOException ex){
             logger.log(Level.SEVERE, "Error message :", ex);
        }
