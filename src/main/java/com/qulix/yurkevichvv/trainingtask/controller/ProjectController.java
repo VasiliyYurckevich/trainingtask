@@ -51,9 +51,7 @@ public class ProjectController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
 
         try {
-
             String action = req.getParameter("action");
-
 
             switch (action) {
                 case "/add":
