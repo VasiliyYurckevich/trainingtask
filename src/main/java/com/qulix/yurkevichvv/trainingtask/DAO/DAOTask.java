@@ -61,10 +61,14 @@ public class    DAOTask implements DAOInterface<Tasks>{
             //set parameters for query
             preparedStatement.setString(1, tasks.getFlag());
             preparedStatement.setString(2, tasks.getTitle());
-            preparedStatement.setInt(3, tasks.getWorkTime());
+            preparedStatement.setLong(3, tasks.getWorkTime());
             preparedStatement.setString(4, tasks.getBeginDate().toString());
             preparedStatement.setString(5, tasks.getEndDate().toString());
-            preparedStatement.setInt(6, tasks.getProject_id());
+            if (tasks.getProject_id()==null){
+                preparedStatement.setNull(6,5);//if project_id is null, set it to null
+            }else {
+                preparedStatement.setInt(6, tasks.getProject_id());//if project_id is not null, set it to value
+            }
             if (tasks.getEmployee_id()==null){
                 preparedStatement.setNull(7,5);//if employee_id is null, set it to null
             }else {
@@ -93,15 +97,19 @@ public class    DAOTask implements DAOInterface<Tasks>{
             //set parameters for query
             preparedStatement.setString(1, tasks.getFlag());
             preparedStatement.setString(2, tasks.getTitle());
-            preparedStatement.setInt(3, tasks.getWorkTime());
+            preparedStatement.setLong(3, tasks.getWorkTime());
             preparedStatement.setString(4, tasks.getBeginDate().toString());
             preparedStatement.setString(5, tasks.getEndDate().toString());
-            preparedStatement.setInt(6, tasks.getProject_id());
-            if (tasks.getEmployee_id()==null){
+            if (tasks.getProject_id()==null){
+                preparedStatement.setNull(6,5);//if project_id is null, set it to null
+            }else {
+                preparedStatement.setInt(6, tasks.getProject_id());//if project_id is not null, set it to value
+            }            if (tasks.getEmployee_id()==null){
                 preparedStatement.setNull(7,5);
             }else {
                 preparedStatement.setInt(7, tasks.getEmployee_id());
-            }            preparedStatement.setInt(8, tasks.getId());
+            }
+            preparedStatement.setInt(8, tasks.getId());
 
             query = preparedStatement.execute();//execute query
 
@@ -156,7 +164,7 @@ public class    DAOTask implements DAOInterface<Tasks>{
                 task.setFlag(resultSet.getString(FLAG));
                 task.setTitle(resultSet.getString(TITLE));
                 task.setProject_id(resultSet.getInt(PROJECT_ID));
-                task.setWorkTime(resultSet.getInt(WORK_TIME));
+                task.setWorkTime(resultSet.getLong(WORK_TIME));
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
                 task.setEmployee_id(resultSet.getInt(EMPLOYEE_ID));
@@ -187,7 +195,7 @@ public class    DAOTask implements DAOInterface<Tasks>{
                 task.setFlag(resultSet.getString(FLAG));
                 task.setTitle(resultSet.getString(TITLE));
                 task.setProject_id(resultSet.getInt(PROJECT_ID));
-                task.setWorkTime(resultSet.getInt(WORK_TIME));
+                task.setWorkTime(resultSet.getLong(WORK_TIME));
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
                 task.setEmployee_id(resultSet.getInt(EMPLOYEE_ID));
@@ -220,7 +228,7 @@ public class    DAOTask implements DAOInterface<Tasks>{
                 task.setId(resultSet.getInt(TASK_ID));
                 task.setFlag(resultSet.getString(FLAG));
                 task.setTitle(resultSet.getString(TITLE));
-                task.setWorkTime(resultSet.getInt(WORK_TIME));
+                task.setWorkTime(resultSet.getLong(WORK_TIME));
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
                 task.setProject_id(resultSet.getInt(PROJECT_ID));

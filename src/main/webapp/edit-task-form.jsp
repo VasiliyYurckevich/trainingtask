@@ -42,12 +42,11 @@
                 </tr>
                 <tr>
                     <td><label>Наименование:</label></td>
-                    <td><input type="text"maxlength="50" required="required"  name="title"
-                               value="${title}"></td>
+                    <td><input type="text" maxlength="50" required="required" id="title" name="title" onkeydown="checkLength('title',50)" value="${title}"></td>
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>
-                    <td><input type="number" min="-2,147,483,648" required="required" max="2,147,483,647" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
+                    <td><input type="number"  required="required" id="work_time" max="9223372036854775807" name="work_time"  ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
                                value="${work_time}"></td>
                 </tr>
                 <tr>
@@ -64,6 +63,7 @@
                 <tr>
                     <td><label>Наименование проекта:</label></td>
                     <td> <select name="project_id">
+                        <option value="null">  </option>
                         <c:forEach items="${PROJECT_LIST}" var="projects">
                             <option value="${projects.id}" ${projects.id == project_id ? 'selected="selected"' : ''}>${projects.title}</option>
                         </c:forEach>
@@ -86,15 +86,27 @@
     </div>
 </div>
 <script type='text/javascript'>
+    // Check empty fields and date validation
     function check(event) {
         const startDt = document.getElementById("begin_date").value;
         const endDt = document.getElementById("end_date").value;
+        const title = document.getElementById("title").value;
 
         if( (new Date(endDt).getTime() < new Date(startDt).getTime()))
         {
-            alert("Дата начала работы не может быть позже даты окончания работы");
             event.preventDefault();
+            alert("Дата начала работы не может быть позже даты окончания работы");
+        }else if(title.trim() == ''){
+            event.preventDefault();
+            alert("Наиминование не может состоять только из пробелов");
+        }
+    }
+    // Message if length of the field is more than maxLength symbols
+    function checkLength(fieldName,maxLength) {
+        const len = document.getElementById(fieldName).value.length;
 
+        if( len == maxLength){
+            alert("Превышена допустимая длина поля " + maxLength + " символов");
         }
     }
 </script>

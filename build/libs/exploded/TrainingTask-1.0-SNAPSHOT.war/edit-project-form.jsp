@@ -25,7 +25,7 @@
   <div id="container">
     <h3 >Редактировать проект</h3>
 
-    <form action="projects" method="post">
+    <form action="projects" onsubmit="check(event)" method="post">
 
       <input type="hidden" name="action" value="/update" />
       <input type="hidden" name="projectId" value="${projectId}" />
@@ -37,12 +37,12 @@
         <tbody>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required="required"  type="text" maxlength="50"  name="title"
+          <td><input required="required"  type="text" maxlength="50" onkeydown="checkLength('title',50)"   name="title" id="title"
                      value="${title}"></td>
         </tr>
         <tr>
           <td><label>Описание:</label></td>
-          <td><input type="text" required="required"  maxlength="250" name="discription"
+          <td><input type="text" required="required"  maxlength="250" name="discription" id="discription" onkeydown="checkLength('discription',250)"
                      value="${discription}"></td>
         </tr>
         </tbody>
@@ -104,5 +104,26 @@
     </form>
   </div>
 </div>
+<script type='text/javascript'>
+  //Check empty fields
+  function check(event) {
+    const title = document.getElementById("title").value;
+    const discription = document.getElementById("discription").value;
+
+
+    if (title.trim() == "" || discription.trim() == "") {
+      event.preventDefault();
+      alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
+    }
+  }
+  // Message if length of the field is more than maxLength symbols
+  function checkLength(fieldName,maxLength) {
+    const len = document.getElementById(fieldName).value.length;
+
+    if( len == maxLength){
+      alert("Превышена допустимая длина поля " + maxLength + " символов");
+    }
+  }
+</script>
 </body>
 </html>

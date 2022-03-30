@@ -24,7 +24,7 @@
 <div style="padding:20px; margin-top:50px;height:600px;">
     <div id="container">
         <h3>Редактировать проект</h3>
-        <form action="employees" method="post">
+        <form action="employees" onsubmit="check(event)" method="post">
             <input type="hidden" name="action" value="/update" />
             <input type="hidden" name="employeeId" value="${employeeId}" />
 
@@ -35,30 +35,56 @@
                 <tbody>
                 <tr>
                     <td><label>Фамилия:</label></td>
-                    <td><input required="required"  type="text" maxlength="50"  name="surname"
+                    <td><input required="required"  type="text" maxlength="50" onkeydown="checkLength('surname',50)" name="surname" id="surname"
                                value="${surname}"></td>
                 </tr>
                 <tr>
                     <td><label>Имя:</label></td>
-                    <td><input type="text" required="required"  maxlength="50"  name="firstName"
+                    <td><input type="text" required="required"  maxlength="50" onkeydown="checkLength('firstName',50)" name="firstName" id="firstName"
                                value="${firstName}"></td>
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
-                    <td><input type="text"  required="required" maxlength="50"  name="lastName"
+                    <td><input type="text"  required="required" maxlength="50"  name="lastName" id="lastName" onkeydown="checkLength('lastName',50)"
                                value="${lastName}"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
-                    <td><input type="text" required="required" maxlength="50"  name="post"
+                    <td><input type="text" required="required" maxlength="50"  name="post" id="post" onkeydown="checkLength('post',50)"
                                value="${post}"></td>
                 </tr>
                 </tbody>
                 <br/><br/>
+            </table>
         </form>
 
     </div>
 </div>
+<script type='text/javascript'>
+    //check empty fields
+    function check(event) {
+        const surname = document.getElementById("surname").value;
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const post = document.getElementById("post").value;
 
+        if (surname.trim() == ''|| firstName.trim() == ''|| lastName.trim() == ''|| post.trim() == '') {
+            event.preventDefault();
+            alert("Заполните все поля!Поля не могут быть пустыми");
+        }else if(surname.length > 50 || firstName.length > 50 || lastName.length > 50 || post.length > 50){
+            event.preventDefault();
+            alert("Слишком длинные значения полей!Максимальная длина полей 50 символов");
+        }
+    }
+
+    // Message if length of the field is more than maxLength symbols
+    function checkLength(fieldName,maxLength) {
+        const len = document.getElementById(fieldName).value.length;
+
+        if( len == maxLength){
+            alert("Превышена допустимая длина поля" + maxLength + " символов");
+        }
+    }
+</script>
 </body>
 </html>

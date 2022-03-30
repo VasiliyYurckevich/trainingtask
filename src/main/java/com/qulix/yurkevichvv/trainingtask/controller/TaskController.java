@@ -155,13 +155,14 @@ public class TaskController extends HttpServlet {
             int taskId = Integer.parseInt(req.getParameter("taskId"));// get task data
             String flag = req.getParameter("flag");
             String title = req.getParameter("title");
-            int workTime = Integer.parseInt(req.getParameter("work_time"));
+            long workTime = Long.parseLong((req.getParameter("work_time")));
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
-            int projectId = Integer.parseInt(req.getParameter("project_id"));
+            Integer projectId = null;
             Integer employeeId = null;
             try {
-                 employeeId = Integer.parseInt(req.getParameter("employee_id"));// get employee id if it is not null
+                projectId = Integer.parseInt(req.getParameter("project_id")); // get project id if it is not null
+                employeeId = Integer.parseInt(req.getParameter("employee_id"));// get employee id if it is not null
             }catch (NumberFormatException e){
             }
             Tasks task = new Tasks( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);// create task
@@ -221,12 +222,13 @@ public class TaskController extends HttpServlet {
        try {
             String flag = req.getParameter("flag");// get task data
             String title = req.getParameter("title");
-            int workTime = Integer.parseInt(req.getParameter("work_time"));
+            long workTime = Long.parseLong((req.getParameter("work_time")));
             LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
             LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
-            int projectId = Integer.parseInt(req.getParameter("project_id"));
+            Integer projectId = null;
             Integer employeeId = null;
             try {
+                projectId = Integer.parseInt(req.getParameter("project_id"));
                 employeeId = Integer.parseInt(req.getParameter("employee_id"));// get employee id if it is not null
             }catch (NumberFormatException e){
             }

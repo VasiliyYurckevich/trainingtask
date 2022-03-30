@@ -41,11 +41,11 @@
           </td>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required ="required" maxlength="50"  type="text" name="title"></td>
+          <td><input required ="required" maxlength="50" onkeydown="checkLength('title',50)" type="text" id="title" name="title"></td>
         </tr>
         <tr>
           <td><label>Работа:</label></td>
-          <td><input required ="required"  min="-2,147,483,648"  max="2,147,483,647" type="number" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+          <td><input required ="required"  type="number"  id="work_time" max="9223372036854775807" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
         </tr>
         <tr>
           <td><label>Начало работы:</label></td>
@@ -59,6 +59,7 @@
           <td><label>Проект:</label></td>
             <td> <select name="project_id" ${thisProjectId != null ? '  disabled="true"' : ''}>
                 <c:forEach items="${PROJECT_LIST}" var="projects">
+                    <option value="null">  </option>
                     <option value="${projects.id}" ${projects.id == thisProjectId ? 'selected="selected"' : ''} >${projects.title} </option>
                 </c:forEach>
             </select>
@@ -86,11 +87,25 @@
   function check(event) {
     const startDt = document.getElementById("begin_date").value;
     const endDt = document.getElementById("end_date").value;
+    const title = document.getElementById("title").value;
+
 
     if( (new Date(endDt).getTime() < new Date(startDt).getTime()))
     {
       event.preventDefault();
       alert("Дата начала работы не может быть позже даты окончания работы");
+    }else if(title.trim() == ''){
+      event.preventDefault();
+      alert("Наиминование не может состоять только из пробелов");
+    }
+  }
+
+  // Message if length of the field is more than maxLength symbols
+  function checkLength(fieldName,maxLength) {
+    const len = document.getElementById(fieldName).value.length;
+
+    if( len == maxLength){
+      alert("Превышена допустимая длина поля " + maxLength + " символов");
     }
   }
 </script>
