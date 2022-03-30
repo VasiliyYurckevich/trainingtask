@@ -4,8 +4,14 @@ import java.time.LocalDate;
 
 import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
 
-
+/**
+ * Class Tasks represents a task.
+ *
+ * @author Yurkevichvv
+ * @version 1.0
+ */
 public class Tasks  {
+    // Fields
     protected int taskId;
     protected String flag;
     protected String title;
@@ -15,8 +21,7 @@ public class Tasks  {
     protected int project_id;
     protected Integer employee_id;
 
-
-
+    // Constructors
     public Tasks() {
     }
 
@@ -40,7 +45,7 @@ public class Tasks  {
         this.project_id = project_id;
         this.employee_id = employee_id;
     }
-
+    //setters and getters
     public int getId() {
         return taskId;
     }
@@ -104,7 +109,18 @@ public class Tasks  {
     public void setEmployee_id(Integer employee_id) {
         this.employee_id = employee_id;
     }
-
-
+    // Method toString()
+    @Override
+    public String toString() {
+        return "Task " +
+                "taskId=" + taskId +
+                ", flag='" + flag + '\'' +
+                ", title='" + title + '\'' +
+                ", workTime=" + workTime +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", project_id=" + project_id +
+                ", employee_id=" + employee_id;
+    }
 
 }

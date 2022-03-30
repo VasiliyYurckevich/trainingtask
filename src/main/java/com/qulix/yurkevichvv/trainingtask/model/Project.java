@@ -2,11 +2,18 @@ package com.qulix.yurkevichvv.trainingtask.model;
 
 import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
 
+/**
+ * Class Project represents project.
+ *
+ * @author Yurkevichvv
+ * @version 1.0
+ */
 public class Project {
+    // Fields
     protected int id;
     protected String title;
     protected String discription;
-
+    // Constructors
     public Project() {
     }
 
@@ -20,7 +27,7 @@ public class Project {
         this.title = htmlSpecialChars(title);
         this.discription = htmlSpecialChars(discription);
     }
-
+    // Getters and setters
     public int getId() {
         return id;
     }
@@ -45,5 +52,10 @@ public class Project {
         this.discription = discription;
     }
 
+    // Method
+    @Override
+    public String toString() {
+        return "Project id=" + id + ", title=" + title + ", discription=" + discription;
+    }
 
 }

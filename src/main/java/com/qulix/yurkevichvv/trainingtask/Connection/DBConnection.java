@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
+/**     Connection to database
+ *
+ *    @author Yurkevichvv
+ *    @version 1.0
+ */
 public class DBConnection {
 
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
@@ -13,7 +17,12 @@ public class DBConnection {
     private static final String PASS = "";
     private static Connection connection = null;
 
-
+    /**
+     * Method for getting connection to database
+     *
+     * @return connection to database
+     * @throws SQLException if connection is not established
+     */
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName(JDBC_DRIVER);
@@ -24,7 +33,11 @@ public class DBConnection {
         connection = DriverManager.getConnection(PATH, USER, PASS);
         return connection;
     }
-
+    /**
+     * Method for closing connection to database
+     *
+     * @throws SQLException if connection is not closed
+     */
     public static void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
