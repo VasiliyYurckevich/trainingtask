@@ -58,8 +58,8 @@
         <tr>
           <td><label>Проект:</label></td>
             <td> <select name="project_id" ${thisProjectId != null ? '  disabled="true"' : ''}>
-                <c:forEach items="${PROJECT_LIST}" var="projects">
-                    <option value="null">  </option>
+              <option value="null">  </option>
+              <c:forEach items="${PROJECT_LIST}" var="projects">
                     <option value="${projects.id}" ${projects.id == thisProjectId ? 'selected="selected"' : ''} >${projects.title} </option>
                 </c:forEach>
             </select>
