@@ -15,17 +15,17 @@ public class Tasks  {
     protected int taskId;
     protected String flag;
     protected String title;
-    protected int workTime;
+    protected long workTime;
     protected LocalDate beginDate;
     protected LocalDate endDate;
-    protected int project_id;
+    protected Integer project_id;
     protected Integer employee_id;
 
     // Constructors
     public Tasks() {
     }
 
-    public Tasks(String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, Integer employee_id) {
+    public Tasks(String flag, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer project_id, Integer employee_id) {
         this.flag = flag;
         this.title = htmlSpecialChars(title);
         this.workTime = workTime;
@@ -35,7 +35,7 @@ public class Tasks  {
         this.employee_id = employee_id;
     }
 
-    public Tasks(int taskId, String flag, String title, int workTime, LocalDate beginDate, LocalDate endDate, int project_id, Integer employee_id) {
+    public Tasks(int taskId, String flag, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer project_id, Integer employee_id) {
         this.taskId = taskId;
         this.flag = flag;
         this.title = htmlSpecialChars(title);
@@ -70,11 +70,11 @@ public class Tasks  {
         this.title = title;
     }
 
-    public int getProject_id() {
+    public Integer getProject_id() {
         return project_id;
     }
 
-    public void setProject_id(int project_id) {
+    public void setProject_id(Integer project_id) {
         this.project_id = project_id;
     }
 
@@ -94,11 +94,11 @@ public class Tasks  {
         this.endDate = endDate;
     }
 
-    public int getWorkTime() {
+    public long getWorkTime() {
         return workTime;
     }
 
-    public void setWorkTime(int workTime) {
+    public void setWorkTime(long workTime) {
         this.workTime = workTime;
     }
 
