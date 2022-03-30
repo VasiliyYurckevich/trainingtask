@@ -4,29 +4,42 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * Encoding filter.
+ *
+ * @author  Yurkevichvv
+ * @version 1.0
+ */
 @WebFilter(filterName = "EncodingFilter")
 public class EncodingFilter implements Filter {
 
-    private String encoding = "utf-8";
+    private String encoding = "utf-8";// default encoding
 
-    public void doFilter(ServletRequest request,
-                         ServletResponse response,
+    /**
+     * Filter method.
+     *
+     * @param req request
+     * @param resp response
+     *
+     */
+    public void doFilter(ServletRequest req,
+                         ServletResponse resp,
                          FilterChain filterChain)
             throws IOException, ServletException {
-        request.setCharacterEncoding(encoding);
-        filterChain.doFilter(request, response);
+        req.setCharacterEncoding(encoding);// set encoding
+        filterChain.doFilter(req, resp);// do filter
     }
 
+    /**
+     * Set encoding.
+     *
+     * @param filterConfig filter config
+     */
     public void init(FilterConfig filterConfig) {
-        String encodingParam =
-                filterConfig.getInitParameter("encoding");
+        String encodingParam = filterConfig.getInitParameter("encoding");// get encoding param
         if (encodingParam != null) {
-            encoding = encodingParam;
+            encoding = encodingParam;// set encoding
         }
-    }
-
-    public void destroy() {
-        // nothing todo
     }
 
 }

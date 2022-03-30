@@ -1,18 +1,22 @@
 package com.qulix.yurkevichvv.trainingtask.model;
 
-
-import com.qulix.yurkevichvv.trainingtask.util.Util;
-
 import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
 
+/**
+ * Class Employee describes employee.
+ *
+ * @author Yurkevichvv
+ * @version 1.0
+ */
 public class Employee {
-
+    // Fields
     protected int id;
     protected String surname;
     protected String firstName;
     protected String lastName;
     protected String post;
 
+    // Constructors
     public Employee() {
     }
 
@@ -32,7 +36,7 @@ public class Employee {
         this.lastName = htmlSpecialChars(lastName);
         this.post = htmlSpecialChars(post);
     }
-
+    // Getters and setters
     public int getId() {
         return id;
     }
@@ -73,5 +77,10 @@ public class Employee {
         this.post = post;
     }
 
-
+    // Method toString
+    @Override
+    public String toString() {
+        return "Employee id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", post=" + post;
+    }
 }
