@@ -71,16 +71,12 @@
         if (surname.trim() == ''|| firstName.trim() == ''|| lastName.trim() == ''|| post.trim() == '') {
             event.preventDefault();
             alert("Заполните все поля!Поля не могут быть пустыми");
-        }else if(surname.length > 50 || firstName.length > 50 || lastName.length > 50 || post.length > 50){
-            event.preventDefault();
-            alert("Слишком длинные значения полей!Максимальная длина полей 50 символов");
         }
     }
 
     // Message if length of the field is more than maxLength symbols
     function checkLength(fieldName,maxLength) {
         const len = document.getElementById(fieldName).value.length;
-
         if( len == maxLength){
             alert("Превышена допустимая длина поля" + maxLength + " символов");
         }
