@@ -27,19 +27,19 @@
                 <tbody>
                 <tr>
                     <td><label>Фамилия:</label></td>
-                    <td><input required ="required"  id="surname"  onkeydown="checkLength('surname',50)" type="text" name="surname"></td>
+                    <td><input required ="required"  id="surname" maxlength="50" onkeydown="checkLength('surname',50)" type="text" name="surname"></td>
                 </tr>
                 <tr>
                     <td><label>Имя:</label></td>
-                    <td><input  required ="required"  id="firstName" type="text" onkeydown="checkLength('firstName',50)" name="firstName" ></td>
+                    <td><input  required ="required"  id="firstName" maxlength="50" type="text" onkeydown="checkLength('firstName',50)" name="firstName" ></td>
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
-                    <td><input required ="required"  id="lastName" onkeydown="checkLength('lastName',50)"  type="text" name="lastName"></td>
+                    <td><input required ="required"  id="lastName"  maxlength="50" onkeydown="checkLength('lastName',50)"  type="text" name="lastName"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
-                    <td><input  required ="required" id="post" onkeydown="checkLength('post',50)" type="text" name="post" ></td>
+                    <td><input  required ="required" id="post"  maxlength="50" onkeydown="checkLength('post',50)" type="text" name="post" ></td>
                 </tr>
                 </tbody>
             </table>
@@ -59,9 +59,6 @@
         if (surname.trim() == ''|| firstName.trim() == ''|| lastName.trim() == ''|| post.trim() == '') {
             event.preventDefault();
             alert("Заполните все поля!Поля не могут быть пустыми");
-        }else if(surname.length > 50 || firstName.length > 50 || lastName.length > 50 || post.length > 50){
-            event.preventDefault();
-            alert("Слишком длинные значения полей!Максимальная длина полей 50 символов");
         }
     }
 
