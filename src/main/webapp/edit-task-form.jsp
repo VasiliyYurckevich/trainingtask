@@ -46,7 +46,7 @@
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>
-                    <td><input type="number"  required="required" id="work_time" max="9223372036854775807" name="work_time"  ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
+                    <td><input type="number"  required="required" id="work_time" oninvalid="this.setCustomValidity('Введите число в дапазоне от 0 до 9 223 372 036 854 775 807')" max="9223372036854775807" name="work_time"  ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
                                value="${work_time}"></td>
                 </tr>
                 <tr>
