@@ -7,7 +7,7 @@ import com.qulix.yurkevichvv.trainingtask.DAO.DAOProject;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
 import com.qulix.yurkevichvv.trainingtask.model.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.Project;
-import com.qulix.yurkevichvv.trainingtask.model.Tasks;
+import com.qulix.yurkevichvv.trainingtask.model.Task;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Comtroller for project
+ * Controller for project
  *
  * @author Yurkevichvv
  * @version 1.0
@@ -139,13 +139,13 @@ public class ProjectController extends HttpServlet {
         Project existingProject = projectInterface.getById(theProjectId);
         req.setAttribute("projectId",existingProject.getId());//set project id to form
         req.setAttribute("title", existingProject.getTitle());
-        req.setAttribute("discription", existingProject.getDiscription());
+        req.setAttribute("description", existingProject.getDescription());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
         existingProject.setId(theProjectId);
-        List<Tasks> projectTasks = new DAOTask().getTaskInProject(existingProject.getId());//get tasks in project
+        List<Task> projectTasks = new DAOTask().getTaskInProject(existingProject.getId());//get tasks in project
         List<Employee> employeeOfTask = new ArrayList<>();
-        for (Tasks t:projectTasks){
-            Employee employee = new DAOEmployee().getById(t.getEmployee_id());
+        for (Task t:projectTasks){
+            Employee employee = new DAOEmployee().getById(t.getEmployeeId());
             employeeOfTask.add(employee);
         }
         req.setAttribute("project", existingProject);//set data to form
@@ -231,8 +231,8 @@ public class ProjectController extends HttpServlet {
         try{
             int projectId = Integer.parseInt(req.getParameter("projectId"));//get project data from form
             String title = req.getParameter("title");
-            String discription = req.getParameter("discription");
-            Project theProject = new Project( projectId, title, discription);//create project object
+            String description = req.getParameter("description");
+            Project theProject = new Project( projectId, title, description);//create project object
             projectInterface.update(theProject);
             listProjects(req, resp);
             logger.info("Project with id "+projectId+" update");
@@ -252,8 +252,8 @@ public class ProjectController extends HttpServlet {
     private void addProject(HttpServletRequest req, HttpServletResponse resp)  {
         try {
             String title = req.getParameter("title");//get project data from form
-            String discription = req.getParameter("discription");
-            Project theProject = new Project( title, discription);
+            String description = req.getParameter("description");
+            Project theProject = new Project( title, description);
             projectInterface.add(theProject);//add project
             listProjects(req, resp);
             logger.info("New project create");

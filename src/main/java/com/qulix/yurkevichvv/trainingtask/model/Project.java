@@ -12,20 +12,20 @@ public class Project {
     // Fields
     protected int id;
     protected String title;
-    protected String discription;
+    protected String description;
     // Constructors
     public Project() {
     }
 
-    public Project(String title, String discription) {
+    public Project(String title, String description) {
         this.title = htmlSpecialChars(title);
-        this.discription = htmlSpecialChars(discription);
+        this.description = htmlSpecialChars(description);
     }
 
-    public Project(int id, String title, String discription) {
+    public Project(int id, String title, String description) {
         this.id = id;
         this.title = htmlSpecialChars(title);
-        this.discription = htmlSpecialChars(discription);
+        this.description = htmlSpecialChars(description);
     }
     // Getters and setters
     public int getId() {
@@ -44,18 +44,18 @@ public class Project {
         this.title = title;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String discription) {
+        this.description = discription;
     }
 
     // Method
     @Override
     public String toString() {
-        return "Project id=" + id + ", title=" + title + ", discription=" + discription;
+        return "Project id=" + id + ", title=" + title + ", description=" + description;
     }
 
 }

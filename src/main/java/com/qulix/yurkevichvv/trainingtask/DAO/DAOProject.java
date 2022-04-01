@@ -27,32 +27,17 @@ public class DAOProject implements DAOInterface<Project>{
     private static String TABLE_NAME = "project";
     private static String PROJECT_ID = "project_Id";
     private static String TITLE = "title";
-    private static String DISCRIPTION = "discription";
+    private static String DESCRIPTION = "description";
 
     //SQL queries
-    private final String INSERT_PROJECT_SQL = "INSERT INTO " + SCHEMA_NAME +"."+TABLE_NAME + " (title, discription) VALUES (?,?);";
+    private final String INSERT_PROJECT_SQL = "INSERT INTO " + SCHEMA_NAME +"."+TABLE_NAME + " (title, description) VALUES (?,?);";
     private final String SELECT_ALL_PROJECTS = "SELECT * FROM "+SCHEMA_NAME +"."+ TABLE_NAME + ";";
     private final String SELECT_PROJECT_BY_ID = "SELECT * FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
     private final String DELETE_PROJECT_SQL = "DELETE FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    private final String UPDATE_PROJECT_SQL = "UPDATE " + SCHEMA_NAME +"."+TABLE_NAME + " SET title = ?,  discription = ? WHERE " + PROJECT_ID + " = ?;";
+    private final String UPDATE_PROJECT_SQL = "UPDATE " + SCHEMA_NAME +"."+TABLE_NAME + " SET title = ?,  description = ? WHERE " + PROJECT_ID + " = ?;";
 
 
-    //getters
-    public static String getTableName() {
-        return TABLE_NAME;
-    }
 
-    public static String getProjectId() {
-        return PROJECT_ID;
-    }
-
-    public static String getTITLE() {
-        return TITLE;
-    }
-
-    public static String getDISCRIPTION() {
-        return DISCRIPTION;
-    }
 
     /**
      * Method to add new project to database
@@ -68,7 +53,7 @@ public class DAOProject implements DAOInterface<Project>{
             preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
             //set parameters
             preparedStatement.setString(1, project.getTitle());
-            preparedStatement.setString(2, project.getDiscription());
+            preparedStatement.setString(2, project.getDescription());
             query = preparedStatement.execute();//execute query
 
             return query;
@@ -92,7 +77,7 @@ public class DAOProject implements DAOInterface<Project>{
             preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
             //set parameters
             preparedStatement.setString(1, project.getTitle());
-            preparedStatement.setString(2, project.getDiscription());
+            preparedStatement.setString(2, project.getDescription());
             preparedStatement.setInt(3, project.getId());
             query = preparedStatement.execute();//execute query
 
@@ -139,7 +124,7 @@ public class DAOProject implements DAOInterface<Project>{
                 //set parameters
                 project.setId(resultSet.getInt(PROJECT_ID));
                 project.setTitle(resultSet.getString(TITLE));
-                project.setDiscription(resultSet.getString(DISCRIPTION));
+                project.setDescription(resultSet.getString(DESCRIPTION));
                 projects.add(project);
             }
             return projects;
@@ -168,7 +153,7 @@ public class DAOProject implements DAOInterface<Project>{
                 //set parameters
                 project.setId(id);
                 project.setTitle(resultSet.getString(TITLE));
-                project.setDiscription(resultSet.getString(DISCRIPTION));
+                project.setDescription(resultSet.getString(DESCRIPTION));
             }
             return project;
         }finally {

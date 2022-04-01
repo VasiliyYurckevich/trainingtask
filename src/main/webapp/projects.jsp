@@ -11,7 +11,7 @@
 <body>
 <ul>
     <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a href="task">Задачи</a></li>
     <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 <div style="padding-top: 50px;horiz-align: center">
@@ -47,7 +47,7 @@
 
                     <tr>
                         <td> ${tempProject.title}</td>
-                        <td> ${tempProject.discription} </td>
+                        <td> ${tempProject.description} </td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
                             <a style="padding-left: 15px" href="${deleteLink}"
