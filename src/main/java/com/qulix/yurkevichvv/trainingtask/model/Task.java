@@ -5,45 +5,45 @@ import java.time.LocalDate;
 import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
 
 /**
- * Class Tasks represents a task.
+ * Class Task represents a task.
  *
  * @author Yurkevichvv
  * @version 1.0
  */
-public class Tasks  {
+public class Task {
     // Fields
     protected int taskId;
-    protected String flag;
+    protected String status;
     protected String title;
     protected long workTime;
     protected LocalDate beginDate;
     protected LocalDate endDate;
-    protected Integer project_id;
-    protected Integer employee_id;
+    protected Integer projectId;
+    protected Integer employeeId;
 
     // Constructors
-    public Tasks() {
+    public Task() {
     }
 
-    public Tasks(String flag, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer project_id, Integer employee_id) {
-        this.flag = flag;
+    public Task(String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
+        this.status = status;
         this.title = htmlSpecialChars(title);
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;
-        this.project_id = project_id;
-        this.employee_id = employee_id;
+        this.projectId = projectId;
+        this.employeeId = employeeId;
     }
 
-    public Tasks(int taskId, String flag, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer project_id, Integer employee_id) {
+    public Task(int taskId, String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
         this.taskId = taskId;
-        this.flag = flag;
+        this.status = status;
         this.title = htmlSpecialChars(title);
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;
-        this.project_id = project_id;
-        this.employee_id = employee_id;
+        this.projectId = projectId;
+        this.employeeId = employeeId;
     }
     //setters and getters
     public int getId() {
@@ -54,12 +54,12 @@ public class Tasks  {
         this.taskId = id;
     }
 
-    public String getFlag() {
-        return flag;
+    public String getStatus() {
+        return status;
     }
 
-    public void setFlag(String flag) {
-        this.flag = flag;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getTitle() {
@@ -70,12 +70,12 @@ public class Tasks  {
         this.title = title;
     }
 
-    public Integer getProject_id() {
-        return project_id;
+    public Integer getProjectId() {
+        return projectId;
     }
 
-    public void setProject_id(Integer project_id) {
-        this.project_id = project_id;
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
     public LocalDate getBeginDate() {
@@ -102,25 +102,25 @@ public class Tasks  {
         this.workTime = workTime;
     }
 
-    public Integer getEmployee_id() {
-        return employee_id;
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployee_id(Integer employee_id) {
-        this.employee_id = employee_id;
+    public void setEmployeeId(Integer employee_id) {
+        this.employeeId = employee_id;
     }
     // Method toString()
     @Override
     public String toString() {
         return "Task " +
                 "taskId=" + taskId +
-                ", flag='" + flag + '\'' +
+                ", status='" + status + '\'' +
                 ", title='" + title + '\'' +
                 ", workTime=" + workTime +
                 ", beginDate=" + beginDate +
                 ", endDate=" + endDate +
-                ", project_id=" + project_id +
-                ", employee_id=" + employee_id;
+                ", project_id=" + projectId +
+                ", employee_id=" + employeeId;
     }
 
 }

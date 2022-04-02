@@ -17,7 +17,7 @@
 
 <ul>
   <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
-  <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
+  <li style="font-family: Arial"><a href="task">Задачи</a></li>
   <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
@@ -42,8 +42,8 @@
         </tr>
         <tr>
           <td><label>Описание:</label></td>
-          <td><input type="text" required="required"  maxlength="250" name="discription" id="discription" onkeydown="checkLength('discription',250)"
-                     value="${discription}"></td>
+          <td><input type="text" required="required"  maxlength="250" name="description" id="description" onkeydown="checkLength('description',250)"
+                     value="${description}"></td>
         </tr>
         </tbody>
       </table>
@@ -68,11 +68,11 @@
           </c:url>
          <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
 
-          <c:url var="editLink" value="/tasks">
+          <c:url var="editLink" value="/task">
             <c:param name="action" value="/edit"/>
             <c:param name="taskId" value="${tempTask.id}"/>
           </c:url>
-          <c:url var="deleteLink" value="/tasks">
+          <c:url var="deleteLink" value="/task">
             <c:param name="action" value="/delete"/>
             <c:param name="taskId" value="${tempTask.id}"/>
           </c:url>
@@ -80,13 +80,13 @@
 
 
           <tr>
-            <td> ${tempTask.flag}</td>
+            <td> ${tempTask.status}</td>
             <td> ${tempTask.title} </td>
             <td> ${tempTask.workTime} </td>
             <td> ${tempTask.beginDate}</td>
             <td> ${tempTask.endDate} </td>
             <td> ${title}</td>
-            <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).lastName}</td>
+            <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).patronymic}</td>
             <td>
               <a href="${editLink}">Редактировать</a>
 
@@ -108,10 +108,10 @@
   //Check empty fields
   function check(event) {
     const title = document.getElementById("title").value;
-    const discription = document.getElementById("discription").value;
+    const description = document.getElementById("description").value;
 
 
-    if (title.trim() == "" || discription.trim() == "") {
+    if (title.trim() == "" || description.trim() == "") {
       event.preventDefault();
       alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
     }

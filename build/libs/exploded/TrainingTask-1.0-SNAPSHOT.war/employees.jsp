@@ -12,7 +12,7 @@
 <body>
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a href="task">Задачи</a></li>
     <li style="font-family: Arial"><a class="choose" href="employees">Сотрудники</a></li>
 </ul>
 <div style="padding-top: 50px;horiz-align: center">
@@ -51,7 +51,7 @@
                     <tr>
                         <td> ${tempEmployee.surname}</td>
                         <td> ${tempEmployee.firstName} </td>
-                        <td> ${tempEmployee.lastName}</td>
+                        <td> ${tempEmployee.patronymic}</td>
                         <td> ${tempEmployee.post} </td>
                         <td>
                             <a href="${editLink}">Редактировать</a>

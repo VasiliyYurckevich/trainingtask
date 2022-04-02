@@ -10,7 +10,7 @@
 </head>
     <ul>
         <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-        <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
+        <li style="font-family: Arial"><a href="task">Задачи</a></li>
         <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
     </ul>
     <body>

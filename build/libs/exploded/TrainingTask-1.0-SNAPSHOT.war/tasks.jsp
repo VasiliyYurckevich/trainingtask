@@ -12,7 +12,7 @@
 <body>
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a class="choose" href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a class="choose" href="task">Задачи</a></li>
     <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 <div style="padding-top: 50px;horiz-align: center">
@@ -24,7 +24,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form action="tasks" method="get">
+            <form action="task" method="get">
                 <input type="hidden" name="action" value="/new" />
                 <input type="submit" value="Добавить" class="add-button">
             </form>
@@ -43,23 +43,23 @@
 
                 <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
 
-                    <c:url var="editLink" value="/tasks">
+                    <c:url var="editLink" value="/task">
                         <c:param name="action" value="/edit"/>
                         <c:param name="taskId" value="${tempTask.id}"/>
                     </c:url>
-                    <c:url var="deleteLink" value="/tasks">
+                    <c:url var="deleteLink" value="/task">
                         <c:param name="action" value="/delete"/>
                         <c:param name="taskId" value="${tempTask.id}"/>
                     </c:url>
 
                     <tr>
-                        <td> ${tempTask.flag}</td>
+                        <td> ${tempTask.status}</td>
                         <td> ${tempTask.title} </td>
                         <td> ${tempTask.workTime} </td>
                         <td> ${tempTask.beginDate}</td>
                         <td> ${tempTask.endDate} </td>
                         <td> ${PROJ_LIST.get(theCount.index).title}</td>
-                        <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).lastName}</td>
+                        <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).patronymic}</td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
 
