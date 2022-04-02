@@ -15,14 +15,14 @@
 
 <ul>
   <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-  <li style="font-family: Arial"><a class="choose" href="tasks">Задачи</a></li>
+  <li style="font-family: Arial"><a class="choose" href="task">Задачи</a></li>
   <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
     <h3>Добавить задачу</h3>
-    <form action="tasks" onsubmit="check(event)" method="post" id="form">
+    <form action="task" onsubmit="check(event)" method="post" id="form">
       <input type="hidden" name="action" value="/add"/>
       <table>
         <div>
@@ -32,7 +32,7 @@
         <tr>
           <td><label>Cтатус:</label></td>
           <td>
-            <select name="flag">
+            <select name="status">
               <option>Не начата</option>
               <option>В процессе</option>
               <option>Завершена</option>
@@ -45,25 +45,25 @@
         </tr>
         <tr>
           <td><label>Работа:</label></td>
-          <td><input required ="required"  type="number" oninvalid="this.setCustomValidity('Введите число в дапазоне от 0 до 9 223 372 036 854 775 807')" id="work_time" max="9223372036854775807" name="work_time" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+              <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Введите число в дапазоне от 0 до 999 999 999 999 999 999')" oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
         </tr>
         <tr>
           <td><label>Начало работы:</label></td>
-          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="begin_date" name="begin_date"> </td>
+          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="beginDate" name="beginDate"> </td>
         </tr>
         <tr>
           <td><label>Конец работы:</label></td>
-          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="end_date" name="end_date" ></td>
+          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="endDate" name="endDate" ></td>
         </tr>
         <tr>
           <td><label>Проект:</label></td>
-            <td> <select name="project_id" ${thisProjectId != null ? '  disabled="true"' : ''}>
+            <td> <select name="projectId" ${thisProjectId != null ? '  disabled="true"' : ''}>
               <option value="null">  </option>
               <c:forEach items="${PROJECT_LIST}" var="projects">
                     <option value="${projects.id}" ${projects.id == thisProjectId ? 'selected="selected"' : ''} >${projects.title} </option>
                 </c:forEach>
             </select>
-              <input type="hidden" name="project_id" value=${thisProjectId} />
+              <input type="hidden" name="projectId" value=${thisProjectId} />
             </td>
         </tr>
         <tr>
@@ -71,7 +71,7 @@
           <td> <select name="employee_id">
             <option value="null">  </option>
             <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-              <option value="${employees.id}">  ${employees.surname} ${employees.firstName} ${employees.lastName}</option>
+              <option value="${employees.id}">  ${employees.surname} ${employees.firstName} ${employees.patronymic}</option>
             </c:forEach>
           </select>
         </td>
@@ -85,12 +85,12 @@
 </div>
 <script type='text/javascript'>
   function check(event) {
-    const startDt = document.getElementById("begin_date").value;
-    const endDt = document.getElementById("end_date").value;
+    const beginDt = document.getElementById("beginDate").value;
+    const endDt = document.getElementById("endDate").value;
     const title = document.getElementById("title").value;
 
 
-    if( (new Date(endDt).getTime() < new Date(startDt).getTime()))
+    if( (new Date(endDt).getTime() < new Date(beginDt).getTime()))
     {
       event.preventDefault();
       alert("Дата начала работы не может быть позже даты окончания работы");
