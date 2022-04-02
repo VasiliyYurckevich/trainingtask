@@ -1,0 +1,9 @@
+/mydb.lck
+/mydb.log
+/mydb.properties
+/mydb.script
+/build
+/.gradle
+/gradlew
+/gradlew.bat
+/.idea

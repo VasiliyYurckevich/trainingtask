@@ -8,3 +8,5 @@ gradle.ext.dbHost = "localhost"
 gradle.ext.dbFile = "mydb"
 gradle.ext.dbUrl = "jdbc:hsqldb:hsql://localhost/mydb"
 gradle.ext.dbDrive = "org.hsqldb.jdbc.JDBCDriver"
+include 'project'
+
