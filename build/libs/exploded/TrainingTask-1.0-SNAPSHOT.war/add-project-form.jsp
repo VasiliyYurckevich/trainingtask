@@ -16,7 +16,7 @@
 
 <ul>
   <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
-  <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
+  <li style="font-family: Arial"><a href="task">Задачи</a></li>
   <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
@@ -34,7 +34,7 @@
         </tr>
         <tr>
           <td><label>Описание:</label></td>
-          <td><input  required ="required" maxlength="250" onkeydown="checkLength('discription',250)"  type="text" id="discription"  name="discription"></td>
+          <td><input  required ="required" maxlength="250" onkeydown="checkLength('description',250)"  type="text" id="description"  name="description"></td>
         </tr>
         </tbody>
       </table>
@@ -47,10 +47,10 @@
 <script type='text/javascript'>
   function check(event) {
     const title = document.getElementById("title").value;
-    const discription = document.getElementById("discription").value;
+    const description = document.getElementById("description").value;
 
 
-    if (title.trim() == "" || discription.trim() == "") {
+    if (title.trim() == "" || description.trim() == "") {
       event.preventDefault();
       alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
     }

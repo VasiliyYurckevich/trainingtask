@@ -14,7 +14,7 @@
 
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a href="task">Задачи</a></li>
     <li style="font-family: Arial"><a class="choose" href="employees">Сотрудники</a></li>
 </ul>
 
@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
-                    <td><input required ="required"  id="lastName"  maxlength="50" onkeydown="checkLength('lastName',50)"  type="text" name="lastName"></td>
+                    <td><input required ="required"  id="patronymic"  maxlength="50" onkeydown="checkLength('patronymic',50)"  type="text" name="patronymic"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
@@ -53,10 +53,10 @@
     function check(event) {
         const surname = document.getElementById("surname").value;
         const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
+        const patronymic = document.getElementById("patronymic").value;
         const post = document.getElementById("post").value;
 
-        if (surname.trim() == ''|| firstName.trim() == ''|| lastName.trim() == ''|| post.trim() == '') {
+        if (surname.trim() == ''|| firstName.trim() == ''|| patronymic.trim() == ''|| post.trim() == '') {
             event.preventDefault();
             alert("Заполните все поля!Поля не могут быть пустыми");
         }
