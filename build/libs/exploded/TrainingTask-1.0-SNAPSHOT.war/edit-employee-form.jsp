@@ -17,7 +17,7 @@
 
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a href="task">Задачи</a></li>
     <li style="font-family: Arial"><a class="choose" href="employees">Сотрудники</a></li>
 </ul>
 
@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
-                    <td><input type="text"  required="required" maxlength="50"  name="lastName" id="lastName" onkeydown="checkLength('lastName',50)"
+                    <td><input type="text"  required="required" maxlength="50"  name="patronymic" id="patronymic" onkeydown="checkLength('patronymic',50)"
                                value="${lastName}"></td>
                 </tr>
                 <tr>
@@ -65,22 +65,18 @@
     function check(event) {
         const surname = document.getElementById("surname").value;
         const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
+        const patronymic = document.getElementById("patronymic").value;
         const post = document.getElementById("post").value;
 
-        if (surname.trim() == ''|| firstName.trim() == ''|| lastName.trim() == ''|| post.trim() == '') {
+        if (surname.trim() == ''|| firstName.trim() == ''|| patronymic.trim() == ''|| post.trim() == '') {
             event.preventDefault();
             alert("Заполните все поля!Поля не могут быть пустыми");
-        }else if(surname.length > 50 || firstName.length > 50 || lastName.length > 50 || post.length > 50){
-            event.preventDefault();
-            alert("Слишком длинные значения полей!Максимальная длина полей 50 символов");
         }
     }
 
     // Message if length of the field is more than maxLength symbols
     function checkLength(fieldName,maxLength) {
         const len = document.getElementById(fieldName).value.length;
-
         if( len == maxLength){
             alert("Превышена допустимая длина поля" + maxLength + " символов");
         }

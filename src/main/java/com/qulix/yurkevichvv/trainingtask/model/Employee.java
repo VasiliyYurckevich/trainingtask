@@ -13,27 +13,27 @@ public class Employee {
     protected int id;
     protected String surname;
     protected String firstName;
-    protected String lastName;
+    protected String patronymic;
     protected String post;
 
     // Constructors
     public Employee() {
     }
 
-    public Employee(int id, String surname, String firstName, String lastName, String post) {
+    public Employee(int id, String surname, String firstName, String patronymic, String post) {
         super();
         this.id = id;
         this.surname = htmlSpecialChars(surname);
         this.firstName = htmlSpecialChars(firstName);
-        this.lastName = htmlSpecialChars(lastName);
+        this.patronymic = htmlSpecialChars(patronymic);
         this.post = htmlSpecialChars(post);
     }
 
-    public Employee(String surname, String firstName, String lastName, String post) {
+    public Employee(String surname, String firstName, String patronymic, String post) {
         super();
         this.surname = htmlSpecialChars(surname);
         this.firstName = htmlSpecialChars(firstName);
-        this.lastName = htmlSpecialChars(lastName);
+        this.patronymic = htmlSpecialChars(patronymic);
         this.post = htmlSpecialChars(post);
     }
     // Getters and setters
@@ -61,12 +61,12 @@ public class Employee {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPatronymic() {
+        return patronymic;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
     }
 
     public String getPost() {
@@ -77,10 +77,10 @@ public class Employee {
         this.post = post;
     }
 
-    // Method toString
+    // Override methods
     @Override
     public String toString() {
-        return "Employee id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", post=" + post;
+        return "Employee [id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", patronymic=" + patronymic
+                + ", post=" + post + "]";
     }
 }

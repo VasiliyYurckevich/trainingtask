@@ -126,7 +126,7 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute("employeeId",employeeId);//set attributes for form
         req.setAttribute("surname", existingEmployee.getSurname());
         req.setAttribute("firstName", existingEmployee.getFirstName());
-        req.setAttribute("lastName", existingEmployee.getLastName());
+        req.setAttribute("patronymic", existingEmployee.getPatronymic());
         req.setAttribute("post", existingEmployee.getPost());
         RequestDispatcher dispatcher = req.getRequestDispatcher(    "/edit-employee-form.jsp");
         existingEmployee.setId(employeeId);
@@ -176,9 +176,9 @@ public class EmployeeController extends HttpServlet {
             int employeeId = Integer.parseInt(req.getParameter("employeeId"));
             String surname = req.getParameter("surname");
             String firstName = req.getParameter("firstName");
-            String lastName = req.getParameter("lastName");
+            String patronymic = req.getParameter("patronymic");
             String post= req.getParameter("post");
-            Employee theEmployee = new Employee(employeeId, surname, firstName, lastName, post);
+            Employee theEmployee = new Employee(employeeId, surname, firstName, patronymic, post);
             employeeInterface.update(theEmployee);
             listEmployees(req, resp);
             logger.info("Employee with id "+employeeId+"update");
@@ -199,9 +199,9 @@ public class EmployeeController extends HttpServlet {
        try {
            String surname = req.getParameter("surname");
            String firstName = req.getParameter("firstName");
-           String lastName = req.getParameter("lastName");
+           String patronymic = req.getParameter("patronymic");
            String post = req.getParameter("post");
-           Employee employee = new Employee( surname, firstName, lastName, post);
+           Employee employee = new Employee( surname, firstName,patronymic , post);
            employeeInterface.add(employee);
            listEmployees(req, resp);
            logger.info("Employee with id created");

@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.DAO;
 
 
 import com.qulix.yurkevichvv.trainingtask.Connection.DBConnection;
-import com.qulix.yurkevichvv.trainingtask.DAO.DAOInterface;
 import com.qulix.yurkevichvv.trainingtask.model.Employee;
 
 import java.sql.Connection;
@@ -31,15 +30,15 @@ public class DAOEmployee implements DAOInterface<Employee> {
     private static String EMPLOYEE_ID = "employee_id";
     private static String SURNAME = "surname";
     private static String FIRST_NAME = "first_name";
-    private static String LAST_NAME = "last_name";
+    private static String PATRONYMIC = "patronymic";
     private static String POST = "post";
 
     //SQL queries
-    private final String INSERT_EMPLOYEE_SQL = "INSERT INTO " +SCHEMA_NAME +"."+ TABLE_NAME + " (surname, first_name, last_name, post) VALUES (?,?,?,?);";
+    private final String INSERT_EMPLOYEE_SQL = "INSERT INTO " +SCHEMA_NAME +"."+ TABLE_NAME + " (surname, first_name, patronymic, post) VALUES (?,?,?,?);";
     private final String SELECT_ALL_CLIENT = "SELECT * FROM "+ SCHEMA_NAME +"."+TABLE_NAME + ";";
     private final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM " +SCHEMA_NAME +"."+ TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
     private final String DELETE_EMPLOYEE_SQL = "DELETE FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
-    private final String UPDATE_CLIENT_SQL = "UPDATE " + TABLE_NAME + " SET surname = ?, first_name = ?, last_name = ?, post = ? WHERE employee_id = ?;";
+    private final String UPDATE_CLIENT_SQL = "UPDATE " + TABLE_NAME + " SET surname = ?, first_name = ?, patronymic = ?, post = ? WHERE employee_id = ?;";
 
 
 
@@ -59,7 +58,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             //Set parameters
             preparedStatement.setString(1, employee.getSurname());
             preparedStatement.setString(2, employee.getFirstName());
-            preparedStatement.setString(3, employee.getLastName());
+            preparedStatement.setString(3, employee.getPatronymic());
             preparedStatement.setString(4, employee.getPost());
 
             query = preparedStatement.execute();//Execute query
@@ -85,7 +84,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             //Set parameters
             preparedStatement.setString(1, employee.getSurname());
             preparedStatement.setString(2, employee.getFirstName());
-            preparedStatement.setString(3, employee.getLastName());
+            preparedStatement.setString(3, employee.getPatronymic());
             preparedStatement.setString(4, employee.getPost());
             preparedStatement.setInt(5, employee.getId());
             query = preparedStatement.execute();//Execute query
@@ -139,7 +138,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
                 employee.setId(resultSet.getInt(EMPLOYEE_ID));
                 employee.setSurname(resultSet.getString(SURNAME));
                 employee.setFirstName(resultSet.getString(FIRST_NAME));
-                employee.setLastName(resultSet.getString(LAST_NAME));
+                employee.setPatronymic(resultSet.getString(PATRONYMIC));
                 employee.setPost(resultSet.getString(POST));
                 employees.add(employee);
             }
@@ -169,7 +168,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             while (resultSet.next()) {
                 employee.setSurname(resultSet.getString(SURNAME));
                 employee.setFirstName(resultSet.getString(FIRST_NAME));
-                employee.setLastName(resultSet.getString(LAST_NAME));
+                employee.setPatronymic(resultSet.getString(PATRONYMIC));
                 employee.setPost(resultSet.getString(POST));
             }
 

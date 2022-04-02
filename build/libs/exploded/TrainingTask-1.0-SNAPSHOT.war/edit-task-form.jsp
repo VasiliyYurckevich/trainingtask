@@ -16,14 +16,14 @@
 
 <ul>
     <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a class="choose"  href="tasks">Задачи</a></li>
+    <li style="font-family: Arial"><a class="choose"  href="task">Задачи</a></li>
     <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
 <div style="padding:20px; margin-top:50px;height:600px;">
     <div id="container">
         <h3>Редактировать задачу</h3>
-        <form action="tasks" onsubmit="check(event)" method="post" id ="form">
+        <form action="task" onsubmit="check(event)" method="post" id ="form">
             <input type="hidden" name="action" value="/update" />
             <input type="hidden" name="taskId" value="${taskId}" />
             <table>
@@ -32,11 +32,11 @@
                 <tr>
                     <td><label>Статус:</label></td>
                     <td>
-                        <select type="text" name="flag" data-selected="${flag}">
-                            <option ${flag == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
-                            <option ${flag == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
-                            <option ${flag == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>
-                            <option ${flag == "Отложена"  ? 'selected="selected"' : ''}>Отложена</option>
+                        <select type="text" name="status" data-selected="${status}">
+                            <option ${status == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
+                            <option ${status == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
+                            <option ${status == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>
+                            <option ${status == "Отложена"  ? 'selected="selected"' : ''}>Отложена</option>
                         </select>
                     </td>
                 </tr>
@@ -46,35 +46,35 @@
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>
-                    <td><input type="number"  required="required" id="work_time" max="9223372036854775807" name="work_time"  ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
-                               value="${work_time}"></td>
+                    <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Введите число в дапазоне от 0 до 999 999 999 999 999 999')" oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
+                               value="${workTime}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата начала:</label></td>
-                    <td><input type="date" min="0001-01-01" max="9999-12-31" name="begin_date" id="begin_date"
-                               value="${begin_date}"></td>
+                    <td><input type="date" min="0001-01-01" max="9999-12-31" name="beginDate" id="beginDate"
+                               value="${beginDate}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата окончания:</label></td>
-                    <td><input type="date"  min="0001-01-01" max="9999-12-31" name="end_date" id="end_date"
-                               value="${end_date}"></td>
+                    <td><input type="date"  min="0001-01-01" max="9999-12-31" name="endDate" id="endDate"
+                               value="${endDate}"></td>
                 </tr>
 
                 <tr>
                     <td><label>Наименование проекта:</label></td>
-                    <td> <select name="project_id">
+                    <td> <select name="projectId">
                         <option value="null">  </option>
                         <c:forEach items="${PROJECT_LIST}" var="projects">
-                            <option value="${projects.id}" ${projects.id == project_id ? 'selected="selected"' : ''}>${projects.title}</option>
+                            <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>${projects.title}</option>
                         </c:forEach>
                     </select>
                 </tr>
                 <tr>
                     <td><label>Сотрудник:</label></td>
-                    <td> <select name="employee_id" >
+                    <td> <select name="employeeId" >
                         <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                            <option value="${employees.id}" ${employees.id == employee_id ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.lastName}</option>
+                            <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.patronymic}</option>
                         </c:forEach>
                     </select>
                     </td>
@@ -88,11 +88,11 @@
 <script type='text/javascript'>
     // Check empty fields and date validation
     function check(event) {
-        const startDt = document.getElementById("begin_date").value;
-        const endDt = document.getElementById("end_date").value;
+        const beginDt = document.getElementById("beginDate").value;
+        const endDt = document.getElementById("endDate").value;
         const title = document.getElementById("title").value;
 
-        if( (new Date(endDt).getTime() < new Date(startDt).getTime()))
+        if( (new Date(endDt).getTime() < new Date(beginDt).getTime()))
         {
             event.preventDefault();
             alert("Дата начала работы не может быть позже даты окончания работы");

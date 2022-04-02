@@ -6,7 +6,7 @@ import com.qulix.yurkevichvv.trainingtask.DAO.DAOProject;
 import com.qulix.yurkevichvv.trainingtask.DAO.DAOTask;
 import com.qulix.yurkevichvv.trainingtask.model.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.Project;
-import com.qulix.yurkevichvv.trainingtask.model.Tasks;
+import com.qulix.yurkevichvv.trainingtask.model.Task;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import java.util.logging.Logger;
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 12345L;
     public static final Logger logger = Logger.getLogger(TaskController.class.getName());// logger
-    private DAOInterface<Tasks> tasksInterface;
+    private DAOInterface<Task> tasksInterface;
 
     /**
      * Initialize TaskController
@@ -123,15 +122,15 @@ public class TaskController extends HttpServlet {
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         String theTaskId = req.getParameter("taskId");// get task id
-        Tasks existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));// get task by id
+        Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));// get task by id
         req.setAttribute("taskId",existingTask.getId());// set task data
-        req.setAttribute("flag", existingTask.getFlag());
+        req.setAttribute("flag", existingTask.getStatus());
         req.setAttribute("title",existingTask.getTitle());
-        req.setAttribute("work_time", existingTask.getWorkTime());
-        req.setAttribute("begin_date",existingTask.getBeginDate());
-        req.setAttribute("end_date", existingTask.getEndDate());
-        req.setAttribute("project_id",existingTask.getProject_id());
-        req.setAttribute("employee_id", existingTask.getEmployee_id());
+        req.setAttribute("workTime", existingTask.getWorkTime());
+        req.setAttribute("beginDate",existingTask.getBeginDate());
+        req.setAttribute("endDate", existingTask.getEndDate());
+        req.setAttribute("projectId",existingTask.getProjectId());
+        req.setAttribute("employeeId", existingTask.getEmployeeId());
         List<Employee> employees = new DAOEmployee().getAll();// get list of employees
         List<Project> projects = new DAOProject().getAll();// get list of projects
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-form.jsp");
@@ -153,19 +152,19 @@ public class TaskController extends HttpServlet {
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         try{
             int taskId = Integer.parseInt(req.getParameter("taskId"));// get task data
-            String flag = req.getParameter("flag");
+            String flag = req.getParameter("status");
             String title = req.getParameter("title");
-            long workTime = Long.parseLong((req.getParameter("work_time")));
-            LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
-            LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
+            long workTime = Long.parseLong((req.getParameter("workTime")));
+            LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
+            LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
             Integer projectId = null;
             Integer employeeId = null;
             try {
-                projectId = Integer.parseInt(req.getParameter("project_id")); // get project id if it is not null
-                employeeId = Integer.parseInt(req.getParameter("employee_id"));// get employee id if it is not null
+                projectId = Integer.parseInt(req.getParameter("projectId")); // get project id if it is not null
+                employeeId = Integer.parseInt(req.getParameter("employeeId"));// get employee id if it is not null
             }catch (NumberFormatException e){
             }
-            Tasks task = new Tasks( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);// create task
+            Task task = new Task( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);// create task
             tasksInterface.update(task);// update task in database
             listTasks(req,resp);
             logger.info("Update task with id: " + taskId);
@@ -220,19 +219,19 @@ public class TaskController extends HttpServlet {
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
        try {
-            String flag = req.getParameter("flag");// get task data
+            String flag = req.getParameter("status");// get task data
             String title = req.getParameter("title");
-            long workTime = Long.parseLong((req.getParameter("work_time")));
-            LocalDate beginDate = LocalDate.parse(req.getParameter("begin_date"));
-            LocalDate endDate = LocalDate.parse(req.getParameter("end_date"));
+            long workTime = Long.parseLong((req.getParameter("workTime")));
+            LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
+            LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
             Integer projectId = null;
             Integer employeeId = null;
             try {
-                projectId = Integer.parseInt(req.getParameter("project_id"));
-                employeeId = Integer.parseInt(req.getParameter("employee_id"));// get employee id if it is not null
+                projectId = Integer.parseInt(req.getParameter("projectId"));
+                employeeId = Integer.parseInt(req.getParameter("employeeId"));// get employee id if it is not null
             }catch (NumberFormatException e){
             }
-            Tasks task = new Tasks( flag, title, workTime, beginDate, endDate, projectId,  employeeId);// create task
+            Task task = new Task( flag, title, workTime, beginDate, endDate, projectId,  employeeId);// create task
             tasksInterface.add(task);// add task to database
             listTasks(req,resp);
             logger.info("New task created");
@@ -250,13 +249,13 @@ public class TaskController extends HttpServlet {
      * @throws IOException
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        List<Tasks> tasks =  tasksInterface.getAll();// get all tasks from database
+        List<Task> tasks =  tasksInterface.getAll();// get all tasks from database
         List<Employee> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
-        for (Tasks t: tasks){
-            Employee employee = new DAOEmployee().getById(t.getEmployee_id());
+        for (Task t: tasks){
+            Employee employee = new DAOEmployee().getById(t.getEmployeeId());
             employeeOfTask.add(employee);
-            Project project = new DAOProject().getById(t.getProject_id());
+            Project project = new DAOProject().getById(t.getProjectId());
             projectsOfTask.add(project);
         }
         req.setAttribute("TASKS_LIST", tasks);// set tasks list to request
