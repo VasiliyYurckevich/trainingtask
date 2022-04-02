@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.DAO;
+package DAO;
 
 import java.sql.SQLException;
 import java.util.List;

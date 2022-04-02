@@ -1,6 +1,6 @@
-package com.qulix.yurkevichvv.trainingtask.model;
+package model;
 
-import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
+import static util.Util.htmlSpecialChars;
 
 /**
  * Class Employee describes employee.

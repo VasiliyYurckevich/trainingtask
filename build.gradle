@@ -53,7 +53,7 @@ test {
     useJUnitPlatform()
 }
 
-apply from: 'startDatabase.gradle'
+apply from: 'project/startDatabase.gradle'
 
 tomcat {
     httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'

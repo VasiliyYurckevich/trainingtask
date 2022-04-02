@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.filter;
+package filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;

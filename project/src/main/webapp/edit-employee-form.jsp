@@ -78,7 +78,7 @@
     function checkLength(fieldName,maxLength) {
         const len = document.getElementById(fieldName).value.length;
         if( len == maxLength){
-            alert("Превышена допустимая длина поля" + maxLength + " символов");
+            alert("Превышена допустимая длина поля " + maxLength + " символов");
         }
     }
 </script>

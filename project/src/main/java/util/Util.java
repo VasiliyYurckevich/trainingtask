@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.util;
+package util;
 
 /**
  * Util class for working with strings.

@@ -1,8 +1,8 @@
-package com.qulix.yurkevichvv.trainingtask.model;
+package model;
+
+import util.Util;
 
 import java.time.LocalDate;
-
-import static com.qulix.yurkevichvv.trainingtask.util.Util.htmlSpecialChars;
 
 /**
  * Class Task represents a task.
@@ -27,7 +27,7 @@ public class Task {
 
     public Task(String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
         this.status = status;
-        this.title = htmlSpecialChars(title);
+        this.title = Util.htmlSpecialChars(title);
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;
@@ -38,7 +38,7 @@ public class Task {
     public Task(int taskId, String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
         this.taskId = taskId;
         this.status = status;
-        this.title = htmlSpecialChars(title);
+        this.title = Util.htmlSpecialChars(title);
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;
