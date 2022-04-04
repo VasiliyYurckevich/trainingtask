@@ -46,7 +46,7 @@
                 <tr>
                     <td><label>Отчество:</label></td>
                     <td><input type="text"  required="required" maxlength="50"  name="patronymic" id="patronymic" oninput="checkLength('patronymic',50)"
-                               value="${lastName}"></td>
+                               value="${patronymic}"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
@@ -61,7 +61,6 @@
     </div>
 </div>
 <script type='text/javascript'>
-    //check empty fields
     function check(event) {
         const surname = document.getElementById("surname").value;
         const firstName = document.getElementById("firstName").value;
@@ -74,7 +73,6 @@
         }
     }
 
-    // Message if length of the field is more than maxLength symbols
     function checkLength(fieldName,maxLength) {
         const len = document.getElementById(fieldName).value.length;
         if( len == maxLength){

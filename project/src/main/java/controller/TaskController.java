@@ -37,14 +37,9 @@ public class TaskController extends HttpServlet {
      * Initialize TaskController
      */
     @Override
-    public void init() throws ServletException {
+    public void init() throws ServletException,NullPointerException {
         super.init();
-
-        try {
-            tasksInterface = new DAOTask();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tasksInterface = new DAOTask();
     }
 
     /**
@@ -70,8 +65,8 @@ public class TaskController extends HttpServlet {
                     updateTask(req, resp);  // update task
                     break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            logger.warning(String.valueOf(e));
         }
     }
     /**
@@ -87,28 +82,28 @@ public class TaskController extends HttpServlet {
 
         try {
 
-            String action = req.getParameter("action");// get action
+            String action = req.getParameter("action");
 
             if (action == null) {
-                action = "/list";// default action
+                action = "/list";
             }
 
             switch (action) {
                 case "/list":
-                    listTasks(req, resp);// list tasks
+                    listTasks(req, resp);
                     break;
                 case "/edit":
-                    editTaskForm(req, resp);// open edit task form
+                    editTaskForm(req, resp);
                     break;
                 case "/delete":
-                    deleteTask(req, resp);// delete task
+                    deleteTask(req, resp);
                     break;
                 case "/new":
-                    newTaskForm(req, resp);// open new task form
+                    newTaskForm(req, resp);
                     break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            logger.warning(String.valueOf(e));
         }
 
     }
@@ -151,15 +146,12 @@ public class TaskController extends HttpServlet {
      * @throws IOException
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        try{
-            int taskId = Integer.parseInt(req.getParameter("taskId"));
-            Task task = getDataFromForm(req,taskId);
-            tasksInterface.update(task);// update task in database
-            listTasks(req,resp);
-            logger.info("Update task with id: " + taskId);
-        }catch ( SQLException| ServletException | IOException ex){
-            logger.log(Level.SEVERE, "Error message", ex);
-        }
+        int taskId = Integer.parseInt(req.getParameter("taskId"));
+        Task task = getDataFromForm(req,taskId);
+        tasksInterface.update(task);// update task in database
+        listTasks(req,resp);
+        logger.info("Update task with id: " + taskId);
+
     }
 
     /**
@@ -188,14 +180,10 @@ public class TaskController extends HttpServlet {
      * @throws IOException
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        try {
-            String theTaskId = req.getParameter("taskId");// get task id
-            tasksInterface.delete(Integer.valueOf(theTaskId));// delete task from database
-            listTasks(req, resp);
-            logger.info("Task with id "+theTaskId+" delete");
-        }catch ( SQLException| ServletException | IOException ex){
-           logger.log(Level.SEVERE, "Error message", ex);
-        }
+        String theTaskId = req.getParameter("taskId");
+        tasksInterface.delete(Integer.valueOf(theTaskId));
+        listTasks(req, resp);
+        logger.info("Task with id "+theTaskId+" delete");
     }
 
     /**
@@ -207,15 +195,12 @@ public class TaskController extends HttpServlet {
      * @throws IOException
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-       try {
-           Task task = getDataFromForm(req,null);
-           tasksInterface.add(task);
-            listTasks(req,resp);
-            logger.info("New task created");
+       Task task = getDataFromForm(req,null);
+       tasksInterface.add(task);
+       listTasks(req,resp);
+       logger.info("New task created");
 
-       }catch ( SQLException| ServletException | IOException ex){
-            logger.log(Level.SEVERE, "Error message :", ex);
-       }
+
     }
     /**
      * Method for list tasks
@@ -226,7 +211,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        List<Task> tasks =  tasksInterface.getAll();// get all tasks from database
+        List<Task> tasks =  tasksInterface.getAll();
         List<Employee> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
         for (Task t: tasks){
@@ -235,14 +220,14 @@ public class TaskController extends HttpServlet {
             Project project = new DAOProject().getById(t.getProjectId());
             projectsOfTask.add(project);
         }
-        req.setAttribute("TASKS_LIST", tasks);// set tasks list to request
-        req.setAttribute("EMP_LIST", employeeOfTask);// set employee list to request
-        req.setAttribute("PROJ_LIST", projectsOfTask);// set project list to request
+        req.setAttribute("TASKS_LIST", tasks);
+        req.setAttribute("EMP_LIST", employeeOfTask);
+        req.setAttribute("PROJ_LIST", projectsOfTask);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
     }
 
-    private Task getDataFromForm(HttpServletRequest req,Integer taskId){
+    private Task getDataFromForm(HttpServletRequest req,Integer taskId) throws NumberFormatException{
         String flag = req.getParameter("status");
         String title = req.getParameter("title");
         long workTime = Long.parseLong(req.getParameter("workTime"));
@@ -250,11 +235,8 @@ public class TaskController extends HttpServlet {
         LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
         Integer projectId = null;
         Integer employeeId = null;
-        try {
-            projectId = Integer.parseInt(req.getParameter("projectId"));
-            employeeId = Integer.parseInt(req.getParameter("employeeId"));
-        }catch (NumberFormatException e){
-        }
+        projectId = Integer.parseInt(req.getParameter("projectId"));
+        employeeId = Integer.parseInt(req.getParameter("employeeId"));
         Task task ;
         if (taskId == null){
          task = new Task(flag, title, workTime, beginDate, endDate, projectId,  employeeId);}

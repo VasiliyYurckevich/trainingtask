@@ -57,23 +57,7 @@ public class    DAOTask implements DAOInterface<Task>{
         connection = DBConnection.getConnection();
 
         try {
-            preparedStatement = connection.prepareStatement(INSERT_TASK_SQL);
-            //set parameters for query
-            preparedStatement.setString(1, task.getStatus());
-            preparedStatement.setString(2, task.getTitle());
-            preparedStatement.setLong(3, task.getWorkTime());
-            preparedStatement.setString(4, task.getBeginDate().toString());
-            preparedStatement.setString(5, task.getEndDate().toString());
-            if (task.getProjectId()==null){
-                preparedStatement.setNull(6,5);
-            }else {
-                preparedStatement.setInt(6, task.getProjectId());
-            }
-            if (task.getEmployeeId()==null){
-                preparedStatement.setNull(7,5);
-            }else {
-                preparedStatement.setInt(7, task.getEmployeeId());
-            }
+            setDataInToStatment(task, INSERT_TASK_SQL);
             query = preparedStatement.execute();
             return query;
             }
@@ -93,22 +77,7 @@ public class    DAOTask implements DAOInterface<Task>{
     public boolean update(Task task) throws SQLException {
         connection = DBConnection.getConnection();
         try {
-            preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL);
-            //set parameters for query
-            preparedStatement.setString(1, task.getStatus());
-            preparedStatement.setString(2, task.getTitle());
-            preparedStatement.setLong(3, task.getWorkTime());
-            preparedStatement.setString(4, task.getBeginDate().toString());
-            preparedStatement.setString(5, task.getEndDate().toString());
-            if (task.getProjectId()==null){
-                preparedStatement.setNull(6,5);
-            }else {
-                preparedStatement.setInt(6, task.getProjectId());
-            }            if (task.getEmployeeId()==null){
-                preparedStatement.setNull(7,5);
-            }else {
-                preparedStatement.setInt(7, task.getEmployeeId());
-            }
+            setDataInToStatment(task, UPDATE_TASK_SQL);
             preparedStatement.setInt(8, task.getId());
 
             query = preparedStatement.execute();
@@ -117,6 +86,25 @@ public class    DAOTask implements DAOInterface<Task>{
         }
         finally {
             DBConnection.closeConnection();
+        }
+    }
+
+    private void setDataInToStatment(Task task, String update_task_sql) throws SQLException {
+        preparedStatement = connection.prepareStatement(update_task_sql);
+        preparedStatement.setString(1, task.getStatus());
+        preparedStatement.setString(2, task.getTitle());
+        preparedStatement.setLong(3, task.getWorkTime());
+        preparedStatement.setString(4, task.getBeginDate().toString());
+        preparedStatement.setString(5, task.getEndDate().toString());
+        if (task.getProjectId()==null){
+            preparedStatement.setNull(6,5);
+        }else {
+            preparedStatement.setInt(6, task.getProjectId());
+        }
+        if (task.getEmployeeId()==null){
+            preparedStatement.setNull(7,5);
+        }else {
+            preparedStatement.setInt(7, task.getEmployeeId());
         }
     }
 
@@ -130,15 +118,13 @@ public class    DAOTask implements DAOInterface<Task>{
     @Override
     public boolean delete(Integer id) throws SQLException {
         connection = DBConnection.getConnection();
-
         try {
             preparedStatement = connection.prepareStatement(DELETE_TASK_SQL);
             preparedStatement.setInt(1, id);
             query = preparedStatement.execute();//execute query
-
             return query;
         }finally {
-            DBConnection.closeConnection();//close connection to database
+            DBConnection.closeConnection();
         }
     }
 
@@ -150,16 +136,15 @@ public class    DAOTask implements DAOInterface<Task>{
      * @throws SQLException - if something wrong with database
      */
     public List<Task> getTaskInProject(Integer id) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
-
-        List<Task> tasks = new ArrayList<>();//create list of tasks
+        connection = DBConnection.getConnection();
+        List<Task> tasks = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT);
-            preparedStatement.setString(1, String.valueOf(id));//set parameter for query
-            resultSet = preparedStatement.executeQuery();//execute query
+            preparedStatement.setString(1, String.valueOf(id));
+            resultSet = preparedStatement.executeQuery();
             return getList(tasks);
         }finally {
-            DBConnection.closeConnection();//close connection to database
+            DBConnection.closeConnection();
         }
     }
 
@@ -171,13 +156,14 @@ public class    DAOTask implements DAOInterface<Task>{
      */
     @Override
     public List getAll() throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        connection = DBConnection.getConnection();
         try {
-            List<Task> tasks = new ArrayList<Task>();//create list of tasks
+            List<Task> tasks = new ArrayList<Task>();
             resultSet = connection.createStatement().executeQuery(SELECT_ALL_TASK);
             return getList(tasks);
+
         }finally {
-            DBConnection.closeConnection();//close connection to database
+            DBConnection.closeConnection();
         }
     }
 
@@ -207,15 +193,14 @@ public class    DAOTask implements DAOInterface<Task>{
      */
     @Override
     public Task getById(Integer id) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        connection = DBConnection.getConnection();
 
         try {
             preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);
-            preparedStatement.setInt(1, id);//set parameter for query
-            resultSet = preparedStatement.executeQuery();//execute query
-            Task task = new Task();//create task
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            Task task = new Task();
             while (resultSet.next()) {
-                //set parameters for task
                 task.setId(resultSet.getInt(TASK_ID));
                 task.setStatus(resultSet.getString(STATUS));
                 task.setTitle(resultSet.getString(TITLE));
@@ -227,7 +212,7 @@ public class    DAOTask implements DAOInterface<Task>{
             }
             return task;
         }finally {
-            DBConnection.closeConnection();//close connection to database
+            DBConnection.closeConnection();
         }
     }
 }

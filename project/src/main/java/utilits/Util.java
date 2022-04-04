@@ -18,9 +18,6 @@ public class Util {
                 replaceAll(">","&gt;").replaceAll(  "\"", "&quot;");
     }
 
-    public static String dataValidationFromDb(String s){
-        return s.replace("-",".");
-    }
     public static String dataValidationFromForm(String s){
         return s.replace(".","-");
     }

@@ -42,7 +42,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException if an error occurs
      */
     @Override
-    public void init() throws ServletException {
+    public void init() throws ServletException,NullPointerException {
         super.init();
         projectInterface = new DAOProject();
     }
@@ -55,7 +55,7 @@ public class ProjectController extends HttpServlet {
      * @param resp servlet response
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         resp.setContentType("text/html;charset=utf-8");
 
@@ -71,8 +71,8 @@ public class ProjectController extends HttpServlet {
                     break;
 
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            logger.warning(String.valueOf(e));
         }
 
     }
@@ -84,11 +84,10 @@ public class ProjectController extends HttpServlet {
      * @param resp servlet response
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
 
         try {
-
             String action = req.getParameter("action");
 
             if (action == null) {
@@ -103,6 +102,7 @@ public class ProjectController extends HttpServlet {
                     deleteProject(req, resp);
                     break;
                 case "/updateTask":
+                case "/addTask":
                     newTaskForm(req, resp);
                     break;
                 case "/edit":
@@ -111,12 +111,9 @@ public class ProjectController extends HttpServlet {
                 case "/new":
                     addProjectForm(req, resp);
                     break;
-                case "/addTask":
-                    newTaskForm(req, resp);
-                    break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            logger.warning(String.valueOf(e));
         }
     }
 
@@ -156,15 +153,12 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void deleteProject(HttpServletRequest req, HttpServletResponse resp){
-        try {
-            Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));//get project id from form
-            projectInterface.delete(theProjectId);//delete project
-            listProjects(req, resp);
-            logger.info("Project with id " + theProjectId + "delete");
-        } catch (SQLException | ServletException | IOException ex) {
-            logger.log(Level.SEVERE, "Error message", ex);
-        }
+    private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+        Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
+        projectInterface.delete(theProjectId);
+        listProjects(req, resp);
+        logger.info("Project with id " + theProjectId + " deleted");
+
     }
 
     /**
@@ -176,7 +170,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        Integer thisProjectId = Integer.valueOf(req.getParameter("projectId"));//get project id from form
+        Integer thisProjectId = Integer.valueOf(req.getParameter("projectId"));
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
         req.setAttribute("thisProjectId", thisProjectId);
@@ -210,7 +204,7 @@ public class ProjectController extends HttpServlet {
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Project> projects = projectInterface.getAll();
-        req.setAttribute("PROJECT_LIST", projects);//set data to form
+        req.setAttribute("PROJECT_LIST", projects);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
         dispatcher.forward(req, resp);
     }
@@ -224,17 +218,13 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        try {
-            int projectId = Integer.parseInt(req.getParameter("projectId"));//get project data from form
-            String title = req.getParameter("title");
-            String description = req.getParameter("description");
-            Project theProject = new Project(projectId, title, description);//create project object
-            projectInterface.update(theProject);
-            listProjects(req, resp);
-            logger.info("Project with id " + projectId + " update");
-        } catch (SQLException | ServletException | IOException ex) {
-            logger.log(Level.SEVERE, "Error message", ex);
-        }
+        int projectId = Integer.parseInt(req.getParameter("projectId"));
+        String title = req.getParameter("title");
+        String description = req.getParameter("description");
+        Project theProject = new Project(projectId, title, description);
+        projectInterface.update(theProject);
+        listProjects(req, resp);
+        logger.info("Project with id " + projectId + " update");
     }
 
     /**
@@ -245,17 +235,12 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void addProject(HttpServletRequest req, HttpServletResponse resp) {
-        try {
-            String title = req.getParameter("title");//get project data from form
-            String description = req.getParameter("description");
-            Project theProject = new Project(title, description);
-            projectInterface.add(theProject);//add project
-            listProjects(req, resp);
-            logger.info("New project create");
-        } catch (SQLException | ServletException | IOException ex) {
-            logger.log(Level.SEVERE, "Error message", ex);
-        }
-
+    private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
+        String title = req.getParameter("title");
+        String description = req.getParameter("description");
+        Project theProject = new Project(title, description);
+        projectInterface.add(theProject);//add project
+        listProjects(req, resp);
+        logger.info("New project create");
     }
 }

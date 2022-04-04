@@ -44,7 +44,7 @@
                 </tbody>
             </table>
 
-            <r/><br/>
+            <br/><br/>
             <input type="submit" value="Сохранить" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
         </form>
     </div>

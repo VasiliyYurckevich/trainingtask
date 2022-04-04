@@ -89,7 +89,7 @@
     </div>
 </div>
 <script type='text/javascript'>
-    // Check empty fields and date validation
+
     function check(event) {
         const beginDt = document.getElementById("beginDate").value.replace('.','-');
         const endDt = document.getElementById("endDate").value.replace('.','-');
@@ -104,7 +104,7 @@
             alert("Наиминование не может состоять только из пробелов");
         }
     }
-    // Message if length of the field is more than maxLength symbols
+
     function checkLength(fieldName,maxLength) {
         const len = document.getElementById(fieldName).value.length;
 
