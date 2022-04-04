@@ -9,13 +9,13 @@ import java.util.List;
  * @param <T>   type of entity
  */
 public interface DAOInterface<T> {
-    boolean add(T t) throws SQLException;//add new object to table
+    boolean add(T t) throws SQLException;
 
-    boolean update(T t) throws SQLException;// update record in table
+    boolean update(T t) throws SQLException;
 
-    boolean delete(Integer t) throws SQLException;//delete record by id
+    boolean delete(Integer t) throws SQLException;
 
-    List<T> getAll() throws SQLException;// get all records from table
+    List<T> getAll() throws SQLException;
 
-    T getById(Integer id) throws SQLException;// get object by id
+    T getById(Integer id) throws SQLException;
 }

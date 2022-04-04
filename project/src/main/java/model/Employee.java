@@ -36,7 +36,7 @@ public class Employee {
         this.patronymic = htmlSpecialChars(patronymic);
         this.post = htmlSpecialChars(post);
     }
-    // Getters and setters
+
     public int getId() {
         return id;
     }
@@ -77,7 +77,6 @@ public class Employee {
         this.post = post;
     }
 
-    // Override methods
     @Override
     public String toString() {
         return "Employee [id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", patronymic=" + patronymic

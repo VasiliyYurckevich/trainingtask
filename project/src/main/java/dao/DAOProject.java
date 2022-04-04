@@ -17,11 +17,6 @@ import java.util.List;
  */
 public class DAOProject implements DAOInterface<Project>{
 
-    private Connection connection = null;//connection to database
-    private PreparedStatement preparedStatement = null;//statement to database
-    private ResultSet resultSet = null;//result of query
-    private boolean query;
-    //schema and table names
     private static String SCHEMA_NAME = "PUBLIC";
     private static String TABLE_NAME = "project";
     private static String PROJECT_ID = "project_Id";
@@ -47,17 +42,16 @@ public class DAOProject implements DAOInterface<Project>{
      */
     @Override
     public boolean add(Project project) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        Connection connection = DBConnection.getConnection();
         try {
-            preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
-            //set parameters
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
             preparedStatement.setString(1, project.getTitle());
             preparedStatement.setString(2, project.getDescription());
-            query = preparedStatement.execute();//execute query
+            boolean query = preparedStatement.execute();
 
             return query;
         }finally {
-            DBConnection.closeConnection();//close connection
+            DBConnection.closeConnection();
 
         }
     }
@@ -71,18 +65,17 @@ public class DAOProject implements DAOInterface<Project>{
      */
     @Override
     public boolean update(Project project) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        Connection connection = DBConnection.getConnection();
         try {
-            preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
-            //set parameters
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
             preparedStatement.setString(1, project.getTitle());
             preparedStatement.setString(2, project.getDescription());
             preparedStatement.setInt(3, project.getId());
-            query = preparedStatement.execute();//execute query
+            boolean query = preparedStatement.execute();
 
             return query;
         }finally {
-            DBConnection.closeConnection();//close connection
+            DBConnection.closeConnection();
         }
     }
     /**
@@ -94,11 +87,11 @@ public class DAOProject implements DAOInterface<Project>{
      */
     @Override
     public boolean delete(Integer id) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        Connection connection = DBConnection.getConnection();
         try {
-            preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
-            preparedStatement.setInt(1, id); //set parameters to query
-            query = preparedStatement.execute();//execute query
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
+            preparedStatement.setInt(1, id);
+            boolean query = preparedStatement.execute();
             return query;
         }finally {
             DBConnection.closeConnection();
@@ -113,14 +106,12 @@ public class DAOProject implements DAOInterface<Project>{
      */
     @Override
     public List getAll() throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
-
+        Connection connection = DBConnection.getConnection();
         try {
-            List<Project> projects = new ArrayList<>();//create list of projects
-            resultSet = connection.createStatement().executeQuery(SELECT_ALL_PROJECTS);
+            List<Project> projects = new ArrayList<>();
+            ResultSet resultSet = connection.createStatement().executeQuery(SELECT_ALL_PROJECTS);
             while (resultSet.next()) {
-                Project project = new Project();//create new project
-                //set parameters
+                Project project = new Project();
                 project.setId(resultSet.getInt(PROJECT_ID));
                 project.setTitle(resultSet.getString(TITLE));
                 project.setDescription(resultSet.getString(DESCRIPTION));
@@ -128,7 +119,7 @@ public class DAOProject implements DAOInterface<Project>{
             }
             return projects;
         }finally {
-            DBConnection.closeConnection();//close connection
+            DBConnection.closeConnection();
         }
     }
 
@@ -141,22 +132,21 @@ public class DAOProject implements DAOInterface<Project>{
      */
     @Override
     public Project getById(Integer id) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        Connection connection = DBConnection.getConnection();
 
         try {
-            preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
-            preparedStatement.setInt(1, id);//set parameters to query
-            resultSet = preparedStatement.executeQuery();//execute query
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();
             while (resultSet.next()) {
-                //set parameters
                 project.setId(id);
                 project.setTitle(resultSet.getString(TITLE));
                 project.setDescription(resultSet.getString(DESCRIPTION));
             }
             return project;
         }finally {
-            DBConnection.closeConnection(); //close connection
+            DBConnection.closeConnection();
         }
     }
 }

@@ -19,13 +19,8 @@ import java.util.List;
  */
 public class DAOEmployee implements DAOInterface<Employee> {
 
-    private Connection connection = null;//Connection to database
-    private PreparedStatement preparedStatement = null;//Prepared statement for database
-    private ResultSet resultSet = null;//Result set for database
-    private boolean query;//Query result
-
-    private static String SCHEMA_NAME = "PUBLIC"; //Schema name
-    private static String TABLE_NAME = "EMPLOYEE";//Table name
+    private static String SCHEMA_NAME = "PUBLIC";
+    private static String TABLE_NAME = "EMPLOYEE";
     //Columns names
     private static String EMPLOYEE_ID = "employee_id";
     private static String SURNAME = "surname";
@@ -52,16 +47,15 @@ public class DAOEmployee implements DAOInterface<Employee> {
      */
     @Override
     public boolean add(Employee employee) throws SQLException {
-        connection = DBConnection.getConnection();
+        Connection connection = DBConnection.getConnection();
         try {
-            preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL);
-            //Set parameters
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL);
             preparedStatement.setString(1, employee.getSurname());
             preparedStatement.setString(2, employee.getFirstName());
             preparedStatement.setString(3, employee.getPatronymic());
             preparedStatement.setString(4, employee.getPost());
 
-            query = preparedStatement.execute();//Execute query
+            boolean query = preparedStatement.execute();
 
             return query;
         }
@@ -78,20 +72,19 @@ public class DAOEmployee implements DAOInterface<Employee> {
      */
     @Override
     public boolean update(Employee employee) throws SQLException {
-        connection = DBConnection.getConnection();//Get connection
+        Connection connection = DBConnection.getConnection();
         try {
-            preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL);
-            //Set parameters
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL);
             preparedStatement.setString(1, employee.getSurname());
             preparedStatement.setString(2, employee.getFirstName());
             preparedStatement.setString(3, employee.getPatronymic());
             preparedStatement.setString(4, employee.getPost());
             preparedStatement.setInt(5, employee.getId());
-            query = preparedStatement.execute();//Execute query
+            boolean query = preparedStatement.execute();
 
             return query;
         }finally {
-            DBConnection.closeConnection();//Close connection
+            DBConnection.closeConnection();
         }
     }
 
@@ -106,11 +99,11 @@ public class DAOEmployee implements DAOInterface<Employee> {
     @Override
     public boolean delete(Integer id) throws SQLException {
 
-        connection = DBConnection.getConnection();//Get connection
+        Connection connection = DBConnection.getConnection();
         try {
-            preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
-            preparedStatement.setInt(1, id);//Set parameter
-            query = preparedStatement.execute();//Execute query
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
+            preparedStatement.setInt(1, id);
+            boolean query = preparedStatement.execute();
 
             return query;
         }finally {
@@ -127,11 +120,11 @@ public class DAOEmployee implements DAOInterface<Employee> {
     @Override
     public List<Employee> getAll() throws SQLException {
 
-        connection = DBConnection.getConnection();//Get connection
+        Connection connection = DBConnection.getConnection();//Get connection
 
         try {
             List<Employee> employees = new ArrayList<>();//Create list of employees
-            resultSet = connection.createStatement().executeQuery(SELECT_ALL_CLIENT);
+            ResultSet resultSet = connection.createStatement().executeQuery(SELECT_ALL_CLIENT);
             //Get all employees from database to list
             while (resultSet.next()) {
                 Employee employee = new Employee();
@@ -157,12 +150,12 @@ public class DAOEmployee implements DAOInterface<Employee> {
      */
     @Override
     public Employee getById(Integer  id) throws SQLException {
-        connection = DBConnection.getConnection();//Get connection
+        Connection connection = DBConnection.getConnection();//Get connection
 
         try {
-            preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
             preparedStatement.setInt(1, id);//Set parameter
-            resultSet = preparedStatement.executeQuery();//Execute query
+            ResultSet resultSet = preparedStatement.executeQuery();//Execute query
             Employee employee = new Employee();//Create employee object
             //Get employee from database by id
             while (resultSet.next()) {
