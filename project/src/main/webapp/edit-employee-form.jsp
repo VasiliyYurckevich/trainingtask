@@ -35,22 +35,22 @@
                 <tbody>
                 <tr>
                     <td><label>Фамилия:</label></td>
-                    <td><input required="required"  type="text" maxlength="50" onkeydown="checkLength('surname',50)" name="surname" id="surname"
+                    <td><input required="required"  type="text" maxlength="50" oninput="checkLength('surname',50)" name="surname" id="surname"
                                value="${surname}"></td>
                 </tr>
                 <tr>
                     <td><label>Имя:</label></td>
-                    <td><input type="text" required="required"  maxlength="50" onkeydown="checkLength('firstName',50)" name="firstName" id="firstName"
+                    <td><input type="text" required="required"  maxlength="50" oninput="checkLength('firstName',50)" name="firstName" id="firstName"
                                value="${firstName}"></td>
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
-                    <td><input type="text"  required="required" maxlength="50"  name="patronymic" id="patronymic" onkeydown="checkLength('patronymic',50)"
+                    <td><input type="text"  required="required" maxlength="50"  name="patronymic" id="patronymic" oninput="checkLength('patronymic',50)"
                                value="${lastName}"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
-                    <td><input type="text" required="required" maxlength="50"  name="post" id="post" onkeydown="checkLength('post',50)"
+                    <td><input type="text" required="required" maxlength="50"  name="post" id="post" oninput="checkLength('post',50)"
                                value="${post}"></td>
                 </tr>
                 </tbody>

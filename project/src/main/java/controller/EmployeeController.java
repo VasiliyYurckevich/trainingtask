@@ -1,8 +1,8 @@
 package controller;
 
 
-import DAO.DAOEmployee;
-import DAO.DAOInterface;
+import dao.DAOEmployee;
+import dao.DAOInterface;
 import model.Employee;
 
 import javax.servlet.RequestDispatcher;

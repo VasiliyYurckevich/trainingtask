@@ -1,7 +1,7 @@
-package DAO;
+package dao;
 
 
-import com.qulix.yurkevichvv.trainingtask.Connection.DBConnection;
+import connection.DBConnection;
 import model.Employee;
 
 import java.sql.Connection;

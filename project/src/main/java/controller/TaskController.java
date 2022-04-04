@@ -1,12 +1,13 @@
 package controller;
 
-import DAO.DAOEmployee;
-import DAO.DAOInterface;
-import DAO.DAOProject;
-import DAO.DAOTask;
+import dao.DAOEmployee;
+import dao.DAOInterface;
+import dao.DAOProject;
+import dao.DAOTask;
 import model.Employee;
 import model.Project;
 import model.Task;
+import utilits.Util;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -151,20 +152,20 @@ public class TaskController extends HttpServlet {
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         try{
-            int taskId = Integer.parseInt(req.getParameter("taskId"));// get task data
+            int taskId = Integer.parseInt(req.getParameter("taskId"));
             String flag = req.getParameter("status");
             String title = req.getParameter("title");
-            long workTime = Long.parseLong((req.getParameter("workTime")));
-            LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
-            LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
+            long workTime = Long.parseLong(req.getParameter("workTime"));
+            LocalDate beginDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("beginDate")));
+            LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
             Integer projectId = null;
             Integer employeeId = null;
             try {
-                projectId = Integer.parseInt(req.getParameter("projectId")); // get project id if it is not null
-                employeeId = Integer.parseInt(req.getParameter("employeeId"));// get employee id if it is not null
+                projectId = Integer.parseInt(req.getParameter("projectId"));
+                employeeId = Integer.parseInt(req.getParameter("employeeId"));
             }catch (NumberFormatException e){
             }
-            Task task = new Task( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);// create task
+            Task task = new Task( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
             tasksInterface.update(task);// update task in database
             listTasks(req,resp);
             logger.info("Update task with id: " + taskId);
@@ -219,20 +220,20 @@ public class TaskController extends HttpServlet {
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
        try {
-            String flag = req.getParameter("status");// get task data
+            String flag = req.getParameter("status");
             String title = req.getParameter("title");
-            long workTime = Long.parseLong((req.getParameter("workTime")));
-            LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
-            LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
+            long workTime = Long.parseLong(req.getParameter("workTime"));
+            LocalDate beginDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("beginDate")));
+            LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
             Integer projectId = null;
             Integer employeeId = null;
             try {
                 projectId = Integer.parseInt(req.getParameter("projectId"));
-                employeeId = Integer.parseInt(req.getParameter("employeeId"));// get employee id if it is not null
+                employeeId = Integer.parseInt(req.getParameter("employeeId"));
             }catch (NumberFormatException e){
             }
-            Task task = new Task( flag, title, workTime, beginDate, endDate, projectId,  employeeId);// create task
-            tasksInterface.add(task);// add task to database
+            Task task = new Task( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+            tasksInterface.add(task);
             listTasks(req,resp);
             logger.info("New task created");
 

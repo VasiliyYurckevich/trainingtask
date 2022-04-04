@@ -1,5 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -42,22 +45,22 @@
                 </tr>
                 <tr>
                     <td><label>Наименование:</label></td>
-                    <td><input type="text" maxlength="50" required="required" id="title" name="title" onkeydown="checkLength('title',50)" value="${title}"></td>
+                    <td><input type="text" maxlength="50" required="required" id="title" name="title" oninput="checkLength('title',50)" value="${title}"></td>
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>
-                    <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Введите число в дапазоне от 0 до 999 999 999 999 999 999')" oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
+                    <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Ваше число выходит за рамки диапазона!Введите число в дапазоне от 0 до 999 999 999 999 999 999')"  max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
                                value="${workTime}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата начала:</label></td>
-                    <td><input type="date" min="0001-01-01" max="9999-12-31" name="beginDate" id="beginDate"
-                               value="${beginDate}"></td>
+                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="beginDate" name="beginDate"
+                               value="${fn:replace(beginDate,"-",".")}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата окончания:</label></td>
-                    <td><input type="date"  min="0001-01-01" max="9999-12-31" name="endDate" id="endDate"
-                               value="${endDate}"></td>
+                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="endDate" name="endDate"
+                               value="${fn:replace(beginDate,"-",".")}"></td>
                 </tr>
 
                 <tr>
@@ -88,8 +91,8 @@
 <script type='text/javascript'>
     // Check empty fields and date validation
     function check(event) {
-        const beginDt = document.getElementById("beginDate").value;
-        const endDt = document.getElementById("endDate").value;
+        const beginDt = document.getElementById("beginDate").value.replace('.','-');
+        const endDt = document.getElementById("endDate").value.replace('.','-');
         const title = document.getElementById("title").value;
 
         if( (new Date(endDt).getTime() < new Date(beginDt).getTime()))

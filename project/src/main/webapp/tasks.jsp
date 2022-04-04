@@ -1,5 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
+<%@ page import="utilits.Util.*" %>
+<%@ page import="java.lang.String" %>
+
 
 <html lang="ru">
 <!DOCTYPE html>
@@ -56,8 +60,8 @@
                         <td> ${tempTask.status}</td>
                         <td> ${tempTask.title} </td>
                         <td> ${tempTask.workTime} </td>
-                        <td> ${tempTask.beginDate}</td>
-                        <td> ${tempTask.endDate} </td>
+                        <td> ${fn:replace(tempTask.beginDate,"-",".")}</td>
+                        <td> ${fn:replace(tempTask.endDate,"-",".")}</td>
                         <td> ${PROJ_LIST.get(theCount.index).title}</td>
                         <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).patronymic}</td>
                         <td>

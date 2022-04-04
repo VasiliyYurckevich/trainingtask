@@ -41,19 +41,19 @@
           </td>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required ="required" maxlength="50" onkeydown="checkLength('title',50)" type="text" id="title" name="title"></td>
+          <td><input required ="required" maxlength="50" oninput="checkLength('title',50)"  type="text" id="title" name="title"></td>
         </tr>
         <tr>
           <td><label>Работа:</label></td>
-              <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Введите число в дапазоне от 0 до 999 999 999 999 999 999')" oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+              <td><input required ="required" type="number"  max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
         </tr>
         <tr>
-          <td><label>Начало работы:</label></td>
-          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="beginDate" name="beginDate"> </td>
+          <td><label>Начало работ (ГГГГ.ММ.ДД):</label></td>
+          <td><input required ="required" type="text" pattern="^[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')"  id="beginDate" name="beginDate"> </td>
         </tr>
         <tr>
-          <td><label>Конец работы:</label></td>
-          <td><input required ="required" min="0001-01-01" max="9999-12-31" type="date" id="endDate" name="endDate" ></td>
+          <td><label>Конец работы (ГГГГ.ММ.ДД):</label></td>
+          <td><input required ="required" type="text" pattern="^[[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="endDate" name="endDate" ></td>
         </tr>
         <tr>
           <td><label>Проект:</label></td>
@@ -85,11 +85,11 @@
 </div>
 <script type='text/javascript'>
   function check(event) {
-    const beginDt = document.getElementById("beginDate").value;
-    const endDt = document.getElementById("endDate").value;
+    const beginDt = document.getElementById("beginDate").value.replace('.','-');
+    const endDt = document.getElementById("endDate").value.replace('.','-');
     const title = document.getElementById("title").value;
 
-
+    alert(beginDt+","+ endDt)
     if( (new Date(endDt).getTime() < new Date(beginDt).getTime()))
     {
       event.preventDefault();

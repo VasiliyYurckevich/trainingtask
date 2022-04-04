@@ -1,6 +1,6 @@
 package model;
 
-import util.Util;
+import utilits.Util;
 
 import java.time.LocalDate;
 

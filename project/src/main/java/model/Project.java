@@ -1,6 +1,6 @@
 package model;
 
-import static util.Util.htmlSpecialChars;
+import static utilits.Util.htmlSpecialChars;
 
 /**
  * Class Project represents project.

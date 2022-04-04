@@ -1,15 +1,11 @@
-# trainingtask
+#Приложение для управления задач
 
-Инструкция по сборке:
 
-    Скачать проект;
-    Выполнить команду:./gradlew build;
-    Выполнить команду:./gradlew startDatabase;
-    Выполнить create.sql скрипт в СУБД:
-        1)Запустить hsqldb.jar находящийся  в папаке src/main/webapp/lib/hsqldb-2.6.1.jar
-        2) В появившемся окне ввести данные (URL : jdbc:hsqldb:hsql://localhost/mydb, User : SA) из  settings.gradle и нажать OK
-        3) File -> Open Script-> выбрать скрипт create.sql
-        4) Нажать Execute script
-    Выполнить команду:./gradlew startServer;
-Инструкция по Запуску:
-    Перейти по ссылке появившейся в консоли сборки билда(http://localhost:8080/TrainingTask)
+##Инструкция по сборке:
+    1.Скачать проект;
+    2.Выполнить команду:./gradlew build;
+   
+##Инструкция по запуску:
+    1.Выполнить команду:./gradlew startDatabase;
+    2.Выполнить команду:./gradlew startServer;
+    3.Перейти по ссылке появившейся в консоли (http://localhost:8080/TrainingTask)

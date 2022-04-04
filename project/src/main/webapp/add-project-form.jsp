@@ -30,11 +30,11 @@
         <tbody>
         <tr>
           <td><label>Наименование:</label></td>
-          <td><input required ="required" maxlength="50" onkeydown="checkLength('title',50)" type="text" id="title" name="title"></td>
+          <td><input required ="required" maxlength="50" oninput="checkLength('title',50)" type="text" id="title" name="title"></td>
         </tr>
         <tr>
           <td><label>Описание:</label></td>
-          <td><input  required ="required" maxlength="250" onkeydown="checkLength('description',250)"  type="text" id="description"  name="description"></td>
+          <td><input  required ="required" maxlength="250" oninput="checkLength('description',250)"  type="text" id="description"  name="description"></td>
         </tr>
         </tbody>
       </table>

@@ -1,6 +1,6 @@
 package model;
 
-import static util.Util.htmlSpecialChars;
+import static utilits.Util.htmlSpecialChars;
 
 /**
  * Class Employee describes employee.

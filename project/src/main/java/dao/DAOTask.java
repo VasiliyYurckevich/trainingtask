@@ -1,6 +1,6 @@
-package DAO;
+package dao;
 
-import com.qulix.yurkevichvv.trainingtask.Connection.DBConnection;
+import connection.DBConnection;
 import model.Task;
 
 import java.sql.Connection;
@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class    DAOTask implements DAOInterface<Task>{
 
-    private Connection connection = null;//connection to database
-    private PreparedStatement preparedStatement = null;//statement for database
-    private ResultSet resultSet = null;//result set for database
-    private boolean query;//result of query
+    private Connection connection = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
+    private boolean query;
 
     //Schema and table names
     private static String SCHEMA_NAME = "PUBLIC";
@@ -54,7 +54,7 @@ public class    DAOTask implements DAOInterface<Task>{
      */
     @Override
     public boolean add(Task task) throws SQLException {
-        connection = DBConnection.getConnection(); //get connection to database
+        connection = DBConnection.getConnection();
 
         try {
             preparedStatement = connection.prepareStatement(INSERT_TASK_SQL);
@@ -65,20 +65,20 @@ public class    DAOTask implements DAOInterface<Task>{
             preparedStatement.setString(4, task.getBeginDate().toString());
             preparedStatement.setString(5, task.getEndDate().toString());
             if (task.getProjectId()==null){
-                preparedStatement.setNull(6,5);//if project_id is null, set it to null
+                preparedStatement.setNull(6,5);
             }else {
-                preparedStatement.setInt(6, task.getProjectId());//if project_id is not null, set it to value
+                preparedStatement.setInt(6, task.getProjectId());
             }
             if (task.getEmployeeId()==null){
-                preparedStatement.setNull(7,5);//if employee_id is null, set it to null
+                preparedStatement.setNull(7,5);
             }else {
-                preparedStatement.setInt(7, task.getEmployeeId());//if employee_id is not null, set it to value
+                preparedStatement.setInt(7, task.getEmployeeId());
             }
-            query = preparedStatement.execute();//execute query
+            query = preparedStatement.execute();
             return query;
             }
         finally {
-            DBConnection.closeConnection();//close connection to database
+            DBConnection.closeConnection();
         }
     }
 
@@ -91,7 +91,7 @@ public class    DAOTask implements DAOInterface<Task>{
      */
     @Override
     public boolean update(Task task) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        connection = DBConnection.getConnection();
         try {
             preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL);
             //set parameters for query
@@ -101,9 +101,9 @@ public class    DAOTask implements DAOInterface<Task>{
             preparedStatement.setString(4, task.getBeginDate().toString());
             preparedStatement.setString(5, task.getEndDate().toString());
             if (task.getProjectId()==null){
-                preparedStatement.setNull(6,5);//if project_id is null, set it to null
+                preparedStatement.setNull(6,5);
             }else {
-                preparedStatement.setInt(6, task.getProjectId());//if project_id is not null, set it to value
+                preparedStatement.setInt(6, task.getProjectId());
             }            if (task.getEmployeeId()==null){
                 preparedStatement.setNull(7,5);
             }else {
@@ -111,12 +111,12 @@ public class    DAOTask implements DAOInterface<Task>{
             }
             preparedStatement.setInt(8, task.getId());
 
-            query = preparedStatement.execute();//execute query
+            query = preparedStatement.execute();
 
             return query;
         }
         finally {
-            DBConnection.closeConnection();//close connection to database
+            DBConnection.closeConnection();
         }
     }
 
@@ -129,11 +129,11 @@ public class    DAOTask implements DAOInterface<Task>{
      */
     @Override
     public boolean delete(Integer id) throws SQLException {
-        connection = DBConnection.getConnection();//get connection to database
+        connection = DBConnection.getConnection();
 
         try {
             preparedStatement = connection.prepareStatement(DELETE_TASK_SQL);
-            preparedStatement.setInt(1, id);//set parameter for query
+            preparedStatement.setInt(1, id);
             query = preparedStatement.execute();//execute query
 
             return query;
