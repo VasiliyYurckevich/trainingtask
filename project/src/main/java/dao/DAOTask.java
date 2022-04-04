@@ -157,20 +157,7 @@ public class    DAOTask implements DAOInterface<Task>{
             preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT);
             preparedStatement.setString(1, String.valueOf(id));//set parameter for query
             resultSet = preparedStatement.executeQuery();//execute query
-            while (resultSet.next()) {
-                Task task = new Task();//create task
-                //set parameters for task
-                task.setId(resultSet.getInt(TASK_ID));
-                task.setStatus(resultSet.getString(STATUS));
-                task.setTitle(resultSet.getString(TITLE));
-                task.setProjectId(resultSet.getInt(PROJECT_ID));
-                task.setWorkTime(resultSet.getLong(WORK_TIME));
-                task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
-                task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
-                tasks.add(task);//add task to list
-            }
-            return tasks;
+            return getList(tasks);
         }finally {
             DBConnection.closeConnection();//close connection to database
         }
@@ -188,23 +175,27 @@ public class    DAOTask implements DAOInterface<Task>{
         try {
             List<Task> tasks = new ArrayList<Task>();//create list of tasks
             resultSet = connection.createStatement().executeQuery(SELECT_ALL_TASK);
-            while (resultSet.next()) {
-                Task task = new Task();//create task
-                //set parameters for task
-                task.setId(resultSet.getInt(TASK_ID));
-                task.setStatus(resultSet.getString(STATUS));
-                task.setTitle(resultSet.getString(TITLE));
-                task.setProjectId(resultSet.getInt(PROJECT_ID));
-                task.setWorkTime(resultSet.getLong(WORK_TIME));
-                task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
-                task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
-                tasks.add(task);//add task to list
-            }
-            return tasks;
+            return getList(tasks);
         }finally {
             DBConnection.closeConnection();//close connection to database
         }
+    }
+
+    private List getList(List<Task> tasks) throws SQLException {
+        while (resultSet.next()) {
+            Task task = new Task();
+            task.setId(resultSet.getInt(TASK_ID));
+            task.setStatus(resultSet.getString(STATUS));
+            task.setTitle(resultSet.getString(TITLE));
+            task.setProjectId(resultSet.getInt(PROJECT_ID));
+            task.setWorkTime(resultSet.getLong(WORK_TIME));
+            task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
+            task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
+            task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
+            tasks.add(task);
+
+        }
+        return tasks;
     }
 
     /**

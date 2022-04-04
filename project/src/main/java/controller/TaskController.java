@@ -153,19 +153,7 @@ public class TaskController extends HttpServlet {
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         try{
             int taskId = Integer.parseInt(req.getParameter("taskId"));
-            String flag = req.getParameter("status");
-            String title = req.getParameter("title");
-            long workTime = Long.parseLong(req.getParameter("workTime"));
-            LocalDate beginDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("beginDate")));
-            LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
-            Integer projectId = null;
-            Integer employeeId = null;
-            try {
-                projectId = Integer.parseInt(req.getParameter("projectId"));
-                employeeId = Integer.parseInt(req.getParameter("employeeId"));
-            }catch (NumberFormatException e){
-            }
-            Task task = new Task( taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+            Task task = getDataFromForm(req,taskId);
             tasksInterface.update(task);// update task in database
             listTasks(req,resp);
             logger.info("Update task with id: " + taskId);
@@ -220,20 +208,8 @@ public class TaskController extends HttpServlet {
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
        try {
-            String flag = req.getParameter("status");
-            String title = req.getParameter("title");
-            long workTime = Long.parseLong(req.getParameter("workTime"));
-            LocalDate beginDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("beginDate")));
-            LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
-            Integer projectId = null;
-            Integer employeeId = null;
-            try {
-                projectId = Integer.parseInt(req.getParameter("projectId"));
-                employeeId = Integer.parseInt(req.getParameter("employeeId"));
-            }catch (NumberFormatException e){
-            }
-            Task task = new Task( flag, title, workTime, beginDate, endDate, projectId,  employeeId);
-            tasksInterface.add(task);
+           Task task = getDataFromForm(req,null);
+           tasksInterface.add(task);
             listTasks(req,resp);
             logger.info("New task created");
 
@@ -264,5 +240,27 @@ public class TaskController extends HttpServlet {
         req.setAttribute("PROJ_LIST", projectsOfTask);// set project list to request
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
+    }
+
+    private Task getDataFromForm(HttpServletRequest req,Integer taskId){
+        String flag = req.getParameter("status");
+        String title = req.getParameter("title");
+        long workTime = Long.parseLong(req.getParameter("workTime"));
+        LocalDate beginDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("beginDate")));
+        LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
+        Integer projectId = null;
+        Integer employeeId = null;
+        try {
+            projectId = Integer.parseInt(req.getParameter("projectId"));
+            employeeId = Integer.parseInt(req.getParameter("employeeId"));
+        }catch (NumberFormatException e){
+        }
+        Task task ;
+        if (taskId == null){
+         task = new Task(flag, title, workTime, beginDate, endDate, projectId,  employeeId);}
+        else {
+             task = new Task(taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+          }
+        return task;
     }
 }
