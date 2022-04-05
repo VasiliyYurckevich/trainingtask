@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                     <td><label>Наименование:</label></td>
-                    <td><input type="text" maxlength="50" required="required" id="title" name="title" oninput="checkLength('title',50)" value="${title}"></td>
+                    <td><input type="text" maxlength="50" required="required" id="title" name="title" oninput="checkLength('title',50)" value="${fn:escapeXml(title)}"></td>
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>

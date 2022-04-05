@@ -14,8 +14,8 @@ public class Util {
      * @return string with replaced substring
      */
     public static String htmlSpecialChars(String s){
-        return s.replaceAll("&","&amp;").replaceAll("<","&lt;").
-                replaceAll(">","&gt;").replaceAll(  "\"", "&quot;");
+        return s.replaceAll("&amp;","&").replaceAll("&lt;","<").
+                replaceAll("&gt;",">").replaceAll(   "&quot;","\"");
     }
 
     public static String dataValidationFromForm(String s){

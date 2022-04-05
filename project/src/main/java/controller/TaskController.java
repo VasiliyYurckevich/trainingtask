@@ -59,10 +59,10 @@ public class TaskController extends HttpServlet {
             
             switch (action) {
                 case "/add":
-                    addTask(req, resp);// add task
+                    addTask(req, resp);
                     break;
                 case "/update":
-                    updateTask(req, resp);  // update task
+                    updateTask(req, resp);
                     break;
             }
         } catch (SQLException e) {
@@ -117,20 +117,20 @@ public class TaskController extends HttpServlet {
      * @throws IOException
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String theTaskId = req.getParameter("taskId");// get task id
-        Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));// get task by id
-        req.setAttribute("taskId",existingTask.getId());// set task data
+        String theTaskId = req.getParameter("taskId");
+        Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
+        req.setAttribute("taskId",existingTask.getId());
         req.setAttribute("flag", existingTask.getStatus());
-        req.setAttribute("title",existingTask.getTitle());
+        req.setAttribute("title",Util.htmlSpecialChars(existingTask.getTitle()));
         req.setAttribute("workTime", existingTask.getWorkTime());
         req.setAttribute("beginDate",existingTask.getBeginDate());
         req.setAttribute("endDate", existingTask.getEndDate());
         req.setAttribute("projectId",existingTask.getProjectId());
         req.setAttribute("employeeId", existingTask.getEmployeeId());
-        List<Employee> employees = new DAOEmployee().getAll();// get list of employees
-        List<Project> projects = new DAOProject().getAll();// get list of projects
+        List<Employee> employees = new DAOEmployee().getAll();
+        List<Project> projects = new DAOProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-form.jsp");
-        req.setAttribute("task", existingTask);// set task data
+        req.setAttribute("task", existingTask);
         req.setAttribute("EMPLOYEE_LIST", employees);
         req.setAttribute("PROJECT_LIST", projects);
         dispatcher.forward(req, resp);
@@ -148,7 +148,7 @@ public class TaskController extends HttpServlet {
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         int taskId = Integer.parseInt(req.getParameter("taskId"));
         Task task = getDataFromForm(req,taskId);
-        tasksInterface.update(task);// update task in database
+        tasksInterface.update(task);
         listTasks(req,resp);
         logger.info("Update task with id: " + taskId);
 
@@ -227,21 +227,27 @@ public class TaskController extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
-    private Task getDataFromForm(HttpServletRequest req,Integer taskId) throws NumberFormatException{
-        String flag = req.getParameter("status");
-        String title = req.getParameter("title");
+    private Task getDataFromForm(HttpServletRequest req,Integer taskId){
+        String status = req.getParameter("status");
+        String title = Util.htmlSpecialChars(req.getParameter("title"));
         long workTime = Long.parseLong(req.getParameter("workTime"));
         LocalDate beginDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("beginDate")));
         LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
-        Integer projectId = null;
+        Integer projectId = null ;
         Integer employeeId = null;
-        projectId = Integer.parseInt(req.getParameter("projectId"));
-        employeeId = Integer.parseInt(req.getParameter("employeeId"));
+        try {
+            projectId = Integer.parseInt(req.getParameter("projectId"));
+        }catch (NumberFormatException e){
+        }
+        try {
+            employeeId = Integer.parseInt(req.getParameter("employeeId"));
+        }catch (NumberFormatException e){
+        }
         Task task ;
         if (taskId == null){
-         task = new Task(flag, title, workTime, beginDate, endDate, projectId,  employeeId);}
+            task = new Task(status, title, workTime, beginDate, endDate, projectId,  employeeId);}
         else {
-             task = new Task(taskId,flag, title, workTime, beginDate, endDate, projectId,  employeeId);
+            task = new Task(taskId, status, title, workTime, beginDate, endDate, projectId,  employeeId);
           }
         return task;
     }

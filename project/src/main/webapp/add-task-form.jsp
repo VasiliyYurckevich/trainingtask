@@ -1,5 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -71,7 +73,7 @@
           <td> <select name="employee_id">
             <option value="null">  </option>
             <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-              <option value="${employees.id}">  ${employees.surname} ${employees.firstName} ${employees.patronymic}</option>
+              <option value="${employees.id}">  ${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>
             </c:forEach>
           </select>
         </td>
@@ -89,7 +91,6 @@
     const endDt = document.getElementById("endDate").value.replace('.','-');
     const title = document.getElementById("title").value;
 
-    alert(beginDt+","+ endDt)
     if( (new Date(endDt).getTime() < new Date(beginDt).getTime()))
     {
       event.preventDefault();

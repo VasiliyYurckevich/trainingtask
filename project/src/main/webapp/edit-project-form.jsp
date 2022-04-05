@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"  %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="utilits.Util.*" %>
 
 
 <!DOCTYPE html>
@@ -40,12 +40,12 @@
         <tr>
           <td><label>Наименование:</label></td>
           <td><input required="required"  type="text" maxlength="50" oninput="checkLength('title',50)"   name="title" id="title"
-                     value="${title}"></td>
+                     value="${fn:escapeXml(title)}"></td>
         </tr>
         <tr>
           <td><label>Описание:</label></td>
           <td><input type="text" required="required"  maxlength="250" name="description" id="description" oninput="checkLength('description',250)"
-                     value="${description}"></td>
+                     value="${fn:escapeXml(description)}"></td>
         </tr>
         </tbody>
       </table>
@@ -83,7 +83,7 @@
 
           <tr>
             <td> ${tempTask.status}</td>
-            <td> ${tempTask.title} </td>
+            <td> ${fn:escapeXml(tempTask.title)} </td>
             <td> ${tempTask.workTime} </td>
             <td> ${tempTask.beginDate}</td>
             <td> ${tempTask.endDate} </td>

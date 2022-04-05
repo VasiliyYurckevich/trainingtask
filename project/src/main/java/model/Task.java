@@ -1,6 +1,5 @@
 package model;
 
-import utilits.Util;
 
 import java.time.LocalDate;
 
@@ -27,7 +26,7 @@ public class Task {
 
     public Task(String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
         this.status = status;
-        this.title = Util.htmlSpecialChars(title);
+        this.title =title;
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;
@@ -38,7 +37,7 @@ public class Task {
     public Task(int taskId, String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
         this.taskId = taskId;
         this.status = status;
-        this.title = Util.htmlSpecialChars(title);
+        this.title =title;
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;

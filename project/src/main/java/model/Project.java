@@ -1,6 +1,6 @@
 package model;
 
-import static utilits.Util.htmlSpecialChars;
+
 
 /**
  * Class Project represents project.
@@ -18,14 +18,14 @@ public class Project {
     }
 
     public Project(String title, String description) {
-        this.title = htmlSpecialChars(title);
-        this.description = htmlSpecialChars(description);
+        this.title = title;
+        this.description = description;
     }
 
     public Project(int id, String title, String description) {
         this.id = id;
-        this.title = htmlSpecialChars(title);
-        this.description = htmlSpecialChars(description);
+        this.title = title;
+        this.description = description;
     }
     // Getters and setters
     public int getId() {

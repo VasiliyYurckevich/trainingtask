@@ -4,6 +4,7 @@ package controller;
 import dao.DAOEmployee;
 import dao.DAOInterface;
 import model.Employee;
+import utilits.Util;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -116,10 +117,10 @@ public class EmployeeController extends HttpServlet {
         Integer employeeId = Integer.valueOf(req.getParameter("employeeId"));
         Employee existingEmployee= employeeInterface.getById(employeeId);
         req.setAttribute("employeeId",employeeId);
-        req.setAttribute("surname", existingEmployee.getSurname());
-        req.setAttribute("firstName", existingEmployee.getFirstName());
-        req.setAttribute("patronymic", existingEmployee.getPatronymic());
-        req.setAttribute("post", existingEmployee.getPost());
+        req.setAttribute("surname", Util.htmlSpecialChars(existingEmployee.getSurname()));
+        req.setAttribute("firstName", Util.htmlSpecialChars(existingEmployee.getFirstName()));
+        req.setAttribute("patronymic", Util.htmlSpecialChars(existingEmployee.getPatronymic()));
+        req.setAttribute("post", Util.htmlSpecialChars(existingEmployee.getPost()));
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-employee-form.jsp");
         existingEmployee.setId(employeeId);
         req.setAttribute("employee", existingEmployee);

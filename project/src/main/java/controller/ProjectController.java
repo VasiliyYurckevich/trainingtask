@@ -8,6 +8,7 @@ import dao.DAOTask;
 import model.Employee;
 import model.Project;
 import model.Task;
+import utilits.Util;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -129,8 +130,8 @@ public class ProjectController extends HttpServlet {
         Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
         Project existingProject = projectInterface.getById(theProjectId);
         req.setAttribute("projectId", existingProject.getId());
-        req.setAttribute("title", existingProject.getTitle());
-        req.setAttribute("description", existingProject.getDescription());
+        req.setAttribute("title", Util.htmlSpecialChars(existingProject.getTitle()));
+        req.setAttribute("description", Util.htmlSpecialChars(existingProject.getDescription()));
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
         existingProject.setId(theProjectId);
         List<Task> projectTasks = new DAOTask().getTaskInProject(existingProject.getId());
@@ -239,7 +240,7 @@ public class ProjectController extends HttpServlet {
         String title = req.getParameter("title");
         String description = req.getParameter("description");
         Project theProject = new Project(title, description);
-        projectInterface.add(theProject);//add project
+        projectInterface.add(theProject);
         listProjects(req, resp);
         logger.info("New project create");
     }

@@ -1,8 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page contentType="text/html;charset=utf-8" %>
-<%@ page import="utilits.Util.*" %>
-<%@ page import="java.lang.String" %>
+<%@ page contentType="text/html;charset=utf-8" language="java" import="utilits.Util.*" %>
 
 
 <html lang="ru">
@@ -45,7 +43,7 @@
 
                 </tr>
 
-                <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
+                <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount" >
 
                     <c:url var="editLink" value="/task">
                         <c:param name="action" value="/edit"/>
@@ -58,12 +56,12 @@
 
                     <tr>
                         <td> ${tempTask.status}</td>
-                        <td> ${tempTask.title} </td>
+                        <td> ${fn:escapeXml(tempTask.title)} </td>
                         <td> ${tempTask.workTime} </td>
                         <td> ${fn:replace(tempTask.beginDate,"-",".")}</td>
                         <td> ${fn:replace(tempTask.endDate,"-",".")}</td>
-                        <td> ${PROJ_LIST.get(theCount.index).title}</td>
-                        <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).patronymic}</td>
+                        <td> ${fn:escapeXml(PROJ_LIST.get(theCount.index).title)}</td>
+                        <td>${fn:escapeXml(EMP_LIST.get(theCount.index).surname)} ${fn:escapeXml(MP_LIST.get(theCount.index).firstName)} ${fn:escapeXml(EMP_LIST.get(theCount.index).patronymic)}</td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
 

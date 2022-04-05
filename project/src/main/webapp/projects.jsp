@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page contentType="text/html;charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page contentType="text/html;charset=utf-8" language="java" %>
 
 <html lang="ru">
 <!DOCTYPE html>
@@ -46,8 +47,8 @@
                     </c:url>
 
                     <tr>
-                        <td> ${tempProject.title}</td>
-                        <td> ${tempProject.description} </td>
+                        <td> ${fn:escapeXml(tempProject.title)}</td>
+                        <td> ${fn:escapeXml(tempProject.description)} </td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
                             <a style="padding-left: 15px" href="${deleteLink}"

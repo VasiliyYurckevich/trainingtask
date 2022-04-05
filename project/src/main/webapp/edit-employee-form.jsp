@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -36,22 +36,22 @@
                 <tr>
                     <td><label>Фамилия:</label></td>
                     <td><input required="required"  type="text" maxlength="50" oninput="checkLength('surname',50)" name="surname" id="surname"
-                               value="${surname}"></td>
+                               value="${fn:escapeXml(surname)}"></td>
                 </tr>
                 <tr>
                     <td><label>Имя:</label></td>
                     <td><input type="text" required="required"  maxlength="50" oninput="checkLength('firstName',50)" name="firstName" id="firstName"
-                               value="${firstName}"></td>
+                               value="${fn:escapeXml(firstName)}"></td>
                 </tr>
                 <tr>
                     <td><label>Отчество:</label></td>
                     <td><input type="text"  required="required" maxlength="50"  name="patronymic" id="patronymic" oninput="checkLength('patronymic',50)"
-                               value="${patronymic}"></td>
+                               value="${fn:escapeXml(patronymic)}"></td>
                 </tr>
                 <tr>
                     <td><label>Должность:</label></td>
                     <td><input type="text" required="required" maxlength="50"  name="post" id="post" oninput="checkLength('post',50)"
-                               value="${post}"></td>
+                               value="${fn:escapeXml(post)}"></td>
                 </tr>
                 </tbody>
                 <br/><br/>
