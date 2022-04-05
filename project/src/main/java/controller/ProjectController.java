@@ -34,7 +34,7 @@ public class ProjectController extends HttpServlet {
     private static final long serialVersionUID = 1424266234L;
     private DAOInterface<Project> projectInterface;
 
-    public static final Logger logger = Logger.getLogger(ProjectController.class.getName());//logger
+    public static final Logger logger = Logger.getLogger(ProjectController.class.getName());
 
 
     /**
@@ -89,7 +89,7 @@ public class ProjectController extends HttpServlet {
         resp.setContentType("text/html;charset=utf-8");
 
         try {
-            String action = req.getParameter("action");
+            String action =      req.getParameter("action");
 
             if (action == null) {
                 action = "/list";
