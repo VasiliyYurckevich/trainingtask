@@ -1,6 +1,18 @@
 package controller;
 
 
+import java.io.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import dao.DAOEmployee;
 import dao.DAOInterface;
 import dao.DAOProject;
@@ -10,40 +22,63 @@ import model.Project;
 import model.Task;
 import utilits.Util;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
- * Controller for project
+ * Controller for project.
  *
- * @author Yurkevichvv
+ *<p> {@link ProjectController} using for control Projects in application.</p>
+ *
+ * <h2>Usage</h2>
+ * <pre>
+ * {@code ProjectController pc = new ProjectController();}
+ * {@code pc.doGet(request, response);}
+ * {@code pc.doPost(request, response);}
+ * {@code pc.addProject(request, response);}
+ * {@code pc.updateProject(request, response);}
+ * {@code pc.deleteProject(request, response);}
+ * {@code pc.newProjectForm(request, response);}
+ * {@code pc.editProjectForm(request, response);}
+ * {@code pc.listProjects(request, response);}
+ * </pre>
+ *
+ * <h2>Synchronization</h2>
+ * <p>
+ * This class is not guaranteed to be thread-safe so it should be synchronized externally.
+ * </p>
+ *
+ * <h2>Known bugs</h2>
+ * {@link ProjectController} does not handle overflows.
+ *
+ * @author Q-YVV
  * @version 1.0
+ * @since 1.0
+ * @see Project
+ * @see DAOProject
+ * @see DAOInterface
+ * @see DAOEmployee
+ * @see DAOTask
+ * @see Employee
+ * @see Task
  */
 public class ProjectController extends HttpServlet {
 
 
     private static final long serialVersionUID = 1424266234L;
     private DAOInterface<Project> projectInterface;
-
-    public static final Logger logger = Logger.getLogger(ProjectController.class.getName());
+    /**
+     * Logger.
+     */
+    public static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
 
 
     /**
      * Initialize the Employee servlet.
      *
+     * @throws NullPointerException if the servlet cannot be initialized
      * @throws ServletException if an error occurs
+     *
      */
     @Override
-    public void init() throws ServletException,NullPointerException {
+    public void init() throws ServletException, NullPointerException {
         super.init();
         projectInterface = new DAOProject();
     }
@@ -55,6 +90,7 @@ public class ProjectController extends HttpServlet {
      * @param req  servlet request
      * @param resp servlet response
      */
+    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -72,8 +108,9 @@ public class ProjectController extends HttpServlet {
                     break;
 
             }
-        } catch (SQLException e) {
-            logger.warning(String.valueOf(e));
+        }
+        catch (SQLException e) {
+            LOGGER.warning(String.valueOf(e));
         }
 
     }
@@ -84,6 +121,7 @@ public class ProjectController extends HttpServlet {
      * @param req  servlet request
      * @param resp servlet response
      */
+    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
@@ -113,20 +151,23 @@ public class ProjectController extends HttpServlet {
                     addProjectForm(req, resp);
                     break;
             }
-        } catch (SQLException e) {
-            logger.warning(String.valueOf(e));
+        }
+        catch (SQLException e) {
+            LOGGER.warning(String.valueOf(e));
         }
     }
 
     /**
-     * Method for open update project form
+     * Method for open update project form.
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req   servlet request
+     * @param resp  servlet request
+     * @throws ServletException if an servlet-specific error occurs
+     * @throws IOException     if an I/O error occurs
      */
-    private void editProjectForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
+    private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
         Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
         Project existingProject = projectInterface.getById(theProjectId);
         req.setAttribute("projectId", existingProject.getId());
@@ -147,30 +188,36 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for delete project
+     * Method for delete project.
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  servlet request
+     * @param resp  servlet response
+     * @throws ServletException if an error occurs
+     * @throws IOException if an error occurs
+     * @throws SQLException if an error occurs
      */
-    private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
+    private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
         Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
         projectInterface.delete(theProjectId);
         listProjects(req, resp);
-        logger.info("Project with id " + theProjectId + " deleted");
+        LOGGER.info("Project with id " + theProjectId + " deleted");
 
     }
 
     /**
-     * Method for open add task form in this project
+     * Method for open add task form in this project.
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req  servlet request
+     * @param resp servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException iif an I/O error occurs
+     * @throws SQLException if an SQL error occurs
      */
-    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
+    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
         Integer thisProjectId = Integer.valueOf(req.getParameter("projectId"));
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
@@ -182,12 +229,12 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for open add project form
+     * Method for open add project form.
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if an error occurs
+     * @throws IOException if an error occurs
      */
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-project-form.jsp");
@@ -196,14 +243,16 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for open list of projects
+     * Method for open list of projects.
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if servlet error occurs
+     * @throws IOException if an error occurs
+     * @throws SQLException if an SQL error occurs
      */
-    private void listProjects(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    private void listProjects(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
         List<Project> projects = projectInterface.getAll();
         req.setAttribute("PROJECT_LIST", projects);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
@@ -211,30 +260,31 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for update project
+     * Method for update project.
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if on servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
      */
-    private void updateProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    private void updateProject(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
         int projectId = Integer.parseInt(req.getParameter("projectId"));
         String title = req.getParameter("title");
         String description = req.getParameter("description");
         Project theProject = new Project(projectId, title, description);
         projectInterface.update(theProject);
         listProjects(req, resp);
-        logger.info("Project with id " + projectId + " update");
+        LOGGER.info("Project with id " + projectId + " update");
     }
 
     /**
-     * Method for add project
+     * Method for add project.
      *
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if on servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
         String title = req.getParameter("title");
@@ -242,6 +292,6 @@ public class ProjectController extends HttpServlet {
         Project theProject = new Project(title, description);
         projectInterface.add(theProject);
         listProjects(req, resp);
-        logger.info("New project create");
+        LOGGER.info("New project create");
     }
 }

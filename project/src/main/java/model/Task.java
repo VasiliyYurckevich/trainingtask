@@ -6,11 +6,47 @@ import java.time.LocalDate;
 /**
  * Class Task represents a task.
  *
- * @author Yurkevichvv
+ * <h2>Task's fields:</h2>
+ * <ul>
+ *     <li>id</li>
+ *     <li>status</li>
+ *     <li>title</li>
+ *     <li>status</li>
+ *     <li>workTime</li>
+ *     <li>beginDate</li>
+ *     <li>endDate</li>
+ *     <li>projectId</li>
+ *     <li>employeeId</li>
+ * </ul>
+ * <h2>Task's methods:</h2>
+ * <ul>
+ *     <li>getId()</li>
+ *     <li>getStatus()</li>
+ *     <li>getTitle()</li>
+ *     <li>getWorkTime()</li>
+ *     <li>getBeginDate()</li>
+ *     <li>getEndDate()</li>
+ *     <li>getProjectId()</li>
+ *     <li>getEmployeeId()</li>
+ *     <li>setId(int id)</li>
+ *     <li>setStatus(String status)</li>
+ *     <li>setTitle(String title)</li>
+ *     <li>setWorkTime(int workTime)</li>
+ *     <li>setBeginDate(LocalDate beginDate)</li>
+ *     <li>setEndDate(LocalDate endDate)</li>
+ *     <li>setProjectId(int projectId)</li>
+ *     <li>setEmployeeId(int employeeId)</li>
+ *     <li>toString()</li>
+ * </ul>
+ *
+ *
+ * @author Q-YVV
  * @version 1.0
+ * @since 1.0
  */
+@SuppressWarnings ("checkstyle:JavadocVariable")
 public class Task {
-    // Fields
+
     protected int taskId;
     protected String status;
     protected String title;
@@ -20,13 +56,29 @@ public class Task {
     protected Integer projectId;
     protected Integer employeeId;
 
-    // Constructors
+    /**
+     * Constructor without parameters.
+
+     */
     public Task() {
     }
 
-    public Task(String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
+    /**
+     * Constructor with parameters.
+     *
+     * @param status task's status
+     * @param title task's title
+     * @param workTime task's work time
+     * @param beginDate task's begin date
+     * @param endDate task's end date
+     * @param projectId task's project id
+     * @param employeeId task's employee id
+     */
+
+    public Task(String status, String title, long workTime, LocalDate beginDate, LocalDate endDate,
+        Integer projectId, Integer employeeId) {
         this.status = status;
-        this.title =title;
+        this.title = title;
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;
@@ -34,17 +86,31 @@ public class Task {
         this.employeeId = employeeId;
     }
 
-    public Task(int taskId, String status, String title, long workTime, LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
+    /**
+     * Constructor with parameters.
+     *
+     * @param taskId task's id
+     * @param status task's status
+     * @param title task's title
+     * @param workTime task's work time
+     * @param beginDate task's begin date
+     * @param endDate task's end date
+     * @param projectId task's project id
+     * @param employeeId task's employee id
+     */
+    @SuppressWarnings ("checkstyle:ParameterNumber")
+    public Task(int taskId, String status, String title, long workTime,
+        LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
         this.taskId = taskId;
         this.status = status;
-        this.title =title;
+        this.title = title;
         this.workTime = workTime;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.projectId = projectId;
         this.employeeId = employeeId;
     }
-    //setters and getters
+
     public int getId() {
         return taskId;
     }
@@ -105,8 +171,8 @@ public class Task {
         return employeeId;
     }
 
-    public void setEmployeeId(Integer employee_id) {
-        this.employeeId = employee_id;
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
     // Method toString()
     @Override
@@ -121,5 +187,4 @@ public class Task {
                 ", project_id=" + projectId +
                 ", employee_id=" + employeeId;
     }
-
 }
