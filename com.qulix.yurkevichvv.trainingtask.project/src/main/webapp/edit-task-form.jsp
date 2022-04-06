@@ -49,18 +49,18 @@
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>
-                    <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Ваше число выходит за рамки диапазона!Введите число в дапазоне от 0 до 999 999 999 999 999 999')"  max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
+                    <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Ваше число выходит за рамки диапазона!Введите число в дапазоне от 0 до 999 999 999 999 999 999')" oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
                                value="${workTime}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата начала:</label></td>
-                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="beginDate" name="beginDate"
-                               value="${fn:replace(beginDate,"-",".")}"></td>
+                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="beginDate" name="beginDate"
+                               value="${beginDate}"></td>
                 </tr>
                 <tr>
                     <td><label>Дата окончания:</label></td>
-                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="endDate" name="endDate"
-                               value="${fn:replace(beginDate,"-",".")}"></td>
+                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="endDate" name="endDate"
+                               value="${beginDate}"></td>
                 </tr>
 
                 <tr>
@@ -109,7 +109,7 @@
         const len = document.getElementById(fieldName).value.length;
 
         if( len == maxLength){
-            alert("Превышена допустимая длина поля " + maxLength + " символов");
+            alert("Достигнута допустимая длина поля " + maxLength + " символов");
         }
     }
 </script>
