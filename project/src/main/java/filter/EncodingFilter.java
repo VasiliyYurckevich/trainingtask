@@ -40,10 +40,8 @@ public class EncodingFilter implements Filter {
      * @param resp response
      *
      */
-    public void doFilter(ServletRequest req,
-                         ServletResponse resp,
-                         FilterChain filterChain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain)
+        throws IOException, ServletException {
         req.setCharacterEncoding(encoding);
         filterChain.doFilter(req, resp);
     }
