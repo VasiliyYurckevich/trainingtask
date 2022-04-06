@@ -4,8 +4,6 @@
 /mydb.script
 /build
 /.gradle
-/gradlew
-/gradlew.bat
 /.idea
 /mydb.tmp
 /TrainingTask.iml
