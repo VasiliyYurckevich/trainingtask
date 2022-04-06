@@ -18,14 +18,6 @@ public class Util {
         return s.replaceAll("&amp;", "&").replaceAll("&lt;", "<").
                 replaceAll("&gt;", ">").replaceAll("&quot;", "\"");
     }
-    /**
-     * Replaces all occurrences of the dotes in the Date.
-     *
-     * @param s string to replace
-     * @return string with replaced substring
-     */
-    public static String dataValidationFromForm(String s) {
-        return s.replace(".", "-");
-    }
+
 }
 

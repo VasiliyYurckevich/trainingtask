@@ -291,8 +291,8 @@ public class TaskController extends HttpServlet {
         String status = req.getParameter("status");
         String title = Util.htmlSpecialChars(req.getParameter("title"));
         long workTime = Long.parseLong(req.getParameter("workTime"));
-        LocalDate beginDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("beginDate")));
-        LocalDate endDate = LocalDate.parse(Util.dataValidationFromForm(req.getParameter("endDate")));
+        LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
+        LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
         Integer projectId;
         Integer employeeId;
         try {

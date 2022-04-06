@@ -61,7 +61,7 @@
     const len = document.getElementById(fieldName).value.length;
 
     if( len == maxLength){
-      alert("Превышена допустимая длина поля " + maxLength + " символов");
+      alert("Достигнута допустимая длина поля " + maxLength-1 + " символов");
     }
   }
 </script>
