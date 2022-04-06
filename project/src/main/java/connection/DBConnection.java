@@ -32,7 +32,6 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class DBConnection {
-
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
     private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb;ifexists=true";
     private static final String USER = "sa";
