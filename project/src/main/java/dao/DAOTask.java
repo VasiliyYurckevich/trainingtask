@@ -1,8 +1,5 @@
 package dao;
 
-import connection.DBConnection;
-import model.Task;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,36 +8,67 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import connection.DBConnection;
+import model.Task;
 /**
- * Class for working with database table tasks
+ * Class for working with database table "task".
  *
- * @author Yurkevichvv
+ *<p> {@link DAOTask} using for write data about task in database.</p>
+ *
+ * <h2>Usage</h2>
+ * <pre>
+ * {@code DAOTask daoTask = new DAOTask();}
+ * {@code daoTask.add(task);}
+ * {@code daoTask.update(task);}
+ * {@code daoTask.delete(123);}
+ * {@code daoTask.getAll();}
+ * {@code daoTask.getById(123);}
+ * </pre>
+ *
+ * <h2>Synchronization</h2>
+ * <p>
+ * This class is not guaranteed to be thread-safe so it should be synchronized externally.
+ * </p>
+ *
+ * <h2>Known bugs</h2>
+ * {@link DAOTask} does not handle overflows.
+ *
+ *
+ * @author  Q-YVV
  * @version 1.0
+ * @since   1.0
+ * @see  DAOEmployee
+ * @see  DAOProject
+ * @see  DAOInterface
+ * @see  Project
+ * @see  DBConnection
  */
-public class DAOTask implements DAOInterface<Task>{
+@SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
+public class DAOTask implements DAOInterface<Task> {
 
-    private static String SCHEMA_NAME = "PUBLIC";
-    private static String TABLE_NAME = "task";
-    private static String TASK_ID = "id";
-    private static String STATUS = "status";
-    private static String TITLE = "title";
-    private static String PROJECT_ID = "project_id";
-    private static String WORK_TIME = "work_time";
-    private static String BEGIN_DATE = "begin_date";
-    private static String END_DATE = "end_date";
-    private static String EMPLOYEE_ID = "employee_id";
+    private static final  String TABLE_NAME = "task";
+    private static final  String TASK_ID = "id";
+    private static final  String STATUS = "status";
+    private static final  String TITLE = "title";
+    private static final  String PROJECT_ID = "project_id";
+    private static final  String WORK_TIME = "work_time";
+    private static final  String BEGIN_DATE = "begin_date";
+    private static final  String END_DATE = "end_date";
+    private static final  String EMPLOYEE_ID = "employee_id";
 
     //SQL queries
-    private final String INSERT_TASK_SQL = "INSERT INTO " + TABLE_NAME + " (status, title, work_time, begin_date,end_date, project_id, employee_id ) VALUES (?,?,?,?,?,?,?);";
-    private final String SELECT_ALL_TASK = "SELECT * FROM "+ TABLE_NAME + ";";
-    private final String SELECT_TASK_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
-    private final String SELECT_TASK_BY_PROJECT = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    private final String DELETE_TASK_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
-    private final String UPDATE_TASK_SQL = "UPDATE " + TABLE_NAME + " SET status = ?,  title = ?,  work_time = ?,begin_date = ?,  end_date = ?,project_id = ?,employee_id = ? WHERE " + TASK_ID + " = ?;";
+    private static final String INSERT_TASK_SQL = "INSERT INTO " + TABLE_NAME +
+        " (status, title, work_time, begin_date,end_date, project_id, employee_id ) VALUES (?,?,?,?,?,?,?);";
+    private static final String SELECT_ALL_TASK = "SELECT * FROM " + TABLE_NAME + ";";
+    private static final String SELECT_TASK_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
+    private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
+    private static final String DELETE_TASK_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + TASK_ID + " = ?;";
+    private static final String UPDATE_TASK_SQL = "UPDATE " + TABLE_NAME + " SET status = ?,  title = ?,  work_time = ?," +
+        " begin_date = ?,  end_date = ?, project_id = ?, employee_id = ? WHERE " + TASK_ID + " = ?;";
 
 
     /**
-     * Method for adding new task to database
+     * Method for adding new task to database.
      *
      * @param task - task for adding
      * @return  true if task added, false if not
@@ -51,17 +79,17 @@ public class DAOTask implements DAOInterface<Task>{
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL);
         try {
-            setDataInToStatement(task,preparedStatement);
+            setDataInToStatement(task, preparedStatement);
             boolean query = preparedStatement.execute();
             return query;
-            }
+        }
         finally {
             DBConnection.closeConnection();
         }
     }
 
     /**
-     * Method for updating task in database
+     * Method for updating task in database.
      *
      * @param task - task for updating
      * @return true if task updated, false if not
@@ -83,27 +111,29 @@ public class DAOTask implements DAOInterface<Task>{
         }
     }
 
-    private PreparedStatement setDataInToStatement(Task task,PreparedStatement preparedStatement) throws SQLException {
+    private PreparedStatement setDataInToStatement(Task task, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, task.getStatus());
         preparedStatement.setString(2, task.getTitle());
         preparedStatement.setLong(3, task.getWorkTime());
         preparedStatement.setString(4, task.getBeginDate().toString());
         preparedStatement.setString(5, task.getEndDate().toString());
-        if (task.getProjectId()==null){
-            preparedStatement.setNull(6,5);
-        }else {
+        if (task.getProjectId() == null) {
+            preparedStatement.setNull(6, 5);
+        }
+        else {
             preparedStatement.setInt(6, task.getProjectId());
         }
-        if (task.getEmployeeId()==null){
-            preparedStatement.setNull(7,5);
-        }else {
+        if (task.getEmployeeId() == null) {
+            preparedStatement.setNull(7, 5);
+        }
+        else {
             preparedStatement.setInt(7, task.getEmployeeId());
         }
         return preparedStatement;
     }
 
     /**
-     * Method for deleting task from database
+     * Method for deleting task from database.
      *
      * @param id - id of task for deleting
      * @return true if task deleted, false if not
@@ -117,13 +147,14 @@ public class DAOTask implements DAOInterface<Task>{
             preparedStatement.setInt(1, id);
             boolean query = preparedStatement.execute();
             return query;
-        }finally {
+        }
+        finally {
             DBConnection.closeConnection();
         }
     }
 
     /**
-     * Method for getting all tasks in project from database
+     * Method for getting all tasks in project from database.
      *
      * @param id - id of project
      * @return list of tasks
@@ -136,14 +167,15 @@ public class DAOTask implements DAOInterface<Task>{
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT);
             preparedStatement.setString(1, String.valueOf(id));
             ResultSet resultSet = preparedStatement.executeQuery();
-            return getList(tasks,resultSet);
-        }finally {
+            return getList(tasks, resultSet);
+        }
+        finally {
             DBConnection.closeConnection();
         }
     }
 
     /**
-     * Method for getting all tasks from database
+     * Method for getting all tasks from database.
      *
      * @return list of tasks
      * @throws SQLException - if something wrong with database
@@ -154,14 +186,19 @@ public class DAOTask implements DAOInterface<Task>{
         try {
             List<Task> tasks = new ArrayList<Task>();
             ResultSet resultSet = connection.createStatement().executeQuery(SELECT_ALL_TASK);
-            return getList(tasks,resultSet);
-
-        }finally {
+            return getList(tasks, resultSet);
+        }
+        finally {
             DBConnection.closeConnection();
         }
     }
-
-    private List getList(List<Task> tasks,ResultSet resultSet) throws SQLException {
+    /**
+     * Method for getting list of tasks from database.
+     *
+     * @return list of tasks
+     * @throws SQLException - if something wrong with database
+     */
+    private List getList(List<Task> tasks, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             Task task = new Task();
             task.setId(resultSet.getInt(TASK_ID));
@@ -179,11 +216,11 @@ public class DAOTask implements DAOInterface<Task>{
     }
 
     /**
-     * Method for getting task by id from database
+     * Method for getting task by id from database.
      *
      * @param id - id of task
      * @return task
-     * @throws SQLException- if something wrong with database
+     * @throws SQLException if something wrong with database
      */
     @Override
     public Task getById(Integer id) throws SQLException {
@@ -205,7 +242,8 @@ public class DAOTask implements DAOInterface<Task>{
                 task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
             }
             return task;
-        }finally {
+        }
+        finally {
             DBConnection.closeConnection();
         }
     }

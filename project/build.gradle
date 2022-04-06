@@ -58,7 +58,7 @@ apply from: 'startDatabase.gradle'
 apply plugin: 'checkstyle'
 checkstyle {
     toolVersion = '8.14'
-    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('project/src/main/resources/checkstyle/checkstyle.xml')
 }
 task Checkstyle(type: Checkstyle) {
     source 'src/main/java'

@@ -1,6 +1,5 @@
-package dao;
 
-import connection.DBConnection;import model.Project;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,32 +8,63 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class for working with database table projects
- *
- * @author Yurkevichvv
- * @version 1.0
- */
-public class DAOProject implements DAOInterface<Project>{
+import connection.DBConnection;
+import model.Project;
 
-    private static String SCHEMA_NAME = "PUBLIC";
-    private static String TABLE_NAME = "project";
-    private static String PROJECT_ID = "project_Id";
-    private static String TITLE = "title";
-    private static String DESCRIPTION = "description";
+/**
+ * Class for working with database table "project".
+ *
+ *<p> {@link DAOProject} using for write data about projects in database.</p>
+ *
+ * <h2>Usage</h2>
+ * <pre>
+ * {@code DAOProject daoProject = new DAOProject();}}
+ * {@code daoProject.add(project);}
+ * {@code daoProject.update(project);}
+ * {@code daoProject.delete(2);}
+ * {@code daoProject.getAll();}
+ * {@code daoProject.getById(11);}
+ * </pre>
+ *
+ * <h2>Synchronization</h2>
+ * <p>
+ * This class is not guaranteed to be thread-safe so it should be synchronized externally.
+ * </p>
+ *
+ * <h2>Known bugs</h2>
+ * {@link DAOProject} does not handle overflows.
+ *
+ *
+ * @author  Q-YVV
+ * @version 1.0
+ * @since   1.0
+ * @see  DAOTask
+ * @see  DAOProject
+ * @see  DAOInterface
+ * @see  Project
+ * @see  DBConnection
+ */
+@SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
+public class DAOProject implements DAOInterface<Project> {
+
+    private static final String TABLE_NAME = "project";
+    private static final String PROJECT_ID = "project_Id";
+    private static final String TITLE = "title";
+    private static final String DESCRIPTION = "description";
 
     //SQL queries
-    private final String INSERT_PROJECT_SQL = "INSERT INTO " + SCHEMA_NAME +"."+TABLE_NAME + " (title, description) VALUES (?,?);";
-    private final String SELECT_ALL_PROJECTS = "SELECT * FROM "+SCHEMA_NAME +"."+ TABLE_NAME + ";";
-    private final String SELECT_PROJECT_BY_ID = "SELECT * FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    private final String DELETE_PROJECT_SQL = "DELETE FROM " + SCHEMA_NAME +"."+TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    private final String UPDATE_PROJECT_SQL = "UPDATE " + SCHEMA_NAME +"."+TABLE_NAME + " SET title = ?,  description = ? WHERE " + PROJECT_ID + " = ?;";
+    private static final String INSERT_PROJECT_SQL = "INSERT INTO " + TABLE_NAME + " (title, description) VALUES (?,?);";
+    private static final String SELECT_ALL_PROJECTS = "SELECT * FROM " + TABLE_NAME + ";";
+    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
+    private static final String DELETE_PROJECT_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
+    private static final String UPDATE_PROJECT_SQL = "UPDATE " + TABLE_NAME +
+        " SET title = ?,  description = ? WHERE " + PROJECT_ID + " = ?;";
 
 
 
 
     /**
-     * Method to add new project to database
+     * Method to add new project to database.
      *
      * @param project - project to add
      * @return true if query is successful
@@ -50,14 +80,15 @@ public class DAOProject implements DAOInterface<Project>{
             boolean query = preparedStatement.execute();
 
             return query;
-        }finally {
+        }
+        finally {
             DBConnection.closeConnection();
 
         }
     }
 
     /**
-     * Method to update project in database
+     * Method to update project in database.
      *
      * @param project - project to update
      * @return true if query is successful
@@ -74,12 +105,13 @@ public class DAOProject implements DAOInterface<Project>{
             boolean query = preparedStatement.execute();
 
             return query;
-        }finally {
+        }
+        finally {
             DBConnection.closeConnection();
         }
     }
     /**
-     * Method to delete project from database
+     * Method to delete project from database.
      *
      * @param id - id of project to delete
      * @return true if query is successful
@@ -93,13 +125,14 @@ public class DAOProject implements DAOInterface<Project>{
             preparedStatement.setInt(1, id);
             boolean query = preparedStatement.execute();
             return query;
-        }finally {
+        }
+        finally {
             DBConnection.closeConnection();
 
         }
     }
     /**
-     * Method to get all projects from database
+     * Method to get all projects from database.
      *
      * @return list of projects
      * @throws SQLException - if query is not successful
@@ -118,13 +151,14 @@ public class DAOProject implements DAOInterface<Project>{
                 projects.add(project);
             }
             return projects;
-        }finally {
+        }
+        finally {
             DBConnection.closeConnection();
         }
     }
 
     /**
-     * Method to get project by id from database
+     * Method to get project by id from database.
      *
      * @param id - id of project to get
      * @return project
@@ -145,7 +179,8 @@ public class DAOProject implements DAOInterface<Project>{
                 project.setDescription(resultSet.getString(DESCRIPTION));
             }
             return project;
-        }finally {
+        }
+        finally {
             DBConnection.closeConnection();
         }
     }
