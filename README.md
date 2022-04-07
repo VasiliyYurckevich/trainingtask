@@ -7,4 +7,5 @@
 ##Инструкция по запуску:
     1.Выполнить команду:./gradlew startDatabase;
     2.Выполнить команду:./gradlew startServer;
-    3.Перейти по ссылке появившейся в консоли (http://localhost:8080/TrainingTask)
+    3.Перейти по ссылке появившейся в консоли (http://localhost:8080/com.qulix.yurkevichvv.trainingtask.project)
+)
