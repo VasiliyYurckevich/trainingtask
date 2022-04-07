@@ -53,13 +53,13 @@
                                value="${workTime}"></td>
                 </tr>
                 <tr>
-                    <td><label>Дата начала:</label></td>
-                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="beginDate" name="beginDate"
+                    <td><label>Дата начала(ГГГГ-ММ-ДД):</label></td>
+                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ-ММ-ДД')" id="beginDate" name="beginDate"
                                value="${beginDate}"></td>
                 </tr>
                 <tr>
-                    <td><label>Дата окончания:</label></td>
-                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="endDate" name="endDate"
+                    <td><label>Дата окончания(ГГГГ-ММ-ДД):</label></td>
+                    <td><input required ="required" type="text" pattern="^[[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ-ММ-ДД')" id="endDate" name="endDate"
                                value="${beginDate}"></td>
                 </tr>
 

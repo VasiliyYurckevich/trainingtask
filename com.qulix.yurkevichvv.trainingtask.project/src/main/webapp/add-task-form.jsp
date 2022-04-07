@@ -50,12 +50,12 @@
               <td><input required ="required" type="number"  max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
         </tr>
         <tr>
-          <td><label>Начало работ (ГГГГ.ММ.ДД):</label></td>
-          <td><input required ="required" type="text" pattern="^[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')"  id="beginDate" name="beginDate"> </td>
+          <td><label>Начало работ (ГГГГ-ММ-ДД):</label></td>
+          <td><input required ="required" type="text" pattern="^[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ-ММ-ДД')"  id="beginDate" name="beginDate"> </td>
         </tr>
         <tr>
-          <td><label>Конец работы (ГГГГ.ММ.ДД):</label></td>
-          <td><input required ="required" type="text" pattern="^[[0-9]{4}[.](?:(?:0[1-9]|1[0-2])[.](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ.ММ.ДД')" id="endDate" name="endDate" ></td>
+          <td><label>Конец работы (ГГГГ-ММ-ДД):</label></td>
+          <td><input required ="required" type="text" pattern="^[[0-9]{4}[-](?:(?:0[1-9]|1[0-2])[-](?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])[.](?:30))|(?:(?:0[13578]|1[02])[.]31))$"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ-ММ-ДД')" id="endDate" name="endDate" ></td>
         </tr>
         <tr>
           <td><label>Проект:</label></td>
