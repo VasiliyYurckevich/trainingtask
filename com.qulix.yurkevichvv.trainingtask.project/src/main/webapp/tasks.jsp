@@ -58,10 +58,10 @@
                         <td> ${tempTask.status}</td>
                         <td> ${fn:escapeXml(tempTask.title)} </td>
                         <td> ${tempTask.workTime} </td>
-                        <td> ${fn:replace(tempTask.beginDate,"-",".")}</td>
-                        <td> ${fn:replace(tempTask.endDate,"-",".")}</td>
+                        <td> ${tempTask.beginDate}</td>
+                        <td> ${tempTask.endDate}</td>
                         <td> ${fn:escapeXml(PROJ_LIST.get(theCount.index).title)}</td>
-                        <td>${fn:escapeXml(EMP_LIST.get(theCount.index).surname)} ${fn:escapeXml(MP_LIST.get(theCount.index).firstName)} ${fn:escapeXml(EMP_LIST.get(theCount.index).patronymic)}</td>
+                        <td>${fn:escapeXml(EMP_LIST.get(theCount.index).surname)} ${fn:escapeXml(EMP_LIST.get(theCount.index).firstName)} ${fn:escapeXml(EMP_LIST.get(theCount.index).patronymic)}</td>
                         <td>
                             <a href="${editLink}">Редактировать</a>
 
