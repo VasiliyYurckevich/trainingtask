@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspApplicationContext;
 
 import dao.DAOEmployee;
 import dao.DAOInterface;
@@ -191,7 +190,7 @@ public class ProjectController extends HttpServlet {
         String numberInList  = req.getParameter("numberInList");
         servletcontext.setAttribute("numberInList", numberInList);
         Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
-        servletcontext.setAttribute("thisProjectId", thisProjectId) ;
+        servletcontext.setAttribute("thisProjectId", thisProjectId);
         req.setAttribute("taskId", existingTask.getId());
         req.setAttribute("status", existingTask.getStatus());
         req.setAttribute("title", Util.htmlSpecialChars(existingTask.getTitle()));
@@ -242,7 +241,6 @@ public class ProjectController extends HttpServlet {
         if (employeeListInProject == null) {
             employeeListInProject = new ArrayList<>();
             for (Task t : tasksListInProject) {
-                System.out.println("ferwegrew" + t.getEmployeeId());
                 Employee employee = new DAOEmployee().getById(t.getEmployeeId());
                 employeeListInProject.add(employee);
             }

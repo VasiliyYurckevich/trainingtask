@@ -234,7 +234,6 @@ public class TaskController extends HttpServlet {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
-        System.out.println(employeeListInProject);
         Integer taskId;
         try {
             taskId = Integer.parseInt(req.getParameter("taskId"));
@@ -370,7 +369,6 @@ public class TaskController extends HttpServlet {
         else {
             task = new Task(taskId, status, title, workTime, beginDate, endDate, projectId,  employeeId);
         }
-        System.out.println(task);
         return task;
     }
 
