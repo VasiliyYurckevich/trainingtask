@@ -47,7 +47,7 @@ import java.time.LocalDate;
 @SuppressWarnings ("checkstyle:JavadocVariable")
 public class Task {
 
-    protected int taskId;
+    protected Integer taskId;
     protected String status;
     protected String title;
     protected long workTime;
@@ -99,7 +99,7 @@ public class Task {
      * @param employeeId task's employee id
      */
     @SuppressWarnings ("checkstyle:ParameterNumber")
-    public Task(int taskId, String status, String title, long workTime,
+    public Task(Integer taskId, String status, String title, long workTime,
         LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
         this.taskId = taskId;
         this.status = status;
@@ -111,11 +111,11 @@ public class Task {
         this.employeeId = employeeId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return taskId;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.taskId = id;
     }
 

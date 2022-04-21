@@ -61,10 +61,10 @@
         </tr>
         <tr>
           <td><label>Проект:</label></td>
-            <td> <select name="projectId" ${thisProjectId != null ? '  disabled="true"' : ''}>
-              <option value="null">  </option>
+            <td> <select name="projectId">
+              <option value="null" selected="selected">  </option>
               <c:forEach items="${PROJECT_LIST}" var="projects">
-                    <option value="${projects.id}" ${projects.id == thisProjectId ? 'selected="selected"' : ''} >${projects.title} </option>
+                    <option value="${projects.id}"  >${projects.title} </option>
                 </c:forEach>
             </select>
               <input type="hidden" name="projectId" value=${thisProjectId} />
@@ -72,7 +72,7 @@
         </tr>
         <tr>
           <td><label>Сотрудник:</label></td>
-          <td> <select name="employee_id">
+          <td> <select name="employeeId">
             <option value="null">  </option>
             <c:forEach items="${EMPLOYEE_LIST}" var="employees">
               <option value="${employees.id}">  ${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>

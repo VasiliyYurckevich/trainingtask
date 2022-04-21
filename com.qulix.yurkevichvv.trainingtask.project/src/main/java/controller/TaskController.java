@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +59,7 @@ import utilits.Util;
  * @see DAOProject
  * @see DAOEmployee
  */
+@SuppressWarnings("checkstyle:MultipleStringLiterals")
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 12345L;
     private DAOInterface<Task> tasksInterface;
@@ -89,7 +91,6 @@ public class TaskController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException    if an I/O error occurs
      */
-    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
@@ -104,12 +105,21 @@ public class TaskController extends HttpServlet {
                 case "/update":
                     updateTask(req, resp);
                     break;
+                case "/updateTaskInProject":
+                    updateTaskInProject(req, resp);
+                    break;
+                case "/newTaskInProject":
+                    newTaskInProject(req, resp);
+                    break;        
             }
         }
         catch (SQLException e) {
             LOGGER.warning(String.valueOf(e));
         }
     }
+
+ 
+
     /**
      * Processes requests for  HTTP GET methods.
      *
@@ -118,7 +128,6 @@ public class TaskController extends HttpServlet {
      * @throws ServletException  if a servlet-specific error occurs
      * @throws IOException   if an I/O error occurs
      */
-    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
 
@@ -151,6 +160,8 @@ public class TaskController extends HttpServlet {
 
     }
 
+
+
     /**
      * Method for open update task form.
      *
@@ -160,13 +171,12 @@ public class TaskController extends HttpServlet {
      * @throws IOException   if an I/O error occurs
      * @throws SQLException if a database access error occurs
      */
-    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         String theTaskId = req.getParameter("taskId");
         Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
         req.setAttribute("taskId", existingTask.getId());
-        req.setAttribute("flag", existingTask.getStatus());
+        req.setAttribute("status", existingTask.getStatus());
         req.setAttribute("title", Util.htmlSpecialChars(existingTask.getTitle()));
         req.setAttribute("workTime", existingTask.getWorkTime());
         req.setAttribute("beginDate", existingTask.getBeginDate());
@@ -176,9 +186,9 @@ public class TaskController extends HttpServlet {
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-form.jsp");
-        req.setAttribute("task", existingTask);
-        req.setAttribute("EMPLOYEE_LIST", employees);
-        req.setAttribute("PROJECT_LIST", projects);
+        req.getSession().setAttribute("task", existingTask);
+        req.getSession().setAttribute("EMPLOYEE_LIST", employees);
+        req.getSession().setAttribute("PROJECT_LIST", projects);
         dispatcher.forward(req, resp);
 
     }
@@ -198,7 +208,54 @@ public class TaskController extends HttpServlet {
         tasksInterface.update(task);
         listTasks(req, resp);
         LOGGER.info("Update task with id: " + taskId);
+    }
 
+    private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
+        ServletContext servletContext = getServletContext();
+        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
+        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
+        Task task = getDataFromForm(req, null);
+        tasksListInProject.add(task);
+        try {
+            employeeListInProject.add(new DAOEmployee().getById(task.getEmployeeId()));
+        }
+        catch (NullPointerException e) {
+            employeeListInProject.add(null);
+        }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
+        req.getSession().setAttribute("TASKS_LIST", tasksListInProject);
+        req.getSession().setAttribute("EMP_LIST", employeeListInProject);
+        dispatcher.forward(req, resp);
+    }
+
+    private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
+        ServletContext servletContext = getServletContext();
+        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
+        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
+        System.out.println(employeeListInProject);
+        Integer taskId;
+        try {
+            taskId = Integer.parseInt(req.getParameter("taskId"));
+        }
+        catch (NumberFormatException e) {
+            taskId = null;
+        }
+        String numberInList = (String) servletContext.getAttribute("numberInList");
+        Task task = getDataFromForm(req, taskId);
+        tasksListInProject.set(Integer.parseInt(numberInList), task);
+        try {
+            employeeListInProject.set(Integer.parseInt(numberInList), new DAOEmployee().getById(task.getEmployeeId()));
+        }
+        catch (NullPointerException e) {
+            employeeListInProject.set(Integer.parseInt(numberInList), null);
+        }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
+        servletContext.setAttribute("TASKS_LIST", tasksListInProject);
+        servletContext.setAttribute("EMP_LIST", employeeListInProject);
+        servletContext.setAttribute("numberInList", numberInList);
+        dispatcher.forward(req, resp);
     }
 
     /**
@@ -250,8 +307,6 @@ public class TaskController extends HttpServlet {
         tasksInterface.add(task);
         listTasks(req, resp);
         LOGGER.info("New task created");
-
-
     }
     /**
      * Method for list tasks.
@@ -295,6 +350,7 @@ public class TaskController extends HttpServlet {
         LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
         Integer projectId;
         Integer employeeId;
+
         try {
             projectId = Integer.parseInt(req.getParameter("projectId"));
         }
@@ -314,6 +370,10 @@ public class TaskController extends HttpServlet {
         else {
             task = new Task(taskId, status, title, workTime, beginDate, endDate, projectId,  employeeId);
         }
+        System.out.println(task);
         return task;
     }
+
 }
+
+
