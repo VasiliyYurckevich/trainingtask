@@ -5,7 +5,7 @@ gradle.ext.dbPassword = ""
 gradle.ext.dbPort = 9001
 gradle.ext.dbHost = "localhost"
 gradle.ext.dbFile = "mydb"
-gradle.ext.dbUrl = "jdbc:hsqldb:hsql://localhost/mydb"
+gradle.ext.dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;sql.syntax_mys=true"
 gradle.ext.dbDrive = "org.hsqldb.jdbc.JDBCDriver"
 include 'com.qulix.yurkevichvv.trainingtask.project'
 

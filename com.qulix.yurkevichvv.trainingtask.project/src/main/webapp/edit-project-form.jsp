@@ -30,7 +30,7 @@
     <form action="projects" onsubmit="check(event)" method="post">
 
       <input type="hidden" name="action" value="/update" />
-      <input type="hidden" name="projectId" value="${projectId}" />
+      <input type="hidden" name="projectId" value="${projectId}"/>
 
       <table>
         <div>
@@ -65,18 +65,19 @@
           <th>Действия</th>
         </tr>
           <c:url var="addLink" value="/projects">
-            <c:param name="action" value="/addTask"/>
+            <c:param name="action" value="/addTaskForm"/>
             <c:param name="projectId" value="${projectId}"/>
           </c:url>
          <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
 
-          <c:url var="editLink" value="/task">
-            <c:param name="action" value="/edit"/>
+          <c:url var="editLink" value="/projects">
+            <c:param name="action" value="/editTaskForm"/>
             <c:param name="taskId" value="${tempTask.id}"/>
+            <c:param name="numberInList" value="${theCount.index}"/>
           </c:url>
-          <c:url var="deleteLink" value="/task">
-            <c:param name="action" value="/delete"/>
-            <c:param name="taskId" value="${tempTask.id}"/>
+          <c:url var="deleteLink" value="/projects">
+            <c:param name="action" value="/deleteTaskInProject"/>
+            <c:param name="numberInList" value="${theCount.index}"/>
           </c:url>
 
 

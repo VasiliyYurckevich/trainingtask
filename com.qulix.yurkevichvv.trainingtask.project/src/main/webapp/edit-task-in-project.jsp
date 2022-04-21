@@ -18,8 +18,8 @@
 <body>
 
 <ul>
-    <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-    <li style="font-family: Arial"><a class="choose"  href="task">Задачи</a></li>
+    <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
+    <li style="font-family: Arial"><a href="task">Задачи</a></li>
     <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
 </ul>
 
@@ -27,7 +27,7 @@
     <div id="container">
         <h3>Редактировать задачу</h3>
         <form action="task" onsubmit="check(event)" method="post" id ="form">
-            <input type="hidden" name="action"  value="/update" />
+            <input type="hidden" name="action"  value="/updateTaskInProject" />
             <input type="hidden" name="taskId" value="${taskId}" />
             <table>
                 <tbody>
@@ -65,26 +65,24 @@
 
                 <tr>
                     <td><label>Наименование проекта:</label></td>
-                    <td> <select name="projectId">
-                        <option value="null">  </option>
-                        <c:forEach items="${PROJECT_LIST}" var="projects">
-                            <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>${projects.title}</option>
-                        </c:forEach>
+                    <td> <select name="projectId"  disabled="true">
+                        <option value="null"> ${project.title} </option>
                     </select>
+                    </td>
                 </tr>
                 <tr>
                     <td><label>Сотрудник:</label></td>
                     <td> <select name="employeeId" >
                         <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                            <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.patronymic}</option>
+                            <option value="${employees.id}" ${employees.id == EMP_LIST.get(numberInList).getId() ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.patronymic}</option>
                         </c:forEach>
                     </select>
                     </td>
                 </tr>
                 </tbody>
                 <br/><br/>
-                </table>
+            </table>
         </form>
     </div>
 </div>
