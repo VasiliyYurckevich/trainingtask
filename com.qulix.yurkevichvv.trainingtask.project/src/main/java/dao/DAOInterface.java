@@ -52,4 +52,5 @@ public interface DAOInterface<T> {
      * @throws SQLException if an SQL error occurs
      */
     T getById(Integer id) throws SQLException;
+
 }

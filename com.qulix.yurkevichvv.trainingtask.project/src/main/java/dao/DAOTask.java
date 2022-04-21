@@ -40,7 +40,6 @@ import model.Task;
  * @see  DAOEmployee
  * @see  DAOProject
  * @see  DAOInterface
- * @see  Project
  * @see  DBConnection
  */
 @SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
@@ -160,7 +159,7 @@ public class DAOTask implements DAOInterface<Task> {
      * @return list of tasks
      * @throws SQLException - if something wrong with database
      */
-    public List<Task> getTaskInProject(Integer id) throws SQLException {
+    public List<Task> getTasksInProject(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
         List<Task> tasks = new ArrayList<>();
         try {

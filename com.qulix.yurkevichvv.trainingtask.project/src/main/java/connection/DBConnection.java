@@ -33,8 +33,8 @@ import java.util.logging.Logger;
  */
 public class DBConnection {
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
-    private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb;ifexists=true";
-    private static final String USER = "sa";
+    private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb;ifexists=true;sql.syntax_mys=true";
+    private static final String USER = "SA";
     private static final String PASS = "";
     private static Connection connection = null;
 
@@ -42,7 +42,7 @@ public class DBConnection {
      * Method for getting connection to database.
      *
      * @return connection to database.
-     * @throws SQLException if connection is not established
+         * @throws SQLException if connection is not established
      */
     public static Connection getConnection() throws SQLException {
 

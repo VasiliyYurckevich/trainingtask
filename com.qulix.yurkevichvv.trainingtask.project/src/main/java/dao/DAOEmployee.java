@@ -192,6 +192,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             ResultSet resultSet = preparedStatement.executeQuery();
             Employee employee = new Employee();
             while (resultSet.next()) {
+                employee.setId(resultSet.getInt(EMPLOYEE_ID));
                 employee.setSurname(resultSet.getString(SURNAME));
                 employee.setFirstName(resultSet.getString(FIRST_NAME));
                 employee.setPatronymic(resultSet.getString(PATRONYMIC));
