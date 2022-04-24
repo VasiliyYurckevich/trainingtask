@@ -110,6 +110,14 @@ public class DAOTask implements DAOInterface<Task> {
         }
     }
 
+    /**
+     * Method for setting data in to statement.
+     *
+     * @param task - task of setting data
+     * @param preparedStatement - statement for setting data
+     * @return true if data setting, false if not
+     * @throws SQLException - if something wrong with database
+     */
     private PreparedStatement setDataInToStatement(Task task, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, task.getStatus());
         preparedStatement.setString(2, task.getTitle());
@@ -250,7 +258,6 @@ public class DAOTask implements DAOInterface<Task> {
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
                 if (resultSet.getInt(PROJECT_ID) != 0) {
-                    System.out.println(resultSet.getInt(PROJECT_ID));
                     task.setProjectId(resultSet.getInt(PROJECT_ID));
                 }
                 else {

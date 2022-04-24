@@ -211,6 +211,15 @@ public class TaskController extends HttpServlet {
         LOGGER.info("Update task with id: " + taskId);
     }
 
+    /**
+     * Method for add task in project.
+     *
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException  if an I/O error occurs
+     * @throws SQLException if an SQL error occurs
+     */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
@@ -230,6 +239,15 @@ public class TaskController extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
+    /**
+     * Method for update task in project.
+     *
+     * @param req servlet request
+     * @param resp servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException  if an I/O error occurs
+     * @throws SQLException if an SQL error occurs
+     */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();

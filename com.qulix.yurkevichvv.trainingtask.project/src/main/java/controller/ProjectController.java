@@ -161,6 +161,15 @@ public class ProjectController extends HttpServlet {
             LOGGER.warning(String.valueOf(e));
         }
     }
+    /**
+     *  Method for delete  task in project .
+     *
+     * @param req  servlet request
+     * @param resp servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws SQLException  if a database access error occurs
+     */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws IOException, SQLException, ServletException {
         ServletContext servletContext = getServletContext();
@@ -172,7 +181,6 @@ public class ProjectController extends HttpServlet {
         tasksListInProject.remove(Integer.parseInt(numberInList));
         employeeListInProject.remove(Integer.parseInt(numberInList));
         if (id != null) {
-            System.out.println("id = " + id);
             deleteTaskInProject.add(id);
         }
         servletContext.setAttribute("numberInList", numberInList);
@@ -181,9 +189,17 @@ public class ProjectController extends HttpServlet {
         servletContext.setAttribute("DELETED_LIST", deleteTaskInProject);
         editProjectForm(req, resp);
     }
-
+    /**
+     *  Method for open update task in project form.
+     *
+     * @param req  servlet request
+     * @param resp servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     * @throws SQLException  if a database access error occurs
+     */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException, NumberFormatException {
+        throws SQLException, ServletException, IOException {
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute("TASKS_LIST");
         Integer thisProjectId = (Integer) servletcontext.getAttribute("thisProjectId");
@@ -245,8 +261,6 @@ public class ProjectController extends HttpServlet {
                 employeeListInProject.add(employee);
             }
         }
-        tasksListInProject.stream().forEach(System.out::println);
-        employeeListInProject.stream().forEach(System.out::println);
         List<Integer> deletedTasks = (List<Integer>) servletContext.getAttribute("DELETED_LIST");
         if (deletedTasks == null) {
             deletedTasks = new ArrayList<>();
