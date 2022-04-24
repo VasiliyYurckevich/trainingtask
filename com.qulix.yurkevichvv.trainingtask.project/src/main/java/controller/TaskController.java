@@ -173,6 +173,7 @@ public class TaskController extends HttpServlet {
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
+        ServletContext servletContext = getServletContext();
         String theTaskId = req.getParameter("taskId");
         Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
         req.setAttribute("taskId", existingTask.getId());
@@ -186,9 +187,9 @@ public class TaskController extends HttpServlet {
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-form.jsp");
-        req.getSession().setAttribute("task", existingTask);
-        req.getSession().setAttribute("EMPLOYEE_LIST", employees);
-        req.getSession().setAttribute("PROJECT_LIST", projects);
+        servletContext.setAttribute("task", existingTask);
+        servletContext.setAttribute("EMPLOYEE_LIST", employees);
+        servletContext.setAttribute("PROJECT_LIST", projects);
         dispatcher.forward(req, resp);
 
     }
@@ -224,8 +225,8 @@ public class TaskController extends HttpServlet {
             employeeListInProject.add(null);
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
-        req.getSession().setAttribute("TASKS_LIST", tasksListInProject);
-        req.getSession().setAttribute("EMP_LIST", employeeListInProject);
+        servletContext.setAttribute("TASKS_LIST", tasksListInProject);
+        servletContext.setAttribute("EMP_LIST", employeeListInProject);
         dispatcher.forward(req, resp);
     }
 
