@@ -190,7 +190,8 @@ public class DAOEmployee implements DAOInterface<Employee> {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
             try {
                 preparedStatement.setInt(1, id);
-            } catch (NullPointerException e) {
+            }
+            catch (NullPointerException e) {
                 preparedStatement.setNull(1, 0);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
