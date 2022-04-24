@@ -203,11 +203,23 @@ public class DAOTask implements DAOInterface<Task> {
             task.setId(resultSet.getInt(TASK_ID));
             task.setStatus(resultSet.getString(STATUS));
             task.setTitle(resultSet.getString(TITLE));
-            task.setProjectId(resultSet.getInt(PROJECT_ID));
+
             task.setWorkTime(resultSet.getLong(WORK_TIME));
             task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
             task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-            task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
+            if (resultSet.getInt(PROJECT_ID) != 0) {
+                task.setProjectId(resultSet.getInt(PROJECT_ID));
+            }
+            else {
+                task.setProjectId(null);
+            }
+            if (resultSet.getInt(EMPLOYEE_ID) != 0)  {
+                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
+            }
+            else {
+                task.setEmployeeId(null);
+            }
+
             tasks.add(task);
 
         }
@@ -237,8 +249,19 @@ public class DAOTask implements DAOInterface<Task> {
                 task.setWorkTime(resultSet.getLong(WORK_TIME));
                 task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
                 task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-                task.setProjectId(resultSet.getInt(PROJECT_ID));
-                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
+                if (resultSet.getInt(PROJECT_ID) != 0) {
+                    System.out.println(resultSet.getInt(PROJECT_ID));
+                    task.setProjectId(resultSet.getInt(PROJECT_ID));
+                }
+                else {
+                    task.setProjectId(null);
+                }
+                if (resultSet.getInt(EMPLOYEE_ID) != 0) {
+                    task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
+                }
+                else {
+                    task.setEmployeeId(null);
+                }
             }
             return task;
         }
