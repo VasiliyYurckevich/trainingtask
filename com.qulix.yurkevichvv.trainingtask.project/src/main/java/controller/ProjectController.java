@@ -172,6 +172,7 @@ public class ProjectController extends HttpServlet {
         tasksListInProject.remove(Integer.parseInt(numberInList));
         employeeListInProject.remove(Integer.parseInt(numberInList));
         if (id != null) {
+            System.out.println("id = " + id);
             deleteTaskInProject.add(id);
         }
         servletContext.setAttribute("numberInList", numberInList);
@@ -186,7 +187,6 @@ public class ProjectController extends HttpServlet {
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute("TASKS_LIST");
         Integer thisProjectId = (Integer) servletcontext.getAttribute("thisProjectId");
-        DAOTask tasksInterface = new DAOTask();
         String numberInList  = req.getParameter("numberInList");
         servletcontext.setAttribute("numberInList", numberInList);
         Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
@@ -245,6 +245,7 @@ public class ProjectController extends HttpServlet {
                 employeeListInProject.add(employee);
             }
         }
+        tasksListInProject.stream().forEach(System.out::println);
         employeeListInProject.stream().forEach(System.out::println);
         List<Integer> deletedTasks = (List<Integer>) servletContext.getAttribute("DELETED_LIST");
         if (deletedTasks == null) {
