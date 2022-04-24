@@ -188,11 +188,20 @@ public class DAOEmployee implements DAOInterface<Employee> {
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
-            preparedStatement.setInt(1, id);
+            try {
+                preparedStatement.setInt(1, id);
+            } catch (NullPointerException e) {
+                preparedStatement.setNull(1, 0);
+            }
             ResultSet resultSet = preparedStatement.executeQuery();
             Employee employee = new Employee();
             while (resultSet.next()) {
-                employee.setId(resultSet.getInt(EMPLOYEE_ID));
+                if (resultSet.getInt(EMPLOYEE_ID) != 0) {
+                    employee.setId(resultSet.getInt(EMPLOYEE_ID));
+                }
+                else {
+                    employee.setId(null);
+                }
                 employee.setSurname(resultSet.getString(SURNAME));
                 employee.setFirstName(resultSet.getString(FIRST_NAME));
                 employee.setPatronymic(resultSet.getString(PATRONYMIC));
