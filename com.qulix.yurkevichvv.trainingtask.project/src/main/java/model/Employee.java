@@ -40,7 +40,7 @@ package model;
 @SuppressWarnings ("checkstyle:JavadocVariable")
 public class Employee {
 
-    protected int id;
+    protected Integer id;
     protected String surname;
     protected String firstName;
     protected String patronymic;
@@ -85,11 +85,11 @@ public class Employee {
         this.post = post;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
