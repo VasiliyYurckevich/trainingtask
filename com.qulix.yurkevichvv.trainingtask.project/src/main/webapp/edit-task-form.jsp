@@ -68,7 +68,7 @@
                     <td> <select name="projectId">
                         <option value="null">  </option>
                         <c:forEach items="${PROJECT_LIST}" var="projects">
-                            <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>${projects.title}</option>
+                            <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>${fn:escapeXml(projects.title)}</option>
                         </c:forEach>
                     </select>
                 </tr>
@@ -77,7 +77,7 @@
                     <td> <select name="employeeId" >
                         <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                            <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>${employees.surname} ${employees.firstName} ${employees.patronymic}</option>
+                            <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>
                         </c:forEach>
                     </select>
                     </td>
