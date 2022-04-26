@@ -64,7 +64,7 @@
             <td> <select name="projectId">
               <option value="null" selected="selected">  </option>
               <c:forEach items="${PROJECT_LIST}" var="projects">
-                    <option value="${projects.id}"  >${projects.title} </option>
+                    <option value="${projects.id}"  >${fn:escapeXml(projects.title)} </option>
                 </c:forEach>
             </select>
               <input type="hidden" name="projectId" value=${thisProjectId} />

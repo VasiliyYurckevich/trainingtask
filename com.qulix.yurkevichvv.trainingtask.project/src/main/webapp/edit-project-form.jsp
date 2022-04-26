@@ -88,8 +88,8 @@
             <td> ${tempTask.workTime} </td>
             <td> ${tempTask.beginDate}</td>
             <td> ${tempTask.endDate} </td>
-            <td> ${title}</td>
-            <td>${EMP_LIST.get(theCount.index).surname} ${EMP_LIST.get(theCount.index).firstName} ${EMP_LIST.get(theCount.index).patronymic}</td>
+            <td> ${fn:escapeXml(title)}</td>
+            <td>${fn:escapeXml(EMP_LIST.get(theCount.index).surname)} ${fn:escapeXml(EMP_LIST.get(theCount.index).firstName)} ${fn:escapeXml(EMP_LIST.get(theCount.index).patronymic)}</td>
             <td>
               <a href="${editLink}">Редактировать</a>
 
