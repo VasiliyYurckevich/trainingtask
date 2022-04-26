@@ -170,7 +170,12 @@ public class DAOProject implements DAOInterface<Project> {
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
-            preparedStatement.setInt(1, id);
+            try {
+                preparedStatement.setInt(1, id);
+            }
+            catch (NullPointerException e) {
+                preparedStatement.setNull(1,0);
+            }
             ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();
             while (resultSet.next()) {
