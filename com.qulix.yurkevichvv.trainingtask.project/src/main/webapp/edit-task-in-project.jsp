@@ -8,7 +8,7 @@
 <html lang="ru">
 
 <head>
-    <title>Редактировать проект</title>
+    <title>Редактировать задачу</title>
 
     <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
