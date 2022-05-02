@@ -100,7 +100,7 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning((Supplier<String>) e);
+            LOGGER.warning(String.valueOf(e));
         }
     }
     /**
