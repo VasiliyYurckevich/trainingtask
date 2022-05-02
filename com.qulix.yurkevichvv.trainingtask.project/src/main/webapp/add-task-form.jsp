@@ -47,7 +47,7 @@
         </tr>
         <tr>
           <td><label>Работа:</label></td>
-              <td><input required ="required" type="number"  max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"></td>
+                <td><input required ="required" type="number"  max="999999999999999999" id="workTime" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите число со значением меньше или равным 999999999999999999 и не содержащим символов &quot e &quot ; &quot + &quot ; &quot , &quot ; &quot . &quot ; &quot - &quot')"  name="workTime" pattern="^[0-9]+$"></td>
         </tr>
         <tr>
           <td><label>Дата начала(ГГГГ-ММ-ДД):</label></td>
