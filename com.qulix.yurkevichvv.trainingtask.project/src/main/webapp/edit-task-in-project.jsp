@@ -73,7 +73,7 @@
                     <td> <select name="employeeId" >
                         <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                            <option value="${employees.id}" ${employees.id == EMP_LIST.get(numberInList).getId() ? 'selected="selected"' : ''}>${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>
+                            <option value="${employees.id}" ${employees.id == EMPLOYEE_IN_TASKS_LIST.get(numberInList).getId() ? 'selected="selected"' : ''}>${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>
                         </c:forEach>
                     </select>
                     </td>

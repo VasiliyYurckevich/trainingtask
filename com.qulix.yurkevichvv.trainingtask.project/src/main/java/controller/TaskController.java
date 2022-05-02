@@ -224,7 +224,7 @@ public class TaskController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
+        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMPLOYEE_IN_TASKS_LIST");
         Task task = getDataFromForm(req, null);
         tasksListInProject.add(task);
         try {
@@ -235,7 +235,7 @@ public class TaskController extends HttpServlet {
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
         servletContext.setAttribute("TASKS_LIST", tasksListInProject);
-        servletContext.setAttribute("EMP_LIST", employeeListInProject);
+        servletContext.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeListInProject);
         dispatcher.forward(req, resp);
     }
 
@@ -252,7 +252,7 @@ public class TaskController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
+        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMPLOYEE_IN_TASKS_LIST");
         Integer taskId;
         try {
             taskId = Integer.parseInt(req.getParameter("taskId"));
@@ -271,7 +271,7 @@ public class TaskController extends HttpServlet {
         }
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
         servletContext.setAttribute("TASKS_LIST", tasksListInProject);
-        servletContext.setAttribute("EMP_LIST", employeeListInProject);
+        servletContext.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeListInProject);
         servletContext.setAttribute("numberInList", numberInList);
         dispatcher.forward(req, resp);
     }
@@ -346,7 +346,7 @@ public class TaskController extends HttpServlet {
             projectsOfTask.add(project);
         }
         req.setAttribute("TASKS_LIST", tasks);
-        req.setAttribute("EMP_LIST", employeeOfTask);
+        req.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeOfTask);
         req.setAttribute("PROJ_LIST", projectsOfTask);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);

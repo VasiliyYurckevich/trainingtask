@@ -176,7 +176,7 @@ public class ProjectController extends HttpServlet {
         String numberInList  = req.getParameter("numberInList");
         List<Integer> deleteTaskInProject = (List<Integer>) servletContext.getAttribute("DELETED_LIST");
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
+        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMPLOYEE_IN_TASKS_LIST");
         Integer id = tasksListInProject.get(Integer.parseInt(numberInList)).getId();
         tasksListInProject.remove(Integer.parseInt(numberInList));
         employeeListInProject.remove(Integer.parseInt(numberInList));
@@ -185,7 +185,7 @@ public class ProjectController extends HttpServlet {
         }
         servletContext.setAttribute("numberInList", numberInList);
         servletContext.setAttribute("TASKS_LIST", tasksListInProject);
-        servletContext.setAttribute("EMP_LIST", employeeListInProject);
+        servletContext.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeListInProject);
         servletContext.setAttribute("DELETED_LIST", deleteTaskInProject);
         editProjectForm(req, resp);
     }
@@ -269,7 +269,7 @@ public class ProjectController extends HttpServlet {
         servletContext.setAttribute("DELETED_LIST", deletedTasks);
         servletContext.setAttribute("project", existingProject);
         servletContext.setAttribute("TASKS_LIST", tasksListInProject);
-        servletContext.setAttribute("EMP_LIST", employeeListInProject);
+        servletContext.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeListInProject);
         dispatcher.forward(req, resp);
     }
 
@@ -346,7 +346,7 @@ public class ProjectController extends HttpServlet {
         req.setAttribute("PROJECT_LIST", projects);
         ServletContext servletContext = getServletContext();
         servletContext.removeAttribute("TASKS_LIST");
-        servletContext.removeAttribute("EMP_LIST");
+        servletContext.removeAttribute("EMPLOYEE_IN_TASKS_LIST");
         servletContext.removeAttribute("DELETED_LIST");
         servletContext.removeAttribute("projectId");
         servletContext.removeAttribute("title");
