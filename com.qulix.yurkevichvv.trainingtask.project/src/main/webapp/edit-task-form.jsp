@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td><label>Работа:</label></td>
-                    <td><input required ="required" type="number" oninvalid="this.setCustomValidity('Ваше число выходит за рамки диапазона!Введите число в дапазоне от 0 до 999 999 999 999 999 999')" oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"  name="workTime" ONKEYUP="this.value=this.value.replace(/[^\d]/,'')"
+                    <td><input required ="required" type="number"  oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"   oninvalid="this.setCustomValidity('Введите число со значением меньше или равным 999999999999999999 и не содержащим символов &quot e &quot ; &quot + &quot ; &quot , &quot ; &quot . &quot ; &quot - &quot')"  name="workTime" pattern="^[0-9]+$"
                                value="${workTime}"></td>
                 </tr>
                 <tr>
