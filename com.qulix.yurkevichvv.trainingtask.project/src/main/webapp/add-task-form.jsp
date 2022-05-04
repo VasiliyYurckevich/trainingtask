@@ -24,11 +24,11 @@
 <div style="padding:20px; margin-top:50px;height:600px;">
   <div id="container">
     <h3>Добавить задачу</h3>
-    <form action="task" onsubmit="check(event)" method="post" id="form">
-      <input type="hidden" name="action" value="/add"/>
+    <form action="task" onsubmit="check(event)" method="post" id="form" >
+      <input type="hidden" name="action" value="/add" />
       <table>
         <div>
-          <input class="add-button" type="submit"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+          <input class="add-button" type="submit"  name="submitButton" id="submitButton"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
         </div>
         <tbody>
         <tr>
@@ -47,7 +47,7 @@
         </tr>
         <tr>
           <td><label>Работа:</label></td>
-                <td><input required ="required" type="number"  max="999999999999999999" id="workTime" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите число со значением меньше или равным 999999999999999999 и не содержащим символов &quot e &quot ; &quot + &quot ; &quot , &quot ; &quot . &quot ; &quot - &quot')"  name="workTime" pattern="^[0-9]+$"></td>
+                <td><input required ="required" type="number"  max="999999999999999999" id="workTime" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите число со значением меньше или равным 999999999999999999 и не содержащим символов &quot e &quot ; &quot + &quot ; &quot , &quot ; &quot . &quot ; &quot - &quot')"  name="workTime" ></td>
         </tr>
         <tr>
           <td><label>Дата начала(ГГГГ-ММ-ДД):</label></td>
@@ -61,7 +61,7 @@
         </tr>
         <tr>
           <td><label>Проект:</label></td>
-            <td> <select name="projectId">
+            <td> <select name="projectId" required ="required">
               <c:forEach items="${PROJECT_LIST}" var="projects">
                     <option value="${projects.id}"  >${fn:escapeXml(projects.title)} </option>
                 </c:forEach>
@@ -99,6 +99,8 @@
     }else if(title.trim() == ''){
       event.preventDefault();
       alert("Наиминование не может состоять только из пробелов");
+    }else {
+      this.submitButton.disabled = true;
     }
   }
 
@@ -110,6 +112,28 @@
       alert("Превышена допустимая длина поля: " + maxLength + " символов");
     }
   }
+
+
+  const inputBox = document.getElementById("workTime");
+  var invalidChars = [
+    "-",
+    "+",
+    "e",
+    "E",
+    ",",
+    ".",
+  ];
+
+  inputBox.addEventListener("input", function() {
+    this.value = this.value.replace(/[e\+\-]/gi, "");
+  });
+
+  inputBox.addEventListener("keydown", function(e) {
+    if (invalidChars.includes(e.key)) {
+      e.preventDefault();
+    }
+  })
+
 </script>
 </body>
 </html>
