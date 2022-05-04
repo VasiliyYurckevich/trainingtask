@@ -31,7 +31,7 @@
 
       <table>
         <div>
-          <input type="submit" value="Сохранить" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Отмена</button>
+          <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button onclick="location.href='projects'" type="button" class="add-button">Отмена</button>
         </div>
         <tbody>
         <tr>
@@ -114,6 +114,8 @@
     if (title.trim() == "" || description.trim() == "") {
       event.preventDefault();
       alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
+    }else {
+      this.submitButton.disabled = true;
     }
   }
   // Message if length of the field is more than maxLength symbols
