@@ -337,6 +337,7 @@ public class TaskController extends HttpServlet {
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Task> tasks =  tasksInterface.getAll();
+        List<Project> projects = new DAOProject().getAll();
         List<Employee> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
         for (Task t: tasks) {
@@ -345,6 +346,7 @@ public class TaskController extends HttpServlet {
             Project project = new DAOProject().getById(t.getProjectId());
             projectsOfTask.add(project);
         }
+        req.setAttribute("PROJECT_LIST", projects);
         req.setAttribute("TASKS_LIST", tasks);
         req.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeOfTask);
         req.setAttribute("PROJ_LIST", projectsOfTask);
@@ -368,7 +370,6 @@ public class TaskController extends HttpServlet {
         LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
         Integer projectId;
         Integer employeeId;
-
         try {
             projectId = Integer.parseInt(req.getParameter("projectId"));
         }
