@@ -62,7 +62,6 @@
         <tr>
           <td><label>Проект:</label></td>
             <td> <select name="projectId">
-              <option value="null" selected="selected">  </option>
               <c:forEach items="${PROJECT_LIST}" var="projects">
                     <option value="${projects.id}"  >${fn:escapeXml(projects.title)} </option>
                 </c:forEach>

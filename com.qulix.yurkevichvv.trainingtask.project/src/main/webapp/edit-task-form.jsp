@@ -73,7 +73,6 @@
                 <tr>
                     <td><label>Сотрудник:</label></td>
                     <td> <select name="employeeId" >
-                        <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                             <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>
                         </c:forEach>
