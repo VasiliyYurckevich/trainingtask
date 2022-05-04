@@ -29,7 +29,7 @@
             <input type="hidden" name="taskId" value="${taskId}" />
             <table>
                 <tbody>
-                <input class="add-button" type="submit"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+                <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
                 <tr>
                     <td><label>Статус:</label></td>
                     <td>
@@ -63,8 +63,7 @@
 
                 <tr>
                     <td><label>Наименование проекта:</label></td>
-                    <td> <select name="projectId">
-                        <option value="null">  </option>
+                    <td> <select name="projectId" required ="required">
                         <c:forEach items="${PROJECT_LIST}" var="projects">
                             <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>${fn:escapeXml(projects.title)}</option>
                         </c:forEach>
@@ -73,6 +72,7 @@
                 <tr>
                     <td><label>Сотрудник:</label></td>
                     <td> <select name="employeeId" >
+                        <option value="null">  </option>
                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                             <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>
                         </c:forEach>
@@ -96,9 +96,13 @@
         {
             event.preventDefault();
             alert("Дата начала работы не может быть позже даты окончания работы");
+            submitButton.disabled = false;
+
         }else if(title.trim() == ''){
             event.preventDefault();
             alert("Наиминование не может состоять только из пробелов");
+        }else {
+            this.submitButton.disabled = true;
         }
     }
 
@@ -109,6 +113,25 @@
             alert("Достигнута допустимая длина поля: " + maxLength + " символов");
         }
     }
+    const inputBox = document.getElementById("workTime");
+    var invalidChars = [
+        "-",
+        "+",
+        "e",
+        "E",
+        ",",
+        ".",
+    ];
+
+    inputBox.addEventListener("input", function() {
+        this.value = this.value.replace(/[e\+\-]/gi, "");
+    });
+
+    inputBox.addEventListener("keydown", function(e) {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+    })
 </script>
 </body>
 </html>
