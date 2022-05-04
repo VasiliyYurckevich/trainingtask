@@ -28,7 +28,7 @@
             <input type="hidden" name="action" value="/newTaskInProject"/>
             <table>
                 <div>
-                    <input class="add-button" type="submit"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+                    <input class="add-button" type="submit" name="submitButton" id="submitButton"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
                 </div>
                 <tbody>
                 <tr>
@@ -99,6 +99,8 @@
         }else if(title.trim() == ''){
             event.preventDefault();
             alert("Наиминование не может состоять только из пробелов");
+        }else {
+            this.submitButton.disabled = true;
         }
     }
 
@@ -110,6 +112,25 @@
             alert("Превышена допустимая длина поля: " + maxLength + " символов");
         }
     }
+    const inputBox = document.getElementById("workTime");
+    var invalidChars = [
+        "-",
+        "+",
+        "e",
+        "E",
+        ",",
+        ".",
+    ];
+
+    inputBox.addEventListener("input", function() {
+        this.value = this.value.replace(/[e\+\-]/gi, "");
+    });
+
+    inputBox.addEventListener("keydown", function(e) {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+    })
 </script>
 </body>
 </html>
