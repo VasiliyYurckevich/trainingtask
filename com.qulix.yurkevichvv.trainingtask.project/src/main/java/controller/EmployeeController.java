@@ -3,7 +3,6 @@ package controller;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -51,7 +50,7 @@ import utilits.Util;
  * @see DAOInterface
  *
  */
-@SuppressWarnings ("checkstyle:JavadocType")
+@SuppressWarnings ("checkstyle:MultipleStringLiterals")
 public class EmployeeController extends HttpServlet {
 
     private static final long serialVersionUID = 12345L;
@@ -69,8 +68,7 @@ public class EmployeeController extends HttpServlet {
      * @see dao.DAOEmployee
      * @see model.Employee
      */
-    @SuppressWarnings ("checkstyle:WhitespaceAfter")
-    public void init() throws ServletException,NullPointerException {
+    public void init() throws ServletException, NullPointerException {
         super.init();
         employeeInterface = new DAOEmployee();
 
@@ -84,7 +82,6 @@ public class EmployeeController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @SuppressWarnings ({"checkstyle:MultipleStringLiterals"})
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
@@ -113,7 +110,6 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
 
-    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
@@ -139,7 +135,7 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning((Supplier<String>) e);
+            LOGGER.warning(String.valueOf(e));
 
         }
 
@@ -154,12 +150,11 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws SQLException if an SQL error occurs
      */
-    @SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:WhitespaceAfter"})
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         Integer employeeId = Integer.valueOf(req.getParameter("employeeId"));
         Employee existingEmployee = employeeInterface.getById(employeeId);
-        req.setAttribute("employeeId",employeeId);
+        req.setAttribute("employeeId", employeeId);
         req.setAttribute("surname", Util.htmlSpecialChars(existingEmployee.getSurname()));
         req.setAttribute("firstName", Util.htmlSpecialChars(existingEmployee.getFirstName()));
         req.setAttribute("patronymic", Util.htmlSpecialChars(existingEmployee.getPatronymic()));
@@ -192,7 +187,6 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws SQLException if an SQL error occurs
      */
-    @SuppressWarnings ("checkstyle:MultipleStringLiterals")
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
         Integer theEmployeeId = Integer.valueOf(req.getParameter("employeeId"));

@@ -22,7 +22,7 @@
     <div id="container">
         <h3>Добавить сотрудника</h3>
         <form action="employees" onsubmit="check(event)" method="post">
-            <input type="hidden"  name="action" value="/add" />
+            <input type="hidden"  name="action" value="/add"/>
             <table>
                 <tbody>
                 <tr>
@@ -45,7 +45,7 @@
             </table>
 
             <br/><br/>
-            <input type="submit" value="Сохранить" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
+            <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
         </form>
     </div>
 </div>
@@ -59,6 +59,8 @@
         if (surname.trim() == ''|| firstName.trim() == ''|| patronymic.trim() == ''|| post.trim() == '') {
             event.preventDefault();
             alert("Заполните все поля!Поля не могут быть пустыми");
+        }else {
+            this.submitButton.disabled = true;
         }
     }
 

@@ -24,7 +24,7 @@
   <div id="container">
     <h3>Добавить проект</h3>
 
-    <form action="projects" onsubmit="check(event)" method="post">
+    <form action="projects" onsubmit="check(event)" method="post" >
       <input type="hidden" name="action" value="/add" />
       <table>
         <tbody>
@@ -39,7 +39,7 @@
         </tbody>
       </table>
       <br><br/>
-      <input type="submit" value="Сохранить" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
+      <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
     </form>
 
   </div>
@@ -49,10 +49,11 @@
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
 
-
     if (title.trim() == "" || description.trim() == "") {
       event.preventDefault();
       alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
+    }else {
+      this.submitButton.disabled = true;
     }
   }
 

@@ -322,6 +322,7 @@ public class TaskController extends HttpServlet {
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         Task task = getDataFromForm(req, null);
+
         tasksInterface.add(task);
         listTasks(req, resp);
         LOGGER.info("New task created");
