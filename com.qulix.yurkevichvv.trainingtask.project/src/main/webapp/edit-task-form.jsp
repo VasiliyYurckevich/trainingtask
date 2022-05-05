@@ -29,7 +29,7 @@
             <input type="hidden" name="taskId" value="${taskId}" />
             <table>
                 <tbody>
-                <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+                <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить"><button  id="cancelButton" name="cancelButton" onclick="window.history.back()" type="button" class="add-button">Отмена</button>
                 <tr>
                     <td><label>Статус:</label></td>
                     <td>
@@ -88,21 +88,21 @@
 <script type='text/javascript'>
 
     function check(event) {
-        const beginDt = document.getElementById("beginDate");
-        const endDt = document.getElementById("endDate");
+        const beginDt = document.getElementById("beginDate").value.replace('.','-');
+        const endDt = document.getElementById("endDate").value.replace('.','-');
         const title = document.getElementById("title").value;
 
         if( (new Date(endDt).getTime() < new Date(beginDt).getTime()))
         {
             event.preventDefault();
             alert("Дата начала работы не может быть позже даты окончания работы");
-            submitButton.disabled = false;
-
         }else if(title.trim() == ''){
             event.preventDefault();
             alert("Наиминование не может состоять только из пробелов");
         }else {
             this.submitButton.disabled = true;
+            this.cancelButton.disabled = true;
+
         }
     }
 
