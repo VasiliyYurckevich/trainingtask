@@ -25,5 +25,5 @@ CREATE TABLE IF NOT EXISTS task(
                                     employee_id INT,
                                     project_id INT NOT NULL,
                                     FOREIGN KEY (project_id) REFERENCES project(project_id) ON DELETE CASCADE ON UPDATE CASCADE ,
-                                    FOREIGN KEY (employee_id) REFERENCES employee(employee_id) ON DELETE CASCADE ON UPDATE CASCADE
+                                    FOREIGN KEY (employee_id) REFERENCES employee(employee_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
