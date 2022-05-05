@@ -45,7 +45,7 @@
             </table>
 
             <br/><br/>
-            <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
+            <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button onclick="javascript:history.back()" type="button" id="cancelButton" name="cancelButton" class="add-button">Отмена</button>
         </form>
     </div>
 </div>
@@ -61,6 +61,7 @@
             alert("Заполните все поля!Поля не могут быть пустыми");
         }else {
             this.submitButton.disabled = true;
+            this.cancelButton.disabled = true;
         }
     }
 

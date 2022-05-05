@@ -39,7 +39,7 @@
         </tbody>
       </table>
       <br><br/>
-      <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
+      <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button id="cancelButton" name="cancelButton" onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
     </form>
 
   </div>
@@ -54,6 +54,7 @@
       alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
     }else {
       this.submitButton.disabled = true;
+      this.cancelButton.disabled = true;
     }
   }
 

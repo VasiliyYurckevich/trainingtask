@@ -102,6 +102,7 @@
 
         }else {
             this.submitButton.disabled = true;
+            this.cancelButton.disabled = true;
         }
     }
 

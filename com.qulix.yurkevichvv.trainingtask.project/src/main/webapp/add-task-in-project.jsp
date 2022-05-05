@@ -28,7 +28,7 @@
             <input type="hidden" name="action" value="/newTaskInProject"/>
             <table>
                 <div>
-                    <input class="add-button" type="submit" name="submitButton" id="submitButton"  value="Сохранить"><button onclick="window.history.back()" type="button" class="add-button">Отмена</button>
+                    <input class="add-button" type="submit" name="submitButton" id="submitButton"  value="Сохранить"><button id="cancelButton" name="cancelButton" onclick="window.history.back()" type="button" class="add-button">Отмена</button>
                 </div>
                 <tbody>
                 <tr>
@@ -101,6 +101,7 @@
             alert("Наиминование не может состоять только из пробелов");
         }else {
             this.submitButton.disabled = true;
+            this.cancelButton.disabled = true;
         }
     }
 
