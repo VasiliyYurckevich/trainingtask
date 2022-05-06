@@ -85,8 +85,7 @@
     </div>
 </div>
 <script type='text/javascript'>
-
-     function check(event) {
+    function check(event) {
         const beginDt = document.getElementById("beginDate").value.replace('.','-');
         const endDt = document.getElementById("endDate").value.replace('.','-');
         const title = document.getElementById("title").value;
