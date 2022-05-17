@@ -10,23 +10,7 @@ import java.util.logging.Logger;
 
 /**
  * Connection to database.
- *
  *<p> {@link DBConnection} using for control connection to DB</p>
- *
- * <h2>Usage</h2>
- * <pre>
- * {@code  DBConnection dbConnection = new DBConnection();}
- * {@code  dbConnection.getConnection();}
- * {@code  dbConnection.closeConnection();}
- * </pre>
- *
- * <h2>Synchronization</h2>
- * <p>
- * This class is not guaranteed to be thread-safe so it should be synchronized externally.
- * </p>
- *
- * <h2>Known bugs</h2>
- * {@link DBConnection} does not handle overflows.
  *
  * @author Q-YVV
  * @version 1.0
@@ -40,9 +24,6 @@ public class DBConnection {
 
     /**
      * Method for getting connection to database.
-     *
-     * @return connection to database.
-         * @throws SQLException if connection is not established
      */
     public static Connection getConnection() throws SQLException {
 
@@ -58,8 +39,6 @@ public class DBConnection {
     }
     /**
      * Method for closing connection to database.
-     *
-     * @throws SQLException if connection is not closed
      */
     public static void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {

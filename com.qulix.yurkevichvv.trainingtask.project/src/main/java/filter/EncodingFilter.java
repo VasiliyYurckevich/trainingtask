@@ -16,17 +16,10 @@ import javax.servlet.annotation.WebFilter;
  *<h2>Description</h2>
  * <p>This filter is used to encode the request and response.</p>
  * <p>The encoding is specified in the filter configuration.</p>
- * <h2>Example</h2>
- * <pre>
- * {@code EncodingFilter filter = new EncodingFilter();}
- * {@code filter.init(config);}
- * {@code filter.doFilter(request, response, chain);}
- * </pre>
  *
  * @author  Q-YVV
  * @version 1.0
  * @since   1.0
- * @see     javax.servlet.Filter
  */
 @WebFilter(filterName = "EncodingFilter")
 public class EncodingFilter implements Filter {

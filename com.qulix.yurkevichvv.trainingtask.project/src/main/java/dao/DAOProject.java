@@ -13,36 +13,12 @@ import model.Project;
 
 /**
  * Class for working with database table "project".
- *
  *<p> {@link DAOProject} using for write data about projects in database.</p>
- *
- * <h2>Usage</h2>
- * <pre>
- * {@code DAOProject daoProject = new DAOProject();}}
- * {@code daoProject.add(project);}
- * {@code daoProject.update(project);}
- * {@code daoProject.delete(2);}
- * {@code daoProject.getAll();}
- * {@code daoProject.getById(11);}
- * </pre>
- *
- * <h2>Synchronization</h2>
- * <p>
- * This class is not guaranteed to be thread-safe so it should be synchronized externally.
- * </p>
- *
- * <h2>Known bugs</h2>
- * {@link DAOProject} does not handle overflows.
- *
  *
  * @author  Q-YVV
  * @version 1.0
  * @since   1.0
- * @see  DAOTask
- * @see  DAOProject
- * @see  DAOInterface
- * @see  Project
- * @see  DBConnection
+
  */
 @SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
 public class DAOProject implements DAOInterface<Project> {

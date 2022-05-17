@@ -17,11 +17,11 @@
     <body>
         <div style="padding-top: 50px;horiz-align: center">
             <div>
-                <h2>Приложение для управления задачами</h2>
+                <h2 align="center" >Приложение для управления задачами</h2>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <h2>Привет!</h2>
+                    <h2 align="center">Привет!</h2>
                 </div>
             </div>
         </div>

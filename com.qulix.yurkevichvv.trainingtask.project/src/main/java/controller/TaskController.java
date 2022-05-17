@@ -26,56 +26,26 @@ import utilits.Util;
 /**
  * Controller for tasks.
  *
- *<p> {@link TaskController} using for control Tasks in application.</p>
+ *<p> {@link TaskController} using to interact with  Tasks in application.</p>
  *
- * <h2>Usage</h2>
- * <pre>
- * {@code   TaskController taskController = new TaskController();}
- * {@code   taskController.doGet(request, response);}
- * {@code   taskController.doPost(request, response);}
- * {@code   taskController.addTask(request, response);}
- * {@code   taskController.deleteTask(request, response);}
- * {@code   taskController.updateTask(request, response);}
- * {@code   taskController.listTasks(request, response);}
- * {@code   taskController.editTaskForm(request, response);}
- * {@code   taskController.newTaskForm(request, response);}
- * </pre>
- *
- * <h2>Synchronization</h2>
- * <p>
- * This class is not guaranteed to be thread-safe so it should be synchronized externally.
- * </p>
- *
- * <h2>Known bugs</h2>
- * {@link TaskController} does not handle overflows.
  *
  * @author Q-YVV
  * @version 1.0
  * @since 1.0
- * @see Task
- * @see Project
- * @see Employee
- * @see DAOTask
- * @see DAOProject
- * @see DAOEmployee
  */
 @SuppressWarnings("checkstyle:MultipleStringLiterals")
 public class TaskController extends HttpServlet {
+
     private static final long serialVersionUID = 12345L;
     private DAOInterface<Task> tasksInterface;
+
     /**
      * Logger.
      */
     public static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
-
     /**
      * Initialize TaskController.
-     *
-     * @throws NullPointerException if DAO is null
-     * @throws ServletException if an servlet-specific error occurs
-     * @see TaskController#doPost(HttpServletRequest, HttpServletResponse)
-     * @see TaskController#doGet(HttpServletRequest, HttpServletResponse)
      */
     @Override
     public void init() throws ServletException, NullPointerException {
@@ -85,11 +55,6 @@ public class TaskController extends HttpServlet {
 
     /**
      * Processes requests for  HTTP POST methods.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException    if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -118,21 +83,12 @@ public class TaskController extends HttpServlet {
         }
     }
 
- 
-
     /**
      * Processes requests for  HTTP GET methods.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException  if a servlet-specific error occurs
-     * @throws IOException   if an I/O error occurs
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
-
         try {
-
             String action = req.getParameter("action");
 
             if (action == null) {
@@ -161,15 +117,8 @@ public class TaskController extends HttpServlet {
     }
 
 
-
     /**
      * Method for open update task form.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException   if an I/O error occurs
-     * @throws SQLException if a database access error occurs
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -178,7 +127,7 @@ public class TaskController extends HttpServlet {
         Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
         req.setAttribute("taskId", existingTask.getId());
         req.setAttribute("status", existingTask.getStatus());
-        req.setAttribute("title", Util.htmlSpecialChars(existingTask.getTitle()));
+        req.setAttribute("title", (existingTask.getTitle()));
         req.setAttribute("workTime", existingTask.getWorkTime());
         req.setAttribute("beginDate", existingTask.getBeginDate());
         req.setAttribute("endDate", existingTask.getEndDate());
@@ -196,12 +145,6 @@ public class TaskController extends HttpServlet {
 
     /**
      * Method for update task.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException  if an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         int taskId = Integer.parseInt(req.getParameter("taskId"));
@@ -213,12 +156,6 @@ public class TaskController extends HttpServlet {
 
     /**
      * Method for add task in project.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException  if an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -241,12 +178,6 @@ public class TaskController extends HttpServlet {
 
     /**
      * Method for update task in project.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException  if an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -278,12 +209,6 @@ public class TaskController extends HttpServlet {
 
     /**
      * Method for open new task form.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if a database access error occurs
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
@@ -297,12 +222,6 @@ public class TaskController extends HttpServlet {
 
     /**
      * Method for delete task.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if a database access error occurs
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         String theTaskId = req.getParameter("taskId");
@@ -313,12 +232,6 @@ public class TaskController extends HttpServlet {
 
     /**
      * Method for add new task.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if a database access error occurs
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         Task task = getDataFromForm(req, null);
@@ -327,14 +240,9 @@ public class TaskController extends HttpServlet {
         listTasks(req, resp);
         LOGGER.info("New task created");
     }
+
     /**
      * Method for list tasks.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if a database access error occurs
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Task> tasks =  tasksInterface.getAll();
@@ -357,15 +265,10 @@ public class TaskController extends HttpServlet {
 
     /**
      * Method for get data from form.
-     *
-     * @param req servlet request
-     * @param taskId task id
-     * @return task
-     * @throws SQLException if a database access error occurs
      */
     private Task getDataFromForm(HttpServletRequest req, Integer taskId) {
         String status = req.getParameter("status");
-        String title = Util.htmlSpecialChars(req.getParameter("title"));
+        String title = req.getParameter("title");
         long workTime = Long.parseLong(req.getParameter("workTime"));
         LocalDate beginDate = LocalDate.parse(req.getParameter("beginDate"));
         LocalDate endDate = LocalDate.parse(req.getParameter("endDate"));
@@ -392,7 +295,6 @@ public class TaskController extends HttpServlet {
         }
         return task;
     }
-
 }
 
 

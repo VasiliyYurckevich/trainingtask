@@ -26,39 +26,11 @@ import utilits.Util;
 /**
  * Controller for project.
  *
- *<p> {@link ProjectController} using for control Projects in application.</p>
- *
- * <h2>Usage</h2>
- * <pre>
- * {@code ProjectController pc = new ProjectController();}
- * {@code pc.doGet(request, response);}
- * {@code pc.doPost(request, response);}
- * {@code pc.addProject(request, response);}
- * {@code pc.updateProject(request, response);}
- * {@code pc.deleteProject(request, response);}
- * {@code pc.newProjectForm(request, response);}
- * {@code pc.editProjectForm(request, response);}
- * {@code pc.listProjects(request, response);}
- * </pre>
- *
- * <h2>Synchronization</h2>
- * <p>
- * This class is not guaranteed to be thread-safe so it should be synchronized externally.
- * </p>
- *
- * <h2>Known bugs</h2>
- * {@link ProjectController} does not handle overflows.
+ *<p> {@link ProjectController} using to interact with  Projects in application.</p>
  *
  * @author Q-YVV
  * @version 1.0
  * @since 1.0
- * @see Project
- * @see DAOProject
- * @see DAOInterface
- * @see DAOEmployee
- * @see DAOTask
- * @see Employee
- * @see Task
  */
 @SuppressWarnings ("checkstyle:MultipleStringLiterals")
 public class ProjectController extends HttpServlet {
@@ -74,10 +46,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Initialize the Employee servlet.
-     *
-     * @throws NullPointerException if the servlet cannot be initialized
-     * @throws ServletException if an error occurs
-     *
      */
     @Override
     public void init() throws ServletException, NullPointerException {
@@ -88,9 +56,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Processes requests for HTTP POST methods.
-     *
-     * @param req  servlet request
-     * @param resp servlet response
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -119,9 +84,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Processes requests for HTTP GET methods.
-     *
-     * @param req  servlet request
-     * @param resp servlet response
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -163,12 +125,6 @@ public class ProjectController extends HttpServlet {
     }
     /**
      *  Method for delete  task in project .
-     *
-     * @param req  servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException  if a database access error occurs
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws IOException, SQLException, ServletException {
@@ -191,12 +147,6 @@ public class ProjectController extends HttpServlet {
     }
     /**
      *  Method for open update task in project form.
-     *
-     * @param req  servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException  if a database access error occurs
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -209,7 +159,7 @@ public class ProjectController extends HttpServlet {
         servletcontext.setAttribute("thisProjectId", thisProjectId);
         req.setAttribute("taskId", existingTask.getId());
         req.setAttribute("status", existingTask.getStatus());
-        req.setAttribute("title", Util.htmlSpecialChars(existingTask.getTitle()));
+        req.setAttribute("title", existingTask.getTitle());
         req.setAttribute("workTime", existingTask.getWorkTime());
         req.setAttribute("beginDate", existingTask.getBeginDate());
         req.setAttribute("endDate", existingTask.getEndDate());
@@ -224,11 +174,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Method for open update project form.
-     *
-     * @param req   servlet request
-     * @param resp  servlet request
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -276,12 +221,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Method for delete project.
-     *
-     * @param req  servlet request
-     * @param resp  servlet response
-     * @throws ServletException if an error occurs
-     * @throws IOException if an error occurs
-     * @throws SQLException if an error occurs
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -294,12 +233,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Method for open add task form in this project.
-     *
-     * @param req  servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException iif an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -319,11 +252,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Method for open add project form.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if an error occurs
-     * @throws IOException if an error occurs
      */
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-project-form.jsp");
@@ -333,12 +261,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Method for open list of projects.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if servlet error occurs
-     * @throws IOException if an error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -358,11 +280,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Method for update project.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if on servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -396,11 +313,6 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Method for add project.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if on servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
         String title = req.getParameter("title");

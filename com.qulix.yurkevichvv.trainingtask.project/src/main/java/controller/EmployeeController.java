@@ -19,36 +19,11 @@ import utilits.Util;
 /**
  * Controller for Employees.
  *
- *<p> {@link EmployeeController} using for control Tasks in application.</p>
- *
- * <h2>Usage</h2>
- * <pre>
- * {@code EmployeeController employeeController = new EmployeeController();}
- * {@code employeeController.doGet(request, response);}
- * {@code employeeController.doPost(request, response);}
- * {@code employeeController.listEmployees(request, response);}
- * {@code employeeController.addEmployee(request, response);}
- * {@code employeeController.updateEmployee(request, response);}
- * {@code employeeController.deleteEmployee(request, response);}
- * {@code employeeController.newEmployeeForm(request, response);}
- * {@code employeeController.editEmployeeForm(request, response);}
- * </pre>
- *
- * <h2>Synchronization</h2>
- * <p>
- * This class is not guaranteed to be thread-safe so it should be synchronized externally.
- * </p>
- *
- * <h2>Known bugs</h2>
- * {@link EmployeeController} does not handle overflows.
+ *<p> {@link EmployeeController} using to interact with Employees in application.</p>
  *
  * @author Q-YVV
  * @version 1.0
  * @since 1.0
- * @see Employee
- * @see DAOEmployee
- * @see DAOInterface
- *
  */
 @SuppressWarnings ("checkstyle:MultipleStringLiterals")
 public class EmployeeController extends HttpServlet {
@@ -61,12 +36,6 @@ public class EmployeeController extends HttpServlet {
     public static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
     /**
      * Initialize the Employee servlet.
-     *
-     * @throws NullPointerException if the servlet is not initialized properly
-     * @throws ServletException if an error occurs
-     * @see HttpServlet#HttpServlet()
-     * @see dao.DAOEmployee
-     * @see model.Employee
      */
     public void init() throws ServletException, NullPointerException {
         super.init();
@@ -74,13 +43,7 @@ public class EmployeeController extends HttpServlet {
 
     }
     /**
-     * Processes requests for HTTP  POST method.
-     * methods.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Processes requests for HTTP  POST methods.
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -101,13 +64,7 @@ public class EmployeeController extends HttpServlet {
         }
     }
     /**
-     * Processes requests for HTTP  GET method.
-     * methods.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Processes requests for HTTP  GET methods.
      */
 
     @Override
@@ -143,22 +100,16 @@ public class EmployeeController extends HttpServlet {
 
     /**
      * Method for open update employee form.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         Integer employeeId = Integer.valueOf(req.getParameter("employeeId"));
         Employee existingEmployee = employeeInterface.getById(employeeId);
         req.setAttribute("employeeId", employeeId);
-        req.setAttribute("surname", Util.htmlSpecialChars(existingEmployee.getSurname()));
-        req.setAttribute("firstName", Util.htmlSpecialChars(existingEmployee.getFirstName()));
-        req.setAttribute("patronymic", Util.htmlSpecialChars(existingEmployee.getPatronymic()));
-        req.setAttribute("post", Util.htmlSpecialChars(existingEmployee.getPost()));
+        req.setAttribute("surname", existingEmployee.getSurname());
+        req.setAttribute("firstName", existingEmployee.getFirstName());
+        req.setAttribute("patronymic", existingEmployee.getPatronymic());
+        req.setAttribute("post", existingEmployee.getPost());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-employee-form.jsp");
         existingEmployee.setId(employeeId);
         req.setAttribute("employee", existingEmployee);
@@ -167,11 +118,6 @@ public class EmployeeController extends HttpServlet {
 
     /**
      * Method for open add employee form.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-employee-form.jsp");
@@ -180,12 +126,6 @@ public class EmployeeController extends HttpServlet {
 
     /**
      * Method for delete employee.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
@@ -197,12 +137,6 @@ public class EmployeeController extends HttpServlet {
 
     /**
      * Method for update employee.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
@@ -220,12 +154,6 @@ public class EmployeeController extends HttpServlet {
 
     /**
      * Method for add employee.
-     *
-     * @param req servlet request
-     * @param resp servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws SQLException if an SQL error occurs
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -243,16 +171,10 @@ public class EmployeeController extends HttpServlet {
     /**
      * Method for get list employees.
      *
-     * @param req servlet request
-     * @param resp  servlet response
-     * @throws SQLException if an SQL error occurs
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         List<Employee> employees = employeeInterface.getAll();
-        req.setCharacterEncoding("UTF-8");
         req.setAttribute("EMPLOYEE_LIST", employees);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);

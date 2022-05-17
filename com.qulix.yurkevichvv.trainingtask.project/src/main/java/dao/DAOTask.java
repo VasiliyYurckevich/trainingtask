@@ -12,35 +12,11 @@ import connection.DBConnection;
 import model.Task;
 /**
  * Class for working with database table "task".
- *
  *<p> {@link DAOTask} using for write data about task in database.</p>
- *
- * <h2>Usage</h2>
- * <pre>
- * {@code DAOTask daoTask = new DAOTask();}
- * {@code daoTask.add(task);}
- * {@code daoTask.update(task);}
- * {@code daoTask.delete(123);}
- * {@code daoTask.getAll();}
- * {@code daoTask.getById(123);}
- * </pre>
- *
- * <h2>Synchronization</h2>
- * <p>
- * This class is not guaranteed to be thread-safe so it should be synchronized externally.
- * </p>
- *
- * <h2>Known bugs</h2>
- * {@link DAOTask} does not handle overflows.
- *
  *
  * @author  Q-YVV
  * @version 1.0
  * @since   1.0
- * @see  DAOEmployee
- * @see  DAOProject
- * @see  DAOInterface
- * @see  DBConnection
  */
 @SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
 public class DAOTask implements DAOInterface<Task> {

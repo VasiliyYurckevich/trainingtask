@@ -13,37 +13,12 @@ import model.Employee;
 
 /**
  * Class for working with database table "employee".
- *
  *<p> {@link DAOEmployee} using for write data about employee in database.</p>
- *
- * <h2>Usage</h2>
- * <pre>
- * {@code DAOEmployee daoEmployee = new DAOEmployee();}
- * {@code daoEmployee.add(employee);}
- * {@code daoEmployee.delete(employee);}
- * {@code daoEmployee.update(2);}
- * {@code daoEmployee.getById(1);}
- * {@code daoEmployee.getAll();}
- *
- * </pre>
- *
- * <h2>Synchronization</h2>
- * <p>
- * This class is not guaranteed to be thread-safe so it should be synchronized externally.
- * </p>
- *
- * <h2>Known bugs</h2>
- * {@link DAOEmployee} does not handle overflows.
  *
  *
  * @author  Q-YVV
  * @version 1.0
  * @since   1.0
- * @see  DAOTask
- * @see  DAOProject
- * @see  DAOInterface
- * @see  Employee
- * @see  DBConnection
  */
 @SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
 public class DAOEmployee implements DAOInterface<Employee> {
@@ -72,9 +47,6 @@ public class DAOEmployee implements DAOInterface<Employee> {
     /**
      * Method for writing new employee to database.
      *
-     * @param employee - employee object
-     * @return true if query is successful
-     * @throws SQLException - if query is not successful
      */
     @Override
     public boolean add(Employee employee) throws SQLException {
@@ -122,10 +94,6 @@ public class DAOEmployee implements DAOInterface<Employee> {
 
     /**
      * Method for deleting employee from database.
-     *
-     * @param  id - employee id
-     * @return true if query is successful
-     * @throws SQLException - if query is not successful
      */
 
     @Override
@@ -146,9 +114,6 @@ public class DAOEmployee implements DAOInterface<Employee> {
     }
     /**
      * Method for getting all employees from database.
-     *
-     * @return list of employees
-     * @throws SQLException - if query is not successful
      */
     @Override
     public List<Employee> getAll() throws SQLException {
@@ -177,10 +142,6 @@ public class DAOEmployee implements DAOInterface<Employee> {
 
     /**
      * Method for getting employee by id.
-     *
-     * @param id - employee id
-     * @return employee object
-     * @throws SQLException - if query is not successful
      */
     @Override
     public Employee getById(Integer  id) throws SQLException {
@@ -208,10 +169,10 @@ public class DAOEmployee implements DAOInterface<Employee> {
                 employee.setPatronymic(resultSet.getString(PATRONYMIC));
                 employee.setPost(resultSet.getString(POST));
             }
-
             return employee;
         }
         finally {
+
             DBConnection.closeConnection();
 
         }

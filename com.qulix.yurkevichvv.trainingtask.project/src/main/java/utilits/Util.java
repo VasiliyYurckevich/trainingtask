@@ -10,9 +10,7 @@ package utilits;
 public class Util {
     /**
      * Replaces all occurrences of the specified HTML symbols in the String.
-     *
-     * @param s string to replace
-     * @return string with replaced substring
+
      */
     public static String htmlSpecialChars(String s) {
         return s.replaceAll("&amp;", "&").replaceAll("&lt;", "<").
