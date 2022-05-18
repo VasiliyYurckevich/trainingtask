@@ -20,11 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0
  * @since 1.0
  */
-@SuppressWarnings ("checkstyle:MultipleStringLiterals")
 public class ProjectController extends HttpServlet {
 
-
-    private static final long serialVersionUID = 1424266234L;
     private DAOInterface<Project> projectInterface;
     /**
      * Logger.
