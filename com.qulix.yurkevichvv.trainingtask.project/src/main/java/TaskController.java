@@ -22,10 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0
  * @since 1.0
  */
-@SuppressWarnings("checkstyle:MultipleStringLiterals")
 public class TaskController extends HttpServlet {
 
-    private static final long serialVersionUID = 12345L;
     private DAOInterface<Task> tasksInterface;
 
     /**

@@ -17,16 +17,16 @@ import javax.servlet.http.HttpServletResponse;
  * @author Q-YVV
  * @version 1.0
  * @since 1.0
- */
-@SuppressWarnings ("checkstyle:MultipleStringLiterals")
+ */ 
 public class EmployeeController extends HttpServlet {
 
-    private static final long serialVersionUID = 12345L;
     private DAOInterface<Employee> employeeInterface;
+
     /**
      * Logger.
      */
     public static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
+
     /**
      * Initialize the Employee servlet.
      */
@@ -35,12 +35,12 @@ public class EmployeeController extends HttpServlet {
         employeeInterface = new DAOEmployee();
 
     }
+
     /**
      * Processes requests for HTTP  POST methods.
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
         try {
             String action = req.getParameter("action");
             switch (action) {
@@ -56,13 +56,12 @@ public class EmployeeController extends HttpServlet {
             LOGGER.warning(String.valueOf(e));
         }
     }
+
     /**
      * Processes requests for HTTP  GET methods.
      */
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
         try {
             String action = req.getParameter("action");
 
