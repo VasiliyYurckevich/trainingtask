@@ -6,7 +6,6 @@
     <!DOCTYPE html>
     <meta charset="UTF-8">
     <head>
-        <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 

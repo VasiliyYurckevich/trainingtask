@@ -5,7 +5,6 @@
 <html lang="ru">
     <!DOCTYPE html>
     <head>
-        <link type="text/css" rel="stylesheet" href="css/nav-bar.css">
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 
@@ -26,7 +25,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <form action="projects" method="get">
-                        <input type="hidden" name="action" value="/new" />
+                        <input type="hidden" name="action" value="/new"/>
                         <input type="submit" value="Добавить" class="add-button">
                     </form>
                     <table id="table" class="table table-striped">
@@ -53,7 +52,7 @@
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a style="padding-left: 15px" href="${deleteLink}"
-                                       onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
+                                        onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
                                 </td>
                             </tr>
                         </c:forEach>
