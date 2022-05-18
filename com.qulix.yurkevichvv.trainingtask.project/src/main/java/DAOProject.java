@@ -12,23 +12,24 @@ import java.util.List;
  * @author  Q-YVV
  * @version 1.0
  * @since   1.0
-
  */
 public class DAOProject implements DAOInterface<Project> {
 
-    private static final String TABLE_NAME = "project";
+    private static final int ONE = 1;
+
+    private static final int TWO = 2;
+
+    private static final int THREE = 3;
+
     private static final String PROJECT_ID = "project_Id";
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
-
-    //SQL queries
+    
     private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (?,?);";
     private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT ;";
     private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE project_Id = ?;";
     private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE project_Id = ?;";
     private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?,  description = ? WHERE project_Id = ?;";
-
-
 
 
     /**
@@ -39,14 +40,13 @@ public class DAOProject implements DAOInterface<Project> {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
-            preparedStatement.setString(1, project.getTitle());
-            preparedStatement.setString(2, project.getDescription());
+            preparedStatement.setString(ONE, project.getTitle());
+            preparedStatement.setString(TWO, project.getDescription());
 
             return preparedStatement.execute();
         }
         finally {
             DBConnection.closeConnection();
-
         }
     }
 
@@ -58,9 +58,9 @@ public class DAOProject implements DAOInterface<Project> {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
-            preparedStatement.setString(1, project.getTitle());
-            preparedStatement.setString(2, project.getDescription());
-            preparedStatement.setInt(3, project.getId());
+            preparedStatement.setString(ONE, project.getTitle());
+            preparedStatement.setString(TWO, project.getDescription());
+            preparedStatement.setInt(THREE, project.getId());
 
             return preparedStatement.execute();
         }
@@ -77,7 +77,7 @@ public class DAOProject implements DAOInterface<Project> {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(ONE, id);
 
             return preparedStatement.execute();
         }
@@ -89,7 +89,6 @@ public class DAOProject implements DAOInterface<Project> {
 
     /**
      * Method to get all projects from database.
-
      */
     @Override
     public List getAll() throws SQLException {
@@ -121,10 +120,10 @@ public class DAOProject implements DAOInterface<Project> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
             try {
-                preparedStatement.setInt(1, id);
+                preparedStatement.setInt(ONE, id);
             }
             catch (NullPointerException e) {
-                preparedStatement.setNull(1, 0);
+                preparedStatement.setNull(ONE, 0);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();

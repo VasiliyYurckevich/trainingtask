@@ -9,10 +9,12 @@ import java.util.List;
  * @since 1.0
  */
 public interface DAOInterface<T> {
+
     /**
      * Add entities.
      */
     boolean add(T t) throws SQLException;
+
     /**
      * Update entities.
      */

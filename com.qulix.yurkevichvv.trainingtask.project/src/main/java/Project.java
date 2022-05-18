@@ -7,9 +7,11 @@
  */
 public class Project {
 
-    protected int id;
-    protected String title;
-    protected String description;
+    private int id;
+
+    private String title;
+
+    private String description;
 
     /**
      * Constructor without parameters.
