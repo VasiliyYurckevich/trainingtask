@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * Connection to database.
  *<p> {@link DBConnection} using for control connection to DB</p>
@@ -13,11 +12,19 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class DBConnection {
+
+
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
+
     private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb;ifexists=true;sql.syntax_mys=true";
+
     private static final String USER = "SA";
+
     private static final String PASS = "";
+
     private static Connection connection = null;
+
+
 
     /**
      * Method for getting connection to database.
@@ -34,6 +41,7 @@ public class DBConnection {
         connection = DriverManager.getConnection(PATH, USER, PASS);
         return connection;
     }
+
     /**
      * Method for closing connection to database.
      */
@@ -42,8 +50,6 @@ public class DBConnection {
             connection.close();
         }
     }
-
-
 }
 
 

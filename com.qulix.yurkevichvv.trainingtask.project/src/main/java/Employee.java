@@ -7,11 +7,15 @@
  */
 public class Employee {
 
-    protected Integer id;
-    protected String surname;
-    protected String firstName;
-    protected String patronymic;
-    protected String post;
+    private Integer id;
+
+    private String surname;
+
+    private String firstName;
+
+    private String patronymic;
+
+    private String post;
 
     /**
      * Constructor without parameters.
@@ -21,12 +25,6 @@ public class Employee {
 
     /**
      * Constructor with parameters.
-     *
-     * @param id Employee id.
-     * @param surname employee surname
-     * @param firstName employee name
-     * @param patronymic employee patronymic
-     * @param post employee post
      */
     public Employee(int id, String surname, String firstName, String patronymic, String post) {
         super();
@@ -38,11 +36,6 @@ public class Employee {
     }
     /**
      * Constructor with parameters.
-     *
-     * @param surname employee surname
-     * @param firstName employee name
-     * @param patronymic employee patronymic
-     * @param post employee post
      */
     public Employee(String surname, String firstName, String patronymic, String post) {
         super();

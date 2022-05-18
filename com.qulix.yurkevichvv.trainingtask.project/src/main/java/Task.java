@@ -9,14 +9,21 @@ import java.time.LocalDate;
  */
 public class Task {
 
-    protected Integer taskId;
-    protected String status;
-    protected String title;
-    protected long workTime;
-    protected LocalDate beginDate;
-    protected LocalDate endDate;
-    protected Integer projectId;
-    protected Integer employeeId;
+    private Integer taskId;
+
+    private String status;
+
+    private String title;
+
+    private long workTime;
+
+    private LocalDate beginDate;
+
+    private LocalDate endDate;
+
+    private Integer projectId;
+
+    private Integer employeeId;
 
     /**
      * Constructor without parameters.
@@ -27,16 +34,7 @@ public class Task {
 
     /**
      * Constructor with parameters.
-     *
-     * @param status task's status
-     * @param title task's title
-     * @param workTime task's work time
-     * @param beginDate task's begin date
-     * @param endDate task's end date
-     * @param projectId task's project id
-     * @param employeeId task's employee id
      */
-
     public Task(String status, String title, long workTime, LocalDate beginDate, LocalDate endDate,
         Integer projectId, Integer employeeId) {
         this.status = status;
@@ -50,15 +48,6 @@ public class Task {
 
     /**
      * Constructor with parameters.
-     *
-     * @param taskId task's id
-     * @param status task's status
-     * @param title task's title
-     * @param workTime task's work time
-     * @param beginDate task's begin date
-     * @param endDate task's end date
-     * @param projectId task's project id
-     * @param employeeId task's employee id
      */
     @SuppressWarnings ("checkstyle:ParameterNumber")
     public Task(Integer taskId, String status, String title, long workTime,

@@ -22,11 +22,38 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ProjectController extends HttpServlet {
 
+    private static final String PROJECT_ID = "projectId";
+
+    private static final String TITLE = "title";
+
+    private static final String DESCRIPTION = "description";
+
+    private static final String ACTION = "action";
+
+    private static final String NUMBER_IN_LIST = "numberInList";
+
+    private static final String DELETED_LIST = "DELETED_LIST";
+
+    private static final String TASKS_LIST = "TASKS_LIST";
+
+    private static final String EMPLOYEE_IN_TASKS_LIST = "EMPLOYEE_IN_TASKS_LIST";
+
+    private static final String PROJECT_LIST = "PROJECT_LIST";
+
+    private static final String THIS_PROJECT_ID = "thisProjectId";
+
+    private static final String EMPLOYEE_LIST = "EMPLOYEE_LIST";
+
+    private static final String LIST = "/list";
+
+
     private DAOInterface<Project> projectInterface;
+
     /**
      * Logger.
      */
     public static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
+
 
 
     /**
@@ -38,17 +65,13 @@ public class ProjectController extends HttpServlet {
         projectInterface = new DAOProject();
     }
 
-
     /**
      * Processes requests for HTTP POST methods.
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        resp.setContentType("text/html;charset=utf-8");
-
         try {
-            String action = req.getParameter("action");
+            String action = req.getParameter(ACTION);
 
             switch (action) {
                 case "/add":
@@ -66,23 +89,21 @@ public class ProjectController extends HttpServlet {
 
     }
 
-
     /**
      * Processes requests for HTTP GET methods.
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html;charset=utf-8");
 
         try {
-            String action =      req.getParameter("action");
+            String action = req.getParameter(ACTION);
 
             if (action == null) {
-                action = "/list";
+                action = LIST;
             }
 
             switch (action) {
-                case "/list":
+                case LIST:
                     listProjects(req, resp);
                     break;
                 case "/delete":
@@ -108,52 +129,54 @@ public class ProjectController extends HttpServlet {
             LOGGER.warning(String.valueOf(e));
         }
     }
+
     /**
      *  Method for delete  task in project .
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws IOException, SQLException, ServletException {
         ServletContext servletContext = getServletContext();
-        String numberInList  = req.getParameter("numberInList");
-        List<Integer> deleteTaskInProject = (List<Integer>) servletContext.getAttribute("DELETED_LIST");
-        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMPLOYEE_IN_TASKS_LIST");
+        String numberInList  = req.getParameter(NUMBER_IN_LIST);
+        List<Integer> deleteTaskInProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
+        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
+        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         Integer id = tasksListInProject.get(Integer.parseInt(numberInList)).getId();
         tasksListInProject.remove(Integer.parseInt(numberInList));
         employeeListInProject.remove(Integer.parseInt(numberInList));
         if (id != null) {
             deleteTaskInProject.add(id);
         }
-        servletContext.setAttribute("numberInList", numberInList);
-        servletContext.setAttribute("TASKS_LIST", tasksListInProject);
-        servletContext.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeListInProject);
-        servletContext.setAttribute("DELETED_LIST", deleteTaskInProject);
+        servletContext.setAttribute(NUMBER_IN_LIST, numberInList);
+        servletContext.setAttribute(TASKS_LIST, tasksListInProject);
+        servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
+        servletContext.setAttribute(DELETED_LIST, deleteTaskInProject);
         editProjectForm(req, resp);
     }
+
     /**
      *  Method for open update task in project form.
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletcontext = getServletContext();
-        List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute("TASKS_LIST");
-        Integer thisProjectId = (Integer) servletcontext.getAttribute("thisProjectId");
-        String numberInList  = req.getParameter("numberInList");
-        servletcontext.setAttribute("numberInList", numberInList);
+        List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute(TASKS_LIST);
+        Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
+        String numberInList  = req.getParameter(NUMBER_IN_LIST);
+        servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
         Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
-        servletcontext.setAttribute("thisProjectId", thisProjectId);
+        servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
         req.setAttribute("taskId", existingTask.getId());
         req.setAttribute("status", existingTask.getStatus());
-        req.setAttribute("title", existingTask.getTitle());
+        req.setAttribute(TITLE, existingTask.getTitle());
         req.setAttribute("workTime", existingTask.getWorkTime());
         req.setAttribute("beginDate", existingTask.getBeginDate());
         req.setAttribute("endDate", existingTask.getEndDate());
-        req.setAttribute("thisProjectId", existingTask.getProjectId());
+        req.setAttribute(THIS_PROJECT_ID, existingTask.getProjectId());
         req.setAttribute("employeeId", existingTask.getEmployeeId());
         List<Employee> employees = new DAOEmployee().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
         servletcontext.setAttribute("task", existingTask);
-        servletcontext.setAttribute("EMPLOYEE_LIST", employees);
+        servletcontext.setAttribute(EMPLOYEE_LIST, employees);
         dispatcher.forward(req, resp);
     }
 
@@ -167,19 +190,19 @@ public class ProjectController extends HttpServlet {
         List<Task> tasksListInProject;
         List<Employee> employeeListInProject;
         try {
-            thisProjectId = Integer.valueOf(req.getParameter("projectId"));
+            thisProjectId = Integer.valueOf(req.getParameter(PROJECT_ID));
         }
         catch (NumberFormatException e) {
-            thisProjectId = (Integer) servletContext.getAttribute("projectId");
+            thisProjectId = (Integer) servletContext.getAttribute(PROJECT_ID);
 
         }
         Project existingProject = projectInterface.getById(thisProjectId);
-        servletContext.setAttribute("projectId", existingProject.getId());
-        servletContext.setAttribute("title", existingProject.getTitle());
-        servletContext.setAttribute("description", existingProject.getDescription());
+        servletContext.setAttribute(PROJECT_ID, existingProject.getId());
+        servletContext.setAttribute(TITLE, existingProject.getTitle());
+        servletContext.setAttribute(DESCRIPTION, existingProject.getDescription());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
         existingProject.setId(thisProjectId);
-        tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
+        tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
         if (tasksListInProject == null) {
             tasksListInProject = new DAOTask().getTasksInProject(existingProject.getId());
@@ -191,28 +214,27 @@ public class ProjectController extends HttpServlet {
                 employeeListInProject.add(employee);
             }
         }
-        List<Integer> deletedTasks = (List<Integer>) servletContext.getAttribute("DELETED_LIST");
+        List<Integer> deletedTasks = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
         if (deletedTasks == null) {
             deletedTasks = new ArrayList<>();
         }
-        servletContext.setAttribute("thisProjectId", thisProjectId);
-        servletContext.setAttribute("DELETED_LIST", deletedTasks);
+        servletContext.setAttribute(THIS_PROJECT_ID, thisProjectId);
+        servletContext.setAttribute(DELETED_LIST, deletedTasks);
         servletContext.setAttribute("project", existingProject);
-        servletContext.setAttribute("TASKS_LIST", tasksListInProject);
-        servletContext.setAttribute("EMPLOYEE_IN_TASKS_LIST", employeeListInProject);
+        servletContext.setAttribute(TASKS_LIST, tasksListInProject);
+        servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
         dispatcher.forward(req, resp);
     }
-
 
     /**
      * Method for delete project.
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        Integer theProjectId = Integer.valueOf(req.getParameter("projectId"));
+        Integer theProjectId = Integer.valueOf(req.getParameter(PROJECT_ID));
         projectInterface.delete(theProjectId);
         listProjects(req, resp);
-        LOGGER.info("Project with id " + theProjectId + " deleted");
+        LOGGER.info("Project with   id " + theProjectId + " deleted");
 
     }
 
@@ -222,16 +244,16 @@ public class ProjectController extends HttpServlet {
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletcontext = getServletContext();
-        Integer thisProjectId = (Integer) servletcontext.getAttribute("thisProjectId");
-        String numberInList  = req.getParameter("numberInList");
-        servletcontext.setAttribute("numberInList", numberInList);
-        servletcontext.setAttribute("thisProjectId", thisProjectId);
+        Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
+        String numberInList  = req.getParameter(NUMBER_IN_LIST);
+        servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
+        servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
-        req.setAttribute("thisProjectId", thisProjectId);
+        req.setAttribute(THIS_PROJECT_ID, thisProjectId);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
-        req.setAttribute("EMPLOYEE_LIST", employees);
-        req.setAttribute("PROJECT_LIST", projects);
+        req.setAttribute(EMPLOYEE_LIST, employees);
+        req.setAttribute(PROJECT_LIST, projects);
         dispatcher.forward(req, resp);
     }
 
@@ -250,15 +272,15 @@ public class ProjectController extends HttpServlet {
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         List<Project> projects = projectInterface.getAll();
-        req.setAttribute("PROJECT_LIST", projects);
+        req.setAttribute(PROJECT_LIST, projects);
         ServletContext servletContext = getServletContext();
-        servletContext.removeAttribute("TASKS_LIST");
-        servletContext.removeAttribute("EMPLOYEE_IN_TASKS_LIST");
-        servletContext.removeAttribute("DELETED_LIST");
-        servletContext.removeAttribute("projectId");
-        servletContext.removeAttribute("title");
-        servletContext.removeAttribute("description");
-        servletContext.removeAttribute("numberInList");
+        servletContext.removeAttribute(TASKS_LIST);
+        servletContext.removeAttribute(EMPLOYEE_IN_TASKS_LIST);
+        servletContext.removeAttribute(DELETED_LIST);
+        servletContext.removeAttribute(PROJECT_ID);
+        servletContext.removeAttribute(TITLE);
+        servletContext.removeAttribute(DESCRIPTION);
+        servletContext.removeAttribute(NUMBER_IN_LIST);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
         dispatcher.forward(req, resp);
     }
@@ -270,12 +292,12 @@ public class ProjectController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         DAOTask taskInterface = new DAOTask();
         ServletContext servletContext = getServletContext();
-        Integer projectId = (Integer) servletContext.getAttribute("projectId");
-        String title = req.getParameter("title");
-        String description = req.getParameter("description");
+        Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
+        String title = req.getParameter(TITLE);
+        String description = req.getParameter(DESCRIPTION);
         Project theProject = new Project(projectId, title, description);
-        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute("TASKS_LIST");
-        List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute("DELETED_LIST");
+        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
+        List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
         for (Task task : tasksListInProject) {
             task.setProjectId(projectId);
             if (task.getId() != null) {
@@ -292,7 +314,7 @@ public class ProjectController extends HttpServlet {
             }
         }
         projectInterface.update(theProject);
-        LOGGER.info("Project with id " + projectId + " update");
+        LOGGER.info("Updated project with id " + projectId);
         listProjects(req, resp);
     }
 
@@ -300,8 +322,8 @@ public class ProjectController extends HttpServlet {
      * Method for add project.
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
-        String title = req.getParameter("title");
-        String description = req.getParameter("description");
+        String title = req.getParameter(TITLE);
+        String description = req.getParameter(DESCRIPTION);
         Project theProject = new Project(title, description);
         projectInterface.add(theProject);
         listProjects(req, resp);

@@ -19,6 +19,21 @@ import javax.servlet.http.HttpServletResponse;
  * @since 1.0
  */ 
 public class EmployeeController extends HttpServlet {
+    
+    private static final String LIST = "/list";
+
+    private static final String ACTION = "action";
+
+    private static final String EMPLOYEE_ID = "employeeId";
+
+    private static final String SURNAME = "surname";
+
+    private static final String FIRST_NAME = "firstName";
+
+    private static final String PATRONYMIC = "patronymic";
+
+    private static final String POST = "post";
+
 
     private DAOInterface<Employee> employeeInterface;
 
@@ -26,6 +41,7 @@ public class EmployeeController extends HttpServlet {
      * Logger.
      */
     public static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
+
 
     /**
      * Initialize the Employee servlet.
@@ -42,7 +58,7 @@ public class EmployeeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String action = req.getParameter("action");
+            String action = req.getParameter(ACTION);
             switch (action) {
                 case "/add":
                     addEmployee(req, resp);
@@ -63,14 +79,14 @@ public class EmployeeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String action = req.getParameter("action");
+            String action = req.getParameter(ACTION);
 
             if (action == null) {
-                action = "/list";
+                action = LIST;
             }
 
             switch (action) {
-                case "/list":
+                case LIST:
                     listEmployees(req, resp);
                     break;
                 case "/delete":
@@ -95,13 +111,13 @@ public class EmployeeController extends HttpServlet {
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        Integer employeeId = Integer.valueOf(req.getParameter("employeeId"));
+        Integer employeeId = Integer.valueOf(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeInterface.getById(employeeId);
-        req.setAttribute("employeeId", employeeId);
-        req.setAttribute("surname", existingEmployee.getSurname());
-        req.setAttribute("firstName", existingEmployee.getFirstName());
-        req.setAttribute("patronymic", existingEmployee.getPatronymic());
-        req.setAttribute("post", existingEmployee.getPost());
+        req.setAttribute(EMPLOYEE_ID, employeeId);
+        req.setAttribute(SURNAME, existingEmployee.getSurname());
+        req.setAttribute(FIRST_NAME, existingEmployee.getFirstName());
+        req.setAttribute(PATRONYMIC, existingEmployee.getPatronymic());
+        req.setAttribute(POST, existingEmployee.getPost());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-employee-form.jsp");
         existingEmployee.setId(employeeId);
         req.setAttribute("employee", existingEmployee);
@@ -121,7 +137,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
-        Integer theEmployeeId = Integer.valueOf(req.getParameter("employeeId"));
+        Integer theEmployeeId = Integer.valueOf(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(theEmployeeId);
         listEmployees(req, resp);
         LOGGER.info("Employee with id " + theEmployeeId + " deleted");
@@ -132,27 +148,26 @@ public class EmployeeController extends HttpServlet {
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
-        int employeeId = Integer.parseInt(req.getParameter("employeeId"));
-        String surname = req.getParameter("surname");
-        String firstName = req.getParameter("firstName");
-        String patronymic = req.getParameter("patronymic");
-        String post = req.getParameter("post");
+        int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
+        String surname = req.getParameter(SURNAME);
+        String firstName = req.getParameter(FIRST_NAME);
+        String patronymic = req.getParameter(PATRONYMIC);
+        String post = req.getParameter(POST);
         Employee theEmployee = new Employee(employeeId, surname, firstName, patronymic, post);
         employeeInterface.update(theEmployee);
         listEmployees(req, resp);
-        LOGGER.info("Employee with id " + employeeId + " update");
+        LOGGER.info("Updated employee with id " + employeeId);
     }
-
 
     /**
      * Method for add employee.
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        String surname = req.getParameter("surname");
-        String firstName = req.getParameter("firstName");
-        String patronymic = req.getParameter("patronymic");
-        String post = req.getParameter("post");
+        String surname = req.getParameter(SURNAME);
+        String firstName = req.getParameter(FIRST_NAME);
+        String patronymic = req.getParameter(PATRONYMIC);
+        String post = req.getParameter(POST);
         Employee employee = new Employee(surname, firstName, patronymic , post);
         employeeInterface.add(employee);
         listEmployees(req, resp);
@@ -162,7 +177,6 @@ public class EmployeeController extends HttpServlet {
 
     /**
      * Method for get list employees.
-     *
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {

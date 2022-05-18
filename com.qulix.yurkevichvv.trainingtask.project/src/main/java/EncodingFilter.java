@@ -10,9 +10,6 @@ import javax.servlet.annotation.WebFilter;
 
 /**
  * Encoding filter.
- *<h2>Description</h2>
- * <p>This filter is used to encode the request and response.</p>
- * <p>The encoding is specified in the filter configuration.</p>
  *
  * @author  Q-YVV
  * @version 1.0
@@ -47,5 +44,4 @@ public class EncodingFilter implements Filter {
             encoding = encodingParam;
         }
     }
-
 }
