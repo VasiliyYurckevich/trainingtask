@@ -1,5 +1,3 @@
-package dao;
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,9 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import connection.DBConnection;
-import model.Employee;
 
 /**
  * Class for working with database table "employee".
@@ -20,33 +15,25 @@ import model.Employee;
  * @version 1.0
  * @since   1.0
  */
-@SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
 public class DAOEmployee implements DAOInterface<Employee> {
 
-    private static final String SCHEMA_NAME = "PUBLIC";
-    private static final String TABLE_NAME = "EMPLOYEE";
-    //Columns names
     private static final String EMPLOYEE_ID = "employee_id";
     private static final String SURNAME = "surname";
     private static final String FIRST_NAME = "first_name";
     private static final String PATRONYMIC = "patronymic";
     private static final String POST = "post";
 
-    //SQL queries
-    private static final  String INSERT_EMPLOYEE_SQL = "INSERT INTO " + TABLE_NAME +
-        " (surname, first_name, patronymic, post) VALUES (?,?,?,?);";
-    private static final String SELECT_ALL_CLIENT = "SELECT * FROM "  + TABLE_NAME + ";";
-    private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
-    private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?;";
-    private static final String UPDATE_CLIENT_SQL = "UPDATE " + TABLE_NAME +
-        " SET surname = ?, first_name = ?, patronymic = ?, post = ? WHERE employee_id = ?;";
-
-
+    private static final  String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +
+        " VALUES (?,?,?,?);";
+    private static final String SELECT_ALL_CLIENT = "SELECT * FROM EMPLOYEE;";
+    private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM EMPLOYEE WHERE employee_id = ?;";
+    private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE employee_id = ?;";
+    private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE SET surname = ?, first_name = ?, patronymic = ?, post = ?" +
+        " WHERE employee_id = ?;";
 
 
     /**
      * Method for writing new employee to database.
-     *
      */
     @Override
     public boolean add(Employee employee) throws SQLException {
@@ -58,20 +45,15 @@ public class DAOEmployee implements DAOInterface<Employee> {
             preparedStatement.setString(3, employee.getPatronymic());
             preparedStatement.setString(4, employee.getPost());
 
-            boolean query = preparedStatement.execute();
-
-            return query;
+            return preparedStatement.execute();
         }
         finally {
             DBConnection.closeConnection();
         }
     }
+
     /**
      * Method for rewriting  employee to database.
-     *
-     * @param employee - employee object
-     * @return list of employees
-     * @throws SQLException - if query is not successful
      */
     @Override
     public boolean update(Employee employee) throws SQLException {
@@ -83,9 +65,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             preparedStatement.setString(3, employee.getPatronymic());
             preparedStatement.setString(4, employee.getPost());
             preparedStatement.setInt(5, employee.getId());
-            boolean query = preparedStatement.execute();
-
-            return query;
+            return preparedStatement.execute();
         }
         finally {
             DBConnection.closeConnection();
@@ -103,15 +83,14 @@ public class DAOEmployee implements DAOInterface<Employee> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
             preparedStatement.setInt(1, id);
-            boolean query = preparedStatement.execute();
 
-            return query;
+            return preparedStatement.execute();
         }
         finally {
             DBConnection.closeConnection();
         }
-
     }
+
     /**
      * Method for getting all employees from database.
      */

@@ -1,5 +1,3 @@
-package model;
-
 /**
  * Class Employee describes employee.
  *

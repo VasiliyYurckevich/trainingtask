@@ -1,5 +1,3 @@
-package controller;
-
 import java.io.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -13,15 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import dao.DAOEmployee;
-import dao.DAOInterface;
-import dao.DAOProject;
-import dao.DAOTask;
-import model.Employee;
-import model.Project;
-import model.Task;
-import utilits.Util;
 
 /**
  * Controller for tasks.

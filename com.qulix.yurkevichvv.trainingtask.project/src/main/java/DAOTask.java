@@ -1,5 +1,3 @@
-package dao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import connection.DBConnection;
-import model.Task;
 /**
  * Class for working with database table "task".
  *<p> {@link DAOTask} using for write data about task in database.</p>

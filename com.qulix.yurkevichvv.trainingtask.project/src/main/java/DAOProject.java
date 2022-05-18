@@ -1,15 +1,9 @@
-
-package dao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import connection.DBConnection;
-import model.Project;
 
 /**
  * Class for working with database table "project".
@@ -20,7 +14,6 @@ import model.Project;
  * @since   1.0
 
  */
-@SuppressWarnings ({"checkstyle:MultipleStringLiterals", "checkstyle:MagicNumber"})
 public class DAOProject implements DAOInterface<Project> {
 
     private static final String TABLE_NAME = "project";
@@ -29,22 +22,17 @@ public class DAOProject implements DAOInterface<Project> {
     private static final String DESCRIPTION = "description";
 
     //SQL queries
-    private static final String INSERT_PROJECT_SQL = "INSERT INTO " + TABLE_NAME + " (title, description) VALUES (?,?);";
-    private static final String SELECT_ALL_PROJECTS = "SELECT * FROM " + TABLE_NAME + ";";
-    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    private static final String DELETE_PROJECT_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + PROJECT_ID + " = ?;";
-    private static final String UPDATE_PROJECT_SQL = "UPDATE " + TABLE_NAME +
-        " SET title = ?,  description = ? WHERE " + PROJECT_ID + " = ?;";
+    private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (?,?);";
+    private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT ;";
+    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE project_Id = ?;";
+    private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE project_Id = ?;";
+    private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?,  description = ? WHERE project_Id = ?;";
 
 
 
 
     /**
      * Method to add new project to database.
-     *
-     * @param project - project to add
-     * @return true if query is successful
-     * @throws SQLException - if query is not successful
      */
     @Override
     public boolean add(Project project) throws SQLException {
@@ -53,9 +41,8 @@ public class DAOProject implements DAOInterface<Project> {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
             preparedStatement.setString(1, project.getTitle());
             preparedStatement.setString(2, project.getDescription());
-            boolean query = preparedStatement.execute();
 
-            return query;
+            return preparedStatement.execute();
         }
         finally {
             DBConnection.closeConnection();
@@ -65,10 +52,6 @@ public class DAOProject implements DAOInterface<Project> {
 
     /**
      * Method to update project in database.
-     *
-     * @param project - project to update
-     * @return true if query is successful
-     * @throws SQLException - if query is not successful
      */
     @Override
     public boolean update(Project project) throws SQLException {
@@ -78,20 +61,16 @@ public class DAOProject implements DAOInterface<Project> {
             preparedStatement.setString(1, project.getTitle());
             preparedStatement.setString(2, project.getDescription());
             preparedStatement.setInt(3, project.getId());
-            boolean query = preparedStatement.execute();
 
-            return query;
+            return preparedStatement.execute();
         }
         finally {
             DBConnection.closeConnection();
         }
     }
+
     /**
      * Method to delete project from database.
-     *
-     * @param id - id of project to delete
-     * @return true if query is successful
-     * @throws SQLException  - if query is not successful
      */
     @Override
     public boolean delete(Integer id) throws SQLException {
@@ -99,19 +78,18 @@ public class DAOProject implements DAOInterface<Project> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
             preparedStatement.setInt(1, id);
-            boolean query = preparedStatement.execute();
-            return query;
+
+            return preparedStatement.execute();
         }
         finally {
             DBConnection.closeConnection();
 
         }
     }
+
     /**
      * Method to get all projects from database.
-     *
-     * @return list of projects
-     * @throws SQLException - if query is not successful
+
      */
     @Override
     public List getAll() throws SQLException {
@@ -135,10 +113,6 @@ public class DAOProject implements DAOInterface<Project> {
 
     /**
      * Method to get project by id from database.
-     *
-     * @param id - id of project to get
-     * @return project
-     * @throws SQLException - if query is not successful
      */
     @Override
     public Project getById(Integer id) throws SQLException {

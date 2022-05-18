@@ -1,6 +1,3 @@
-
-package filter;
-
 import java.io.*;
 
 import javax.servlet.Filter;

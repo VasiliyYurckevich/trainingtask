@@ -1,5 +1,3 @@
-package controller;
-
 import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -10,11 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import dao.DAOEmployee;
-import dao.DAOInterface;
-import model.Employee;
-import utilits.Util;
 
 /**
  * Controller for Employees.
