@@ -1,6 +1,6 @@
 SET DATABASE SQL SYNTAX MYS TRUE;
 
-create table project
+create table if not exists project
 (
     project_id  INT         not null
         primary key,
@@ -8,7 +8,7 @@ create table project
     description VARCHAR(250)
 );
 
-create table employee
+create table if not exists employee
 (
     employee_id INT         not null
         primary key,
@@ -18,7 +18,7 @@ create table employee
     post        VARCHAR(50) not null
 );
 
-create table task
+create table if not exists task
 (
     id          INT         not null
         primary key,
