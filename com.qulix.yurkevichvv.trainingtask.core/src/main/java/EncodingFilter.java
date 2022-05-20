@@ -6,7 +6,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 
 /**
  * Encoding filter.
@@ -15,17 +14,11 @@ import javax.servlet.annotation.WebFilter;
  * @version 1.0
  * @since   1.0
  */
-@WebFilter(filterName = "EncodingFilter")
 public class EncodingFilter implements Filter {
-
     private String encoding = "utf-8";
 
     /**
      * Filter method.
-     *
-     * @param req request
-     * @param resp response
-     *
      */
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain)
         throws IOException, ServletException {
@@ -35,8 +28,6 @@ public class EncodingFilter implements Filter {
 
     /**
      * Set encoding.
-     *
-     * @param filterConfig filter config
      */
     public void init(FilterConfig filterConfig) {
         String encodingParam = filterConfig.getInitParameter("encoding");

@@ -28,6 +28,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
 
 
     private static final String EMPLOYEE_ID = "employee_id";
+
     private static final String SURNAME = "surname";
 
     private static final String FIRST_NAME = "first_name";
@@ -56,8 +57,9 @@ public class DAOEmployee implements DAOInterface<Employee> {
     @Override
     public boolean add(Employee employee) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL);
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL);
             preparedStatement.setString(ONE, employee.getSurname());
             preparedStatement.setString(TWO, employee.getFirstName());
             preparedStatement.setString(THREE, employee.getPatronymic());
@@ -66,7 +68,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -76,8 +78,8 @@ public class DAOEmployee implements DAOInterface<Employee> {
     @Override
     public boolean update(Employee employee) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL);
             preparedStatement.setString(ONE, employee.getSurname());
             preparedStatement.setString(TWO, employee.getFirstName());
             preparedStatement.setString(THREE, employee.getPatronymic());
@@ -86,7 +88,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -98,14 +100,15 @@ public class DAOEmployee implements DAOInterface<Employee> {
     public boolean delete(Integer id) throws SQLException {
 
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
             preparedStatement.setInt(ONE, id);
 
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -116,10 +119,11 @@ public class DAOEmployee implements DAOInterface<Employee> {
     public List<Employee> getAll() throws SQLException {
 
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENT);
 
         try {
             List<Employee> employees = new ArrayList<>();
-            ResultSet resultSet = connection.createStatement().executeQuery(SELECT_ALL_CLIENT);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Employee employee = new Employee();
@@ -133,7 +137,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             return employees;
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -143,9 +147,8 @@ public class DAOEmployee implements DAOInterface<Employee> {
     @Override
     public Employee getById(Integer  id) throws SQLException {
         Connection connection = DBConnection.getConnection();
-
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
             try {
                 preparedStatement.setInt(ONE, id);
             }
@@ -169,8 +172,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             return employee;
         }
         finally {
-
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 }

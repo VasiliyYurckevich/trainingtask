@@ -85,7 +85,7 @@ public class DAOTask implements DAOInterface<Task> {
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -104,7 +104,7 @@ public class DAOTask implements DAOInterface<Task> {
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -131,6 +131,7 @@ public class DAOTask implements DAOInterface<Task> {
             preparedStatement.setInt(SEVEN, task.getEmployeeId());
         }
         return preparedStatement;
+
     }
 
     /**
@@ -140,13 +141,13 @@ public class DAOTask implements DAOInterface<Task> {
     @Override
     public boolean delete(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL);
             preparedStatement.setInt(ONE, id);
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -157,14 +158,15 @@ public class DAOTask implements DAOInterface<Task> {
     public List<Task> getTasksInProject(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
         List<Task> tasks = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT);
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT);
             preparedStatement.setString(ONE, String.valueOf(id));
             ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -173,15 +175,16 @@ public class DAOTask implements DAOInterface<Task> {
      *
      */
     @Override
-    public List getAll() throws SQLException {
+    public List<Task> getAll() throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);
         try {
             List<Task> tasks = new ArrayList<Task>();
-            ResultSet resultSet = connection.createStatement().executeQuery(SELECT_ALL_TASK);
+            ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -189,27 +192,10 @@ public class DAOTask implements DAOInterface<Task> {
      * Method for getting list of tasks from database.
      *
      */
-    private List getList(List<Task> tasks, ResultSet resultSet) throws SQLException {
+    private List<Task> getList(List<Task> tasks, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             Task task = new Task();
-            task.setId(resultSet.getInt(TASK_ID));
-            task.setStatus(resultSet.getString(STATUS));
-            task.setTitle(resultSet.getString(TITLE));
-            task.setWorkTime(resultSet.getLong(WORK_TIME));
-            task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
-            task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-            if (resultSet.getInt(PROJECT_ID) != 0) {
-                task.setProjectId(resultSet.getInt(PROJECT_ID));
-            }
-            else {
-                task.setProjectId(null);
-            }
-            if (resultSet.getInt(EMPLOYEE_ID) != 0)  {
-                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
-            }
-            else {
-                task.setEmployeeId(null);
-            }
+            setDataFromJSP(resultSet, task);
 
             tasks.add(task);
 
@@ -224,36 +210,38 @@ public class DAOTask implements DAOInterface<Task> {
     @Override
     public Task getById(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);
             preparedStatement.setInt(ONE, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Task task = new Task();
             while (resultSet.next()) {
-                task.setId(resultSet.getInt(TASK_ID));
-                task.setStatus(resultSet.getString(STATUS));
-                task.setTitle(resultSet.getString(TITLE));
-                task.setWorkTime(resultSet.getLong(WORK_TIME));
-                task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
-                task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-                if (resultSet.getInt(PROJECT_ID) != 0) {
-                    task.setProjectId(resultSet.getInt(PROJECT_ID));
-                }
-                else {
-                    task.setProjectId(null);
-                }
-                if (resultSet.getInt(EMPLOYEE_ID) != 0) {
-                    task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
-                }
-                else {
-                    task.setEmployeeId(null);
-                }
+                task = setDataFromJSP(resultSet, task);
             }
             return task;
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
+
+    private Task setDataFromJSP(ResultSet resultSet, Task task) throws SQLException {
+        task.setId(resultSet.getInt(TASK_ID));
+        task.setStatus(resultSet.getString(STATUS));
+        task.setTitle(resultSet.getString(TITLE));
+        task.setWorkTime(resultSet.getLong(WORK_TIME));
+        task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
+        task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
+        task.setProjectId(resultSet.getInt(PROJECT_ID));
+        if (resultSet.getInt(EMPLOYEE_ID) != 0) {
+            task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
+        }
+        else {
+            task.setEmployeeId(null);
+        }
+        return task;
+    }
+
+
 }

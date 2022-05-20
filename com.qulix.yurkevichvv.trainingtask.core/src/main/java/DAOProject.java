@@ -38,15 +38,16 @@ public class DAOProject implements DAOInterface<Project> {
     @Override
     public boolean add(Project project) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
             preparedStatement.setString(ONE, project.getTitle());
             preparedStatement.setString(TWO, project.getDescription());
 
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -56,8 +57,9 @@ public class DAOProject implements DAOInterface<Project> {
     @Override
     public boolean update(Project project) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
             preparedStatement.setString(ONE, project.getTitle());
             preparedStatement.setString(TWO, project.getDescription());
             preparedStatement.setInt(THREE, project.getId());
@@ -65,7 +67,7 @@ public class DAOProject implements DAOInterface<Project> {
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -75,14 +77,15 @@ public class DAOProject implements DAOInterface<Project> {
     @Override
     public boolean delete(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
             preparedStatement.setInt(ONE, id);
 
             return preparedStatement.execute();
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
 
         }
     }
@@ -91,11 +94,12 @@ public class DAOProject implements DAOInterface<Project> {
      * Method to get all projects from database.
      */
     @Override
-    public List getAll() throws SQLException {
+    public List<Project> getAll() throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS);
         try {
+            ResultSet resultSet = preparedStatement.executeQuery();
             List<Project> projects = new ArrayList<>();
-            ResultSet resultSet = connection.createStatement().executeQuery(SELECT_ALL_PROJECTS);
             while (resultSet.next()) {
                 Project project = new Project();
                 project.setId(resultSet.getInt(PROJECT_ID));
@@ -106,7 +110,7 @@ public class DAOProject implements DAOInterface<Project> {
             return projects;
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 
@@ -116,9 +120,9 @@ public class DAOProject implements DAOInterface<Project> {
     @Override
     public Project getById(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
             try {
                 preparedStatement.setInt(ONE, id);
             }
@@ -135,7 +139,7 @@ public class DAOProject implements DAOInterface<Project> {
             return project;
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(preparedStatement);
         }
     }
 }

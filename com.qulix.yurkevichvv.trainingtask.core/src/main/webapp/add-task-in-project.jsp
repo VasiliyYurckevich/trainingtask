@@ -73,7 +73,6 @@
                             </select>
                             </td>
                         </tr>
-                        </tr>
                         </tbody>
                     </table>
                     <br><br/>

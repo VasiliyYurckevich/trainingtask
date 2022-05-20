@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,6 @@ public class DBConnection {
     private static Connection connection = null;
 
 
-
     /**
      * Method for getting connection to database.
      */
@@ -45,7 +45,10 @@ public class DBConnection {
     /**
      * Method for closing connection to database.
      */
-    public static void closeConnection() throws SQLException {
+    public static void closeConnection(PreparedStatement preparedStatement) throws SQLException {
+        if (preparedStatement != null && !preparedStatement.isClosed()) {
+            preparedStatement.close();
+        }
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }

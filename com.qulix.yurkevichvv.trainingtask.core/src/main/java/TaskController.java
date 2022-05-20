@@ -34,15 +34,15 @@ public class TaskController extends HttpServlet {
 
     private static final  String TITLE = "title";
 
-    private static final  String PROJECT_ID = "project_id";
+    private static final  String PROJECT_ID = "projectId";
 
-    private static final  String WORK_TIME = "work_time";
+    private static final  String WORK_TIME = "workTime";
 
-    private static final  String BEGIN_DATE = "begin_date";
+    private static final  String BEGIN_DATE = "beginDate";
 
-    private static final  String END_DATE = "end_date";
+    private static final  String END_DATE = "endDate";
 
-    private static final  String EMPLOYEE_ID = "employee_id";
+    private static final  String EMPLOYEE_ID = "employeeId";
 
     private static final String EMPLOYEE_LIST = "EMPLOYEE_LIST";
 
@@ -146,12 +146,12 @@ public class TaskController extends HttpServlet {
         Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
         req.setAttribute(TASK_ID, existingTask.getId());
         req.setAttribute(STATUS, existingTask.getStatus());
-        req.setAttribute(TASK_ID, (existingTask.getTitle()));
-        req.setAttribute("workTime", existingTask.getWorkTime());
-        req.setAttribute("beginDate", existingTask.getBeginDate());
-        req.setAttribute("endDate", existingTask.getEndDate());
-        req.setAttribute("projectId", existingTask.getProjectId());
-        req.setAttribute("employeeId", existingTask.getEmployeeId());
+        req.setAttribute(TITLE, (existingTask.getTitle()));
+        req.setAttribute(WORK_TIME, existingTask.getWorkTime());
+        req.setAttribute(BEGIN_DATE, existingTask.getBeginDate());
+        req.setAttribute(END_DATE, existingTask.getEndDate());
+        req.setAttribute(PROJECT_ID, existingTask.getProjectId());
+        req.setAttribute(EMPLOYEE_ID, existingTask.getEmployeeId());
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-form.jsp");
@@ -254,7 +254,6 @@ public class TaskController extends HttpServlet {
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         Task task = getDataFromForm(req, null);
-
         tasksInterface.add(task);
         listTasks(req, resp);
         LOGGER.info("New task created");
