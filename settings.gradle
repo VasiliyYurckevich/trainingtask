@@ -1,4 +1,4 @@
-gradle.ext.hsqldbVersion = '2.6.1'
+gradle.ext.hsqldbVersion = '2.5.1'
 gradle.ext.dbName = "mydb"
 gradle.ext.dbUser = "SA"
 gradle.ext.dbPassword = ""
@@ -8,5 +8,5 @@ gradle.ext.dbFile = "mydb"
 gradle.ext.dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;sql.syntax_mys=true"
 gradle.ext.dbDrive = "org.hsqldb.jdbc.JDBCDriver"
 
-include 'com.qulix.yurkevichvv.trainingtask.project'
+include 'com.qulix.yurkevichvv.trainingtask.core'
 

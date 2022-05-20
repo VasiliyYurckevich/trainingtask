@@ -1,3 +1,5 @@
+import com.bmuschko.gradle.tomcat.tasks.TomcatRun
+
 buildscript {
     repositories {
         mavenCentral()
@@ -21,33 +23,33 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.8.1'
+    junitVersion = '5.8.2'
 }
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
     options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
 }
 
-
-
 dependencies {
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'org.hsqldb:hsqldb:2.6.1'
-    implementation 'org.codehaus.groovy:groovy-all:2.2.2'
+    implementation 'org.hsqldb:hsqldb:2.5.1'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
     compileOnly('javax:javaee-web-api:8.0.1')
     implementation group: 'jstl', name: 'jstl', version: '1.2'
     implementation group: 'taglibs', name: 'standard', version: '1.1.2'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    def tomcatVersion = '9.0.56'
+
+    def tomcatVersion = '9.0.59'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
-
 }
 
 test {
@@ -56,10 +58,12 @@ test {
 
 apply from: 'startDatabase.gradle'
 apply plugin: 'checkstyle'
+
 checkstyle {
     toolVersion = '8.14'
-    configFile = rootProject.file('com.qulix.yurkevichvv.trainingtask.project/src/main/resources/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('checkstyle/checkstyle.xml')
 }
+
 task Checkstyle(type: Checkstyle) {
     source 'src/main/java'
     include '**/*.java'
@@ -73,8 +77,9 @@ tomcat {
     ajpProtocol = 'org.apache.coyote.ajp.AjpNio2Protocol'
 }
 
-task startServer(type: com.bmuschko.gradle.tomcat.tasks.TomcatRun) {
+task startServer(type: TomcatRun) {
     httpPort = 8080
     httpsPort = 8080
 }
+
 tomcatRun.contextPath = '/'

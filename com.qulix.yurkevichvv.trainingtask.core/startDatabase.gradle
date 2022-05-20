@@ -26,6 +26,7 @@ def buildProcess(className, filePath, dbName) {
     def javaHome = System.getProperty("java.home")
     def javaBin = javaHome + File.separator + "bin" + File.separator + "java"
     def classpath = project.buildscript.configurations.classpath.asPath
+    print(classpath.toString())
 
     def builder = new ProcessBuilder(javaBin, "-cp", classpath, className,
             "--database.0", filePath, "--dbname.0", dbName as String)
@@ -58,24 +59,23 @@ def createDatabaseTables(dbUser, dbPassword) {
         loader.addURL(file.toURI().toURL())
     }
 
-    String query = new File("${project.projectDir}/src/main/resources/sql-scripts/create.sql").text
+    String query = new File("${rootDir.absolutePath}/sql-scripts/create.sql").text
 
     Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
     sql.execute(query)
     sql.close()
 }
 
-
 boolean available() {
     try {
         int dbPort = project.properties['dbPort'] ?: gradle.dbPort as int
         String dbHost = project.properties['dbHost'] ?: gradle.dbHost
-        Socket ignored = new Socket(dbHost, dbPort);
-        ignored.close();
-        return false;
+        Socket ignored = new Socket(dbHost, dbPort)
+        ignored.close()
+        return false
     }
     catch (IOException ignored) {
-        return true;
+        return true
     }
 }
 task dropDatabase() {
@@ -94,7 +94,7 @@ task dropDatabase() {
             loader.addURL(file.toURI().toURL())
         }
 
-        String query = new File("${project.projectDir}/src/main/resources/sql-scripts/drop.sql").text
+        String query = new File("${rootDir.absolutePath}/sql-scripts/drop.sql").text
 
         Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
         sql.execute(query)
