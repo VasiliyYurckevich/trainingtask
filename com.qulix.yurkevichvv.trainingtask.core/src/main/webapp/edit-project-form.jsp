@@ -28,16 +28,20 @@
                             <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button id="cancelButton" name="cancelButton" onclick="location.href='projects'" type="button" class="add-button">Отмена</button>
                         </div>
                         <tbody>
-                            <tr>
-                                <td><label>Наименование:</label></td>
-                                <td><input required="required"  type="text" maxlength="50" oninput="checkLength('title',50)"   name="title" id="title"
-                                 value="${fn:escapeXml(title)}"></td>
-                            </tr>
-                            <tr>
-                                <td><label>Описание:</label></td>
-                                <td><input type="text" required="required"  maxlength="250" name="description" id="description" oninput="checkLength('description',250)"
-                                 value="${fn:escapeXml(description)}"></td>
-                            </tr>
+                        <tr>
+                            <td><label>Наименование:</label></td>
+                            <td><input id="titleProject" name="titleProject" value="${titleProject}"></td>
+                            <td>
+                                <error>${ERRORS.get(0)}</error>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Описание:</label></td>
+                            <td><input id="description"  name="description" value="${description}"></td>
+                            <td>
+                                <error>${ERRORS.get(1)}</error>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     <tbody>
@@ -80,7 +84,7 @@
                                     <td> ${tempTask.workTime} </td>
                                     <td> ${tempTask.beginDate}</td>
                                     <td> ${tempTask.endDate} </td>
-                                    <td> ${fn:escapeXml(title)}</td>
+                                    <td> ${fn:escapeXml(titleProject)}</td>
                                     <td>${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)} ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)} ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}</td>
                                     <td>
                                         <a href="${editLink}">Редактировать</a>

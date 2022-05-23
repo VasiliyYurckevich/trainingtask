@@ -16,17 +16,6 @@ import java.util.List;
  */
 public class DAOEmployee implements DAOInterface<Employee> {
 
-    private static final int ONE = 1;
-
-    private static final int TWO = 2;
-
-    private static final int THREE = 3;
-
-    private static final int FOUR = 4;
-
-    private static final int FIVE = 5;
-
-
     private static final String EMPLOYEE_ID = "employee_id";
 
     private static final String SURNAME = "surname";
@@ -60,10 +49,10 @@ public class DAOEmployee implements DAOInterface<Employee> {
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL);
 
         try {
-            preparedStatement.setString(ONE, employee.getSurname());
-            preparedStatement.setString(TWO, employee.getFirstName());
-            preparedStatement.setString(THREE, employee.getPatronymic());
-            preparedStatement.setString(FOUR, employee.getPost());
+            preparedStatement.setString(Nums.ONE.getValue(), employee.getSurname());
+            preparedStatement.setString(Nums.TWO.getValue(), employee.getFirstName());
+            preparedStatement.setString(Nums.THREE.getValue(), employee.getPatronymic());
+            preparedStatement.setString(Nums.FOUR.getValue(), employee.getPost());
 
             return preparedStatement.execute();
         }
@@ -80,11 +69,11 @@ public class DAOEmployee implements DAOInterface<Employee> {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL);
         try {
-            preparedStatement.setString(ONE, employee.getSurname());
-            preparedStatement.setString(TWO, employee.getFirstName());
-            preparedStatement.setString(THREE, employee.getPatronymic());
-            preparedStatement.setString(FOUR, employee.getPost());
-            preparedStatement.setInt(FIVE, employee.getId());
+            preparedStatement.setString(Nums.ONE.getValue(), employee.getSurname());
+            preparedStatement.setString(Nums.TWO.getValue(), employee.getFirstName());
+            preparedStatement.setString(Nums.THREE.getValue(), employee.getPatronymic());
+            preparedStatement.setString(Nums.FOUR.getValue(), employee.getPost());
+            preparedStatement.setInt(Nums.FIVE.getValue(), employee.getId());
             return preparedStatement.execute();
         }
         finally {
@@ -103,7 +92,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
 
         try {
-            preparedStatement.setInt(ONE, id);
+            preparedStatement.setInt(Nums.ONE.getValue(), id);
 
             return preparedStatement.execute();
         }
@@ -150,10 +139,10 @@ public class DAOEmployee implements DAOInterface<Employee> {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
         try {
             try {
-                preparedStatement.setInt(ONE, id);
+                preparedStatement.setInt(Nums.ONE.getValue(), id);
             }
             catch (NullPointerException e) {
-                preparedStatement.setNull(ONE, 0);
+                preparedStatement.setNull(Nums.ONE.getValue(), 0);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Employee employee = new Employee();

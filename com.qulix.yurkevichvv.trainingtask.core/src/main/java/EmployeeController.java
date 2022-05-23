@@ -1,5 +1,6 @@
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -19,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  * @since 1.0
  */ 
 public class EmployeeController extends HttpServlet {
-    
+
+    private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
+    private static final String EDIT_EMPLOYEE_FORM_JSP = "/edit-employee-form.jsp";
     private static final String LIST = "/list";
 
     private static final String ACTION = "action";
@@ -118,7 +121,7 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute(FIRST_NAME, existingEmployee.getFirstName());
         req.setAttribute(PATRONYMIC, existingEmployee.getPatronymic());
         req.setAttribute(POST, existingEmployee.getPost());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-employee-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
         existingEmployee.setId(employeeId);
         req.setAttribute("employee", existingEmployee);
         dispatcher.forward(req, resp);
@@ -128,7 +131,7 @@ public class EmployeeController extends HttpServlet {
      * Method for open add employee form.
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/add-employee-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
         dispatcher.forward(req, resp);
     }
 
@@ -149,30 +152,61 @@ public class EmployeeController extends HttpServlet {
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        String surname = req.getParameter(SURNAME);
-        String firstName = req.getParameter(FIRST_NAME);
-        String patronymic = req.getParameter(PATRONYMIC);
-        String post = req.getParameter(POST);
-        Employee theEmployee = new Employee(employeeId, surname, firstName, patronymic, post);
-        employeeInterface.update(theEmployee);
-        listEmployees(req, resp);
-        LOGGER.info("Updated employee with id " + employeeId);
+        List<String> paramsList  = getDataFromJSP(req);
+        List<String> errorsList = ValidationService.employeeValidator(paramsList);
+        if (Utils.isBlankList(errorsList)) {
+            req.setAttribute(EMPLOYEE_ID, employeeId);
+            Employee theEmployee = new Employee(employeeId, paramsList.get(0), paramsList.get(1), paramsList.get(2),
+                paramsList.get(Nums.THREE.getValue()));
+            employeeInterface.update(theEmployee);
+            listEmployees(req, resp);
+            LOGGER.info("Updated employee with id " + employeeId);
+        }
+        else {
+            req.setAttribute(EMPLOYEE_ID, employeeId);
+            setDataToJSP(req,  paramsList, errorsList);
+            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
+            dispatcher.forward(req, resp);
+        }
     }
+
+    private void setDataToJSP(HttpServletRequest req, List<String> paramsList, List<String> errorsList)
+        throws ServletException, IOException {
+        req.setAttribute("ERRORS", errorsList);
+        req.setAttribute(SURNAME, paramsList.get(Nums.ZERO.getValue()).trim());
+        req.setAttribute(FIRST_NAME, paramsList.get(Nums.ONE.getValue()).trim());
+        req.setAttribute(PATRONYMIC, paramsList.get(Nums.TWO.getValue()).trim());
+        req.setAttribute(POST, paramsList.get(Nums.THREE.getValue()).trim());
+    }
+    private List<String> getDataFromJSP(HttpServletRequest req) throws ServletException, IOException {
+        List<String> params = new ArrayList<>(Nums.FOUR.getValue());
+        params.add(req.getParameter(SURNAME));
+        params.add(req.getParameter(FIRST_NAME));
+        params.add(req.getParameter(PATRONYMIC));
+        params.add(req.getParameter(POST));
+        return params;
+    }
+
 
     /**
      * Method for add employee.
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        String surname = req.getParameter(SURNAME);
-        String firstName = req.getParameter(FIRST_NAME);
-        String patronymic = req.getParameter(PATRONYMIC);
-        String post = req.getParameter(POST);
-        Employee employee = new Employee(surname, firstName, patronymic , post);
-        employeeInterface.add(employee);
-        listEmployees(req, resp);
-        LOGGER.info("Employee created");
-
+        List<String> paramsList  = getDataFromJSP(req);
+        List<String> errorsList = ValidationService.employeeValidator(paramsList);
+        if (Utils.isBlankList(errorsList)) {
+            Employee employee = new Employee(paramsList.get(Nums.ZERO.getValue()),
+                paramsList.get(Nums.ONE.getValue()), paramsList.get(Nums.TWO.getValue()), paramsList.get(Nums.THREE.getValue()));
+            employeeInterface.add(employee);
+            LOGGER.info("Employee created");
+            listEmployees(req, resp);
+        }
+        else {
+            setDataToJSP(req, paramsList, errorsList);
+            RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
+            dispatcher.forward(req, resp);
+        }
     }
 
     /**
@@ -180,8 +214,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        List<Employee> employees = employeeInterface.getAll();
-        req.setAttribute("EMPLOYEE_LIST", employees);
+        Utils.setDataOfDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
     }

@@ -20,7 +20,7 @@
 
         <div style="padding:20px; margin-top:50px;height:600px;">
             <div id="container">
-                <h3>Редактировать задачу</h3>
+                <h3>Редактировать  задачу</h3>
                 <form action="task" onsubmit="check(event)" method="post" id ="form">
                     <input type="hidden" name="action"  value="/updateTaskInProject" />
                     <input type="hidden" name="taskId" value="${taskId}" />

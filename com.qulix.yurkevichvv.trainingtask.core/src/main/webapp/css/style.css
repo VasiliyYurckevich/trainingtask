@@ -20,6 +20,12 @@ th {
     color: #0a0a0a;
     text-align: left;
 }
+error{
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 250;
+    color: crimson;
+}
 
 tr {
     line-height: 32px;
@@ -46,6 +52,7 @@ h2, .h2 {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 500;
     color: inherit;
+
 }
 select{
     width: 150px;

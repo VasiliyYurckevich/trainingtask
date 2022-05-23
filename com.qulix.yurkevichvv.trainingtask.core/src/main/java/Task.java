@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Class Task represents a task.
@@ -9,13 +10,13 @@ import java.time.LocalDate;
  */
 public class Task {
 
-    private Integer taskId;
+    Integer taskId;
 
     private String status;
 
     private String title;
 
-    private long workTime;
+    private int workTime;
 
     private LocalDate beginDate;
 
@@ -35,7 +36,7 @@ public class Task {
     /**
      * Constructor with parameters.
      */
-    public Task(String status, String title, long workTime, LocalDate beginDate, LocalDate endDate,
+    public Task(String status, String title, int workTime, LocalDate beginDate, LocalDate endDate,
         Integer projectId, Integer employeeId) {
         this.status = status;
         this.title = title;
@@ -49,17 +50,14 @@ public class Task {
     /**
      * Constructor with parameters.
      */
-    @SuppressWarnings ("checkstyle:ParameterNumber")
-    public Task(Integer taskId, String status, String title, long workTime,
-        LocalDate beginDate, LocalDate endDate, Integer projectId, Integer employeeId) {
-        this.taskId = taskId;
-        this.status = status;
-        this.title = title;
-        this.workTime = workTime;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.projectId = projectId;
-        this.employeeId = employeeId;
+    public Task(List<String> paramsList) {
+        this.status = paramsList.get(0);
+        this.title = paramsList.get(1);
+        this.workTime = Utils.stringToInteger(paramsList.get(2));
+        this.beginDate = LocalDate.parse(paramsList.get(3));
+        this.endDate = LocalDate.parse(paramsList.get(4));
+        this.projectId = Utils.stringToInteger(paramsList.get(5));
+        this.employeeId = Utils.stringToInteger(paramsList.get(6));
     }
 
     public Integer getId() {
@@ -110,11 +108,11 @@ public class Task {
         this.endDate = endDate;
     }
 
-    public long getWorkTime() {
+    public Integer getWorkTime() {
         return workTime;
     }
 
-    public void setWorkTime(long workTime) {
+    public void setWorkTime(int workTime) {
         this.workTime = workTime;
     }
 

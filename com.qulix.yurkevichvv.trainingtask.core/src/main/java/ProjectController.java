@@ -22,9 +22,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ProjectController extends HttpServlet {
 
+    private static final String ADD_PROJECT_FORM_JSP = "/add-project-form.jsp";
+    private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
+
     private static final String PROJECT_ID = "projectId";
 
-    private static final String TITLE = "title";
+    private static final String TITLE_OF_PROJECT = "titleProject";
 
     private static final String DESCRIPTION = "description";
 
@@ -38,11 +41,7 @@ public class ProjectController extends HttpServlet {
 
     private static final String EMPLOYEE_IN_TASKS_LIST = "EMPLOYEE_IN_TASKS_LIST";
 
-    private static final String PROJECT_LIST = "PROJECT_LIST";
-
     private static final String THIS_PROJECT_ID = "thisProjectId";
-
-    private static final String EMPLOYEE_LIST = "EMPLOYEE_LIST";
 
     private static final String LIST = "/list";
 
@@ -53,6 +52,9 @@ public class ProjectController extends HttpServlet {
      * Logger.
      */
     public static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
+
+
+
 
 
 
@@ -165,16 +167,15 @@ public class ProjectController extends HttpServlet {
         servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
         req.setAttribute("taskId", existingTask.getId());
         req.setAttribute("status", existingTask.getStatus());
-        req.setAttribute(TITLE, existingTask.getTitle());
+        req.setAttribute("title", existingTask.getTitle());
         req.setAttribute("workTime", existingTask.getWorkTime());
         req.setAttribute("beginDate", existingTask.getBeginDate());
         req.setAttribute("endDate", existingTask.getEndDate());
         req.setAttribute(THIS_PROJECT_ID, existingTask.getProjectId());
         req.setAttribute("employeeId", existingTask.getEmployeeId());
-        List<Employee> employees = new DAOEmployee().getAll();
+        Utils.setDataOfDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
         servletcontext.setAttribute("task", existingTask);
-        servletcontext.setAttribute(EMPLOYEE_LIST, employees);
         dispatcher.forward(req, resp);
     }
 
@@ -196,9 +197,9 @@ public class ProjectController extends HttpServlet {
         }
         Project existingProject = projectInterface.getById(thisProjectId);
         servletContext.setAttribute(PROJECT_ID, existingProject.getId());
-        servletContext.setAttribute(TITLE, existingProject.getTitle());
+        servletContext.setAttribute(TITLE_OF_PROJECT, existingProject.getTitle());
         servletContext.setAttribute(DESCRIPTION, existingProject.getDescription());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-project-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
         existingProject.setId(thisProjectId);
         tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
@@ -245,13 +246,9 @@ public class ProjectController extends HttpServlet {
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
         String numberInList  = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
-        servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
-        List<Employee> employees = new DAOEmployee().getAll();
-        List<Project> projects = new DAOProject().getAll();
-        req.setAttribute(THIS_PROJECT_ID, thisProjectId);
+        servletcontext.setAttribute(PROJECT_ID, thisProjectId);
+        Utils.setDataOfDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
-        req.setAttribute(EMPLOYEE_LIST, employees);
-        req.setAttribute(PROJECT_LIST, projects);
         dispatcher.forward(req, resp);
     }
 
@@ -259,7 +256,7 @@ public class ProjectController extends HttpServlet {
      * Method for open add project form.
      */
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/add-project-form.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
 
     }
@@ -269,18 +266,21 @@ public class ProjectController extends HttpServlet {
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        List<Project> projects = projectInterface.getAll();
-        req.setAttribute(PROJECT_LIST, projects);
+        Utils.setDataOfDropDownList(req);
+        removeServletAttributes();
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+    private void removeServletAttributes() {
         ServletContext servletContext = getServletContext();
         servletContext.removeAttribute(TASKS_LIST);
         servletContext.removeAttribute(EMPLOYEE_IN_TASKS_LIST);
         servletContext.removeAttribute(DELETED_LIST);
         servletContext.removeAttribute(PROJECT_ID);
-        servletContext.removeAttribute(TITLE);
+        servletContext.removeAttribute(TITLE_OF_PROJECT);
         servletContext.removeAttribute(DESCRIPTION);
         servletContext.removeAttribute(NUMBER_IN_LIST);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
-        dispatcher.forward(req, resp);
     }
 
     /**
@@ -291,40 +291,67 @@ public class ProjectController extends HttpServlet {
         DAOTask taskInterface = new DAOTask();
         ServletContext servletContext = getServletContext();
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
-        String title = req.getParameter(TITLE);
-        String description = req.getParameter(DESCRIPTION);
-        Project theProject = new Project(projectId, title, description);
-        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
-        List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
-        for (Task task : tasksListInProject) {
-            task.setProjectId(projectId);
-            if (task.getId() != null) {
-                taskInterface.update(task);
+        List<String> paramsList = getDataFromForm(req);
+        List<String> errorsList = ValidationService.projectValidator(paramsList);
+        if (Utils.isBlankList(errorsList)) {
+            Project theProject = new Project(projectId, paramsList.get(0), paramsList.get(1));
+            List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
+            List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
+            for (Task task : tasksListInProject) {
+                task.setProjectId(projectId);
+                if (task.getId() != null) {
+                    taskInterface.update(task);
+                }
+                else {
+                    task.setId(null);
+                    taskInterface.add(task);
+                }
             }
-            else {
-                task.setId(null);
-                taskInterface.add(task);
+            for (Integer id : deleteTaskIdProject) {
+                if (id != null) {
+                    taskInterface.delete(id);
+                }
             }
+            projectInterface.update(theProject);
+            LOGGER.info("Updated project with id " + projectId);
+            listProjects(req, resp);
         }
-        for (Integer id : deleteTaskIdProject) {
-            if (id != null) {
-                taskInterface.delete(id);
-            }
+        else {
+            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
+            setDataToJSP(req, paramsList, errorsList);
+            servletContext.setAttribute(PROJECT_ID, projectId);
+            dispatcher.forward(req, resp);
         }
-        projectInterface.update(theProject);
-        LOGGER.info("Updated project with id " + projectId);
-        listProjects(req, resp);
+    }
+
+    private List<String> getDataFromForm(HttpServletRequest req) {
+        List<String> paramsList =  new ArrayList<>(Nums.TWO.getValue());
+        paramsList.add(req.getParameter(TITLE_OF_PROJECT));
+        paramsList.add(req.getParameter(DESCRIPTION));
+        return paramsList;
     }
 
     /**
      * Method for add project.
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
-        String title = req.getParameter(TITLE);
-        String description = req.getParameter(DESCRIPTION);
-        Project theProject = new Project(title, description);
-        projectInterface.add(theProject);
-        listProjects(req, resp);
-        LOGGER.info("New project create");
+        List<String> paramsList = getDataFromForm(req);
+        List<String> errorsList = ValidationService.projectValidator(paramsList);
+        if (Utils.isBlankList(errorsList)) {
+            Project theProject = new Project(paramsList.get(0), paramsList.get(1));
+            projectInterface.add(theProject);
+            listProjects(req, resp);
+            LOGGER.info("New project create");
+        }
+        else {
+            RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
+            setDataToJSP(req, paramsList, errorsList);
+            dispatcher.forward(req, resp);
+        }
+    }
+    private void setDataToJSP(HttpServletRequest req, List<String> paramsList, List<String> errorsList) {
+        req.setAttribute("ERRORS", errorsList);
+        req.setAttribute(TITLE_OF_PROJECT, paramsList.get(Nums.ZERO.getValue()).trim());
+        req.setAttribute(DESCRIPTION, paramsList.get(Nums.ONE.getValue()).trim());
     }
 }

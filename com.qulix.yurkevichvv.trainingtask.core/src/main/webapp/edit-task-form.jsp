@@ -27,6 +27,7 @@
                         <tbody>
                         <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить"><button  id="cancelButton" name="cancelButton" onclick="window.history.back()" type="button" class="add-button">Отмена</button>
                         <tr>
+                        <tr>
                             <td><label>Статус:</label></td>
                             <td>
                                 <select type="text" name="status" data-selected="${status}">
@@ -36,34 +37,48 @@
                                     <option ${status == "Отложена"  ? 'selected="selected"' : ''}>Отложена</option>
                                 </select>
                             </td>
+                            <td>
+                                <error>${ERRORS.get(0)}</error>
+                            </td>
                         </tr>
                         <tr>
                             <td><label>Наименование:</label></td>
-                            <td><input type="text" maxlength="50" required="required" id="title" name="title" oninput="checkLength('title',50)" value="${fn:escapeXml(title)}"></td>
+                            <td><input id="title" name="title" value="${fn:escapeXml(title)}"></td>
+                            <td>
+                                <error>${ERRORS.get(1)}</error>
+                            </td>
+
                         </tr>
                         <tr>
                             <td><label>Работа:</label></td>
-                            <td><input required ="required" type="number"  oninput="this.setCustomValidity('')" max="999999999999999999" id="workTime"   oninvalid="this.setCustomValidity('Введите число со значением меньше или равным 999999999999999999 и не содержащим символов &quot e &quot ; &quot + &quot ; &quot , &quot ; &quot . &quot ; &quot - &quot')"  name="workTime" pattern="^[0-9]+$"
-                                       value="${workTime}"></td>
+                            <td><input id="workTime" name="workTime" value="${workTime}"></td>
+                            <td>
+                                <error>${ERRORS.get(2)}</error>
+                            </td>
                         </tr>
                         <tr>
                             <td><label>Дата начала(ГГГГ-ММ-ДД):</label></td>
-                            <td><input required ="required" type="text" pattern="^((((19[0-9][0-9])|(2[0-9][0-9][0-9]))([-])(0[13578]|10|12)([-])(0[1-9]|[12][0-9]|3[01]))|(((19[0-9][0-9])|(2[0-9][0-9][0-9]))([-])(0[469]|11)([-])([0][1-9]|[12][0-9]|30))|(((19[0-9][0-9])|(2[0-9][0-9][0-9]))([-])(02)([-])(0[1-9]|1[0-9]|2[0-8]))|(([02468][048]00)([-])(02)([-])(29))|(([13579][26]00)([-])(02)([-])(29))|(([0-9][0-9][0][48])([-])(02)([-])(29))|(([0-9][0-9][2468][048])([-])(02)([-])(29))|(([0-9][0-9][13579][26])([-])(02)([-])(29)))$"
-                                       oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ-ММ-ДД в диапазоне между 1900-01-01 и 2999-12-31.')" id="beginDate" name="beginDate" value="${beginDate}"></td>
+                            <td><input id="beginDate" name="beginDate" value="${beginDate}"></td>
+                            <td>
+                                <error>${ERRORS.get(3)}</error>
+                            </td>
                         </tr>
                         <tr>
                             <td><label>Дата окончания(ГГГГ-ММ-ДД):</label></td>
-                            <td><input required ="required" type="text" pattern="^((((19[0-9][0-9])|(2[0-9][0-9][0-9]))([-])(0[13578]|10|12)([-])(0[1-9]|[12][0-9]|3[01]))|(((19[0-9][0-9])|(2[0-9][0-9][0-9]))([-])(0[469]|11)([-])([0][1-9]|[12][0-9]|30))|(((19[0-9][0-9])|(2[0-9][0-9][0-9]))([-])(02)([-])(0[1-9]|1[0-9]|2[0-8]))|(([02468][048]00)([-])(02)([-])(29))|(([13579][26]00)([-])(02)([-])(29))|(([0-9][0-9][0][48])([-])(02)([-])(29))|(([0-9][0-9][2468][048])([-])(02)([-])(29))|(([0-9][0-9][13579][26])([-])(02)([-])(29)))$"
-                                       oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Введите дату в формате ГГГГ-ММ-ДД в диапазоне между 1900-01-01 и 2999-12-31.')" id="endDate" name="endDate" value="${endDate}"></td>
+                            <td><input id="endDate" name="endDate" value="${endDate}"></td>
+                            <td>
+                                <error>${ERRORS.get(4)}</error>
+                            </td>
                         </tr>
-
                         <tr>
                             <td><label>Наименование проекта:</label></td>
-                            <td> <select name="projectId" required ="required">
+                            <td> <select name="projectId">
                                 <c:forEach items="${PROJECT_LIST}" var="projects">
                                     <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>${fn:escapeXml(projects.title)}</option>
                                 </c:forEach>
                             </select>
+                            <td>
+                            </td>
                         </tr>
                         <tr>
                             <td><label>Сотрудник:</label></td>
@@ -74,6 +89,8 @@
                                 </c:forEach>
                             </select>
                             </td>
+                            <td>
+                            </td>
                         </tr>
                         </tbody>
                         <br/><br/>
@@ -82,53 +99,6 @@
             </div>
         </div>
 
-        <script type='text/javascript'>
-
-            function check(event) {
-                const beginDt = document.getElementById("beginDate").value.replace('.','-');
-                const endDt = document.getElementById("endDate").value.replace('.','-');
-                const title = document.getElementById("title").value;
-
-                if( (new Date(endDt).getTime() < new Date(beginDt).getTime()))
-                {
-                    event.preventDefault();
-                    alert("Дата начала работы не может быть позже даты окончания работы");
-                }else if(title.trim() == ''){
-                    event.preventDefault();
-                    alert("Наиминование не может состоять только из пробелов");
-                }else {
-                    this.submitButton.disabled = true;
-                    this.cancelButton.disabled = true;
-
-                }
-            }
-
-            function checkLength(fieldName,maxLength) {
-                const len = document.getElementById(fieldName).value.length;
-
-                if( len == maxLength){
-                    alert("Достигнута допустимая длина поля: " + maxLength + " символов");
-                }
-            }
-            const inputBox = document.getElementById("workTime");
-            var invalidChars = [
-                "-",
-                "+",
-                "e",
-                "E",
-                ",",
-                ".",
-            ];
-
-            inputBox.addEventListener("input", function() {
-                this.value = this.value.replace(/[e\+\-]/gi, "");
-            });
-
-            inputBox.addEventListener("keydown", function(e) {
-                if (invalidChars.includes(e.key)) {
-                    e.preventDefault();
-                }
-            })
         </script>
     </body>
 </html>

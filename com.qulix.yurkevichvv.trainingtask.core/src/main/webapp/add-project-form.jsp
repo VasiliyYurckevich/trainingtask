@@ -20,17 +20,23 @@
         <div style="padding:20px; margin-top:50px;height:600px;">
             <div id="container">
                 <h3>Добавить проект</h3>
-                <form action="projects" onsubmit="check(event)" method="post" >
+                <form action="projects"  method="post" >
                     <input type="hidden" name="action" value="/add" />
                     <table>
                         <tbody>
                         <tr>
                             <td><label>Наименование:</label></td>
-                            <td><input required ="required" maxlength="50" oninput="checkLength('title',50)" type="text" id="title" name="title"></td>
+                            <td><input id="titleProject" name="titleProject" value="${titleProject}"></td>
+                            <td>
+                                <error>${ERRORS.get(0)}</error>
+                            </td>
                         </tr>
                         <tr>
                             <td><label>Описание:</label></td>
-                            <td><input  required ="required" maxlength="250" oninput="checkLength('description',250)"  type="text" id="description"  name="description"></td>
+                            <td><input id="description"  name="description" value="${description}"></td>
+                            <td>
+                                <error>${ERRORS.get(1)}</error>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -40,27 +46,6 @@
 
             </div>
         </div>
-        <script type='text/javascript'>
-            function check(event) {
-                const title = document.getElementById("title").value;
-                const description = document.getElementById("description").value;
 
-                if (title.trim() == "" || description.trim() == "") {
-                  event.preventDefault();
-                  alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
-                }else {
-                  this.submitButton.disabled = true;
-                  this.cancelButton.disabled = true;
-                }
-            }
-
-            function checkLength(fieldName,maxLength) {
-                const len = document.getElementById(fieldName).value.length;
-
-                if( len == maxLength){
-                  alert("Достигнута допустимая длина поля: " + maxLength + " символов");
-                }
-            }
-        </script>
     </body>
 </html>

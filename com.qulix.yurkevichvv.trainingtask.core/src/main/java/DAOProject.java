@@ -15,20 +15,20 @@ import java.util.List;
  */
 public class DAOProject implements DAOInterface<Project> {
 
-    private static final int ONE = 1;
-
-    private static final int TWO = 2;
-
-    private static final int THREE = 3;
-
     private static final String PROJECT_ID = "project_Id";
+
     private static final String TITLE = "title";
+
     private static final String DESCRIPTION = "description";
     
     private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (?,?);";
+
     private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT ;";
+
     private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE project_Id = ?;";
+
     private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE project_Id = ?;";
+
     private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?,  description = ? WHERE project_Id = ?;";
 
 
@@ -41,8 +41,8 @@ public class DAOProject implements DAOInterface<Project> {
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
 
         try {
-            preparedStatement.setString(ONE, project.getTitle());
-            preparedStatement.setString(TWO, project.getDescription());
+            preparedStatement.setString(Nums.ONE.getValue(), project.getTitle());
+            preparedStatement.setString(Nums.TWO.getValue(), project.getDescription());
 
             return preparedStatement.execute();
         }
@@ -60,9 +60,9 @@ public class DAOProject implements DAOInterface<Project> {
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
 
         try {
-            preparedStatement.setString(ONE, project.getTitle());
-            preparedStatement.setString(TWO, project.getDescription());
-            preparedStatement.setInt(THREE, project.getId());
+            preparedStatement.setString(Nums.ONE.getValue(), project.getTitle());
+            preparedStatement.setString(Nums.TWO.getValue(), project.getDescription());
+            preparedStatement.setInt(Nums.THREE.getValue(), project.getId());
 
             return preparedStatement.execute();
         }
@@ -80,7 +80,7 @@ public class DAOProject implements DAOInterface<Project> {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
 
         try {
-            preparedStatement.setInt(ONE, id);
+            preparedStatement.setInt(Nums.ONE.getValue(), id);
 
             return preparedStatement.execute();
         }
@@ -125,10 +125,10 @@ public class DAOProject implements DAOInterface<Project> {
 
         try {
             try {
-                preparedStatement.setInt(ONE, id);
+                preparedStatement.setInt(Nums.ONE.getValue(), id);
             }
             catch (NullPointerException e) {
-                preparedStatement.setNull(ONE, 0);
+                preparedStatement.setNull(Nums.ONE.getValue(), 0);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();

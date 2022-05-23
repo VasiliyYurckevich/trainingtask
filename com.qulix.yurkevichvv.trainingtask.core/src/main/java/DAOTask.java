@@ -36,21 +36,7 @@ public class DAOTask implements DAOInterface<Task> {
 
 
 
-    private static final int ONE = 1;
 
-    private static final int TWO = 2;
-
-    private static final int THREE = 3;
-
-    private static final int FOUR = 4;
-
-    private static final int FIVE = 5;
-
-    private static final int SIX = 6;
-
-    private static final int SEVEN = 7;
-
-    private static final int EIGHT = 8;
 
 
 
@@ -99,7 +85,7 @@ public class DAOTask implements DAOInterface<Task> {
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL);
         try {
             setDataInToStatement(task, preparedStatement);
-            preparedStatement.setInt(EIGHT, task.getId());
+            preparedStatement.setInt(Nums.EIGHT.getValue(), task.getId());
 
             return preparedStatement.execute();
         }
@@ -113,22 +99,22 @@ public class DAOTask implements DAOInterface<Task> {
      *
      */
     private PreparedStatement setDataInToStatement(Task task, PreparedStatement preparedStatement) throws SQLException {
-        preparedStatement.setString(ONE, task.getStatus());
-        preparedStatement.setString(TWO, task.getTitle());
-        preparedStatement.setLong(THREE, task.getWorkTime());
-        preparedStatement.setString(FOUR, task.getBeginDate().toString());
-        preparedStatement.setString(FIVE, task.getEndDate().toString());
+        preparedStatement.setString(Nums.ONE.getValue(), task.getStatus());
+        preparedStatement.setString(Nums.TWO.getValue(), task.getTitle());
+        preparedStatement.setLong(Nums.THREE.getValue(), task.getWorkTime());
+        preparedStatement.setString(Nums.FOUR.getValue(), task.getBeginDate().toString());
+        preparedStatement.setString(Nums.FIVE.getValue(), task.getEndDate().toString());
         if (task.getProjectId() == null) {
-            preparedStatement.setNull(SIX, FIVE);
+            preparedStatement.setNull(Nums.SIX.getValue(), Nums.ZERO.getValue());
         }
         else {
-            preparedStatement.setInt(SIX, task.getProjectId());
+            preparedStatement.setInt(Nums.SIX.getValue(), task.getProjectId());
         }
         if (task.getEmployeeId() == null) {
-            preparedStatement.setNull(SEVEN, FIVE);
+            preparedStatement.setNull(Nums.SEVEN.getValue(), Nums.ZERO.getValue());
         }
         else {
-            preparedStatement.setInt(SEVEN, task.getEmployeeId());
+            preparedStatement.setInt(Nums.SEVEN.getValue(), task.getEmployeeId());
         }
         return preparedStatement;
     }
@@ -142,7 +128,7 @@ public class DAOTask implements DAOInterface<Task> {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL);
         try {
-            preparedStatement.setInt(ONE, id);
+            preparedStatement.setInt(Nums.ONE.getValue(), id);
             return preparedStatement.execute();
         }
         finally {
@@ -160,7 +146,7 @@ public class DAOTask implements DAOInterface<Task> {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT);
 
         try {
-            preparedStatement.setString(ONE, String.valueOf(id));
+            preparedStatement.setString(Nums.ONE.getValue(), String.valueOf(id));
             ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }
@@ -212,7 +198,7 @@ public class DAOTask implements DAOInterface<Task> {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);
 
         try {
-            preparedStatement.setInt(ONE, id);
+            preparedStatement.setInt(Nums.ONE.getValue(), id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Task task = new Task();
             while (resultSet.next()) {
@@ -229,7 +215,7 @@ public class DAOTask implements DAOInterface<Task> {
         task.setId(resultSet.getInt(TASK_ID));
         task.setStatus(resultSet.getString(STATUS));
         task.setTitle(resultSet.getString(TITLE));
-        task.setWorkTime(resultSet.getLong(WORK_TIME));
+        task.setWorkTime(resultSet.getInt(WORK_TIME));
         task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
         task.setProjectId(resultSet.getInt(PROJECT_ID));
