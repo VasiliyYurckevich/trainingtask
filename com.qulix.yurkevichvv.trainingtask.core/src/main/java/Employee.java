@@ -90,5 +90,4 @@ public class Employee {
         return "Employee [id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", patronymic=" + patronymic
                 + ", post=" + post + "]";
     }
-
 }

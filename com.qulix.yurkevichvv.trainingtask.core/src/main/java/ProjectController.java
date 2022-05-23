@@ -80,13 +80,11 @@ public class ProjectController extends HttpServlet {
                 case "/update":
                     updateProject(req, resp);
                     break;
-
             }
         }
         catch (SQLException e) {
             LOGGER.warning(String.valueOf(e));
         }
-
     }
 
     /**

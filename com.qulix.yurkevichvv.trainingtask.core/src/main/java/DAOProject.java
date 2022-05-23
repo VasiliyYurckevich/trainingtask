@@ -97,6 +97,7 @@ public class DAOProject implements DAOInterface<Project> {
     public List<Project> getAll() throws SQLException {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS);
+
         try {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Project> projects = new ArrayList<>();

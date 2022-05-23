@@ -15,6 +15,7 @@ import javax.servlet.ServletResponse;
  * @since   1.0
  */
 public class EncodingFilter implements Filter {
+
     private String encoding = "utf-8";
 
     /**

@@ -26,7 +26,6 @@ def buildProcess(className, filePath, dbName) {
     def javaHome = System.getProperty("java.home")
     def javaBin = javaHome + File.separator + "bin" + File.separator + "java"
     def classpath = project.buildscript.configurations.classpath.asPath
-    print(classpath.toString())
 
     def builder = new ProcessBuilder(javaBin, "-cp", classpath, className,
             "--database.0", filePath, "--dbname.0", dbName as String)

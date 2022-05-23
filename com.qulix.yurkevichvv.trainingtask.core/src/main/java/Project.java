@@ -65,7 +65,6 @@ public class Project {
         this.description = description;
     }
 
-
     @Override
     public String toString() {
         return "Project id=" + id + ", title=" + title + ", description=" + description;

@@ -131,7 +131,6 @@ public class DAOTask implements DAOInterface<Task> {
             preparedStatement.setInt(SEVEN, task.getEmployeeId());
         }
         return preparedStatement;
-
     }
 
     /**
@@ -179,7 +178,7 @@ public class DAOTask implements DAOInterface<Task> {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);
         try {
-            List<Task> tasks = new ArrayList<Task>();
+            List<Task> tasks = new ArrayList<>();
             ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }
@@ -217,7 +216,7 @@ public class DAOTask implements DAOInterface<Task> {
             ResultSet resultSet = preparedStatement.executeQuery();
             Task task = new Task();
             while (resultSet.next()) {
-                task = setDataFromJSP(resultSet, task);
+                setDataFromJSP(resultSet, task);
             }
             return task;
         }
@@ -242,6 +241,4 @@ public class DAOTask implements DAOInterface<Task> {
         }
         return task;
     }
-
-
 }
