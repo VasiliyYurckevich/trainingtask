@@ -1,8 +1,7 @@
 import java.time.LocalDate;
-import java.util.List;
 
 /**
- * Class Task represents a task.
+ * Реализует сущность задачи в приложении.
  *
  * @author Q-YVV
  * @version 1.0
@@ -28,7 +27,7 @@ public class Task {
 
 
     /**
-     * Constructor with parameters.
+     * Конструктор.
      */
     public Task() {
 

@@ -1,5 +1,5 @@
 /**
- * Class Employee describes employee.
+ * Описывает сущность "Сотрудник".
  *
  * @author Q-YVV
  * @version 1.0
@@ -7,15 +7,15 @@
  */
 public class Employee {
 
-    protected Integer id;
+    private Integer id;
 
-    protected String surname;
+    private String surname;
 
-    protected String firstName;
+    private String firstName;
 
-    protected String patronymic;
+    private String patronymic;
 
-    protected String post;
+    private String post;
 
 
     /**

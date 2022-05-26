@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for working with database table "project".
- *<p> {@link DAOProject} using for write data about projects in database.</p>
+ * Содержит методы для работы обьектов класса "Проект" с БД.
  *
  * @author  Q-YVV
- * @version 1.0
- * @since   1.0
  */
 public class DAOProject implements DAOInterface<Project> {
 
@@ -32,9 +29,7 @@ public class DAOProject implements DAOInterface<Project> {
     private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?,  description = ? WHERE project_Id = ?;";
 
 
-    /**
-     * Method to add new project to database.
-     */
+
     @Override
     public boolean add(Project project) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -51,9 +46,7 @@ public class DAOProject implements DAOInterface<Project> {
         }
     }
 
-    /**
-     * Method to update project in database.
-     */
+
     @Override
     public boolean update(Project project) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -71,9 +64,7 @@ public class DAOProject implements DAOInterface<Project> {
         }
     }
 
-    /**
-     * Method to delete project from database.
-     */
+
     @Override
     public boolean delete(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -90,9 +81,7 @@ public class DAOProject implements DAOInterface<Project> {
         }
     }
 
-    /**
-     * Method to get all projects from database.
-     */
+
     @Override
     public List<Project> getAll() throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -115,9 +104,7 @@ public class DAOProject implements DAOInterface<Project> {
         }
     }
 
-    /**
-     * Method to get project by id from database.
-     */
+
     @Override
     public Project getById(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();

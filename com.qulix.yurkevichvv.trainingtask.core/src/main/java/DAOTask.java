@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for working with database table "task".
- *<p> {@link DAOTask} using for write data about task in database.</p>
+ * Содержит методы для работы обьектов класса "Задача" с БД.
  *
  * @author  Q-YVV
- * @version 1.0
- * @since   1.0
+
  */
 public class DAOTask implements DAOInterface<Task> {
 

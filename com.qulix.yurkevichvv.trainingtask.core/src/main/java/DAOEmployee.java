@@ -6,13 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for working with database table "employee".
- *<p> {@link DAOEmployee} using for write data about employee in database.</p>
+ * Содержит методы для работы обьектов класса "Сотрудник" с БД.
  *
  *
  * @author  Q-YVV
- * @version 1.0
- * @since   1.0
  */
 public class DAOEmployee implements DAOInterface<Employee> {
 

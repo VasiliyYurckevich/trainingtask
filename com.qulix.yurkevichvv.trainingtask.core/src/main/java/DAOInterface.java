@@ -2,36 +2,34 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Interface for DAO classes.
+ * Обобщает основные методы для записи сущностей в БД.
  *
  * @author Q-YVV
- * @version 1.0
- * @since 1.0
  */
 public interface DAOInterface<T> {
 
     /**
-     * Add entities.
-     */
-     boolean add(T t) throws SQLException;
+    * Добовляет объект в БД.
+    */
+    boolean add(T t) throws SQLException;
 
     /**
-     * Update entities.
+     * Изменяет объект в БД.
      */
     boolean update(T t) throws SQLException;
 
     /**
-     * Delete entities by id.
+     * Удаляет объект из БД.
      */
     boolean delete(Integer t) throws SQLException;
 
     /**
-     * Get all entities.
+     * Получет все записи из таблицы БД.
      */
     List<T> getAll() throws SQLException;
 
     /**
-     * Get entity by id.
+     * Ищет определенный объект в БД.
      */
     T getById(Integer id) throws SQLException;
 

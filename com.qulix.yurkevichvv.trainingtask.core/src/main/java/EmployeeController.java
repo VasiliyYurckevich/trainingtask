@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Controller for Employees.
+ * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
  *
- *<p> {@link EmployeeController} using to interact with Employees in application.</p>
  *
  * @author Q-YVV
  * @version 1.0
@@ -44,19 +43,14 @@ public class EmployeeController extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
-
-    /**
-     * Initialize the Employee servlet.
-     */
+    @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
         employeeInterface = new DAOEmployee();
 
     }
 
-    /**
-     * Processes requests for HTTP  POST methods.
-     */
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
@@ -75,9 +69,7 @@ public class EmployeeController extends HttpServlet {
         }
     }
 
-    /**
-     * Processes requests for HTTP  GET methods.
-     */
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
@@ -109,7 +101,7 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Method for open update employee form.
+     * Открывает на форму редактирования сотрудника.
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -127,7 +119,7 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Method for open add employee form.
+     * Открывает на форму добавления сотрудника.
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
@@ -170,7 +162,7 @@ public class EmployeeController extends HttpServlet {
     }
 
     private static Employee getEmployee(List<String> paramsList) {
-        Employee theEmployee = new Employee( );
+        Employee theEmployee = new Employee();
         theEmployee.setSurname(paramsList.get(Nums.ZERO.getValue()));
         theEmployee.setFirstName(paramsList.get(Nums.ONE.getValue()));
         theEmployee.setPatronymic(paramsList.get(Nums.TWO.getValue()));

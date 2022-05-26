@@ -6,11 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Connection to database.
- *<p> {@link DBConnection} using for control connection to DB</p>
+ * Устанавливет контакт между приложением и БД.
  *
  * @author Q-YVV
- * @version 1.0
  */
 public class DBConnection {
 

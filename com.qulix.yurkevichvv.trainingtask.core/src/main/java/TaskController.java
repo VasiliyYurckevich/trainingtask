@@ -65,9 +65,7 @@ public class TaskController extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
 
-    /**
-     * Initialize TaskController.
-     */
+
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
