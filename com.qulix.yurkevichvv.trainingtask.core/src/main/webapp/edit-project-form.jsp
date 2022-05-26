@@ -12,21 +12,21 @@
     <body>
 
         <ul>
-          <li style="font-family: Arial">
+          <li>
               <a class="choose"  href="projects">Проекты</a>
           </li>
-          <li style="font-family: Arial">
+          <li>
               <a href="task">Задачи</a>
           </li>
-          <li style="font-family: Arial">
+          <li>
               <a href="employees">Сотрудники</a>
           </li>
         </ul>
 
-        <div style="padding:20px; margin-top:50px;height:600px;">
+        <div>
             <div id="container">
                 <h3 >Редактировать проект</h3>
-                <form action="projects" onsubmit="check(event)" method="post">
+                <form action="projects" method="post">
                     <input type="hidden" name="action" value="/update" />
                     <input type="hidden" name="projectId" value="${projectId}"/>
 

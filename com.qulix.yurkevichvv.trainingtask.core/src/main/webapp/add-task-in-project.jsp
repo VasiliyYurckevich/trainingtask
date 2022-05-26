@@ -11,18 +11,18 @@
     <body>
 
         <ul>
-            <li style="font-family: Arial">
+            <li>
                 <a class="choose" href="projects">Проекты</a>
             </li>
-            <li style="font-family: Arial">
+            <li>
                 <a href="task">Задачи</a>
             </li>
-            <li style="font-family: Arial">
+            <li>
                 <a href="employees">Сотрудники</a>
             </li>
         </ul>
 
-        <div style="padding:20px; margin-top:50px;height:600px;">
+        <div>
             <div id="container">
                 <h3>Добавить задачу</h3>
                 <form action="task"  method="post" id="form">
