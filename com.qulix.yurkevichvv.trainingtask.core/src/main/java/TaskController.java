@@ -60,10 +60,7 @@ public class TaskController extends HttpServlet {
 
     private DAOInterface<Task> tasksInterface;
 
-    /**
-     * Logger.
-     */
-    public static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
 
     /**

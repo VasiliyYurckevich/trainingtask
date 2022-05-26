@@ -51,11 +51,7 @@ public class ProjectController extends HttpServlet {
     /**
      * Logger.
      */
-    public static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
-
-
-
-
+    private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
 
 
     /**

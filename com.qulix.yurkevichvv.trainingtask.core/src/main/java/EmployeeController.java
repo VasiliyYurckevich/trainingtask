@@ -40,10 +40,7 @@ public class EmployeeController extends HttpServlet {
 
     private DAOInterface<Employee> employeeInterface;
 
-    /**
-     * Logger.
-     */
-    public static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
 
     /**
