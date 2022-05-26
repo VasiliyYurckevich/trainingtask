@@ -7,15 +7,15 @@
  */
 public class Employee {
 
-    private Integer id;
+    protected Integer id;
 
-    private String surname;
+    protected String surname;
 
-    private String firstName;
+    protected String firstName;
 
-    private String patronymic;
+    protected String patronymic;
 
-    private String post;
+    protected String post;
 
 
     /**

@@ -7,11 +7,11 @@
  */
 public class Project {
 
-    private int id;
+    protected int id;
 
-    private String title;
+    protected String title;
 
-    private String description;
+    protected String description;
 
 
     /**

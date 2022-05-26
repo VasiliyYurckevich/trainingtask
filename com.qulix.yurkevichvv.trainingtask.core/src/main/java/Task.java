@@ -10,21 +10,21 @@ import java.util.List;
  */
 public class Task {
 
-    private Integer taskId;
+    protected Integer taskId;
 
-    private String status;
+    protected String status;
 
-    private String title;
+    protected String title;
 
-    private int workTime;
+    protected int workTime;
 
-    private LocalDate beginDate;
+    protected LocalDate beginDate;
 
-    private LocalDate endDate;
+    protected LocalDate endDate;
 
-    private Integer projectId;
+    protected Integer projectId;
 
-    private Integer employeeId;
+    protected Integer employeeId;
 
 
     /**
