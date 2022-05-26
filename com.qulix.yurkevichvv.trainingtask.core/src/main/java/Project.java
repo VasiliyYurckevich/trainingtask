@@ -7,23 +7,14 @@
  */
 public class Project {
 
-    protected int id;
+    private int id;
 
-    protected String title;
+    private String title;
 
-    protected String description;
+    private String description;
 
-
-    /**
-     * Project constructor with parameters.
-     * @param title project title
-     * @param description project description
-     */
-    public Project(String title, String description) {
-        this.title = title;
-        this.description = description;
+    public Project() {
     }
-
 
     public int getId() {
         return id;

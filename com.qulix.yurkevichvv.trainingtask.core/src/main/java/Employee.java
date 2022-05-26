@@ -21,12 +21,8 @@ public class Employee {
     /**
      * Constructor with parameters.
      */
-    public Employee(String surname, String firstName, String patronymic, String post) {
-        super();
-        this.surname = surname;
-        this.firstName = firstName;
-        this.patronymic = patronymic;
-        this.post = post;
+    public Employee() {
+
     }
 
     public Integer getId() {

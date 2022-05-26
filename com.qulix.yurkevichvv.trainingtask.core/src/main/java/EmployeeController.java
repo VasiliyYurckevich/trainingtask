@@ -155,7 +155,7 @@ public class EmployeeController extends HttpServlet {
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
         if (Utils.isBlankList(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
-            Employee theEmployee = new Employee( paramsList.get(0), paramsList.get(1), paramsList.get(2), paramsList.get(Nums.THREE.getValue()));
+            Employee theEmployee = getEmployee(paramsList);
             theEmployee.setId(employeeId);
             employeeInterface.update(theEmployee);
             listEmployees(req, resp);
@@ -169,6 +169,15 @@ public class EmployeeController extends HttpServlet {
         }
     }
 
+    private static Employee getEmployee(List<String> paramsList) {
+        Employee theEmployee = new Employee( );
+        theEmployee.setSurname(paramsList.get(Nums.ZERO.getValue()));
+        theEmployee.setFirstName(paramsList.get(Nums.ONE.getValue()));
+        theEmployee.setPatronymic(paramsList.get(Nums.TWO.getValue()));
+        theEmployee.setPost(paramsList.get(Nums.THREE.getValue()));
+        return theEmployee;
+    }
+
     private void setDataToJSP(HttpServletRequest req, List<String> paramsList, List<String> errorsList)
         throws ServletException, IOException {
         req.setAttribute("ERRORS", errorsList);
@@ -177,7 +186,7 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute(PATRONYMIC, paramsList.get(Nums.TWO.getValue()).trim());
         req.setAttribute(POST, paramsList.get(Nums.THREE.getValue()).trim());
     }
-    private List<String> getDataFromJSP(HttpServletRequest req) throws ServletException, IOException {
+    private List<String> getDataFromJSP(HttpServletRequest req) {
         List<String> params = new ArrayList<>(Nums.FOUR.getValue());
         params.add(req.getParameter(SURNAME));
         params.add(req.getParameter(FIRST_NAME));
@@ -195,8 +204,7 @@ public class EmployeeController extends HttpServlet {
         List<String> paramsList  = getDataFromJSP(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
         if (Utils.isBlankList(errorsList)) {
-            Employee employee = new Employee(paramsList.get(Nums.ZERO.getValue()),
-                paramsList.get(Nums.ONE.getValue()), paramsList.get(Nums.TWO.getValue()), paramsList.get(Nums.THREE.getValue()));
+            Employee employee = getEmployee(paramsList);
             employeeInterface.add(employee);
             LOGGER.info("Employee created");
             listEmployees(req, resp);
