@@ -48,9 +48,6 @@ public class ProjectController extends HttpServlet {
 
     private DAOInterface<Project> projectInterface;
 
-    /**
-     * Logger.
-     */
     private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
 
 

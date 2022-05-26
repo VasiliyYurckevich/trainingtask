@@ -24,8 +24,6 @@ public class DAOTask implements DAOInterface<Task> {
 
     private static final  String PROJECT_ID = "project_id";
 
-
-
     private static final  String WORK_TIME = "work_time";
 
     private static final  String BEGIN_DATE = "begin_date";
@@ -33,11 +31,6 @@ public class DAOTask implements DAOInterface<Task> {
     private static final  String END_DATE = "end_date";
 
     private static final  String EMPLOYEE_ID = "employee_id";
-
-
-
-
-
 
 
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +

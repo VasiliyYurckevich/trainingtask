@@ -1,5 +1,6 @@
 import java.io.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -55,6 +56,7 @@ public class TaskController extends HttpServlet {
     private static final String NUMBER_IN_LIST = "numberInList";
 
     private static final String EDIT_PROJECT_JSP = "/edit-project-form.jsp";
+
     private static final String ADD_TASK_FORM_JSP = "/add-task-form.jsp";
 
 
@@ -152,10 +154,7 @@ public class TaskController extends HttpServlet {
         req.setAttribute(EMPLOYEE_ID, existingTask.getEmployeeId());
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
         servletContext.setAttribute("task", existingTask);
-        List<Employee> employees = new DAOEmployee().getAll();
-        List<Project> projects = new DAOProject().getAll();
-        req.setAttribute(EMPLOYEE_LIST, employees);
-        servletContext.setAttribute(PROJECT_LIST, projects);
+        Utils.setDataOfDropDownList(req);
         dispatcher.forward(req, resp);
 
     }
@@ -168,8 +167,8 @@ public class TaskController extends HttpServlet {
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
         if (Utils.isBlankList(errorsList)) {
-            Task task =  new Task(paramsList);
-            task.taskId = taskId;
+            Task task = getTask(paramsList);
+            task.setId(taskId);
             tasksInterface.update(task);
             listTasks(req, resp);
             LOGGER.info("Update task with id: " + taskId);
@@ -183,6 +182,18 @@ public class TaskController extends HttpServlet {
         }
     }
 
+    private static Task getTask(List<String> paramsList) {
+        Task task =  new Task();
+        task.setStatus(paramsList.get(Nums.ZERO.getValue()));
+        task.setTitle(paramsList.get(Nums.ONE.getValue()));
+        task.setWorkTime(Utils.stringToInteger(paramsList.get(Nums.TWO.getValue())));
+        task.setBeginDate(LocalDate.parse(paramsList.get(Nums.THREE.getValue())));
+        task.setEndDate(LocalDate.parse(paramsList.get(Nums.FOUR.getValue())));
+        task.setProjectId(Utils.stringToInteger(paramsList.get(Nums.FIVE.getValue())));
+        task.setEmployeeId(Utils.stringToInteger(paramsList.get(Nums.SIX.getValue())));
+        return task;
+    }
+
     /**
      * Method for add task in project.
      */
@@ -193,8 +204,9 @@ public class TaskController extends HttpServlet {
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
+
         if (Utils.isBlankList(errorsList)) {
-            Task task =  new Task(paramsList);
+            Task task = getTask(paramsList);
             tasksListInProject.add(task);
             try {
                 employeeListInProject.add(new DAOEmployee().getById(task.getEmployeeId()));
@@ -225,19 +237,29 @@ public class TaskController extends HttpServlet {
         Integer taskId = Integer.parseInt(req.getParameter(TASK_ID));
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
         List<String> paramsList = getDataFromForm(req);
-        Task task = new Task(paramsList);
-        tasksListInProject.set(Integer.parseInt(numberInList), task);
-        try {
-            employeeListInProject.set(Integer.parseInt(numberInList), new DAOEmployee().getById(task.getEmployeeId()));
+        List<String> errorsList = ValidationService.taskValidator(paramsList);
+        if (Utils.isBlankList(errorsList)) {
+            Task task = getTask(paramsList);
+            task.setId(taskId);
+            tasksListInProject.set(Integer.parseInt(numberInList), task);
+            try {
+                employeeListInProject.set(Integer.parseInt(numberInList), new DAOEmployee().getById(task.getEmployeeId()));
+            }
+            catch (NullPointerException e) {
+                employeeListInProject.set(Integer.parseInt(numberInList), null);
+            }
+            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
+            servletContext.setAttribute(TASKS_LIST, tasksListInProject);
+            servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
+            servletContext.setAttribute(NUMBER_IN_LIST, numberInList);
+            dispatcher.forward(req, resp);
         }
-        catch (NullPointerException e) {
-            employeeListInProject.set(Integer.parseInt(numberInList), null);
+        else {
+            setDataToJSP(req, resp, paramsList, errorsList);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
+            req.setAttribute(TASK_ID, taskId);
+            dispatcher.forward(req, resp);
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-        servletContext.setAttribute(TASKS_LIST, tasksListInProject);
-        servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
-        servletContext.setAttribute(NUMBER_IN_LIST, numberInList);
-        dispatcher.forward(req, resp);
     }
 
     /**
@@ -271,7 +293,7 @@ public class TaskController extends HttpServlet {
         List<String> errorsList = ValidationService.taskValidator(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
-            Task task =  new Task(paramsList);
+            Task task =  getTask(paramsList);
             tasksInterface.add(task);
             listTasks(req, resp);
             LOGGER.info("New task created");
@@ -293,7 +315,6 @@ public class TaskController extends HttpServlet {
         req.setAttribute(BEGIN_DATE, paramsList.get(Nums.THREE.getValue()).trim());
         req.setAttribute(END_DATE, paramsList.get(Nums.FOUR.getValue()).trim());
         req.setAttribute(EMPLOYEE_ID, Utils.stringToInteger(paramsList.get(Nums.SIX.getValue()).trim()));
-
     }
 
     /**

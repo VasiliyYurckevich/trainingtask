@@ -13,6 +13,7 @@ public class Project {
 
     private String description;
 
+
     /**
      * Constructor without parameters.
      */

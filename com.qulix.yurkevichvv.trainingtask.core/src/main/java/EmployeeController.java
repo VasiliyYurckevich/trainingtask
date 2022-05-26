@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 public class EmployeeController extends HttpServlet {
 
     private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
+
     private static final String EDIT_EMPLOYEE_FORM_JSP = "/edit-employee-form.jsp";
+
     private static final String LIST = "/list";
 
     private static final String ACTION = "action";

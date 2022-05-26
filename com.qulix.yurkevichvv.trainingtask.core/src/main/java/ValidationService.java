@@ -8,12 +8,11 @@ import java.util.List;
  */
 public class ValidationService {
 
-
     private static final int SHORT_LENGTH = 50;
     private static final int LONG_LENGTH = 250;
 
     /**
-     *Валидация для вводимых данных о сотруднике.
+     * Валидация для вводимых данных о сотруднике.
      */
     public static List<String> employeeValidator(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FOUR.getValue());
@@ -35,7 +34,7 @@ public class ValidationService {
     }
 
     /**
-     *Валидация для вводимых данных о задаче.
+     * Валидация для вводимых данных о задаче.
      */
     public static List<String> taskValidator(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FIVE.getValue());

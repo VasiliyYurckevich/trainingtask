@@ -13,7 +13,7 @@ public interface DAOInterface<T> {
     /**
      * Add entities.
      */
-    boolean add(T t) throws SQLException;
+     boolean add(T t) throws SQLException;
 
     /**
      * Update entities.

@@ -128,7 +128,7 @@ public class DAOProject implements DAOInterface<Project> {
                 preparedStatement.setInt(Nums.ONE.getValue(), id);
             }
             catch (NullPointerException e) {
-                preparedStatement.setNull(Nums.ONE.getValue(), 0);
+                preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();

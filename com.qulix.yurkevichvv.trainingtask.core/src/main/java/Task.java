@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Task {
 
-    Integer taskId;
+    private Integer taskId;
 
     private String status;
 
@@ -26,38 +26,12 @@ public class Task {
 
     private Integer employeeId;
 
-    /**
-     * Constructor without parameters.
 
+    /**
+     * Constructor with parameters.
      */
     public Task() {
-    }
 
-    /**
-     * Constructor with parameters.
-     */
-    public Task(String status, String title, int workTime, LocalDate beginDate, LocalDate endDate,
-        Integer projectId, Integer employeeId) {
-        this.status = status;
-        this.title = title;
-        this.workTime = workTime;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.projectId = projectId;
-        this.employeeId = employeeId;
-    }
-
-    /**
-     * Constructor with parameters.
-     */
-    public Task(List<String> paramsList) {
-        this.status = paramsList.get(0);
-        this.title = paramsList.get(1);
-        this.workTime = Utils.stringToInteger(paramsList.get(2));
-        this.beginDate = LocalDate.parse(paramsList.get(3));
-        this.endDate = LocalDate.parse(paramsList.get(4));
-        this.projectId = Utils.stringToInteger(paramsList.get(5));
-        this.employeeId = Utils.stringToInteger(paramsList.get(6));
     }
 
     public Integer getId() {
