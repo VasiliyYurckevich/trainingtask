@@ -9,28 +9,27 @@
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 
+    <ul>
+        <li>
+            <a href="projects">Проекты</a>
+        </li>
+        <li>
+            <a href="task">Задачи</a>
+        </li>
+        <li>
+            <a href="employees">Сотрудники</a>
+        </li>
+    </ul>
+
     <body>
-
-        <ul>
-            <li>
-                <a href="projects">Проекты</a>
-            </li>
-            <li>
-                <a href="task">Задачи</a>
-            </li>
-            <li>
-                <a href="employees">Сотрудники</a>
-            </li>
-        </ul>
-
-        <div style="padding-top: 50px;horiz-align: center">
-            <div>
-                <h2 align="center" >Приложение для управления задачами</h2>
-            </div>
+        <div>
+            <div1>
+                <h2>Приложение для управления задачами</h2>
+            </div1>
             <div class="row">
-                <div class="col-md-6">
-                    <h2 align="center">Привет!</h2>
-                </div>
+                <div1 class="col-md-6">
+                    <h2>Привет!</h2>
+                </div1>
             </div>
         </div>
     </body>

@@ -24,7 +24,7 @@
             </li>
         </ul>
 
-        <div style="padding-top: 50px;horiz-align: center">
+        <div>
             <div>
                 <div>
                     <h2>Сотрудники</h2>
@@ -64,7 +64,7 @@
                                 <td> ${fn:escapeXml(tempEmployee.post)} </td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
-                                    <a style="padding-left: 15px" href="${deleteLink}"
+                                    <a href="${deleteLink}"
                                        onclick="if (!(confirm('Вы уверены??'))) return false">Удалить</a>
                                 </td>
                             </tr>

@@ -23,7 +23,7 @@
             </li>
         </ul>
 
-        <div>
+        <div >
             <div id="container">
                 <h3>Редактировать сотрудника</h3>
                 <form action="employees"  method="post">

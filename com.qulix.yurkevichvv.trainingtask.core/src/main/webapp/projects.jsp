@@ -21,7 +21,7 @@
             </li>
         </ul>
 
-        <div style="padding-top: 50px;horiz-align: center">
+        <div>
             <div>
                 <div>
                     <h2>Проекты</h2>
@@ -57,7 +57,7 @@
                                 <td> ${fn:escapeXml(tempProject.description)} </td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
-                                    <a style="padding-left: 15px" href="${deleteLink}"
+                                    <a href="${deleteLink}"
                                         onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
                                 </td>
                             </tr>

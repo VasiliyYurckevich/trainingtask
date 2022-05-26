@@ -110,7 +110,7 @@
                                     </td>
                                     <td>
                                         <a href="${editLink}">Редактировать</a>
-                                        <a style="padding-left: 15px" href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
+                                        <a  href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
                                             Удалить
                                         </a>
                                     </td>

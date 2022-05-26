@@ -9,6 +9,7 @@
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 
+
     <body>
         <ul>
             <li>
@@ -22,7 +23,7 @@
             </li>
         </ul>
 
-        <div style="padding-top: 50px;horiz-align: center">
+        <div>
             <div>
                 <div>
                     <h2>Задачи</h2>
@@ -74,7 +75,7 @@
                                 </td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
-                                    <a style="padding-left: 15px" href="${deleteLink}"
+                                    <a href="${deleteLink}"
                                        onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
                                 </td>
                             </tr>

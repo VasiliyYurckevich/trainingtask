@@ -104,4 +104,9 @@ li a:hover:not(.active) {
     background-color: rgba(255, 0, 0, 0.89);
 }
 
-
+div1{
+    text-align: center;
+}
+body{
+    margin-top: 60px;
+}
