@@ -10,9 +10,15 @@
 
     <body>
         <ul>
-            <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
-            <li style="font-family: Arial"><a href="task">Задачи</a></li>
-            <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
+            <li>
+                <a class="choose"  href="projects">Проекты</a>
+            </li>
+            <li>
+                <a href="task">Задачи</a>
+            </li>
+            <li>
+                <a href="employees">Сотрудники</a>
+            </li>
         </ul>
 
         <div style="padding-top: 50px;horiz-align: center">

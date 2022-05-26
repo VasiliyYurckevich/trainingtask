@@ -8,13 +8,19 @@
         <title>Редактировать сотрудника</title>
 
         <link type="text/css" rel="stylesheet" href="css/style.css">
-
     </head>
     <body>
+
         <ul>
-            <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-            <li style="font-family: Arial"><a href="task">Задачи</a></li>
-            <li style="font-family: Arial"><a class="choose" href="employees">Сотрудники</a></li>
+            <li style="font-family: Arial">
+                <a href="projects">Проекты</a>
+            </li>
+            <li style="font-family: Arial">
+                <a href="task">Задачи</a>
+            </li>
+            <li style="font-family: Arial">
+                <a class="choose" href="employees">Сотрудники</a>
+            </li>
         </ul>
 
         <div style="padding:20px; margin-top:50px;height:600px;">
@@ -26,33 +32,52 @@
                     <table>
                         <div>
                             <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
-                            <button id="cancelButton" name="cancelButton" onclick="javascript:history.back()" type="button" class="add-button">Отмена</button>
+                            <button id="cancelButton" name="cancelButton" onclick="javascript:history.back()"
+                                    type="button" class="add-button">
+                                Отмена
+                            </button>
                         </div>
                         <tbody>
                             <tr>
-                                <td><label>Фамилия:</label></td>
-                                <td><input  name="surname" id="surname" value="${fn:escapeXml(surname)}"></td>
+                                <td>
+                                    <label>Фамилия:</label>
+                                </td>
+                                <td>
+                                    <input  name="surname" id="surname" value="${fn:escapeXml(surname)}">
+                                </td>
                                 <td>
                                     <error>${ERRORS.get(0)}</error>
                                 </td>
                             </tr>
                             <tr>
-                                <td><label>Имя:</label></td>
-                                <td><input type="text"  name="firstName" id="firstName" value="${fn:escapeXml(firstName)}"></td>
+                                <td>
+                                    <label>Имя:</label>
+                                </td>
+                                <td>
+                                    <input type="text"  name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
+                                </td>
                                 <td>
                                     <error>${ERRORS.get(1)}</error>
                                 </td>
                             </tr>
                             <tr>
-                                <td><label>Отчество:</label></td>
-                                <td><input type="text"   name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}"></td>
+                                <td>
+                                    <label>Отчество:</label>
+                                </td>
+                                <td>
+                                    <input type="text"   name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
+                                </td>
                                 <td>
                                     <error>${ERRORS.get(2)}</error>
                                 </td>
                             </tr>
                             <tr>
-                                <td><label>Должность:</label></td>
-                                <td><input type="text"   name="post" id="post" value="${fn:escapeXml(post)}"></td>
+                                <td>
+                                    <label>Должность:</label>
+                                </td>
+                                <td>
+                                    <input type="text"   name="post" id="post" value="${fn:escapeXml(post)}">
+                                </td>
                                 <td>
                                     <error>${ERRORS.get(3)}</error>
                                 </td>

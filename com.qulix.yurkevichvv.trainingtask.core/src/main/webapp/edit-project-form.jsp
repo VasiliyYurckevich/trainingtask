@@ -10,10 +10,17 @@
       <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
     <body>
+
         <ul>
-          <li style="font-family: Arial"><a class="choose"  href="projects">Проекты</a></li>
-          <li style="font-family: Arial"><a href="task">Задачи</a></li>
-          <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
+          <li style="font-family: Arial">
+              <a class="choose"  href="projects">Проекты</a>
+          </li>
+          <li style="font-family: Arial">
+              <a href="task">Задачи</a>
+          </li>
+          <li style="font-family: Arial">
+              <a href="employees">Сотрудники</a>
+          </li>
         </ul>
 
         <div style="padding:20px; margin-top:50px;height:600px;">
@@ -25,19 +32,31 @@
 
                     <table>
                         <div>
-                            <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button"> <button id="cancelButton" name="cancelButton" onclick="location.href='projects'" type="button" class="add-button">Отмена</button>
+                            <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
+                            <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
+                                    type="button" class="add-button">
+                                Отмена
+                            </button>
                         </div>
                         <tbody>
                         <tr>
-                            <td><label>Наименование:</label></td>
-                            <td><input id="titleProject" name="titleProject" value="${titleProject}"></td>
+                            <td>
+                                <label>Наименование:</label>
+                            </td>
+                            <td>
+                                <input id="titleProject" name="titleProject" value="${titleProject}">
+                            </td>
                             <td>
                                 <error>${ERRORS.get(0)}</error>
                             </td>
                         </tr>
                         <tr>
-                            <td><label>Описание:</label></td>
-                            <td><input id="description"  name="description" value="${description}"></td>
+                            <td>
+                                <label>Описание:</label>
+                            </td>
+                            <td>
+                                <input id="description"  name="description" value="${description}">
+                            </td>
                             <td>
                                 <error>${ERRORS.get(1)}</error>
                             </td>
@@ -85,10 +104,15 @@
                                     <td> ${tempTask.beginDate}</td>
                                     <td> ${tempTask.endDate} </td>
                                     <td> ${fn:escapeXml(titleProject)}</td>
-                                    <td>${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)} ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)} ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}</td>
+                                    <td>${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)}
+                                        ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)}
+                                        ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}
+                                    </td>
                                     <td>
                                         <a href="${editLink}">Редактировать</a>
-                                        <a style="padding-left: 15px" href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
+                                        <a style="padding-left: 15px" href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
+                                            Удалить
+                                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -101,29 +125,6 @@
                 </form>
             </div>
         </div>
-        <script type='text/javascript'>
-          //Check empty fields
-          function check(event) {
-            const title = document.getElementById("title").value;
-            const description = document.getElementById("description").value;
 
-
-            if (title.trim() == "" || description.trim() == "") {
-              event.preventDefault();
-              alert("Заполните все поля!Поля не могут быть пустыми и состоять только из пробелов");
-            }else {
-              this.submitButton.disabled = true;
-              this.cancelButton.disabled = true;
-            }
-          }
-          // Message if length of the field is more than maxLength symbols
-          function checkLength(fieldName,maxLength) {
-            const len = document.getElementById(fieldName).value.length;
-
-            if( len == maxLength){
-              alert("Превышена допустимая длина поля: " + maxLength + " символов");
-            }
-          }
-        </script>
     </body>
 </html>

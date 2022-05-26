@@ -11,9 +11,15 @@
 
     <body>
         <ul>
-            <li style="font-family: Arial"><a href="projects">Проекты</a></li>
-            <li style="font-family: Arial"><a class="choose" href="task">Задачи</a></li>
-            <li style="font-family: Arial"><a href="employees">Сотрудники</a></li>
+            <li>
+                <a href="projects">Проекты</a>
+            </li>
+            <li>
+                <a class="choose" href="task">Задачи</a>
+            </li>
+            <li>
+                <a href="employees">Сотрудники</a>
+            </li>
         </ul>
 
         <div style="padding-top: 50px;horiz-align: center">
@@ -28,7 +34,8 @@
                     <form action="task" method="get">
                         <input type="hidden" name="action" value="/new" />
                         <input type="submit" value="Добавить" ${PROJECT_LIST.isEmpty() ? 'disabled' : ''} class="add-button">
-                        ${PROJECT_LIST.isEmpty() ? '<h4 style="color:crimson;">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</h4>' : ''}
+                        ${PROJECT_LIST.isEmpty() ?
+                        '<h4>Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</h4>': ''}
                     </form>
                     <table id="table" class="table table-striped">
                         <tr>
@@ -61,10 +68,14 @@
                                 <td> ${tempTask.beginDate}</td>
                                 <td> ${tempTask.endDate}</td>
                                 <td> ${fn:escapeXml(PROJ_LIST.get(theCount.index).title)}</td>
-                                <td>${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)} ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)} ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}</td>
+                                <td>${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)}
+                                    ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)}
+                                    ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}
+                                </td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
-                                    <a style="padding-left: 15px" href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
+                                    <a style="padding-left: 15px" href="${deleteLink}"
+                                       onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
                                 </td>
                             </tr>
                         </c:forEach>
