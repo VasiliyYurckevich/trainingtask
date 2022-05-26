@@ -287,7 +287,8 @@ public class ProjectController extends HttpServlet {
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.projectValidator(paramsList);
         if (Utils.isBlankList(errorsList)) {
-            Project theProject = new Project(projectId, paramsList.get(0), paramsList.get(1));
+            Project theProject = new Project( paramsList.get(0), paramsList.get(1));
+            theProject.setId(projectId);
             List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
             List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
             for (Task task : tasksListInProject) {

@@ -17,23 +17,7 @@ public class Employee {
 
     private String post;
 
-    /**
-     * Constructor without parameters.
-     */
-    public Employee() {
-    }
 
-    /**
-     * Constructor with parameters.
-     */
-    public Employee(int id, String surname, String firstName, String patronymic, String post) {
-        super();
-        this.id = id;
-        this.surname = surname;
-        this.firstName = firstName;
-        this.patronymic = patronymic;
-        this.post = post;
-    }
     /**
      * Constructor with parameters.
      */

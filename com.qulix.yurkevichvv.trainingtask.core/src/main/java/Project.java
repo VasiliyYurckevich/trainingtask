@@ -15,12 +15,6 @@ public class Project {
 
 
     /**
-     * Constructor without parameters.
-     */
-    public Project() {
-    }
-
-    /**
      * Project constructor with parameters.
      * @param title project title
      * @param description project description
@@ -30,17 +24,6 @@ public class Project {
         this.description = description;
     }
 
-    /**
-     * Project constructor with parameters.
-     * @param id project id
-     * @param title project title
-     * @param description project description
-     */
-    public Project(int id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
 
     public int getId() {
         return id;

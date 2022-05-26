@@ -155,8 +155,8 @@ public class EmployeeController extends HttpServlet {
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
         if (Utils.isBlankList(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
-            Employee theEmployee = new Employee(employeeId, paramsList.get(0), paramsList.get(1), paramsList.get(2),
-                paramsList.get(Nums.THREE.getValue()));
+            Employee theEmployee = new Employee( paramsList.get(0), paramsList.get(1), paramsList.get(2), paramsList.get(Nums.THREE.getValue()));
+            theEmployee.setId(employeeId);
             employeeInterface.update(theEmployee);
             listEmployees(req, resp);
             LOGGER.info("Updated employee with id " + employeeId);
