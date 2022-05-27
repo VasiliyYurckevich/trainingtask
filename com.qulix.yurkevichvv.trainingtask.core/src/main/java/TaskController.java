@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TaskController extends HttpServlet {
 
     private static final String EDIT_TASK_FORM_JSP = "/edit-task-form.jsp";
+
     private static final String LIST = "/list";
 
     private static final String ACTION = "action";
@@ -65,16 +66,13 @@ public class TaskController extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
 
-
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
         tasksInterface = new DAOTask();
     }
 
-    /**
-     * Processes requests for  HTTP POST methods.
-     */
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -101,9 +99,7 @@ public class TaskController extends HttpServlet {
         }
     }
 
-    /**
-     * Processes requests for  HTTP GET methods.
-     */
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
@@ -135,35 +131,39 @@ public class TaskController extends HttpServlet {
 
 
     /**
-     * Method for open update task form.
+     * Открывает и заполняет форму редактирования задачи.
+     *
+     * @param req запрос.
+     * @param resp ответ.
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         String theTaskId = req.getParameter(TASK_ID);
         Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
-        req.setAttribute(TASK_ID, existingTask.getId());
-        req.setAttribute(STATUS, existingTask.getStatus());
-        req.setAttribute(TITLE, existingTask.getTitle());
-        req.setAttribute(WORK_TIME, existingTask.getWorkTime());
-        req.setAttribute(BEGIN_DATE, existingTask.getBeginDate());
-        req.setAttribute(END_DATE, existingTask.getEndDate());
+
+        Utils.setTaskDataInJsp(req, existingTask);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
-        req.setAttribute(EMPLOYEE_ID, existingTask.getEmployeeId());
-        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
         servletContext.setAttribute("task", existingTask);
         Utils.setDataOfDropDownList(req);
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
         dispatcher.forward(req, resp);
 
     }
 
     /**
-     * Method for update task.
+     * Сохраняет изменения в задаче.
+     *
+     * @param req запрос.
+     * @param resp ответ.
      */
-    private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    private void updateTask(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException, SQLException {
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
+
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);
             task.setId(taskId);
@@ -172,7 +172,7 @@ public class TaskController extends HttpServlet {
             LOGGER.info("Update task with id: " + taskId);
         }
         else {
-            setDataToJSP(req, resp, paramsList, errorsList);
+            setDataAboutTaskInJsp(req, paramsList, errorsList);
             req.setAttribute(PROJECT_ID, Utils.stringToInteger(paramsList.get(Nums.FIVE.getValue()).trim()));
             req.setAttribute(TASK_ID, taskId);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
@@ -180,6 +180,11 @@ public class TaskController extends HttpServlet {
         }
     }
 
+    /**
+     * Заполняет поля задачи
+     *
+     * @param paramsList поля задачи.
+     */
     private static Task getTask(List<String> paramsList) {
         Task task =  new Task();
         task.setStatus(paramsList.get(Nums.ZERO.getValue()));
@@ -193,7 +198,10 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Method for add task in project.
+     * Добавляет новую задачу во время редактирования проекта.
+     *
+     * @param req запрос.
+     * @param resp ответ.
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -206,58 +214,69 @@ public class TaskController extends HttpServlet {
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);
             tasksListInProject.add(task);
-            try {
-                employeeListInProject.add(new DAOEmployee().getById(task.getEmployeeId()));
-            }
-            catch (NullPointerException e) {
+            if (task.getEmployeeId() == null) {
                 employeeListInProject.add(null);
             }
+            else {
+                employeeListInProject.add(new DAOEmployee().getById(task.getEmployeeId()));
+            }
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            servletContext.setAttribute(TASKS_LIST, tasksListInProject);
-            servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
+            extracted(servletContext, tasksListInProject, employeeListInProject);
             dispatcher.forward(req, resp);
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
-            setDataToJSP(req, resp, paramsList, errorsList);
+            setDataAboutTaskInJsp(req, paramsList, errorsList);
             dispatcher.forward(req, resp);
         }
     }
 
     /**
-     * Method for update task in project.
+     * Изменяет данные задачи во время редактирования проекта.
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         Integer taskId = Integer.parseInt(req.getParameter(TASK_ID));
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
+
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksListInProject.set(Integer.parseInt(numberInList), task);
-            try {
-                employeeListInProject.set(Integer.parseInt(numberInList), new DAOEmployee().getById(task.getEmployeeId()));
-            }
-            catch (NullPointerException e) {
-                employeeListInProject.set(Integer.parseInt(numberInList), null);
-            }
+            List<Employee> employeeListInProject = getEmployeesInProject(servletContext, numberInList, task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            servletContext.setAttribute(TASKS_LIST, tasksListInProject);
-            servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
+            extracted(servletContext, tasksListInProject, employeeListInProject);
             servletContext.setAttribute(NUMBER_IN_LIST, numberInList);
             dispatcher.forward(req, resp);
         }
         else {
-            setDataToJSP(req, resp, paramsList, errorsList);
+            setDataAboutTaskInJsp(req, paramsList, errorsList);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
             req.setAttribute(TASK_ID, taskId);
             dispatcher.forward(req, resp);
         }
+    }
+
+    private static void extracted(ServletContext servletContext,
+        List<Task> tasksListInProject, List<Employee> employeeListInProject) {
+        servletContext.setAttribute(TASKS_LIST, tasksListInProject);
+        servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
+    }
+
+    private static List<Employee> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
+        throws SQLException {
+        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
+        if (task.getEmployeeId() == null) {
+            employeeListInProject.set(Integer.parseInt(numberInList), null);
+        }
+        else {
+            employeeListInProject.set(Integer.parseInt(numberInList), new DAOEmployee().getById(task.getEmployeeId()));
+        }
+        return employeeListInProject;
     }
 
     /**
@@ -276,7 +295,8 @@ public class TaskController extends HttpServlet {
     /**
      * Method for delete task.
      */
-    private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
         String theTaskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.valueOf(theTaskId));
         listTasks(req, resp);
@@ -286,7 +306,8 @@ public class TaskController extends HttpServlet {
     /**
      * Method for add new task.
      */
-    private void addTask(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    private void addTask(HttpServletRequest req, HttpServletResponse resp)
+        throws SQLException, ServletException, IOException {
         List<String> paramsList =  getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
 
@@ -297,14 +318,14 @@ public class TaskController extends HttpServlet {
             LOGGER.info("New task created");
         }
         else {
-            setDataToJSP(req, resp, paramsList, errorsList);
+            setDataAboutTaskInJsp(req, paramsList, errorsList);
             req.setAttribute(PROJECT_ID, Utils.stringToInteger(paramsList.get(Nums.FIVE.getValue()).trim()));
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
             dispatcher.forward(req, resp);
         }
     }
 
-    private void setDataToJSP(HttpServletRequest req, HttpServletResponse resp,
+    private void setDataAboutTaskInJsp(HttpServletRequest req,
         List<String> paramsList, List<String> errorsList) {
         req.setAttribute("ERRORS", errorsList);
         req.setAttribute(STATUS, paramsList.get(Nums.ZERO.getValue()).trim());

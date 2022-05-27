@@ -135,11 +135,11 @@ public class DAOEmployee implements DAOInterface<Employee> {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
         try {
-            try {
-                preparedStatement.setInt(Nums.ONE.getValue(), id);
+            if (id == null){
+                preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
-            catch (NullPointerException e) {
-                preparedStatement.setNull(Nums.ONE.getValue(), 0);
+            else  {
+                preparedStatement.setInt(Nums.ONE.getValue(), id);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Employee employee = new Employee();

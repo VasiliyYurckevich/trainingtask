@@ -5,6 +5,7 @@ import java.util.List;
  * Сервис для валидации данных на соотвественных страницах.
  *
  * @author Q-YVV
+ * @see FieldsValidation
  */
 public class ValidationService {
 
@@ -13,6 +14,9 @@ public class ValidationService {
 
     /**
      * Валидация для вводимых данных о сотруднике.
+     *
+     * @param paramsList Список параметров для валидации.
+     * @return Список ошибок.
      */
     public static List<String> employeeValidator(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FOUR.getValue());
@@ -25,6 +29,9 @@ public class ValidationService {
 
     /**
      *Валидация для вводимых данных о проекте.
+     *
+     * @param paramsList Список параметров для валидации.
+     * @return Список ошибок.
      */
     public static List<String> projectValidator(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.TWO.getValue());
@@ -35,6 +42,9 @@ public class ValidationService {
 
     /**
      * Валидация для вводимых данных о задаче.
+     *
+     * @param paramsList Список параметров для валидации.
+     * @return Cписок ошибок.
      */
     public static List<String> taskValidator(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FIVE.getValue());

@@ -111,11 +111,11 @@ public class DAOProject implements DAOInterface<Project> {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
 
         try {
-            try {
-                preparedStatement.setInt(Nums.ONE.getValue(), id);
-            }
-            catch (NullPointerException e) {
+            if (id == null){
                 preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
+            }
+            else  {
+                preparedStatement.setInt(Nums.ONE.getValue(), id);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();

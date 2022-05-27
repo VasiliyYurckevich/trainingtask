@@ -12,6 +12,9 @@ public class Utils {
 
     /**
      *Проверяет пустой или содержащий только пустые строки список.
+     *
+     * @param list Список для проверки.
+     * @return Возвращает true, если список пустой или содержащий только пустые строки.
      */
     public static boolean isBlankList(List<String> list) {
         int i = 0;
@@ -25,6 +28,9 @@ public class Utils {
 
     /**
      * Переводит String в Integer, проверяя на null.
+     *
+     * @param s строка для конвертации.
+     * @return конвертированное значение.
      */
     public static Integer stringToInteger(String s) {
         try {
@@ -38,11 +44,30 @@ public class Utils {
 
     /**
      * Создание и обнавление данных для выпадающих списков.
+     *
+     * @param req запрос.
+     * @return данные для выпадающих списков.
      */
     public static void setDataOfDropDownList(HttpServletRequest req) throws SQLException {
         List<Employee> employees = new DAOEmployee().getAll();
         List<Project> projects = new DAOProject().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);
         req.getServletContext().setAttribute("PROJECT_LIST", projects);
+    }
+
+    /**
+     * Заносит начальные данные в поля формы для Задачи.
+     *
+     * @param req запрос.
+     * @param existingTask задача.
+     */
+    public static void setTaskDataInJsp(HttpServletRequest req, Task existingTask) {
+        req.setAttribute("taskId", existingTask.getId());
+        req.setAttribute("status", existingTask.getStatus());
+        req.setAttribute("title", existingTask.getTitle());
+        req.setAttribute("workTime", existingTask.getWorkTime());
+        req.setAttribute("beginDate", existingTask.getBeginDate());
+        req.setAttribute("endDate", existingTask.getEndDate());
+        req.setAttribute("employeeId", existingTask.getEmployeeId());
     }
 }
