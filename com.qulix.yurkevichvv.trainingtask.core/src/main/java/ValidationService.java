@@ -7,7 +7,7 @@ import java.util.List;
  * @author Q-YVV
  * @see FieldsValidation
  */
-public class ValidationService {
+    public class ValidationService {
 
     private static final int SHORT_LENGTH = 50;
     private static final int LONG_LENGTH = 250;

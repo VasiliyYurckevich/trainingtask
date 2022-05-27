@@ -210,7 +210,7 @@ public class EmployeeController extends HttpServlet {
      * @param paramsList список параметров.
      * @param errorsList список ошибок.
      */
-    private void setDataToJsp(HttpServletRequest req, List<String> paramsList, List<String> errorsList){
+    private void setDataToJsp(HttpServletRequest req, List<String> paramsList, List<String> errorsList) {
         req.setAttribute("ERRORS", errorsList);
         req.setAttribute(SURNAME, paramsList.get(Nums.ZERO.getValue()).trim());
         req.setAttribute(FIRST_NAME, paramsList.get(Nums.ONE.getValue()).trim());
