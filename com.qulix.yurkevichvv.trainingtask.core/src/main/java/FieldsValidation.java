@@ -14,7 +14,11 @@ import java.util.List;
 public class FieldsValidation {
 
     /**
-     * Проверяет вводимые строковые значения.
+     * Проверка на валидность вводимой строки.
+     *
+     * @param s Строка для валидации.
+     * @param length максимальная длина строки.
+     * @return Строка с ошибкой или пустой строкой.
      */
     public static String isStringValidation(String s, int length) {
         StringBuffer error = new StringBuffer();
@@ -31,7 +35,10 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверяет вводимые цифровые значения.
+     * Проверка численного поля.
+     *
+     * @param s Строка для валидации.
+     * @return Строка с ошибкой или пустой строкой.
      */
     public static String isNumberValidation(String s) {
         StringBuffer error = new StringBuffer();
@@ -52,7 +59,12 @@ public class FieldsValidation {
         return String.valueOf(error);
     }
 
-
+    /**
+     * Проверка на пустое поле.
+     *
+     * @param s Строка для валидации.
+     * @param error Строка с ошибкой.
+     */
     private static void isEmptyFieldValidation(String s, StringBuffer error) {
         if (s.isEmpty() || s.trim().length() == 0) {
             error.append("Поле для ввода не должно быть пустым");
@@ -60,14 +72,20 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверяет вводимые даты.
+     * Проверка на валидность дат.
+     *
+     * @param beginDate Дата начала.
+     * @param endDate Дата окончания.
+     * @return Строка с ошибкой или пустой строкой.
      */
     public static List<String> isDateValidation(String beginDate, String endDate) {
         StringBuffer errorBeginDate = new StringBuffer();
         StringBuffer errorEndDate = new StringBuffer();
         List<String> listErrors = new ArrayList<>();
+
         boolean beginDateValid = isDateFormatValidator(beginDate, errorBeginDate);
         boolean endDateValid = isDateFormatValidator(endDate, errorEndDate);
+
         if (beginDateValid && endDateValid) {
             isDateLogicalityValidator(beginDate, endDate, errorEndDate);
         }
@@ -77,6 +95,13 @@ public class FieldsValidation {
 
     }
 
+    /**
+     * Проверка вводимых дат на логичность последовательноти даты начала и даты окончания.
+     *
+     * @param beginDate Дата начала.
+     * @param endDate Дата окончания.
+     * @param error Строка с ошибкой.
+     */
     private static void isDateLogicalityValidator(String beginDate, String endDate, StringBuffer error) {
         LocalDate parsedBeginDate = LocalDate.parse(beginDate);
         LocalDate parsedEndDate = LocalDate.parse(endDate);
@@ -85,6 +110,13 @@ public class FieldsValidation {
         }
     }
 
+    /**
+     *  Проверка на формат и существование даты.
+     *
+     * @param date Дата для проверки.
+     * @param error Строка с ошибкой.
+     * @return
+     */
     private static boolean  isDateFormatValidator(String date, StringBuffer error) {
         try {
             LocalDate.parse(date , DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT));

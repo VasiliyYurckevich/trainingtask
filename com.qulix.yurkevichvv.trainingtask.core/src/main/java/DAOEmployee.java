@@ -10,6 +10,8 @@ import java.util.List;
  *
  *
  * @author  Q-YVV
+ * @see    Employee
+ * @see    DAOInterface
  */
 public class DAOEmployee implements DAOInterface<Employee> {
 
@@ -37,9 +39,6 @@ public class DAOEmployee implements DAOInterface<Employee> {
         " WHERE employee_id = ?;";
 
 
-    /**
-     * Method for writing new employee to database.
-     */
     @Override
     public boolean add(Employee employee) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -58,13 +57,11 @@ public class DAOEmployee implements DAOInterface<Employee> {
         }
     }
 
-    /**
-     * Method for rewriting  employee to database.
-     */
     @Override
     public boolean update(Employee employee) throws SQLException {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL);
+
         try {
             preparedStatement.setString(Nums.ONE.getValue(), employee.getSurname());
             preparedStatement.setString(Nums.TWO.getValue(), employee.getFirstName());
@@ -78,13 +75,8 @@ public class DAOEmployee implements DAOInterface<Employee> {
         }
     }
 
-    /**
-     * Method for deleting employee from database.
-     */
-
     @Override
     public boolean delete(Integer id) throws SQLException {
-
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
 
@@ -98,12 +90,9 @@ public class DAOEmployee implements DAOInterface<Employee> {
         }
     }
 
-    /**
-     * Method for getting all employees from database.
-     */
+
     @Override
     public List<Employee> getAll() throws SQLException {
-
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENT);
 
@@ -127,15 +116,13 @@ public class DAOEmployee implements DAOInterface<Employee> {
         }
     }
 
-    /**
-     * Method for getting employee by id.
-     */
     @Override
     public Employee getById(Integer  id) throws SQLException {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
+
         try {
-            if (id == null){
+            if (id == null) {
                 preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
             else  {
@@ -143,6 +130,7 @@ public class DAOEmployee implements DAOInterface<Employee> {
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Employee employee = new Employee();
+
             while (resultSet.next()) {
                 if (resultSet.getInt(EMPLOYEE_ID) != 0) {
                     employee.setId(resultSet.getInt(EMPLOYEE_ID));

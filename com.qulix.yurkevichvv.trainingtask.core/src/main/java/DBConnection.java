@@ -21,11 +21,17 @@ public class DBConnection {
 
     private static final String PASS = "";
 
+    /**
+     * Получение подключения к БД.
+     */
     private static Connection connection = null;
 
 
     /**
-     * Method for getting connection to database.
+     * Подключение к БД.
+     *
+     * @return подключение к БД.
+     * @throws SQLException ошибка подключения к БД.
      */
     public static Connection getConnection() throws SQLException {
 
@@ -41,7 +47,10 @@ public class DBConnection {
     }
 
     /**
-     * Method for closing connection to database.
+     * Закрытие подключения к БД.
+     *
+     * @param preparedStatement выражение SQL.
+     * @throws SQLException исключение БД.
      */
     public static void closeConnection(PreparedStatement preparedStatement) throws SQLException {
         if (preparedStatement != null && !preparedStatement.isClosed()) {

@@ -10,7 +10,8 @@ import java.util.List;
  * Содержит методы для работы обьектов класса "Задача" с БД.
  *
  * @author  Q-YVV
-
+ * @see DAOInterface
+ * @see Task
  */
 public class DAOTask implements DAOInterface<Task> {
 
@@ -49,10 +50,6 @@ public class DAOTask implements DAOInterface<Task> {
 
 
 
-    /**
-     * Method for adding new task to database.
-     *
-     */
     @Override
     public boolean add(Task task) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -86,8 +83,12 @@ public class DAOTask implements DAOInterface<Task> {
     }
 
     /**
-     * Method for setting data in to statement.
+     * Внесение данных о задаче в выражение SQL.
      *
+     * @param task обьект класса "Задача".
+     * @param preparedStatement выражение SQL.
+     * @return выражение SQL.
+     * @throws SQLException исключение БД.
      */
     private PreparedStatement setDataInToStatement(Task task, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(Nums.ONE.getValue(), task.getStatus());
@@ -95,6 +96,7 @@ public class DAOTask implements DAOInterface<Task> {
         preparedStatement.setLong(Nums.THREE.getValue(), task.getWorkTime());
         preparedStatement.setString(Nums.FOUR.getValue(), task.getBeginDate().toString());
         preparedStatement.setString(Nums.FIVE.getValue(), task.getEndDate().toString());
+
         if (task.getProjectId() == null) {
             preparedStatement.setNull(Nums.SIX.getValue(), Nums.ZERO.getValue());
         }
@@ -110,14 +112,12 @@ public class DAOTask implements DAOInterface<Task> {
         return preparedStatement;
     }
 
-    /**
-     * Method for deleting task from database.
-     *
-     */
+
     @Override
     public boolean delete(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL);
+
         try {
             preparedStatement.setInt(Nums.ONE.getValue(), id);
             return preparedStatement.execute();
@@ -128,8 +128,11 @@ public class DAOTask implements DAOInterface<Task> {
     }
 
     /**
-     * Method for getting all tasks in project from database.
+     * Получение всех задач определенного проекта из БД.
      *
+     * @param id идентификатор проекта.
+     * @return все задачи проекта.
+     * @throws SQLException исключение БД.
      */
     public List<Task> getTasksInProject(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -146,14 +149,11 @@ public class DAOTask implements DAOInterface<Task> {
         }
     }
 
-    /**
-     * Method for getting all tasks from database.
-     *
-     */
     @Override
     public List<Task> getAll() throws SQLException {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);
+
         try {
             List<Task> tasks = new ArrayList<>();
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -164,25 +164,14 @@ public class DAOTask implements DAOInterface<Task> {
         }
     }
 
-    /**
-     * Method for getting list of tasks from database.
-     *
-     */
     private List<Task> getList(List<Task> tasks, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
-            Task task = new Task();
-            setDataFromJSP(resultSet, task);
-
+            Task task = setDataFromDatabase(resultSet);
             tasks.add(task);
-
         }
         return tasks;
     }
 
-    /**
-     * Method for getting task by id from database.
-     *
-     */
     @Override
     public Task getById(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -193,7 +182,7 @@ public class DAOTask implements DAOInterface<Task> {
             ResultSet resultSet = preparedStatement.executeQuery();
             Task task = new Task();
             while (resultSet.next()) {
-                setDataFromJSP(resultSet, task);
+                setDataFromDatabase(resultSet);
             }
             return task;
         }
@@ -202,7 +191,14 @@ public class DAOTask implements DAOInterface<Task> {
         }
     }
 
-    private Task setDataFromJSP(ResultSet resultSet, Task task) throws SQLException {
+    /**
+     * Заполнение обьекта данными из БД.
+     *
+     * @param resultSet выражение SQL.
+     * @throws SQLException исключение БД.
+     */
+    private Task setDataFromDatabase(ResultSet resultSet) throws SQLException {
+        Task task = new Task();
         task.setId(resultSet.getInt(TASK_ID));
         task.setStatus(resultSet.getString(STATUS));
         task.setTitle(resultSet.getString(TITLE));
@@ -210,6 +206,7 @@ public class DAOTask implements DAOInterface<Task> {
         task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
         task.setProjectId(resultSet.getInt(PROJECT_ID));
+
         if (resultSet.getInt(EMPLOYEE_ID) != 0) {
             task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
         }

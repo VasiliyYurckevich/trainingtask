@@ -1,9 +1,7 @@
 /**
- * Class Project describes project.
+ * Описывает сущность класса "Проект".
  *
  * @author Q-YVV
- * @version 1.0
- * @since 1.0
  */
 public class Project {
 

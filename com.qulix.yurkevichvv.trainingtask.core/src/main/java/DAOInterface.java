@@ -9,27 +9,46 @@ import java.util.List;
 public interface DAOInterface<T> {
 
     /**
-    * Добовляет объект в БД.
-    */
+     * Добавление новой сущности в БД.
+     *
+     * @param t Сущность для добавления.
+     * @return успешность операции.
+     * @throws SQLException ошибка при выполнении запроса.
+     */
     boolean add(T t) throws SQLException;
 
     /**
-     * Изменяет объект в БД.
+     * Обновление сущности в БД.
+     *
+     * @param t Сущность для обновления.
+     * @return успешность операции.
+     * @throws SQLException ошибка при выполнении запроса.
      */
     boolean update(T t) throws SQLException;
 
     /**
-     * Удаляет объект из БД.
+     * Удаление сущности из БД.
+     *
+     * @param t Сущность для удаления.
+     * @return успешность операции.
+     * @throws SQLException ошибка при выполнении запроса.
      */
     boolean delete(Integer t) throws SQLException;
 
     /**
-     * Получет все записи из таблицы БД.
+     * Получение всех сущностей определеного класса из БД.
+     *
+     * @return Список сущностей.
+     * @throws SQLException  ошибка при выполнении запроса.
      */
     List<T> getAll() throws SQLException;
 
     /**
-     * Ищет определенный объект в БД.
+     * Нахождение сущности по ее идентификатору.
+     *
+     * @param id Идентификатор сущности.
+     * @return Сущность.
+     * @throws SQLException ошибка при выполнении запроса.
      */
     T getById(Integer id) throws SQLException;
 

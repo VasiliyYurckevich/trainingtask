@@ -9,6 +9,8 @@ import java.util.List;
  * Содержит методы для работы обьектов класса "Проект" с БД.
  *
  * @author  Q-YVV
+ * @see    DAOInterface
+ * @see    Project
  */
 public class DAOProject implements DAOInterface<Project> {
 
@@ -111,7 +113,7 @@ public class DAOProject implements DAOInterface<Project> {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
 
         try {
-            if (id == null){
+            if (id == null) {
                 preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
             else  {

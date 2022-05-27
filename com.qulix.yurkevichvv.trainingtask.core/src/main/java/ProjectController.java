@@ -12,17 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Controller for project.
- *
- *<p> {@link ProjectController} using to interact with  Projects in application.</p>
+ * Содержит сервлеты для выполнения действий объектов класса "Проект".
  *
  * @author Q-YVV
- * @version 1.0
- * @since 1.0
  */
 public class ProjectController extends HttpServlet {
 
     private static final String ADD_PROJECT_FORM_JSP = "/add-project-form.jsp";
+
     private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
 
     private static final String PROJECT_ID = "projectId";
@@ -45,24 +42,21 @@ public class ProjectController extends HttpServlet {
 
     private static final String LIST = "/list";
 
-
-    private DAOInterface<Project> projectInterface;
-
     private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
 
 
     /**
-     * Initialize the Employee servlet.
+     * Получение интерфейса для работы с БД.
      */
+    private DAOInterface<Project> projectInterface;
+
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
         projectInterface = new DAOProject();
     }
 
-    /**
-     * Processes requests for HTTP POST methods.
-     */
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
@@ -124,7 +118,13 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     *  Method for delete  task in project .
+     * Удаляет задачу из списка задач во время редактирования проекта.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws IOException исключения ввода-вывода.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws IOException, SQLException, ServletException {
@@ -134,6 +134,7 @@ public class ProjectController extends HttpServlet {
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         Integer id = tasksListInProject.get(Integer.parseInt(numberInList)).getId();
+
         tasksListInProject.remove(Integer.parseInt(numberInList));
         employeeListInProject.remove(Integer.parseInt(numberInList));
         if (id != null) {
@@ -144,17 +145,31 @@ public class ProjectController extends HttpServlet {
         editProjectForm(req, resp);
     }
 
+    /**
+     * Назначает списки задач и сотрудников для редактирования проекта.
+     *
+     * @param servletContext контекст сервлета.
+     * @param deleteTaskInProject список задач, которые были удалены из проекта.
+     * @param tasksListInProject список задач в проекте.
+     * @param employeeListInProject список сотрудников в проекте.
+     */
     private static void setParametersAboutProjectEditing(ServletContext servletContext,
         List<Integer> deleteTaskInProject, List<Task> tasksListInProject, List<Employee> employeeListInProject) {
         servletContext.setAttribute(TASKS_LIST, tasksListInProject);
         servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
         servletContext.setAttribute(DELETED_LIST, deleteTaskInProject);
-
     }
 
     /**
-     *  Method for open update task in project form.
+     * Отображает форму для редактирования задачи в проекте.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws IOException исключения ввода-вывода.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
      */
+
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletcontext = getServletContext();
@@ -162,9 +177,11 @@ public class ProjectController extends HttpServlet {
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
         String numberInList  = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
+
         Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
         Utils.setTaskDataInJsp(req, existingTask);
         servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
+
         Utils.setDataOfDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
         servletcontext.setAttribute("task", existingTask);
@@ -172,8 +189,13 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
+     * Отображает форму для редактирования проект.
      *
-     * Method for open update project form.
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException исключения ввода-вывода.
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -182,9 +204,11 @@ public class ProjectController extends HttpServlet {
         Project existingProject = projectInterface.getById(thisProjectId);
         setDataAboutProject(servletContext, existingProject);
         existingProject.setId(thisProjectId);
+
         List<Task> tasksListInProject = getTasksInProject(existingProject, servletContext);
         List<Employee> employeeListInProject = getEmployeesInProject(servletContext, tasksListInProject);
         List<Integer> deletedTasks = getDeletedTasks(servletContext);
+
         servletContext.setAttribute(THIS_PROJECT_ID, thisProjectId);
         servletContext.setAttribute("project", existingProject);
         setParametersAboutProjectEditing(servletContext, deletedTasks, tasksListInProject, employeeListInProject);
@@ -192,6 +216,12 @@ public class ProjectController extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
+    /**
+     * Возвращает список удаленных задач во время редактирования проекта.
+     *
+     * @param servletContext контекст сервлета.
+     * @return список удаленных задач.
+     */
     private static List<Integer> getDeletedTasks(ServletContext servletContext) {
         List<Integer> deletedTasks = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
         if (deletedTasks == null) {
@@ -200,7 +230,16 @@ public class ProjectController extends HttpServlet {
         return deletedTasks;
     }
 
-    private static List<Employee> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject) throws SQLException {
+    /**
+     * Возвращает список сотрудников привязанных к задачам проекта.
+     *
+     * @param servletContext контекст сервлета.
+     * @param tasksListInProject список задач в проекте.
+     * @return список сотрудников.
+     * @throws SQLException исключения БД.
+     */
+    private static List<Employee> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject)
+        throws SQLException {
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
         if (employeeListInProject == null) {
             employeeListInProject = new ArrayList<>();
@@ -212,6 +251,14 @@ public class ProjectController extends HttpServlet {
         return employeeListInProject;
     }
 
+    /**
+     * Возвращает список задач проекта.
+     *
+     * @param existingProject проект.
+     * @param servletContext контекст сервлета.
+     * @return список задач в проекте.
+     * @throws SQLException исключения БД.
+     */
     private static List<Task> getTasksInProject(Project existingProject, ServletContext servletContext) throws SQLException {
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         if (tasksListInProject == null) {
@@ -220,6 +267,13 @@ public class ProjectController extends HttpServlet {
         return tasksListInProject;
     }
 
+    /**
+     * Возращает номер проекта.
+     *
+     * @param req запрос.
+     * @param servletContext контекст сервлета.
+     * @return номер проекта.
+     */
     private static Integer getProjectId(HttpServletRequest req, ServletContext servletContext) {
         Integer thisProjectId;
         try {
@@ -232,6 +286,12 @@ public class ProjectController extends HttpServlet {
         return thisProjectId;
     }
 
+    /**
+     * Заносит данные о проекте в контекст сервлета.
+     *
+     * @param servletContext контекст сервлета.
+     * @param existingProject проект.
+     */
     private static void setDataAboutProject(ServletContext servletContext, Project existingProject) {
         servletContext.setAttribute(PROJECT_ID, existingProject.getId());
         servletContext.setAttribute(TITLE_OF_PROJECT, existingProject.getTitle());
@@ -239,7 +299,13 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for delete project.
+     * Удалет проект из БД.
+     *
+     * @param req запрос.
+     * @param resp  ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException исключения ввода-вывода.
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -251,7 +317,13 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for open add task form in this project.
+     * Создает страницу создания задачи и вносит данные о новой задаче в форму.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException  исключения ввода-вывода.
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -266,7 +338,12 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for open add project form.
+     * Создает форму для создания проекта.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException исключения ввода-вывода.
      */
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
@@ -275,7 +352,13 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for open list of projects.
+     * Выводит список проектов.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException  исключения ввода-вывода.
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -285,6 +368,9 @@ public class ProjectController extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
+    /**
+     * Удаляет атрибуты сервлета.
+     */
     private void removeServletAttributes() {
         ServletContext servletContext = getServletContext();
         servletContext.removeAttribute(TASKS_LIST);
@@ -297,15 +383,23 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for update project.
+     * Изменяет данные проекта в БД.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException исключения ввода-вывода.
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         DAOTask taskInterface = new DAOTask();
         ServletContext servletContext = getServletContext();
+
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.projectValidator(paramsList);
+
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);
             theProject.setId(projectId);
@@ -322,9 +416,19 @@ public class ProjectController extends HttpServlet {
         }
     }
 
-    private static void updateTasksFromProjectEditing(DAOTask taskInterface, ServletContext servletContext, Integer projectId) throws SQLException {
+    /**
+     * Создает и обновляет задачи проекта во время изменения проекта.
+     *
+     * @param taskInterface интерфейс для работы с задачами.
+     * @param servletContext контекст сервлета.
+     * @param projectId идентификатор проекта.
+     * @throws SQLException исключения БД.
+     */
+    private static void updateTasksFromProjectEditing(DAOTask taskInterface,
+        ServletContext servletContext, Integer projectId) throws SQLException {
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
+
         for (Task task : tasksListInProject) {
             task.setProjectId(projectId);
             if (task.getId() != null) {
@@ -342,6 +446,12 @@ public class ProjectController extends HttpServlet {
         }
     }
 
+    /**
+     * Создает проект с полученныими данными.
+     *
+     * @param paramsList данные из формы.
+     * @return проект.
+     */
     private static Project getProject(List<String> paramsList) {
         Project theProject = new Project();
         theProject.setTitle(paramsList.get(0));
@@ -349,6 +459,12 @@ public class ProjectController extends HttpServlet {
         return theProject;
     }
 
+    /**
+     * Получает данные из формы.
+     *
+     * @param req запрос.
+     * @return список данных.
+     */
     private List<String> getDataFromForm(HttpServletRequest req) {
         List<String> paramsList =  new ArrayList<>(Nums.TWO.getValue());
         paramsList.add(req.getParameter(TITLE_OF_PROJECT));
@@ -357,12 +473,18 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Method for add project.
-     * 
+     * Добавляет новый проект в БД.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws ServletException исключения сервлета.
+     * @throws SQLException исключения БД.
+     * @throws IOException исключения ввода-вывода.
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, SQLException, IOException {
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.projectValidator(paramsList);
+
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);
             projectInterface.add(theProject);
@@ -375,6 +497,14 @@ public class ProjectController extends HttpServlet {
             dispatcher.forward(req, resp);
         }
     }
+
+    /**
+     * Вносит в форму введенные данные и сообщения об ошибках.
+     *
+     * @param req запрос.
+     * @param paramsList данные из формы.
+     * @param errorsList сообщения об ошибках.
+     */
     private void setDataToJspAfterValidation(HttpServletRequest req, List<String> paramsList, List<String> errorsList) {
         req.setAttribute("ERRORS", errorsList);
         req.setAttribute(TITLE_OF_PROJECT, paramsList.get(Nums.ZERO.getValue()).trim());

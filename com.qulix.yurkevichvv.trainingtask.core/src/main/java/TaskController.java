@@ -13,14 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Controller for tasks.
- *
- *<p> {@link TaskController} using to interact with  Tasks in application.</p>
+ * Содержит сервлеты для выполнения действий объектов класса "Задача".
  *
  *
  * @author Q-YVV
- * @version 1.0
- * @since 1.0
+ * @see Task
  */
 public class TaskController extends HttpServlet {
 
@@ -78,7 +75,7 @@ public class TaskController extends HttpServlet {
 
         try {
             String action = req.getParameter(ACTION);
-            
+
             switch (action) {
                 case "/add":
                     addTask(req, resp);
@@ -91,7 +88,7 @@ public class TaskController extends HttpServlet {
                     break;
                 case "/newTaskInProject":
                     newTaskInProject(req, resp);
-                    break;        
+                    break;
             }
         }
         catch (SQLException e) {
@@ -99,7 +96,7 @@ public class TaskController extends HttpServlet {
         }
     }
 
-
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
@@ -181,7 +178,7 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Заполняет поля задачи
+     * Заполняет поля задачи.
      *
      * @param paramsList поля задачи.
      */
@@ -220,8 +217,9 @@ public class TaskController extends HttpServlet {
             else {
                 employeeListInProject.add(new DAOEmployee().getById(task.getEmployeeId()));
             }
+            setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
+
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            extracted(servletContext, tasksListInProject, employeeListInProject);
             dispatcher.forward(req, resp);
         }
         else {
@@ -233,6 +231,9 @@ public class TaskController extends HttpServlet {
 
     /**
      * Изменяет данные задачи во время редактирования проекта.
+     *
+     * @param req запрос.
+     * @param resp ответ.
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -249,7 +250,7 @@ public class TaskController extends HttpServlet {
             tasksListInProject.set(Integer.parseInt(numberInList), task);
             List<Employee> employeeListInProject = getEmployeesInProject(servletContext, numberInList, task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            extracted(servletContext, tasksListInProject, employeeListInProject);
+            setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
             servletContext.setAttribute(NUMBER_IN_LIST, numberInList);
             dispatcher.forward(req, resp);
         }
@@ -261,12 +262,28 @@ public class TaskController extends HttpServlet {
         }
     }
 
-    private static void extracted(ServletContext servletContext,
+    /**
+     * Обновляет список задач в проекте во время его редактирования.
+     *
+     * @param servletContext контекст сервлета.
+     * @param tasksListInProject список задач.
+     * @param employeeListInProject список сотрудников привязанных к задаче.
+     */
+    private static void setListOfTasksInProject(ServletContext servletContext,
         List<Task> tasksListInProject, List<Employee> employeeListInProject) {
         servletContext.setAttribute(TASKS_LIST, tasksListInProject);
         servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
     }
 
+    /**
+     *  Вносит данные о сотруднике связанном с задачей в список задач проекта.
+     *
+     * @param servletContext контекст сервлета.
+     * @param numberInList номер задачи в списке проекта
+     * @param task задача
+     * @return список сотрудников привязанных к проекту.
+     * @throws SQLException исключения БД.
+     */
     private static List<Employee> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
         throws SQLException {
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
@@ -280,7 +297,10 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Method for open new task form.
+     * Создает форму добавления задачи.
+     *
+     * @param req запрос.
+     * @param resp ответ.
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
@@ -293,7 +313,13 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Method for delete task.
+     * Удаляет задачу из БД.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException исключения ввода-вывода.
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -304,7 +330,13 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Method for add new task.
+     * Создает новую задачу.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException исключения ввода-вывода.
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -325,6 +357,11 @@ public class TaskController extends HttpServlet {
         }
     }
 
+    /**
+     * Вносит данные о задаче в форму.
+     *
+     * @param paramsList список данных из формы.
+     */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
         List<String> paramsList, List<String> errorsList) {
         req.setAttribute("ERRORS", errorsList);
@@ -337,7 +374,13 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Method for list tasks.
+     * Выводит список задач.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения БД.
+     * @throws ServletException исключения сервлета.
+     * @throws IOException исключения ввода-вывода.
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Task> tasks =  tasksInterface.getAll();
@@ -359,7 +402,10 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Method for get data from form.
+     * Вносит задачу из формы в список.
+     *
+     * @param req запрос.
+     * @return список данных из формы.
      */
     private List<String> getDataFromForm(HttpServletRequest req) {
         List<String> paramsList = new ArrayList<>();

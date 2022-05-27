@@ -8,28 +8,22 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * Encoding filter.
+ * Фильтр для кодирования данных.
  *
  * @author  Q-YVV
- * @version 1.0
- * @since   1.0
  */
 public class EncodingFilter implements Filter {
 
     private String encoding = "utf-8";
 
-    /**
-     * Filter method.
-     */
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain)
         throws IOException, ServletException {
         req.setCharacterEncoding(encoding);
         filterChain.doFilter(req, resp);
     }
 
-    /**
-     * Set encoding.
-     */
+    @Override
     public void init(FilterConfig filterConfig) {
         String encodingParam = filterConfig.getInitParameter("encoding");
         if (encodingParam != null) {

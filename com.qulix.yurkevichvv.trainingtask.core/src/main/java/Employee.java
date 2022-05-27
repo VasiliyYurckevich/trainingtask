@@ -2,8 +2,6 @@
  * Описывает сущность "Сотрудник".
  *
  * @author Q-YVV
- * @version 1.0
- * @since 1.0
  */
 public class Employee {
 
@@ -19,7 +17,7 @@ public class Employee {
 
 
     /**
-     * Constructor with parameters.
+     * Конструктор.
      */
     public Employee() {
 

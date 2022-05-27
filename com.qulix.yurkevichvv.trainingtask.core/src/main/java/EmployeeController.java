@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
  *
- *
  * @author Q-YVV
  * @version 1.0
  * @since 1.0
@@ -38,7 +37,9 @@ public class EmployeeController extends HttpServlet {
 
     private static final String POST = "post";
 
-
+    /**
+     * Интерфейс для взаимодействия с базой данных.
+     */
     private DAOInterface<Employee> employeeInterface;
 
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
@@ -100,8 +101,15 @@ public class EmployeeController extends HttpServlet {
 
     }
 
+
     /**
-     * Открывает на форму редактирования сотрудника.
+     * Отображает форму для редактирования сотрудника.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключения Бд.
+     * @throws ServletException исключение сервлета.
+     * @throws IOException исключение ввода-вывода.
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -112,6 +120,7 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute(FIRST_NAME, existingEmployee.getFirstName());
         req.setAttribute(PATRONYMIC, existingEmployee.getPatronymic());
         req.setAttribute(POST, existingEmployee.getPost());
+
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
         existingEmployee.setId(employeeId);
         req.setAttribute("employee", existingEmployee);
@@ -119,7 +128,12 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Открывает на форму добавления сотрудника.
+     * Отображает форму для добавления сотрудника.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws ServletException исключение сервлета.
+     * @throws IOException исключение ввода-вывода.
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
@@ -127,7 +141,13 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Method for delete employee.
+     * Удаляет сотрудника из БД.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws ServletException исключение сервлета.
+     * @throws IOException исключение ввода-вывода.
+     * @throws SQLException исключение БД.
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
@@ -138,13 +158,20 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Method for update employee.
+     * Запись отредактированого сотрудника в БД.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws ServletException исключение сервлета.
+     * @throws IOException исключение ввода-вывода.
+     * @throws SQLException исключение БД.
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        List<String> paramsList  = getDataFromJSP(req);
+        List<String> paramsList  = getDataFromJsp(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
+
         if (Utils.isBlankList(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
             Employee theEmployee = getEmployee(paramsList);
@@ -155,12 +182,18 @@ public class EmployeeController extends HttpServlet {
         }
         else {
             req.setAttribute(EMPLOYEE_ID, employeeId);
-            setDataToJSP(req,  paramsList, errorsList);
+            setDataToJsp(req,  paramsList, errorsList);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
             dispatcher.forward(req, resp);
         }
     }
 
+    /**
+     * Создание сотрудника с полученными параметрами.
+     *
+     * @param paramsList список параметров.
+     * @return  сотрудник.
+     */
     private static Employee getEmployee(List<String> paramsList) {
         Employee theEmployee = new Employee();
         theEmployee.setSurname(paramsList.get(Nums.ZERO.getValue()));
@@ -170,15 +203,28 @@ public class EmployeeController extends HttpServlet {
         return theEmployee;
     }
 
-    private void setDataToJSP(HttpServletRequest req, List<String> paramsList, List<String> errorsList)
-        throws ServletException, IOException {
+    /**
+     * Заполнение формы данными о сотруднике.
+     *
+     * @param req запрос.
+     * @param paramsList список параметров.
+     * @param errorsList список ошибок.
+     */
+    private void setDataToJsp(HttpServletRequest req, List<String> paramsList, List<String> errorsList){
         req.setAttribute("ERRORS", errorsList);
         req.setAttribute(SURNAME, paramsList.get(Nums.ZERO.getValue()).trim());
         req.setAttribute(FIRST_NAME, paramsList.get(Nums.ONE.getValue()).trim());
         req.setAttribute(PATRONYMIC, paramsList.get(Nums.TWO.getValue()).trim());
         req.setAttribute(POST, paramsList.get(Nums.THREE.getValue()).trim());
     }
-    private List<String> getDataFromJSP(HttpServletRequest req) {
+
+    /**
+     * Получение данных о сотруднике из формы.
+     *
+     * @param req запрос.
+     * @return список параметров.
+     */
+    private List<String> getDataFromJsp(HttpServletRequest req) {
         List<String> params = new ArrayList<>(Nums.FOUR.getValue());
         params.add(req.getParameter(SURNAME));
         params.add(req.getParameter(FIRST_NAME));
@@ -189,12 +235,19 @@ public class EmployeeController extends HttpServlet {
 
 
     /**
-     * Method for add employee.
+     * Валидация и добавление сотрудника в БД.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключение БД.
+     * @throws ServletException исключение сервлета.
+     * @throws IOException исключение ввода-вывода.
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        List<String> paramsList  = getDataFromJSP(req);
+        List<String> paramsList  = getDataFromJsp(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
+
         if (Utils.isBlankList(errorsList)) {
             Employee employee = getEmployee(paramsList);
             employeeInterface.add(employee);
@@ -202,14 +255,20 @@ public class EmployeeController extends HttpServlet {
             listEmployees(req, resp);
         }
         else {
-            setDataToJSP(req, paramsList, errorsList);
+            setDataToJsp(req, paramsList, errorsList);
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
             dispatcher.forward(req, resp);
         }
     }
 
     /**
-     * Method for get list employees.
+     * Отображение списка сотрудников.
+     *
+     * @param req запрос.
+     * @param resp ответ.
+     * @throws SQLException исключение БД.
+     * @throws ServletException исключение сервлета.
+     * @throws IOException исключение ввода-вывода.
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {

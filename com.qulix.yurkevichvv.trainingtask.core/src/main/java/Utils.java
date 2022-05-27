@@ -46,7 +46,7 @@ public class Utils {
      * Создание и обнавление данных для выпадающих списков.
      *
      * @param req запрос.
-     * @return данные для выпадающих списков.
+     * @throws SQLException ошибка при выполнении запроса.
      */
     public static void setDataOfDropDownList(HttpServletRequest req) throws SQLException {
         List<Employee> employees = new DAOEmployee().getAll();
