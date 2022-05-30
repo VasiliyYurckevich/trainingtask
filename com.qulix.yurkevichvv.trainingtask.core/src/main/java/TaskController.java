@@ -237,7 +237,8 @@ public class TaskController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
-        Integer taskId = Integer.parseInt(req.getParameter(TASK_ID));
+
+        Integer taskId = Utils.stringToInteger(req.getParameter(TASK_ID));
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
