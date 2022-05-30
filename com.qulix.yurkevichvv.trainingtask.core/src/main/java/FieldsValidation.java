@@ -49,7 +49,7 @@ public class FieldsValidation {
             }
             else {
                 try {
-                    int intVal = Integer.parseInt(s.trim());
+                    Integer.parseInt(s.trim());
                 }
                 catch (NumberFormatException e) {
                     error.append("Значение ввода должно быть в промежутке от 0 до 2147483647");
@@ -115,7 +115,7 @@ public class FieldsValidation {
      *
      * @param date Дата для проверки.
      * @param error Строка с ошибкой.
-     * @return
+     * @return true если дата валидная, false если нет.
      */
     private static boolean  isDateFormatValidator(String date, StringBuffer error) {
         try {

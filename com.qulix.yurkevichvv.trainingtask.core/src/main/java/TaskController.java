@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Задача".
  *
- *
  * @author Q-YVV
  * @see Task
  */
@@ -138,7 +137,6 @@ public class TaskController extends HttpServlet {
         ServletContext servletContext = getServletContext();
         String theTaskId = req.getParameter(TASK_ID);
         Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
-
         Utils.setTaskDataInJsp(req, existingTask);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
         servletContext.setAttribute("task", existingTask);

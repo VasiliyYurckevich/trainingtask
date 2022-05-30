@@ -76,9 +76,6 @@ public class ProjectController extends HttpServlet {
         }
     }
 
-    /**
-     * Processes requests for HTTP GET methods.
-     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

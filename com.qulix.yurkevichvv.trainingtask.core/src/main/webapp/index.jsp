@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page contentType="text/html;charset=utf-8" language="java"%>
+<%@ page contentType="text/html;charset=utf-8" %>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -7,6 +7,7 @@
 
     <head>
         <link type="text/css" rel="stylesheet" href="css/style.css">
+        <title></title>
     </head>
 
     <ul>

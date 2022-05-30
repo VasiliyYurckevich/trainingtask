@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Содержит методы для работы обьектов класса "Сотрудник" с БД.
  *
- *
  * @author  Q-YVV
  * @see    Employee
  * @see    DAOInterface

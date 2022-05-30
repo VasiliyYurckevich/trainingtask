@@ -2,8 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-
-
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -27,7 +25,7 @@
 
         <div>
             <div id="container">
-                <h3>Редактировать  задачу</h3>
+                <h3>Редактировать задачу</h3>
                 <form action="task" method="post" >
                     <input type="hidden" name="action"  value="/updateTaskInProject" />
                     <input type="hidden" name="taskId" value="${taskId}" />
@@ -43,7 +41,7 @@
                                     <label>Статус:</label>
                                 </td>
                                 <td>
-                                    <select type="text" name="status" data-selected="${status}">
+                                    <select name="status" data-selected="${status}">
                                         <option ${status == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
                                         <option ${status == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
                                         <option ${status == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>

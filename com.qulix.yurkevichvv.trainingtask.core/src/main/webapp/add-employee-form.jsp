@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -79,7 +79,7 @@
                     </table>
                     <br/><br/>
                     <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
-                    <button onclick="javascript:history.back()" type="button"
+                    <button onclick="history.back()" type="button"
                             id="cancelButton" name="cancelButton" class="add-button">Отмена
                     </button>
                 </form>

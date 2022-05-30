@@ -9,7 +9,7 @@ enum Nums {
     SEVEN(7),
     EIGHT(8);
 
-    private int value;
+    private final int value;
     Nums(int value) {
         this.value = value;
     }

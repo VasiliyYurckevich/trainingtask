@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -41,7 +41,7 @@
                         <tr>
                             <td><label>Статус:</label></td>
                             <td>
-                                <select type="text" name="status" data-selected="${status}">
+                                <select name="status" data-selected="${status}">
                                     <option ${status == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
                                     <option ${status == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
                                     <option ${status == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>

@@ -7,9 +7,10 @@ import java.util.List;
  * @author Q-YVV
  * @see FieldsValidation
  */
-    public class ValidationService {
+public class ValidationService {
 
     private static final int SHORT_LENGTH = 50;
+
     private static final int LONG_LENGTH = 250;
 
     /**
@@ -44,7 +45,7 @@ import java.util.List;
      * Валидация для вводимых данных о задаче.
      *
      * @param paramsList Список параметров для валидации.
-     * @return Cписок ошибок.
+     * @return Список ошибок.
      */
     public static List<String> taskValidator(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FIVE.getValue());

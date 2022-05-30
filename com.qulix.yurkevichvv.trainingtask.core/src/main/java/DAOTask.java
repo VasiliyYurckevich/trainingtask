@@ -63,10 +63,7 @@ public class DAOTask implements DAOInterface<Task> {
         }
     }
 
-    /**
-     * Method for updating task in database.
-     *
-     */
+
     @Override
     public boolean update(Task task) throws SQLException {
         Connection connection = DBConnection.getConnection();
@@ -164,9 +161,18 @@ public class DAOTask implements DAOInterface<Task> {
         }
     }
 
+    /**
+     * Получение добавление задачи в лист.
+     *
+     * @param tasks лист задач.
+     * @param resultSet выражение SQL.
+     * @return лист задач.
+     * @throws SQLException исключение БД.
+     */
     private List<Task> getList(List<Task> tasks, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
-            Task task = setDataFromDatabase(resultSet);
+            Task task = new Task();
+            task = setDataFromDatabase(task, resultSet);
             tasks.add(task);
         }
         return tasks;
@@ -182,7 +188,7 @@ public class DAOTask implements DAOInterface<Task> {
             ResultSet resultSet = preparedStatement.executeQuery();
             Task task = new Task();
             while (resultSet.next()) {
-                setDataFromDatabase(resultSet);
+                setDataFromDatabase(task, resultSet);
             }
             return task;
         }
@@ -197,8 +203,7 @@ public class DAOTask implements DAOInterface<Task> {
      * @param resultSet выражение SQL.
      * @throws SQLException исключение БД.
      */
-    private Task setDataFromDatabase(ResultSet resultSet) throws SQLException {
-        Task task = new Task();
+    private Task setDataFromDatabase(Task task, ResultSet resultSet) throws SQLException {
         task.setId(resultSet.getInt(TASK_ID));
         task.setStatus(resultSet.getString(STATUS));
         task.setTitle(resultSet.getString(TITLE));
