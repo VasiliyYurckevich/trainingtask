@@ -57,7 +57,7 @@ public class TaskController extends HttpServlet {
     private static final String ADD_TASK_FORM_JSP = "/add-task-form.jsp";
 
 
-    private DAOInterface<Task> tasksInterface;
+    private DaoInterface<Task> tasksInterface;
 
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
@@ -65,7 +65,7 @@ public class TaskController extends HttpServlet {
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        tasksInterface = new DAOTask();
+        tasksInterface = new DaoTask();
     }
 
 
@@ -213,7 +213,7 @@ public class TaskController extends HttpServlet {
                 employeeListInProject.add(null);
             }
             else {
-                employeeListInProject.add(new DAOEmployee().getById(task.getEmployeeId()));
+                employeeListInProject.add(new DaoEmployee().getById(task.getEmployeeId()));
             }
             setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
 
@@ -290,7 +290,7 @@ public class TaskController extends HttpServlet {
             employeeListInProject.set(Integer.parseInt(numberInList), null);
         }
         else {
-            employeeListInProject.set(Integer.parseInt(numberInList), new DAOEmployee().getById(task.getEmployeeId()));
+            employeeListInProject.set(Integer.parseInt(numberInList), new DaoEmployee().getById(task.getEmployeeId()));
         }
         return employeeListInProject;
     }
@@ -303,8 +303,8 @@ public class TaskController extends HttpServlet {
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
-        List<Employee> employees = new DAOEmployee().getAll();
-        List<Project> projects = new DAOProject().getAll();
+        List<Employee> employees = new DaoEmployee().getAll();
+        List<Project> projects = new DaoProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
         getServletContext().setAttribute(EMPLOYEE_LIST, employees);
         getServletContext().setAttribute(PROJECT_LIST, projects);
@@ -383,13 +383,13 @@ public class TaskController extends HttpServlet {
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         List<Task> tasks =  tasksInterface.getAll();
-        List<Project> projects = new DAOProject().getAll();
+        List<Project> projects = new DaoProject().getAll();
         List<Employee> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
         for (Task t: tasks) {
-            Employee employee = new DAOEmployee().getById(t.getEmployeeId());
+            Employee employee = new DaoEmployee().getById(t.getEmployeeId());
             employeeOfTask.add(employee);
-            Project project = new DAOProject().getById(t.getProjectId());
+            Project project = new DaoProject().getById(t.getProjectId());
             projectsOfTask.add(project);
         }
         req.setAttribute(PROJECT_LIST, projects);

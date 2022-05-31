@@ -4,8 +4,6 @@ import java.time.LocalDate;
  * Реализует сущность задачи в приложении.
  *
  * @author Q-YVV
- * @version 1.0
- * @since 1.0
  */
 public class Task {
 

@@ -83,7 +83,6 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <br/><br/>
                     </table>
                 </form>
             </div>

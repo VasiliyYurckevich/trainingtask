@@ -49,8 +49,8 @@ public class Utils {
      * @throws SQLException ошибка при выполнении запроса.
      */
     public static void setDataOfDropDownList(HttpServletRequest req) throws SQLException {
-        List<Employee> employees = new DAOEmployee().getAll();
-        List<Project> projects = new DAOProject().getAll();
+        List<Employee> employees = new DaoEmployee().getAll();
+        List<Project> projects = new DaoProject().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);
         req.getServletContext().setAttribute("PROJECT_LIST", projects);
     }

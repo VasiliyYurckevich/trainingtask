@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
  *
  * @author Q-YVV
- * @version 1.0
- * @since 1.0
  */ 
 public class EmployeeController extends HttpServlet {
 
@@ -40,14 +38,14 @@ public class EmployeeController extends HttpServlet {
     /**
      * Интерфейс для взаимодействия с базой данных.
      */
-    private DAOInterface<Employee> employeeInterface;
+    private DaoInterface<Employee> employeeInterface;
 
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        employeeInterface = new DAOEmployee();
+        employeeInterface = new DaoEmployee();
 
     }
 

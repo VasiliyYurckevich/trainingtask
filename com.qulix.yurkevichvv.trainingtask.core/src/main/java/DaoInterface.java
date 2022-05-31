@@ -6,7 +6,7 @@ import java.util.List;
  *
  * @author Q-YVV
  */
-public interface DAOInterface<T> {
+public interface DaoInterface<T> {
 
     /**
      * Добавление новой сущности в БД.

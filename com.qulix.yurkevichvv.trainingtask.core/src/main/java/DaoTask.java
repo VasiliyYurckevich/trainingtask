@@ -10,10 +10,10 @@ import java.util.List;
  * Содержит методы для работы обьектов класса "Задача" с БД.
  *
  * @author  Q-YVV
- * @see DAOInterface
+ * @see DaoInterface
  * @see Task
  */
-public class DAOTask implements DAOInterface<Task> {
+public class DaoTask implements DaoInterface<Task> {
 
     private static final  String TASK_ID = "id";
 
@@ -82,12 +82,11 @@ public class DAOTask implements DAOInterface<Task> {
     /**
      * Внесение данных о задаче в выражение SQL.
      *
-     * @param task обьект класса "Задача".
+     * @param task              обьект класса "Задача".
      * @param preparedStatement выражение SQL.
-     * @return выражение SQL.
      * @throws SQLException исключение БД.
      */
-    private PreparedStatement setDataInToStatement(Task task, PreparedStatement preparedStatement) throws SQLException {
+    private void setDataInToStatement(Task task, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(Nums.ONE.getValue(), task.getStatus());
         preparedStatement.setString(Nums.TWO.getValue(), task.getTitle());
         preparedStatement.setLong(Nums.THREE.getValue(), task.getWorkTime());
@@ -106,7 +105,6 @@ public class DAOTask implements DAOInterface<Task> {
         else {
             preparedStatement.setInt(Nums.SEVEN.getValue(), task.getEmployeeId());
         }
-        return preparedStatement;
     }
 
 
@@ -172,7 +170,7 @@ public class DAOTask implements DAOInterface<Task> {
     private List<Task> getList(List<Task> tasks, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             Task task = new Task();
-            task = setDataFromDatabase(task, resultSet);
+            setDataFromDatabase(task, resultSet);
             tasks.add(task);
         }
         return tasks;
@@ -203,7 +201,7 @@ public class DAOTask implements DAOInterface<Task> {
      * @param resultSet выражение SQL.
      * @throws SQLException исключение БД.
      */
-    private Task setDataFromDatabase(Task task, ResultSet resultSet) throws SQLException {
+    private void setDataFromDatabase(Task task, ResultSet resultSet) throws SQLException {
         task.setId(resultSet.getInt(TASK_ID));
         task.setStatus(resultSet.getString(STATUS));
         task.setTitle(resultSet.getString(TITLE));
@@ -218,6 +216,5 @@ public class DAOTask implements DAOInterface<Task> {
         else {
             task.setEmployeeId(null);
         }
-        return task;
     }
 }

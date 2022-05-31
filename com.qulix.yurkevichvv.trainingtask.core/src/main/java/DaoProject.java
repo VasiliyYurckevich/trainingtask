@@ -9,10 +9,10 @@ import java.util.List;
  * Содержит методы для работы обьектов класса "Проект" с БД.
  *
  * @author  Q-YVV
- * @see    DAOInterface
- * @see    Project
+ * @see DaoInterface
+ * @see Project
  */
-public class DAOProject implements DAOInterface<Project> {
+public class DaoProject implements DaoInterface<Project> {
 
     private static final String PROJECT_ID = "project_Id";
 
