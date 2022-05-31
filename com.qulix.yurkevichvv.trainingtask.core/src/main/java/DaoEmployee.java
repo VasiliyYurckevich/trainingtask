@@ -9,10 +9,10 @@ import java.util.List;
  * Содержит методы для работы обьектов класса "Сотрудник" с БД.
  *
  * @author  Q-YVV
- * @see    Employee
- * @see    DAOInterface
+ * @see Employee
+ * @see DaoInterface
  */
-public class DAOEmployee implements DAOInterface<Employee> {
+public class DaoEmployee implements DaoInterface<Employee> {
 
     private static final String EMPLOYEE_ID = "employee_id";
 

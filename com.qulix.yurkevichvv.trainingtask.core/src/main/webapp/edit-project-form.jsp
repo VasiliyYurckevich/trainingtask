@@ -121,7 +121,6 @@
                         <a href="${addLink}">Добавить задачу</a>
                     </form>
                     </tbody>
-                    <br/><br/>
                 </form>
             </div>
         </div>
