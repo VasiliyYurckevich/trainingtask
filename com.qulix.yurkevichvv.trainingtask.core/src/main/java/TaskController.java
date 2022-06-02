@@ -26,21 +26,21 @@ public class TaskController extends HttpServlet {
 
     private static final String ACTION = "action";
 
-    private static final  String TASK_ID = "taskId";
+    private static final String TASK_ID = "taskId";
 
-    private static final  String STATUS = "status";
+    private static final String STATUS = "status";
 
-    private static final  String TITLE = "title";
+    private static final String TITLE = "title";
 
-    private static final  String PROJECT_ID = "projectId";
+    private static final String PROJECT_ID = "projectId";
 
-    private static final  String WORK_TIME = "workTime";
+    private static final String WORK_TIME = "workTime";
 
-    private static final  String BEGIN_DATE = "beginDate";
+    private static final String BEGIN_DATE = "beginDate";
 
-    private static final  String END_DATE = "endDate";
+    private static final String END_DATE = "endDate";
 
-    private static final  String EMPLOYEE_ID = "employeeId";
+    private static final String EMPLOYEE_ID = "employeeId";
 
     private static final String EMPLOYEE_LIST = "EMPLOYEE_LIST";
 
@@ -163,7 +163,7 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksInterface.update(task);
-            listTasks(req, resp);
+            resp.sendRedirect("tasks");
             LOGGER.info("Update task with id: " + taskId);
         }
         else {
@@ -181,7 +181,7 @@ public class TaskController extends HttpServlet {
      * @param paramsList поля задачи.
      */
     private static Task getTask(List<String> paramsList) {
-        Task task =  new Task();
+        Task task = new Task();
         task.setStatus(paramsList.get(Nums.ZERO.getValue()));
         task.setTitle(paramsList.get(Nums.ONE.getValue()));
         task.setWorkTime(Utils.stringToInteger(paramsList.get(Nums.TWO.getValue())));
@@ -275,7 +275,7 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     *  Вносит данные о сотруднике связанном с задачей в список задач проекта.
+     * Вносит данные о сотруднике связанном с задачей в список задач проекта.
      *
      * @param servletContext контекст сервлета.
      * @param numberInList номер задачи в списке проекта
@@ -324,7 +324,7 @@ public class TaskController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         String theTaskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.valueOf(theTaskId));
-        listTasks(req, resp);
+        resp.sendRedirect("tasks");
         LOGGER.info("Task with id " + theTaskId + " delete");
     }
 
@@ -339,13 +339,13 @@ public class TaskController extends HttpServlet {
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        List<String> paramsList =  getDataFromForm(req);
+        List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
-            Task task =  getTask(paramsList);
+            Task task = getTask(paramsList);
             tasksInterface.add(task);
-            listTasks(req, resp);
+            resp.sendRedirect("tasks");
             LOGGER.info("New task created");
         }
         else {
@@ -382,7 +382,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        List<Task> tasks =  tasksInterface.getAll();
+        List<Task> tasks = tasksInterface.getAll();
         List<Project> projects = new DaoProject().getAll();
         List<Employee> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();

@@ -35,6 +35,8 @@ public class EmployeeController extends HttpServlet {
 
     private static final String POST = "post";
 
+    private static final String EMPLOYEES_LIST = "employees";
+
     /**
      * Интерфейс для взаимодействия с базой данных.
      */
@@ -46,7 +48,6 @@ public class EmployeeController extends HttpServlet {
     public void init() throws ServletException, NullPointerException {
         super.init();
         employeeInterface = new DaoEmployee();
-
     }
 
 
@@ -151,7 +152,7 @@ public class EmployeeController extends HttpServlet {
         throws ServletException, IOException, SQLException {
         Integer theEmployeeId = Integer.valueOf(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(theEmployeeId);
-        listEmployees(req, resp);
+        resp.sendRedirect(LIST);
         LOGGER.info("Employee with id " + theEmployeeId + " deleted");
     }
 
@@ -167,7 +168,7 @@ public class EmployeeController extends HttpServlet {
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, SQLException {
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        List<String> paramsList  = getDataFromJsp(req);
+        List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
@@ -175,12 +176,12 @@ public class EmployeeController extends HttpServlet {
             Employee theEmployee = getEmployee(paramsList);
             theEmployee.setId(employeeId);
             employeeInterface.update(theEmployee);
-            listEmployees(req, resp);
+            resp.sendRedirect(EMPLOYEES_LIST);
             LOGGER.info("Updated employee with id " + employeeId);
         }
         else {
             req.setAttribute(EMPLOYEE_ID, employeeId);
-            setDataToJsp(req,  paramsList, errorsList);
+            setDataToJsp(req, paramsList, errorsList);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
             dispatcher.forward(req, resp);
         }
@@ -190,7 +191,7 @@ public class EmployeeController extends HttpServlet {
      * Создание сотрудника с полученными параметрами.
      *
      * @param paramsList список параметров.
-     * @return  сотрудник.
+     * @return сотрудник.
      */
     private static Employee getEmployee(List<String> paramsList) {
         Employee theEmployee = new Employee();
@@ -242,14 +243,14 @@ public class EmployeeController extends HttpServlet {
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        List<String> paramsList  = getDataFromJsp(req);
+        List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Employee employee = getEmployee(paramsList);
             employeeInterface.add(employee);
             LOGGER.info("Employee created");
-            listEmployees(req, resp);
+            resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
             setDataToJsp(req, paramsList, errorsList);

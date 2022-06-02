@@ -128,7 +128,7 @@ public class ProjectController extends HttpServlet {
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws IOException, SQLException, ServletException {
         ServletContext servletContext = getServletContext();
-        String numberInList  = req.getParameter(NUMBER_IN_LIST);
+        String numberInList = req.getParameter(NUMBER_IN_LIST);
         List<Integer> deleteTaskInProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
@@ -173,7 +173,7 @@ public class ProjectController extends HttpServlet {
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute(TASKS_LIST);
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
-        String numberInList  = req.getParameter(NUMBER_IN_LIST);
+        String numberInList = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
 
         Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
@@ -300,7 +300,7 @@ public class ProjectController extends HttpServlet {
      * Удалет проект из БД.
      *
      * @param req запрос.
-     * @param resp  ответ.
+     * @param resp ответ.
      * @throws SQLException исключения БД.
      * @throws ServletException исключения сервлета.
      * @throws IOException исключения ввода-вывода.
@@ -309,8 +309,8 @@ public class ProjectController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         Integer theProjectId = Integer.valueOf(req.getParameter(PROJECT_ID));
         projectInterface.delete(theProjectId);
-        listProjects(req, resp);
-        LOGGER.info("Project with   id " + theProjectId + " deleted");
+        resp.sendRedirect("projects");
+        LOGGER.info("Project with id " + theProjectId + " deleted");
 
     }
 
@@ -321,13 +321,13 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ.
      * @throws SQLException исключения БД.
      * @throws ServletException исключения сервлета.
-     * @throws IOException  исключения ввода-вывода.
+     * @throws IOException исключения ввода-вывода.
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletcontext = getServletContext();
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
-        String numberInList  = req.getParameter(NUMBER_IN_LIST);
+        String numberInList = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
         servletcontext.setAttribute(PROJECT_ID, thisProjectId);
         Utils.setDataOfDropDownList(req);
@@ -356,7 +356,7 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ.
      * @throws SQLException исключения БД.
      * @throws ServletException исключения сервлета.
-     * @throws IOException  исключения ввода-вывода.
+     * @throws IOException исключения ввода-вывода.
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
@@ -404,7 +404,7 @@ public class ProjectController extends HttpServlet {
             updateTasksFromProjectEditing(taskInterface, servletContext, projectId);
             projectInterface.update(theProject);
             LOGGER.info("Updated project with id " + projectId);
-            listProjects(req, resp);
+            resp.sendRedirect("projects");
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
@@ -464,7 +464,7 @@ public class ProjectController extends HttpServlet {
      * @return список данных.
      */
     private List<String> getDataFromForm(HttpServletRequest req) {
-        List<String> paramsList =  new ArrayList<>(Nums.TWO.getValue());
+        List<String> paramsList = new ArrayList<>(Nums.TWO.getValue());
         paramsList.add(req.getParameter(TITLE_OF_PROJECT));
         paramsList.add(req.getParameter(DESCRIPTION));
         return paramsList;
@@ -486,7 +486,7 @@ public class ProjectController extends HttpServlet {
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);
             projectInterface.add(theProject);
-            listProjects(req, resp);
+            resp.sendRedirect("projects");
             LOGGER.info("New project create");
         }
         else {
