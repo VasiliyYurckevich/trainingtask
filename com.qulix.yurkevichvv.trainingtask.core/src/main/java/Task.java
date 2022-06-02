@@ -98,13 +98,13 @@ public class Task {
     @Override
     public String toString() {
         return "Task " +
-                "taskId=" + taskId +
-                ", status='" + status + '\'' +
-                ", title='" + title + '\'' +
-                ", workTime=" + workTime +
-                ", beginDate=" + beginDate +
-                ", endDate=" + endDate +
-                ", project_id=" + projectId +
-                ", employee_id=" + employeeId;
+            "taskId=" + taskId +
+            ", status='" + status +
+            ", title='" + title +
+            ", workTime=" + workTime +
+            ", beginDate=" + beginDate +
+            ", endDate=" + endDate +
+            ", project_id=" + projectId +
+            ", employee_id=" + employeeId;
     }
 }

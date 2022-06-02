@@ -31,7 +31,6 @@ public class FieldsValidation {
             }
         }
         return String.valueOf(error);
-
     }
 
     /**
@@ -92,7 +91,6 @@ public class FieldsValidation {
         listErrors.add(String.valueOf(errorBeginDate));
         listErrors.add(String.valueOf(errorEndDate));
         return listErrors;
-
     }
 
     /**
@@ -111,13 +109,13 @@ public class FieldsValidation {
     }
 
     /**
-     *  Проверка на формат и существование даты.
+     * Проверка на формат и существование даты.
      *
      * @param date Дата для проверки.
      * @param error Строка с ошибкой.
      * @return true если дата валидная, false если нет.
      */
-    private static boolean  isDateFormatValidator(String date, StringBuffer error) {
+    private static boolean isDateFormatValidator(String date, StringBuffer error) {
         try {
             LocalDate.parse(date , DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT));
         }
@@ -127,5 +125,4 @@ public class FieldsValidation {
         }
         return true;
     }
-
 }

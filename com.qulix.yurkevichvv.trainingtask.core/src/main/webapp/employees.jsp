@@ -48,7 +48,6 @@
                         </tr>
 
                         <c:forEach var="tempEmployee" items="${EMPLOYEE_LIST}">
-
                             <c:url var="editLink" value="employees">
                                 <c:param name="action" value="/edit"/>
                                 <c:param name="employeeId" value="${tempEmployee.id}"/>
@@ -66,7 +65,7 @@
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}"
-                                       onclick="if (!(confirm('Вы уверены??'))) return false">Удалить</a>
+                                        onclick="if (!(confirm('Вы уверены??'))) return false">Удалить</a>
                                 </td>
                             </tr>
                         </c:forEach>

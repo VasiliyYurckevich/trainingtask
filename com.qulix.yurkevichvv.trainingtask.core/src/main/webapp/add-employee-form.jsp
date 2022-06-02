@@ -26,8 +26,8 @@
         <div>
             <div id="container">
                 <h3>Добавить сотрудника</h3>
-                <form action="employees"  method="post">
-                    <input type="hidden"  name="action" value="/add"/>
+                <form action="employees" method="post">
+                    <input type="hidden" name="action" value="/add"/>
                     <c:set var="ERRORS" value="${ERRORS}"></c:set>
                     <table>
                         <tbody>

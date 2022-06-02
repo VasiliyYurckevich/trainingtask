@@ -33,7 +33,7 @@
                     <table>
                         <tbody>
                         <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
-                        <button  id="cancelButton" name="cancelButton"
+                        <button id="cancelButton" name="cancelButton"
                              onclick="window.history.back()" type="button" class="add-button">
                              Отмена
                         </button>
@@ -42,10 +42,10 @@
                             <td><label>Статус:</label></td>
                             <td>
                                 <select name="status" data-selected="${status}">
-                                    <option ${status == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
-                                    <option ${status == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
-                                    <option ${status == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>
-                                    <option ${status == "Отложена"  ? 'selected="selected"' : ''}>Отложена</option>
+                                    <option ${status == "Не начата" ? 'selected="selected"' : ''}>Не начата</option>
+                                    <option ${status == "В процессе" ? 'selected="selected"' : ''}>В процессе</option>
+                                    <option ${status == "Завершена" ? 'selected="selected"' : ''}>Завершена</option>
+                                    <option ${status == "Отложена" ? 'selected="selected"' : ''}>Отложена</option>
                                 </select>
                             </td>
                             <td>
@@ -105,7 +105,7 @@
                                 <select name="projectId">
                                 <c:forEach items="${PROJECT_LIST}" var="projects">
                                     <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>
-                                            ${fn:escapeXml(projects.title)}
+                                        ${fn:escapeXml(projects.title)}
                                     </option>
                                 </c:forEach>
                                 </select>

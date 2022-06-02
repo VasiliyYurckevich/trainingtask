@@ -42,10 +42,10 @@
                                 </td>
                                 <td>
                                     <select name="status" data-selected="${status}">
-                                        <option ${status == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
-                                        <option ${status == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
-                                        <option ${status == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>
-                                        <option ${status == "Отложена"  ? 'selected="selected"' : ''}>Отложена</option>
+                                        <option ${status == "Не начата" ? 'selected="selected"' : ''}>Не начата</option>
+                                        <option ${status == "В процессе" ? 'selected="selected"' : ''}>В процессе</option>
+                                        <option ${status == "Завершена" ? 'selected="selected"' : ''}>Завершена</option>
+                                        <option ${status == "Отложена" ? 'selected="selected"' : ''}>Отложена</option>
                                     </select>
                                 </td>
                                 <td>
@@ -111,7 +111,7 @@
                                 </td>
                                 <td>
                                     <select name="employeeId">
-                                        <option value="null">  </option>
+                                        <option value="null"> </option>
                                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                                             <option value="${employees.id}"
                                                 ${employees.id == employeeId ? 'selected="selected"' : ''}>

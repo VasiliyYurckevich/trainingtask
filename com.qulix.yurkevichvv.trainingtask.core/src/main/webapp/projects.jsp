@@ -13,7 +13,7 @@
     <body>
         <ul>
             <li>
-                <a class="choose"  href="projects">Проекты</a>
+                <a class="choose" href="projects">Проекты</a>
             </li>
             <li>
                 <a href="task">Задачи</a>

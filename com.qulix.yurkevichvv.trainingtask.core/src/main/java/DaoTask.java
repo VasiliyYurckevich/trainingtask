@@ -9,27 +9,27 @@ import java.util.List;
 /**
  * Содержит методы для работы обьектов класса "Задача" с БД.
  *
- * @author  Q-YVV
+ * @author Q-YVV
  * @see DaoInterface
  * @see Task
  */
 public class DaoTask implements DaoInterface<Task> {
 
-    private static final  String TASK_ID = "id";
+    private static final String TASK_ID = "id";
 
-    private static final  String STATUS = "status";
+    private static final String STATUS = "status";
 
-    private static final  String TITLE = "title";
+    private static final String TITLE = "title";
 
-    private static final  String PROJECT_ID = "project_id";
+    private static final String PROJECT_ID = "project_id";
 
-    private static final  String WORK_TIME = "work_time";
+    private static final String WORK_TIME = "work_time";
 
-    private static final  String BEGIN_DATE = "begin_date";
+    private static final String BEGIN_DATE = "begin_date";
 
-    private static final  String END_DATE = "end_date";
+    private static final String END_DATE = "end_date";
 
-    private static final  String EMPLOYEE_ID = "employee_id";
+    private static final String EMPLOYEE_ID = "employee_id";
 
 
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +
@@ -44,9 +44,9 @@ public class DaoTask implements DaoInterface<Task> {
 
     private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = ?;";
 
-    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = ?,  title = ?,  work_time = ?," +
+    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = ?, title = ?, work_time = ?," +
 
-        " begin_date = ?,  end_date = ?, project_id = ?, employee_id = ? WHERE id = ?;";
+        " begin_date = ?, end_date = ?, project_id = ?, employee_id = ? WHERE id = ?;";
 
 
 
@@ -82,7 +82,7 @@ public class DaoTask implements DaoInterface<Task> {
     /**
      * Внесение данных о задаче в выражение SQL.
      *
-     * @param task              обьект класса "Задача".
+     * @param task обьект класса "Задача".
      * @param preparedStatement выражение SQL.
      * @throws SQLException исключение БД.
      */

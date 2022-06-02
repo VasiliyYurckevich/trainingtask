@@ -25,12 +25,12 @@
         <div>
             <div id="container">
                 <h3>Добавить задачу</h3>
-                <form action="task"  method="post" id="form">
+                <form action="task" method="post" id="form">
                     <input type="hidden" name="action" value="/newTaskInProject"/>
                     <table>
                         <div>
                             <input class="add-button" type="submit" name="submitButton"
-                                   id="submitButton"  value="Сохранить">
+                                   id="submitButton" value="Сохранить">
                             <button id="cancelButton" name="cancelButton" onclick="window.history.back()"
                                 type="button" class="add-button">
                                 Отмена
@@ -43,10 +43,10 @@
                             </td>
                             <td>
                                 <select name="status" data-selected="${status}">
-                                    <option ${status == "Не начата"  ? 'selected="selected"' : ''}>Не начата</option>
-                                    <option ${status == "В процессе"  ? 'selected="selected"' : ''}>В процессе</option>
-                                    <option ${status == "Завершена"  ? 'selected="selected"' : ''}>Завершена</option>
-                                    <option ${status == "Отложена"  ? 'selected="selected"' : ''}>Отложена</option>
+                                    <option ${status == "Не начата" ? 'selected="selected"' : ''}>Не начата</option>
+                                    <option ${status == "В процессе" ? 'selected="selected"' : ''}>В процессе</option>
+                                    <option ${status == "Завершена" ? 'selected="selected"' : ''}>Завершена</option>
+                                    <option ${status == "Отложена" ? 'selected="selected"' : ''}>Отложена</option>
                                 </select>
                             </td>
                             <td>
@@ -113,7 +113,7 @@
                             </td>
                             <td>
                                 <select name="employeeId" >
-                                <option value="null">  </option>
+                                <option value="null"> </option>
                                 <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                                     <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
                                         ${fn:escapeXml(employees.surname)}

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Содержит методы для работы обьектов класса "Сотрудник" с БД.
  *
- * @author  Q-YVV
+ * @author Q-YVV
  * @see Employee
  * @see DaoInterface
  */
@@ -25,7 +25,7 @@ public class DaoEmployee implements DaoInterface<Employee> {
     private static final String POST = "post";
 
 
-    private static final  String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +
+    private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +
         " VALUES (?,?,?,?);";
 
     private static final String SELECT_ALL_CLIENT = "SELECT * FROM EMPLOYEE;";
@@ -116,7 +116,7 @@ public class DaoEmployee implements DaoInterface<Employee> {
     }
 
     @Override
-    public Employee getById(Integer  id) throws SQLException {
+    public Employee getById(Integer id) throws SQLException {
         Connection connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
 
@@ -124,7 +124,7 @@ public class DaoEmployee implements DaoInterface<Employee> {
             if (id == null) {
                 preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
-            else  {
+            else {
                 preparedStatement.setInt(Nums.ONE.getValue(), id);
             }
             ResultSet resultSet = preparedStatement.executeQuery();

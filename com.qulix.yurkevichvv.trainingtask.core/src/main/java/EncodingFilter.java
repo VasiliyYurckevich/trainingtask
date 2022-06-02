@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 /**
  * Фильтр для кодирования данных.
  *
- * @author  Q-YVV
+ * @author Q-YVV
  */
 public class EncodingFilter implements Filter {
 

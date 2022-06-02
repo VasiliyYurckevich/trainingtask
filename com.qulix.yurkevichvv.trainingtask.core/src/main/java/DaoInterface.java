@@ -39,7 +39,7 @@ public interface DaoInterface<T> {
      * Получение всех сущностей определеного класса из БД.
      *
      * @return Список сущностей.
-     * @throws SQLException  ошибка при выполнении запроса.
+     * @throws SQLException ошибка при выполнении запроса.
      */
     List<T> getAll() throws SQLException;
 

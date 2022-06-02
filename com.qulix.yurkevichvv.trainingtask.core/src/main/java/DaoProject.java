@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Содержит методы для работы обьектов класса "Проект" с БД.
  *
- * @author  Q-YVV
+ * @author Q-YVV
  * @see DaoInterface
  * @see Project
  */
@@ -28,7 +28,7 @@ public class DaoProject implements DaoInterface<Project> {
 
     private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE project_Id = ?;";
 
-    private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?,  description = ? WHERE project_Id = ?;";
+    private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?, description = ? WHERE project_Id = ?;";
 
 
 
@@ -116,7 +116,7 @@ public class DaoProject implements DaoInterface<Project> {
             if (id == null) {
                 preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
-            else  {
+            else {
                 preparedStatement.setInt(Nums.ONE.getValue(), id);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
