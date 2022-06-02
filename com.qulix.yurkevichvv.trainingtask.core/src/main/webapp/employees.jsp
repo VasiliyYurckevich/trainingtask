@@ -8,6 +8,7 @@
 
     <head>
         <link type="text/css" rel="stylesheet" href="css/style.css">
+        <title></title>
     </head>
 
     <body>
@@ -34,7 +35,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <form action="employees" method="get">
-                        <input type="hidden" name="action" value="/new" />
+                        <input type="hidden" name="action" value="/new"/>
                         <input type="submit" value="Добавить" class="add-button">
                     </form>
                     <table id="table" class="table table-striped">

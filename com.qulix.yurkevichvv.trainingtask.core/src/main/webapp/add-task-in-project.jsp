@@ -32,7 +32,7 @@
                             <input class="add-button" type="submit" name="submitButton"
                                    id="submitButton"  value="Сохранить">
                             <button id="cancelButton" name="cancelButton" onclick="window.history.back()"
-                                    type="button" class="add-button">
+                                type="button" class="add-button">
                                 Отмена
                             </button>
                         </div>
@@ -50,7 +50,7 @@
                                 </select>
                             </td>
                             <td>
-                                <error>${ERRORS.get(0)}</error>
+                                <h4>${ERRORS.get(0)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -61,7 +61,7 @@
                                 <input id="title" name="title" value="${fn:escapeXml(title)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(1)}</error>
+                                <h4>${ERRORS.get(1)}</h4>
                             </td>
 
                         </tr>
@@ -73,7 +73,7 @@
                                 <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(2)}</error>
+                                <h4>${ERRORS.get(2)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -84,7 +84,7 @@
                                 <input id="beginDate" name="beginDate" value="${beginDate}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(3)}</error>
+                                <h4>${ERRORS.get(3)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -95,7 +95,7 @@
                                 <input id="endDate" name="endDate" value="${endDate}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(4)}</error>
+                                <h4>${ERRORS.get(4)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -116,9 +116,9 @@
                                 <option value="null">  </option>
                                 <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                                     <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
-                                            ${fn:escapeXml(employees.surname)}
-                                            ${fn:escapeXml(employees.firstName)}
-                                            ${fn:escapeXml(employees.patronymic)}
+                                        ${fn:escapeXml(employees.surname)}
+                                        ${fn:escapeXml(employees.firstName)}
+                                        ${fn:escapeXml(employees.patronymic)}
                                     </option>
                                 </c:forEach>
                                 </select>
@@ -128,7 +128,6 @@
                         </tr>
                         </tbody>
                     </table>
-                    <br><br/>
                 </form>
             </div>
         </div>

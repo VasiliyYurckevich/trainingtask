@@ -16,7 +16,7 @@
                 <a href="projects">Проекты</a>
             </li>
             <li>
-                <a class="choose"  href="task">Задачи</a>
+                <a class="choose" href="task">Задачи</a>
             </li>
             <li>
                 <a href="employees">Сотрудники</a>
@@ -26,16 +26,16 @@
         <div>
             <div id="container">
                 <h3>Редактировать задачу</h3>
-                <form action="task"  method="post" id ="form">
-                    <input type="hidden" name="action"  value="/update" />
+                <form action="task" method="post" id ="form">
+                    <input type="hidden" name="action" value="/update" />
                     <input type="hidden" name="taskId" value="${taskId}" />
 
                     <table>
                         <tbody>
                         <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                         <button  id="cancelButton" name="cancelButton"
-                                 onclick="window.history.back()" type="button" class="add-button">
-                            Отмена
+                             onclick="window.history.back()" type="button" class="add-button">
+                             Отмена
                         </button>
                         <tr>
                         <tr>
@@ -49,7 +49,7 @@
                                 </select>
                             </td>
                             <td>
-                                <error>${ERRORS.get(0)}</error>
+                                <h4>${ERRORS.get(0)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -60,7 +60,7 @@
                                 <input id="title" name="title" value="${fn:escapeXml(title)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(1)}</error>
+                                <h4>${ERRORS.get(1)}</h4>
                             </td>
 
                         </tr>
@@ -72,7 +72,7 @@
                                 <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(2)}</error>
+                                <h4>${ERRORS.get(2)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -83,7 +83,7 @@
                                 <input id="beginDate" name="beginDate" value="${beginDate}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(3)}</error>
+                                <h4>${ERRORS.get(3)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -94,7 +94,7 @@
                                 <input id="endDate" name="endDate" value="${endDate}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(4)}</error>
+                                <h4>${ERRORS.get(4)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -118,9 +118,14 @@
                             </td>
                             <td>
                                 <select name="employeeId" >
-                                    <option value="null">  </option>
+                                    <option value="null"> </option>
                                     <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                                        <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>${fn:escapeXml(employees.surname)} ${fn:escapeXml(employees.firstName)} ${fn:escapeXml(employees.patronymic)}</option>
+                                        <option value="${employees.id}"
+                                            ${employees.id == employeeId ? 'selected="selected"' : ''}>
+                                            ${fn:escapeXml(employees.surname)}
+                                            ${fn:escapeXml(employees.firstName)}
+                                            ${fn:escapeXml(employees.patronymic)}
+                                        </option>
                                     </c:forEach>
                                 </select>
                             </td>
@@ -128,7 +133,6 @@
                             </td>
                         </tr>
                         </tbody>
-                        <br/><br/>
                     </table>
                 </form>
             </div>

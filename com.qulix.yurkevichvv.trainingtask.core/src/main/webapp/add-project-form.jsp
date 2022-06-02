@@ -26,7 +26,7 @@
         <div>
             <div id="container">
                 <h3>Добавить проект</h3>
-                <form action="projects"  method="post" >
+                <form action="projects" method="post" >
                     <input type="hidden" name="action" value="/add" />
                     <table>
                         <tbody>
@@ -38,7 +38,7 @@
                                 <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(0)}</error>
+                                <h4>${ERRORS.get(0)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -46,18 +46,17 @@
                                 <label>Описание:</label>
                             </td>
                             <td>
-                                <input id="description"  name="description" value="${fn:escapeXml(description)}">
+                                <input id="description" name="description" value="${fn:escapeXml(description)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(1)}</error>
+                                <h4>${ERRORS.get(1)}</h4>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                    <br><br/>
                     <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
                     <button id="cancelButton" name="cancelButton" onclick="history.back()"
-                            type="button" class="add-button">
+                        type="button" class="add-button">
                         Отмена
                     </button>
                 </form>

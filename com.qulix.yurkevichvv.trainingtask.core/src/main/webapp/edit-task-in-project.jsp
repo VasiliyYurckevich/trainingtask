@@ -13,7 +13,7 @@
 
         <ul>
             <li>
-                <a class="choose"  href="projects">Проекты</a>
+                <a class="choose" href="projects">Проекты</a>
             </li>
             <li>
                 <a href="task">Задачи</a>
@@ -27,13 +27,13 @@
             <div id="container">
                 <h3>Редактировать задачу</h3>
                 <form action="task" method="post" >
-                    <input type="hidden" name="action"  value="/updateTaskInProject" />
+                    <input type="hidden" name="action" value="/updateTaskInProject" />
                     <input type="hidden" name="taskId" value="${taskId}" />
                     <table>
                         <tbody>
                             <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                             <button id="cancelButton" name="cancelButton" onclick="window.history.back()"
-                                    type="button" class="add-button">
+                                type="button" class="add-button">
                                 Отмена
                             </button>
                             <tr>
@@ -49,7 +49,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(0)}</error>
+                                    <h4>${ERRORS.get(0)}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -60,9 +60,8 @@
                                     <input id="title" name="title" value="${fn:escapeXml(title)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(1)}</error>
+                                    <h4>${ERRORS.get(1)}</h4>
                                 </td>
-
                             </tr>
                             <tr>
                                 <td>
@@ -72,7 +71,7 @@
                                     <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(2)}</error>
+                                    <h4>${ERRORS.get(2)}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -80,10 +79,10 @@
                                     <label>Дата начала(ГГГГ-ММ-ДД):</label>
                                 </td>
                                 <td>
-                                    <input id="beginDate" name="beginDate" value="${beginDate}">
+                                    <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(3)}</error>
+                                    <h4>${ERRORS.get(3)}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -91,10 +90,10 @@
                                     <label>Дата окончания(ГГГГ-ММ-ДД):</label>
                                 </td>
                                 <td>
-                                    <input id="endDate" name="endDate" value="${endDate}">
+                                    <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(4)}</error>
+                                    <h4>${ERRORS.get(4)}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -102,7 +101,7 @@
                                     <label>Наименование проекта:</label>
                                 </td>
                                 <td>
-                                    <label>${titleProject}</label>
+                                    <label>${fn:escapeXml(titleProject)}</label>
                                 <td>
                                 </td>
                             </tr>
@@ -111,13 +110,14 @@
                                     <label>Сотрудник:</label>
                                 </td>
                                 <td>
-                                    <select name="employeeId" >
+                                    <select name="employeeId">
                                         <option value="null">  </option>
                                         <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                                            <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
-                                                    ${fn:escapeXml(employees.surname)}
-                                                    ${fn:escapeXml(employees.firstName)}
-                                                    ${fn:escapeXml(employees.patronymic)}
+                                            <option value="${employees.id}"
+                                                ${employees.id == employeeId ? 'selected="selected"' : ''}>
+                                                ${fn:escapeXml(employees.surname)}
+                                                ${fn:escapeXml(employees.firstName)}
+                                                ${fn:escapeXml(employees.patronymic)}
                                             </option>
                                         </c:forEach>
                                     </select>
@@ -125,7 +125,6 @@
                                 <td></td>
                             </tr>
                         </tbody>
-                        <br/><br/>
                     </table>
                 </form>
             </div>

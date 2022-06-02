@@ -1,18 +1,18 @@
-html, body{
+html, body {
     white-space: normal;
     font-size: 14px;
-    margin-left:0;
-    margin-right:15px;
-    padding:0;
+    margin-left: 0;
+    margin-right: 15px;
+    padding: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif, Gabriola;
     color: #333333FF
 }
 
 table {
-    border-collapse:collapse;
+    border-collapse: collapse;
     border-top: 1px solid #0A0A0AFF;
-    font-family: Tahoma,Verdana,Segoe,sans-serif;
-    width:100%;
+    font-family: Tahoma, Verdana, Segoe, sans-serif;
+    width: 100%;
 }
 
 th {
@@ -21,21 +21,19 @@ th {
     text-align: left;
 }
 
-error{
-    font-size: 12px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 250;
-    color: #DC143C;
-}
-
 tr {
     line-height: 32px;
-    padding:8px;
+    padding: 8px;
     border-top: 1px solid #FFFFFF;
 }
 
-tr:nth-child(even) {background: #FFFFFF}
-tr:nth-child(odd) {background: #DDDDDD50}
+tr:nth-child(even) {
+    background: #FFFFFF
+}
+
+tr:nth-child(odd) {
+    background: #DDDDDD50
+}
 
 .add-button {
     border: 1px solid #666666FF;
@@ -47,24 +45,24 @@ tr:nth-child(odd) {background: #DDDDDD50}
     margin-bottom: 15px;
 }
 
-h2{
+h2 {
     font-size: 30px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 500;
 }
 
-select{
+select {
     width: 150px;
 }
 
-h4{
+h4 {
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 300;
     color: #DC143CFF;
 }
 
-body{
+body {
     margin-top: 60px;
 }
 
@@ -73,7 +71,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(255, 255, 255);
+    background-color: #FFFFFFFF;
     position: fixed;
     top: 0;
     width: 100%;
@@ -100,7 +98,7 @@ li a:hover:not(.active) {
     background-color: #FF0000E2;
 }
 
-div1{
+.start-page {
+    font-size: 45px;
     text-align: center;
 }
-

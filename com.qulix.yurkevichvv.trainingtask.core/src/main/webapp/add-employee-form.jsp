@@ -36,10 +36,10 @@
                                     <label>Фамилия:</label>
                                 </td>
                                 <td>
-                                    <input  name="surname" id="surname" value="${fn:escapeXml(surname)}">
+                                    <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(0)}</error>
+                                    <h4>${ERRORS.get(0)}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -47,10 +47,10 @@
                                     <label>Имя:</label>
                                 </td>
                                 <td>
-                                    <input type="text"  name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
+                                    <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(1)}</error>
+                                    <h4>${ERRORS.get(1)}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -58,10 +58,10 @@
                                     <label>Отчество:</label>
                                 </td>
                                 <td>
-                                    <input type="text"   name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
+                                    <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(2)}</error>
+                                    <h4>${ERRORS.get(2)}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -69,18 +69,17 @@
                                     <label>Должность:</label>
                                 </td>
                                 <td>
-                                    <input type="text"   name="post" id="post" value="${fn:escapeXml(post)}">
+                                    <input type="text" name="post" id="post" value="${fn:escapeXml(post)}">
                                 </td>
                                 <td>
-                                    <error>${ERRORS.get(3)}</error>
+                                    <h4>${ERRORS.get(3)}</h4>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <br/><br/>
                     <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
                     <button onclick="history.back()" type="button"
-                            id="cancelButton" name="cancelButton" class="add-button">Отмена
+                        id="cancelButton" name="cancelButton" class="add-button">Отмена
                     </button>
                 </form>
             </div>

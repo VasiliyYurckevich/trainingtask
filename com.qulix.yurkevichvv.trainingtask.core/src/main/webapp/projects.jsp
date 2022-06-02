@@ -6,6 +6,7 @@
     <!DOCTYPE html>
     <head>
         <link type="text/css" rel="stylesheet" href="css/style.css">
+
         <title></title>
     </head>
 
@@ -30,7 +31,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div>
                     <form action="projects" method="get">
                         <input type="hidden" name="action" value="/new"/>
                         <input type="submit" value="Добавить" class="add-button">

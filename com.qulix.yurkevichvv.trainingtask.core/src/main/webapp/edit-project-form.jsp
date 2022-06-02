@@ -13,7 +13,7 @@
 
         <ul>
           <li>
-              <a class="choose"  href="projects">Проекты</a>
+              <a class="choose" href="projects">Проекты</a>
           </li>
           <li>
               <a href="task">Задачи</a>
@@ -34,7 +34,7 @@
                         <div>
                             <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
                             <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
-                                    type="button" class="add-button">
+                                type="button" class="add-button">
                                 Отмена
                             </button>
                         </div>
@@ -47,7 +47,7 @@
                                 <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(0)}</error>
+                                <h4>${ERRORS.get(0)}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -55,10 +55,10 @@
                                 <label>Описание:</label>
                             </td>
                             <td>
-                                <input id="description"  name="description" value="${fn:escapeXml(description)}">
+                                <input id="description" name="description" value="${fn:escapeXml(description)}">
                             </td>
                             <td>
-                                <error>${ERRORS.get(1)}</error>
+                                <h4>${ERRORS.get(1)}</h4>
                             </td>
                         </tr>
                         </tbody>
@@ -104,26 +104,23 @@
                                     <td> ${tempTask.beginDate}</td>
                                     <td> ${tempTask.endDate} </td>
                                     <td> ${fn:escapeXml(titleProject)}</td>
-                                    <td>${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)}
+                                    <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)}
                                         ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)}
                                         ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}
                                     </td>
                                     <td>
                                         <a href="${editLink}">Редактировать</a>
-                                        <a  href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
+                                        <a href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
                                             Удалить
                                         </a>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </table>
-                    <form>
                         <a href="${addLink}">Добавить задачу</a>
-                    </form>
                     </tbody>
                 </form>
             </div>
         </div>
-
     </body>
 </html>

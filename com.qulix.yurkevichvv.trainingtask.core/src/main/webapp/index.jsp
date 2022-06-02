@@ -24,13 +24,13 @@
 
     <body>
         <div>
-            <div1>
+            <div class="start-page">
                 <h2>Приложение для управления задачами</h2>
-            </div1>
+            </div>
             <div class="row">
-                <div1 class="col-md-6">
+                <div class="start-page">
                     <h2>Привет!</h2>
-                </div1>
+                </div>
             </div>
         </div>
     </body>

@@ -70,7 +70,7 @@
                                 <td> ${tempTask.beginDate}</td>
                                 <td> ${tempTask.endDate}</td>
                                 <td> ${fn:escapeXml(PROJ_LIST.get(theCount.index).title)}</td>
-                                <td>${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)}
+                                <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)}
                                     ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)}
                                     ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}
                                 </td>
