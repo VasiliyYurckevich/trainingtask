@@ -35,7 +35,7 @@
                                 <label>Наименование:</label>
                             </td>
                             <td>
-                                <input id="titleProject" name="titleProject" value="${titleProject}">
+                                <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
                             </td>
                             <td>
                                 <error>${ERRORS.get(0)}</error>
@@ -46,7 +46,7 @@
                                 <label>Описание:</label>
                             </td>
                             <td>
-                                <input id="description"  name="description" value="${description}">
+                                <input id="description"  name="description" value="${fn:escapeXml(description)}">
                             </td>
                             <td>
                                 <error>${ERRORS.get(1)}</error>

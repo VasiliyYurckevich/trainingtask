@@ -70,7 +70,7 @@
                                 <label>Работа:</label>
                             </td>
                             <td>
-                                <input id="workTime" name="workTime" value="${workTime}">
+                                <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                             </td>
                             <td>
                                 <error>${ERRORS.get(2)}</error>
