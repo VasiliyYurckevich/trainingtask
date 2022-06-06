@@ -28,7 +28,11 @@
                 <h3>Добавить сотрудника</h3>
                 <form action="employees" method="post">
                     <input type="hidden" name="action" value="/add"/>
-                    <c:set var="ERRORS" value="${ERRORS}"></c:set>
+                    <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
+                    <button onclick="history.back()" type="button"
+                            id="cancelButton" name="cancelButton" class="add-button">Отмена
+                    </button>
+
                     <table>
                         <tbody>
                             <tr>
@@ -77,10 +81,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
-                    <button onclick="history.back()" type="button"
-                        id="cancelButton" name="cancelButton" class="add-button">Отмена
-                    </button>
+
                 </form>
             </div>
         </div>
