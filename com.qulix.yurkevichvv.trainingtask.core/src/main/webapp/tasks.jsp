@@ -1,4 +1,5 @@
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 
@@ -10,19 +11,9 @@
         <title></title>
     </head>
 
-
     <body>
-        <ul>
-            <li>
-                <a href="projects">Проекты</a>
-            </li>
-            <li>
-                <a class="choose" href="task">Задачи</a>
-            </li>
-            <li>
-                <a href="employees">Сотрудники</a>
-            </li>
-        </ul>
+
+        <my:mainMenu></my:mainMenu>
 
         <div>
             <div>
@@ -39,6 +30,7 @@
                         ${PROJECT_LIST.isEmpty() ?
                         '<h4>Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</h4>': ''}
                     </form>
+
                     <table id="table" class="table table-striped">
                         <tr>
                             <th>Статус</th>

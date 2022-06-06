@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
@@ -6,22 +7,12 @@
 <html lang="ru">
     <head>
         <title>Редактировать задачу</title>
-
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
+
     <body>
 
-        <ul>
-            <li>
-                <a href="projects">Проекты</a>
-            </li>
-            <li>
-                <a class="choose" href="task">Задачи</a>
-            </li>
-            <li>
-                <a href="employees">Сотрудники</a>
-            </li>
-        </ul>
+        <my:mainMenu></my:mainMenu>
 
         <div>
             <div id="container">

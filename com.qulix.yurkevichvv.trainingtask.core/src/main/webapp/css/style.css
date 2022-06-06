@@ -94,10 +94,6 @@ li a:hover:not(.active) {
     background-color: #E37676E5;
 }
 
-.choose {
-    background-color: #FF0000E2;
-}
-
 .start-page {
     font-size: 45px;
     text-align: center;

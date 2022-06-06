@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -9,19 +10,10 @@
 
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
+
     <body>
 
-        <ul>
-            <li>
-                <a class="choose" href="projects">Проекты</a>
-            </li>
-            <li>
-                <a href="task">Задачи</a>
-            </li>
-            <li>
-                <a href="employees">Сотрудники</a>
-            </li>
-        </ul>
+        <my:mainMenu></my:mainMenu>
 
         <div>
             <div id="container">
@@ -29,6 +21,7 @@
                 <form action="task" method="post" >
                     <input type="hidden" name="action" value="/updateTaskInProject" />
                     <input type="hidden" name="taskId" value="${taskId}" />
+
                     <table>
                         <tbody>
                             <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">

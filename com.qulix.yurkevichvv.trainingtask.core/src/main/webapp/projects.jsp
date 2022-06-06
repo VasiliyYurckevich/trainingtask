@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 
@@ -6,22 +7,12 @@
     <!DOCTYPE html>
     <head>
         <link type="text/css" rel="stylesheet" href="css/style.css">
-
         <title></title>
     </head>
 
     <body>
-        <ul>
-            <li>
-                <a class="choose" href="projects">Проекты</a>
-            </li>
-            <li>
-                <a href="task">Задачи</a>
-            </li>
-            <li>
-                <a href="employees">Сотрудники</a>
-            </li>
-        </ul>
+
+        <my:mainMenu></my:mainMenu>
 
         <div>
             <div>
@@ -36,6 +27,7 @@
                         <input type="hidden" name="action" value="/new"/>
                         <input type="submit" value="Добавить" class="add-button">
                     </form>
+
                     <table id="table" class="table table-striped">
                         <tr>
                             <th>Наименование</th>

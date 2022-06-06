@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 
@@ -13,17 +14,7 @@
 
     <body>
 
-        <ul>
-            <li>
-                <a href="projects">Проекты</a>
-            </li>
-            <li>
-                <a href="task">Задачи</a>
-            </li>
-            <li>
-                <a class="choose" href="employees">Сотрудники</a>
-            </li>
-        </ul>
+        <my:mainMenu></my:mainMenu>
 
         <div>
             <div>

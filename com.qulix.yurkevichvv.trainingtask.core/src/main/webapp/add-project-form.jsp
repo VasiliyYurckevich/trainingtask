@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 
 <!DOCTYPE html>
@@ -11,23 +12,14 @@
 
     <body>
 
-        <ul>
-            <li>
-                <a class="choose" href="projects">Проекты</a>
-            </li>
-            <li>
-                <a href="task">Задачи</a>
-            </li>
-            <li>
-                <a href="employees">Сотрудники</a>
-            </li>
-        </ul>
+    <my:mainMenu></my:mainMenu>
 
         <div>
             <div id="container">
                 <h3>Добавить проект</h3>
                 <form action="projects" method="post" >
                     <input type="hidden" name="action" value="/add" />
+
                     <table>
                         <tbody>
                         <tr>

@@ -1,32 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <title>Добавить задачу</title>
-    <link type="text/css" rel="stylesheet" href="css/style.css">
-</head>
+    <head>
+        <title>Добавить задачу</title>
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+    </head>
+
     <body>
 
-        <ul>
-            <li>
-                <a class="choose" href="projects">Проекты</a>
-            </li>
-            <li>
-                <a href="task">Задачи</a>
-            </li>
-            <li>
-                <a href="employees">Сотрудники</a>
-            </li>
-        </ul>
+        <my:mainMenu></my:mainMenu>
 
         <div>
             <div id="container">
                 <h3>Добавить задачу</h3>
                 <form action="task" method="post" id="form">
                     <input type="hidden" name="action" value="/newTaskInProject"/>
+
                     <table>
                         <div>
                             <input class="add-button" type="submit" name="submitButton"

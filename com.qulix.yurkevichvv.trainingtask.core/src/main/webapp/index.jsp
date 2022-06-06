@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 
 <!DOCTYPE html>
@@ -10,19 +11,10 @@
         <title></title>
     </head>
 
-    <ul>
-        <li>
-            <a href="projects">Проекты</a>
-        </li>
-        <li>
-            <a href="task">Задачи</a>
-        </li>
-        <li>
-            <a href="employees">Сотрудники</a>
-        </li>
-    </ul>
-
     <body>
+
+        <my:mainMenu></my:mainMenu>
+
         <div>
             <div class="start-page">
                 <h2>Приложение для управления задачами</h2>
