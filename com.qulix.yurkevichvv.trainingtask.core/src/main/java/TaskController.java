@@ -56,6 +56,8 @@ public class TaskController extends HttpServlet {
 
     private static final String ADD_TASK_FORM_JSP = "/add-task-form.jsp";
 
+    private static final String TASKS = "tasks";
+
 
     private DaoInterface<Task> tasksInterface;
 
@@ -163,7 +165,7 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksInterface.update(task);
-            resp.sendRedirect("tasks");
+            resp.sendRedirect(TASKS);
             LOGGER.info("Update task with id: " + taskId);
         }
         else {
@@ -324,7 +326,7 @@ public class TaskController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         String theTaskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.valueOf(theTaskId));
-        resp.sendRedirect("tasks");
+        resp.sendRedirect(TASKS);
         LOGGER.info("Task with id " + theTaskId + " delete");
     }
 
@@ -345,7 +347,7 @@ public class TaskController extends HttpServlet {
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);
             tasksInterface.add(task);
-            resp.sendRedirect("tasks");
+            resp.sendRedirect(TASKS);
             LOGGER.info("New task created");
         }
         else {

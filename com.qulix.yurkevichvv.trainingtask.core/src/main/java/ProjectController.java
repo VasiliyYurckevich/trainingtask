@@ -45,6 +45,8 @@ public class ProjectController extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
 
+    private static final String PROJECTS = "projects";
+
 
     /**
      * Получение интерфейса для работы с БД.
@@ -309,7 +311,7 @@ public class ProjectController extends HttpServlet {
         throws SQLException, ServletException, IOException {
         Integer theProjectId = Integer.valueOf(req.getParameter(PROJECT_ID));
         projectInterface.delete(theProjectId);
-        resp.sendRedirect("projects");
+        resp.sendRedirect(PROJECTS);
         LOGGER.info("Project with id " + theProjectId + " deleted");
 
     }
@@ -404,7 +406,7 @@ public class ProjectController extends HttpServlet {
             updateTasksFromProjectEditing(taskInterface, servletContext, projectId);
             projectInterface.update(theProject);
             LOGGER.info("Updated project with id " + projectId);
-            resp.sendRedirect("projects");
+            resp.sendRedirect(PROJECTS);
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
@@ -486,7 +488,7 @@ public class ProjectController extends HttpServlet {
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);
             projectInterface.add(theProject);
-            resp.sendRedirect("projects");
+            resp.sendRedirect(PROJECTS);
             LOGGER.info("New project create");
         }
         else {
