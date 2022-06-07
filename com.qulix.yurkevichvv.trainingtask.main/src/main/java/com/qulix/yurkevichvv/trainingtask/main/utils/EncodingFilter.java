@@ -1,11 +1,7 @@
-import java.io.*;
+package com.qulix.yurkevichvv.trainingtask.main.utils;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
+import java.io.IOException;
 
 /**
  * Фильтр для кодирования данных.

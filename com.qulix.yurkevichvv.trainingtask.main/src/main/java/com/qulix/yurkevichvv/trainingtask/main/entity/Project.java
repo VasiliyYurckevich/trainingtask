@@ -1,3 +1,5 @@
+package com.qulix.yurkevichvv.trainingtask.main.entity;
+
 /**
  * Описывает сущность класса "Проект".
  *
@@ -43,7 +45,7 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project id=" + id + ", title=" + title + ", description=" + description;
+        return "huiznaet.entity.Project id=" + id + ", title=" + title + ", description=" + description;
     }
 
 }

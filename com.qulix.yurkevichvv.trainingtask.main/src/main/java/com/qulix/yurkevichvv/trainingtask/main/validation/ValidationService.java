@@ -1,3 +1,7 @@
+package com.qulix.yurkevichvv.trainingtask.main.validation;
+
+import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
+
 import java.util.ArrayList;
 import java.util.List;
 

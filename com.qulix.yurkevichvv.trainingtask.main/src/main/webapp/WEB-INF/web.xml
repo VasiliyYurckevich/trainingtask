@@ -6,7 +6,7 @@
          version="4.0">
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>EncodingFilter</filter-class>
+        <filter-class>com.qulix.yurkevichvv.trainingtask.main.utils.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -18,7 +18,7 @@
     </filter-mapping>
     <servlet>
         <servlet-name>EmployeeServlet</servlet-name>
-        <servlet-class>EmployeeController</servlet-class>
+        <servlet-class>com.qulix.yurkevichvv.trainingtask.main.controllers.EmployeeController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EmployeeServlet</servlet-name>
@@ -26,15 +26,15 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>TaskServlet</servlet-name>
-        <servlet-class>TaskController</servlet-class>
+        <servlet-class>com.qulix.yurkevichvv.trainingtask.main.controllers.TaskController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TaskServlet</servlet-name>
-        <url-pattern>/task</url-pattern>
+        <url-pattern>/tasks</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>ProjectServlet</servlet-name>
-        <servlet-class>ProjectController</servlet-class>
+        <servlet-class>com.qulix.yurkevichvv.trainingtask.main.controllers.ProjectController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ProjectServlet</servlet-name>

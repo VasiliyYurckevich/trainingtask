@@ -1,3 +1,5 @@
+package com.qulix.yurkevichvv.trainingtask.main.entity;
+
 /**
  * Описывает сущность "Сотрудник".
  *
@@ -65,7 +67,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", patronymic=" + patronymic
+        return "huiznaet.entity.Employee [id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", patronymic=" + patronymic
             + ", post=" + post + "]";
     }
 }

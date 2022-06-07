@@ -1,3 +1,5 @@
+package com.qulix.yurkevichvv.trainingtask.main.entity;
+
 import java.time.LocalDate;
 
 /**
@@ -97,7 +99,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task " +
+        return "huiznaet.entity.Task " +
             "taskId=" + taskId +
             ", status='" + status +
             ", title='" + title +

@@ -1,9 +1,17 @@
+package com.qulix.yurkevichvv.trainingtask.main.dao;
+
+
+import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Содержит методы для работы обьектов класса "Сотрудник" с БД.

@@ -1,4 +1,6 @@
-enum Nums {
+package com.qulix.yurkevichvv.trainingtask.main.utils;
+
+public enum Nums {
     ZERO(0),
     ONE(1),
     TWO(2),

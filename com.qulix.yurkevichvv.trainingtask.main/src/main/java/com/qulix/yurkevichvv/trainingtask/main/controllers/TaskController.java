@@ -1,9 +1,15 @@
-import java.io.*;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+package com.qulix.yurkevichvv.trainingtask.main.controllers;
+
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoTask;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
+import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
+import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -11,6 +17,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Задача".
@@ -93,7 +106,7 @@ public class TaskController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning(String.valueOf(e));
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -123,7 +136,7 @@ public class TaskController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning(String.valueOf(e));
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -166,7 +179,7 @@ public class TaskController extends HttpServlet {
             task.setId(taskId);
             tasksInterface.update(task);
             resp.sendRedirect(TASKS);
-            LOGGER.info("Update task with id: " + taskId);
+            LOGGER.log(Level.INFO, "huiznaet.entity.Task with id {0} was updated", taskId);
         }
         else {
             setDataAboutTaskInJsp(req, paramsList, errorsList);
@@ -324,10 +337,10 @@ public class TaskController extends HttpServlet {
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        String theTaskId = req.getParameter(TASK_ID);
-        tasksInterface.delete(Integer.valueOf(theTaskId));
+        String taskId = req.getParameter(TASK_ID);
+        tasksInterface.delete(Integer.valueOf(taskId));
         resp.sendRedirect(TASKS);
-        LOGGER.info("Task with id " + theTaskId + " delete");
+        LOGGER.log(Level.INFO, "huiznaet.entity.Task with id {0} was deleted", taskId);
     }
 
     /**
@@ -348,7 +361,7 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             tasksInterface.add(task);
             resp.sendRedirect(TASKS);
-            LOGGER.info("New task created");
+            LOGGER.log(Level.INFO, "Created new task");
         }
         else {
             setDataAboutTaskInJsp(req, paramsList, errorsList);

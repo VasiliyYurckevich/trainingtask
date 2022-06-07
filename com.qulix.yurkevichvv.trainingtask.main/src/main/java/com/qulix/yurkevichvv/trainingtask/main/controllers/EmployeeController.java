@@ -1,7 +1,13 @@
-import java.io.*;
+/**
+ * Info about this package doing something for package-info.java file.
+ */
+package com.qulix.yurkevichvv.trainingtask.main.controllers;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +15,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
+import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
+import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
+
+
+
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
@@ -65,7 +81,7 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning(String.valueOf(e));
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -94,8 +110,7 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning(String.valueOf(e));
-
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
     }
@@ -149,11 +164,11 @@ public class EmployeeController extends HttpServlet {
      * @throws SQLException исключение БД.
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, SQLException {
-        Integer theEmployeeId = Integer.valueOf(req.getParameter(EMPLOYEE_ID));
-        employeeInterface.delete(theEmployeeId);
+        throws  IOException, SQLException {
+        Integer employeeId = Integer.valueOf(req.getParameter(EMPLOYEE_ID));
+        employeeInterface.delete(employeeId);
         resp.sendRedirect(LIST);
-        LOGGER.info("Employee with id " + theEmployeeId + " deleted");
+        LOGGER.log(Level.INFO, "huiznaet.entity.Employee with id {0} deleted", employeeId);
     }
 
     /**
@@ -177,7 +192,7 @@ public class EmployeeController extends HttpServlet {
             theEmployee.setId(employeeId);
             employeeInterface.update(theEmployee);
             resp.sendRedirect(EMPLOYEES_LIST);
-            LOGGER.info("Updated employee with id " + employeeId);
+            LOGGER.log(Level.INFO, "huiznaet.entity.Employee with id {0} updated", employeeId);
         }
         else {
             req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -249,7 +264,7 @@ public class EmployeeController extends HttpServlet {
         if (Utils.isBlankList(errorsList)) {
             Employee employee = getEmployee(paramsList);
             employeeInterface.add(employee);
-            LOGGER.info("Employee created");
+            LOGGER.log(Level.INFO, "Created employee");
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {

@@ -1,8 +1,15 @@
-import java.io.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+package com.qulix.yurkevichvv.trainingtask.main.controllers;
+
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoTask;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
+import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
+import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -10,6 +17,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Проект".
@@ -75,7 +88,7 @@ public class ProjectController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning(String.valueOf(e));
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -113,7 +126,7 @@ public class ProjectController extends HttpServlet {
             }
         }
         catch (SQLException e) {
-            LOGGER.warning(String.valueOf(e));
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -268,7 +281,7 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Возращает номер проекта.
+     * Возвращает номер проекта.
      *
      * @param req запрос.
      * @param servletContext контекст сервлета.
@@ -299,7 +312,7 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Удалет проект из БД.
+     * Удаляет проект из БД.
      *
      * @param req запрос.
      * @param resp ответ.
@@ -308,12 +321,11 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
-        Integer theProjectId = Integer.valueOf(req.getParameter(PROJECT_ID));
-        projectInterface.delete(theProjectId);
+        throws SQLException, IOException {
+        Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
+        projectInterface.delete(projectId);
         resp.sendRedirect(PROJECTS);
-        LOGGER.info("Project with id " + theProjectId + " deleted");
-
+        LOGGER.log(Level.INFO, "huiznaet.entity.Task with id {0} was deleted", projectId);
     }
 
     /**
@@ -405,7 +417,7 @@ public class ProjectController extends HttpServlet {
             theProject.setId(projectId);
             updateTasksFromProjectEditing(taskInterface, servletContext, projectId);
             projectInterface.update(theProject);
-            LOGGER.info("Updated project with id " + projectId);
+            LOGGER.log(Level.INFO, "huiznaet.entity.Project with id {0} updated", projectId);
             resp.sendRedirect(PROJECTS);
         }
         else {
@@ -489,7 +501,7 @@ public class ProjectController extends HttpServlet {
             Project theProject = getProject(paramsList);
             projectInterface.add(theProject);
             resp.sendRedirect(PROJECTS);
-            LOGGER.info("New project create");
+            LOGGER.log(Level.INFO, "Created new project");
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);

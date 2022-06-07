@@ -1,7 +1,14 @@
-import java.sql.SQLException;
-import java.util.List;
+package com.qulix.yurkevichvv.trainingtask.main.utils;
+
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
+import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Утилиты для классов модуля.
