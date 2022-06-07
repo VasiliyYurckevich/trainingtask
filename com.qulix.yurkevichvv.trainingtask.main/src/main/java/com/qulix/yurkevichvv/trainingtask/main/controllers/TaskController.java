@@ -151,8 +151,8 @@ public class TaskController extends HttpServlet {
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
-        String theTaskId = req.getParameter(TASK_ID);
-        Task existingTask = tasksInterface.getById(Integer.valueOf(theTaskId));
+        String taskId = req.getParameter(TASK_ID);
+        Task existingTask = tasksInterface.getById(Integer.parseInt(taskId));
         Utils.setTaskDataInJsp(req, existingTask);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
         servletContext.setAttribute("task", existingTask);
@@ -180,7 +180,7 @@ public class TaskController extends HttpServlet {
             task.setId(taskId);
             tasksInterface.update(task);
             resp.sendRedirect(TASKS);
-            LOGGER.log(Level.INFO, "huiznaet.entity.Task with id {0} was updated", taskId);
+            LOGGER.log(Level.INFO, "Task with id {0} was updated", taskId);
         }
         else {
             setDataAboutTaskInJsp(req, paramsList, errorsList);
@@ -337,11 +337,11 @@ public class TaskController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+        throws SQLException, IOException {
         String taskId = req.getParameter(TASK_ID);
-        tasksInterface.delete(Integer.valueOf(taskId));
+        tasksInterface.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
-        LOGGER.log(Level.INFO, "huiznaet.entity.Task with id {0} was deleted", taskId);
+        LOGGER.log(Level.INFO, "Task with id {0} was deleted", taskId);
     }
 
     /**

@@ -49,7 +49,7 @@ public class Utils {
         catch (NumberFormatException e) {
             return null;
         }
-        return Integer.valueOf(s);
+        return Integer.parseInt(s);
     }
 
     /**

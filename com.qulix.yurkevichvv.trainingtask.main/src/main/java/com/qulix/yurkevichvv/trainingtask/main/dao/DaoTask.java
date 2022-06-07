@@ -141,7 +141,7 @@ public class DaoTask implements DaoInterface<Task> {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT);
 
         try {
-            preparedStatement.setString(Nums.ONE.getValue(), String.valueOf(id));
+            preparedStatement.setInt(Nums.ONE.getValue(), id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }

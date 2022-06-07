@@ -1,9 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
-
-
-
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -327,10 +323,10 @@ public class ProjectController extends HttpServlet {
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, IOException {
-        Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
+        Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
         projectInterface.delete(projectId);
         resp.sendRedirect(PROJECTS);
-        LOGGER.log(Level.INFO, "huiznaet.entity.Task with id {0} was deleted", projectId);
+        LOGGER.log(Level.INFO, "Task with id {0} was deleted", projectId);
     }
 
     /**
@@ -422,7 +418,7 @@ public class ProjectController extends HttpServlet {
             theProject.setId(projectId);
             updateTasksFromProjectEditing(taskInterface, servletContext, projectId);
             projectInterface.update(theProject);
-            LOGGER.log(Level.INFO, "huiznaet.entity.Project with id {0} updated", projectId);
+            LOGGER.log(Level.INFO, "Project with id {0} updated", projectId);
             resp.sendRedirect(PROJECTS);
         }
         else {
