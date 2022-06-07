@@ -1,5 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.main.connection;
 
+import com.qulix.yurkevichvv.trainingtask.main.controllers.ProjectController;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,6 +25,7 @@ public class DBConnection {
 
     private static final String PASS = "";
 
+    private static final Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
     /**
      * Получение подключения к БД.
      */
@@ -35,16 +38,18 @@ public class DBConnection {
      * @return подключение к БД.
      * @throws SQLException ошибка подключения к БД.
      */
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection(){
 
         try {
             Class.forName(JDBC_DRIVER);
+            connection = DriverManager.getConnection(PATH, USER, PASS);
         }
         catch (ClassNotFoundException e) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-
-        connection = DriverManager.getConnection(PATH, USER, PASS);
+        catch (SQLException e){
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
         return connection;
     }
 

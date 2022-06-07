@@ -31,7 +31,7 @@ public class FieldsValidation {
                 error.append(" символов");
             }
         }
-        return String.valueOf(error);
+        return error.toString();
     }
 
     /**
@@ -56,7 +56,7 @@ public class FieldsValidation {
                 }
             }
         }
-        return String.valueOf(error);
+        return error.toString();
     }
 
     /**
@@ -89,8 +89,8 @@ public class FieldsValidation {
         if (beginDateValid && endDateValid) {
             isDateLogicalityValidator(beginDate, endDate, errorEndDate);
         }
-        listErrors.add(String.valueOf(errorBeginDate));
-        listErrors.add(String.valueOf(errorEndDate));
+        listErrors.add(errorBeginDate.toString());
+        listErrors.add(errorEndDate.toString());
         return listErrors;
     }
 

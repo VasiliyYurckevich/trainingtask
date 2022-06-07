@@ -1,4 +1,4 @@
-package exception;
+package com.qulix.yurkevichvv.trainingtask.main.exceptions;
 
 public class EntityFailedException extends Exception {
 

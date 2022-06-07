@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.main.exception;
+package com.qulix.yurkevichvv.trainingtask.main.exceptions;
 
 public class InputDataException extends Exception {
 

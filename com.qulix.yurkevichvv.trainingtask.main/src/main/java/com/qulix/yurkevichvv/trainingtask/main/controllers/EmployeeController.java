@@ -126,7 +126,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws SQLException, ServletException, IOException {
-        Integer employeeId = Integer.valueOf(req.getParameter(EMPLOYEE_ID));
+        Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeInterface.getById(employeeId);
         req.setAttribute(EMPLOYEE_ID, employeeId);
         req.setAttribute(SURNAME, existingEmployee.getSurname());
@@ -164,7 +164,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws  IOException, SQLException {
-        Integer employeeId = Integer.valueOf(req.getParameter(EMPLOYEE_ID));
+        Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
         resp.sendRedirect(LIST);
         LOGGER.log(Level.INFO, "huiznaet.entity.Employee with id {0} deleted", employeeId);
