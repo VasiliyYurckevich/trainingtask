@@ -5,7 +5,7 @@
 		<a href="projects">Проекты</a>
 	</li>
 	<li>
-		<a href="task">Задачи</a>
+		<a href="tasks">Задачи</a>
 	</li>
 	<li>
 		<a href="employees">Сотрудники</a>

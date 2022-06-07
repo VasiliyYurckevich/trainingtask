@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div>
                 <div>
                     <form action="projects" method="get">
                         <input type="hidden" name="action" value="/new"/>

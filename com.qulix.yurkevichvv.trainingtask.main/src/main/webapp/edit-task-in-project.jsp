@@ -18,7 +18,7 @@
         <div>
             <div id="container">
                 <h3>Редактировать задачу</h3>
-                <form action="task" method="post" >
+                <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/updateTaskInProject" />
                     <input type="hidden" name="taskId" value="${taskId}" />
 

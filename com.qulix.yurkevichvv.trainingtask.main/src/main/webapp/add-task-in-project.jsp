@@ -17,7 +17,7 @@
         <div>
             <div id="container">
                 <h3>Добавить задачу</h3>
-                <form action="task" method="post" id="form">
+                <form action="tasks" method="post" id="form">
                     <input type="hidden" name="action" value="/newTaskInProject"/>
 
                     <table>

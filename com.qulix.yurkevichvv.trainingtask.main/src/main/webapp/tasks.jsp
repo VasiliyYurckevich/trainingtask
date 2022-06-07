@@ -22,9 +22,9 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <form action="task" method="get">
+            <div>
+                <div>
+                    <form action="tasks" method="get">
                         <input type="hidden" name="action" value="/new" />
                         <input type="submit" value="Добавить" ${PROJECT_LIST.isEmpty() ? 'disabled' : ''} class="add-button">
                         ${PROJECT_LIST.isEmpty() ?
@@ -46,11 +46,11 @@
 
                         <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount" >
 
-                            <c:url var="editLink" value="/task">
+                            <c:url var="editLink" value="/tasks">
                                 <c:param name="action" value="/edit"/>
                                 <c:param name="taskId" value="${tempTask.id}"/>
                             </c:url>
-                            <c:url var="deleteLink" value="/task">
+                            <c:url var="deleteLink" value="/tasks">
                                 <c:param name="action" value="/delete"/>
                                 <c:param name="taskId" value="${tempTask.id}"/>
                             </c:url>

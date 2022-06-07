@@ -23,8 +23,8 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
+            <div>
+                <div>
                     <form action="employees" method="get">
                         <input type="hidden" name="action" value="/new"/>
                         <input type="submit" value="Добавить" class="add-button">
