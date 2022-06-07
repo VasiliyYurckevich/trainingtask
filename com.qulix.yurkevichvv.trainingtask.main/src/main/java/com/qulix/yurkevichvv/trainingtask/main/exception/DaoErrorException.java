@@ -1,0 +1,18 @@
+package com.qulix.yurkevichvv.trainingtask.main.exception;
+
+public class DaoErrorException extends Exception {
+
+    public DaoErrorException(String message) {
+        super(message);
+    }
+
+    public DaoErrorException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public DaoErrorException(Throwable cause) {
+        super(cause);
+    }
+}
+
+
