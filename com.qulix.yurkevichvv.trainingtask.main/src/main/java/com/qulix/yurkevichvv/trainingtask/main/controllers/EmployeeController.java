@@ -112,7 +112,6 @@ public class EmployeeController extends HttpServlet {
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-
     }
 
 
