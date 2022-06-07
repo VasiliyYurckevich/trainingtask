@@ -1,5 +1,23 @@
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
+
+
+
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
 import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
 import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
@@ -8,21 +26,8 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
-import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Проект".
@@ -459,7 +464,7 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Создает проект с полученныими данными.
+     * Создает проект с полученными данными.
      *
      * @param paramsList данные из формы.
      * @return проект.

@@ -67,7 +67,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "huiznaet.entity.Employee [id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", patronymic=" + patronymic
+        return "Employee [id=" + id + ", surname=" + surname + ", firstName=" + firstName + ", patronymic=" + patronymic
             + ", post=" + post + "]";
     }
 }

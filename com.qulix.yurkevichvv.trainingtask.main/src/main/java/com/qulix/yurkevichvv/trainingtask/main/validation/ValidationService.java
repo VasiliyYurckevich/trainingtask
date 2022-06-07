@@ -1,9 +1,9 @@
 package com.qulix.yurkevichvv.trainingtask.main.validation;
 
-import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 /**
  * Сервис для валидации данных на соотвественных страницах.

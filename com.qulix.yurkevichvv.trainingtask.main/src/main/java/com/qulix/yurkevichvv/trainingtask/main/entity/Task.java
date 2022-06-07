@@ -9,7 +9,7 @@ import java.time.LocalDate;
  */
 public class Task {
 
-    private Integer taskId;
+    private Integer id;
 
     private String status;
 
@@ -34,11 +34,11 @@ public class Task {
     }
 
     public Integer getId() {
-        return taskId;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.taskId = id;
+        this.id = id;
     }
 
     public String getStatus() {
@@ -99,8 +99,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return "huiznaet.entity.Task " +
-            "taskId=" + taskId +
+        return "Task " +
+            "id=" + id +
             ", status='" + status +
             ", title='" + title +
             ", workTime=" + workTime +

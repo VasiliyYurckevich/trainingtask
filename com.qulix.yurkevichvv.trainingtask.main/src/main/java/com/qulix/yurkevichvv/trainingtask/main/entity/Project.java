@@ -45,7 +45,7 @@ public class Project {
 
     @Override
     public String toString() {
-        return "huiznaet.entity.Project id=" + id + ", title=" + title + ", description=" + description;
+        return "Project id=" + id + ", title=" + title + ", description=" + description;
     }
 
 }
