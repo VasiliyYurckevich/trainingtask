@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.main.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 
 /**
  * Обобщает основные методы для записи сущностей в БД.
@@ -17,7 +18,7 @@ public interface DaoInterface<T> {
      * @return успешность операции.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    boolean add(T t) throws SQLException;
+    boolean add(T t) throws DaoException;
 
     /**
      * Обновление сущности в БД.
@@ -26,7 +27,7 @@ public interface DaoInterface<T> {
      * @return успешность операции.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    boolean update(T t) throws SQLException;
+    boolean update(T t) throws DaoException;
 
     /**
      * Удаление сущности из БД.
@@ -35,7 +36,7 @@ public interface DaoInterface<T> {
      * @return успешность операции.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    boolean delete(Integer t) throws SQLException;
+    boolean delete(Integer t) throws DaoException;
 
     /**
      * Получение всех сущностей определеного класса из БД.
@@ -43,7 +44,7 @@ public interface DaoInterface<T> {
      * @return Список сущностей.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    List<T> getAll() throws SQLException;
+    List<T> getAll() throws DaoException;
 
     /**
      * Нахождение сущности по ее идентификатору.
@@ -52,5 +53,5 @@ public interface DaoInterface<T> {
      * @return Сущность.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    T getById(Integer id) throws SQLException;
+    T getById(Integer id) throws DaoException;
 }

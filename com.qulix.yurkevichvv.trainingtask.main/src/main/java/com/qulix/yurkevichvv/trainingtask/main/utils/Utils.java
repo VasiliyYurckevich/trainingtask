@@ -10,7 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
-
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 
 
 /**
@@ -58,7 +58,7 @@ public class Utils {
      * @param req запрос.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    public static void setDataOfDropDownList(HttpServletRequest req) throws SQLException {
+    public static void setDataOfDropDownList(HttpServletRequest req) throws DaoException {
         List<Employee> employees = new DaoEmployee().getAll();
         List<Project> projects = new DaoProject().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);

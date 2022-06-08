@@ -22,6 +22,7 @@ import com.qulix.yurkevichvv.trainingtask.main.dao.DaoTask;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -106,7 +107,7 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (SQLException e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
@@ -136,7 +137,7 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (SQLException e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
@@ -149,7 +150,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         String taskId = req.getParameter(TASK_ID);
         Task existingTask = tasksInterface.getById(Integer.parseInt(taskId));
@@ -170,7 +171,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, SQLException {
+        throws ServletException, IOException, DaoException {
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
@@ -215,7 +216,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
@@ -250,7 +251,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
 
@@ -300,7 +301,7 @@ public class TaskController extends HttpServlet {
      * @throws SQLException исключения БД.
      */
     private static List<Employee> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
-        throws SQLException {
+        throws DaoException {
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
             employeeListInProject.set(Integer.parseInt(numberInList), null);
@@ -318,7 +319,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, SQLException {
+        throws ServletException, IOException, DaoException {
         List<Employee> employees = new DaoEmployee().getAll();
         List<Project> projects = new DaoProject().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
@@ -337,7 +338,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, IOException {
+        throws DaoException, IOException {
         String taskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
@@ -354,7 +355,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.taskValidator(paramsList);
 
@@ -397,7 +398,7 @@ public class TaskController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      * @throws IOException исключения ввода-вывода.
      */
-    private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+    private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws DaoException, ServletException, IOException {
         List<Task> tasks = tasksInterface.getAll();
         List<Project> projects = new DaoProject().getAll();
         List<Employee> employeeOfTask = new ArrayList<>();
