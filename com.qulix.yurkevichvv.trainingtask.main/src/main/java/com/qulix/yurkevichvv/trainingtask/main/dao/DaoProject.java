@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
@@ -27,7 +29,10 @@ public class DaoProject implements DaoInterface<Project> {
     private static final String TITLE = "title";
 
     private static final String DESCRIPTION = "description";
-    
+
+    private static final Logger LOGGER = Logger.getLogger(DaoProject.class.getName());
+
+
     private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (?,?);";
 
     private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT ;";
@@ -51,6 +56,9 @@ public class DaoProject implements DaoInterface<Project> {
 
             return preparedStatement.execute();
         }catch (SQLException e){
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при добавлении проекта в БД",e);
         }
         finally {
@@ -72,6 +80,9 @@ public class DaoProject implements DaoInterface<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e){
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при обновлении проекта в БД",e);
         }
         finally {
@@ -91,6 +102,9 @@ public class DaoProject implements DaoInterface<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e){
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при удалении проекта из БД",e);
         }
         finally {
@@ -104,7 +118,7 @@ public class DaoProject implements DaoInterface<Project> {
 
         Connection connection = DBConnection.getConnection();
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS);) {
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Project> projects = new ArrayList<>();
             while (resultSet.next()) {
@@ -117,6 +131,9 @@ public class DaoProject implements DaoInterface<Project> {
             return projects;
         }
         catch (SQLException e){
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении всех проектов из БД",e);
         }
         finally {
@@ -147,6 +164,9 @@ public class DaoProject implements DaoInterface<Project> {
             return project;
         }
         catch (SQLException e){
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении проекта по id из БД",e);
         }
         finally {

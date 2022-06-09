@@ -23,7 +23,6 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -78,7 +77,7 @@ public class ProjectController extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             String action = req.getParameter(ACTION);
 
@@ -91,11 +90,12 @@ public class ProjectController extends HttpServlet {
                     updateProject(req, resp);
                     break;
             }
+
         }
-        catch ( DaoException | PathNotValidException e) {
+        catch (Exception e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -133,10 +133,10 @@ public class ProjectController extends HttpServlet {
                     deleteTaskInProject(req, resp);
             }
         }
-        catch (IOException |DaoException | PathNotValidException e) {
+        catch (Exception e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -151,7 +151,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, PathNotValidException {
+            throws DaoException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         String numberInList = req.getParameter(NUMBER_IN_LIST);
         List<Integer> deleteTaskInProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
@@ -194,7 +194,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, PathNotValidException {
+            throws DaoException, ServletException, IOException {
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute(TASKS_LIST);
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
@@ -206,17 +206,10 @@ public class ProjectController extends HttpServlet {
         servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
 
         Utils.setDataOfDropDownList(req);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/edi3t-task-in-project.jsp");
         servletcontext.setAttribute("task", existingTask);
-        try {
-            dispatcher.forward(req, resp);
-        } catch (IOException e) {
-            LOGGER.severe("Не найден файл edit-task-in-project.jsp. Файл не найден.");
-            LOGGER.severe(e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+        dispatcher.forward(req, resp);
 
-            throw new PathNotValidException("Не найден файл для отображения формы редактирования задачи в проекте");
-        }
     }
 
     /**
@@ -229,7 +222,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, PathNotValidException {
+            throws DaoException, ServletException, IOException {
         ServletContext servletContext = getServletContext();
         Integer thisProjectId = getProjectId(req, servletContext);
         Project existingProject = projectInterface.getById(thisProjectId);
@@ -244,14 +237,8 @@ public class ProjectController extends HttpServlet {
         servletContext.setAttribute("project", existingProject);
         setParametersAboutProjectEditing(servletContext, deletedTasks, tasksListInProject, employeeListInProject);
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
-        try {
-            dispatcher.forward(req, resp);
-        } catch (IOException e) {
-            LOGGER.severe("Ошибка перехода на " + EDIT_PROJECT_FORM_JSP + " файл не найден");
-            LOGGER.severe(e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new PathNotValidException("Ошибка перехода на страницу отображения формы", e);
-        }
+        dispatcher.forward(req, resp);
+
     }
 
     /**
@@ -345,18 +332,12 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, PathNotValidException {
+            throws DaoException, IOException {
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
         projectInterface.delete(projectId);
         LOGGER.log(Level.INFO, "Task with id {0} was deleted", projectId);
-        try {
-            resp.sendRedirect(PROJECTS);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Ошибка перехода на " + PROJECTS);
-            LOGGER.severe(e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new PathNotValidException("Не найден файл для отображения списка проектов",e);
-        }
+        resp.sendRedirect(PROJECTS);
+
     }
 
     /**
@@ -369,7 +350,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, PathNotValidException {
+            throws DaoException, ServletException, IOException {
         ServletContext servletcontext = getServletContext();
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
         String numberInList = req.getParameter(NUMBER_IN_LIST);
@@ -377,14 +358,8 @@ public class ProjectController extends HttpServlet {
         servletcontext.setAttribute(PROJECT_ID, thisProjectId);
         Utils.setDataOfDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
-        try {
-            dispatcher.forward(req, resp);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Ошибка перехода на add-task-in-project.jsp");
-            LOGGER.severe(e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new PathNotValidException("Не найден файл для отображения страницы создания задачи",e);
-        }
+        dispatcher.forward(req, resp);
+
     }
 
     /**
@@ -442,7 +417,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, PathNotValidException {
+            throws DaoException, ServletException, IOException {
         DaoTask taskInterface = new DaoTask();
         ServletContext servletContext = getServletContext();
 
@@ -455,26 +430,15 @@ public class ProjectController extends HttpServlet {
             updateTasksFromProjectEditing(taskInterface, servletContext, projectId);
             projectInterface.update(theProject);
             LOGGER.log(Level.INFO, "Project with id {0} updated", projectId);
-            try {
-                resp.sendRedirect(PROJECTS);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Ошибка перехода на " + PROJECTS + ".Файл не найден");
-                LOGGER.severe(e.getMessage());
-                LOGGER.severe(Arrays.toString(e.getStackTrace()));
-                throw new PathNotValidException("Не найден файл для отображения страницы списка проектов",e);
-            }
+
+            resp.sendRedirect(PROJECTS);
+
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
             setDataToJspAfterValidation(req, paramsList, errorsList);
             servletContext.setAttribute(PROJECT_ID, projectId);
-            try {
-                dispatcher.forward(req, resp);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Ошибка перехода на " + EDIT_PROJECT_FORM_JSP + ".Файл не найден");
-                LOGGER.severe(e.getMessage());
-                LOGGER.severe(Arrays.toString(e.getStackTrace()));
-                throw new PathNotValidException("Не найден файл для отображения страницы редактирования проекта",e);            }
+            dispatcher.forward(req, resp);
         }
     }
 
@@ -543,7 +507,7 @@ public class ProjectController extends HttpServlet {
      * @throws SQLException исключения БД.
      * @throws IOException исключения ввода-вывода.
      */
-    private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, DaoException, PathNotValidException {
+    private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, DaoException, IOException {
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.projectValidator(paramsList);
 
@@ -551,25 +515,13 @@ public class ProjectController extends HttpServlet {
             Project theProject = getProject(paramsList);
             projectInterface.add(theProject);
             LOGGER.log(Level.INFO, "Created new project");
-            try {
-                resp.sendRedirect(PROJECTS);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Ошибка перехода на " + PROJECTS + ".Файл не найден");
-                LOGGER.severe(e.getMessage());
-                LOGGER.severe(Arrays.toString(e.getStackTrace()));
-                throw new PathNotValidException("Не найден файл для отображения страницы списка проектов",e);            }
+            resp.sendRedirect(PROJECTS);
+
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
             setDataToJspAfterValidation(req, paramsList, errorsList);
-            try {
-                dispatcher.forward(req, resp);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Ошибка перехода на " + ADD_PROJECT_FORM_JSP + ".Файл не найден");
-                LOGGER.severe(e.getMessage());
-                LOGGER.severe(Arrays.toString(e.getStackTrace()));
-                throw new PathNotValidException("Не найден файл для отображения страницы добавления проекта",e);
-            }
+            dispatcher.forward(req, resp);
         }
     }
 

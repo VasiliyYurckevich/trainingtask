@@ -1,17 +1,28 @@
 <%
-    String message = pageContext.getException().getMessage().toString();
+    String message;
+    try {
+        message = pageContext.getException().getMessage();
+    } catch (Exception e) {
+        message = "Упс, что-то пошло не так...";
+    }
 %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
     <head>
-        <meta charset="UTF-8">
         <title>Exception</title>
+        <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 
     <body>
-        <h1>Ошибка!</h1>
-        <p><%= message %></p>
+        <div>
+            <div class="start-page">
+                <h2>Ошибка!</h2>
+                <h2>Status Code: ${pageContext.errorData.statusCode} </h2>
+                <h2><%= message %></h2>
+                <button class="add-button" onclick="window.location.href = 'index.jsp'">На главную</button>
+            </div>
+        </div>
     </body>
 </html>

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -64,12 +65,14 @@ public class DaoTask implements DaoInterface<Task> {
 
         Connection connection = DBConnection.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
             setDataInToStatement(task, preparedStatement);
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при добавлении задачи в БД", e);
         }
         finally {
@@ -90,7 +93,9 @@ public class DaoTask implements DaoInterface<Task> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при обновлении задачи в БД", e);
         }
         finally {
@@ -126,7 +131,9 @@ public class DaoTask implements DaoInterface<Task> {
                 preparedStatement.setInt(Nums.SEVEN.getValue(), task.getEmployeeId());
             }
         } catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при внесении данных о задаче в выражение SQL", e);
         }
     }
@@ -141,7 +148,9 @@ public class DaoTask implements DaoInterface<Task> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при удалении задачи из БД", e);
         }
         finally {
@@ -167,7 +176,9 @@ public class DaoTask implements DaoInterface<Task> {
             return getList(tasks, resultSet);
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задач проекта из БД", e);
         }
         finally {
@@ -186,7 +197,9 @@ public class DaoTask implements DaoInterface<Task> {
             return getList(tasks, resultSet);
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " "  + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении всех задач из БД", e);
         }
         finally {
@@ -210,7 +223,9 @@ public class DaoTask implements DaoInterface<Task> {
                 tasks.add(task);
             }
         } catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задач из БД", e);
         }
         return tasks;
@@ -221,7 +236,7 @@ public class DaoTask implements DaoInterface<Task> {
 
         Connection connection = DBConnection.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID)) {
             preparedStatement.setInt(Nums.ONE.getValue(), id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Task task = new Task();
@@ -231,7 +246,9 @@ public class DaoTask implements DaoInterface<Task> {
             return task;
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage() + " " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задачи по идентификатору из БД", e);
         }
         finally {
@@ -262,7 +279,9 @@ public class DaoTask implements DaoInterface<Task> {
                 task.setEmployeeId(null);
             }
         } catch (SQLException e) {
-            LOGGER.severe("Ошибка при получении данных задачи из БД " + e.getSQLState() + " " + e.getStackTrace());
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении данных задачи из БД", e);
         }
     }

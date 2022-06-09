@@ -3,19 +3,6 @@
  */
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
 import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
@@ -24,14 +11,25 @@ import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
-
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
  *
  * @author Q-YVV
- */ 
+ */
 public class EmployeeController extends HttpServlet {
 
     private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
@@ -69,7 +67,7 @@ public class EmployeeController extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             String action = req.getParameter(ACTION);
             switch (action) {
@@ -80,15 +78,16 @@ public class EmployeeController extends HttpServlet {
                     updateEmployee(req, resp);
                     break;
             }
-        }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e + " " + e.getStackTrace(), e);
+        } catch (IOException | DaoException | ServletException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
             String action = req.getParameter(ACTION);
 
@@ -109,9 +108,10 @@ public class EmployeeController extends HttpServlet {
                 case "/edit":
                     updateEmployeeForm(req, resp);
             }
-        }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        } catch (IOException | DaoException | ServletException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -126,7 +126,8 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException исключение ввода-вывода.
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-            throws  ServletException, IOException, DaoException {
+        throws  ServletException, IOException, DaoException {
+
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeInterface.getById(employeeId);
         req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -157,31 +158,31 @@ public class EmployeeController extends HttpServlet {
     /**
      * Удаляет сотрудника из БД.
      *
-     * @param req запрос.
+     * @param req  запрос.
      * @param resp ответ.
      * @throws ServletException исключение сервлета.
-     * @throws IOException исключение ввода-вывода.
-     * @throws SQLException исключение БД.
+     * @throws IOException      исключение ввода-вывода.
+     * @throws SQLException     исключение БД.
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws  IOException, DaoException {
+            throws DaoException, IOException {
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
-        resp.sendRedirect(LIST);
+        resp.sendRedirect(EMPLOYEES_LIST);
         LOGGER.log(Level.INFO, "Employee with id {0} deleted", employeeId);
     }
 
     /**
-     * Запись отредактированого сотрудника в БД.
+     * Запись отредактированного сотрудника в БД.
      *
-     * @param req запрос.
+     * @param req  запрос.
      * @param resp ответ.
      * @throws ServletException исключение сервлета.
-     * @throws IOException исключение ввода-вывода.
-     * @throws SQLException исключение БД.
+     * @throws IOException      исключение ввода-вывода.
+     * @throws SQLException     исключение БД.
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException {
+            throws ServletException, DaoException, IOException {
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
@@ -190,9 +191,10 @@ public class EmployeeController extends HttpServlet {
             req.setAttribute(EMPLOYEE_ID, employeeId);
             Employee theEmployee = getEmployee(paramsList);
             theEmployee.setId(employeeId);
+            LOGGER.log(Level.INFO, "Employee with id {0} updated", employeeId);
             employeeInterface.update(theEmployee);
             resp.sendRedirect(EMPLOYEES_LIST);
-            LOGGER.log(Level.INFO, "Employee with id {0} updated", employeeId);
+
         }
         else {
             req.setAttribute(EMPLOYEE_ID, employeeId);

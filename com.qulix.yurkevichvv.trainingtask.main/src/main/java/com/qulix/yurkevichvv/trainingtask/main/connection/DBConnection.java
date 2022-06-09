@@ -40,11 +40,19 @@ public class DBConnection {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(PATH, USER, PASS);
         }
-        catch (SQLException | ClassNotFoundException e) {
+        catch (ClassNotFoundException e) {
+            LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Ошибка подключения к БД", e);
+            throw new DaoException("БД временно недоступна. Повторите попытку позже", e);
         }
-
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.severe("SQL State  : " + e.getSQLState());
+            throw new DaoException("БД временно недоступна. Повторите попытку позже", e);
+        }
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
         return connection;
     }
 
@@ -60,11 +68,11 @@ public class DBConnection {
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.severe(e.getSQLState());
             throw new DaoException("Ошибка закрытия подключения к БД.", e);
+        }
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 }
-
-
-
-

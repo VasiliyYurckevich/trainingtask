@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -87,7 +89,7 @@ public class TaskController extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String action = req.getParameter(ACTION);
@@ -107,8 +109,10 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        catch (IOException | DaoException | ServletException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -137,8 +141,10 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        catch (IOException | DaoException | ServletException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
