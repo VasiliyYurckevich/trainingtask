@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
 import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -80,8 +81,8 @@ public class EmployeeController extends HttpServlet {
                     break;
             }
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        catch (DaoException e) {
+            LOGGER.log(Level.SEVERE, e + " " + e.getStackTrace(), e);
         }
     }
 
@@ -109,7 +110,7 @@ public class EmployeeController extends HttpServlet {
                     updateEmployeeForm(req, resp);
             }
         }
-        catch (SQLException e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
@@ -125,7 +126,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException исключение ввода-вывода.
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+            throws  ServletException, IOException, DaoException {
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeInterface.getById(employeeId);
         req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -163,11 +164,11 @@ public class EmployeeController extends HttpServlet {
      * @throws SQLException исключение БД.
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws  IOException, SQLException {
+        throws  IOException, DaoException {
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
         resp.sendRedirect(LIST);
-        LOGGER.log(Level.INFO, "huiznaet.entity.Employee with id {0} deleted", employeeId);
+        LOGGER.log(Level.INFO, "Employee with id {0} deleted", employeeId);
     }
 
     /**
@@ -180,7 +181,7 @@ public class EmployeeController extends HttpServlet {
      * @throws SQLException исключение БД.
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, SQLException {
+        throws ServletException, IOException, DaoException {
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
@@ -191,7 +192,7 @@ public class EmployeeController extends HttpServlet {
             theEmployee.setId(employeeId);
             employeeInterface.update(theEmployee);
             resp.sendRedirect(EMPLOYEES_LIST);
-            LOGGER.log(Level.INFO, "huiznaet.entity.Employee with id {0} updated", employeeId);
+            LOGGER.log(Level.INFO, "Employee with id {0} updated", employeeId);
         }
         else {
             req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -256,7 +257,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException исключение ввода-вывода.
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
         List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.employeeValidator(paramsList);
 
@@ -283,7 +284,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException исключение ввода-вывода.
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
-        throws SQLException, ServletException, IOException {
+        throws  DaoException, ServletException, IOException {
         Utils.setDataOfDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);

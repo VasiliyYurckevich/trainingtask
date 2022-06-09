@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
@@ -40,63 +41,70 @@ public class DaoProject implements DaoInterface<Project> {
 
 
     @Override
-    public boolean add(Project project) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL);
+    public boolean add(Project project) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL)) {
             preparedStatement.setString(Nums.ONE.getValue(), project.getTitle());
             preparedStatement.setString(Nums.TWO.getValue(), project.getDescription());
 
             return preparedStatement.execute();
+        }catch (SQLException e){
+            throw new DaoException("Ошибка при добавлении проекта в БД",e);
         }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 
 
     @Override
-    public boolean update(Project project) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL);
+    public boolean update(Project project) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL)) {
             preparedStatement.setString(Nums.ONE.getValue(), project.getTitle());
             preparedStatement.setString(Nums.TWO.getValue(), project.getDescription());
             preparedStatement.setInt(Nums.THREE.getValue(), project.getId());
 
             return preparedStatement.execute();
         }
+        catch (SQLException e){
+            throw new DaoException("Ошибка при обновлении проекта в БД",e);
+        }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 
 
     @Override
-    public boolean delete(Integer id) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL);
+    public boolean delete(Integer id) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)){
             preparedStatement.setInt(Nums.ONE.getValue(), id);
 
             return preparedStatement.execute();
         }
+        catch (SQLException e){
+            throw new DaoException("Ошибка при удалении проекта из БД",e);
+        }
         finally {
-            DBConnection.closeConnection(preparedStatement);
-
+            DBConnection.closeConnection();
         }
     }
 
 
     @Override
-    public List<Project> getAll() throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS);
+    public List<Project> getAll() throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS);) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Project> projects = new ArrayList<>();
             while (resultSet.next()) {
@@ -108,18 +116,21 @@ public class DaoProject implements DaoInterface<Project> {
             }
             return projects;
         }
+        catch (SQLException e){
+            throw new DaoException("Ошибка при получении всех проектов из БД",e);
+        }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 
 
     @Override
-    public Project getById(Integer id) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID);
+    public Project getById(Integer id) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID)) {
             if (id == null) {
                 preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
@@ -135,8 +146,11 @@ public class DaoProject implements DaoInterface<Project> {
             }
             return project;
         }
+        catch (SQLException e){
+            throw new DaoException("Ошибка при получении проекта по id из БД",e);
+        }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 }

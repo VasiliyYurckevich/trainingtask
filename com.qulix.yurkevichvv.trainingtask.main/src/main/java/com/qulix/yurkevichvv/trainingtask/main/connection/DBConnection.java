@@ -1,11 +1,8 @@
 package com.qulix.yurkevichvv.trainingtask.main.connection;
 
-import com.qulix.yurkevichvv.trainingtask.main.controllers.ProjectController;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,36 +35,36 @@ public class DBConnection {
      * @return подключение к БД.
      * @throws SQLException ошибка подключения к БД.
      */
-    public static Connection getConnection(){
-
+    public static Connection getConnection( ) throws DaoException {
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(PATH, USER, PASS);
         }
-        catch (ClassNotFoundException e) {
+        catch (SQLException | ClassNotFoundException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Ошибка подключения к БД", e);
         }
-        catch (SQLException e){
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        }
+
         return connection;
     }
 
     /**
      * Закрытие подключения к БД.
      *
-     * @param preparedStatement выражение SQL.
      * @throws SQLException исключение БД.
      */
-    public static void closeConnection(PreparedStatement preparedStatement) throws SQLException {
-        if (preparedStatement != null && !preparedStatement.isClosed()) {
-            preparedStatement.close();
-        }
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+    public static void closeConnection() throws DaoException {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Ошибка закрытия подключения к БД.", e);
         }
     }
 }
+
 
 
 

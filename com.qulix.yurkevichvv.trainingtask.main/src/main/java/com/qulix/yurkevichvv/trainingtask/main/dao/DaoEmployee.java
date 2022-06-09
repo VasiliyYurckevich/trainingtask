@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 /**
@@ -45,11 +46,11 @@ public class DaoEmployee implements DaoInterface<Employee> {
 
 
     @Override
-    public boolean add(Employee employee) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL);
+    public boolean add(Employee employee) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL);) {
             preparedStatement.setString(Nums.ONE.getValue(), employee.getSurname());
             preparedStatement.setString(Nums.TWO.getValue(), employee.getFirstName());
             preparedStatement.setString(Nums.THREE.getValue(), employee.getPatronymic());
@@ -57,51 +58,58 @@ public class DaoEmployee implements DaoInterface<Employee> {
 
             return preparedStatement.execute();
         }
+        catch (SQLException e){
+            throw new DaoException("Ошибка при добавлении нового сотрудника в БД");
+        }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 
     @Override
-    public boolean update(Employee employee) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL);
+    public boolean update(Employee employee) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL)) {
             preparedStatement.setString(Nums.ONE.getValue(), employee.getSurname());
             preparedStatement.setString(Nums.TWO.getValue(), employee.getFirstName());
             preparedStatement.setString(Nums.THREE.getValue(), employee.getPatronymic());
             preparedStatement.setString(Nums.FOUR.getValue(), employee.getPost());
             preparedStatement.setInt(Nums.FIVE.getValue(), employee.getId());
             return preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Ошибка при попытке изменить данные о сотруднике", e);
         }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 
     @Override
-    public boolean delete(Integer id) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);
+    public boolean delete(Integer id) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL)) {
             preparedStatement.setInt(Nums.ONE.getValue(), id);
 
             return preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Ошибка при удалении сотрудника из базы данных",e);
         }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 
 
     @Override
-    public List<Employee> getAll() throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENT);
+    public List<Employee> getAll() throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENT)){
             List<Employee> employees = new ArrayList<>();
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -116,17 +124,20 @@ public class DaoEmployee implements DaoInterface<Employee> {
             }
             return employees;
         }
+        catch (SQLException e) {
+            throw new DaoException("Ошибка при получении данных о сотрудниках", e);
+        }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 
     @Override
-    public Employee getById(Integer id) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);
+    public Employee getById(Integer id) throws DaoException {
 
-        try {
+        Connection connection = DBConnection.getConnection();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)){
             if (id == null) {
                 preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
             }
@@ -150,8 +161,11 @@ public class DaoEmployee implements DaoInterface<Employee> {
             }
             return employee;
         }
+        catch (SQLException e) {
+            throw new DaoException("Ошибка при получении данных о сотруднике", e);
+        }
         finally {
-            DBConnection.closeConnection(preparedStatement);
+            DBConnection.closeConnection();
         }
     }
 }
