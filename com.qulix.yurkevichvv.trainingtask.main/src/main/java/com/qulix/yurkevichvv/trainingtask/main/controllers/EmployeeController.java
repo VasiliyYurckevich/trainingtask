@@ -185,7 +185,7 @@ public class EmployeeController extends HttpServlet {
             throws ServletException, DaoException, IOException {
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         List<String> paramsList = getDataFromJsp(req);
-        List<String> errorsList = ValidationService.employeeValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -261,7 +261,7 @@ public class EmployeeController extends HttpServlet {
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
         List<String> paramsList = getDataFromJsp(req);
-        List<String> errorsList = ValidationService.employeeValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Employee employee = getEmployee(paramsList);
@@ -287,7 +287,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws  DaoException, ServletException, IOException {
-        Utils.setDataOfDropDownList(req);
+        Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
     }

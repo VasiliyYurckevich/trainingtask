@@ -21,9 +21,9 @@ public class FieldsValidation {
      * @param length максимальная длина строки.
      * @return Строка с ошибкой или пустой строкой.
      */
-    public static String isStringValidation(String s, int length) {
+    public static String isStringValid(String s, int length) {
         StringBuffer error = new StringBuffer();
-        isEmptyFieldValidation(s, error);
+        isEmptyFieldValid(s, error);
         if (error.length() == 0) {
             if (s.trim().length() > length) {
                 error.append("Максимальная длинна ввода: ");
@@ -40,9 +40,9 @@ public class FieldsValidation {
      * @param s Строка для валидации.
      * @return Строка с ошибкой или пустой строкой.
      */
-    public static String isNumberValidation(String s) {
+    public static String isNumberValid(String s) {
         StringBuffer error = new StringBuffer();
-        isEmptyFieldValidation(s, error);
+        isEmptyFieldValid(s, error);
         if (error.length() == 0) {
             if (!s.trim().matches("^[0-9]+$")) {
                 error.append("Поле принимает только цифры");
@@ -65,7 +65,7 @@ public class FieldsValidation {
      * @param s Строка для валидации.
      * @param error Строка с ошибкой.
      */
-    private static void isEmptyFieldValidation(String s, StringBuffer error) {
+    private static void isEmptyFieldValid(String s, StringBuffer error) {
         if (s.isEmpty() || s.trim().length() == 0) {
             error.append("Поле для ввода не должно быть пустым");
         }
@@ -78,7 +78,7 @@ public class FieldsValidation {
      * @param endDate Дата окончания.
      * @return Строка с ошибкой или пустой строкой.
      */
-    public static List<String> isDateValidation(String beginDate, String endDate) {
+    public static List<String> isDateValid(String beginDate, String endDate) {
         StringBuffer errorBeginDate = new StringBuffer();
         StringBuffer errorEndDate = new StringBuffer();
         List<String> listErrors = new ArrayList<>();

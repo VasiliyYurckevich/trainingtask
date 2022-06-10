@@ -162,7 +162,7 @@ public class TaskController extends HttpServlet {
         Utils.setTaskDataInJsp(req, existingTask);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
         servletContext.setAttribute("task", existingTask);
-        Utils.setDataOfDropDownList(req);
+        Utils.setDataToDropDownList(req);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
         dispatcher.forward(req, resp);
@@ -179,7 +179,7 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, DaoException {
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.taskValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);
@@ -226,7 +226,7 @@ public class TaskController extends HttpServlet {
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.taskValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);
@@ -263,7 +263,7 @@ public class TaskController extends HttpServlet {
         Integer taskId = Utils.stringToInteger(req.getParameter(TASK_ID));
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
         List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.taskValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);
@@ -362,7 +362,7 @@ public class TaskController extends HttpServlet {
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
         List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.taskValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Task task = getTask(paramsList);

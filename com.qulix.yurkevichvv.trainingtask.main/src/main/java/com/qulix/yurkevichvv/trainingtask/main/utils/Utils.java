@@ -58,7 +58,7 @@ public class Utils {
      * @param req запрос.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    public static void setDataOfDropDownList(HttpServletRequest req) throws DaoException {
+    public static void setDataToDropDownList(HttpServletRequest req) throws DaoException {
         List<Employee> employees = new EmployeeDAO().getAll();
         List<Project> projects = new ProjectDao().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);

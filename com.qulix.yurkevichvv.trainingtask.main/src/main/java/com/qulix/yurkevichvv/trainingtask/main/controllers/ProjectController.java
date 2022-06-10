@@ -204,7 +204,7 @@ public class ProjectController extends HttpServlet {
         Utils.setTaskDataInJsp(req, existingTask);
         servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
 
-        Utils.setDataOfDropDownList(req);
+        Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edi3t-task-in-project.jsp");
         servletcontext.setAttribute("task", existingTask);
         dispatcher.forward(req, resp);
@@ -355,7 +355,7 @@ public class ProjectController extends HttpServlet {
         String numberInList = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
         servletcontext.setAttribute(PROJECT_ID, thisProjectId);
-        Utils.setDataOfDropDownList(req);
+        Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
         dispatcher.forward(req, resp);
 
@@ -386,7 +386,7 @@ public class ProjectController extends HttpServlet {
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
-        Utils.setDataOfDropDownList(req);
+        Utils.setDataToDropDownList(req);
         removeServletAttributes();
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
         dispatcher.forward(req, resp);
@@ -422,7 +422,7 @@ public class ProjectController extends HttpServlet {
 
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
         List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.projectValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingProjectData(paramsList);
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);
             theProject.setId(projectId);
@@ -508,7 +508,7 @@ public class ProjectController extends HttpServlet {
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, DaoException, IOException {
         List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.projectValidator(paramsList);
+        List<String> errorsList = ValidationService.checkingProjectData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);

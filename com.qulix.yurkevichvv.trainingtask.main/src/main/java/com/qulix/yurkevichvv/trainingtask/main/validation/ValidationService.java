@@ -23,12 +23,12 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации.
      * @return Список ошибок.
      */
-    public static List<String> employeeValidator(List<String> paramsList) {
+    public static List<String> checkingEmployeeData(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FOUR.getValue());
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.TWO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.THREE.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.TWO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.THREE.getValue()), SHORT_LENGTH));
         return errorList;
     }
 
@@ -38,10 +38,10 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации.
      * @return Список ошибок.
      */
-    public static List<String> projectValidator(List<String> paramsList) {
+    public static List<String> checkingProjectData(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.TWO.getValue());
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.ONE.getValue()), LONG_LENGTH));
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ONE.getValue()), LONG_LENGTH));
         return errorList;
     }
 
@@ -51,12 +51,12 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации.
      * @return Список ошибок.
      */
-    public static List<String> taskValidator(List<String> paramsList) {
+    public static List<String> checkingTaskData(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FIVE.getValue());
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValidation(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isNumberValidation(paramsList.get(Nums.TWO.getValue())));
-        List<String> dateErrorsList = FieldsValidation.isDateValidation(paramsList.get(Nums.THREE.getValue()),
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.isNumberValid(paramsList.get(Nums.TWO.getValue())));
+        List<String> dateErrorsList = FieldsValidation.isDateValid(paramsList.get(Nums.THREE.getValue()),
             paramsList.get(Nums.FOUR.getValue()));
         errorList.addAll(dateErrorsList);
         return errorList;
