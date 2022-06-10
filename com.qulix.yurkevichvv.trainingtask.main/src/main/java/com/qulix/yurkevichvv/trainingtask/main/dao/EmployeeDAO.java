@@ -45,8 +45,8 @@ public class EmployeeDAO implements IDao<Employee> {
 
     private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE id = ?;";
 
-    private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE SET surname = ?, first_name = ?, patronymic = ?, post = ?" +
-        " WHERE id = ?;";
+    private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE" +
+        " SET surname = ?, first_name = ?, patronymic = ?, post = ? WHERE id = ?;";
 
 
     @Override

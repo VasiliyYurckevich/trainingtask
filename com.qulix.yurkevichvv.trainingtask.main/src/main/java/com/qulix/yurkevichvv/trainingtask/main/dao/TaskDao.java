@@ -54,8 +54,8 @@ public class TaskDao implements IDao<Task> {
 
     private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = ?;";
 
-    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = ?, title = ?, work_time = ?," +
-        " begin_date = ?, end_date = ?, project_id = ?, employee_id = ? WHERE id = ?;";
+    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = ?, title = ?, work_time = ?, " +
+            "begin_date = ?, end_date = ?, project_id = ?, employee_id = ? WHERE id = ?;";
 
 
 
