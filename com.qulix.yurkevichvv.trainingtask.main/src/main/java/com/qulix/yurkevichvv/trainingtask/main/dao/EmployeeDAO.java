@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
-import com.qulix.yurkevichvv.trainingtask.main.controllers.EmployeeController;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
@@ -20,9 +19,9 @@ import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
  *
  * @author Q-YVV
  * @see Employee
- * @see DaoInterface
+ * @see IDao
  */
-public class DaoEmployee implements DaoInterface<Employee> {
+public class EmployeeDAO implements IDao<Employee> {
 
     private static final String EMPLOYEE_ID = "employee_id";
 
@@ -34,7 +33,7 @@ public class DaoEmployee implements DaoInterface<Employee> {
 
     private static final String POST = "post";
 
-    private static final Logger LOGGER = Logger.getLogger(DaoEmployee.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(EmployeeDAO.class.getName());
 
 
     private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +

@@ -9,7 +9,7 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
  *
  * @author Q-YVV
  */
-public interface DaoInterface<T> {
+public interface IDao<T> {
 
     /**
      * Добавление новой сущности в БД.

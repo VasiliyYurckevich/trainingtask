@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
@@ -59,8 +59,8 @@ public class Utils {
      * @throws SQLException ошибка при выполнении запроса.
      */
     public static void setDataOfDropDownList(HttpServletRequest req) throws DaoException {
-        List<Employee> employees = new DaoEmployee().getAll();
-        List<Project> projects = new DaoProject().getAll();
+        List<Employee> employees = new EmployeeDAO().getAll();
+        List<Project> projects = new ProjectDao().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);
         req.getServletContext().setAttribute("PROJECT_LIST", projects);
     }

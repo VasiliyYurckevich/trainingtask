@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoTask;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.main.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
@@ -67,12 +67,12 @@ public class ProjectController extends HttpServlet {
     /**
      * Получение интерфейса для работы с БД.
      */
-    private DaoInterface<Project> projectInterface;
+    private IDao<Project> projectInterface;
 
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        projectInterface = new DaoProject();
+        projectInterface = new ProjectDao();
     }
 
 
@@ -100,8 +100,7 @@ public class ProjectController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String action = req.getParameter(ACTION);
@@ -268,7 +267,7 @@ public class ProjectController extends HttpServlet {
         if (employeeListInProject == null) {
             employeeListInProject = new ArrayList<>();
             for (Task t : tasksListInProject) {
-                Employee employee = new DaoEmployee().getById(t.getEmployeeId());
+                Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
                 employeeListInProject.add(employee);
             }
         }
@@ -286,7 +285,7 @@ public class ProjectController extends HttpServlet {
     private static List<Task> getTasksInProject(Project existingProject, ServletContext servletContext) throws DaoException {
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         if (tasksListInProject == null) {
-            tasksListInProject = new DaoTask().getTasksInProject(existingProject.getId());
+            tasksListInProject = new TaskDao().getTasksInProject(existingProject.getId());
         } 
         return tasksListInProject;
     }
@@ -418,7 +417,7 @@ public class ProjectController extends HttpServlet {
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
             throws DaoException, ServletException, IOException {
-        DaoTask taskInterface = new DaoTask();
+        TaskDao taskInterface = new TaskDao();
         ServletContext servletContext = getServletContext();
 
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
@@ -450,8 +449,8 @@ public class ProjectController extends HttpServlet {
      * @param projectId идентификатор проекта.
      * @throws SQLException исключения БД.
      */
-    private static void updateTasksFromProjectEditing(DaoTask taskInterface,
-        ServletContext servletContext, Integer projectId) throws DaoException {
+    private static void updateTasksFromProjectEditing(TaskDao taskInterface,
+                                                      ServletContext servletContext, Integer projectId) throws DaoException {
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
 

@@ -19,10 +19,10 @@ import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
  * Содержит методы для работы обьектов класса "Проект" с БД.
  *
  * @author Q-YVV
- * @see DaoInterface
+ * @see IDao
  * @see Project
  */
-public class DaoProject implements DaoInterface<Project> {
+public class ProjectDao implements IDao<Project> {
 
     private static final String PROJECT_ID = "project_Id";
 
@@ -30,7 +30,7 @@ public class DaoProject implements DaoInterface<Project> {
 
     private static final String DESCRIPTION = "description";
 
-    private static final Logger LOGGER = Logger.getLogger(DaoProject.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ProjectDao.class.getName());
 
 
     private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (?,?);";

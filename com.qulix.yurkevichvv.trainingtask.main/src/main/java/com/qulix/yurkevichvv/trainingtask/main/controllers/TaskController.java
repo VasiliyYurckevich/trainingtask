@@ -16,15 +16,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoProject;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoTask;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.main.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -76,7 +75,7 @@ public class TaskController extends HttpServlet {
     private static final String TASKS = "tasks";
 
 
-    private DaoInterface<Task> tasksInterface;
+    private IDao<Task> tasksInterface;
 
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
@@ -84,7 +83,7 @@ public class TaskController extends HttpServlet {
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        tasksInterface = new DaoTask();
+        tasksInterface = new TaskDao();
     }
 
 
@@ -236,7 +235,7 @@ public class TaskController extends HttpServlet {
                 employeeListInProject.add(null);
             }
             else {
-                employeeListInProject.add(new DaoEmployee().getById(task.getEmployeeId()));
+                employeeListInProject.add(new EmployeeDAO().getById(task.getEmployeeId()));
             }
             setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
 
@@ -313,7 +312,7 @@ public class TaskController extends HttpServlet {
             employeeListInProject.set(Integer.parseInt(numberInList), null);
         }
         else {
-            employeeListInProject.set(Integer.parseInt(numberInList), new DaoEmployee().getById(task.getEmployeeId()));
+            employeeListInProject.set(Integer.parseInt(numberInList), new EmployeeDAO().getById(task.getEmployeeId()));
         }
         return employeeListInProject;
     }
@@ -326,8 +325,8 @@ public class TaskController extends HttpServlet {
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException {
-        List<Employee> employees = new DaoEmployee().getAll();
-        List<Project> projects = new DaoProject().getAll();
+        List<Employee> employees = new EmployeeDAO().getAll();
+        List<Project> projects = new ProjectDao().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
         getServletContext().setAttribute(EMPLOYEE_LIST, employees);
         getServletContext().setAttribute(PROJECT_LIST, projects);
@@ -406,13 +405,13 @@ public class TaskController extends HttpServlet {
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws DaoException, ServletException, IOException {
         List<Task> tasks = tasksInterface.getAll();
-        List<Project> projects = new DaoProject().getAll();
+        List<Project> projects = new ProjectDao().getAll();
         List<Employee> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
         for (Task t: tasks) {
-            Employee employee = new DaoEmployee().getById(t.getEmployeeId());
+            Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
             employeeOfTask.add(employee);
-            Project project = new DaoProject().getById(t.getProjectId());
+            Project project = new ProjectDao().getById(t.getProjectId());
             projectsOfTask.add(project);
         }
         req.setAttribute(PROJECT_LIST, projects);

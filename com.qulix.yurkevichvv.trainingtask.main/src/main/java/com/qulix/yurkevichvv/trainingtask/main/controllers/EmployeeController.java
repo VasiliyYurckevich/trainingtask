@@ -3,8 +3,8 @@
  */
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoEmployee;
-import com.qulix.yurkevichvv.trainingtask.main.dao.DaoInterface;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
@@ -55,14 +55,14 @@ public class EmployeeController extends HttpServlet {
     /**
      * Интерфейс для взаимодействия с базой данных.
      */
-    private DaoInterface<Employee> employeeInterface;
+    private IDao<Employee> employeeInterface;
 
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        employeeInterface = new DaoEmployee();
+        employeeInterface = new EmployeeDAO();
     }
 
 

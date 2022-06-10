@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
-import com.qulix.yurkevichvv.trainingtask.main.controllers.EmployeeController;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
@@ -20,10 +19,10 @@ import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
  * Содержит методы для работы обьектов класса "Задача" с БД.
  *
  * @author Q-YVV
- * @see DaoInterface
+ * @see IDao
  * @see Task
  */
-public class DaoTask implements DaoInterface<Task> {
+public class TaskDao implements IDao<Task> {
 
     private static final String TASK_ID = "id";
 
@@ -41,7 +40,7 @@ public class DaoTask implements DaoInterface<Task> {
 
     private static final String EMPLOYEE_ID = "employee_id";
 
-    private static final Logger LOGGER = Logger.getLogger(DaoTask.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TaskDao.class.getName());
 
 
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +
