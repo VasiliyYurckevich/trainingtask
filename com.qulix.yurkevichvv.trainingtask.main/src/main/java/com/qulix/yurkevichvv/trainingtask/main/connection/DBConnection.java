@@ -38,6 +38,7 @@ public class DBConnection {
     public static Connection getConnection( ) throws DaoException {
         try {
             Class.forName(JDBC_DRIVER);
+            connection = DriverManager.getConnection(PATH, USER, PASS);
         }
         catch (ClassNotFoundException e) {
             LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
@@ -52,7 +53,6 @@ public class DBConnection {
         catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-        connection = DriverManager.getConnection(PATH, USER, PASS);
         return connection;
     }
 
