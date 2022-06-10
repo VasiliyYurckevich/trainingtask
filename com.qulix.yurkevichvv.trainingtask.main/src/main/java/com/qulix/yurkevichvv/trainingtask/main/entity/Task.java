@@ -26,13 +26,6 @@ public class Task {
     private Integer employeeId;
 
 
-    /**
-     * Конструктор класса Задача.
-     */
-    public Task() {
-
-    }
-
     public Integer getId() {
         return id;
     }

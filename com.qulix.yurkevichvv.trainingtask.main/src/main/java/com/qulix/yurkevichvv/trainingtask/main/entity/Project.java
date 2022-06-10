@@ -13,11 +13,6 @@ public class Project {
 
     private String description;
 
-    /**
-     * Конструктор.
-     */
-    public Project() {
-    }
 
     public int getId() {
         return id;

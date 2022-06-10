@@ -18,13 +18,6 @@ public class Employee {
     private String post;
 
 
-    /**
-     * Конструктор.
-     */
-    public Employee() {
-
-    }
-
     public Integer getId() {
         return id;
     }
