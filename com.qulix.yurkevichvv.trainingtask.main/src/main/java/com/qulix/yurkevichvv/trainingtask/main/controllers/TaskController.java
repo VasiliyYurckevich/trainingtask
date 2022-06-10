@@ -116,7 +116,7 @@ public class TaskController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String action = req.getParameter(ACTION);
@@ -156,6 +156,7 @@ public class TaskController extends HttpServlet {
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
+
         ServletContext servletContext = getServletContext();
         String taskId = req.getParameter(TASK_ID);
         Task existingTask = tasksInterface.getById(Integer.parseInt(taskId));
@@ -177,6 +178,7 @@ public class TaskController extends HttpServlet {
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException {
+
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.checkingTaskData(paramsList);
@@ -222,6 +224,7 @@ public class TaskController extends HttpServlet {
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
+
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
@@ -257,6 +260,7 @@ public class TaskController extends HttpServlet {
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
+
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
 
@@ -292,6 +296,7 @@ public class TaskController extends HttpServlet {
      */
     private static void setListOfTasksInProject(ServletContext servletContext,
         List<Task> tasksListInProject, List<Employee> employeeListInProject) {
+
         servletContext.setAttribute(TASKS_LIST, tasksListInProject);
         servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
     }
@@ -307,6 +312,7 @@ public class TaskController extends HttpServlet {
      */
     private static List<Employee> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
         throws DaoException {
+
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
             employeeListInProject.set(Integer.parseInt(numberInList), null);
@@ -325,6 +331,7 @@ public class TaskController extends HttpServlet {
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException {
+
         List<Employee> employees = new EmployeeDAO().getAll();
         List<Project> projects = new ProjectDao().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
@@ -344,6 +351,7 @@ public class TaskController extends HttpServlet {
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, IOException {
+
         String taskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
@@ -361,6 +369,7 @@ public class TaskController extends HttpServlet {
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
+
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.checkingTaskData(paramsList);
 
@@ -385,6 +394,7 @@ public class TaskController extends HttpServlet {
      */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
         List<String> paramsList, List<String> errorsList) {
+
         req.setAttribute("ERRORS", errorsList);
         req.setAttribute(STATUS, paramsList.get(Nums.ZERO.getValue()).trim());
         req.setAttribute(TITLE, paramsList.get(Nums.ONE.getValue()).trim());
@@ -403,7 +413,9 @@ public class TaskController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      * @throws IOException исключения ввода-вывода.
      */
-    private void listTasks(HttpServletRequest req, HttpServletResponse resp) throws DaoException, ServletException, IOException {
+    private void listTasks(HttpServletRequest req, HttpServletResponse resp)
+        throws DaoException, ServletException, IOException {
+
         List<Task> tasks = tasksInterface.getAll();
         List<Project> projects = new ProjectDao().getAll();
         List<Employee> employeeOfTask = new ArrayList<>();

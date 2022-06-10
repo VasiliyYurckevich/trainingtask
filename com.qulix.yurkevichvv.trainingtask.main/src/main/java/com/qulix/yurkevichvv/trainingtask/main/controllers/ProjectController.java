@@ -78,6 +78,7 @@ public class ProjectController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+
         try {
             String action = req.getParameter(ACTION);
 
@@ -150,7 +151,8 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
+
         ServletContext servletContext = getServletContext();
         String numberInList = req.getParameter(NUMBER_IN_LIST);
         List<Integer> deleteTaskInProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
@@ -178,6 +180,7 @@ public class ProjectController extends HttpServlet {
      */
     private static void setParametersAboutProjectEditing(ServletContext servletContext,
         List<Integer> deleteTaskInProject, List<Task> tasksListInProject, List<Employee> employeeListInProject) {
+
         servletContext.setAttribute(TASKS_LIST, tasksListInProject);
         servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
         servletContext.setAttribute(DELETED_LIST, deleteTaskInProject);
@@ -193,7 +196,8 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
+
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute(TASKS_LIST);
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
@@ -221,7 +225,8 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
+
         ServletContext servletContext = getServletContext();
         Integer thisProjectId = getProjectId(req, servletContext);
         Project existingProject = projectInterface.getById(thisProjectId);
@@ -262,7 +267,9 @@ public class ProjectController extends HttpServlet {
      * @return список сотрудников.
      * @throws SQLException исключения БД.
      */
-    private static List<Employee> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject) throws DaoException {
+    private static List<Employee> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject)
+        throws DaoException {
+
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
         if (employeeListInProject == null) {
             employeeListInProject = new ArrayList<>();
@@ -282,7 +289,9 @@ public class ProjectController extends HttpServlet {
      * @return список задач в проекте.
      * @throws SQLException исключения БД.
      */
-    private static List<Task> getTasksInProject(Project existingProject, ServletContext servletContext) throws DaoException {
+    private static List<Task> getTasksInProject(Project existingProject, ServletContext servletContext)
+        throws DaoException {
+
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         if (tasksListInProject == null) {
             tasksListInProject = new TaskDao().getTasksInProject(existingProject.getId());
@@ -331,7 +340,8 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, IOException {
+        throws DaoException, IOException {
+
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
         projectInterface.delete(projectId);
         LOGGER.log(Level.INFO, "Task with id {0} was deleted", projectId);
@@ -349,7 +359,8 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
+
         ServletContext servletcontext = getServletContext();
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
         String numberInList = req.getParameter(NUMBER_IN_LIST);
@@ -386,6 +397,7 @@ public class ProjectController extends HttpServlet {
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
+
         Utils.setDataToDropDownList(req);
         removeServletAttributes();
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/projects.jsp");
@@ -416,7 +428,8 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException {
+        throws DaoException, ServletException, IOException {
+
         TaskDao taskInterface = new TaskDao();
         ServletContext servletContext = getServletContext();
 
@@ -449,8 +462,9 @@ public class ProjectController extends HttpServlet {
      * @param projectId идентификатор проекта.
      * @throws SQLException исключения БД.
      */
-    private static void updateTasksFromProjectEditing(TaskDao taskInterface,
-                                                      ServletContext servletContext, Integer projectId) throws DaoException {
+    private static void updateTasksFromProjectEditing(TaskDao taskInterface, ServletContext servletContext, Integer projectId)
+        throws DaoException {
+
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
 
@@ -506,7 +520,9 @@ public class ProjectController extends HttpServlet {
      * @throws SQLException исключения БД.
      * @throws IOException исключения ввода-вывода.
      */
-    private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, DaoException, IOException {
+    private void addProject(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, DaoException, IOException {
+
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.checkingProjectData(paramsList);
 

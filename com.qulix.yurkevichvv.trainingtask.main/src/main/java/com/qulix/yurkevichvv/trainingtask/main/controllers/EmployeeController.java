@@ -68,6 +68,7 @@ public class EmployeeController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+
         try {
             String action = req.getParameter(ACTION);
             switch (action) {
@@ -88,6 +89,7 @@ public class EmployeeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+
         try {
             String action = req.getParameter(ACTION);
 
@@ -150,7 +152,9 @@ public class EmployeeController extends HttpServlet {
      * @throws ServletException исключение сервлета.
      * @throws IOException исключение ввода-вывода.
      */
-    private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException {
+
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
         dispatcher.forward(req, resp);
     }
@@ -165,7 +169,8 @@ public class EmployeeController extends HttpServlet {
      * @throws SQLException     исключение БД.
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, IOException {
+        throws DaoException, IOException {
+
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
         resp.sendRedirect(EMPLOYEES_LIST);
@@ -182,7 +187,8 @@ public class EmployeeController extends HttpServlet {
      * @throws SQLException     исключение БД.
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, DaoException, IOException {
+        throws ServletException, DaoException, IOException {
+
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.checkingEmployeeData(paramsList);
@@ -260,6 +266,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
+
         List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
@@ -287,6 +294,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws  DaoException, ServletException, IOException {
+
         Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
