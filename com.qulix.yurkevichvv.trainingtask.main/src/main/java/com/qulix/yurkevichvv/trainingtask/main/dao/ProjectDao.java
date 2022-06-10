@@ -24,7 +24,7 @@ import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
  */
 public class ProjectDao implements IDao<Project> {
 
-    private static final String PROJECT_ID = "project_Id";
+    private static final String PROJECT_ID = "id";
 
     private static final String TITLE = "title";
 
@@ -37,11 +37,11 @@ public class ProjectDao implements IDao<Project> {
 
     private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT ;";
 
-    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE project_Id = ?;";
+    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE id = ?;";
 
-    private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE project_Id = ?;";
+    private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE id = ?;";
 
-    private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?, description = ? WHERE project_Id = ?;";
+    private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?, description = ? WHERE id = ?;";
 
 
 

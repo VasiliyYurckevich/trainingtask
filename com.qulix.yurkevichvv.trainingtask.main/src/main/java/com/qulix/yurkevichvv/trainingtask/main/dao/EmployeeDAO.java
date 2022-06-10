@@ -23,7 +23,7 @@ import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
  */
 public class EmployeeDAO implements IDao<Employee> {
 
-    private static final String EMPLOYEE_ID = "employee_id";
+    private static final String EMPLOYEE_ID = "id";
 
     private static final String SURNAME = "surname";
 
@@ -41,12 +41,12 @@ public class EmployeeDAO implements IDao<Employee> {
 
     private static final String SELECT_ALL_CLIENT = "SELECT * FROM EMPLOYEE;";
 
-    private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM EMPLOYEE WHERE employee_id = ?;";
+    private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM EMPLOYEE WHERE id = ?;";
 
-    private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE employee_id = ?;";
+    private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE id = ?;";
 
     private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE SET surname = ?, first_name = ?, patronymic = ?, post = ?" +
-        " WHERE employee_id = ?;";
+        " WHERE id = ?;";
 
 
     @Override
