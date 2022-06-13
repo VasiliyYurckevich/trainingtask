@@ -1,9 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.main.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +14,7 @@ import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 
 /**
- * Содержит методы для работы обьектов класса "Проект" с БД.
+ * Содержит методы для работы объектов класса "Проект" с БД.
  *
  * @author Q-YVV
  * @see IDao
@@ -52,9 +49,9 @@ public class ProjectDao implements IDao<Project> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL)) {
-            preparedStatement.setString(Nums.ONE.getValue(), project.getTitle());
-            preparedStatement.setString(Nums.TWO.getValue(), project.getDescription());
-
+            int index = 1;
+            preparedStatement.setString(index++, project.getTitle());
+            preparedStatement.setString(index++, project.getDescription());
             return preparedStatement.execute();
         }catch (SQLException e){
             LOGGER.severe(e.toString());
@@ -73,10 +70,11 @@ public class ProjectDao implements IDao<Project> {
 
         Connection connection = DBConnection.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL)) {
-            preparedStatement.setString(Nums.ONE.getValue(), project.getTitle());
-            preparedStatement.setString(Nums.TWO.getValue(), project.getDescription());
-            preparedStatement.setInt(Nums.THREE.getValue(), project.getId());
+        try (CallableStatement preparedStatement = connection.prepareCall(UPDATE_PROJECT_SQL)) {
+            int index = 1;
+            preparedStatement.setString(index++, project.getTitle());
+            preparedStatement.setString(index++, project.getDescription());
+            preparedStatement.setInt(index++, project.getId());
 
             return preparedStatement.execute();
         }
@@ -98,7 +96,8 @@ public class ProjectDao implements IDao<Project> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)){
-            preparedStatement.setInt(Nums.ONE.getValue(), id);
+            int index = 1;
+            preparedStatement.setInt(index++, id);
 
             return preparedStatement.execute();
         }
@@ -149,11 +148,12 @@ public class ProjectDao implements IDao<Project> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID)) {
+            int index = 1;
             if (id == null) {
-                preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
+                preparedStatement.setNull(index, 0);
             }
             else {
-                preparedStatement.setInt(Nums.ONE.getValue(), id);
+                preparedStatement.setInt(index, id);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();

@@ -78,7 +78,7 @@ public class ProjectController extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String action = req.getParameter(ACTION);
@@ -102,7 +102,7 @@ public class ProjectController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String action = req.getParameter(ACTION);
@@ -197,7 +197,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute(TASKS_LIST);
@@ -360,7 +360,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletcontext = getServletContext();
         Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
@@ -397,7 +397,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         Utils.setDataToDropDownList(req);
         removeServletAttributes();

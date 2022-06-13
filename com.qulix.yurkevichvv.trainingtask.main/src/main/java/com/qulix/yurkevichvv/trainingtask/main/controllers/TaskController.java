@@ -89,7 +89,7 @@ public class TaskController extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String action = req.getParameter(ACTION);
@@ -117,7 +117,7 @@ public class TaskController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String action = req.getParameter(ACTION);

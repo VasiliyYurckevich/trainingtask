@@ -7,6 +7,7 @@ import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
 import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -79,7 +80,7 @@ public class EmployeeController extends HttpServlet {
                     updateEmployee(req, resp);
                     break;
             }
-        } catch (IOException | DaoException | ServletException e) {
+        } catch (IOException | DaoException | ServletException | PathNotValidException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
@@ -110,7 +111,7 @@ public class EmployeeController extends HttpServlet {
                 case "/edit":
                     updateEmployeeForm(req, resp);
             }
-        } catch (IOException | DaoException | ServletException e) {
+        } catch (IOException | DaoException | ServletException | PathNotValidException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
@@ -128,7 +129,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException исключение ввода-вывода.
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-        throws  ServletException, IOException, DaoException {
+            throws ServletException, IOException, DaoException, PathNotValidException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeInterface.getById(employeeId);
@@ -169,7 +170,7 @@ public class EmployeeController extends HttpServlet {
      * @throws SQLException     исключение БД.
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException {
+            throws DaoException, IOException, PathNotValidException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
@@ -187,7 +188,7 @@ public class EmployeeController extends HttpServlet {
      * @throws SQLException     исключение БД.
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, DaoException, IOException {
+            throws ServletException, DaoException, IOException, PathNotValidException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         List<String> paramsList = getDataFromJsp(req);
@@ -265,7 +266,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException исключение ввода-вывода.
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         List<String> paramsList = getDataFromJsp(req);
         List<String> errorsList = ValidationService.checkingEmployeeData(paramsList);
@@ -293,7 +294,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException исключение ввода-вывода.
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
-        throws  DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");

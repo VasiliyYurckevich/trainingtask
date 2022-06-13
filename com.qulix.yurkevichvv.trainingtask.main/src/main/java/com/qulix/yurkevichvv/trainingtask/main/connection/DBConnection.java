@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Устанавливет контакт между приложением и БД.
+ * Устанавливает контакт между приложением и БД.
  *
  * @author Q-YVV
  */
