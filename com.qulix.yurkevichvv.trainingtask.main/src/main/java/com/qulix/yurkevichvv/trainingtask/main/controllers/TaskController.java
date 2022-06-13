@@ -24,6 +24,7 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -108,7 +109,7 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (IOException | DaoException | ServletException e) {
+        catch (Exception e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
@@ -140,7 +141,7 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (IOException | DaoException | ServletException e) {
+        catch (Exception e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
@@ -155,7 +156,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         String taskId = req.getParameter(TASK_ID);
@@ -177,7 +178,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException {
+            throws ServletException, IOException, DaoException, PathNotValidException {
 
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         List<String> paramsList = getDataFromForm(req);
@@ -223,7 +224,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
@@ -259,7 +260,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
@@ -311,7 +312,7 @@ public class TaskController extends HttpServlet {
      * @throws SQLException исключения БД.
      */
     private static List<Employee> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
-        throws DaoException {
+            throws DaoException, PathNotValidException {
 
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
@@ -330,7 +331,7 @@ public class TaskController extends HttpServlet {
      * @param resp ответ.
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException {
+            throws ServletException, IOException, DaoException, PathNotValidException {
 
         List<Employee> employees = new EmployeeDAO().getAll();
         List<Project> projects = new ProjectDao().getAll();
@@ -350,7 +351,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException {
+            throws DaoException, IOException, PathNotValidException {
 
         String taskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.parseInt(taskId));
@@ -368,7 +369,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.checkingTaskData(paramsList);
@@ -414,7 +415,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         List<Task> tasks = tasksInterface.getAll();
         List<Project> projects = new ProjectDao().getAll();

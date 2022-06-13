@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.main.connection;
 
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ public class DBConnection {
      * @return подключение к БД.
      * @throws SQLException ошибка подключения к БД.
      */
-    public static Connection getConnection( ) throws DaoException {
+    public static Connection getConnection( ) throws DaoException, PathNotValidException {
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(PATH, USER, PASS);
@@ -43,7 +44,7 @@ public class DBConnection {
         catch (ClassNotFoundException e) {
             LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("БД временно недоступна. Повторите попытку позже", e);
+            throw new PathNotValidException("БД временно недоступна. Повторите попытку позже", e);
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);

@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 /**
@@ -60,7 +61,7 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public boolean add(Task task) throws DaoException {
+    public boolean add(Task task) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -81,7 +82,7 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public boolean update(Task task) throws DaoException {
+    public boolean update(Task task) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -92,7 +93,7 @@ public class TaskDao implements IDao<Task> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при обновлении задачи в БД", e);
@@ -130,7 +131,7 @@ public class TaskDao implements IDao<Task> {
                 preparedStatement.setInt(Nums.SEVEN.getValue(), task.getEmployeeId());
             }
         } catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при внесении данных о задаче в выражение SQL", e);
@@ -139,7 +140,7 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public boolean delete(Integer id) throws DaoException {
+    public boolean delete(Integer id) throws DaoException, PathNotValidException {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)){
@@ -147,7 +148,7 @@ public class TaskDao implements IDao<Task> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при удалении задачи из БД", e);
@@ -164,7 +165,7 @@ public class TaskDao implements IDao<Task> {
      * @return все задачи проекта.
      * @throws SQLException исключение БД.
      */
-    public List<Task> getTasksInProject(Integer id) throws DaoException {
+    public List<Task> getTasksInProject(Integer id) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
         List<Task> tasks = new ArrayList<>();
@@ -175,7 +176,7 @@ public class TaskDao implements IDao<Task> {
             return getList(tasks, resultSet);
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задач проекта из БД", e);
@@ -186,7 +187,7 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public List<Task> getAll() throws DaoException {
+    public List<Task> getAll() throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -196,7 +197,7 @@ public class TaskDao implements IDao<Task> {
             return getList(tasks, resultSet);
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении всех задач из БД", e);
@@ -222,7 +223,7 @@ public class TaskDao implements IDao<Task> {
                 tasks.add(task);
             }
         } catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задач из БД", e);
@@ -231,7 +232,7 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public Task getById(Integer id) throws DaoException {
+    public Task getById(Integer id) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -245,7 +246,7 @@ public class TaskDao implements IDao<Task> {
             return task;
         }
         catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задачи по идентификатору из БД", e);
@@ -278,7 +279,7 @@ public class TaskDao implements IDao<Task> {
                 task.setEmployeeId(null);
             }
         } catch (SQLException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении данных задачи из БД", e);

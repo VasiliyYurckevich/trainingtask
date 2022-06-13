@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 
@@ -46,7 +47,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public boolean add(Project project) throws DaoException {
+    public boolean add(Project project) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -56,7 +57,7 @@ public class ProjectDao implements IDao<Project> {
 
             return preparedStatement.execute();
         }catch (SQLException e){
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при добавлении проекта в БД",e);
@@ -68,7 +69,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public boolean update(Project project) throws DaoException {
+    public boolean update(Project project) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -80,7 +81,7 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e){
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при обновлении проекта в БД",e);
@@ -92,7 +93,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public boolean delete(Integer id) throws DaoException {
+    public boolean delete(Integer id) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -102,7 +103,7 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e){
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при удалении проекта из БД",e);
@@ -114,7 +115,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public List<Project> getAll() throws DaoException {
+    public List<Project> getAll() throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -131,7 +132,7 @@ public class ProjectDao implements IDao<Project> {
             return projects;
         }
         catch (SQLException e){
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении всех проектов из БД",e);
@@ -143,7 +144,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public Project getById(Integer id) throws DaoException {
+    public Project getById(Integer id) throws DaoException, PathNotValidException {
 
         Connection connection = DBConnection.getConnection();
 
@@ -164,7 +165,7 @@ public class ProjectDao implements IDao<Project> {
             return project;
         }
         catch (SQLException e){
-            LOGGER.severe(e.getMessage());
+            LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении проекта по id из БД",e);

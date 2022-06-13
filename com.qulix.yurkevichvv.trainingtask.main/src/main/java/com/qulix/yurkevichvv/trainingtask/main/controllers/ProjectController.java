@@ -23,6 +23,7 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
@@ -151,7 +152,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException исключения сервлета.
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         String numberInList = req.getParameter(NUMBER_IN_LIST);
@@ -225,7 +226,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         Integer thisProjectId = getProjectId(req, servletContext);
@@ -268,7 +269,7 @@ public class ProjectController extends HttpServlet {
      * @throws SQLException исключения БД.
      */
     private static List<Employee> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject)
-        throws DaoException {
+            throws DaoException, PathNotValidException {
 
         List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
         if (employeeListInProject == null) {
@@ -290,7 +291,7 @@ public class ProjectController extends HttpServlet {
      * @throws SQLException исключения БД.
      */
     private static List<Task> getTasksInProject(Project existingProject, ServletContext servletContext)
-        throws DaoException {
+            throws DaoException, PathNotValidException {
 
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         if (tasksListInProject == null) {
@@ -340,7 +341,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException {
+            throws DaoException, IOException, PathNotValidException {
 
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
         projectInterface.delete(projectId);
@@ -428,7 +429,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+            throws DaoException, ServletException, IOException, PathNotValidException {
 
         TaskDao taskInterface = new TaskDao();
         ServletContext servletContext = getServletContext();
@@ -463,7 +464,7 @@ public class ProjectController extends HttpServlet {
      * @throws SQLException исключения БД.
      */
     private static void updateTasksFromProjectEditing(TaskDao taskInterface, ServletContext servletContext, Integer projectId)
-        throws DaoException {
+            throws DaoException, PathNotValidException {
 
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
@@ -521,7 +522,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, DaoException, IOException {
+            throws ServletException, DaoException, IOException, PathNotValidException {
 
         List<String> paramsList = getDataFromForm(req);
         List<String> errorsList = ValidationService.checkingProjectData(paramsList);
