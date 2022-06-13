@@ -21,9 +21,9 @@ public class FieldsValidation {
      * @param length максимальная длина строки.
      * @return Строка с ошибкой или пустой строкой.
      */
-    public static String isStringValid(String s, int length) {
+    public static String stringValidityCheck(String s, int length) {
         StringBuffer error = new StringBuffer();
-        isEmptyFieldValid(s, error);
+        checkForAnEmptyField(s, error);
         if (error.length() == 0) {
             if (s.trim().length() > length) {
                 error.append("Максимальная длинна ввода: ");
@@ -40,9 +40,9 @@ public class FieldsValidation {
      * @param s Строка для валидации.
      * @return Строка с ошибкой или пустой строкой.
      */
-    public static String isNumberValid(String s) {
+    public static String numberValidityCheck(String s) {
         StringBuffer error = new StringBuffer();
-        isEmptyFieldValid(s, error);
+        checkForAnEmptyField(s, error);
         if (error.length() == 0) {
             if (!s.trim().matches("^[0-9]+$")) {
                 error.append("Поле принимает только цифры");
@@ -65,7 +65,7 @@ public class FieldsValidation {
      * @param s Строка для валидации.
      * @param error Строка с ошибкой.
      */
-    private static void isEmptyFieldValid(String s, StringBuffer error) {
+    private static void checkForAnEmptyField(String s, StringBuffer error) {
         if (s.isEmpty() || s.trim().length() == 0) {
             error.append("Поле для ввода не должно быть пустым");
         }
@@ -78,16 +78,16 @@ public class FieldsValidation {
      * @param endDate Дата окончания.
      * @return Строка с ошибкой или пустой строкой.
      */
-    public static List<String> isDateValid(String beginDate, String endDate) {
+    public static List<String> dateValidityCheck(String beginDate, String endDate) {
         StringBuffer errorBeginDate = new StringBuffer();
         StringBuffer errorEndDate = new StringBuffer();
         List<String> listErrors = new ArrayList<>();
 
-        boolean beginDateValid = isDateFormatValidator(beginDate, errorBeginDate);
-        boolean endDateValid = isDateFormatValidator(endDate, errorEndDate);
+        boolean beginDateValid = isDateFormatValid(beginDate, errorBeginDate);
+        boolean endDateValid = isDateFormatValid(endDate, errorEndDate);
 
         if (beginDateValid && endDateValid) {
-            isDateLogicalityValidator(beginDate, endDate, errorEndDate);
+            checkingTheConsistencyOfDates(beginDate, endDate, errorEndDate);
         }
         listErrors.add(errorBeginDate.toString());
         listErrors.add(errorEndDate.toString());
@@ -95,13 +95,13 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверка вводимых дат на логичность последовательноти даты начала и даты окончания.
+     * Проверка вводимых дат на логичность последовательности даты начала и даты окончания.
      *
      * @param beginDate Дата начала.
      * @param endDate Дата окончания.
      * @param error Строка с ошибкой.
      */
-    private static void isDateLogicalityValidator(String beginDate, String endDate, StringBuffer error) {
+    private static void checkingTheConsistencyOfDates(String beginDate, String endDate, StringBuffer error) {
         LocalDate parsedBeginDate = LocalDate.parse(beginDate);
         LocalDate parsedEndDate = LocalDate.parse(endDate);
         if (parsedBeginDate.isAfter(parsedEndDate)) {
@@ -116,12 +116,12 @@ public class FieldsValidation {
      * @param error Строка с ошибкой.
      * @return true если дата валидная, false если нет.
      */
-    private static boolean isDateFormatValidator(String date, StringBuffer error) {
+    private static boolean isDateFormatValid(String date, StringBuffer error) {
         try {
             LocalDate.parse(date , DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT));
         }
         catch (DateTimeParseException e) {
-            error.append("Введите существующуюю дату в формате ГГГГ-ММ-ДД");
+            error.append("Введите существующую дату в формате ГГГГ-ММ-ДД");
             return false;
         }
         return true;

@@ -25,10 +25,10 @@ public class ValidationService {
      */
     public static List<String> checkingEmployeeData(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FOUR.getValue());
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.TWO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.THREE.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.TWO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.THREE.getValue()), SHORT_LENGTH));
         return errorList;
     }
 
@@ -40,8 +40,8 @@ public class ValidationService {
      */
     public static List<String> checkingProjectData(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.TWO.getValue());
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ONE.getValue()), LONG_LENGTH));
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ONE.getValue()), LONG_LENGTH));
         return errorList;
     }
 
@@ -53,10 +53,10 @@ public class ValidationService {
      */
     public static List<String> checkingTaskData(List<String> paramsList) {
         List<String> errorList = new ArrayList<>(Nums.FIVE.getValue());
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isStringValid(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.isNumberValid(paramsList.get(Nums.TWO.getValue())));
-        List<String> dateErrorsList = FieldsValidation.isDateValid(paramsList.get(Nums.THREE.getValue()),
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
+        errorList.add(FieldsValidation.numberValidityCheck(paramsList.get(Nums.TWO.getValue())));
+        List<String> dateErrorsList = FieldsValidation.dateValidityCheck(paramsList.get(Nums.THREE.getValue()),
             paramsList.get(Nums.FOUR.getValue()));
         errorList.addAll(dateErrorsList);
         return errorList;
