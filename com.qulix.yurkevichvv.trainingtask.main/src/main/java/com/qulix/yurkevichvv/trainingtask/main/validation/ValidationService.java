@@ -6,7 +6,7 @@ import java.util.List;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 /**
- * Сервис для валидации данных на соотвественных страницах.
+ * Сервис для валидации данных на соответственных страницах.
  *
  * @author Q-YVV
  * @see FieldsValidation

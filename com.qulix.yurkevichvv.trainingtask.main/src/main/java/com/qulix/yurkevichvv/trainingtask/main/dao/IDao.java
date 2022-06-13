@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.main.dao;
 import java.sql.SQLException;
 import java.util.List;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 /**
  * Обобщает основные методы для записи сущностей в БД.
@@ -18,7 +19,7 @@ public interface IDao<T> {
      * @return успешность операции.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    boolean add(T t) throws DaoException;
+    boolean add(T t) throws DaoException, PathNotValidException;
 
     /**
      * Обновление сущности в БД.
@@ -27,7 +28,7 @@ public interface IDao<T> {
      * @return успешность операции.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    boolean update(T t) throws DaoException;
+    boolean update(T t) throws DaoException, PathNotValidException;
 
     /**
      * Удаление сущности из БД.
@@ -36,7 +37,7 @@ public interface IDao<T> {
      * @return успешность операции.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    boolean delete(Integer t) throws DaoException;
+    boolean delete(Integer t) throws DaoException, PathNotValidException;
 
     /**
      * Получение всех сущностей определеного класса из БД.
@@ -44,7 +45,7 @@ public interface IDao<T> {
      * @return Список сущностей.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    List<T> getAll() throws DaoException;
+    List<T> getAll() throws DaoException, PathNotValidException;
 
     /**
      * Нахождение сущности по ее идентификатору.
@@ -53,5 +54,5 @@ public interface IDao<T> {
      * @return Сущность.
      * @throws SQLException ошибка при выполнении запроса.
      */
-    T getById(Integer id) throws DaoException;
+    T getById(Integer id) throws DaoException, PathNotValidException;
 }

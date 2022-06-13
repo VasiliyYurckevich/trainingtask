@@ -44,7 +44,7 @@ public class DBConnection {
         catch (ClassNotFoundException e) {
             LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new PathNotValidException("БД временно недоступна. Повторите попытку позже", e);
+            throw new PathNotValidException("Драйвер не найден", e);
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
