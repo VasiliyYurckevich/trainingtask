@@ -14,7 +14,6 @@ import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
-import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 /**
  * Содержит методы для работы обьектов класса "Задача" с БД.
@@ -61,7 +60,7 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public boolean add(Task task) throws DaoException, PathNotValidException,  {
+    public boolean add(Task task) throws DaoException, PathNotValidException  {
 
         Connection connection = DBConnection.getConnection();
 
@@ -87,8 +86,8 @@ public class TaskDao implements IDao<Task> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL)) {
-            setDataInToStatement(task, preparedStatement);
-            preparedStatement.setInt(Nums.EIGHT.getValue(), task.getId());
+            int index = setDataInToStatement(task, preparedStatement);
+            preparedStatement.setInt(index, task.getId());
 
             return preparedStatement.execute();
         }
@@ -110,26 +109,28 @@ public class TaskDao implements IDao<Task> {
      * @param preparedStatement выражение SQL.
      * @throws SQLException исключение БД.
      */
-    private void setDataInToStatement(Task task, PreparedStatement preparedStatement) throws DaoException {
+    private int setDataInToStatement(Task task, PreparedStatement preparedStatement) throws DaoException {
         try {
-            preparedStatement.setString(Nums.ONE.getValue(), task.getStatus());
-            preparedStatement.setString(Nums.TWO.getValue(), task.getTitle());
-            preparedStatement.setLong(Nums.THREE.getValue(), task.getWorkTime());
-            preparedStatement.setString(Nums.FOUR.getValue(), task.getBeginDate().toString());
-            preparedStatement.setString(Nums.FIVE.getValue(), task.getEndDate().toString());
+            int index = 1;
+            preparedStatement.setString(index++, task.getStatus());
+            preparedStatement.setString(index++, task.getTitle());
+            preparedStatement.setLong(index++, task.getWorkTime());
+            preparedStatement.setString(index++, task.getBeginDate().toString());
+            preparedStatement.setString(index++, task.getEndDate().toString());
 
             if (task.getProjectId() == null) {
-                preparedStatement.setNull(Nums.SIX.getValue(), Nums.ZERO.getValue());
+                preparedStatement.setNull(index++, 0);
             }
             else {
-                preparedStatement.setInt(Nums.SIX.getValue(), task.getProjectId());
+                preparedStatement.setInt(index++, task.getProjectId());
             }
             if (task.getEmployeeId() == null) {
-                preparedStatement.setNull(Nums.SEVEN.getValue(), Nums.ZERO.getValue());
+                preparedStatement.setNull(index++, 0);
             }
             else {
-                preparedStatement.setInt(Nums.SEVEN.getValue(), task.getEmployeeId());
+                preparedStatement.setInt(index++, task.getEmployeeId());
             }
+            return index;
         } catch (SQLException e) {
             LOGGER.severe(e.toString());
             LOGGER.severe("SQLState: " + e.getSQLState());
@@ -144,7 +145,7 @@ public class TaskDao implements IDao<Task> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)){
-            preparedStatement.setInt(Nums.ONE.getValue(), id);
+            preparedStatement.setInt(1, id);
             return preparedStatement.execute();
         }
         catch (SQLException e) {
@@ -171,7 +172,7 @@ public class TaskDao implements IDao<Task> {
         List<Task> tasks = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT)) {
-            preparedStatement.setInt(Nums.ONE.getValue(), id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }
@@ -237,7 +238,7 @@ public class TaskDao implements IDao<Task> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID)) {
-            preparedStatement.setInt(Nums.ONE.getValue(), id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Task task = new Task();
             while (resultSet.next()) {

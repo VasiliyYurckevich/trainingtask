@@ -13,7 +13,6 @@ import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
-import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 /**
  * Содержит методы для работы обьектов класса "Сотрудник" с БД.
@@ -56,10 +55,11 @@ public class EmployeeDAO implements IDao<Employee> {
         Connection connection = DBConnection.getConnection();
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL)) {
-            preparedStatement.setString(Nums.ONE.getValue(), employee.getSurname());
-            preparedStatement.setString(Nums.TWO.getValue(), employee.getFirstName());
-            preparedStatement.setString(Nums.THREE.getValue(), employee.getPatronymic());
-            preparedStatement.setString(Nums.FOUR.getValue(), employee.getPost());
+            int index = 1;
+            preparedStatement.setString(index++, employee.getSurname());
+            preparedStatement.setString(index++, employee.getFirstName());
+            preparedStatement.setString(index++, employee.getPatronymic());
+            preparedStatement.setString(index, employee.getPost());
 
             return preparedStatement.execute();
         }
@@ -80,11 +80,12 @@ public class EmployeeDAO implements IDao<Employee> {
         Connection connection = DBConnection.getConnection();
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL)) {
-            preparedStatement.setString(Nums.ONE.getValue(), employee.getSurname());
-            preparedStatement.setString(Nums.TWO.getValue(), employee.getFirstName());
-            preparedStatement.setString(Nums.THREE.getValue(), employee.getPatronymic());
-            preparedStatement.setString(Nums.FOUR.getValue(), employee.getPost());
-            preparedStatement.setInt(Nums.FIVE.getValue(), employee.getId());
+            int index = 1;
+            preparedStatement.setString(index++, employee.getSurname());
+            preparedStatement.setString(index++, employee.getFirstName());
+            preparedStatement.setString(index++, employee.getPatronymic());
+            preparedStatement.setString(index++, employee.getPost());
+            preparedStatement.setInt(index, employee.getId());
             return preparedStatement.execute();
         } catch (SQLException e) {
             LOGGER.severe(e.toString());
@@ -103,7 +104,7 @@ public class EmployeeDAO implements IDao<Employee> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL)) {
-            preparedStatement.setInt(Nums.ONE.getValue(), id);
+            preparedStatement.setInt(1, id);
 
             return preparedStatement.execute();
         } catch (SQLException e) {
@@ -156,10 +157,10 @@ public class EmployeeDAO implements IDao<Employee> {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)){
             if (id == null) {
-                preparedStatement.setNull(Nums.ONE.getValue(), Nums.ZERO.getValue());
+                preparedStatement.setNull(1, 0);
             }
             else {
-                preparedStatement.setInt(Nums.ONE.getValue(), id);
+                preparedStatement.setInt(1, id);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             Employee employee = new Employee();

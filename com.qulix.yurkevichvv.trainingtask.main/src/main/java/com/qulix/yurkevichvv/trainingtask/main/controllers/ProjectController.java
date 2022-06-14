@@ -2,9 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +22,6 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
-import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
@@ -78,7 +75,7 @@ public class ProjectController extends HttpServlet {
 
 
     @Override
-    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -97,12 +94,12 @@ public class ProjectController extends HttpServlet {
         catch (Exception e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new RuntimeException(e);
+            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
         }
     }
 
     @Override
-    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -137,7 +134,7 @@ public class ProjectController extends HttpServlet {
         catch (Exception e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new RuntimeException(e);
+            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
         }
     }
 
@@ -435,8 +432,8 @@ public class ProjectController extends HttpServlet {
         ServletContext servletContext = getServletContext();
 
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
-        List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.checkingProjectData(paramsList);
+        Map<String,String> paramsList = getDataFromForm(req);
+        Map<String,String> errorsList = ValidationService.checkingProjectData(paramsList);
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);
             theProject.setId(projectId);
@@ -492,10 +489,10 @@ public class ProjectController extends HttpServlet {
      * @param paramsList данные из формы.
      * @return проект.
      */
-    private static Project getProject(List<String> paramsList) {
+    private static Project getProject(Map<String,String> paramsList) {
         Project theProject = new Project();
-        theProject.setTitle(paramsList.get(0));
-        theProject.setDescription(paramsList.get(1));
+        theProject.setTitle(paramsList.get(TITLE_OF_PROJECT));
+        theProject.setDescription(paramsList.get(DESCRIPTION));
         return theProject;
     }
 
@@ -505,10 +502,10 @@ public class ProjectController extends HttpServlet {
      * @param req запрос.
      * @return список данных.
      */
-    private List<String> getDataFromForm(HttpServletRequest req) {
-        List<String> paramsList = new ArrayList<>(Nums.TWO.getValue());
-        paramsList.add(req.getParameter(TITLE_OF_PROJECT));
-        paramsList.add(req.getParameter(DESCRIPTION));
+    private Map<String,String> getDataFromForm(HttpServletRequest req) {
+        Map<String,String> paramsList = new HashMap<>();
+        paramsList.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
+        paramsList.put(DESCRIPTION, req.getParameter(DESCRIPTION));
         return paramsList;
     }
 
@@ -524,8 +521,8 @@ public class ProjectController extends HttpServlet {
     private void addProject(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, DaoException, IOException, PathNotValidException {
 
-        List<String> paramsList = getDataFromForm(req);
-        List<String> errorsList = ValidationService.checkingProjectData(paramsList);
+        Map<String,String> paramsList = getDataFromForm(req);
+        Map<String,String> errorsList = ValidationService.checkingProjectData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Project theProject = getProject(paramsList);
@@ -548,9 +545,9 @@ public class ProjectController extends HttpServlet {
      * @param paramsList данные из формы.
      * @param errorsList сообщения об ошибках.
      */
-    private void setDataToJspAfterValidation(HttpServletRequest req, List<String> paramsList, List<String> errorsList) {
+    private void setDataToJspAfterValidation(HttpServletRequest req, Map<String, String> paramsList, Map<String,String> errorsList) {
         req.setAttribute("ERRORS", errorsList);
-        req.setAttribute(TITLE_OF_PROJECT, paramsList.get(Nums.ZERO.getValue()).trim());
-        req.setAttribute(DESCRIPTION, paramsList.get(Nums.ONE.getValue()).trim());
+        req.setAttribute(TITLE_OF_PROJECT, paramsList.get(TITLE_OF_PROJECT).trim());
+        req.setAttribute(DESCRIPTION, paramsList.get(DESCRIPTION).trim());
     }
 }

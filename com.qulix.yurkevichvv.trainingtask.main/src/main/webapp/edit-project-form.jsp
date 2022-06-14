@@ -38,7 +38,7 @@
                                 <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
                             </td>
                             <td>
-                                <h4>${ERRORS.get(0)}</h4>
+                                <h4>${ERRORS.get("titleProject")}</h4>
                             </td>
                         </tr>
                         <tr>
@@ -49,7 +49,7 @@
                                 <input id="description" name="description" value="${fn:escapeXml(description)}">
                             </td>
                             <td>
-                                <h4>${ERRORS.get(1)}</h4>
+                                <h4>${ERRORS.get("description")}</h4>
                             </td>
                         </tr>
                         </tbody>

@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.main.utils;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,20 +22,14 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
  */
 public class Utils {
 
+
     /**
      * Проверяет пустой или содержащий только пустые строки список.
      *
-     * @param list Список для проверки.
      * @return Возвращает true, если список пустой или содержащий только пустые строки.
      */
-    public static boolean isBlankList(List<String> list) {
-        int i = 0;
-        for (String s : list) {
-            if (s == null || s.trim().isEmpty()) {
-                i++;
-            }
-        }
-        return i == list.size();
+    public static boolean isBlankList(Map<String, String> map) {
+        return map.isEmpty() || map.values().stream().allMatch(s -> s.isEmpty());
     }
 
     /**

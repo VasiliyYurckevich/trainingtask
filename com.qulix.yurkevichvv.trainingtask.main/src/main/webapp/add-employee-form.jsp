@@ -34,7 +34,7 @@
                                     <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(0)}</h4>
+                                    <h4>${ERRORS.get("surname")}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -45,7 +45,7 @@
                                     <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(1)}</h4>
+                                    <h4>${ERRORS.get("firstName")}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -56,7 +56,7 @@
                                     <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(2)}</h4>
+                                    <h4>${ERRORS.get("patronymic")}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -67,7 +67,7 @@
                                     <input type="text" name="post" id="post" value="${fn:escapeXml(post)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(3)}</h4>
+                                    <h4>${ERRORS.get("post")}</h4>
                                 </td>
                             </tr>
                         </tbody>

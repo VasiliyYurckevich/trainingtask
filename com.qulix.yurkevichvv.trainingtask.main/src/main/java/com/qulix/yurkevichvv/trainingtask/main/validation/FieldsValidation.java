@@ -5,7 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Валидация для полей вводимых данных.
@@ -78,10 +80,10 @@ public class FieldsValidation {
      * @param endDate Дата окончания.
      * @return Строка с ошибкой или пустой строкой.
      */
-    public static List<String> dateValidityCheck(String beginDate, String endDate) {
+    public static Map<String, String> dateValidityCheck(String beginDate, String endDate) {
         StringBuffer errorBeginDate = new StringBuffer();
         StringBuffer errorEndDate = new StringBuffer();
-        List<String> listErrors = new ArrayList<>();
+        Map<String, String> listErrors = new HashMap<>();
 
         boolean beginDateValid = isDateFormatValid(beginDate, errorBeginDate);
         boolean endDateValid = isDateFormatValid(endDate, errorEndDate);
@@ -89,8 +91,8 @@ public class FieldsValidation {
         if (beginDateValid && endDateValid) {
             checkingTheConsistencyOfDates(beginDate, endDate, errorEndDate);
         }
-        listErrors.add(errorBeginDate.toString());
-        listErrors.add(errorEndDate.toString());
+        listErrors.put("beginDate", errorBeginDate.toString());
+        listErrors.put("endDate",errorEndDate.toString());
         return listErrors;
     }
 

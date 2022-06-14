@@ -1,9 +1,9 @@
 package com.qulix.yurkevichvv.trainingtask.main.validation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
+import java.util.Map;
 
 /**
  * Сервис для валидации данных на соответственных страницах.
@@ -23,12 +23,12 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации.
      * @return Список ошибок.
      */
-    public static List<String> checkingEmployeeData(List<String> paramsList) {
-        List<String> errorList = new ArrayList<>(Nums.FOUR.getValue());
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.TWO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.THREE.getValue()), SHORT_LENGTH));
+    public static Map<String,String> checkingEmployeeData(Map<String,String> paramsList) {
+        Map<String,String> errorList = new HashMap<>(paramsList.size());
+        errorList.put("surname", FieldsValidation.stringValidityCheck(paramsList.get("surname"), SHORT_LENGTH));
+        errorList.put("firstName", FieldsValidation.stringValidityCheck(paramsList.get("firstName"), SHORT_LENGTH));
+        errorList.put("patronymic", FieldsValidation.stringValidityCheck(paramsList.get("patronymic"), SHORT_LENGTH));
+        errorList.put("post", FieldsValidation.stringValidityCheck(paramsList.get("post"), SHORT_LENGTH));
         return errorList;
     }
 
@@ -38,10 +38,10 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации.
      * @return Список ошибок.
      */
-    public static List<String> checkingProjectData(List<String> paramsList) {
-        List<String> errorList = new ArrayList<>(Nums.TWO.getValue());
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ONE.getValue()), LONG_LENGTH));
+    public static Map<String,String> checkingProjectData(Map<String,String> paramsList) {
+        Map<String,String> errorList = new HashMap<>(paramsList.size());
+        errorList.put("titleProject", FieldsValidation.stringValidityCheck(paramsList.get("titleProject"), SHORT_LENGTH));
+        errorList.put("description", FieldsValidation.stringValidityCheck(paramsList.get("description"), LONG_LENGTH));
         return errorList;
     }
 
@@ -51,14 +51,13 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации.
      * @return Список ошибок.
      */
-    public static List<String> checkingTaskData(List<String> paramsList) {
-        List<String> errorList = new ArrayList<>(Nums.FIVE.getValue());
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ZERO.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.stringValidityCheck(paramsList.get(Nums.ONE.getValue()), SHORT_LENGTH));
-        errorList.add(FieldsValidation.numberValidityCheck(paramsList.get(Nums.TWO.getValue())));
-        List<String> dateErrorsList = FieldsValidation.dateValidityCheck(paramsList.get(Nums.THREE.getValue()),
-            paramsList.get(Nums.FOUR.getValue()));
-        errorList.addAll(dateErrorsList);
+    public static Map<String,String> checkingTaskData(Map<String,String> paramsList) {
+        Map<String,String> errorList = new HashMap<>();
+        errorList.put("status", FieldsValidation.stringValidityCheck(paramsList.get("status"), SHORT_LENGTH));
+        errorList.put("title", FieldsValidation.stringValidityCheck(paramsList.get("title"), SHORT_LENGTH));
+        errorList.put("workTime", FieldsValidation.numberValidityCheck(paramsList.get("workTime")));
+        errorList.putAll(FieldsValidation.dateValidityCheck(paramsList.get("beginDate"),
+                paramsList.get("endDate")));
         return errorList;
     }
 

@@ -42,7 +42,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(0)}</h4>
+                                    <h4>${ERRORS.get("status")}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -53,7 +53,7 @@
                                     <input id="title" name="title" value="${fn:escapeXml(title)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(1)}</h4>
+                                    <h4>${ERRORS.get("title")}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -64,7 +64,7 @@
                                     <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(2)}</h4>
+                                    <h4>${ERRORS.get("workTime")}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -75,7 +75,7 @@
                                     <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(3)}</h4>
+                                    <h4>${ERRORS.get("beginDate")}</h4>
                                 </td>
                             </tr>
                             <tr>
@@ -86,7 +86,7 @@
                                     <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
                                 </td>
                                 <td>
-                                    <h4>${ERRORS.get(4)}</h4>
+                                    <h4>${ERRORS.get("endDate")}</h4>
                                 </td>
                             </tr>
                             <tr>

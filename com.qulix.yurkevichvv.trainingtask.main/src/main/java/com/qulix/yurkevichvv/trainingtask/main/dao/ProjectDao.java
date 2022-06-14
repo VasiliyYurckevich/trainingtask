@@ -10,7 +10,6 @@ import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
-import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 
 
 /**

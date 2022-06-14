@@ -8,7 +8,6 @@ import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
-import com.qulix.yurkevichvv.trainingtask.main.utils.Nums;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
@@ -19,9 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,7 +65,7 @@ public class EmployeeController extends HttpServlet {
 
 
     @Override
-    protected synchronized void  doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void  doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -80,16 +77,16 @@ public class EmployeeController extends HttpServlet {
                     updateEmployee(req, resp);
                     break;
             }
-        } catch (IOException | DaoException | ServletException | PathNotValidException e) {
+        } catch (Exception e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new RuntimeException(e);
+            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
         }
     }
 
 
     @Override
-    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -114,7 +111,7 @@ public class EmployeeController extends HttpServlet {
         } catch (IOException | DaoException | ServletException | PathNotValidException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new RuntimeException(e);
+            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
         }
     }
 
@@ -191,8 +188,8 @@ public class EmployeeController extends HttpServlet {
             throws ServletException, DaoException, IOException, PathNotValidException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        List<String> paramsList = getDataFromJsp(req);
-        List<String> errorsList = ValidationService.checkingEmployeeData(paramsList);
+        Map<String,String> paramsList = getDataFromJsp(req);
+        Map<String,String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -217,12 +214,12 @@ public class EmployeeController extends HttpServlet {
      * @param paramsList список параметров.
      * @return сотрудник.
      */
-    private static Employee getEmployee(List<String> paramsList) {
+    private static Employee getEmployee(Map<String,String> paramsList) {
         Employee theEmployee = new Employee();
-        theEmployee.setSurname(paramsList.get(Nums.ZERO.getValue()));
-        theEmployee.setFirstName(paramsList.get(Nums.ONE.getValue()));
-        theEmployee.setPatronymic(paramsList.get(Nums.TWO.getValue()));
-        theEmployee.setPost(paramsList.get(Nums.THREE.getValue()));
+        theEmployee.setSurname(paramsList.get(SURNAME));
+        theEmployee.setFirstName(paramsList.get(FIRST_NAME));
+        theEmployee.setPatronymic(paramsList.get(PATRONYMIC));
+        theEmployee.setPost(paramsList.get(POST));
         return theEmployee;
     }
 
@@ -233,12 +230,12 @@ public class EmployeeController extends HttpServlet {
      * @param paramsList список параметров.
      * @param errorsList список ошибок.
      */
-    private void setDataToJsp(HttpServletRequest req, List<String> paramsList, List<String> errorsList) {
+    private void setDataToJsp(HttpServletRequest req, Map<String, String> paramsList, Map<String, String> errorsList) {
         req.setAttribute("ERRORS", errorsList);
-        req.setAttribute(SURNAME, paramsList.get(Nums.ZERO.getValue()).trim());
-        req.setAttribute(FIRST_NAME, paramsList.get(Nums.ONE.getValue()).trim());
-        req.setAttribute(PATRONYMIC, paramsList.get(Nums.TWO.getValue()).trim());
-        req.setAttribute(POST, paramsList.get(Nums.THREE.getValue()).trim());
+        req.setAttribute(SURNAME, paramsList.get(SURNAME).trim());
+        req.setAttribute(FIRST_NAME, paramsList.get(FIRST_NAME).trim());
+        req.setAttribute(PATRONYMIC, paramsList.get(PATRONYMIC).trim());
+        req.setAttribute(POST, paramsList.get(POST).trim());
     }
 
     /**
@@ -247,12 +244,12 @@ public class EmployeeController extends HttpServlet {
      * @param req запрос.
      * @return список параметров.
      */
-    private List<String> getDataFromJsp(HttpServletRequest req) {
-        List<String> params = new ArrayList<>(Nums.FOUR.getValue());
-        params.add(req.getParameter(SURNAME));
-        params.add(req.getParameter(FIRST_NAME));
-        params.add(req.getParameter(PATRONYMIC));
-        params.add(req.getParameter(POST));
+    private Map<String,String> getDataFromJsp(HttpServletRequest req) {
+        Map<String,String> params = new HashMap<>();
+        params.put(SURNAME, req.getParameter(SURNAME));
+        params.put(FIRST_NAME, req.getParameter(FIRST_NAME));
+        params.put(PATRONYMIC, req.getParameter(PATRONYMIC));
+        params.put(POST, req.getParameter(POST));
         return params;
     }
 
@@ -261,15 +258,14 @@ public class EmployeeController extends HttpServlet {
      *
      * @param req запрос.
      * @param resp ответ.
-     * @throws SQLException исключение БД.
      * @throws ServletException исключение сервлета.
      * @throws IOException исключение ввода-вывода.
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
             throws DaoException, ServletException, IOException, PathNotValidException {
 
-        List<String> paramsList = getDataFromJsp(req);
-        List<String> errorsList = ValidationService.checkingEmployeeData(paramsList);
+        Map<String,String> paramsList = getDataFromJsp(req);
+        Map<String,String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
         if (Utils.isBlankList(errorsList)) {
             Employee employee = getEmployee(paramsList);
