@@ -181,7 +181,7 @@ public class TaskController extends HttpServlet {
         Map<String,String> paramsList = getDataFromForm(req);
         Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
 
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksInterface.update(task);
@@ -190,7 +190,7 @@ public class TaskController extends HttpServlet {
         }
         else {
             setDataAboutTaskInJsp(req, paramsList, errorsList);
-            req.setAttribute(PROJECT_ID, Utils.stringToInteger(paramsList.get(PROJECT_ID).trim()));
+            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsList.get(PROJECT_ID).trim()));
             req.setAttribute(TASK_ID, taskId);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
             dispatcher.forward(req, resp);
@@ -206,10 +206,11 @@ public class TaskController extends HttpServlet {
         Task task = new Task();
         task.setStatus(paramsList.get(STATUS));
         task.setTitle(paramsList.get(TITLE));
-        task.setWorkTime(Utils.stringToInteger(paramsList.get(WORK_TIME)));
+        task.setWorkTime(Integer.parseInt(paramsList.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsList.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsList.get(END_DATE)));
-        task.setProjectId(Utils.stringToInteger(paramsList.get(PROJECT_ID)));
+        task.setProjectId(Integer.parseInt(paramsList.get(PROJECT_ID)));
+        System.out.println(paramsList.get(EMPLOYEE_ID));
         task.setEmployeeId(Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
         return task;
     }
@@ -229,7 +230,7 @@ public class TaskController extends HttpServlet {
         Map<String,String> paramsList = getDataFromForm(req);
         Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
 
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             tasksListInProject.add(task);
             if (task.getEmployeeId() == null) {
@@ -262,12 +263,12 @@ public class TaskController extends HttpServlet {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
 
-        Integer taskId = Utils.stringToInteger(req.getParameter(TASK_ID));
+        Integer taskId = Integer.valueOf(req.getParameter(TASK_ID));
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
         Map<String,String> paramsList = getDataFromForm(req);
         Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
 
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksListInProject.set(Integer.parseInt(numberInList), task);
@@ -370,7 +371,7 @@ public class TaskController extends HttpServlet {
         Map<String, String> paramsList = getDataFromForm(req);
         Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
 
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             tasksInterface.add(task);
             resp.sendRedirect(TASKS);
@@ -378,7 +379,7 @@ public class TaskController extends HttpServlet {
         }
         else {
             setDataAboutTaskInJsp(req, paramsList, errorsList);
-            req.setAttribute(PROJECT_ID, Utils.stringToInteger(paramsList.get(PROJECT_ID).trim()));
+            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsList.get(PROJECT_ID).trim()));
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
             dispatcher.forward(req, resp);
         }
@@ -398,7 +399,7 @@ public class TaskController extends HttpServlet {
         req.setAttribute(WORK_TIME, paramsList.get(WORK_TIME).trim());
         req.setAttribute(BEGIN_DATE, paramsList.get(BEGIN_DATE).trim());
         req.setAttribute(END_DATE, paramsList.get(END_DATE).trim());
-        req.setAttribute(EMPLOYEE_ID, Utils.stringToInteger(paramsList.get(EMPLOYEE_ID).trim()));
+        req.setAttribute(EMPLOYEE_ID,Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
     }
 
     /**

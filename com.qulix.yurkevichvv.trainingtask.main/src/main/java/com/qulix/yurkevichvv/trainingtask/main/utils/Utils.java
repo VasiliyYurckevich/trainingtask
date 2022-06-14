@@ -28,25 +28,24 @@ public class Utils {
      *
      * @return Возвращает true, если список пустой или содержащий только пустые строки.
      */
-    public static boolean isBlankList(Map<String, String> map) {
+    public static boolean isBlankMap(Map<String, String> map) {
         return map.isEmpty() || map.values().stream().allMatch(s -> s.isEmpty());
     }
 
     /**
-     * Переводит String в Integer, проверяя на null.
+     * Переводит String в Integer, проверяя на "null".
      *
      * @param s строка для конвертации.
      * @return конвертированное значение.
      */
     public static Integer stringToInteger(String s) {
-        try {
-            Integer.valueOf(s);
-        }
-        catch (NumberFormatException e) {
+        if (s.equals("null")) {
             return null;
+        } else {
+            return Integer.parseInt(s);
         }
-        return Integer.parseInt(s);
     }
+
 
     /**
      * Создание и обновление данных для выпадающих списков.

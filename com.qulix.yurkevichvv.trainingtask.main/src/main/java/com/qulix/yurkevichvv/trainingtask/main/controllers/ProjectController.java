@@ -434,7 +434,7 @@ public class ProjectController extends HttpServlet {
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
         Map<String,String> paramsList = getDataFromForm(req);
         Map<String,String> errorsList = ValidationService.checkingProjectData(paramsList);
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
             theProject.setId(projectId);
             updateTasksFromProjectEditing(taskInterface, servletContext, projectId);
@@ -524,7 +524,7 @@ public class ProjectController extends HttpServlet {
         Map<String,String> paramsList = getDataFromForm(req);
         Map<String,String> errorsList = ValidationService.checkingProjectData(paramsList);
 
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
             projectInterface.add(theProject);
             LOGGER.log(Level.INFO, "Created new project");

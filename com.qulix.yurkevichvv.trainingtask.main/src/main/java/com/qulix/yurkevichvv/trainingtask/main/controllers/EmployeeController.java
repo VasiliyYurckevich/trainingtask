@@ -191,7 +191,7 @@ public class EmployeeController extends HttpServlet {
         Map<String,String> paramsList = getDataFromJsp(req);
         Map<String,String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
             Employee theEmployee = getEmployee(paramsList);
             theEmployee.setId(employeeId);
@@ -267,7 +267,7 @@ public class EmployeeController extends HttpServlet {
         Map<String,String> paramsList = getDataFromJsp(req);
         Map<String,String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
-        if (Utils.isBlankList(errorsList)) {
+        if (Utils.isBlankMap(errorsList)) {
             Employee employee = getEmployee(paramsList);
             employeeInterface.add(employee);
             LOGGER.log(Level.INFO, "Created employee");
