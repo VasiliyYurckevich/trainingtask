@@ -61,7 +61,7 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public boolean add(Task task) throws DaoException, PathNotValidException {
+    public boolean add(Task task) throws DaoException, PathNotValidException,  {
 
         Connection connection = DBConnection.getConnection();
 
@@ -76,7 +76,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при добавлении задачи в БД", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -99,7 +99,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при обновлении задачи в БД", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -154,7 +154,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при удалении задачи из БД", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -182,7 +182,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при получении задач проекта из БД", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -203,7 +203,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при получении всех задач из БД", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -252,7 +252,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при получении задачи по идентификатору из БД", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 

@@ -60,7 +60,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при добавлении проекта в БД",e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -85,7 +85,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при обновлении проекта в БД",e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -108,7 +108,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при удалении проекта из БД",e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -137,7 +137,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при получении всех проектов из БД",e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -171,7 +171,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при получении проекта по id из БД",e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 }

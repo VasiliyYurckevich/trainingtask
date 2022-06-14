@@ -40,21 +40,20 @@ public class DBConnection {
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(PATH, USER, PASS);
+            return connection;
         }
         catch (ClassNotFoundException e) {
             LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.severe(e.getStackTrace().toString());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new PathNotValidException("Драйвер не найден", e);
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            LOGGER.severe(e.getStackTrace().toString());
             LOGGER.severe("SQL State  : " + e.getSQLState());
             throw new DaoException("БД временно недоступна. Повторите попытку позже", e);
         }
-        catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        }
-        return connection;
     }
 
     /**
@@ -62,18 +61,16 @@ public class DBConnection {
      *
      * @throws SQLException исключение БД.
      */
-    public static void closeConnection() throws DaoException {
+    public static void closeConnection(Connection connection) throws DaoException {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            LOGGER.severe(e.getSQLState());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            LOGGER.severe(e.getStackTrace().toString());
+            LOGGER.severe("SQL State  : " + e.getSQLState());
             throw new DaoException("Ошибка закрытия подключения к БД.", e);
-        }
-        catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 }

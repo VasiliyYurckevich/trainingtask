@@ -70,7 +70,7 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при добавлении нового сотрудника в БД");
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -93,7 +93,7 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при попытке изменить данные о сотруднике", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -113,7 +113,7 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при удалении сотрудника из базы данных",e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -145,7 +145,7 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при получении данных о сотрудниках", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 
@@ -185,7 +185,7 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при получении данных о сотруднике", e);
         }
         finally {
-            DBConnection.closeConnection();
+            DBConnection.closeConnection(connection);
         }
     }
 }
