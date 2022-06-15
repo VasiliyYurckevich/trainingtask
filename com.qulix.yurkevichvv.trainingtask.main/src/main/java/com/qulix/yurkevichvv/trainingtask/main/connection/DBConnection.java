@@ -1,11 +1,13 @@
 package com.qulix.yurkevichvv.trainingtask.main.connection;
 
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 /**
  * Устанавливает контакт между приложением и БД.
@@ -23,7 +25,10 @@ public class DBConnection {
 
     private static final String PASS = "";
 
+    private static final String SQL_STATE = "SQL State  : ";
+
     private static final Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
+
     /**
      * Получение подключения к БД.
      */
@@ -36,7 +41,7 @@ public class DBConnection {
      * @return подключение к БД.
      * @throws SQLException ошибка подключения к БД.
      */
-    public static Connection getConnection( ) throws DaoException, PathNotValidException {
+    public static Connection getConnection() throws DaoException, PathNotValidException {
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(PATH, USER, PASS);
@@ -51,7 +56,7 @@ public class DBConnection {
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             LOGGER.severe(e.getStackTrace().toString());
-            LOGGER.severe("SQL State  : " + e.getSQLState());
+            LOGGER.severe(SQL_STATE + e.getSQLState());
             throw new DaoException("БД временно недоступна. Повторите попытку позже", e);
         }
     }
@@ -66,10 +71,11 @@ public class DBConnection {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             LOGGER.severe(e.getStackTrace().toString());
-            LOGGER.severe("SQL State  : " + e.getSQLState());
+            LOGGER.severe(SQL_STATE + e.getSQLState());
             throw new DaoException("Ошибка закрытия подключения к БД.", e);
         }
     }

@@ -62,7 +62,7 @@ public class TaskDao implements IDao<Task> {
 
     @Override
     public boolean add(Task task) throws DaoException, PathNotValidException  {
-
+    
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
