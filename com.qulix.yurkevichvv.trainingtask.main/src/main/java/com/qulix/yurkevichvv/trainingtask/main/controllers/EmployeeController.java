@@ -77,10 +77,15 @@ public class EmployeeController extends HttpServlet {
                     updateEmployee(req, resp);
                     break;
             }
-        } catch (Exception e) {
+        }
+        catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+        } catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -108,10 +113,16 @@ public class EmployeeController extends HttpServlet {
                 case "/edit":
                     updateEmployeeForm(req, resp);
             }
-        } catch (IOException | DaoException | ServletException | PathNotValidException e) {
+        }
+        catch (IOException | ServletException e) {
+                LOGGER.severe(getServletName() + ": " + e.getMessage());
+                LOGGER.severe(Arrays.toString(e.getStackTrace()));
+                throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+        }
+        catch (PathNotValidException | DaoException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+            throw new RuntimeException(e);
         }
     }
 

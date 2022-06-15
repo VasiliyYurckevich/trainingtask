@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ page import="com.qulix.yurkevichvv.trainingtask.main.entity.Status" %>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -12,9 +13,9 @@
 
     <body>
 
-    <my:mainMenu></my:mainMenu>
+        <my:mainMenu></my:mainMenu>
 
-    <div>
+        <div>
             <div id="container">
                 <h3>Добавить задачу</h3>
                 <form action="tasks" method="post" id="form" >
@@ -35,10 +36,11 @@
                             </td>
                             <td>
                                 <select name="status" data-selected="${status}">
-                                    <option ${status == "Не начата" ? 'selected="selected"' : ''}>Не начата</option>
-                                    <option ${status == "В процессе" ? 'selected="selected"' : ''}>В процессе</option>
-                                    <option ${status == "Завершена" ? 'selected="selected"' : ''}>Завершена</option>
-                                    <option ${status == "Отложена" ? 'selected="selected"' : ''}>Отложена</option>
+                                    <c:forEach items="${STATUS_LIST}" var="statuses">
+                                        <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
+                                                ${fn:escapeXml(statuses.getStatusTitle())}
+                                        </option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td>

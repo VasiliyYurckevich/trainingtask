@@ -20,6 +20,7 @@ import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
@@ -106,10 +107,14 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (Exception e) {
+        catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+        } catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -138,10 +143,14 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (Exception e) {
+        catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+        } catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -159,9 +168,9 @@ public class TaskController extends HttpServlet {
         String taskId = req.getParameter(TASK_ID);
         Task existingTask = tasksInterface.getById(Integer.parseInt(taskId));
         Utils.setTaskDataInJsp(req, existingTask);
+        Utils.setDataToDropDownList(req);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
         servletContext.setAttribute("task", existingTask);
-        Utils.setDataToDropDownList(req);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
         dispatcher.forward(req, resp);
@@ -204,12 +213,12 @@ public class TaskController extends HttpServlet {
      */
     private static Task getTask(Map<String, String> paramsList) {
         Task task = new Task();
-        task.setStatus(paramsList.get(STATUS));
+        task.setStatus(Status.getStatusById(Integer.parseInt(paramsList.get(STATUS))));
         task.setTitle(paramsList.get(TITLE));
-        task.setWorkTime(Integer.parseInt(paramsList.get(WORK_TIME)));
+        task.setWorkTime(Integer.valueOf(paramsList.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsList.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsList.get(END_DATE)));
-        task.setProjectId(Integer.parseInt(paramsList.get(PROJECT_ID)));
+        task.setProjectId(Integer.valueOf(paramsList.get(PROJECT_ID)));
         System.out.println(paramsList.get(EMPLOYEE_ID));
         task.setEmployeeId(Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
         return task;
@@ -331,11 +340,9 @@ public class TaskController extends HttpServlet {
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException, DaoException, PathNotValidException {
 
-        List<Employee> employees = new EmployeeDAO().getAll();
-        List<Project> projects = new ProjectDao().getAll();
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
-        getServletContext().setAttribute(EMPLOYEE_LIST, employees);
-        getServletContext().setAttribute(PROJECT_LIST, projects);
+        Utils.setDataToDropDownList(req);
+
         dispatcher.forward(req, resp);
     }
 
@@ -441,11 +448,15 @@ public class TaskController extends HttpServlet {
     private Map<String,String> getDataFromForm(HttpServletRequest req) {
         Map<String,String> paramsList  = new HashMap<>();
         paramsList.put(STATUS, req.getParameter(STATUS));
-        paramsList.put(TITLE , req.getParameter(TITLE));
-        paramsList.put(WORK_TIME, req.getParameter(WORK_TIME));
-        paramsList.put(BEGIN_DATE, req.getParameter(BEGIN_DATE));
-        paramsList.put(END_DATE, req.getParameter(END_DATE));
-        paramsList.put(PROJECT_ID, req.getParameter(PROJECT_ID));
+        paramsList.put(TITLE , req.getParameter(TITLE).trim());
+        paramsList.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
+        paramsList.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
+        paramsList.put(END_DATE, req.getParameter(END_DATE).trim());
+        if (req.getParameter(PROJECT_ID) != null) {
+            paramsList.put(PROJECT_ID, req.getParameter(PROJECT_ID).trim());
+        } else {
+            paramsList.put(PROJECT_ID, getServletContext().getAttribute(PROJECT_ID).toString());
+        }
         paramsList.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         return paramsList;
     }

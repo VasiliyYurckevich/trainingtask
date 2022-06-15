@@ -1,19 +1,36 @@
 package com.qulix.yurkevichvv.trainingtask.main.entity;
 
 public enum Status {
-    N0BEGIN ("Не начата"),
-    INTHEPROCESS ("В процессе"),
-    COMPLETED("Завершена"),
-    POSTPONED ("Отложена");
 
+    N0BEGIN (1, "Не начата"),
 
-    private String statusTitle;
+    INTHEPROCESS (2, "В процессе"),
 
-    Status(String status) {
+    COMPLETED(3, "Завершена"),
+
+    POSTPONED (4, "Отложена");
+
+    Status(int id, String status) {
+        this.id = id;
         this.statusTitle = status;
     }
-    public String getStatus() {
+
+    private Integer id;
+    private String statusTitle;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getStatusTitle() {
         return statusTitle;
+    }
+
+    public static Status getStatusById(Integer id) {
+        for(Status e : values()) {
+            if(e.id.equals(id)) return e;
+        }
+        return N0BEGIN;
     }
 
 }

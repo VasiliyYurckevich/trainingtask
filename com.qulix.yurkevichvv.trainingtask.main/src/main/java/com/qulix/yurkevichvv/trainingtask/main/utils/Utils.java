@@ -10,6 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
 import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
@@ -58,6 +59,7 @@ public class Utils {
         List<Project> projects = new ProjectDao().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);
         req.getServletContext().setAttribute("PROJECT_LIST", projects);
+        req.getServletContext().setAttribute("STATUS_LIST", Status.values());
 
     }
 
@@ -69,7 +71,7 @@ public class Utils {
      */
     public static void setTaskDataInJsp(HttpServletRequest req, Task existingTask) {
         req.setAttribute("taskId", existingTask.getId());
-        req.setAttribute("status", existingTask.getStatus());
+        req.setAttribute("status", existingTask.getStatus().getId());
         req.setAttribute("title", existingTask.getTitle());
         req.setAttribute("workTime", existingTask.getWorkTime());
         req.setAttribute("beginDate", existingTask.getBeginDate());

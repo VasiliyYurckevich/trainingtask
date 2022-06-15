@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-      <title>Редактировать проект</title>
-      <link type="text/css" rel="stylesheet" href="css/style.css">
+        <title>Редактировать проект</title>
+        <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 
     <body>
@@ -16,7 +16,7 @@
 
         <div>
             <div id="container">
-                <h3 >Редактировать проект</h3>
+                <h3>Редактировать проект</h3>
                 <form action="projects" method="post">
                     <input type="hidden" name="action" value="/update" />
                     <input type="hidden" name="projectId" value="${projectId}"/>
@@ -72,7 +72,7 @@
 
                             <c:url var="addLink" value="/projects">
                             <c:param name="action" value="/addTaskForm"/>
-                            <c:param name="projectId" value="${projectId}"/>
+                            <c:param name="projectId" value="${thisProjectId}"/>
                             </c:url>
 
                             <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
@@ -80,6 +80,7 @@
                                 <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/editTaskForm"/>
                                 <c:param name="taskId" value="${tempTask.id}"/>
+                                <c:param name="projectId" value="${thisProjectId}"/>
                                 <c:param name="numberInList" value="${theCount.index}"/>
                                 </c:url>
 
@@ -89,7 +90,7 @@
                                 </c:url>
 
                                 <tr>
-                                    <td> ${tempTask.status}</td>
+                                    <td> ${tempTask.status.getStatusTitle()}</td>
                                     <td> ${fn:escapeXml(tempTask.title)} </td>
                                     <td> ${tempTask.workTime} </td>
                                     <td> ${tempTask.beginDate}</td>

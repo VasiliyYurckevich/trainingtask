@@ -105,15 +105,12 @@
                                 <label>Сотрудник:</label>
                             </td>
                             <td>
-                                <select name="employeeId" >
-                                <option value="null"> </option>
-                                <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                                    <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(employees.surname)}
-                                        ${fn:escapeXml(employees.firstName)}
-                                        ${fn:escapeXml(employees.patronymic)}
-                                    </option>
-                                </c:forEach>
+                                <select name="status" data-selected="${status}">
+                                    <c:forEach items="${STATUS_LIST}" var="statuses">
+                                        <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
+                                                ${fn:escapeXml(statuses.getStatusTitle())}
+                                        </option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td>

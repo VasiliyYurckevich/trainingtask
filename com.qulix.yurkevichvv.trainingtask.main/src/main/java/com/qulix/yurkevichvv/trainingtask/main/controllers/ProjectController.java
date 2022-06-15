@@ -91,10 +91,14 @@ public class ProjectController extends HttpServlet {
             }
 
         }
-        catch (Exception e) {
+        catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+        } catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -131,10 +135,14 @@ public class ProjectController extends HttpServlet {
                     deleteTaskInProject(req, resp);
             }
         }
-        catch (Exception e) {
+        catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + ": " + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+        } catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new RuntimeException(e);
         }
     }
 
@@ -198,16 +206,16 @@ public class ProjectController extends HttpServlet {
 
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute(TASKS_LIST);
-        Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
+        Integer thisProjectId = (Integer) servletcontext.getAttribute(PROJECT_ID);
         String numberInList = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
 
-        Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
+        Task existingTask = tasksListInProject.get(Integer.valueOf(numberInList));
         Utils.setTaskDataInJsp(req, existingTask);
-        servletcontext.setAttribute(THIS_PROJECT_ID, thisProjectId);
+        servletcontext.setAttribute(PROJECT_ID, thisProjectId);
 
         Utils.setDataToDropDownList(req);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/edi3t-task-in-project.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
         servletcontext.setAttribute("task", existingTask);
         dispatcher.forward(req, resp);
 
@@ -236,6 +244,7 @@ public class ProjectController extends HttpServlet {
         List<Integer> deletedTasks = getDeletedTasks(servletContext);
 
         servletContext.setAttribute(THIS_PROJECT_ID, thisProjectId);
+        System.out.println("thisProjectId = " + thisProjectId);
         servletContext.setAttribute("project", existingProject);
         setParametersAboutProjectEditing(servletContext, deletedTasks, tasksListInProject, employeeListInProject);
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
@@ -360,7 +369,7 @@ public class ProjectController extends HttpServlet {
             throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletcontext = getServletContext();
-        Integer thisProjectId = (Integer) servletcontext.getAttribute(THIS_PROJECT_ID);
+        Integer thisProjectId = (Integer) servletcontext.getAttribute(PROJECT_ID);
         String numberInList = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
         servletcontext.setAttribute(PROJECT_ID, thisProjectId);

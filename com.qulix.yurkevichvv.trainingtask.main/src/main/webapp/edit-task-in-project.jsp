@@ -35,10 +35,11 @@
                                 </td>
                                 <td>
                                     <select name="status" data-selected="${status}">
-                                        <option ${status == "Не начата" ? 'selected="selected"' : ''}>Не начата</option>
-                                        <option ${status == "В процессе" ? 'selected="selected"' : ''}>В процессе</option>
-                                        <option ${status == "Завершена" ? 'selected="selected"' : ''}>Завершена</option>
-                                        <option ${status == "Отложена" ? 'selected="selected"' : ''}>Отложена</option>
+                                        <c:forEach items="${STATUS_LIST}" var="statuses">
+                                            <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
+                                                    ${fn:escapeXml(statuses.getStatusTitle())}
+                                            </option>
+                                        </c:forEach>
                                     </select>
                                 </td>
                                 <td>
@@ -96,7 +97,6 @@
                                 <td>
                                     <label>${fn:escapeXml(titleProject)}</label>
                                 <td>
-                                </td>
                             </tr>
                             <tr>
                                 <td>

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
+import com.qulix.yurkevichvv.trainingtask.main.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
@@ -105,14 +106,14 @@ public class TaskDao implements IDao<Task> {
     /**
      * Внесение данных о задаче в выражение SQL.
      *
-     * @param task обьект класса "Задача".
+     * @param task объект класса "Задача".
      * @param preparedStatement выражение SQL.
      * @throws SQLException исключение БД.
      */
     private int setDataInToStatement(Task task, PreparedStatement preparedStatement) throws DaoException {
         try {
             int index = 1;
-            preparedStatement.setString(index++, task.getStatus());
+            preparedStatement.setInt(index++, task.getStatus().getId());
             preparedStatement.setString(index++, task.getTitle());
             preparedStatement.setLong(index++, task.getWorkTime());
             preparedStatement.setString(index++, task.getBeginDate().toString());
@@ -266,7 +267,7 @@ public class TaskDao implements IDao<Task> {
     private void setDataFromDatabase(Task task, ResultSet resultSet) throws DaoException {
         try {
             task.setId(resultSet.getInt(TASK_ID));
-            task.setStatus(resultSet.getString(STATUS));
+            task.setStatus(Status.getStatusById(Integer.parseInt(resultSet.getString(STATUS))));
             task.setTitle(resultSet.getString(TITLE));
             task.setWorkTime(resultSet.getInt(WORK_TIME));
             task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
