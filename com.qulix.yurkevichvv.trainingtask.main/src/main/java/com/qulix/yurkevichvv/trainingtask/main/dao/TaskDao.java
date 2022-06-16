@@ -1,3 +1,22 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.dao;
 
 import java.sql.Connection;
@@ -25,39 +44,89 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
  */
 public class TaskDao implements IDao<Task> {
 
+
+    /**
+     * Хранит константу для имени колонки ID проекта в БД.
+     */
     private static final String TASK_ID = "id";
 
+    /**
+     * Хранит константу для имени колонки статуса проекта в БД.
+     */
     private static final String STATUS = "status";
 
+    /**
+     * Хранит константу для имени колонки названия задачи в БД.
+     */
     private static final String TITLE = "title";
 
+    /**
+     * Хранит константу для имени колонки проекта, в который входит задача, в БД.
+     */
     private static final String PROJECT_ID = "project_id";
 
+    /**
+     * Хранит константу для имени колонки времени работы над задачей в БД.
+     */
     private static final String WORK_TIME = "work_time";
 
+    /**
+     * Хранит константу для имени колонки даты начала работы над задачей в БД.
+     */
     private static final String BEGIN_DATE = "begin_date";
 
+    /**
+     * Хранит константу для имени колонки даты конца работы над задачей в БД.
+     */
     private static final String END_DATE = "end_date";
 
+    /**
+     * Хранит константу для имени колонки привязанного к задаче сотрудника в БД.
+     */
     private static final String EMPLOYEE_ID = "employee_id";
 
+    /**
+     * Логгер для записи логов.
+     */
     private static final Logger LOGGER = Logger.getLogger(TaskDao.class.getName());
 
 
+    /**
+     *  Константа для запроса добавления задачи в БД.
+     */
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +
         " (status, title, work_time, begin_date,end_date, project_id, employee_id ) VALUES (?,?,?,?,?,?,?);";
 
+    /**
+     * Константа для запроса получения задач из БД.
+     */
     private static final String SELECT_ALL_TASK = "SELECT * FROM TASK;";
 
+    /**
+     * Константа для запроса получения задачи из БД по идентификатору.
+     */
     private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK WHERE id = ?;";
 
+    /**
+     * Константа для запроса получения задач из БД по проекту.
+     */
     private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM TASK WHERE project_id = ?;";
 
+    /**
+     * Константа для запроса удаления задачи из БД по идентификатору.
+     */
     private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = ?;";
 
+    /**
+     * Константа для запроса обновления задачи в БД.
+     */
     private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = ?, title = ?, work_time = ?, " +
-            "begin_date = ?, end_date = ?, project_id = ?, employee_id = ? WHERE id = ?;";
+        "begin_date = ?, end_date = ?, project_id = ?, employee_id = ? WHERE id = ?;";
 
+    /**
+     * Хранит константу для вывода состояния SQL.
+     */
+    private static final String SQLSTATE = "SQLState: ";
 
 
     @Override
@@ -71,7 +140,7 @@ public class TaskDao implements IDao<Task> {
         }
         catch (SQLException e) {
             LOGGER.severe(e.getMessage());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при добавлении задачи в БД", e);
         }
@@ -94,7 +163,7 @@ public class TaskDao implements IDao<Task> {
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при обновлении задачи в БД", e);
         }
@@ -132,9 +201,10 @@ public class TaskDao implements IDao<Task> {
                 preparedStatement.setInt(index++, task.getEmployeeId());
             }
             return index;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при внесении данных о задаче в выражение SQL", e);
         }
@@ -145,13 +215,13 @@ public class TaskDao implements IDao<Task> {
     public boolean delete(Integer id) throws DaoException, PathNotValidException {
         Connection connection = ConnectionProvider.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)) {
             preparedStatement.setInt(1, id);
             return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при удалении задачи из БД", e);
         }
@@ -179,7 +249,7 @@ public class TaskDao implements IDao<Task> {
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задач проекта из БД", e);
         }
@@ -193,14 +263,14 @@ public class TaskDao implements IDao<Task> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try( PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK)) {
             List<Task> tasks = new ArrayList<>();
             ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении всех задач из БД", e);
         }
@@ -224,9 +294,10 @@ public class TaskDao implements IDao<Task> {
                 setDataFromDatabase(task, resultSet);
                 tasks.add(task);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задач из БД", e);
         }
@@ -249,7 +320,7 @@ public class TaskDao implements IDao<Task> {
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении задачи по идентификатору из БД", e);
         }
@@ -280,9 +351,10 @@ public class TaskDao implements IDao<Task> {
             else {
                 task.setEmployeeId(null);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении данных задачи из БД", e);
         }

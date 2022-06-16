@@ -1,14 +1,36 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionProvider;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 
@@ -21,25 +43,55 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
  */
 public class ProjectDao implements IDao<Project> {
 
+    /**
+     * Хранит константу для колонки ID проекта в БД.
+     */
     private static final String PROJECT_ID = "id";
 
+    /**
+     * Хранит константу для колонки названия проекта в БД.
+     */
     private static final String TITLE = "title";
 
+    /**
+     * Хранит константу для колонки описания сотрудника в БД.
+     */
     private static final String DESCRIPTION = "description";
-
+    /**
+     * Логгер для ведения журнала действий.
+     */
     private static final Logger LOGGER = Logger.getLogger(ProjectDao.class.getName());
 
 
+    /**
+     * Константа для запроса добавления проекта в БД.
+     */
     private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (?,?);";
 
+    /**
+     * Константа для запроса всех проектов из БД.
+     */
     private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT ;";
 
+    /**
+     * Константа для запроса получения проекта по его ID.
+     */
     private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE id = ?;";
 
+    /**
+     * Константа для запроса удаления проекта по его ID.
+     */
     private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE id = ?;";
 
+    /**
+     * Константа для запроса обновления проекта в БД.
+     */
     private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?, description = ? WHERE id = ?;";
 
+    /**
+     * Хранит константу для вывода состояния SQL.
+     */
+    private static final String SQLSTATE = "SQLState: ";
 
 
     @Override
@@ -52,11 +104,12 @@ public class ProjectDao implements IDao<Project> {
             preparedStatement.setString(index++, project.getTitle());
             preparedStatement.setString(index++, project.getDescription());
             return preparedStatement.execute();
-        }catch (SQLException e){
+        }
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при добавлении проекта в БД",e);
+            throw new DaoException("Ошибка при добавлении проекта в БД", e);
         }
         finally {
             ConnectionProvider.closeConnection(connection);
@@ -69,7 +122,7 @@ public class ProjectDao implements IDao<Project> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try (CallableStatement preparedStatement = connection.prepareCall(UPDATE_PROJECT_SQL)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL)) {
             int index = 1;
             preparedStatement.setString(index++, project.getTitle());
             preparedStatement.setString(index++, project.getDescription());
@@ -77,11 +130,11 @@ public class ProjectDao implements IDao<Project> {
 
             return preparedStatement.execute();
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при обновлении проекта в БД",e);
+            throw new DaoException("Ошибка при обновлении проекта в БД", e);
         }
         finally {
             ConnectionProvider.closeConnection(connection);
@@ -94,17 +147,17 @@ public class ProjectDao implements IDao<Project> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)) {
             int index = 1;
             preparedStatement.setInt(index++, id);
 
             return preparedStatement.execute();
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при удалении проекта из БД",e);
+            throw new DaoException("Ошибка при удалении проекта из БД", e);
         }
         finally {
             ConnectionProvider.closeConnection(connection);
@@ -117,7 +170,7 @@ public class ProjectDao implements IDao<Project> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Project> projects = new ArrayList<>();
             while (resultSet.next()) {
@@ -129,11 +182,11 @@ public class ProjectDao implements IDao<Project> {
             }
             return projects;
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при получении всех проектов из БД",e);
+            throw new DaoException("Ошибка при получении всех проектов из БД", e);
         }
         finally {
             ConnectionProvider.closeConnection(connection);
@@ -158,11 +211,11 @@ public class ProjectDao implements IDao<Project> {
             }
             return project;
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при получении проекта по id из БД",e);
+            throw new DaoException("Ошибка при получении проекта по id из БД", e);
         }
         finally {
             ConnectionProvider.closeConnection(connection);

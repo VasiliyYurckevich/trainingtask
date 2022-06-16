@@ -1,3 +1,22 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.dao;
 
 import java.sql.Connection;
@@ -23,30 +42,68 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
  */
 public class EmployeeDAO implements IDao<Employee> {
 
+    /**
+     * Хранит константу для колонки ID сотрудника в БД.
+     */
     private static final String EMPLOYEE_ID = "id";
 
+    /**
+     * Хранит константу для колонки фамилии сотрудника в БД.
+     */
     private static final String SURNAME = "surname";
 
+    /**
+     * Хранит константу для колонки имени сотрудника в БД.
+     */
     private static final String FIRST_NAME = "first_name";
 
+    /**
+     * Хранит константу для колонки отчества сотрудника в БД.
+     */
     private static final String PATRONYMIC = "patronymic";
 
+    /**
+     * Хранит константу для колонки должности сотрудника в БД.
+     */
     private static final String POST = "post";
 
+    /**
+     * Логгер для записи событий.
+     */
     private static final Logger LOGGER = Logger.getLogger(EmployeeDAO.class.getName());
 
 
+    /**
+     * Константа для запроса на добавление нового сотрудника в БД.
+     */
     private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +
         " VALUES (?,?,?,?);";
 
+    /**
+     * Константа для запроса на получение всех сотрудников из БД.
+     */
     private static final String SELECT_ALL_CLIENT = "SELECT * FROM EMPLOYEE;";
 
+    /**
+     * Константа для запроса на получение сотрудника по его ID из БД.
+     */
     private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM EMPLOYEE WHERE id = ?;";
 
+    /**
+     * Константа для запроса на удаление данных сотрудника в БД.
+     */
     private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE id = ?;";
 
+    /**
+     * Константа для запроса на обновление данных сотрудника в БД.
+     */
     private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE" +
         " SET surname = ?, first_name = ?, patronymic = ?, post = ? WHERE id = ?;";
+
+    /**
+     * Хранит константу для вывода состояния SQL.
+     */
+    public static final String SQLSTATE = "SQLState: ";
 
 
     @Override
@@ -54,7 +111,7 @@ public class EmployeeDAO implements IDao<Employee> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL)) {
             int index = 1;
             preparedStatement.setString(index++, employee.getSurname());
             preparedStatement.setString(index++, employee.getFirstName());
@@ -63,9 +120,9 @@ public class EmployeeDAO implements IDao<Employee> {
 
             return preparedStatement.execute();
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при добавлении нового сотрудника в БД");
         }
@@ -79,7 +136,7 @@ public class EmployeeDAO implements IDao<Employee> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL)) {
             int index = 1;
             preparedStatement.setString(index++, employee.getSurname());
             preparedStatement.setString(index++, employee.getFirstName());
@@ -87,9 +144,10 @@ public class EmployeeDAO implements IDao<Employee> {
             preparedStatement.setString(index++, employee.getPost());
             preparedStatement.setInt(index, employee.getId());
             return preparedStatement.execute();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при попытке изменить данные о сотруднике", e);
         }
@@ -107,11 +165,12 @@ public class EmployeeDAO implements IDao<Employee> {
             preparedStatement.setInt(1, id);
 
             return preparedStatement.execute();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при удалении сотрудника из базы данных",e);
+            throw new DaoException("Ошибка при удалении сотрудника из базы данных", e);
         }
         finally {
             ConnectionProvider.closeConnection(connection);
@@ -124,7 +183,7 @@ public class EmployeeDAO implements IDao<Employee> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENT)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENT)) {
             List<Employee> employees = new ArrayList<>();
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -141,7 +200,7 @@ public class EmployeeDAO implements IDao<Employee> {
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении данных о сотрудниках", e);
         }
@@ -155,7 +214,7 @@ public class EmployeeDAO implements IDao<Employee> {
 
         Connection connection = ConnectionProvider.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)) {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -172,7 +231,7 @@ public class EmployeeDAO implements IDao<Employee> {
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
-            LOGGER.severe("SQLState: " + e.getSQLState());
+            LOGGER.severe(SQLSTATE + e.getSQLState());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new DaoException("Ошибка при получении данных о сотруднике", e);
         }

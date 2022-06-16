@@ -19,6 +19,20 @@
  */
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
 import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
@@ -27,16 +41,8 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+
 
 
 /**
@@ -45,6 +51,11 @@ import java.util.logging.Logger;
  * @author Q-YVV
  */
 public class EmployeeController extends HttpServlet {
+
+    /**
+     * Хранит двоеточие.
+     */
+    private static final String STRING = ": ";
 
     /**
      * Хранит название JSP добавления сотрудника.
@@ -97,6 +108,11 @@ public class EmployeeController extends HttpServlet {
     private static final String EMPLOYEES_LIST = "employees";
 
     /**
+     * Хранит константу для сообщения ошибки в сервлете.
+     */
+    public static final String ERROR_IN_SERVLET = "Ошибка в сервлете ";
+
+    /**
      * Переменная доступа к методам классов DAO.
      */
     private IDao<Employee> employeeInterface;
@@ -128,11 +144,12 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(getServletName() + STRING + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
-        } catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
+        }
+        catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + STRING + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
         }
@@ -164,12 +181,12 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-                LOGGER.severe(getServletName() + ": " + e.getMessage());
-                LOGGER.severe(Arrays.toString(e.getStackTrace()));
-                throw new ServletException("Ошибка в сервлете " + getServletName(), e);
+            LOGGER.severe(getServletName() + STRING + e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
         }
         catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(getServletName() + STRING + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
         }
@@ -179,14 +196,15 @@ public class EmployeeController extends HttpServlet {
     /**
      * Отображает форму для редактирования сотрудника.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws SQLException исключения Бд.
-     * @throws ServletException исключение сервлета.
-     * @throws IOException исключение ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException, DaoException, PathNotValidException {
+        throws ServletException, IOException, DaoException, PathNotValidException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeInterface.getById(employeeId);
@@ -205,10 +223,10 @@ public class EmployeeController extends HttpServlet {
     /**
      * Отображает форму для добавления сотрудника.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws ServletException исключение сервлета.
-     * @throws IOException исключение ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
@@ -220,14 +238,14 @@ public class EmployeeController extends HttpServlet {
     /**
      * Удаляет сотрудника из БД.
      *
-     * @param req  запрос.
-     * @param resp ответ.
-     * @throws ServletException исключение сервлета.
-     * @throws IOException      исключение ввода-вывода.
-     * @throws SQLException     исключение БД.
+     * @param req  запрос
+     * @param resp ответ
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, IOException, PathNotValidException {
+        throws DaoException, IOException, PathNotValidException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
@@ -236,20 +254,21 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Запись отредактированного сотрудника в БД.
+     * Записывает отредактированного сотрудника в БД.
      *
-     * @param req  запрос.
-     * @param resp ответ.
-     * @throws ServletException исключение сервлета.
-     * @throws IOException      исключение ввода-вывода.
-     * @throws SQLException     исключение БД.
+     * @param req  запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, DaoException, IOException, PathNotValidException {
+        throws ServletException, DaoException, IOException, PathNotValidException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        Map<String,String> paramsList = getDataFromJsp(req);
-        Map<String,String> errorsList = ValidationService.checkingEmployeeData(paramsList);
+        Map<String, String> paramsList = getDataFromJsp(req);
+        Map<String, String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -269,12 +288,12 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Создание сотрудника с полученными параметрами.
+     * Создает сотрудника с полученными параметрами.
      *
-     * @param paramsList список параметров.
-     * @return сотрудник.
+     * @param paramsList список параметров
+     * @return возвращаемый сотрудник
      */
-    private static Employee getEmployee(Map<String,String> paramsList) {
+    private static Employee getEmployee(Map<String, String> paramsList) {
         Employee theEmployee = new Employee();
         theEmployee.setSurname(paramsList.get(SURNAME));
         theEmployee.setFirstName(paramsList.get(FIRST_NAME));
@@ -284,11 +303,11 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Заполнение формы данными о сотруднике.
+     * Заполненяет форму данными о сотруднике.
      *
-     * @param req запрос.
-     * @param paramsList список параметров.
-     * @param errorsList список ошибок.
+     * @param req запрос
+     * @param paramsList список параметров
+     * @param errorsList список ошибок
      */
     private void setDataToJsp(HttpServletRequest req, Map<String, String> paramsList, Map<String, String> errorsList) {
         req.setAttribute("ERRORS", errorsList);
@@ -301,11 +320,11 @@ public class EmployeeController extends HttpServlet {
     /**
      * Получение данных о сотруднике из формы.
      *
-     * @param req запрос.
-     * @return список параметров.
+     * @param req запрос
+     * @return список параметров
      */
-    private Map<String,String> getDataFromJsp(HttpServletRequest req) {
-        Map<String,String> params = new HashMap<>();
+    private Map<String, String> getDataFromJsp(HttpServletRequest req) {
+        Map<String, String> params = new HashMap<>();
         params.put(SURNAME, req.getParameter(SURNAME));
         params.put(FIRST_NAME, req.getParameter(FIRST_NAME));
         params.put(PATRONYMIC, req.getParameter(PATRONYMIC));
@@ -316,16 +335,18 @@ public class EmployeeController extends HttpServlet {
     /**
      * Валидация и добавление сотрудника в БД.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws ServletException исключение сервлета.
-     * @throws IOException исключение ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
-        Map<String,String> paramsList = getDataFromJsp(req);
-        Map<String,String> errorsList = ValidationService.checkingEmployeeData(paramsList);
+        Map<String, String> paramsList = getDataFromJsp(req);
+        Map<String, String> errorsList = ValidationService.checkingEmployeeData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Employee employee = getEmployee(paramsList);
@@ -343,14 +364,14 @@ public class EmployeeController extends HttpServlet {
     /**
      * Отображение списка сотрудников.
      *
-     * @param req запрос.
-     * @param resp ответ.
+     * @param req запрос
+     * @param resp ответ
      * @throws SQLException исключение БД.
      * @throws ServletException исключение сервлета.
      * @throws IOException исключение ввода-вывода.
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");

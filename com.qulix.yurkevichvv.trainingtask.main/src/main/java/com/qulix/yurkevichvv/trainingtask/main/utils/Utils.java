@@ -1,6 +1,24 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.utils;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +43,7 @@ public class Utils {
 
 
     /**
-     * Проверяет пустой или содержащий только пустые строки список.
+     * Проверяет Map на пустоту значений.
      *
      * @return Возвращает true, если список пустой или содержащий только пустые строки.
      */
@@ -34,7 +52,7 @@ public class Utils {
     }
 
     /**
-     * Переводит String в Integer, проверяя на "null".
+     * Переводит String в Integer, проверяя строку на "null".
      *
      * @param s строка для конвертации.
      * @return конвертированное значение.
@@ -42,17 +60,19 @@ public class Utils {
     public static Integer stringToInteger(String s) {
         if (s.equals("null")) {
             return null;
-        } else {
+        }
+        else {
             return Integer.parseInt(s);
         }
     }
 
 
     /**
-     * Создание и обновление данных для выпадающих списков.
+     * Создает и обновляет данные для выпадающих списков.
      *
-     * @param req запрос.
-     * @throws SQLException ошибка при выполнении запроса.
+     * @param req запрос
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     public static void setDataToDropDownList(HttpServletRequest req) throws DaoException, PathNotValidException {
         List<Employee> employees = new EmployeeDAO().getAll();
@@ -66,8 +86,8 @@ public class Utils {
     /**
      * Заносит начальные данные в поля формы для Задачи.
      *
-     * @param req запрос.
-     * @param existingTask задача.
+     * @param req запрос
+     * @param existingTask задача
      */
     public static void setTaskDataInJsp(HttpServletRequest req, Task existingTask) {
         req.setAttribute("taskId", existingTask.getId());

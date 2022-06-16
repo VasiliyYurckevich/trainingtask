@@ -1,8 +1,31 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,37 +56,93 @@ import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
  */
 public class ProjectController extends HttpServlet {
 
-    private static final String ADD_PROJECT_FORM_JSP = "/add-project-form.jsp";
-
-    private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
-
-    private static final String PROJECT_ID = "projectId";
-
-    private static final String TITLE_OF_PROJECT = "titleProject";
-
-    private static final String DESCRIPTION = "description";
-
-    private static final String ACTION = "action";
-
-    private static final String NUMBER_IN_LIST = "numberInList";
-
-    private static final String DELETED_LIST = "DELETED_LIST";
-
-    private static final String TASKS_LIST = "TASKS_LIST";
-
-    private static final String EMPLOYEE_IN_TASKS_LIST = "EMPLOYEE_IN_TASKS_LIST";
-
-    private static final String THIS_PROJECT_ID = "thisProjectId";
-
-    private static final String LIST = "/list";
-
-    private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
-
-    private static final String PROJECTS = "projects";
-
+    /**
+     * Хранит двоеточие.
+     */
+    private static final String COLON = ": ";
 
     /**
-     * Получение интерфейса для работы с БД.
+     * Хранит константу для сообщения ошибки в сервлете.
+     */
+    public static final String ERROR_IN_SERVLET = "Ошибка в сервлете ";
+
+    /**
+     * Хранит название JSP добавления проекта.
+     */
+    private static final String ADD_PROJECT_FORM_JSP = "/add-project-form.jsp";
+
+    /**
+     * Хранит название JSP редактирования сотрудника.
+     */
+    private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
+
+    /**
+     * Хранит константу для обозначения ID проекта.
+     */
+    private static final String PROJECT_ID = "projectId";
+
+    /**
+     * Хранит константу для обозначения название проекта.
+     */
+    private static final String TITLE_OF_PROJECT = "titleProject";
+
+    /**
+     * Хранит константу для обозначения описание проекта.
+     */
+    private static final String DESCRIPTION = "description";
+
+    /**
+     * Хранит константу для обозначения действия сервлета.
+     */
+    private static final String ACTION = "action";
+
+    /**
+     * Хранит константу для порядкового номера задачи в списке задач проекта.
+     */
+    private static final String NUMBER_IN_LIST = "numberInList";
+
+    /**
+     * Хранит константу для обозначения списка задач проекта.
+     */
+    private static final String DELETED_LIST = "DELETED_LIST";
+
+    /**
+     * Хранит константу для обозначения задач проекта.
+     */
+    private static final String TASKS_LIST = "TASKS_LIST";
+
+    /**
+     * Хранит константу для обозначения сотрудников, назначенных на соответствующие задачи.
+     */
+    private static final String EMPLOYEE_IN_TASKS_LIST = "EMPLOYEE_IN_TASKS_LIST";
+
+    /**
+     * Хранит константу для обозначения ID проекта, при редактировании проекта.
+    */
+    private static final String THIS_PROJECT_ID = "thisProjectId";
+
+    /**
+     * Хранит название кейса для выбора списка сотрудников.
+     */
+    private static final String LIST = "/list";
+
+    /**
+     * Логгер для записи событий.
+     */
+    private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
+
+    /**
+     * Хранит название кейса для обозначения списка проектов.
+     */
+    private static final String PROJECTS = "projects";
+
+    /**
+     * Пробел.
+     */
+    public static final String SPACE = " ";
+
+    /**
+     * Переменная доступа к методам классов DAO.
      */
     private IDao<Project> projectInterface;
 
@@ -92,11 +171,12 @@ public class ProjectController extends HttpServlet {
 
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(getServletName() + COLON + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
-        } catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
+        }
+        catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + COLON + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
         }
@@ -135,14 +215,10 @@ public class ProjectController extends HttpServlet {
                     deleteTaskInProject(req, resp);
             }
         }
-        catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+        catch (PathNotValidException | DaoException | IOException | ServletException e) {
+            LOGGER.severe(getServletName() + COLON + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
-        } catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new RuntimeException(e);
+            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
         }
     }
 
@@ -150,14 +226,15 @@ public class ProjectController extends HttpServlet {
     /**
      * Удаляет задачу из списка задач во время редактирования проекта.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws IOException исключения ввода-вывода.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         String numberInList = req.getParameter(NUMBER_IN_LIST);
@@ -179,10 +256,10 @@ public class ProjectController extends HttpServlet {
     /**
      * Назначает списки задач и сотрудников для редактирования проекта.
      *
-     * @param servletContext контекст сервлета.
-     * @param deleteTaskInProject список задач, которые были удалены из проекта.
-     * @param tasksListInProject список задач в проекте.
-     * @param employeeListInProject список сотрудников в проекте.
+     * @param servletContext контекст сервлета
+     * @param deleteTaskInProject список задач, которые были удалены из проекта
+     * @param tasksListInProject список задач в проекте
+     * @param employeeListInProject список имен сотрудников в проекте
      */
     private static void setParametersAboutProjectEditing(ServletContext servletContext,
         List<Integer> deleteTaskInProject, List<Task> tasksListInProject, List<String> employeeListInProject) {
@@ -195,14 +272,15 @@ public class ProjectController extends HttpServlet {
     /**
      * Отображает форму для редактирования задачи в проекте.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws IOException исключения ввода-вывода.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletcontext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletcontext.getAttribute(TASKS_LIST);
@@ -226,12 +304,13 @@ public class ProjectController extends HttpServlet {
      *
      * @param req запрос.
      * @param resp ответ.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         Integer thisProjectId = getProjectId(req, servletContext);
@@ -244,7 +323,6 @@ public class ProjectController extends HttpServlet {
         List<Integer> deletedTasks = getDeletedTasks(servletContext);
 
         servletContext.setAttribute(THIS_PROJECT_ID, thisProjectId);
-        System.out.println("thisProjectId = " + thisProjectId);
         servletContext.setAttribute("project", existingProject);
         setParametersAboutProjectEditing(servletContext, deletedTasks, tasksListInProject, employeeListInProject);
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
@@ -255,8 +333,8 @@ public class ProjectController extends HttpServlet {
     /**
      * Возвращает список удаленных задач во время редактирования проекта.
      *
-     * @param servletContext контекст сервлета.
-     * @return список удаленных задач.
+     * @param servletContext контекст сервлета
+     * @return список удаленных задач
      */
     private static List<Integer> getDeletedTasks(ServletContext servletContext) {
         List<Integer> deletedTasks = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
@@ -269,13 +347,14 @@ public class ProjectController extends HttpServlet {
     /**
      * Возвращает список сотрудников привязанных к задачам проекта.
      *
-     * @param servletContext контекст сервлета.
-     * @param tasksListInProject список задач в проекте.
-     * @return список сотрудников.
-     * @throws SQLException исключения БД.
+     * @param servletContext контекст сервлета
+     * @param tasksListInProject список задач в проекте
+     * @return список сотрудников
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private static List<String> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject)
-            throws DaoException, PathNotValidException {
+        throws DaoException, PathNotValidException {
 
         List<String> employeeListInProject = (List<String>) servletContext.getAttribute("EMP_LIST");
         if (employeeListInProject == null) {
@@ -285,9 +364,9 @@ public class ProjectController extends HttpServlet {
                     Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
                     StringBuffer stringBuffer = new StringBuffer();
                     stringBuffer.append(employee.getSurname());
-                    stringBuffer.append(" ");
+                    stringBuffer.append(SPACE);
                     stringBuffer.append(employee.getFirstName());
-                    stringBuffer.append(" ");
+                    stringBuffer.append(SPACE);
                     stringBuffer.append(employee.getPatronymic());
                     employeeListInProject.add(stringBuffer.toString());
                 }
@@ -302,13 +381,14 @@ public class ProjectController extends HttpServlet {
     /**
      * Возвращает список задач проекта.
      *
-     * @param existingProject проект.
-     * @param servletContext контекст сервлета.
-     * @return список задач в проекте.
-     * @throws SQLException исключения БД.
+     * @param existingProject проект
+     * @param servletContext контекст сервлета
+     * @return список задач в проекте
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private static List<Task> getTasksInProject(Project existingProject, ServletContext servletContext)
-            throws DaoException, PathNotValidException {
+        throws DaoException, PathNotValidException {
 
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         if (tasksListInProject == null) {
@@ -320,9 +400,9 @@ public class ProjectController extends HttpServlet {
     /**
      * Возвращает номер проекта.
      *
-     * @param req запрос.
-     * @param servletContext контекст сервлета.
-     * @return номер проекта.
+     * @param req запрос
+     * @param servletContext контекст сервлета
+     * @return номер проекта
      */
     private static Integer getProjectId(HttpServletRequest req, ServletContext servletContext) {
         Integer thisProjectId;
@@ -339,8 +419,8 @@ public class ProjectController extends HttpServlet {
     /**
      * Заносит данные о проекте в контекст сервлета.
      *
-     * @param servletContext контекст сервлета.
-     * @param existingProject проект.
+     * @param servletContext контекст сервлета
+     * @param existingProject проект
      */
     private static void setDataAboutProject(ServletContext servletContext, Project existingProject) {
         servletContext.setAttribute(PROJECT_ID, existingProject.getId());
@@ -351,14 +431,14 @@ public class ProjectController extends HttpServlet {
     /**
      * Удаляет проект из БД.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, IOException, PathNotValidException {
+        throws DaoException, IOException, PathNotValidException {
 
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
         projectInterface.delete(projectId);
@@ -368,16 +448,17 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Создает страницу создания задачи и вносит данные о новой задаче в форму.
+     * Открывает страницу создания задачи и вносит данные о новой задаче в форму.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletcontext = getServletContext();
         Integer thisProjectId = (Integer) servletcontext.getAttribute(PROJECT_ID);
@@ -391,12 +472,12 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Создает форму для создания проекта.
+     * Открывает форму для создания проекта.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
@@ -414,7 +495,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException исключения ввода-вывода.
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         Utils.setDataToDropDownList(req);
         removeServletAttributes();
@@ -439,21 +520,22 @@ public class ProjectController extends HttpServlet {
     /**
      * Изменяет данные проекта в БД.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         TaskDao taskInterface = new TaskDao();
         ServletContext servletContext = getServletContext();
 
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
-        Map<String,String> paramsList = getDataFromForm(req);
-        Map<String,String> errorsList = ValidationService.checkingProjectData(paramsList);
+        Map<String, String> paramsList = getDataFromForm(req);
+        Map<String, String> errorsList = ValidationService.checkingProjectData(paramsList);
         if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
             theProject.setId(projectId);
@@ -475,13 +557,13 @@ public class ProjectController extends HttpServlet {
     /**
      * Создает и обновляет задачи проекта во время изменения проекта.
      *
-     * @param taskInterface интерфейс для работы с задачами.
-     * @param servletContext контекст сервлета.
-     * @param projectId идентификатор проекта.
-     * @throws SQLException исключения БД.
+     * @param taskInterface интерфейс для работы с задачами
+     * @param servletContext контекст сервлета
+     * @param projectId идентификатор проекта
+     * @throws SQLException исключения БД
      */
     private static void updateTasksFromProjectEditing(TaskDao taskInterface, ServletContext servletContext, Integer projectId)
-            throws DaoException, PathNotValidException {
+        throws DaoException, PathNotValidException {
 
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<Integer> deleteTaskIdProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
@@ -506,10 +588,10 @@ public class ProjectController extends HttpServlet {
     /**
      * Создает проект с полученными данными.
      *
-     * @param paramsList данные из формы.
-     * @return проект.
+     * @param paramsList данные из формы
+     * @return проект
      */
-    private static Project getProject(Map<String,String> paramsList) {
+    private static Project getProject(Map<String, String> paramsList) {
         Project theProject = new Project();
         theProject.setTitle(paramsList.get(TITLE_OF_PROJECT));
         theProject.setDescription(paramsList.get(DESCRIPTION));
@@ -519,11 +601,11 @@ public class ProjectController extends HttpServlet {
     /**
      * Получает данные из формы.
      *
-     * @param req запрос.
-     * @return список данных.
+     * @param req запрос
+     * @return список данных
      */
-    private Map<String,String> getDataFromForm(HttpServletRequest req) {
-        Map<String,String> paramsList = new HashMap<>();
+    private Map<String, String> getDataFromForm(HttpServletRequest req) {
+        Map<String, String> paramsList = new HashMap<>();
         paramsList.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
         paramsList.put(DESCRIPTION, req.getParameter(DESCRIPTION));
         return paramsList;
@@ -532,17 +614,18 @@ public class ProjectController extends HttpServlet {
     /**
      * Добавляет новый проект в БД.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws ServletException исключения сервлета.
-     * @throws SQLException исключения БД.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, DaoException, IOException, PathNotValidException {
+        throws ServletException, DaoException, IOException, PathNotValidException {
 
-        Map<String,String> paramsList = getDataFromForm(req);
-        Map<String,String> errorsList = ValidationService.checkingProjectData(paramsList);
+        Map<String, String> paramsList = getDataFromForm(req);
+        Map<String, String> errorsList = ValidationService.checkingProjectData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
@@ -561,11 +644,13 @@ public class ProjectController extends HttpServlet {
     /**
      * Вносит в форму введенные данные и сообщения об ошибках.
      *
-     * @param req запрос.
-     * @param paramsList данные из формы.
-     * @param errorsList сообщения об ошибках.
+     * @param req запрос
+     * @param paramsList данные из формы
+     * @param errorsList сообщения об ошибках
      */
-    private void setDataToJspAfterValidation(HttpServletRequest req, Map<String, String> paramsList, Map<String,String> errorsList) {
+    private void setDataToJspAfterValidation(HttpServletRequest req,
+        Map<String, String> paramsList, Map<String, String> errorsList) {
+
         req.setAttribute("ERRORS", errorsList);
         req.setAttribute(TITLE_OF_PROJECT, paramsList.get(TITLE_OF_PROJECT).trim());
         req.setAttribute(DESCRIPTION, paramsList.get(DESCRIPTION).trim());

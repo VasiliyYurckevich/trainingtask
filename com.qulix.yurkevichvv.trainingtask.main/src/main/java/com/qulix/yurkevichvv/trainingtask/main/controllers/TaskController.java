@@ -1,9 +1,31 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,47 +57,119 @@ import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
  */
 public class TaskController extends HttpServlet {
 
+    /**
+     * Пробел.
+     */
+    private static final String SPACE = " ";
+
+    /**
+     * Хранит название JSP редактирования задачи.
+     */
     private static final String EDIT_TASK_FORM_JSP = "/edit-task-form.jsp";
 
+    /**
+     * Хранит название кейса для выбора списка сотрудников.
+     */
     private static final String LIST = "/list";
 
+    /**
+     * Хранит константу для обозначения действия сервлета.
+     */
     private static final String ACTION = "action";
 
+    /**
+     * Хранит константу для обозначения ID задачи.
+     */
     private static final String TASK_ID = "taskId";
 
+    /**
+     * Хранит константу для обозначения статуса задачи.
+     */
     private static final String STATUS = "status";
 
+    /**
+     * Хранит константу для обозначения названия задачи.
+     */
     private static final String TITLE = "title";
 
+    /**
+     * Хранит константу для обозначения ID проекта задачи.
+     */
     private static final String PROJECT_ID = "projectId";
 
+    /**
+     * Хранит константу для обозначения времени на выполнение задачи.
+     */
     private static final String WORK_TIME = "workTime";
 
+    /**
+     * Хранит константу для обозначения даты начала выполнения задачи.
+     */
     private static final String BEGIN_DATE = "beginDate";
 
+    /**
+     * Хранит константу для обозначения даты окончания выполнения задачи.
+     */
     private static final String END_DATE = "endDate";
 
+    /**
+     * Хранит константу для обозначения ID сотрудника, ответственного за задачу.
+     */
     private static final String EMPLOYEE_ID = "employeeId";
 
-    private static final String EMPLOYEE_LIST = "EMPLOYEE_LIST";
-
+    /**
+     * Хранит константу для обозначения списка проектов.
+     */
     private static final String PROJECT_LIST = "PROJECT_LIST";
 
+    /**
+     * Хранит константу для обозначения списка задач.
+     */
     private static final String TASKS_LIST = "TASKS_LIST";
 
+    /**
+     * Хранит константу для обозначения списка сотрудников, ответственных за задачи.
+     */
     private static final String EMPLOYEE_IN_TASKS_LIST = "EMPLOYEE_IN_TASKS_LIST";
 
+    /**
+     * Хранит константу для порядкового номера задачи в списке задач проекта.
+     */
     private static final String NUMBER_IN_LIST = "numberInList";
 
+    /**
+     * Хранит название JSP редактирования проекта.
+     */
     private static final String EDIT_PROJECT_JSP = "/edit-project-form.jsp";
 
+    /**
+     * Хранит название JSP добавления задачи.
+     */
     private static final String ADD_TASK_FORM_JSP = "/add-task-form.jsp";
 
+    /**
+     * Хранит константу для страницы списка задач.
+     */
     private static final String TASKS = "tasks";
 
+    /**
+     * Хранит двоеточие.
+     */
+    private static final String COLON = ": ";
 
+    /**
+     * Хранит константу для сообщения ошибки в сервлете.
+     */
+    public static final String ERROR_IN_SERVLET = "Ошибка в сервлете ";
+
+    /**
+     * Переменная доступа к методам классов DAO.
+     */
     private IDao<Task> tasksInterface;
 
+    /**
+     * Логгер для записи событий.
+     */
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
 
@@ -108,11 +202,12 @@ public class TaskController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(getServletName() + COLON + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
-        } catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
+        }
+        catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + COLON + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
         }
@@ -144,11 +239,12 @@ public class TaskController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            LOGGER.severe(getServletName() + COLON + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException("Ошибка в сервлете " + getServletName(), e);
-        } catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + ": " + e.getMessage());
+            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
+        } 
+        catch (PathNotValidException | DaoException e) {
+            LOGGER.severe(getServletName() + COLON + e.getMessage());
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
         }
@@ -158,11 +254,15 @@ public class TaskController extends HttpServlet {
     /**
      * Открывает и заполняет форму редактирования задачи.
      *
-     * @param req запрос.
-     * @param resp ответ.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         String taskId = req.getParameter(TASK_ID);
@@ -178,17 +278,21 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Сохраняет изменения в задаче.
+     * Сохраняет изменения в задаче в БД.
      *
-     * @param req запрос.
-     * @param resp ответ.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException, DaoException, PathNotValidException {
+        throws ServletException, IOException, DaoException, PathNotValidException {
 
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
-        Map<String,String> paramsList = getDataFromForm(req);
-        Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> paramsList = getDataFromForm(req);
+        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
@@ -209,7 +313,11 @@ public class TaskController extends HttpServlet {
     /**
      * Заполняет поля задачи.
      *
-     * @param paramsList поля задачи.
+     * @param paramsList поля задачи
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private static Task getTask(Map<String, String> paramsList) {
         Task task = new Task();
@@ -219,7 +327,6 @@ public class TaskController extends HttpServlet {
         task.setBeginDate(LocalDate.parse(paramsList.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsList.get(END_DATE)));
         task.setProjectId(Integer.valueOf(paramsList.get(PROJECT_ID)));
-        System.out.println(paramsList.get(EMPLOYEE_ID));
         task.setEmployeeId(Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
         return task;
     }
@@ -227,23 +334,27 @@ public class TaskController extends HttpServlet {
     /**
      * Добавляет новую задачу во время редактирования проекта.
      *
-     * @param req запрос.
-     * @param resp ответ.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
-        Map<String,String> paramsList = getDataFromForm(req);
-        Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> paramsList = getDataFromForm(req);
+        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             tasksListInProject.add(task);
             String numberInList = String.valueOf(tasksListInProject.size());
-            getEmployeesInProject(servletContext,numberInList,task);
+            getEmployeesInProject(servletContext, numberInList, task);
             setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
@@ -259,19 +370,23 @@ public class TaskController extends HttpServlet {
     /**
      * Изменяет данные задачи во время редактирования проекта.
      *
-     * @param req запрос.
-     * @param resp ответ.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
 
         Integer taskId = Integer.valueOf(req.getParameter(TASK_ID));
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
-        Map<String,String> paramsList = getDataFromForm(req);
-        Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> paramsList = getDataFromForm(req);
+        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
@@ -294,9 +409,9 @@ public class TaskController extends HttpServlet {
     /**
      * Обновляет список задач в проекте во время его редактирования.
      *
-     * @param servletContext контекст сервлета.
-     * @param tasksListInProject список задач.
-     * @param employeeListInProject список сотрудников привязанных к задаче.
+     * @param servletContext контекст сервлета
+     * @param tasksListInProject список задач в проекте
+     * @param employeeListInProject список сотрудников привязанных к задаче в проекте
      */
     private static void setListOfTasksInProject(ServletContext servletContext,
         List<Task> tasksListInProject, List<String> employeeListInProject) {
@@ -308,28 +423,31 @@ public class TaskController extends HttpServlet {
     /**
      * Вносит данные о сотруднике связанном с задачей в список задач проекта.
      *
-     * @param servletContext контекст сервлета.
+     * @param servletContext контекст сервлета
      * @param numberInList номер задачи в списке проекта
      * @param task задача
      * @return список сотрудников привязанных к проекту.
-     * @throws SQLException исключения БД.
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private static List<String> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
-            throws DaoException, PathNotValidException {
+        throws DaoException, PathNotValidException {
 
         List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
             try {
                 employeeListInProject.set(Integer.parseInt(numberInList), null);
-            } catch (IndexOutOfBoundsException e){
-                employeeListInProject.add( null);
+            }
+            catch (IndexOutOfBoundsException e) {
+                employeeListInProject.add(null);
 
             }
         }
         else {
             try {
-                employeeListInProject.set(Integer.parseInt(numberInList), getNameEmployee(task).toString() );
-            } catch (IndexOutOfBoundsException e){
+                employeeListInProject.set(Integer.parseInt(numberInList), getNameEmployee(task).toString());
+            }
+            catch (IndexOutOfBoundsException e) {
                 employeeListInProject.add(getNameEmployee(task).toString());
             }
         }
@@ -337,13 +455,17 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Создает форму добавления задачи.
+     * Открывает форму добавления задачи.
      *
-     * @param req запрос.
-     * @param resp ответ.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException, DaoException, PathNotValidException {
+        throws ServletException, IOException, DaoException, PathNotValidException {
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
         Utils.setDataToDropDownList(req);
@@ -354,14 +476,14 @@ public class TaskController extends HttpServlet {
     /**
      * Удаляет задачу из БД.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, IOException, PathNotValidException {
+        throws DaoException, IOException, PathNotValidException {
 
         String taskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.parseInt(taskId));
@@ -372,16 +494,18 @@ public class TaskController extends HttpServlet {
     /**
      * Создает новую задачу.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException, PathNotValidException, DaoException {
+        throws ServletException, IOException, PathNotValidException, DaoException {
 
         Map<String, String> paramsList = getDataFromForm(req);
-        Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
@@ -400,10 +524,10 @@ public class TaskController extends HttpServlet {
     /**
      * Вносит данные о задаче в форму.
      *
-     * @param paramsList список данных из формы.
+     * @param paramsList список данных из формы
      */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
-        Map<String,String> paramsList, Map<String,String> errorsList) {
+        Map<String, String> paramsList, Map<String, String> errorsList) {
 
         req.setAttribute("ERRORS", errorsList);
         req.setAttribute(STATUS, paramsList.get(STATUS));
@@ -411,20 +535,21 @@ public class TaskController extends HttpServlet {
         req.setAttribute(WORK_TIME, paramsList.get(WORK_TIME).trim());
         req.setAttribute(BEGIN_DATE, paramsList.get(BEGIN_DATE).trim());
         req.setAttribute(END_DATE, paramsList.get(END_DATE).trim());
-        req.setAttribute(EMPLOYEE_ID,Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
+        req.setAttribute(EMPLOYEE_ID, Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
     }
 
     /**
      * Выводит список задач.
      *
-     * @param req запрос.
-     * @param resp ответ.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @param req запрос
+     * @param resp ответ
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД.
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
-            throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException, PathNotValidException {
 
         List<Task> tasks = tasksInterface.getAll();
         List<Project> projects = new ProjectDao().getAll();
@@ -443,9 +568,16 @@ public class TaskController extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
-    private void setEmployeeList(List<String> employeeOfTask, Task t) throws PathNotValidException {
-        if (t.getEmployeeId() != null) {
-            StringBuffer stringBuffer = getNameEmployee(t);
+    /**
+     * Выводит список имен исполнителей задачи.
+     *
+     * @param employeeOfTask список имен исполнителей задачи
+     * @param task задача
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     */
+    private void setEmployeeList(List<String> employeeOfTask, Task task) throws PathNotValidException {
+        if (task.getEmployeeId() != null) {
+            StringBuffer stringBuffer = getNameEmployee(task);
             employeeOfTask.add(stringBuffer.toString());
         }
         else {
@@ -453,13 +585,20 @@ public class TaskController extends HttpServlet {
         }
     }
 
-    private static StringBuffer getNameEmployee(Task t) throws PathNotValidException {
-        Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
+    /**
+     * Возвращает имя исполнителя задачи.
+     *
+     * @param task задача
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @return имя исполнителя задачи
+     */
+    private static StringBuffer getNameEmployee(Task task) throws PathNotValidException {
+        Employee employee = new EmployeeDAO().getById(task.getEmployeeId());
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(employee.getSurname());
-        stringBuffer.append(" ");
+        stringBuffer.append(SPACE);
         stringBuffer.append(employee.getFirstName());
-        stringBuffer.append(" ");
+        stringBuffer.append(SPACE);
         stringBuffer.append(employee.getPatronymic());
         return stringBuffer;
     }
@@ -467,11 +606,12 @@ public class TaskController extends HttpServlet {
     /**
      * Вносит задачу из формы в список.
      *
-     * @param req запрос.
-     * @return список данных из формы.
+     *
+     * @param req запрос
+     * @return список данных из формы
      */
-    private Map<String,String> getDataFromForm(HttpServletRequest req) {
-        Map<String,String> paramsList  = new HashMap<>();
+    private Map<String, String> getDataFromForm(HttpServletRequest req) {
+        Map<String, String> paramsList  = new HashMap<>();
         paramsList.put(STATUS, req.getParameter(STATUS));
         paramsList.put(TITLE , req.getParameter(TITLE).trim());
         paramsList.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
@@ -479,7 +619,8 @@ public class TaskController extends HttpServlet {
         paramsList.put(END_DATE, req.getParameter(END_DATE).trim());
         if (req.getParameter(PROJECT_ID) != null) {
             paramsList.put(PROJECT_ID, req.getParameter(PROJECT_ID).trim());
-        } else {
+        }
+        else {
             paramsList.put(PROJECT_ID, getServletContext().getAttribute(PROJECT_ID).toString());
         }
         paramsList.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));

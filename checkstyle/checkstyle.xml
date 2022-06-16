@@ -33,10 +33,6 @@
       <property name="fileExtensions" value="properties" />
     </module>
 
-    <module name="JavadocPackage">
-        <property name="allowLegacy" value="false"/>
-        <property name="fileExtensions" value="java"/>
-    </module>
 
     <!--===============================================================================
      Code style rules.

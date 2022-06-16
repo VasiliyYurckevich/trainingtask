@@ -1,12 +1,29 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.validation;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,11 +34,11 @@ import java.util.Map;
 public class FieldsValidation {
 
     /**
-     * Проверка на валидность вводимой строки.
+     * Проверяет на валидность вводимую строку.
      *
-     * @param s Строка для валидации.
-     * @param length максимальная длина строки.
-     * @return Строка с ошибкой или пустой строкой.
+     * @param s Строка для валидации
+     * @param length максимальная длина строки
+     * @return Строка с ошибкой или пустой строкой
      */
     public static String stringValidityCheck(String s, int length) {
         StringBuffer error = new StringBuffer();
@@ -37,10 +54,10 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверка численного поля.
+     * Проверяет численное поле.
      *
-     * @param s Строка для валидации.
-     * @return Строка с ошибкой или пустой строкой.
+     * @param s Строка для валидации
+     * @return Строка с ошибкой или пустой строкой
      */
     public static String numberValidityCheck(String s) {
         StringBuffer error = new StringBuffer();
@@ -62,10 +79,10 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверка на пустое поле.
+     * Проверяет поле на пустоту.
      *
-     * @param s Строка для валидации.
-     * @param error Строка с ошибкой.
+     * @param s Строка для валидации
+     * @param error Строка с ошибкой
      */
     private static void checkForAnEmptyField(String s, StringBuffer error) {
         if (s.isEmpty() || s.trim().length() == 0) {
@@ -74,11 +91,11 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверка на валидность дат.
+     * Проверяет  валидность дат.
      *
-     * @param beginDate Дата начала.
-     * @param endDate Дата окончания.
-     * @return Строка с ошибкой или пустой строкой.
+     * @param beginDate Дата начала
+     * @param endDate Дата окончания
+     * @return Строка с ошибкой или пустой строкой
      */
     public static Map<String, String> dateValidityCheck(String beginDate, String endDate) {
         StringBuffer errorBeginDate = new StringBuffer();
@@ -92,16 +109,16 @@ public class FieldsValidation {
             checkingTheConsistencyOfDates(beginDate, endDate, errorEndDate);
         }
         listErrors.put("beginDate", errorBeginDate.toString());
-        listErrors.put("endDate",errorEndDate.toString());
+        listErrors.put("endDate", errorEndDate.toString());
         return listErrors;
     }
 
     /**
-     * Проверка вводимых дат на логичность последовательности даты начала и даты окончания.
+     * Проверяет вводимые даты на логичность последовательности даты начала и даты окончания.
      *
-     * @param beginDate Дата начала.
-     * @param endDate Дата окончания.
-     * @param error Строка с ошибкой.
+     * @param beginDate Дата начала
+     * @param endDate Дата окончания
+     * @param error Строка с ошибкой
      */
     private static void checkingTheConsistencyOfDates(String beginDate, String endDate, StringBuffer error) {
         LocalDate parsedBeginDate = LocalDate.parse(beginDate);
@@ -112,7 +129,7 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверка на формат и существование даты.
+     * Проверят формат и существование даты.
      *
      * @param date Дата для проверки.
      * @param error Строка с ошибкой.

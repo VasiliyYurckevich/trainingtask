@@ -1,3 +1,22 @@
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ */
 package com.qulix.yurkevichvv.trainingtask.main.connection;
 
 import java.sql.Connection;
@@ -16,17 +35,34 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
  */
 public class ConnectionProvider {
 
-
+    /**
+     * Хранит константу названия драйвера JDBC.
+     */
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
 
+    /**
+     * Хранит константу пути к БД.
+     */
     private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb;ifexists=true;sql.syntax_mys=true";
 
+    /**
+     * Хранит константу имени пользователя БД.
+     */
     private static final String USER = "SA";
 
+    /**
+     * Хранит константу пароля к БД.
+     */
     private static final String PASS = "";
 
+    /**
+     * Хранит константу для вывода состояния SQL.
+     */
     private static final String SQL_STATE = "SQL State  : ";
 
+    /**
+     * Логгер для записи событий.
+     */
     private static final Logger LOGGER = Logger.getLogger(ConnectionProvider.class.getName());
 
     /**
@@ -39,7 +75,8 @@ public class ConnectionProvider {
      * Устанавливает соединение с БД.
      *
      * @return подключение к БД.
-     * @throws SQLException ошибка подключения к БД.
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     public static Connection getConnection() throws DaoException, PathNotValidException {
         try {
@@ -64,7 +101,7 @@ public class ConnectionProvider {
     /**
      * Закрывает соединение с БД.
      *
-     * @throws SQLException исключение БД.
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД.
      */
     public static void closeConnection(Connection connection) throws DaoException {
         try {
