@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
+import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionProvider;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
@@ -52,7 +52,7 @@ public class EmployeeDAO implements IDao<Employee> {
     @Override
     public boolean add(Employee employee) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL)) {
             int index = 1;
@@ -70,14 +70,14 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при добавлении нового сотрудника в БД");
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
     @Override
     public boolean update(Employee employee) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_SQL)) {
             int index = 1;
@@ -94,14 +94,14 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при попытке изменить данные о сотруднике", e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
     @Override
     public boolean delete(Integer id) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL)) {
             preparedStatement.setInt(1, id);
@@ -114,7 +114,7 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при удалении сотрудника из базы данных",e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
@@ -122,7 +122,7 @@ public class EmployeeDAO implements IDao<Employee> {
     @Override
     public List<Employee> getAll() throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CLIENT)){
             List<Employee> employees = new ArrayList<>();
@@ -146,14 +146,14 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при получении данных о сотрудниках", e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
     @Override
     public Employee getById(Integer id) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)){
 
@@ -177,7 +177,7 @@ public class EmployeeDAO implements IDao<Employee> {
             throw new DaoException("Ошибка при получении данных о сотруднике", e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.main.connection.DBConnection;
+import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionProvider;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
@@ -45,7 +45,7 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public boolean add(Project project) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL)) {
             int index = 1;
@@ -59,7 +59,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при добавлении проекта в БД",e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
@@ -67,7 +67,7 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public boolean update(Project project) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try (CallableStatement preparedStatement = connection.prepareCall(UPDATE_PROJECT_SQL)) {
             int index = 1;
@@ -84,7 +84,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при обновлении проекта в БД",e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
@@ -92,7 +92,7 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public boolean delete(Integer id) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)){
             int index = 1;
@@ -107,7 +107,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при удалении проекта из БД",e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
@@ -115,7 +115,7 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public List<Project> getAll() throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -136,7 +136,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при получении всех проектов из БД",e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 
@@ -144,7 +144,7 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public Project getById(Integer id) throws DaoException, PathNotValidException {
 
-        Connection connection = DBConnection.getConnection();
+        Connection connection = ConnectionProvider.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID)) {
             int index = 1;
@@ -165,7 +165,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Ошибка при получении проекта по id из БД",e);
         }
         finally {
-            DBConnection.closeConnection(connection);
+            ConnectionProvider.closeConnection(connection);
         }
     }
 }

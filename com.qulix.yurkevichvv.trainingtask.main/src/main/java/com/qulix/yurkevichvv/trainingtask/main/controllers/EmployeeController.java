@@ -1,5 +1,21 @@
-/**
- * Info about this package doing something for package-info.java file.
+/*
+ * Copyright 2007 Qulix Systems, Inc. All rights reserved.
+ * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
+ * terms.
+ * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Qulix Systems. ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Sun.
+ *
+ * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
+ * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
+ * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+ * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
@@ -30,31 +46,64 @@ import java.util.logging.Logger;
  */
 public class EmployeeController extends HttpServlet {
 
+    /**
+     * Хранит название JSP добавления сотрудника.
+     */
     private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
 
+    /**
+     * Хранит название JSP редактирования сотрудника.
+     */
     private static final String EDIT_EMPLOYEE_FORM_JSP = "/edit-employee-form.jsp";
 
+    /**
+     * Хранит название кейса для выбора списка сотрудников.
+     */
     private static final String LIST = "/list";
 
+    /**
+     * Хранит константу для обозначения действия сервлета.
+     */
     private static final String ACTION = "action";
 
+    /**
+     * Хранит константу для обозначения ID сотрудника.
+     */
     private static final String EMPLOYEE_ID = "employeeId";
 
+    /**
+     * Хранит константу для обозначения фамилии сотрудника.
+     */
     private static final String SURNAME = "surname";
 
+    /**
+     * Хранит константу для обозначения имени сотрудника.
+     */
     private static final String FIRST_NAME = "firstName";
 
+    /**
+     * Хранит константу для обозначения отчества сотрудника.
+     */
     private static final String PATRONYMIC = "patronymic";
 
+    /**
+     * Хранит константу для обозначения должности сотрудника.
+     */
     private static final String POST = "post";
 
+    /**
+     * Хранит константу для обозначения списка сотрудников.
+     */
     private static final String EMPLOYEES_LIST = "employees";
 
     /**
-     * Интерфейс для взаимодействия с базой данных.
+     * Переменная доступа к методам классов DAO.
      */
     private IDao<Employee> employeeInterface;
 
+    /**
+     * Логгер для записи событий.
+     */
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
     @Override

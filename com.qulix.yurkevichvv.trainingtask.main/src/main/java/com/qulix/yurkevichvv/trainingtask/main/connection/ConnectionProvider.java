@@ -10,11 +10,11 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 /**
- * Устанавливает контакт между приложением и БД.
+ * Провайдер подключения к БД.
  *
  * @author Q-YVV
  */
-public class DBConnection {
+public class ConnectionProvider {
 
 
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
@@ -27,7 +27,7 @@ public class DBConnection {
 
     private static final String SQL_STATE = "SQL State  : ";
 
-    private static final Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConnectionProvider.class.getName());
 
     /**
      * Получение подключения к БД.
@@ -36,7 +36,7 @@ public class DBConnection {
 
 
     /**
-     * Подключение к БД.
+     * Устанавливает соединение с БД.
      *
      * @return подключение к БД.
      * @throws SQLException ошибка подключения к БД.
@@ -62,7 +62,7 @@ public class DBConnection {
     }
 
     /**
-     * Закрытие подключения к БД.
+     * Закрывает соединение с БД.
      *
      * @throws SQLException исключение БД.
      */
