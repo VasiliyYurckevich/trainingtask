@@ -22,16 +22,16 @@ INSERT INTO "PUBLIC"."TASK"
 VALUES ( 1, 1, 'Составить отчет о экономической выгоде', 35, '2022-02-28', '2022-03-05', 3, 3);
 INSERT INTO "PUBLIC"."TASK"
 ( "ID", "STATUS", "TITLE", "WORK_TIME", "BEGIN_DATE", "END_DATE", "EMPLOYEE_ID", "PROJECT_ID" )
-VALUES ( 2, 2, 'Добавить функцию просмотра рассходов клиента', 20, '2022-04-11', '2022-04-12', 5, 1);
+VALUES ( 2, 2, 'Добавить функцию просмотра расходов клиента', 20, '2022-04-11', '2022-04-12', 5, 1);
 INSERT INTO "PUBLIC"."TASK"
 ( "ID", "STATUS", "TITLE", "WORK_TIME", "BEGIN_DATE", "END_DATE", "EMPLOYEE_ID", "PROJECT_ID" )
 VALUES ( 3, 2, 'Полное тестирование функциональности', 170, '2022-03-28', '2022-04-30', 6, 2);
 INSERT INTO "PUBLIC"."TASK"
 ( "ID", "STATUS", "TITLE", "WORK_TIME", "BEGIN_DATE", "END_DATE", "EMPLOYEE_ID", "PROJECT_ID" )
-VALUES ( 4, 4, '№132 Ошибка при вводе некорретных данных', 20, '2022-03-11', '2022-03-15', 5, 1);
+VALUES ( 4, 4, '№132 Ошибка при вводе некорректных данных', 20, '2022-03-11', '2022-03-15', 5, 1);
 INSERT INTO "PUBLIC"."TASK"
 ( "ID", "STATUS", "TITLE", "WORK_TIME", "BEGIN_DATE", "END_DATE", "EMPLOYEE_ID", "PROJECT_ID" )
-VALUES ( 5, 2, 'Разработать дизайн диарамм расходов', 2, '2022-03-28', '2022-03-29', 7, 1);
+VALUES ( 5, 2, 'Разработать дизайн диаграмм расходов', 2, '2022-03-28', '2022-03-29', 7, 1);
 INSERT INTO "PUBLIC"."TASK"
 ( "ID", "STATUS", "TITLE", "WORK_TIME", "BEGIN_DATE", "END_DATE", "EMPLOYEE_ID", "PROJECT_ID" )
 VALUES ( 6, 1, 'Доработать игровой движок', 235, '2022-03-28', '2022-05-05', 4, 3);
