@@ -56,9 +56,7 @@ test {
     useJUnitPlatform()
 }
 
-apply from: 'startDatabase.gradle'
 apply plugin: 'checkstyle'
-apply from: 'setDataInDB.gradle'
 
 checkstyle {
     toolVersion = '8.14'

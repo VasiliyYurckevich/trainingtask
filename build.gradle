@@ -1,5 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.hsqldb:hsqldb:${gradle.hsqldbVersion}"
+    }
+}
+
 plugins {
     id 'java'
+    id 'war'
 }
 group 'com.qulix.yurkevichvv'
 version '1.0-SNAPSHOT'
@@ -25,10 +36,21 @@ tasks.withType(JavaCompile) {
 
 
 dependencies {
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.hsqldb:hsqldb:2.5.1'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+    compileOnly('javax:javaee-web-api:8.0.1')
+    implementation group: 'jstl', name: 'jstl', version: '1.2'
+
 }
 
 test {
     useJUnitPlatform()
 }
+
+apply from: 'startDatabase.gradle'
+apply from: 'setDataInDB.gradle'
+apply from: 'dropDatabase.gradle'
+apply from: 'stopDatabase.gradle'
 
 
