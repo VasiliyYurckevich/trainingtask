@@ -148,12 +148,7 @@ public class ProjectDao implements IDao<Project> {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID)) {
             int index = 1;
-            if (id == null) {
-                preparedStatement.setNull(index, 0);
-            }
-            else {
-                preparedStatement.setInt(index, id);
-            }
+            preparedStatement.setInt(index, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Project project = new Project();
             while (resultSet.next()) {

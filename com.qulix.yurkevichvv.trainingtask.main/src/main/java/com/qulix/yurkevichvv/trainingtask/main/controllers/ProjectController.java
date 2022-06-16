@@ -163,7 +163,7 @@ public class ProjectController extends HttpServlet {
         String numberInList = req.getParameter(NUMBER_IN_LIST);
         List<Integer> deleteTaskInProject = (List<Integer>) servletContext.getAttribute(DELETED_LIST);
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
+        List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         Integer id = tasksListInProject.get(Integer.parseInt(numberInList)).getId();
 
         tasksListInProject.remove(Integer.parseInt(numberInList));
@@ -185,7 +185,7 @@ public class ProjectController extends HttpServlet {
      * @param employeeListInProject список сотрудников в проекте.
      */
     private static void setParametersAboutProjectEditing(ServletContext servletContext,
-        List<Integer> deleteTaskInProject, List<Task> tasksListInProject, List<Employee> employeeListInProject) {
+        List<Integer> deleteTaskInProject, List<Task> tasksListInProject, List<String> employeeListInProject) {
 
         servletContext.setAttribute(TASKS_LIST, tasksListInProject);
         servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
@@ -240,7 +240,7 @@ public class ProjectController extends HttpServlet {
         existingProject.setId(thisProjectId);
 
         List<Task> tasksListInProject = getTasksInProject(existingProject, servletContext);
-        List<Employee> employeeListInProject = getEmployeesInProject(servletContext, tasksListInProject);
+        List<String> employeeListInProject = getEmployeesInProject(servletContext, tasksListInProject);
         List<Integer> deletedTasks = getDeletedTasks(servletContext);
 
         servletContext.setAttribute(THIS_PROJECT_ID, thisProjectId);
@@ -274,15 +274,26 @@ public class ProjectController extends HttpServlet {
      * @return список сотрудников.
      * @throws SQLException исключения БД.
      */
-    private static List<Employee> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject)
+    private static List<String> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject)
             throws DaoException, PathNotValidException {
 
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute("EMP_LIST");
+        List<String> employeeListInProject = (List<String>) servletContext.getAttribute("EMP_LIST");
         if (employeeListInProject == null) {
             employeeListInProject = new ArrayList<>();
             for (Task t : tasksListInProject) {
-                Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
-                employeeListInProject.add(employee);
+                if (t.getEmployeeId() != null) {
+                    Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
+                    StringBuffer stringBuffer = new StringBuffer();
+                    stringBuffer.append(employee.getSurname());
+                    stringBuffer.append(" ");
+                    stringBuffer.append(employee.getFirstName());
+                    stringBuffer.append(" ");
+                    stringBuffer.append(employee.getPatronymic());
+                    employeeListInProject.add(stringBuffer.toString());
+                }
+                else {
+                    employeeListInProject.add(null);
+                }
             }
         }
         return employeeListInProject;

@@ -156,22 +156,13 @@ public class EmployeeDAO implements IDao<Employee> {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)){
-            if (id == null) {
-                preparedStatement.setNull(1, 0);
-            }
-            else {
-                preparedStatement.setInt(1, id);
-            }
+
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Employee employee = new Employee();
 
             while (resultSet.next()) {
-                if (resultSet.getInt(EMPLOYEE_ID) != 0) {
-                    employee.setId(resultSet.getInt(EMPLOYEE_ID));
-                }
-                else {
-                    employee.setId(null);
-                }
+                employee.setId(resultSet.getInt(EMPLOYEE_ID));
                 employee.setSurname(resultSet.getString(SURNAME));
                 employee.setFirstName(resultSet.getString(FIRST_NAME));
                 employee.setPatronymic(resultSet.getString(PATRONYMIC));

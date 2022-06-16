@@ -235,19 +235,15 @@ public class TaskController extends HttpServlet {
 
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
+        List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         Map<String,String> paramsList = getDataFromForm(req);
         Map<String,String> errorsList = ValidationService.checkingTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             tasksListInProject.add(task);
-            if (task.getEmployeeId() == null) {
-                employeeListInProject.add(null);
-            }
-            else {
-                employeeListInProject.add(new EmployeeDAO().getById(task.getEmployeeId()));
-            }
+            String numberInList = String.valueOf(tasksListInProject.size());
+            getEmployeesInProject(servletContext,numberInList,task);
             setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
@@ -281,7 +277,7 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksListInProject.set(Integer.parseInt(numberInList), task);
-            List<Employee> employeeListInProject = getEmployeesInProject(servletContext, numberInList, task);
+            List<String> employeeListInProject = getEmployeesInProject(servletContext, numberInList, task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
             setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
             servletContext.setAttribute(NUMBER_IN_LIST, numberInList);
@@ -303,7 +299,7 @@ public class TaskController extends HttpServlet {
      * @param employeeListInProject список сотрудников привязанных к задаче.
      */
     private static void setListOfTasksInProject(ServletContext servletContext,
-        List<Task> tasksListInProject, List<Employee> employeeListInProject) {
+        List<Task> tasksListInProject, List<String> employeeListInProject) {
 
         servletContext.setAttribute(TASKS_LIST, tasksListInProject);
         servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
@@ -318,15 +314,24 @@ public class TaskController extends HttpServlet {
      * @return список сотрудников привязанных к проекту.
      * @throws SQLException исключения БД.
      */
-    private static List<Employee> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
+    private static List<String> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
             throws DaoException, PathNotValidException {
 
-        List<Employee> employeeListInProject = (List<Employee>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
+        List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
-            employeeListInProject.set(Integer.parseInt(numberInList), null);
+            try {
+                employeeListInProject.set(Integer.parseInt(numberInList), null);
+            } catch (IndexOutOfBoundsException e){
+                employeeListInProject.add( null);
+
+            }
         }
         else {
-            employeeListInProject.set(Integer.parseInt(numberInList), new EmployeeDAO().getById(task.getEmployeeId()));
+            try {
+                employeeListInProject.set(Integer.parseInt(numberInList), getNameEmployee(task).toString() );
+            } catch (IndexOutOfBoundsException e){
+                employeeListInProject.add(getNameEmployee(task).toString());
+            }
         }
         return employeeListInProject;
     }
@@ -423,11 +428,10 @@ public class TaskController extends HttpServlet {
 
         List<Task> tasks = tasksInterface.getAll();
         List<Project> projects = new ProjectDao().getAll();
-        List<Employee> employeeOfTask = new ArrayList<>();
+        List<String> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
         for (Task t: tasks) {
-            Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
-            employeeOfTask.add(employee);
+            setEmployeeList(employeeOfTask, t);
             Project project = new ProjectDao().getById(t.getProjectId());
             projectsOfTask.add(project);
         }
@@ -437,6 +441,27 @@ public class TaskController extends HttpServlet {
         req.setAttribute("PROJ_LIST", projectsOfTask);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
+    }
+
+    private void setEmployeeList(List<String> employeeOfTask, Task t) throws PathNotValidException {
+        if (t.getEmployeeId() != null) {
+            StringBuffer stringBuffer = getNameEmployee(t);
+            employeeOfTask.add(stringBuffer.toString());
+        }
+        else {
+            employeeOfTask.add(null);
+        }
+    }
+
+    private static StringBuffer getNameEmployee(Task t) throws PathNotValidException {
+        Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(employee.getSurname());
+        stringBuffer.append(" ");
+        stringBuffer.append(employee.getFirstName());
+        stringBuffer.append(" ");
+        stringBuffer.append(employee.getPatronymic());
+        return stringBuffer;
     }
 
     /**
