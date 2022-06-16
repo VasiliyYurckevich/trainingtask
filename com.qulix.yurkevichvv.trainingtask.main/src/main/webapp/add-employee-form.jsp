@@ -17,9 +17,9 @@
         <div>
             <div id="container">
                 <h3>Добавить сотрудника</h3>
-                <form action="employees" method="post">
+                <form action="employees"   method="post">
                     <input type="hidden" name="action" value="/add"/>
-                    <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
+                    <input type="submit" value="Сохранить"  name="submitButton" id="submitButton" class="add-button">
                     <button onclick="history.back()" type="button"
                             id="cancelButton" name="cancelButton" class="add-button">Отмена
                     </button>
@@ -76,5 +76,12 @@
                 </form>
             </div>
         </div>
+        <script>
+            var forms = document.querySelector('form');
+            forms.addEventListener('submit', function(){
+                var btn = this.querySelector("input[type=submit], button[type=submit]");
+                btn.disabled = true;
+            });
+        </script>
     </body>
 </html>

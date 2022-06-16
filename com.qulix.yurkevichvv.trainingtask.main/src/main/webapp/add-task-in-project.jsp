@@ -36,10 +36,11 @@
                             </td>
                             <td>
                                 <select name="status" data-selected="${status}">
-                                    <option ${status == "Не начата" ? 'selected="selected"' : ''}>Не начата</option>
-                                    <option ${status == "В процессе" ? 'selected="selected"' : ''}>В процессе</option>
-                                    <option ${status == "Завершена" ? 'selected="selected"' : ''}>Завершена</option>
-                                    <option ${status == "Отложена" ? 'selected="selected"' : ''}>Отложена</option>
+                                    <c:forEach items="${STATUS_LIST}" var="statuses">
+                                        <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
+                                                ${fn:escapeXml(statuses.getStatusTitle())}
+                                        </option>
+                                    </c:forEach>
                                 </select>
                             </td>
                             <td>
@@ -105,10 +106,13 @@
                                 <label>Сотрудник:</label>
                             </td>
                             <td>
-                                <select name="status" data-selected="${status}">
-                                    <c:forEach items="${STATUS_LIST}" var="statuses">
-                                        <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
-                                                ${fn:escapeXml(statuses.getStatusTitle())}
+                                <select name="employeeId">
+                                    <option value="null"> </option>
+                                    <c:forEach items="${EMPLOYEE_LIST}" var="employees">
+                                        <option value="${employees.id}">
+                                                ${fn:escapeXml(employees.surname)}
+                                                ${fn:escapeXml(employees.firstName)}
+                                                ${fn:escapeXml(employees.patronymic)}
                                         </option>
                                     </c:forEach>
                                 </select>
@@ -121,6 +125,13 @@
                 </form>
             </div>
         </div>
+        <script>
+            var forms = document.querySelector('form');
+            forms.addEventListener('submit', function(){
+                var btn = this.querySelector("input[type=submit], button[type=submit]");
+                btn.disabled = true;
+            });
+        </script>
     </body>
 </html>
 

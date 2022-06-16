@@ -96,9 +96,8 @@
                                     <td> ${tempTask.beginDate}</td>
                                     <td> ${tempTask.endDate} </td>
                                     <td> ${fn:escapeXml(titleProject)}</td>
-                                    <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).surname)}
-                                        ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).firstName)}
-                                        ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index).patronymic)}
+                                    <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index))}
+
                                     </td>
                                     <td>
                                         <a href="${editLink}">Редактировать</a>
@@ -114,5 +113,12 @@
                 </form>
             </div>
         </div>
+        <script>
+            var forms = document.querySelector('form');
+            forms.addEventListener('submit', function(){
+                var btn = this.querySelector("input[type=submit], button[type=submit]");
+                btn.disabled = true;
+            });
+        </script>
     </body>
 </html>

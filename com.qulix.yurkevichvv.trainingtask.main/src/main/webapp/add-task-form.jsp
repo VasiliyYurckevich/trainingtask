@@ -131,6 +131,13 @@
                 </form>
             </div>
         </div>
+        <script>
+            var forms = document.querySelector('form');
+            forms.addEventListener('submit', function(){
+                var btn = this.querySelector("input[type=submit], button[type=submit]");
+                btn.disabled = true;
+            });
+        </script>
     </body>
 </html>
 
