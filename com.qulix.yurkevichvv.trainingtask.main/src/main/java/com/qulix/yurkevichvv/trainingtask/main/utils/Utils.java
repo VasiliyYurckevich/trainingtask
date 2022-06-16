@@ -48,16 +48,16 @@ public class Utils {
      * @return Возвращает true, если список пустой или содержащий только пустые строки.
      */
     public static boolean isBlankMap(Map<String, String> map) {
-        return map.isEmpty() || map.values().stream().allMatch(s -> s.isEmpty());
+        return map.isEmpty() || map.values().stream().allMatch(String::isEmpty);
     }
 
     /**
-     * Переводит String в Integer, проверяя строку на "null".
+     * Переводит String в Integer.
      *
      * @param s строка для конвертации.
      * @return конвертированное значение.
      */
-    public static Integer stringToInteger(String s) {
+    public static Integer convertStringToInteger(String s) {
         if (s.equals("null")) {
             return null;
         }

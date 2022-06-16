@@ -327,7 +327,7 @@ public class TaskController extends HttpServlet {
         task.setBeginDate(LocalDate.parse(paramsList.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsList.get(END_DATE)));
         task.setProjectId(Integer.valueOf(paramsList.get(PROJECT_ID)));
-        task.setEmployeeId(Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
+        task.setEmployeeId(Utils.convertStringToInteger(paramsList.get(EMPLOYEE_ID)));
         return task;
     }
 
@@ -535,7 +535,7 @@ public class TaskController extends HttpServlet {
         req.setAttribute(WORK_TIME, paramsList.get(WORK_TIME).trim());
         req.setAttribute(BEGIN_DATE, paramsList.get(BEGIN_DATE).trim());
         req.setAttribute(END_DATE, paramsList.get(END_DATE).trim());
-        req.setAttribute(EMPLOYEE_ID, Utils.stringToInteger(paramsList.get(EMPLOYEE_ID)));
+        req.setAttribute(EMPLOYEE_ID, Utils.convertStringToInteger(paramsList.get(EMPLOYEE_ID)));
     }
 
     /**
