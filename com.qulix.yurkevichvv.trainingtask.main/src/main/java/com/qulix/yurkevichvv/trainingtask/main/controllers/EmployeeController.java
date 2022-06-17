@@ -20,7 +20,6 @@
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -366,9 +365,10 @@ public class EmployeeController extends HttpServlet {
      *
      * @param req запрос
      * @param resp ответ
-     * @throws SQLException исключение БД.
-     * @throws ServletException исключение сервлета.
-     * @throws IOException исключение ввода-вывода.
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {

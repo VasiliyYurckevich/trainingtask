@@ -20,9 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,12 +170,12 @@ public class ProjectController extends HttpServlet {
         }
         catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            LOGGER.severe(e.toString());
             throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
         }
         catch (PathNotValidException | DaoException e) {
             LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            LOGGER.severe(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -217,7 +215,7 @@ public class ProjectController extends HttpServlet {
         }
         catch (PathNotValidException | DaoException | IOException | ServletException e) {
             LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            LOGGER.severe(e.toString());
             throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
         }
     }
@@ -288,7 +286,7 @@ public class ProjectController extends HttpServlet {
         String numberInList = req.getParameter(NUMBER_IN_LIST);
         servletcontext.setAttribute(NUMBER_IN_LIST, numberInList);
 
-        Task existingTask = tasksListInProject.get(Integer.valueOf(numberInList));
+        Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
         Utils.setTaskDataInJsp(req, existingTask);
         servletcontext.setAttribute(PROJECT_ID, thisProjectId);
 
@@ -362,7 +360,7 @@ public class ProjectController extends HttpServlet {
             for (Task t : tasksListInProject) {
                 if (t.getEmployeeId() != null) {
                     Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
-                    StringBuffer stringBuffer = new StringBuffer();
+                    StringBuilder stringBuffer = new StringBuilder();
                     stringBuffer.append(employee.getSurname());
                     stringBuffer.append(SPACE);
                     stringBuffer.append(employee.getFirstName());
@@ -490,9 +488,10 @@ public class ProjectController extends HttpServlet {
      *
      * @param req запрос.
      * @param resp ответ.
-     * @throws SQLException исключения БД.
-     * @throws ServletException исключения сервлета.
-     * @throws IOException исключения ввода-вывода.
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -560,7 +559,8 @@ public class ProjectController extends HttpServlet {
      * @param taskInterface интерфейс для работы с задачами
      * @param servletContext контекст сервлета
      * @param projectId идентификатор проекта
-     * @throws SQLException исключения БД
+     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private static void updateTasksFromProjectEditing(TaskDao taskInterface, ServletContext servletContext, Integer projectId)
         throws DaoException, PathNotValidException {

@@ -22,7 +22,6 @@ package com.qulix.yurkevichvv.trainingtask.main.controllers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -203,12 +202,12 @@ public class TaskController extends HttpServlet {
         }
         catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            LOGGER.severe(e.toString());
             throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
         }
         catch (PathNotValidException | DaoException e) {
             LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            LOGGER.severe(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -240,12 +239,12 @@ public class TaskController extends HttpServlet {
         }
         catch (IOException | ServletException e) {
             LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            LOGGER.severe(e.toString());
             throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
         } 
         catch (PathNotValidException | DaoException e) {
             LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+            LOGGER.severe(e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -314,16 +313,12 @@ public class TaskController extends HttpServlet {
      * Заполняет поля задачи.
      *
      * @param paramsList поля задачи
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private static Task getTask(Map<String, String> paramsList) {
         Task task = new Task();
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsList.get(STATUS))));
         task.setTitle(paramsList.get(TITLE));
-        task.setWorkTime(Integer.valueOf(paramsList.get(WORK_TIME)));
+        task.setWorkTime(Integer.parseInt(paramsList.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsList.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsList.get(END_DATE)));
         task.setProjectId(Integer.valueOf(paramsList.get(PROJECT_ID)));

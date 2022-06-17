@@ -20,7 +20,7 @@
                 <form action="employees"   method="post">
                     <input type="hidden" name="action" value="/add"/>
                     <input type="submit" value="Сохранить"  name="submitButton" id="submitButton" class="add-button">
-                    <button onclick="history.back()" type="button"
+                    <button onclick="location.href='employees.jsp'" type="button"
                             id="cancelButton" name="cancelButton" class="add-button">Отмена
                     </button>
 

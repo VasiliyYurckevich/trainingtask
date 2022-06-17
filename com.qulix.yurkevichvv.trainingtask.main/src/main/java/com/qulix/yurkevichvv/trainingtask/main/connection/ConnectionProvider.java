@@ -86,13 +86,13 @@ public class ConnectionProvider {
         }
         catch (ClassNotFoundException e) {
             LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
-            LOGGER.severe(e.getStackTrace().toString());
+            LOGGER.severe(e.toString());
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             throw new PathNotValidException("Драйвер не найден", e);
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            LOGGER.severe(e.getStackTrace().toString());
+            LOGGER.severe(e.toString());
             LOGGER.severe(SQL_STATE + e.getSQLState());
             throw new DaoException("БД временно недоступна. Повторите попытку позже", e);
         }
@@ -111,7 +111,7 @@ public class ConnectionProvider {
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            LOGGER.severe(e.getStackTrace().toString());
+            LOGGER.severe(e.toString());
             LOGGER.severe(SQL_STATE + e.getSQLState());
             throw new DaoException("Ошибка закрытия подключения к БД.", e);
         }

@@ -24,7 +24,7 @@
                     <table>
                         <div>
                             <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
-                            <button id="cancelButton" name="cancelButton" onclick="window.history.back()"
+                            <button id="cancelButton" name="cancelButton" onclick="location.href='tasks'"
                                     type="button" class="add-button">
                                 Отмена
                             </button>
@@ -37,7 +37,7 @@
                             <td>
                                 <select name="status" data-selected="${status}">
                                     <c:forEach items="${STATUS_LIST}" var="statuses">
-                                        <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
+                                        <option value="${statuses.getId()}">
                                                 ${fn:escapeXml(statuses.getStatusTitle())}
                                         </option>
                                     </c:forEach>

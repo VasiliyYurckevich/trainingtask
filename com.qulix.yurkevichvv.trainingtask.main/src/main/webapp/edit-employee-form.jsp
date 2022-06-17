@@ -25,7 +25,7 @@
                         <div>
                             <input type="submit" value="Сохранить"
                                 name="submitButton" id="submitButton" class="add-button">
-                            <button id="cancelButton" name="cancelButton" onclick="history.back()"
+                            <button id="cancelButton" name="cancelButton" onclick="location.href='employees.jsp'"
                                 type="button" class="add-button">
                                 Отмена
                             </button>

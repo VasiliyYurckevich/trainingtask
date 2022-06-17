@@ -102,7 +102,7 @@ public class ProjectDao implements IDao<Project> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL)) {
             int index = 1;
             preparedStatement.setString(index++, project.getTitle());
-            preparedStatement.setString(index++, project.getDescription());
+            preparedStatement.setString(index, project.getDescription());
             return preparedStatement.execute();
         }
         catch (SQLException e) {
@@ -126,7 +126,7 @@ public class ProjectDao implements IDao<Project> {
             int index = 1;
             preparedStatement.setString(index++, project.getTitle());
             preparedStatement.setString(index++, project.getDescription());
-            preparedStatement.setInt(index++, project.getId());
+            preparedStatement.setInt(index, project.getId());
 
             return preparedStatement.execute();
         }
@@ -149,7 +149,7 @@ public class ProjectDao implements IDao<Project> {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)) {
             int index = 1;
-            preparedStatement.setInt(index++, id);
+            preparedStatement.setInt(index, id);
 
             return preparedStatement.execute();
         }

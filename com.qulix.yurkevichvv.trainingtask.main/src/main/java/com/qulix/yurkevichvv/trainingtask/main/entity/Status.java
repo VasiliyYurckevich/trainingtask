@@ -53,14 +53,14 @@ public enum Status {
     /**
      * Идентификатор статуса.
      */
-    private Integer id;
+    private final Integer id;
 
     /**
      * Название статуса.
      */
-    private String statusTitle;
+    private final String statusTitle;
 
-    public Integer getId() {
+    public  Integer getId() {
         return id;
     }
 
@@ -76,4 +76,7 @@ public enum Status {
         return N0BEGIN;
     }
 
+    public String getStatusTitle() {
+        return statusTitle;
+    }
 }

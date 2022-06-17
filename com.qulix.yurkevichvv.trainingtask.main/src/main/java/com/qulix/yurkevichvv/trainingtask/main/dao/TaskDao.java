@@ -177,7 +177,7 @@ public class TaskDao implements IDao<Task> {
      *
      * @param task объект класса "Задача".
      * @param preparedStatement выражение SQL.
-     * @throws SQLException исключение БД.
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private int setDataInToStatement(Task task, PreparedStatement preparedStatement) throws DaoException {
         try {
@@ -235,7 +235,7 @@ public class TaskDao implements IDao<Task> {
      *
      * @param id идентификатор проекта.
      * @return все задачи проекта.
-     * @throws SQLException исключение БД.
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     public List<Task> getTasksInProject(Integer id) throws DaoException, PathNotValidException {
 
@@ -285,7 +285,7 @@ public class TaskDao implements IDao<Task> {
      * @param tasks лист задач.
      * @param resultSet выражение SQL.
      * @return лист задач.
-     * @throws SQLException исключение БД.
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private List<Task> getList(List<Task> tasks, ResultSet resultSet) throws DaoException {
         try {
@@ -333,7 +333,7 @@ public class TaskDao implements IDao<Task> {
      * Заполнение обьекта данными из БД.
      *
      * @param resultSet выражение SQL.
-     * @throws SQLException исключение БД.
+     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
      */
     private void setDataFromDatabase(Task task, ResultSet resultSet) throws DaoException {
         try {

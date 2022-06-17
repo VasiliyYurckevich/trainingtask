@@ -26,7 +26,7 @@
                         <tbody>
                         <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                         <button id="cancelButton" name="cancelButton"
-                             onclick="window.history.back()" type="button" class="add-button">
+                             onclick="location.href='tasks'" type="button" class="add-button">
                              Отмена
                         </button>
                         <tr>
