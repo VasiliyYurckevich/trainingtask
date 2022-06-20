@@ -73,7 +73,7 @@
                                 <label>Дата начала(ГГГГ-ММ-ДД):</label>
                             </td>
                             <td>
-                                <input id="beginDate" name="beginDate" value="${beginDate}">
+                                <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
                             </td>
                             <td>
                                 <h4>${ERRORS.get("beginDate")}</h4>
@@ -84,7 +84,7 @@
                                 <label>Дата окончания(ГГГГ-ММ-ДД):</label>
                             </td>
                             <td>
-                                <input id="endDate" name="endDate" value="${endDate}">
+                                <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
                             </td>
                             <td>
                                 <h4>${ERRORS.get("endDate")}</h4>

@@ -31,7 +31,7 @@
                                     <label>Фамилия:</label>
                                 </td>
                                 <td>
-                                    <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
+                                        <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
                                 </td>
                                 <td>
                                     <h4>${ERRORS.get("surname")}</h4>

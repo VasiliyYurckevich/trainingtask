@@ -56,11 +56,11 @@
                             </c:url>
 
                             <tr>
-                                <td> ${tempTask.status.getStatusTitle()}</td>
+                                <td> ${fn:escapeXml(tempTask.status.getStatusTitle())}</td>
                                 <td> ${fn:escapeXml(tempTask.title)} </td>
-                                <td> ${tempTask.workTime} </td>
-                                <td> ${tempTask.beginDate}</td>
-                                <td> ${tempTask.endDate}</td>
+                                <td> ${fn:escapeXml(tempTask.workTime)} </td>
+                                <td> ${fn:escapeXml(tempTask.beginDate)}</td>
+                                <td> ${fn:escapeXml(tempTask.endDate)}</td>
                                 <td> ${fn:escapeXml(PROJ_LIST.get(theCount.index).title)}</td>
                                 <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index))}</td>
                                 <td>
