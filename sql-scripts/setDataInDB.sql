@@ -1,7 +1,7 @@
 INSERT INTO "PUBLIC"."EMPLOYEE"( "ID", "SURNAME", "FIRST_NAME", "PATRONYMIC", "POST" )
 VALUES ( 1,'Сидоров', 'Евгений', 'Николаевич', 'Младший разработчик');
 INSERT INTO "PUBLIC"."EMPLOYEE"( "ID", "SURNAME", "FIRST_NAME", "PATRONYMIC", "POST" )
-VALUES ( 2, 'Зеленский', 'Владимир', 'Александрович', 'Продакт менеджер');
+VALUES ( 2, 'Зеленский', 'Владимир', 'Александрович', 'Продукт-менеджер');
 INSERT INTO "PUBLIC"."EMPLOYEE"( "ID", "SURNAME", "FIRST_NAME", "PATRONYMIC", "POST" )
 VALUES ( 3, 'Ельцин', 'Борис', 'Николаевич', 'Бизнес-аналитик');
 INSERT INTO "PUBLIC"."EMPLOYEE"( "ID", "SURNAME", "FIRST_NAME", "PATRONYMIC", "POST" )
@@ -40,4 +40,4 @@ INSERT INTO "PUBLIC"."TASK"
 VALUES ( 7, 3, '№51 Неудачный выбор типа для атрибута Task.status', 8, '2022-03-11', '2022-03-12', 1, 1);
 INSERT INTO "PUBLIC"."TASK"
 ( "ID", "STATUS", "TITLE", "WORK_TIME", "BEGIN_DATE", "END_DATE", "EMPLOYEE_ID", "PROJECT_ID" )
-VALUES ( 8, 3, 'Составть отчет для клиента', 25, '2022-02-28', '2022-03-05', NULL, 3);
+VALUES ( 8, 3, 'Составить отчет для клиента', 25, '2022-02-28', '2022-03-05', NULL, 3);

@@ -601,7 +601,6 @@ public class TaskController extends HttpServlet {
     /**
      * Вносит задачу из формы в список.
      *
-     *
      * @param req запрос
      * @return список данных из формы
      */

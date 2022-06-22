@@ -76,7 +76,7 @@ public class ConnectionProvider {
      *
      * @return подключение к БД.
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public static Connection getConnection() throws DaoException, PathNotValidException {
         try {
@@ -101,7 +101,7 @@ public class ConnectionProvider {
     /**
      * Закрывает соединение с БД.
      *
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД.
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД.
      */
     public static void closeConnection(Connection connection) throws DaoException {
         try {

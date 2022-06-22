@@ -62,7 +62,7 @@ public interface IDao<T> {
     boolean delete(Integer t) throws DaoException, PathNotValidException;
 
     /**
-     * Возвращает все сущности определеного класса из БД.
+     * Возвращает все сущности определенного класса из БД.
      *
      * @return Список сущностей
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым

@@ -302,7 +302,7 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Заполненяет форму данными о сотруднике.
+     * Заполняет форму данными о сотруднике.
      *
      * @param req запрос
      * @param paramsList список параметров

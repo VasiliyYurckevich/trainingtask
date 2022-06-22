@@ -34,7 +34,7 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 /**
- * Содержит методы для работы обьектов класса "Сотрудник" с БД.
+ * Содержит методы для работы объектов класса "Сотрудник" с БД.
  *
  * @author Q-YVV
  * @see Employee
