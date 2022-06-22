@@ -64,7 +64,7 @@ public class Task {
     private Integer projectId;
 
     /**
-     * Идентификатор сотрудника  задачи.
+     * Идентификатор сотрудника задачи.
      */
     private Integer employeeId;
 

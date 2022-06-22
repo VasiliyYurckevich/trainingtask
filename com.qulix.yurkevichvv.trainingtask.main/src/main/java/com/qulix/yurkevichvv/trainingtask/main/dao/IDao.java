@@ -37,7 +37,7 @@ public interface IDao<T> {
      * @param t Сущность для добавления.
      * @return успешность операции.
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     boolean add(T t) throws DaoException, PathNotValidException;
 
@@ -47,7 +47,7 @@ public interface IDao<T> {
      * @param t Сущность для обновления.
      * @return успешность операции.
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     boolean update(T t) throws DaoException, PathNotValidException;
 
@@ -57,7 +57,7 @@ public interface IDao<T> {
      * @param t Сущность для удаления.
      * @return успешность операции.
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     boolean delete(Integer t) throws DaoException, PathNotValidException;
 
@@ -66,7 +66,7 @@ public interface IDao<T> {
      *
      * @return Список сущностей
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     List<T> getAll() throws DaoException, PathNotValidException;
 
@@ -76,7 +76,7 @@ public interface IDao<T> {
      * @param id Идентификатор сущности.
      * @return Сущность
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     T getById(Integer id) throws DaoException, PathNotValidException;
 }

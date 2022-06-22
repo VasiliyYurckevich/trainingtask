@@ -198,9 +198,9 @@ public class EmployeeController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException, PathNotValidException {
@@ -225,7 +225,7 @@ public class EmployeeController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
@@ -239,9 +239,9 @@ public class EmployeeController extends HttpServlet {
      *
      * @param req  запрос
      * @param resp ответ
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, IOException, PathNotValidException {
@@ -258,9 +258,9 @@ public class EmployeeController extends HttpServlet {
      * @param req  запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, DaoException, IOException, PathNotValidException {
@@ -337,9 +337,9 @@ public class EmployeeController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -366,9 +366,9 @@ public class EmployeeController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {

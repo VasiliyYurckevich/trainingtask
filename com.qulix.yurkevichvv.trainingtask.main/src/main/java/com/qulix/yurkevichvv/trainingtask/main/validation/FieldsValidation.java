@@ -91,7 +91,7 @@ public class FieldsValidation {
     }
 
     /**
-     * Проверяет  валидность дат.
+     * Проверяет валидность дат.
      *
      * @param beginDate Дата начала
      * @param endDate Дата окончания

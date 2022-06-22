@@ -37,7 +37,7 @@ import javax.servlet.ServletResponse;
 public class EncodingFilter implements Filter {
 
     /**
-     * Название выброного типа кодирования.
+     * Название выборного типа кодирования.
      */
     private String encoding = "utf-8";
 

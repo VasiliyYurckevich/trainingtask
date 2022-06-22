@@ -72,7 +72,7 @@ public class Utils {
      *
      * @param req запрос
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public static void setDataToDropDownList(HttpServletRequest req) throws DaoException, PathNotValidException {
         List<Employee> employees = new EmployeeDAO().getAll();

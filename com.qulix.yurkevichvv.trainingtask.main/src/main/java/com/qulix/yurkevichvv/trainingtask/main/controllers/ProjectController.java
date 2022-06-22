@@ -229,7 +229,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -273,9 +273,9 @@ public class ProjectController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -303,9 +303,9 @@ public class ProjectController extends HttpServlet {
      * @param req запрос.
      * @param resp ответ.
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -349,7 +349,7 @@ public class ProjectController extends HttpServlet {
      * @param tasksListInProject список задач в проекте
      * @return список сотрудников
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private static List<String> getEmployeesInProject(ServletContext servletContext, List<Task> tasksListInProject)
         throws DaoException, PathNotValidException {
@@ -383,7 +383,7 @@ public class ProjectController extends HttpServlet {
      * @param servletContext контекст сервлета
      * @return список задач в проекте
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private static List<Task> getTasksInProject(Project existingProject, ServletContext servletContext)
         throws DaoException, PathNotValidException {
@@ -431,9 +431,9 @@ public class ProjectController extends HttpServlet {
      *
      * @param req запрос
      * @param resp ответ
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, IOException, PathNotValidException {
@@ -451,9 +451,9 @@ public class ProjectController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получение данных из БД
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -475,7 +475,7 @@ public class ProjectController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
@@ -489,9 +489,9 @@ public class ProjectController extends HttpServlet {
      * @param req запрос.
      * @param resp ответ.
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получение данных из БД
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -522,9 +522,9 @@ public class ProjectController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -560,7 +560,7 @@ public class ProjectController extends HttpServlet {
      * @param servletContext контекст сервлета
      * @param projectId идентификатор проекта
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private static void updateTasksFromProjectEditing(TaskDao taskInterface, ServletContext servletContext, Integer projectId)
         throws DaoException, PathNotValidException {
@@ -617,9 +617,9 @@ public class ProjectController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, DaoException, IOException, PathNotValidException {

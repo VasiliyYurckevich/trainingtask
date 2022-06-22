@@ -256,9 +256,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -282,9 +282,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException, PathNotValidException {
@@ -332,9 +332,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -368,9 +368,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {
@@ -423,7 +423,7 @@ public class TaskController extends HttpServlet {
      * @param task задача
      * @return список сотрудников привязанных к проекту.
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private static List<String> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
         throws DaoException, PathNotValidException {
@@ -455,9 +455,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException, PathNotValidException {
@@ -473,9 +473,9 @@ public class TaskController extends HttpServlet {
      *
      * @param req запрос
      * @param resp ответ
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, IOException, PathNotValidException {
@@ -492,9 +492,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, PathNotValidException, DaoException {
@@ -539,9 +539,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException eсли обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
-     * @throws DaoException если произошла ошибка при записи/полусении данных из БД.
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД.
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException, PathNotValidException {

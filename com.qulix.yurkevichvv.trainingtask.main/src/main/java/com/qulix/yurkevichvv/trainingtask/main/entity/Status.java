@@ -65,7 +65,7 @@ public enum Status {
     }
 
     /**
-     * Возвращает  статус по идентифекатору.
+     * Возвращает статус по идентификатору.
      */
     public static Status getStatusById(Integer id) {
         for (Status e : values()) {
