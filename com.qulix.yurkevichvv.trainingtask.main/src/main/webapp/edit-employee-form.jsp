@@ -20,16 +20,15 @@
                 <form action="employees" method="post">
                     <input type="hidden" name="action" value="/update"/>
                     <input type="hidden" name="employeeId" value="${employeeId}"/>
-
-                    <table>
-                        <div>
-                            <input type="submit" value="Сохранить"
-                                name="submitButton" id="submitButton" class="add-button">
-                            <button id="cancelButton" name="cancelButton" onclick="location.href='employees.jsp'"
+                    <div>
+                        <input type="submit" value="Сохранить"
+                               name="submitButton" id="submitButton" class="add-button">
+                        <button id="cancelButton" name="cancelButton" onclick="location.href='employees.jsp'"
                                 type="button" class="add-button">
-                                Отмена
-                            </button>
-                        </div>
+                            Отмена
+                        </button>
+                    </div>
+                    <table>
                         <tbody>
                             <tr>
                                 <td>

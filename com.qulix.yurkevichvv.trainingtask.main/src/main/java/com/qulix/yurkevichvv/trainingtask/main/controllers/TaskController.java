@@ -378,7 +378,10 @@ public class TaskController extends HttpServlet {
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
 
-        Integer taskId = Integer.valueOf(req.getParameter(TASK_ID));
+        Integer taskId = null;
+        if (!req.getParameter(TASK_ID).equals("")) {
+            taskId = Integer.valueOf(req.getParameter(TASK_ID));
+        }
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
         Map<String, String> paramsList = getDataFromForm(req);
         Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);

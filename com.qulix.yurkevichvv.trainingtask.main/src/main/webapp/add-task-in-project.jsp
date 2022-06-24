@@ -19,17 +19,17 @@
                 <h3>Добавить задачу</h3>
                 <form action="tasks" method="post" id="form">
                     <input type="hidden" name="action" value="/newTaskInProject"/>
-
-                    <table>
-                        <div>
-                            <input class="add-button" type="submit" name="submitButton"
-                                   id="submitButton" value="Сохранить">
-                            <button id="cancelButton" name="cancelButton"
+                    <div>
+                        <input class="add-button" type="submit" name="submitButton"
+                               id="submitButton" value="Сохранить">
+                        <button id="cancelButton" name="cancelButton"
                                 onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${thisProjectId}'"
                                 type="button" class="add-button">
-                                Отмена
-                            </button>
-                        </div>
+                            Отмена
+                        </button>
+                    </div>
+
+                    <table>
                         <tbody>
                         <tr>
                             <td>

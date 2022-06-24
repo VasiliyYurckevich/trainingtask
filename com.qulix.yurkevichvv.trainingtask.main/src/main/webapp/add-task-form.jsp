@@ -20,15 +20,12 @@
                 <h3>Добавить задачу</h3>
                 <form action="tasks" method="post" id="form" >
                     <input type="hidden" name="action" value="/add" />
-
+                    <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
+                    <button id="cancelButton" name="cancelButton" onclick="location.href='tasks'"
+                            type="button" class="add-button">
+                        Отмена
+                    </button>
                     <table>
-                        <div>
-                            <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
-                            <button id="cancelButton" name="cancelButton" onclick="location.href='tasks'"
-                                    type="button" class="add-button">
-                                Отмена
-                            </button>
-                        </div>
                         <tbody>
                         <tr>
                             <td>

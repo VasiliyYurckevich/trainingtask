@@ -20,15 +20,14 @@
                 <form action="projects" method="post">
                     <input type="hidden" name="action" value="/update" />
                     <input type="hidden" name="projectId" value="${projectId}"/>
-
-                    <table>
-                        <div>
-                            <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
-                            <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
+                    <div>
+                        <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
+                        <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
                                 type="button" class="add-button">
-                                Отмена
-                            </button>
-                        </div>
+                            Отмена
+                        </button>
+                    </div>
+                    <table>
                         <tbody>
                         <tr>
                             <td>

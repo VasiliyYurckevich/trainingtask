@@ -19,6 +19,11 @@
                 <h3>Добавить проект</h3>
                 <form action="projects" method="post" >
                     <input type="hidden" name="action" value="/add" />
+                    <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
+                    <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
+                            type="button" class="add-button">
+                        Отмена
+                    </button>
 
                     <table>
                         <tbody>
@@ -46,11 +51,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
-                    <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
-                        type="button" class="add-button">
-                        Отмена
-                    </button>
+
                 </form>
             </div>
         </div>

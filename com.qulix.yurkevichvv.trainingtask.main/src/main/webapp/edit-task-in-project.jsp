@@ -21,15 +21,15 @@
                 <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/updateTaskInProject" />
                     <input type="hidden" name="taskId" value="${taskId}" />
+                    <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
+                    <button id="cancelButton" name="cancelButton"
+                            onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${thisProjectId}'"
+                            type="button" class="add-button">
+                        Отмена
+                    </button>
 
                     <table>
                         <tbody>
-                            <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
-                            <button id="cancelButton" name="cancelButton"
-                                onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${thisProjectId}'"
-                                type="button" class="add-button">
-                                Отмена
-                            </button>
                             <tr>
                                 <td>
                                     <label>Статус:</label>
