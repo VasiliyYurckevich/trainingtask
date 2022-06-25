@@ -129,7 +129,7 @@ public class EmployeeController extends HttpServlet {
 
 
     @Override
-    protected synchronized void  doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -237,7 +237,7 @@ public class EmployeeController extends HttpServlet {
     /**
      * Удаляет сотрудника из БД.
      *
-     * @param req  запрос
+     * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
@@ -255,7 +255,7 @@ public class EmployeeController extends HttpServlet {
     /**
      * Записывает отредактированного сотрудника в БД.
      *
-     * @param req  запрос
+     * @param req запрос
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET

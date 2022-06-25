@@ -608,7 +608,7 @@ public class TaskController extends HttpServlet {
      * @return список данных из формы
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
-        Map<String, String> paramsList  = new HashMap<>();
+        Map<String, String> paramsList = new HashMap<>();
         paramsList.put(STATUS, req.getParameter(STATUS));
         paramsList.put(TITLE , req.getParameter(TITLE).trim());
         paramsList.put(WORK_TIME, req.getParameter(WORK_TIME).trim());

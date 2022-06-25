@@ -58,7 +58,7 @@ public class ConnectionProvider {
     /**
      * Хранит константу для вывода состояния SQL.
      */
-    private static final String SQL_STATE = "SQL State  : ";
+    private static final String SQL_STATE = "SQL State : ";
 
     /**
      * Логгер для записи событий.

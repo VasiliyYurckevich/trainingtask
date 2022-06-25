@@ -60,7 +60,7 @@ public enum Status {
      */
     private final String statusTitle;
 
-    public  Integer getId() {
+    public Integer getId() {
         return id;
     }
 
