@@ -109,7 +109,8 @@ public class ValidationService {
      */
     public static Map<String, String> inspectProjectData(Map<String, String> paramsList) {
         Map<String, String> errorList = new HashMap<>(paramsList.size());
-        errorList.put(TITLE_OF_PROJECT, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(TITLE_OF_PROJECT), SHORT_LENGTH));
+        errorList.put(TITLE_OF_PROJECT,
+            FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(TITLE_OF_PROJECT), SHORT_LENGTH));
         errorList.put(DESCRIPTION, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(DESCRIPTION), LONG_LENGTH));
         return errorList;
     }

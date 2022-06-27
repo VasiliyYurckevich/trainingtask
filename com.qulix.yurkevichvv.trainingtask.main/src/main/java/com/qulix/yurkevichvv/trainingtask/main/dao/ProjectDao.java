@@ -204,7 +204,8 @@ public class ProjectDao implements IDao<Project> {
             project.setTitle(resultSet.getString(TITLE));
             project.setDescription(resultSet.getString(DESCRIPTION));
             return project;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
             throw new DaoException("Ошибка при получении данных задачи из БД", e);
         }
