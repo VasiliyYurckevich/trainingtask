@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionProvider;
@@ -174,10 +175,7 @@ public class ProjectDao implements IDao<Project> {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Project> projects = new ArrayList<>();
             while (resultSet.next()) {
-                Project project = new Project();
-                project.setId(resultSet.getInt(PROJECT_ID));
-                project.setTitle(resultSet.getString(TITLE));
-                project.setDescription(resultSet.getString(DESCRIPTION));
+                Project project = getProjectFromDB(resultSet);
                 projects.add(project);
             }
             return projects;
@@ -193,6 +191,25 @@ public class ProjectDao implements IDao<Project> {
         }
     }
 
+    /**
+     * Заполнение объекта Project данными из БД.
+     *
+     * @param resultSet результирующий набор данных
+     * @return проект
+     */
+    private static Project getProjectFromDB(ResultSet resultSet) {
+        try {
+            Project project = new Project();
+            project.setId(resultSet.getInt(PROJECT_ID));
+            project.setTitle(resultSet.getString(TITLE));
+            project.setDescription(resultSet.getString(DESCRIPTION));
+            return project;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Ошибка при получении данных задачи из БД", e);
+        }
+    }
+
 
     @Override
     public Project getById(Integer id) throws DaoException, PathNotValidException {
@@ -200,16 +217,15 @@ public class ProjectDao implements IDao<Project> {
         Connection connection = ConnectionProvider.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID)) {
-            int index = 1;
-            preparedStatement.setInt(index, id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Project project = new Project();
-            while (resultSet.next()) {
-                project.setId(id);
-                project.setTitle(resultSet.getString(TITLE));
-                project.setDescription(resultSet.getString(DESCRIPTION));
+            if (resultSet.next()) {
+                Project project = getProjectFromDB(resultSet);
+                return project;
             }
-            return project;
+            else {
+                throw new DaoException("Не найден проект с такими данными");
+            }
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());

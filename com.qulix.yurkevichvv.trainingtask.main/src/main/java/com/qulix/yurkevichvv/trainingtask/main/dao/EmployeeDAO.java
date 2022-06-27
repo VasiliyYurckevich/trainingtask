@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionProvider;
@@ -188,12 +189,7 @@ public class EmployeeDAO implements IDao<Employee> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                Employee employee = new Employee();
-                employee.setId(resultSet.getInt(EMPLOYEE_ID));
-                employee.setSurname(resultSet.getString(SURNAME));
-                employee.setFirstName(resultSet.getString(FIRST_NAME));
-                employee.setPatronymic(resultSet.getString(PATRONYMIC));
-                employee.setPost(resultSet.getString(POST));
+                Employee employee = getEmployeeFromDB(resultSet);
                 employees.add(employee);
             }
             return employees;
@@ -214,20 +210,18 @@ public class EmployeeDAO implements IDao<Employee> {
 
         Connection connection = ConnectionProvider.getConnection();
 
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)) {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Employee employee = new Employee();
-
-            while (resultSet.next()) {
-                employee.setId(resultSet.getInt(EMPLOYEE_ID));
-                employee.setSurname(resultSet.getString(SURNAME));
-                employee.setFirstName(resultSet.getString(FIRST_NAME));
-                employee.setPatronymic(resultSet.getString(PATRONYMIC));
-                employee.setPost(resultSet.getString(POST));
+            if (resultSet.next()) {
+                Employee employee = getEmployeeFromDB(resultSet);
+                return employee;
             }
-            return employee;
+            else {
+                throw new DaoException("Не найден сотрудник с такими данными");
+            }
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
@@ -237,6 +231,28 @@ public class EmployeeDAO implements IDao<Employee> {
         }
         finally {
             ConnectionProvider.closeConnection(connection);
+        }
+    }
+
+    /**
+     * Заполнение объекта Employee данными из БД.
+     *
+     * @param resultSet результирующий набор данных
+     * @return сотрудник
+     */
+    private static Employee getEmployeeFromDB(ResultSet resultSet) {
+        try {
+            Employee employee = new Employee();
+            employee.setId(resultSet.getInt(EMPLOYEE_ID));
+            employee.setSurname(resultSet.getString(SURNAME));
+            employee.setFirstName(resultSet.getString(FIRST_NAME));
+            employee.setPatronymic(resultSet.getString(PATRONYMIC));
+            employee.setPost(resultSet.getString(POST));
+            return employee;
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Ошибка при получении данных задачи из БД", e);
         }
     }
 }

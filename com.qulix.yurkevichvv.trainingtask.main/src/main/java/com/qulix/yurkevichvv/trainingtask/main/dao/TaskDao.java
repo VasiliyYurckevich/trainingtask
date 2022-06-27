@@ -312,11 +312,14 @@ public class TaskDao implements IDao<Task> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Task task = new Task();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
+                Task task = new Task();
                 setDataFromDatabase(task, resultSet);
+                return task;
             }
-            return task;
+            else {
+                throw new DaoException("Не найден сотрудник с такими данными");
+            }
         }
         catch (SQLException e) {
             LOGGER.severe(e.toString());
@@ -330,7 +333,7 @@ public class TaskDao implements IDao<Task> {
     }
 
     /**
-     * Заполнение объекта данными из БД.
+     * Заполнение объекта Task данными из БД.
      *
      * @param resultSet выражение SQL.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
