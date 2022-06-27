@@ -267,7 +267,7 @@ public class EmployeeController extends HttpServlet {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Map<String, String> paramsList = getDataFromJsp(req);
-        Map<String, String> errorsList = ValidationService.checkingEmployeeData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectEmployeeData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
@@ -345,7 +345,7 @@ public class EmployeeController extends HttpServlet {
         throws DaoException, ServletException, IOException, PathNotValidException {
 
         Map<String, String> paramsList = getDataFromJsp(req);
-        Map<String, String> errorsList = ValidationService.checkingEmployeeData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectEmployeeData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Employee employee = getEmployee(paramsList);

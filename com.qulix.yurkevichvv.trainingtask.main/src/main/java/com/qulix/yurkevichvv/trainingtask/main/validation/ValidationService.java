@@ -92,12 +92,12 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации
      * @return Список ошибок
      */
-    public static Map<String, String> checkingEmployeeData(Map<String, String> paramsList) {
+    public static Map<String, String> inspectEmployeeData(Map<String, String> paramsList) {
         Map<String, String> errorList = new HashMap<>(paramsList.size());
-        errorList.put(SURNAME, FieldsValidation.stringValidityCheck(paramsList.get(SURNAME), SHORT_LENGTH));
-        errorList.put(FIRST_NAME, FieldsValidation.stringValidityCheck(paramsList.get(FIRST_NAME), SHORT_LENGTH));
-        errorList.put(PATRONYMIC, FieldsValidation.stringValidityCheck(paramsList.get(PATRONYMIC), SHORT_LENGTH));
-        errorList.put(POST, FieldsValidation.stringValidityCheck(paramsList.get(POST), SHORT_LENGTH));
+        errorList.put(SURNAME, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(SURNAME), SHORT_LENGTH));
+        errorList.put(FIRST_NAME, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(FIRST_NAME), SHORT_LENGTH));
+        errorList.put(PATRONYMIC, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(PATRONYMIC), SHORT_LENGTH));
+        errorList.put(POST, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(POST), SHORT_LENGTH));
         return errorList;
     }
 
@@ -107,10 +107,10 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации
      * @return Список ошибок
      */
-    public static Map<String, String> checkingProjectData(Map<String, String> paramsList) {
+    public static Map<String, String> inspectProjectData(Map<String, String> paramsList) {
         Map<String, String> errorList = new HashMap<>(paramsList.size());
-        errorList.put(TITLE_OF_PROJECT, FieldsValidation.stringValidityCheck(paramsList.get(TITLE_OF_PROJECT), SHORT_LENGTH));
-        errorList.put(DESCRIPTION, FieldsValidation.stringValidityCheck(paramsList.get(DESCRIPTION), LONG_LENGTH));
+        errorList.put(TITLE_OF_PROJECT, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(TITLE_OF_PROJECT), SHORT_LENGTH));
+        errorList.put(DESCRIPTION, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(DESCRIPTION), LONG_LENGTH));
         return errorList;
     }
 
@@ -120,12 +120,12 @@ public class ValidationService {
      * @param paramsList Список параметров для валидации
      * @return Список ошибок
      */
-    public static Map<String, String> checkingTaskData(Map<String, String> paramsList) {
+    public static Map<String, String> inspectTaskData(Map<String, String> paramsList) {
         Map<String, String> errorList = new HashMap<>();
-        errorList.put(STATUS, FieldsValidation.stringValidityCheck(paramsList.get(STATUS), SHORT_LENGTH));
-        errorList.put(TITLE, FieldsValidation.stringValidityCheck(paramsList.get(TITLE), SHORT_LENGTH));
-        errorList.put(WORK_TIME, FieldsValidation.numberValidityCheck(paramsList.get(WORK_TIME)));
-        errorList.putAll(FieldsValidation.dateValidityCheck(paramsList.get("beginDate"),
+        errorList.put(STATUS, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(STATUS), SHORT_LENGTH));
+        errorList.put(TITLE, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(TITLE), SHORT_LENGTH));
+        errorList.put(WORK_TIME, FieldsValidation.inspectNumberValidity(paramsList.get(WORK_TIME)));
+        errorList.putAll(FieldsValidation.inspectDateValidity(paramsList.get("beginDate"),
             paramsList.get("endDate")));
         return errorList;
     }

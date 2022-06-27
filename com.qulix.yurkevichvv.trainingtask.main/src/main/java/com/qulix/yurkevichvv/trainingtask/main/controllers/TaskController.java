@@ -291,7 +291,7 @@ public class TaskController extends HttpServlet {
 
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
@@ -343,7 +343,7 @@ public class TaskController extends HttpServlet {
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
         List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
@@ -384,7 +384,7 @@ public class TaskController extends HttpServlet {
         }
         String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
         Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
@@ -503,7 +503,7 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, PathNotValidException, DaoException {
 
         Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.checkingTaskData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);

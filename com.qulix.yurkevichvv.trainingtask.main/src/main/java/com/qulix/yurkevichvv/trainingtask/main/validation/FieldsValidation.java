@@ -40,9 +40,9 @@ public class FieldsValidation {
      * @param length максимальная длина строки
      * @return Строка с ошибкой или пустой строкой
      */
-    public static String stringValidityCheck(String s, int length) {
+    public static String inspectValidityOfTheEnteredString(String s, int length) {
         StringBuffer error = new StringBuffer();
-        checkForAnEmptyField(s, error);
+        inspectFieldForEmptiness(s, error);
         if (error.length() == 0) {
             if (s.trim().length() > length) {
                 error.append("Максимальная длинна ввода: ");
@@ -59,9 +59,9 @@ public class FieldsValidation {
      * @param s Строка для валидации
      * @return Строка с ошибкой или пустой строкой
      */
-    public static String numberValidityCheck(String s) {
+    public static String inspectNumberValidity(String s) {
         StringBuffer error = new StringBuffer();
-        checkForAnEmptyField(s, error);
+        inspectFieldForEmptiness(s, error);
         if (error.length() == 0) {
             if (!s.trim().matches("^[0-9]+$")) {
                 error.append("Поле принимает только цифры");
@@ -84,7 +84,7 @@ public class FieldsValidation {
      * @param s Строка для валидации
      * @param error Строка с ошибкой
      */
-    private static void checkForAnEmptyField(String s, StringBuffer error) {
+    private static void inspectFieldForEmptiness(String s, StringBuffer error) {
         if (s.isEmpty() || s.trim().length() == 0) {
             error.append("Поле для ввода не должно быть пустым");
         }
@@ -97,7 +97,7 @@ public class FieldsValidation {
      * @param endDate Дата окончания
      * @return Строка с ошибкой или пустой строкой
      */
-    public static Map<String, String> dateValidityCheck(String beginDate, String endDate) {
+    public static Map<String, String> inspectDateValidity(String beginDate, String endDate) {
         StringBuffer errorBeginDate = new StringBuffer();
         StringBuffer errorEndDate = new StringBuffer();
         Map<String, String> listErrors = new HashMap<>();
@@ -106,7 +106,7 @@ public class FieldsValidation {
         boolean endDateValid = isDateFormatValid(endDate, errorEndDate);
 
         if (beginDateValid && endDateValid) {
-            checkingTheConsistencyOfDates(beginDate, endDate, errorEndDate);
+            inspectDataRangeAccuracy(beginDate, endDate, errorEndDate);
         }
         listErrors.put("beginDate", errorBeginDate.toString());
         listErrors.put("endDate", errorEndDate.toString());
@@ -120,7 +120,7 @@ public class FieldsValidation {
      * @param endDate Дата окончания
      * @param error Строка с ошибкой
      */
-    private static void checkingTheConsistencyOfDates(String beginDate, String endDate, StringBuffer error) {
+    private static void inspectDataRangeAccuracy(String beginDate, String endDate, StringBuffer error) {
         LocalDate parsedBeginDate = LocalDate.parse(beginDate);
         LocalDate parsedEndDate = LocalDate.parse(endDate);
         if (parsedBeginDate.isAfter(parsedEndDate)) {

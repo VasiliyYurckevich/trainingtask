@@ -534,7 +534,7 @@ public class ProjectController extends HttpServlet {
 
         Integer projectId = (Integer) servletContext.getAttribute(PROJECT_ID);
         Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.checkingProjectData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectProjectData(paramsList);
         if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
             theProject.setId(projectId);
@@ -625,7 +625,7 @@ public class ProjectController extends HttpServlet {
         throws ServletException, DaoException, IOException, PathNotValidException {
 
         Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.checkingProjectData(paramsList);
+        Map<String, String> errorsList = ValidationService.inspectProjectData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
