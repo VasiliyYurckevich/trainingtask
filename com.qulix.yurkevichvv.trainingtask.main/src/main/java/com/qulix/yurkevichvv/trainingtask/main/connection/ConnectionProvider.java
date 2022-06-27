@@ -65,11 +65,6 @@ public class ConnectionProvider {
      */
     private static final Logger LOGGER = Logger.getLogger(ConnectionProvider.class.getName());
 
-    /**
-     * Получение подключения к БД.
-     */
-    private static Connection connection = null;
-
 
     /**
      * Устанавливает соединение с БД.
@@ -81,8 +76,8 @@ public class ConnectionProvider {
     public static Connection getConnection() throws DaoException, PathNotValidException {
         try {
             Class.forName(JDBC_DRIVER);
-            connection = DriverManager.getConnection(PATH, USER, PASS);
-            return connection;
+            return DriverManager.getConnection(PATH, USER, PASS);
+
         }
         catch (ClassNotFoundException e) {
             LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
