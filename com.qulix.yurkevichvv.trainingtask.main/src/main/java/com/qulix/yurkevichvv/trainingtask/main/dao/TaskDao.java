@@ -92,7 +92,7 @@ public class TaskDao implements IDao<Task> {
 
 
     /**
-     *  Константа для запроса добавления задачи в БД.
+     * Константа для запроса добавления задачи в БД.
      */
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +
         " (status, title, work_time, begin_date,end_date, project_id, employee_id ) VALUES (?,?,?,?,?,?,?);";
@@ -130,7 +130,7 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public boolean add(Task task) throws DaoException, PathNotValidException  {
+    public boolean add(Task task) throws DaoException, PathNotValidException {
     
         Connection connection = ConnectionManipulator.getConnection();
 

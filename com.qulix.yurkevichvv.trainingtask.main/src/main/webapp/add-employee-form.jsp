@@ -17,9 +17,9 @@
         <div>
             <div id="container">
                 <h3>Добавить сотрудника</h3>
-                <form action="employees"   method="post">
+                <form action="employees" method="post">
                     <input type="hidden" name="action" value="/add"/>
-                    <input type="submit" value="Сохранить"  name="submitButton" id="submitButton" class="add-button">
+                    <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
                     <button onclick="location.href='employees.jsp'" type="button"
                             id="cancelButton" name="cancelButton" class="add-button">Отмена
                     </button>
