@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionProvider;
+import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionManipulator;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
@@ -132,7 +132,7 @@ public class TaskDao implements IDao<Task> {
     @Override
     public boolean add(Task task) throws DaoException, PathNotValidException  {
     
-        Connection connection = ConnectionProvider.getConnection();
+        Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
             setDataInToStatement(task, preparedStatement);
@@ -145,7 +145,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при добавлении задачи в БД", e);
         }
         finally {
-            ConnectionProvider.closeConnection(connection);
+            ConnectionManipulator.closeConnection(connection);
         }
     }
 
@@ -153,7 +153,7 @@ public class TaskDao implements IDao<Task> {
     @Override
     public boolean update(Task task) throws DaoException, PathNotValidException {
 
-        Connection connection = ConnectionProvider.getConnection();
+        Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL)) {
             int index = setDataInToStatement(task, preparedStatement);
@@ -168,7 +168,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при обновлении задачи в БД", e);
         }
         finally {
-            ConnectionProvider.closeConnection(connection);
+            ConnectionManipulator.closeConnection(connection);
         }
     }
 
@@ -213,7 +213,7 @@ public class TaskDao implements IDao<Task> {
 
     @Override
     public boolean delete(Integer id) throws DaoException, PathNotValidException {
-        Connection connection = ConnectionProvider.getConnection();
+        Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)) {
             preparedStatement.setInt(1, id);
@@ -226,7 +226,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при удалении задачи из БД", e);
         }
         finally {
-            ConnectionProvider.closeConnection(connection);
+            ConnectionManipulator.closeConnection(connection);
         }
     }
 
@@ -239,7 +239,7 @@ public class TaskDao implements IDao<Task> {
      */
     public List<Task> getTasksInProject(Integer id) throws DaoException, PathNotValidException {
 
-        Connection connection = ConnectionProvider.getConnection();
+        Connection connection = ConnectionManipulator.getConnection();
         List<Task> tasks = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT)) {
@@ -254,14 +254,14 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при получении задач проекта из БД", e);
         }
         finally {
-            ConnectionProvider.closeConnection(connection);
+            ConnectionManipulator.closeConnection(connection);
         }
     }
 
     @Override
     public List<Task> getAll() throws DaoException, PathNotValidException {
 
-        Connection connection = ConnectionProvider.getConnection();
+        Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK)) {
             List<Task> tasks = new ArrayList<>();
@@ -275,7 +275,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при получении всех задач из БД", e);
         }
         finally {
-            ConnectionProvider.closeConnection(connection);
+            ConnectionManipulator.closeConnection(connection);
         }
     }
 
@@ -307,7 +307,7 @@ public class TaskDao implements IDao<Task> {
     @Override
     public Task getById(Integer id) throws DaoException, PathNotValidException {
 
-        Connection connection = ConnectionProvider.getConnection();
+        Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID)) {
             preparedStatement.setInt(1, id);
@@ -328,7 +328,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Ошибка при получении задачи по идентификатору из БД", e);
         }
         finally {
-            ConnectionProvider.closeConnection(connection);
+            ConnectionManipulator.closeConnection(connection);
         }
     }
 

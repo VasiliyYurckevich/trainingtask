@@ -33,7 +33,7 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
  *
  * @author Q-YVV
  */
-public class ConnectionProvider {
+public class ConnectionManipulator {
 
     /**
      * Хранит константу названия драйвера JDBC.
@@ -63,7 +63,7 @@ public class ConnectionProvider {
     /**
      * Логгер для записи событий.
      */
-    private static final Logger LOGGER = Logger.getLogger(ConnectionProvider.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConnectionManipulator.class.getName());
 
 
     /**
