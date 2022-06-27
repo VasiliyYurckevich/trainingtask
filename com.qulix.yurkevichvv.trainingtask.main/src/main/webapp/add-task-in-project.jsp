@@ -29,100 +29,60 @@
                         </button>
                     </div>
 
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <label>Статус:</label>
-                            </td>
-                            <td>
-                                <select name="status" data-selected="${status}">
-                                    <c:forEach items="${STATUS_LIST}" var="statuses">
-                                        <option value="${statuses.getId()}">
-                                                ${fn:escapeXml(statuses.getStatusTitle())}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td>
-                                <h4>${ERRORS.get("status")}</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Наименование:</label>
-                            </td>
-                            <td>
-                                <input id="title" name="title" value="${fn:escapeXml(title)}">
-                            </td>
-                            <td>
-                                <h4>${ERRORS.get("title")}</h4>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Работа:</label>
-                            </td>
-                            <td>
-                                <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
-                            </td>
-                            <td>
-                                <h4>${ERRORS.get("workTime")}</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Дата начала(ГГГГ-ММ-ДД):</label>
-                            </td>
-                            <td>
-                                <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
-                            </td>
-                            <td>
-                                <h4>${ERRORS.get("beginDate")}</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Дата окончания(ГГГГ-ММ-ДД):</label>
-                            </td>
-                            <td>
-                                <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
-                            </td>
-                            <td>
-                                <h4>${ERRORS.get("endDate")}</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Наименование проекта:</label>
-                            </td>
-                            <td>
-                                <label>${fn:escapeXml(titleProject)}</label>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Сотрудник:</label>
-                            </td>
-                            <td>
-                                <select name="employeeId">
-                                    <option value="null"> </option>
-                                    <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                                        <option value="${employees.id}">
-                                                ${fn:escapeXml(employees.surname)}
-                                                ${fn:escapeXml(employees.firstName)}
-                                                ${fn:escapeXml(employees.patronymic)}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div>
+                        <label>Статус:</label>
+                        <select name="status" data-selected="${status}">
+                            <c:forEach items="${STATUS_LIST}" var="statuses">
+                                <option value="${statuses.getId()}">
+                                        ${fn:escapeXml(statuses.getStatusTitle())}
+                                </option>
+                            </c:forEach>
+                        </select>
+                        <h4>${ERRORS.get("status")}</h4>
+                    </div>
+                    <div>
+                        <label>Наименование:</label>
+                        <input id="title" name="title" value="${fn:escapeXml(title)}">
+                        <h4>${ERRORS.get("title")}</h4>
+                    </div>
+                    <div>
+                        <label>Работа:</label>
+                        <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
+                        <h4>${ERRORS.get("workTime")}</h4>
+                    </div>
+                    <div>
+                        <label>Дата начала(ГГГГ-ММ-ДД):</label>
+                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
+                        <h4>${ERRORS.get("beginDate")}</h4>
+                    </div>
+                    <div>
+                        <label>Дата окончания(ГГГГ-ММ-ДД):</label>
+                        <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
+                        <h4>${ERRORS.get("endDate")}</h4>
+                    </div>
+                    <div>
+                        <label>Наименование проекта:</label>
+                        <select name="projectId">
+                            <c:forEach items="${PROJECT_LIST}" var="projects">
+                                <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>
+                                        ${fn:escapeXml(projects.title)}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Сотрудник:</label>
+                        <select name="employeeId">
+                            <option value="null"> </option>
+                            <c:forEach items="${EMPLOYEE_LIST}" var="employees">
+                                <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
+                                        ${fn:escapeXml(employees.surname)}
+                                        ${fn:escapeXml(employees.firstName)}
+                                        ${fn:escapeXml(employees.patronymic)}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
                 </form>
             </div>
         </div>

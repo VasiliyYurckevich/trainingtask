@@ -28,54 +28,26 @@
                             Отмена
                         </button>
                     </div>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label>Фамилия:</label>
-                                </td>
-                                <td>
-                                    <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
-                                </td>
-                                <td>
-                                    <h4>${ERRORS.get("surname")}</h4>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Имя:</label>
-                                </td>
-                                <td>
-                                    <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
-                                </td>
-                                <td>
-                                    <h4>${ERRORS.get("firstName")}</h4>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Отчество:</label>
-                                </td>
-                                <td>
-                                    <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
-                                </td>
-                                <td>
-                                    <h4>${ERRORS.get("patronymic")}</h4>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Должность:</label>
-                                </td>
-                                <td>
-                                    <input type="text" name="post" id="post" value="${fn:escapeXml(post)}">
-                                </td>
-                                <td>
-                                    <h4>${ERRORS.get("post")}</h4>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div>
+                        <label>Фамилия:</label>
+                        <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
+                        <h4>${ERRORS.get("surname")}</h4>
+                    </div>
+                    <div>
+                        <label>Имя:</label>
+                        <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
+                        <h4>${ERRORS.get("firstName")}</h4>
+                    </div>
+                    <div>
+                        <label>Отчество:</label>
+                        <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
+                        <h4>${ERRORS.get("patronymic")}</h4>
+                    </div>
+                    <div>
+                        <label>Должность:</label>
+                        <input type="text" name="post" id="post" value="${fn:escapeXml(post)}">
+                        <h4>${ERRORS.get("post")}</h4>
+                    </div>
                 </form>
             </div>
         </div>

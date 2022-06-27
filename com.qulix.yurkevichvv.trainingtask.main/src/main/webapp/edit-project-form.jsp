@@ -27,32 +27,16 @@
                             Отмена
                         </button>
                     </div>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <label>Наименование:</label>
-                            </td>
-                            <td>
-                                <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
-                            </td>
-                            <td>
-                                <h4>${ERRORS.get("titleProject")}</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Описание:</label>
-                            </td>
-                            <td>
-                                <input id="description" name="description" value="${fn:escapeXml(description)}">
-                            </td>
-                            <td>
-                                <h4>${ERRORS.get("description")}</h4>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div>
+                        <label>Наименование:</label>
+                        <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
+                        <h4>${ERRORS.get("titleProject")}</h4>
+                    </div>
+                    <div>
+                        <label>Описание:</label>
+                        <input id="description" name="description" value="${fn:escapeXml(description)}">
+                        <h4>${ERRORS.get("description")}</h4>
+                    </div>
                     <tbody>
                         <div>
                             <h3>Задачи проекта</h3>
