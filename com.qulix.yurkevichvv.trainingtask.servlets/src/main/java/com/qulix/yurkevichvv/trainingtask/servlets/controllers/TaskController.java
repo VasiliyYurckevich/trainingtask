@@ -515,7 +515,7 @@ public class TaskController extends HttpServlet {
         req.setAttribute(WORK_TIME, paramsList.get(WORK_TIME).trim());
         req.setAttribute(BEGIN_DATE, paramsList.get(BEGIN_DATE).trim());
         req.setAttribute(END_DATE, paramsList.get(END_DATE).trim());
-        if (!paramsList.get(EMPLOYEE_ID).isEmpty()){
+        if (!paramsList.get(EMPLOYEE_ID).isEmpty()) {
             req.setAttribute(EMPLOYEE_ID, Integer.valueOf(paramsList.get(EMPLOYEE_ID)));
         }
         else {
