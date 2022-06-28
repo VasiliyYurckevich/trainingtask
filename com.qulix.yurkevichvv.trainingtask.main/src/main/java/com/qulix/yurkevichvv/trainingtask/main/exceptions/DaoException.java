@@ -40,6 +40,13 @@ public class DaoException extends RuntimeException {
         super(message, cause);
     }
 
+    /**
+     * Конструктор класса с исключением.
+     */
+    public DaoException(Throwable cause) {
+        super(cause);
+    }
+
     @Override
     public String toString() {
         return this.getMessage();

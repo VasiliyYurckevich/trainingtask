@@ -24,7 +24,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +31,6 @@ import java.util.logging.Logger;
 import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionManipulator;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 
 /**
@@ -89,14 +87,10 @@ public class ProjectDao implements IDao<Project> {
      */
     private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?, description = ? WHERE id = ?;";
 
-    /**
-     * Хранит константу для вывода состояния SQL.
-     */
-    private static final String SQLSTATE = "SQLState: ";
 
 
     @Override
-    public boolean add(Project project) throws DaoException, PathNotValidException {
+    public boolean add(Project project) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -107,10 +101,8 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при добавлении проекта в БД", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when adding a project to the database", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -119,7 +111,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public boolean update(Project project) throws DaoException, PathNotValidException {
+    public boolean update(Project project) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -132,10 +124,8 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при обновлении проекта в БД", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when updating the project in the database", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -144,7 +134,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public boolean delete(Integer id) throws DaoException, PathNotValidException {
+    public boolean delete(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -155,10 +145,8 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при удалении проекта из БД", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when deleting a project from the database", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -167,7 +155,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public List<Project> getAll() throws DaoException, PathNotValidException {
+    public List<Project> getAll() throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -181,10 +169,8 @@ public class ProjectDao implements IDao<Project> {
             return projects;
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при получении всех проектов из БД", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when getting all projects from the database", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -207,13 +193,13 @@ public class ProjectDao implements IDao<Project> {
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Ошибка при получении данных задачи из БД", e);
+            throw new DaoException("Error when retrieving task data from the database", e);
         }
     }
 
 
     @Override
-    public Project getById(Integer id) throws DaoException, PathNotValidException {
+    public Project getById(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -225,14 +211,12 @@ public class ProjectDao implements IDao<Project> {
                 return project;
             }
             else {
-                throw new DaoException("Не найден проект с такими данными");
+                throw new DaoException("A project with such data was not found");
             }
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при получении проекта по id из БД", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when getting a project by id from the database", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);

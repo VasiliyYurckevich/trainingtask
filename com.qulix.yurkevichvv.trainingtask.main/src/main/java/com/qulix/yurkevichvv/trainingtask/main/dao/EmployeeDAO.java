@@ -24,7 +24,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +31,6 @@ import java.util.logging.Logger;
 import com.qulix.yurkevichvv.trainingtask.main.connection.ConnectionManipulator;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 /**
  * Содержит методы для работы объектов класса "Сотрудник" с БД.
@@ -101,14 +99,9 @@ public class EmployeeDAO implements IDao<Employee> {
     private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE" +
         " SET surname = ?, first_name = ?, patronymic = ?, post = ? WHERE id = ?;";
 
-    /**
-     * Хранит константу для вывода состояния SQL.
-     */
-    public static final String SQLSTATE = "SQLState: ";
-
 
     @Override
-    public boolean add(Employee employee) throws DaoException, PathNotValidException {
+    public boolean add(Employee employee) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -122,10 +115,8 @@ public class EmployeeDAO implements IDao<Employee> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при добавлении нового сотрудника в БД");
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when adding a new employee to the database");
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -133,7 +124,7 @@ public class EmployeeDAO implements IDao<Employee> {
     }
 
     @Override
-    public boolean update(Employee employee) throws DaoException, PathNotValidException {
+    public boolean update(Employee employee) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -147,10 +138,8 @@ public class EmployeeDAO implements IDao<Employee> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при попытке изменить данные о сотруднике", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when trying to change employee data", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -158,7 +147,7 @@ public class EmployeeDAO implements IDao<Employee> {
     }
 
     @Override
-    public boolean delete(Integer id) throws DaoException, PathNotValidException {
+    public boolean delete(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -168,10 +157,8 @@ public class EmployeeDAO implements IDao<Employee> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при удалении сотрудника из базы данных", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when trying to delete employee data", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -180,7 +167,7 @@ public class EmployeeDAO implements IDao<Employee> {
 
 
     @Override
-    public List<Employee> getAll() throws DaoException, PathNotValidException {
+    public List<Employee> getAll() throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -195,10 +182,8 @@ public class EmployeeDAO implements IDao<Employee> {
             return employees;
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при получении данных о сотрудниках", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when getting employee data", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -206,10 +191,9 @@ public class EmployeeDAO implements IDao<Employee> {
     }
 
     @Override
-    public Employee getById(Integer id) throws DaoException, PathNotValidException {
+    public Employee getById(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
-
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID)) {
 
@@ -220,14 +204,12 @@ public class EmployeeDAO implements IDao<Employee> {
                 return employee;
             }
             else {
-                throw new DaoException("Не найден сотрудник с такими данными");
+                throw new DaoException("An employee with such data was not found");
             }
         }
         catch (SQLException e) {
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQLSTATE + e.getSQLState());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new DaoException("Ошибка при получении данных о сотруднике", e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error when getting employee data", e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -252,7 +234,7 @@ public class EmployeeDAO implements IDao<Employee> {
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Ошибка при получении данных задачи из БД", e);
+            throw new DaoException("Error when getting employee data from the database", e);
         }
     }
 }

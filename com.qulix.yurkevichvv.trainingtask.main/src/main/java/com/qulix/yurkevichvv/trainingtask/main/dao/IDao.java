@@ -22,7 +22,6 @@ package com.qulix.yurkevichvv.trainingtask.main.dao;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 /**
  * Обобщает основные методы для записи сущностей в БД.
@@ -36,47 +35,42 @@ public interface IDao<T> {
      *
      * @param t Сущность для добавления.
      * @return успешность операции.
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    boolean add(T t) throws DaoException, PathNotValidException;
+    boolean add(T t) throws DaoException;
 
     /**
      * Обновляет сущность в БД.
      *
      * @param t Сущность для обновления.
      * @return успешность операции.
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    boolean update(T t) throws DaoException, PathNotValidException;
+    boolean update(T t) throws DaoException;
 
     /**
      * Удаляет сущность из БД.
      *
      * @param t Сущность для удаления.
      * @return успешность операции.
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    boolean delete(Integer t) throws DaoException, PathNotValidException;
+    boolean delete(Integer t) throws DaoException;
 
     /**
      * Возвращает все сущности определенного класса из БД.
      *
      * @return Список сущностей
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    List<T> getAll() throws DaoException, PathNotValidException;
+    List<T> getAll() throws DaoException;
 
     /**
      * Находит сущность по ее идентификатору.
      *
      * @param id Идентификатор сущности.
      * @return Сущность
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    T getById(Integer id) throws DaoException, PathNotValidException;
+    T getById(Integer id) throws DaoException;
 }

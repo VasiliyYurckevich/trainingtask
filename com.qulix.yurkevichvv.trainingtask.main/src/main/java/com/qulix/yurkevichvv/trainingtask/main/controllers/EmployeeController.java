@@ -20,7 +20,6 @@
 package com.qulix.yurkevichvv.trainingtask.main.controllers;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -36,7 +35,6 @@ import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
 import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
@@ -52,14 +50,9 @@ import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 public class EmployeeController extends HttpServlet {
 
     /**
-     * Хранит двоеточие.
-     */
-    private static final String STRING = ": ";
-
-    /**
      * Хранит название JSP добавления сотрудника.
      */
-    private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
+    private static final String ADD_EMPLOYEE_FORM_JSP = "/add1-employee-form.jsp";
 
     /**
      * Хранит название JSP редактирования сотрудника.
@@ -129,7 +122,8 @@ public class EmployeeController extends HttpServlet {
 
 
     @Override
-    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -143,14 +137,12 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + STRING + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new ServletException(e);
         }
-        catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + STRING + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new RuntimeException(e);
+        catch (DaoException e){
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException(e);
         }
     }
 
@@ -180,14 +172,12 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + STRING + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new ServletException(e);
         }
-        catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + STRING + e.getMessage());
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-            throw new RuntimeException(e);
+        catch (DaoException e){
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException(e);
         }
     }
 
@@ -199,11 +189,10 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException, PathNotValidException {
+        throws ServletException, IOException, DaoException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeInterface.getById(employeeId);
@@ -240,11 +229,10 @@ public class EmployeeController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException, PathNotValidException {
+        throws DaoException, IOException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
@@ -259,11 +247,10 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, DaoException, IOException, PathNotValidException {
+        throws ServletException, DaoException, IOException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Map<String, String> paramsList = getDataFromJsp(req);
@@ -338,11 +325,10 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException {
 
         Map<String, String> paramsList = getDataFromJsp(req);
         Map<String, String> errorsList = ValidationService.inspectEmployeeData(paramsList);
@@ -367,11 +353,10 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException {
 
         Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");

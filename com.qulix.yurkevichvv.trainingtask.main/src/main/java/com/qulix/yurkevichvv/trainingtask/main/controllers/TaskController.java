@@ -44,7 +44,6 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 import com.qulix.yurkevichvv.trainingtask.main.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.main.validation.ValidationService;
 
@@ -152,16 +151,6 @@ public class TaskController extends HttpServlet {
     private static final String TASKS = "tasks";
 
     /**
-     * Хранит двоеточие.
-     */
-    private static final String COLON = ": ";
-
-    /**
-     * Хранит константу для сообщения ошибки в сервлете.
-     */
-    public static final String ERROR_IN_SERVLET = "Ошибка в сервлете ";
-
-    /**
      * Переменная доступа к методам классов DAO.
      */
     private IDao<Task> tasksInterface;
@@ -201,14 +190,12 @@ public class TaskController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(e.toString());
-            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new ServletException(e);
         }
-        catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(e.toString());
-            throw new RuntimeException(e);
+        catch (DaoException e){
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException(e);
         }
     }
 
@@ -238,14 +225,12 @@ public class TaskController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(e.toString());
-            throw new ServletException(ERROR_IN_SERVLET + getServletName(), e);
-        } 
-        catch (PathNotValidException | DaoException e) {
-            LOGGER.severe(getServletName() + COLON + e.getMessage());
-            LOGGER.severe(e.toString());
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new ServletException(e);
+        }
+        catch (DaoException e){
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException(e);
         }
     }
 
@@ -257,11 +242,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException {
 
         ServletContext servletContext = getServletContext();
         String taskId = req.getParameter(TASK_ID);
@@ -283,11 +267,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException, PathNotValidException {
+        throws ServletException, IOException, DaoException {
 
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         Map<String, String> paramsList = getDataFromForm(req);
@@ -333,11 +316,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException {
 
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
@@ -369,11 +351,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException {
 
         ServletContext servletContext = getServletContext();
         List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
@@ -425,11 +406,10 @@ public class TaskController extends HttpServlet {
      * @param numberInList номер задачи в списке проекта
      * @param task задача
      * @return список сотрудников привязанных к проекту.
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private static List<String> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
-        throws DaoException, PathNotValidException {
+        throws DaoException {
 
         List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
@@ -459,11 +439,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException, PathNotValidException {
+        throws ServletException, IOException, DaoException {
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
         Utils.setDataToDropDownList(req);
@@ -477,11 +456,10 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException, PathNotValidException {
+        throws DaoException, IOException {
 
         String taskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.parseInt(taskId));
@@ -496,11 +474,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, PathNotValidException, DaoException {
+        throws ServletException, IOException, DaoException {
 
         Map<String, String> paramsList = getDataFromForm(req);
         Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
@@ -543,11 +520,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД.
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException, PathNotValidException {
+        throws DaoException, ServletException, IOException {
 
         List<Task> tasks = tasksInterface.getAll();
         List<Project> projects = new ProjectDao().getAll();
@@ -571,9 +547,8 @@ public class TaskController extends HttpServlet {
      *
      * @param employeeOfTask список имен исполнителей задачи
      * @param task задача
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      */
-    private void setEmployeeList(List<String> employeeOfTask, Task task) throws PathNotValidException {
+    private void setEmployeeList(List<String> employeeOfTask, Task task){
         if (task.getEmployeeId() != null) {
             StringBuffer stringBuffer = getNameEmployee(task);
             employeeOfTask.add(stringBuffer.toString());
@@ -587,10 +562,9 @@ public class TaskController extends HttpServlet {
      * Возвращает имя исполнителя задачи.
      *
      * @param task задача
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @return имя исполнителя задачи
      */
-    private static StringBuffer getNameEmployee(Task task) throws PathNotValidException {
+    private static StringBuffer getNameEmployee(Task task) {
         Employee employee = new EmployeeDAO().getById(task.getEmployeeId());
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(employee.getSurname());

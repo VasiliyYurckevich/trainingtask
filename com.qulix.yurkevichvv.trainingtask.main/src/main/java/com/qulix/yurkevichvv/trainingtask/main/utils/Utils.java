@@ -31,7 +31,6 @@ import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 
 /**
@@ -71,10 +70,9 @@ public class Utils {
      * Создает и обновляет данные для выпадающих списков.
      *
      * @param req запрос
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public static void setDataToDropDownList(HttpServletRequest req) throws DaoException, PathNotValidException {
+    public static void setDataToDropDownList(HttpServletRequest req) throws DaoException {
         List<Employee> employees = new EmployeeDAO().getAll();
         List<Project> projects = new ProjectDao().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);

@@ -21,12 +21,10 @@ package com.qulix.yurkevichvv.trainingtask.main.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.main.exceptions.PathNotValidException;
 
 /**
  * Провайдер подключения к БД.
@@ -56,11 +54,6 @@ public class ConnectionManipulator {
     private static final String PASS = "";
 
     /**
-     * Хранит константу для вывода состояния SQL.
-     */
-    private static final String SQL_STATE = "SQL State : ";
-
-    /**
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(ConnectionManipulator.class.getName());
@@ -70,26 +63,16 @@ public class ConnectionManipulator {
      * Устанавливает соединение с БД.
      *
      * @return подключение к БД.
-     * @throws PathNotValidException если путь не валидный или название параметра не совпадает с ожидаемым
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public static Connection getConnection() throws DaoException, PathNotValidException {
+    public static Connection getConnection() throws DaoException {
         try {
             Class.forName(JDBC_DRIVER);
             return DriverManager.getConnection(PATH, USER, PASS);
-
         }
-        catch (ClassNotFoundException e) {
-            LOGGER.severe("Не удалось загрузить драйвер " + JDBC_DRIVER);
-            LOGGER.severe(e.toString());
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            throw new PathNotValidException("Драйвер не найден", e);
-        }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQL_STATE + e.getSQLState());
-            throw new DaoException("БД временно недоступна. Повторите попытку позже", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("The database is temporarily unavailable. Try again later", e);
         }
     }
 
@@ -104,11 +87,9 @@ public class ConnectionManipulator {
                 connection.close();
             }
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            LOGGER.severe(e.toString());
-            LOGGER.severe(SQL_STATE + e.getSQLState());
-            throw new DaoException("Ошибка закрытия подключения к БД.", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+            throw new DaoException("Error closing the database connection", e);
         }
     }
 }

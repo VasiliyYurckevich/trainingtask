@@ -20,7 +20,6 @@
         <servlet-name>EmployeeServlet</servlet-name>
         <servlet-class>com.qulix.yurkevichvv.trainingtask.main.controllers.EmployeeController</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>EmployeeServlet</servlet-name>
         <url-pattern>/employees</url-pattern>
@@ -41,6 +40,22 @@
         <servlet-name>ProjectServlet</servlet-name>
         <url-pattern>/projects</url-pattern>
     </servlet-mapping>
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/error-servlet.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/error-servlet.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException</exception-type>
+        <location>/error-dao.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error-404.jsp</location>
+    </error-page>
     <error-page>
         <location>/error.jsp</location>
     </error-page>
