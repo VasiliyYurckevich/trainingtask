@@ -71,7 +71,7 @@
                     <div>
                         <label>Сотрудник:</label>
                         <select name="employeeId">
-                            <option value="null"> </option>
+                            <option value=""> </option>
                             <c:forEach items="${EMPLOYEE_LIST}" var="employees">
                                 <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
                                         ${fn:escapeXml(employees.surname)}

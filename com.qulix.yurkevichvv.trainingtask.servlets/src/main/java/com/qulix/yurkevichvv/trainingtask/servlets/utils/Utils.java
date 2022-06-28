@@ -51,22 +51,6 @@ public class Utils {
     }
 
     /**
-     * Переводит String в Integer.
-     *
-     * @param s строка для конвертации.
-     * @return конвертированное значение.
-     */
-    public static Integer convertStringToInteger(String s) {
-        if (s.equals("null")) {
-            return null;
-        }
-        else {
-            return Integer.parseInt(s);
-        }
-    }
-
-
-    /**
      * Создает и обновляет данные для выпадающих списков.
      *
      * @param req запрос
