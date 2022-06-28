@@ -52,7 +52,7 @@ public class EmployeeController extends HttpServlet {
     /**
      * Хранит название JSP добавления сотрудника.
      */
-    private static final String ADD_EMPLOYEE_FORM_JSP = "/add1-employee-form.jsp";
+    private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
 
     /**
      * Хранит название JSP редактирования сотрудника.
