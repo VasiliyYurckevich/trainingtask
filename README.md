@@ -16,7 +16,7 @@
 2. Для запуска сервера необходимо выполнить команду
 
    `./gradlew startServer`
-3. Перейти по ссылке (http://localhost:8080/com.qulix.yurkevichvv.trainingtask.core)
+3. Перейти по ссылке (http://localhost:8080/com.qulix.yurkevichvv.trainingtask.servlets)
 
 ## Дополнительные функции
 - Для удаления базы данных необходимо выполнить команду
