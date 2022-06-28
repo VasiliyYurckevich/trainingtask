@@ -83,9 +83,9 @@
             </div>
         </div>
         <script>
-            var forms = document.querySelector('form');
+            let forms = document.querySelector('form');
             forms.addEventListener('submit', function(){
-                var btn = this.querySelector("input[type=submit], button[type=submit]");
+                let btn = this.querySelector("input[type=submit], button[type=submit]");
                 btn.disabled = true;
             });
         </script>

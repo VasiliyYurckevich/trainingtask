@@ -37,69 +37,67 @@
                         <input id="description" name="description" value="${fn:escapeXml(description)}">
                         <h4>${ERRORS.get("description")}</h4>
                     </div>
-                    <tbody>
-                        <div>
-                            <h3>Задачи проекта</h3>
-                        </div>
-                        <table>
-                            <tr>
-                                <th>Статус</th>
-                                <th>Наименование</th>
-                                <th>Работа</th>
-                                <th>Дата начала</th>
-                                <th>Дата окончания</th>
-                                <th>Проект</th>
-                                <th>Исполнитель</th>
-                                <th>Действия</th>
-                            </tr>
+                    <div>
+                        <h3>Задачи проекта</h3>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Статус</th>
+                            <th>Наименование</th>
+                            <th>Работа</th>
+                            <th>Дата начала</th>
+                            <th>Дата окончания</th>
+                            <th>Проект</th>
+                            <th>Исполнитель</th>
+                            <th>Действия</th>
+                        </tr>
 
-                            <c:url var="addLink" value="/projects">
-                            <c:param name="action" value="/addTaskForm"/>
+                        <c:url var="addLink" value="/projects">
+                        <c:param name="action" value="/addTaskForm"/>
+                        <c:param name="projectId" value="${thisProjectId}"/>
+                        </c:url>
+
+                        <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
+
+                            <c:url var="editLink" value="/projects">
+                            <c:param name="action" value="/editTaskForm"/>
+                            <c:param name="taskId" value="${tempTask.id}"/>
                             <c:param name="projectId" value="${thisProjectId}"/>
+                            <c:param name="numberInList" value="${theCount.index}"/>
                             </c:url>
 
-                            <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount">
+                            <c:url var="deleteLink" value="/projects">
+                            <c:param name="action" value="/deleteTaskInProject"/>
+                            <c:param name="numberInList" value="${theCount.index}"/>
+                            </c:url>
 
-                                <c:url var="editLink" value="/projects">
-                                <c:param name="action" value="/editTaskForm"/>
-                                <c:param name="taskId" value="${tempTask.id}"/>
-                                <c:param name="projectId" value="${thisProjectId}"/>
-                                <c:param name="numberInList" value="${theCount.index}"/>
-                                </c:url>
+                            <tr>
+                                <td> ${tempTask.status.getStatusTitle()}</td>
+                                <td> ${fn:escapeXml(tempTask.title)} </td>
+                                <td> ${fn:escapeXml(tempTask.workTime)} </td>
+                                <td> ${fn:escapeXml(tempTask.beginDate)}</td>
+                                <td> ${fn:escapeXml(tempTask.endDate)} </td>
+                                <td> ${fn:escapeXml(titleProject)}</td>
+                                <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index))}
 
-                                <c:url var="deleteLink" value="/projects">
-                                <c:param name="action" value="/deleteTaskInProject"/>
-                                <c:param name="numberInList" value="${theCount.index}"/>
-                                </c:url>
-
-                                <tr>
-                                    <td> ${tempTask.status.getStatusTitle()}</td>
-                                    <td> ${fn:escapeXml(tempTask.title)} </td>
-                                    <td> ${fn:escapeXml(tempTask.workTime)} </td>
-                                    <td> ${fn:escapeXml(tempTask.beginDate)}</td>
-                                    <td> ${fn:escapeXml(tempTask.endDate)} </td>
-                                    <td> ${fn:escapeXml(titleProject)}</td>
-                                    <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index))}
-
-                                    </td>
-                                    <td>
-                                        <a href="${editLink}">Редактировать</a>
-                                        <a href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
-                                            Удалить
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
+                                </td>
+                                <td>
+                                    <a href="${editLink}">Редактировать</a>
+                                    <a href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
+                                        Удалить
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
                         <a href="${addLink}">Добавить задачу</a>
-                    </tbody>
+                    </table>
                 </form>
             </div>
         </div>
         <script>
-            var forms = document.querySelector('form');
+            let forms = document.querySelector('form');
             forms.addEventListener('submit', function(){
-                var btn = this.querySelector("input[type=submit], button[type=submit]");
+                let btn = this.querySelector("input[type=submit], button[type=submit]");
                 btn.disabled = true;
             });
         </script>
