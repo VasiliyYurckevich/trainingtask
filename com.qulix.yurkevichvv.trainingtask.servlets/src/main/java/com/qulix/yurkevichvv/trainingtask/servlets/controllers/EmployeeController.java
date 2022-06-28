@@ -99,10 +99,6 @@ public class EmployeeController extends HttpServlet {
      */
     private static final String EMPLOYEES_LIST = "employees";
 
-    /**
-     * Хранит константу для сообщения ошибки в сервлете.
-     */
-    public static final String ERROR_IN_SERVLET = "Ошибка в сервлете ";
 
     /**
      * Переменная доступа к методам классов DAO.
