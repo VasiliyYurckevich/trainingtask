@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.TaskDao;
@@ -345,7 +345,7 @@ public class ProjectController extends HttpServlet {
             employeeListInProject = new ArrayList<>();
             for (Task t : tasksListInProject) {
                 if (t.getEmployeeId() != null) {
-                    Employee employee = new EmployeeDAO().getById(t.getEmployeeId());
+                    Employee employee = new EmployeeDao().getById(t.getEmployeeId());
                     StringBuilder stringBuffer = new StringBuilder();
                     stringBuffer.append(employee.getSurname());
                     stringBuffer.append(SPACE);

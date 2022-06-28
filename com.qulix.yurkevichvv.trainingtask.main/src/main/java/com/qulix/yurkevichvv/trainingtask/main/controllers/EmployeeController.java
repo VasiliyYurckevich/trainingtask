@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
@@ -117,7 +117,7 @@ public class EmployeeController extends HttpServlet {
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        employeeInterface = new EmployeeDAO();
+        employeeInterface = new EmployeeDao();
     }
 
 

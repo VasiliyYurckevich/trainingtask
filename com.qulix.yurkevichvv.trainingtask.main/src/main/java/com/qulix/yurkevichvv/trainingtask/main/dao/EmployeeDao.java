@@ -39,7 +39,7 @@ import com.qulix.yurkevichvv.trainingtask.main.exceptions.DaoException;
  * @see Employee
  * @see IDao
  */
-public class EmployeeDAO implements IDao<Employee> {
+public class EmployeeDao implements IDao<Employee> {
 
     /**
      * Хранит константу для колонки ID сотрудника в БД.
@@ -69,7 +69,7 @@ public class EmployeeDAO implements IDao<Employee> {
     /**
      * Логгер для записи событий.
      */
-    private static final Logger LOGGER = Logger.getLogger(EmployeeDAO.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(EmployeeDao.class.getName());
 
 
     /**

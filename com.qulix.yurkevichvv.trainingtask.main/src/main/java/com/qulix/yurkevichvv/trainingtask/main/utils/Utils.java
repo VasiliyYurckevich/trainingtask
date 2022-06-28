@@ -24,7 +24,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.main.entity.Project;
@@ -73,7 +73,7 @@ public class Utils {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public static void setDataToDropDownList(HttpServletRequest req) throws DaoException {
-        List<Employee> employees = new EmployeeDAO().getAll();
+        List<Employee> employees = new EmployeeDao().getAll();
         List<Project> projects = new ProjectDao().getAll();
         req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);
         req.getServletContext().setAttribute("PROJECT_LIST", projects);

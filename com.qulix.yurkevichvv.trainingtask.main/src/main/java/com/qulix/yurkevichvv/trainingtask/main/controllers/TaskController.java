@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDAO;
+import com.qulix.yurkevichvv.trainingtask.main.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.main.dao.TaskDao;
@@ -565,7 +565,7 @@ public class TaskController extends HttpServlet {
      * @return имя исполнителя задачи
      */
     private static StringBuffer getNameEmployee(Task task) {
-        Employee employee = new EmployeeDAO().getById(task.getEmployeeId());
+        Employee employee = new EmployeeDao().getById(task.getEmployeeId());
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(employee.getSurname());
         stringBuffer.append(SPACE);
