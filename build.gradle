@@ -48,9 +48,6 @@ test {
     useJUnitPlatform()
 }
 
-apply from: 'startDatabase.gradle'
-apply from: 'setDataInDB.gradle'
-apply from: 'dropDatabase.gradle'
-apply from: 'stopDatabase.gradle'
+apply from: 'databaseManipulationScripts.gradle'
 
 
