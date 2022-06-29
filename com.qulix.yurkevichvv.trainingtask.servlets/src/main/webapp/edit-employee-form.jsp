@@ -15,7 +15,7 @@
         <my:mainMenu></my:mainMenu>
 
         <div>
-            <div id="container">
+            <div id="container" class="main">
                 <h3>Редактировать сотрудника</h3>
                 <form action="employees" method="post">
                     <input type="hidden" name="action" value="/update"/>
@@ -28,22 +28,22 @@
                             Отмена
                         </button>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Фамилия:</label>
                         <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
                         <h4>${ERRORS.get("surname")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Имя:</label>
                         <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
                         <h4>${ERRORS.get("firstName")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Отчество:</label>
                         <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
                         <h4>${ERRORS.get("patronymic")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Должность:</label>
                         <input type="text" name="post" id="post" value="${fn:escapeXml(post)}">
                         <h4>${ERRORS.get("post")}</h4>

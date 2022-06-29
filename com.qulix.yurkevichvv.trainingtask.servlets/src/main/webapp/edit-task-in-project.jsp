@@ -16,7 +16,7 @@
         <my:mainMenu></my:mainMenu>
 
         <div>
-            <div id="container">
+            <div id="container" class="main">
                 <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/updateTaskInProject" />
@@ -28,7 +28,7 @@
                         Отмена
                     </button>
 
-                    <div>
+                    <div class="field">
                         <label>Статус:</label>
                         <select name="status" data-selected="${status}">
                             <c:forEach items="${STATUS_LIST}" var="statuses">
@@ -39,27 +39,27 @@
                         </select>
                         <h4>${ERRORS.get("status")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Наименование:</label>
                         <input id="title" name="title" value="${fn:escapeXml(title)}">
                         <h4>${ERRORS.get("title")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Работа:</label>
                         <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                         <h4>${ERRORS.get("workTime")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Дата начала(ГГГГ-ММ-ДД):</label>
                         <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
                         <h4>${ERRORS.get("beginDate")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Дата окончания(ГГГГ-ММ-ДД):</label>
                         <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
                         <h4>${ERRORS.get("endDate")}</h4>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Наименование проекта:</label>
                         <select name="projectId">
                             <c:forEach items="${PROJECT_LIST}" var="projects">
@@ -69,7 +69,7 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Сотрудник:</label>
                         <select name="employeeId">
                             <option value=""> </option>
