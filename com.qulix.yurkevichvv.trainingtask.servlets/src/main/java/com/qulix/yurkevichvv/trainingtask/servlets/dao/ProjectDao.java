@@ -88,7 +88,6 @@ public class ProjectDao implements IDao<Project> {
     private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?, description = ? WHERE id = ?;";
 
 
-
     @Override
     public boolean add(Project project) throws DaoException {
 
@@ -108,7 +107,6 @@ public class ProjectDao implements IDao<Project> {
             ConnectionManipulator.closeConnection(connection);
         }
     }
-
 
     @Override
     public boolean update(Project project) throws DaoException {
@@ -132,7 +130,6 @@ public class ProjectDao implements IDao<Project> {
         }
     }
 
-
     @Override
     public boolean delete(Integer id) throws DaoException {
 
@@ -152,7 +149,6 @@ public class ProjectDao implements IDao<Project> {
             ConnectionManipulator.closeConnection(connection);
         }
     }
-
 
     @Override
     public List<Project> getAll() throws DaoException {
@@ -196,7 +192,6 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Error when retrieving task data from the database", e);
         }
     }
-
 
     @Override
     public Project getById(Integer id) throws DaoException {

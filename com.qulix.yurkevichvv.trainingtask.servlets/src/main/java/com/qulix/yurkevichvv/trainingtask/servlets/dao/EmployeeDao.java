@@ -165,7 +165,6 @@ public class EmployeeDao implements IDao<Employee> {
         }
     }
 
-
     @Override
     public List<Employee> getAll() throws DaoException {
 

@@ -141,7 +141,6 @@ public class TaskDao implements IDao<Task> {
         }
     }
 
-
     @Override
     public boolean update(Task task) throws DaoException {
 
@@ -197,7 +196,6 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException("Error when entering task data into an SQL expression", e);
         }
     }
-
 
     @Override
     public boolean delete(Integer id) throws DaoException {
