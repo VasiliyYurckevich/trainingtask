@@ -32,7 +32,7 @@
                         <label>Статус:</label>
                         <select name="status" data-selected="${status}">
                             <c:forEach items="${STATUS_LIST}" var="statuses">
-                                <option value="${statuses.getId()} ${status == statuses.getId() ? 'selected="selected"' : ''}">
+                                <option value="${statuses.getId()}" ${status == statuses.getId() ? 'selected="selected"' : ''}>
                                         ${fn:escapeXml(statuses.getStatusTitle())}
                                 </option>
                             </c:forEach>
