@@ -61,7 +61,7 @@
                     </div>
                     <div class="field">
                         <label>Наименование проекта:</label>
-                        <select name="projectId">
+                        <select disabled="disabled" name="projectId">
                             <c:forEach items="${PROJECT_LIST}" var="projects">
                                 <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>
                                         ${fn:escapeXml(projects.title)}
