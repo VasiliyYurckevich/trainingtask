@@ -135,6 +135,7 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatement.setString(index++, employee.getPatronymic());
             preparedStatement.setString(index++, employee.getPost());
             preparedStatement.setInt(index, employee.getId());
+
             return preparedStatement.execute();
         }
         catch (SQLException e) {
@@ -178,6 +179,8 @@ public class EmployeeDao implements IDao<Employee> {
                 Employee employee = getEmployeeFromDB(resultSet);
                 employees.add(employee);
             }
+            resultSet.close();
+
             return employees;
         }
         catch (SQLException e) {
@@ -200,9 +203,11 @@ public class EmployeeDao implements IDao<Employee> {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Employee employee = getEmployeeFromDB(resultSet);
+                resultSet.close();
                 return employee;
             }
             else {
+                resultSet.close();
                 throw new DaoException("An employee with such data was not found");
             }
         }
@@ -229,6 +234,7 @@ public class EmployeeDao implements IDao<Employee> {
             employee.setFirstName(resultSet.getString(FIRST_NAME));
             employee.setPatronymic(resultSet.getString(PATRONYMIC));
             employee.setPost(resultSet.getString(POST));
+
             return employee;
         }
         catch (SQLException e) {

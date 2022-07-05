@@ -56,6 +56,7 @@ public class ProjectDao implements IDao<Project> {
      * Хранит константу для колонки описания сотрудника в БД.
      */
     private static final String DESCRIPTION = "description";
+
     /**
      * Логгер для ведения журнала действий.
      */
@@ -162,6 +163,7 @@ public class ProjectDao implements IDao<Project> {
                 Project project = getProjectFromDB(resultSet);
                 projects.add(project);
             }
+            resultSet.close();
             return projects;
         }
         catch (SQLException e) {
@@ -185,6 +187,7 @@ public class ProjectDao implements IDao<Project> {
             project.setId(resultSet.getInt(PROJECT_ID));
             project.setTitle(resultSet.getString(TITLE));
             project.setDescription(resultSet.getString(DESCRIPTION));
+
             return project;
         }
         catch (SQLException e) {
@@ -203,9 +206,11 @@ public class ProjectDao implements IDao<Project> {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Project project = getProjectFromDB(resultSet);
+                resultSet.close();
                 return project;
             }
             else {
+                resultSet.close();
                 throw new DaoException("A project with such data was not found");
             }
         }

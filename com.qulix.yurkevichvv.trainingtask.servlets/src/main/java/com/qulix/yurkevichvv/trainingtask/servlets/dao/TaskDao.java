@@ -43,7 +43,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
  */
 public class TaskDao implements IDao<Task> {
 
-
     /**
      * Хранит константу для имени колонки ID проекта в БД.
      */
@@ -274,6 +273,7 @@ public class TaskDao implements IDao<Task> {
                 setDataFromDatabase(task, resultSet);
                 tasks.add(task);
             }
+            resultSet.close();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
@@ -293,9 +293,11 @@ public class TaskDao implements IDao<Task> {
             if (resultSet.next()) {
                 Task task = new Task();
                 setDataFromDatabase(task, resultSet);
+                resultSet.close();
                 return task;
             }
             else {
+                resultSet.close();
                 throw new DaoException("An employee with such data was not found");
             }
         }
