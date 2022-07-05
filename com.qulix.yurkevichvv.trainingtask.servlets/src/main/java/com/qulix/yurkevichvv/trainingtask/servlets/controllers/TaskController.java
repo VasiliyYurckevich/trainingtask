@@ -29,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,11 +63,6 @@ public class TaskController extends HttpServlet {
      * Хранит название JSP редактирования задачи.
      */
     private static final String EDIT_TASK_FORM_JSP = "/edit-task-form.jsp";
-
-    /**
-     * Хранит название кейса для выбора списка сотрудников.
-     */
-    private static final String LIST = "/list";
 
     /**
      * Хранит константу для обозначения действия сервлета.
@@ -186,7 +180,6 @@ public class TaskController extends HttpServlet {
                     break;
                 default:
                     addTask(req, resp);
-                    break;
             }
         }
         catch (IOException | ServletException e) {
@@ -205,6 +198,10 @@ public class TaskController extends HttpServlet {
         try {
             String action = req.getParameter(ACTION);
 
+            if (action == null) {
+                action = "/list";
+            }
+
             switch (action) {
                 case "/edit":
                     editTaskForm(req, resp);
@@ -217,7 +214,6 @@ public class TaskController extends HttpServlet {
                     break;
                 default:
                     listTasks(req, resp);
-                    break;
             }
         }
         catch (IOException | ServletException e) {
@@ -243,17 +239,15 @@ public class TaskController extends HttpServlet {
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        ServletContext servletContext = getServletContext();
         String taskId = req.getParameter(TASK_ID);
         Task existingTask = tasksInterface.getById(Integer.parseInt(taskId));
         Utils.setTaskDataInJsp(req, existingTask);
         Utils.setDataToDropDownList(req);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
-        servletContext.setAttribute("task", existingTask);
+        req.getSession().setAttribute("task", existingTask);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
         dispatcher.forward(req, resp);
-
     }
 
     /**
@@ -322,9 +316,8 @@ public class TaskController extends HttpServlet {
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        ServletContext servletContext = getServletContext();
-        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
-        List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
+        List<Task> tasksListInProject = (List<Task>) req.getSession().getAttribute(TASKS_LIST);
+        List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
         Map<String, String> paramsList = getDataFromForm(req);
         Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
 
@@ -332,8 +325,8 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             tasksListInProject.add(task);
             String numberInList = String.valueOf(tasksListInProject.size());
-            getEmployeesInProject(servletContext, numberInList, task);
-            setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
+            getEmployeesInProject(req, numberInList, task);
+            setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
             dispatcher.forward(req, resp);
@@ -357,14 +350,13 @@ public class TaskController extends HttpServlet {
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        ServletContext servletContext = getServletContext();
-        List<Task> tasksListInProject = (List<Task>) servletContext.getAttribute(TASKS_LIST);
+        List<Task> tasksListInProject = (List<Task>) req.getSession().getAttribute(TASKS_LIST);
 
         Integer taskId = null;
         if (!req.getParameter(TASK_ID).equals("")) {
             taskId = Integer.valueOf(req.getParameter(TASK_ID));
         }
-        String numberInList = (String) servletContext.getAttribute(NUMBER_IN_LIST);
+        String numberInList = (String) req.getSession().getAttribute(NUMBER_IN_LIST);
         Map<String, String> paramsList = getDataFromForm(req);
         Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
 
@@ -372,10 +364,10 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksListInProject.set(Integer.parseInt(numberInList), task);
-            List<String> employeeListInProject = getEmployeesInProject(servletContext, numberInList, task);
+            List<String> employeeListInProject = getEmployeesInProject(req, numberInList, task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            setListOfTasksInProject(servletContext, tasksListInProject, employeeListInProject);
-            servletContext.setAttribute(NUMBER_IN_LIST, numberInList);
+            setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
+            req.getSession().setAttribute(NUMBER_IN_LIST, numberInList);
             dispatcher.forward(req, resp);
         }
         else {
@@ -389,30 +381,30 @@ public class TaskController extends HttpServlet {
     /**
      * Обновляет список задач в проекте во время его редактирования.
      *
-     * @param servletContext контекст сервлета
+     * @param req запрос
      * @param tasksListInProject список задач в проекте
      * @param employeeListInProject список сотрудников привязанных к задаче в проекте
      */
-    private static void setListOfTasksInProject(ServletContext servletContext,
+    private static void setListOfTasksInProject(HttpServletRequest req,
         List<Task> tasksListInProject, List<String> employeeListInProject) {
 
-        servletContext.setAttribute(TASKS_LIST, tasksListInProject);
-        servletContext.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
+        req.getSession().setAttribute(TASKS_LIST, tasksListInProject);
+        req.getSession().setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
     }
 
     /**
      * Вносит данные о сотруднике связанном с задачей в список задач проекта.
      *
-     * @param servletContext контекст сервлета
+     * @param req запрос
      * @param numberInList номер задачи в списке проекта
      * @param task задача
      * @return список сотрудников привязанных к проекту.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private static List<String> getEmployeesInProject(ServletContext servletContext, String numberInList, Task task)
+    private static List<String> getEmployeesInProject(HttpServletRequest req, String numberInList, Task task)
         throws DaoException {
 
-        List<String> employeeListInProject = (List<String>) servletContext.getAttribute(EMPLOYEE_IN_TASKS_LIST);
+        List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
             try {
                 employeeListInProject.set(Integer.parseInt(numberInList), null);
@@ -598,7 +590,7 @@ public class TaskController extends HttpServlet {
             paramsList.put(PROJECT_ID, req.getParameter(PROJECT_ID).trim());
         }
         else {
-            paramsList.put(PROJECT_ID, getServletContext().getAttribute(PROJECT_ID).toString());
+            paramsList.put(PROJECT_ID, req.getSession().getAttribute(PROJECT_ID).toString());
         }
         paramsList.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         return paramsList;

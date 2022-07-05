@@ -57,11 +57,6 @@ public class EmployeeController extends HttpServlet {
     private static final String EDIT_EMPLOYEE_FORM_JSP = "/edit-employee-form.jsp";
 
     /**
-     * Хранит название кейса для выбора списка сотрудников.
-     */
-    private static final String LIST = "/list";
-
-    /**
      * Хранит константу для обозначения действия сервлета.
      */
     private static final String ACTION = "action";
@@ -144,6 +139,10 @@ public class EmployeeController extends HttpServlet {
 
         try {
             String action = req.getParameter(ACTION);
+
+            if (action == null) {
+                action = "/list";
+            }
 
             switch (action) {
                 case "/delete":
