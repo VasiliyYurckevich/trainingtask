@@ -136,7 +136,7 @@ public class ProjectController extends HttpServlet {
 
 
     @Override
-    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -150,18 +150,14 @@ public class ProjectController extends HttpServlet {
                     addProject(req, resp);
             }
         }
-        catch (IOException | ServletException e) {
+        catch (IOException | ServletException | DaoException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new ServletException(e);
-        }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException(e);
+            throw e;
         }
     }
 
     @Override
-    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -195,7 +191,7 @@ public class ProjectController extends HttpServlet {
         }
         catch (IOException | ServletException | DaoException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new ServletException(e);
+            throw e;
         }
     }
 

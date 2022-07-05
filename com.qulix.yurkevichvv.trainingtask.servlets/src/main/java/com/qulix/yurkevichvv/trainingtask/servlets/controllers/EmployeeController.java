@@ -111,31 +111,26 @@ public class EmployeeController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException {
+        throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
             switch (action) {
-                case "/add":
-                    addEmployee(req, resp);
-                    break;
                 case "/update":
                     updateEmployee(req, resp);
                     break;
+                default:
+                    addEmployee(req, resp);
             }
         }
-        catch (IOException | ServletException e) {
+        catch (IOException | ServletException | DaoException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new ServletException(e);
-        }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException(e);
+            throw e;
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -156,16 +151,11 @@ public class EmployeeController extends HttpServlet {
                     break;
                 default:
                     listEmployees(req, resp);
-                    break;
             }
         }
-        catch (IOException | ServletException e) {
+        catch (IOException | ServletException | DaoException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new ServletException(e);
-        }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException(e);
+            throw e;
         }
     }
 
@@ -236,7 +226,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
+    private void    updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, DaoException, IOException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
