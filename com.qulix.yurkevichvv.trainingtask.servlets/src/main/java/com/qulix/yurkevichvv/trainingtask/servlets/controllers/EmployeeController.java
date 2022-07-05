@@ -110,7 +110,7 @@ public class EmployeeController extends HttpServlet {
     }
 
     @Override
-    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException {
 
         try {
@@ -135,7 +135,7 @@ public class EmployeeController extends HttpServlet {
     }
 
     @Override
-    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         try {
             String action = req.getParameter(ACTION);
