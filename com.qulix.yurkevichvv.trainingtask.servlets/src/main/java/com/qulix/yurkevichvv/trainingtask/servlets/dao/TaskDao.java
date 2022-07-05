@@ -129,6 +129,7 @@ public class TaskDao implements IDao<Task> {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
             setDataInToStatement(task, preparedStatement);
+            LOGGER.log(Level.INFO, "Created new task");
             return preparedStatement.execute();
         }
         catch (SQLException e) {
@@ -148,6 +149,7 @@ public class TaskDao implements IDao<Task> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL)) {
             int index = setDataInToStatement(task, preparedStatement);
             preparedStatement.setInt(index, task.getId());
+            LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
 
             return preparedStatement.execute();
         }
@@ -202,6 +204,7 @@ public class TaskDao implements IDao<Task> {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)) {
             preparedStatement.setInt(1, id);
+            LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
             return preparedStatement.execute();
         }
         catch (SQLException e) {

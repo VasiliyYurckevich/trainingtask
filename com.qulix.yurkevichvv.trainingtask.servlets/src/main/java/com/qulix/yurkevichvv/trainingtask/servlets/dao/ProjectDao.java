@@ -98,6 +98,7 @@ public class ProjectDao implements IDao<Project> {
             int index = 1;
             preparedStatement.setString(index++, project.getTitle());
             preparedStatement.setString(index, project.getDescription());
+            LOGGER.log(Level.INFO, "Created new project");
             return preparedStatement.execute();
         }
         catch (SQLException e) {
@@ -119,7 +120,7 @@ public class ProjectDao implements IDao<Project> {
             preparedStatement.setString(index++, project.getTitle());
             preparedStatement.setString(index++, project.getDescription());
             preparedStatement.setInt(index, project.getId());
-
+            LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
             return preparedStatement.execute();
         }
         catch (SQLException e) {
@@ -139,6 +140,7 @@ public class ProjectDao implements IDao<Project> {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)) {
             int index = 1;
             preparedStatement.setInt(index, id);
+            LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
 
             return preparedStatement.execute();
         }

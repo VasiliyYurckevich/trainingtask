@@ -225,7 +225,6 @@ public class EmployeeController extends HttpServlet {
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
         resp.sendRedirect(EMPLOYEES_LIST);
-        LOGGER.log(Level.INFO, "Employee with id {0} deleted", employeeId);
     }
 
     /**
@@ -248,7 +247,6 @@ public class EmployeeController extends HttpServlet {
             req.setAttribute(EMPLOYEE_ID, employeeId);
             Employee theEmployee = getEmployee(paramsList);
             theEmployee.setId(employeeId);
-            LOGGER.log(Level.INFO, "Employee with id {0} updated", employeeId);
             employeeInterface.update(theEmployee);
             resp.sendRedirect(EMPLOYEES_LIST);
 
@@ -324,7 +322,6 @@ public class EmployeeController extends HttpServlet {
         if (Utils.isBlankMap(errorsList)) {
             Employee employee = getEmployee(paramsList);
             employeeInterface.add(employee);
-            LOGGER.log(Level.INFO, "Created employee");
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {

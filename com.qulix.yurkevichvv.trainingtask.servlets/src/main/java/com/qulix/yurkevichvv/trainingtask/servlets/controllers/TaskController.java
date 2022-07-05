@@ -271,7 +271,6 @@ public class TaskController extends HttpServlet {
             task.setId(taskId);
             tasksInterface.update(task);
             resp.sendRedirect(TASKS);
-            LOGGER.log(Level.INFO, "Task with id {0} was updated", taskId);
         }
         else {
             setDataAboutTaskInJsp(req, paramsList, errorsList);
@@ -457,7 +456,6 @@ public class TaskController extends HttpServlet {
         String taskId = req.getParameter(TASK_ID);
         tasksInterface.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
-        LOGGER.log(Level.INFO, "Task with id {0} was deleted", taskId);
     }
 
     /**
@@ -479,7 +477,6 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             tasksInterface.add(task);
             resp.sendRedirect(TASKS);
-            LOGGER.log(Level.INFO, "Created new task");
         }
         else {
             setDataAboutTaskInJsp(req, paramsList, errorsList);

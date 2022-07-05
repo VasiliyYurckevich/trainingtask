@@ -411,7 +411,6 @@ public class ProjectController extends HttpServlet {
 
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
         projectInterface.delete(projectId);
-        LOGGER.log(Level.INFO, "Task with id {0} was deleted", projectId);
         resp.sendRedirect(PROJECTS);
     }
 
@@ -505,10 +504,7 @@ public class ProjectController extends HttpServlet {
             theProject.setId(projectId);
             updateTasksFromProjectEditing(taskInterface, session, projectId);
             projectInterface.update(theProject);
-            LOGGER.log(Level.INFO, "Project with id {0} updated", projectId);
-
             resp.sendRedirect(PROJECTS);
-
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
@@ -593,9 +589,7 @@ public class ProjectController extends HttpServlet {
         if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
             projectInterface.add(theProject);
-            LOGGER.log(Level.INFO, "Created new project");
             resp.sendRedirect(PROJECTS);
-
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);

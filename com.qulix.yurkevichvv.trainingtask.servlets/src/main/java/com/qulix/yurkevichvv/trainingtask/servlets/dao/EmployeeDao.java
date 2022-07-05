@@ -111,6 +111,7 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatement.setString(index++, employee.getFirstName());
             preparedStatement.setString(index++, employee.getPatronymic());
             preparedStatement.setString(index, employee.getPost());
+            LOGGER.log(Level.INFO, "Created employee");
 
             return preparedStatement.execute();
         }
@@ -135,6 +136,7 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatement.setString(index++, employee.getPatronymic());
             preparedStatement.setString(index++, employee.getPost());
             preparedStatement.setInt(index, employee.getId());
+            LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
 
             return preparedStatement.execute();
         }
@@ -154,6 +156,7 @@ public class EmployeeDao implements IDao<Employee> {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL)) {
             preparedStatement.setInt(1, id);
+            LOGGER.log(Level.INFO, "Employee with id {0} deleted", id);
 
             return preparedStatement.execute();
         }
