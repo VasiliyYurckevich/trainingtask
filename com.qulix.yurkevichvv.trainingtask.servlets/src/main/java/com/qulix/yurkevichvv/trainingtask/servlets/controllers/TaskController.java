@@ -175,9 +175,6 @@ public class TaskController extends HttpServlet {
             String action = req.getParameter(ACTION);
 
             switch (action) {
-                case "/add":
-                    addTask(req, resp);
-                    break;
                 case "/update":
                     updateTask(req, resp);
                     break;
@@ -186,6 +183,9 @@ public class TaskController extends HttpServlet {
                     break;
                 case "/newTaskInProject":
                     newTaskInProject(req, resp);
+                    break;
+                default:
+                    addTask(req, resp);
                     break;
             }
         }
@@ -205,14 +205,7 @@ public class TaskController extends HttpServlet {
         try {
             String action = req.getParameter(ACTION);
 
-            if (action == null) {
-                action = LIST;
-            }
-
             switch (action) {
-                case LIST:
-                    listTasks(req, resp);
-                    break;
                 case "/edit":
                     editTaskForm(req, resp);
                     break;
@@ -221,6 +214,9 @@ public class TaskController extends HttpServlet {
                     break;
                 case "/new":
                     newTaskForm(req, resp);
+                    break;
+                default:
+                    listTasks(req, resp);
                     break;
             }
         }

@@ -39,9 +39,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
 
-
-
-
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
  *
@@ -110,12 +107,12 @@ public class EmployeeController extends HttpServlet {
      */
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
+
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
         employeeInterface = new EmployeeDao();
     }
-
 
     @Override
     protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -142,21 +139,13 @@ public class EmployeeController extends HttpServlet {
         }
     }
 
-
     @Override
     protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
         try {
             String action = req.getParameter(ACTION);
 
-            if (action == null) {
-                action = LIST;
-            }
-
             switch (action) {
-                case LIST:
-                    listEmployees(req, resp);
-                    break;
                 case "/delete":
                     deleteEmployee(req, resp);
                     break;
@@ -165,6 +154,10 @@ public class EmployeeController extends HttpServlet {
                     break;
                 case "/edit":
                     updateEmployeeForm(req, resp);
+                    break;
+                default:
+                    listEmployees(req, resp);
+                    break;
             }
         }
         catch (IOException | ServletException e) {

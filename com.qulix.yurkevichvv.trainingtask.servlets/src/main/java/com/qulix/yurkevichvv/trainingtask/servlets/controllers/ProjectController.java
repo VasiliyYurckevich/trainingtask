@@ -148,11 +148,11 @@ public class ProjectController extends HttpServlet {
 
 
             switch (action) {
-                case "/add":
-                    addProject(req, resp);
-                    break;
                 case "/update":
                     updateProject(req, resp);
+                    break;
+                default:
+                    addProject(req, resp);
                     break;
             }
 
@@ -173,14 +173,7 @@ public class ProjectController extends HttpServlet {
         try {
             String action = req.getParameter(ACTION);
 
-            if (action == null) {
-                action = LIST;
-            }
-
             switch (action) {
-                case LIST:
-                    listProjects(req, resp);
-                    break;
                 case "/delete":
                     deleteProject(req, resp);
                     break;
@@ -198,6 +191,9 @@ public class ProjectController extends HttpServlet {
                     break;
                 case "/deleteTaskInProject":
                     deleteTaskInProject(req, resp);
+                default:
+                    listProjects(req, resp);
+                    break;
             }
         }
         catch (IOException | ServletException | DaoException e) {
@@ -278,7 +274,6 @@ public class ProjectController extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
         servletcontext.setAttribute("task", existingTask);
         dispatcher.forward(req, resp);
-
     }
 
     /**
@@ -308,7 +303,6 @@ public class ProjectController extends HttpServlet {
         setParametersAboutProjectEditing(servletContext, deletedTasks, tasksListInProject, employeeListInProject);
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
-
     }
 
     /**
@@ -422,7 +416,6 @@ public class ProjectController extends HttpServlet {
         projectInterface.delete(projectId);
         LOGGER.log(Level.INFO, "Task with id {0} was deleted", projectId);
         resp.sendRedirect(PROJECTS);
-
     }
 
     /**
@@ -445,7 +438,6 @@ public class ProjectController extends HttpServlet {
         Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
         dispatcher.forward(req, resp);
-
     }
 
     /**
@@ -459,7 +451,6 @@ public class ProjectController extends HttpServlet {
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
-
     }
 
     /**
