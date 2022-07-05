@@ -180,6 +180,7 @@ public class TaskController extends HttpServlet {
                     break;
                 default:
                     addTask(req, resp);
+                    break;
             }
         }
         catch (IOException | ServletException | DaoException e) {
@@ -210,6 +211,7 @@ public class TaskController extends HttpServlet {
                     break;
                 default:
                     listTasks(req, resp);
+                    break;
             }
         }
         catch (IOException | ServletException | DaoException e) {

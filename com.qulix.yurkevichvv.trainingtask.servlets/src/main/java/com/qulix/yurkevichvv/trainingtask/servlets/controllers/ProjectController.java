@@ -148,6 +148,8 @@ public class ProjectController extends HttpServlet {
                     break;
                 default:
                     addProject(req, resp);
+                    break;
+
             }
         }
         catch (IOException | ServletException | DaoException e) {
@@ -187,6 +189,7 @@ public class ProjectController extends HttpServlet {
                     break;
                 default:
                     listProjects(req, resp);
+                    break;
             }
         }
         catch (IOException | ServletException | DaoException e) {

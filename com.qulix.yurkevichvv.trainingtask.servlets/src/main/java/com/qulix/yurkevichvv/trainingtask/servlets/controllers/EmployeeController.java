@@ -151,6 +151,7 @@ public class EmployeeController extends HttpServlet {
                     break;
                 default:
                     listEmployees(req, resp);
+                    break;
             }
         }
         catch (IOException | ServletException | DaoException e) {
