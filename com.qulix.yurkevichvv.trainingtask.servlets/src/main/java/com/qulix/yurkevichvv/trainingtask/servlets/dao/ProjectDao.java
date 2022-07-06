@@ -32,7 +32,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipula
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 
-
 /**
  * Содержит методы для работы объектов класса "Проект" с БД.
  *

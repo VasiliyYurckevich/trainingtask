@@ -32,14 +32,12 @@ import com.qulix.yurkevichvv.trainingtask.servlets.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 
-
 /**
  * Утилиты для классов модуля.
  *
  * @author Q-YVV
  */
 public class Utils {
-
 
     /**
      * Проверяет Map на пустоту значений.

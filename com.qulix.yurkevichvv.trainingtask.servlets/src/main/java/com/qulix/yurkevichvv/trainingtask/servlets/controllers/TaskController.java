@@ -161,7 +161,6 @@ public class TaskController extends HttpServlet {
         tasksInterface = new TaskDao();
     }
 
-
     @Override
     protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

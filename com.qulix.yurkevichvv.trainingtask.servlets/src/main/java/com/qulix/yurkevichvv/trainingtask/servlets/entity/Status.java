@@ -25,6 +25,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.entity;
  * @author Q-YVV
  */
 public enum Status {
+
     /**
      * Статус "Не начата".
      */

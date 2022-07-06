@@ -123,7 +123,7 @@ public class EmployeeController extends HttpServlet {
                     addEmployee(req, resp);
             }
         }
-        catch (IOException | ServletException | DaoException e) {
+        catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
             throw e;
         }
@@ -154,7 +154,7 @@ public class EmployeeController extends HttpServlet {
                     break;
             }
         }
-        catch (IOException | ServletException | DaoException e) {
+        catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
             throw e;
         }
