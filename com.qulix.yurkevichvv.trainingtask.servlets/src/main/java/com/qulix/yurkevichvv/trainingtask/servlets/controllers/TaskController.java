@@ -542,7 +542,7 @@ public class TaskController extends HttpServlet {
             employeeOfTask.add(stringBuffer.toString());
         }
         else {
-            employeeOfTask.add(null);
+            employeeOfTask.add("");
         }
     }
 
