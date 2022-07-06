@@ -20,10 +20,10 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -175,8 +175,8 @@ public class TaskDao implements IDao<Task> {
             preparedStatement.setInt(index++, task.getStatus().getId());
             preparedStatement.setString(index++, task.getTitle());
             preparedStatement.setLong(index++, task.getWorkTime());
-            preparedStatement.setString(index++, task.getBeginDate().toString());
-            preparedStatement.setString(index++, task.getEndDate().toString());
+            preparedStatement.setDate(index++, task.getBeginDate());
+            preparedStatement.setDate(index++, task.getEndDate());
 
             if (task.getProjectId() == null) {
                 preparedStatement.setNull(index++, 0);
@@ -325,8 +325,8 @@ public class TaskDao implements IDao<Task> {
             task.setStatus(Status.getStatusById(Integer.parseInt(resultSet.getString(STATUS))));
             task.setTitle(resultSet.getString(TITLE));
             task.setWorkTime(resultSet.getInt(WORK_TIME));
-            task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
-            task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
+            task.setBeginDate(Date.valueOf(resultSet.getString(BEGIN_DATE)));
+            task.setEndDate(Date.valueOf(resultSet.getString(END_DATE)));
             task.setProjectId(resultSet.getInt(PROJECT_ID));
 
             if (resultSet.getInt(EMPLOYEE_ID) != 0) {

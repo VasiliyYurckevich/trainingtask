@@ -19,10 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.validation;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,9 +118,9 @@ public class FieldsValidation {
      * @param error Строка с ошибкой
      */
     private static void inspectDataRangeAccuracy(String beginDate, String endDate, StringBuffer error) {
-        LocalDate parsedBeginDate = LocalDate.parse(beginDate);
-        LocalDate parsedEndDate = LocalDate.parse(endDate);
-        if (parsedBeginDate.isAfter(parsedEndDate)) {
+        Date parsedBeginDate = Date.valueOf(beginDate);
+        Date parsedEndDate = Date.valueOf(endDate);
+        if (parsedBeginDate.after(parsedEndDate)) {
             error.append("Дата начала задачи не может быть больше даты окончания задачи");
         }
     }
@@ -137,9 +134,9 @@ public class FieldsValidation {
      */
     private static boolean isDateFormatValid(String date, StringBuffer error) {
         try {
-            LocalDate.parse(date , DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT));
+            Date.valueOf(date);
         }
-        catch (DateTimeParseException e) {
+        catch (IllegalArgumentException e) {
             error.append("Введите существующую дату в формате ГГГГ-ММ-ДД");
             return false;
         }

@@ -20,7 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -183,7 +183,7 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (IOException | ServletException | DaoException e) {
+        catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
             throw e;
         }
@@ -214,7 +214,7 @@ public class TaskController extends HttpServlet {
                     break;
             }
         }
-        catch (IOException | ServletException | DaoException e) {
+        catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
             throw e;
         }
@@ -285,8 +285,8 @@ public class TaskController extends HttpServlet {
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsList.get(STATUS))));
         task.setTitle(paramsList.get(TITLE));
         task.setWorkTime(Integer.parseInt(paramsList.get(WORK_TIME)));
-        task.setBeginDate(LocalDate.parse(paramsList.get(BEGIN_DATE)));
-        task.setEndDate(LocalDate.parse(paramsList.get(END_DATE)));
+        task.setBeginDate(Date.valueOf(paramsList.get(BEGIN_DATE)));
+        task.setEndDate(Date.valueOf(paramsList.get(END_DATE)));
         task.setProjectId(Integer.valueOf(paramsList.get(PROJECT_ID)));
         if (!paramsList.get(EMPLOYEE_ID).isEmpty()) {
             task.setEmployeeId(Integer.valueOf(paramsList.get(EMPLOYEE_ID)));
