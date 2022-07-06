@@ -341,7 +341,7 @@ public class ProjectController extends HttpServlet {
                     employeeListInProject.add(stringBuffer.toString());
                 }
                 else {
-                    employeeListInProject.add(null);
+                    employeeListInProject.add("");
                 }
             }
         }
