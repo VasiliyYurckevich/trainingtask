@@ -135,11 +135,10 @@ public class ProjectController extends HttpServlet {
     }
 
     @Override
-    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
-
 
             switch (action) {
                 case "/update":
@@ -158,7 +157,7 @@ public class ProjectController extends HttpServlet {
     }
 
     @Override
-    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected  void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);

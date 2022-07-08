@@ -124,7 +124,8 @@ public class EmployeeController extends HttpServlet {
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+
+    LOGGER.log(Level.SEVERE, e.toString(), e);
             throw e;
         }
     }
@@ -159,7 +160,6 @@ public class EmployeeController extends HttpServlet {
             throw e;
         }
     }
-
 
     /**
      * Отображает форму для редактирования сотрудника.

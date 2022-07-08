@@ -154,7 +154,6 @@ public class TaskController extends HttpServlet {
      */
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
-
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
@@ -162,7 +161,7 @@ public class TaskController extends HttpServlet {
     }
 
     @Override
-    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -189,7 +188,7 @@ public class TaskController extends HttpServlet {
     }
 
     @Override
-    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -218,7 +217,6 @@ public class TaskController extends HttpServlet {
             throw e;
         }
     }
-
 
     /**
      * Открывает и заполняет форму редактирования задачи.
