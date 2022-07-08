@@ -65,12 +65,12 @@
                             <c:param name="action" value="/editTaskForm"/>
                             <c:param name="taskId" value="${tempTask.id}"/>
                             <c:param name="projectId" value="${thisProjectId}"/>
-                            <c:param name="numberInList" value="${theCount.index}"/>
+                            <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 
                             <c:url var="deleteLink" value="/projects">
                             <c:param name="action" value="/deleteTaskInProject"/>
-                            <c:param name="numberInList" value="${theCount.index}"/>
+                            <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 
                             <tr>

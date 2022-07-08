@@ -60,11 +60,6 @@ public class TaskController extends HttpServlet {
     public static final String LIST = "/list";
 
     /**
-     * Пробел.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * Хранит название JSP редактирования задачи.
      */
     private static final String EDIT_TASK_FORM_JSP = "/edit-task-form.jsp";
@@ -132,7 +127,7 @@ public class TaskController extends HttpServlet {
     /**
      * Хранит константу для порядкового номера задачи в списке задач проекта.
      */
-    private static final String NUMBER_IN_LIST = "numberInList";
+    private static final String TASK_INDEX = "taskIndex";
 
     /**
      * Хранит текст для исключения при выборе неизвестной команды.
@@ -328,8 +323,8 @@ public class TaskController extends HttpServlet {
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             tasksListInProject.add(task);
-            String numberInList = String.valueOf(tasksListInProject.size());
-            getEmployeesInProject(req, numberInList, task);
+            String taskIndex = String.valueOf(tasksListInProject.size());
+            getEmployeesInProject(req, taskIndex, task);
             setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
@@ -360,18 +355,18 @@ public class TaskController extends HttpServlet {
         if (!req.getParameter(TASK_ID).equals("")) {
             taskId = Integer.valueOf(req.getParameter(TASK_ID));
         }
-        String numberInList = (String) req.getSession().getAttribute(NUMBER_IN_LIST);
+        String taskIndex = (String) req.getSession().getAttribute(TASK_INDEX);
         Map<String, String> paramsList = getDataFromForm(req);
         Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             task.setId(taskId);
-            tasksListInProject.set(Integer.parseInt(numberInList), task);
-            List<String> employeeListInProject = getEmployeesInProject(req, numberInList, task);
+            tasksListInProject.set(Integer.parseInt(taskIndex), task);
+            List<String> employeeListInProject = getEmployeesInProject(req, taskIndex, task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
             setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
-            req.getSession().setAttribute(NUMBER_IN_LIST, numberInList);
+            req.getSession().setAttribute(TASK_INDEX, taskIndex);
             dispatcher.forward(req, resp);
         }
         else {
@@ -400,18 +395,18 @@ public class TaskController extends HttpServlet {
      * Вносит данные о сотруднике связанном с задачей в список задач проекта.
      *
      * @param req запрос
-     * @param numberInList номер задачи в списке проекта
+     * @param taskIndex номер задачи в списке проекта
      * @param task задача
      * @return список сотрудников привязанных к проекту.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private static List<String> getEmployeesInProject(HttpServletRequest req, String numberInList, Task task)
+    private static List<String> getEmployeesInProject(HttpServletRequest req, String taskIndex, Task task)
         throws DaoException {
 
         List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
         if (task.getEmployeeId() == null) {
             try {
-                employeeListInProject.set(Integer.parseInt(numberInList), null);
+                employeeListInProject.set(Integer.parseInt(taskIndex), null);
             }
             catch (IndexOutOfBoundsException e) {
                 employeeListInProject.add(null);
@@ -419,11 +414,12 @@ public class TaskController extends HttpServlet {
             }
         }
         else {
+            Employee employee = new EmployeeDao().getById(task.getEmployeeId());
             try {
-                employeeListInProject.set(Integer.parseInt(numberInList), getNameEmployee(task).toString());
+                employeeListInProject.set(Integer.parseInt(taskIndex), employee.getFullName());
             }
             catch (IndexOutOfBoundsException e) {
-                employeeListInProject.add(getNameEmployee(task).toString());
+                employeeListInProject.add(employee.getFullName());
             }
         }
         return employeeListInProject;
@@ -550,29 +546,12 @@ public class TaskController extends HttpServlet {
      */
     private void setEmployeeList(List<String> employeeOfTask, Task task) {
         if (task.getEmployeeId() != null) {
-            StringBuffer stringBuffer = getNameEmployee(task);
-            employeeOfTask.add(stringBuffer.toString());
+            Employee employee = new EmployeeDao().getById(task.getEmployeeId());
+            employeeOfTask.add(employee.getFullName());
         }
         else {
             employeeOfTask.add("");
         }
-    }
-
-    /**
-     * Возвращает имя исполнителя задачи.
-     *
-     * @param task задача
-     * @return имя исполнителя задачи
-     */
-    private static StringBuffer getNameEmployee(Task task) {
-        Employee employee = new EmployeeDao().getById(task.getEmployeeId());
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(employee.getSurname());
-        stringBuffer.append(SPACE);
-        stringBuffer.append(employee.getFirstName());
-        stringBuffer.append(SPACE);
-        stringBuffer.append(employee.getPatronymic());
-        return stringBuffer;
     }
 
     /**

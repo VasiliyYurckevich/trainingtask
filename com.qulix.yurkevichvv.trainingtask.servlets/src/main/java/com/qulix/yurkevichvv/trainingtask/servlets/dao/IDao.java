@@ -34,7 +34,6 @@ public interface IDao<T> {
      * Добавляет новую сущность в БД.
      *
      * @param t Сущность для добавления.
-     * @return успешность операции.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     void add(T t) throws DaoException;
@@ -43,7 +42,6 @@ public interface IDao<T> {
      * Обновляет сущность в БД.
      *
      * @param t Сущность для обновления.
-     * @return успешность операции.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     void update(T t) throws DaoException;
@@ -52,7 +50,6 @@ public interface IDao<T> {
      * Удаляет сущность из БД.
      *
      * @param id Идентификатор сущности.
-     * @return успешность операции.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     void delete(Integer id) throws DaoException;

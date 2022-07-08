@@ -29,7 +29,7 @@ public enum Status {
     /**
      * Статус "Не начата".
      */
-    N0BEGIN(1, "Не начата"),
+    NOBEGIN(1, "Не начата"),
 
     /**
      * Статус "В процессе".
@@ -74,7 +74,7 @@ public enum Status {
                 return e;
             }
         }
-        return N0BEGIN;
+        throw new IllegalArgumentException("Unknown status value");
     }
 
     public String getStatusTitle() {

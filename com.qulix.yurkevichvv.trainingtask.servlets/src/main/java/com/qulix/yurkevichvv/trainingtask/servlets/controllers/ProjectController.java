@@ -86,7 +86,7 @@ public class ProjectController extends HttpServlet {
     /**
      * Хранит константу для порядкового номера задачи в списке задач проекта.
      */
-    private static final String NUMBER_IN_LIST = "numberInList";
+    private static final String TASK_INDEX = "taskIndex";
 
     /**
      * Хранит константу для обозначения списка задач проекта.
@@ -127,11 +127,6 @@ public class ProjectController extends HttpServlet {
      * Хранит название кейса для обозначения списка проектов.
      */
     private static final String PROJECTS = "projects";
-
-    /**
-     * Пробел.
-     */
-    public static final String SPACE = " ";
 
     /**
      * Переменная доступа к методам классов DAO.
@@ -222,19 +217,19 @@ public class ProjectController extends HttpServlet {
         throws DaoException, ServletException, IOException {
         
         HttpSession session = req.getSession();
-        String numberInList = req.getParameter(NUMBER_IN_LIST);
+        String taskIndex = req.getParameter(TASK_INDEX);
         List<Integer> deleteTaskInProject = (List<Integer>) session.getAttribute(DELETED_LIST);
         List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
         List<String> employeeListInProject = (List<String>) session.getAttribute(EMPLOYEE_IN_TASKS_LIST);
-        Integer id = tasksListInProject.get(Integer.parseInt(numberInList)).getId();
+        Integer id = tasksListInProject.get(Integer.parseInt(taskIndex)).getId();
 
-        tasksListInProject.remove(Integer.parseInt(numberInList));
-        employeeListInProject.remove(Integer.parseInt(numberInList));
+        tasksListInProject.remove(Integer.parseInt(taskIndex));
+        employeeListInProject.remove(Integer.parseInt(taskIndex));
         if (id != null) {
             deleteTaskInProject.add(id);
         }
         setParametersAboutProjectEditing(session, deleteTaskInProject, tasksListInProject, employeeListInProject);
-        session.setAttribute(NUMBER_IN_LIST, numberInList);
+        session.setAttribute(TASK_INDEX, taskIndex);
         editProjectForm(req, resp);
     }
 
@@ -269,10 +264,10 @@ public class ProjectController extends HttpServlet {
         HttpSession session = req.getSession();
         List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
         Integer thisProjectId = (Integer) session.getAttribute(PROJECT_ID);
-        String numberInList = req.getParameter(NUMBER_IN_LIST);
-        session.setAttribute(NUMBER_IN_LIST, numberInList);
+        String taskIndex = req.getParameter(TASK_INDEX);
+        session.setAttribute(TASK_INDEX, taskIndex);
 
-        Task existingTask = tasksListInProject.get(Integer.parseInt(numberInList));
+        Task existingTask = tasksListInProject.get(Integer.parseInt(taskIndex));
         Utils.setTaskDataInJsp(req, existingTask);
         session.setAttribute(PROJECT_ID, thisProjectId);
 
@@ -342,13 +337,7 @@ public class ProjectController extends HttpServlet {
             for (Task t : tasksListInProject) {
                 if (t.getEmployeeId() != null) {
                     Employee employee = new EmployeeDao().getById(t.getEmployeeId());
-                    StringBuilder stringBuffer = new StringBuilder();
-                    stringBuffer.append(employee.getSurname());
-                    stringBuffer.append(SPACE);
-                    stringBuffer.append(employee.getFirstName());
-                    stringBuffer.append(SPACE);
-                    stringBuffer.append(employee.getPatronymic());
-                    employeeListInProject.add(stringBuffer.toString());
+                    employeeListInProject.add(employee.getFullName());
                 }
                 else {
                     employeeListInProject.add("");
@@ -437,8 +426,8 @@ public class ProjectController extends HttpServlet {
 
         HttpSession session = req.getSession();
         Integer thisProjectId = (Integer) session.getAttribute(PROJECT_ID);
-        String numberInList = req.getParameter(NUMBER_IN_LIST);
-        session.setAttribute(NUMBER_IN_LIST, numberInList);
+        String taskIndex = req.getParameter(TASK_INDEX);
+        session.setAttribute(TASK_INDEX, taskIndex);
         session.setAttribute(PROJECT_ID, thisProjectId);
         Utils.setDataToDropDownList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
@@ -487,7 +476,7 @@ public class ProjectController extends HttpServlet {
         session.removeAttribute(PROJECT_ID);
         session.removeAttribute(TITLE_OF_PROJECT);
         session.removeAttribute(DESCRIPTION);
-        session.removeAttribute(NUMBER_IN_LIST);
+        session.removeAttribute(TASK_INDEX);
     }
 
     /**
