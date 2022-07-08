@@ -46,7 +46,7 @@ public class Task {
     /**
      * Время на задачу.
      */
-    private int workTime;
+    private Integer workTime;
 
     /**
      * Дата начала задачи.
@@ -121,7 +121,7 @@ public class Task {
         return workTime;
     }
 
-    public void setWorkTime(int workTime) {
+    public void setWorkTime(Integer workTime) {
         this.workTime = workTime;
     }
 

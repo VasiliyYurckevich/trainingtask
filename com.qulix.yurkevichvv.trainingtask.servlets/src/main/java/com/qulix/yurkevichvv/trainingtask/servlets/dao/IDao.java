@@ -34,28 +34,25 @@ public interface IDao<T> {
      * Добавляет новую сущность в БД.
      *
      * @param t Сущность для добавления.
-     * @return успешность операции.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    boolean add(T t) throws DaoException;
+    void add(T t) throws DaoException;
 
     /**
      * Обновляет сущность в БД.
      *
      * @param t Сущность для обновления.
-     * @return успешность операции.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    boolean update(T t) throws DaoException;
+    void update(T t) throws DaoException;
 
     /**
      * Удаляет сущность из БД.
      *
-     * @param t Сущность для удаления.
-     * @return успешность операции.
+     * @param id Идентификатор сущности.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    boolean delete(Integer t) throws DaoException;
+    void delete(Integer id) throws DaoException;
 
     /**
      * Возвращает все сущности определенного класса из БД.

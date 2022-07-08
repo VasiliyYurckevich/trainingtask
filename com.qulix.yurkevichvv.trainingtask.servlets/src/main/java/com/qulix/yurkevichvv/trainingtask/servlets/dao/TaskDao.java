@@ -20,9 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +31,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipula
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper;
 
 /**
  * Содержит методы для работы объектов класса "Задача" с БД.
@@ -43,11 +42,15 @@ import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
  */
 public class TaskDao implements IDao<Task> {
 
-
     /**
      * Хранит константу для имени колонки ID проекта в БД.
      */
-    private static final String TASK_ID = "id";
+    private static final String ID = "id";
+
+    /**
+     * Двоеточие.
+     */
+    private static final String COLON = ":";
 
     /**
      * Хранит константу для имени колонки статуса проекта в БД.
@@ -89,12 +92,12 @@ public class TaskDao implements IDao<Task> {
      */
     private static final Logger LOGGER = Logger.getLogger(TaskDao.class.getName());
 
-
     /**
      * Константа для запроса добавления задачи в БД.
      */
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +
-        " (status, title, work_time, begin_date,end_date, project_id, employee_id ) VALUES (?,?,?,?,?,?,?);";
+        " (status, title, work_time, begin_date,end_date, project_id, employee_id)" +
+        " VALUES (:status, :title, :work_time, :begin_date, :end_date, :project_id, :employee_id);";
 
     /**
      * Константа для запроса получения задач из БД.
@@ -104,58 +107,59 @@ public class TaskDao implements IDao<Task> {
     /**
      * Константа для запроса получения задачи из БД по идентификатору.
      */
-    private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK WHERE id = ?;";
+    private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK WHERE id = :id;";
 
     /**
      * Константа для запроса получения задач из БД по проекту.
      */
-    private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM TASK WHERE project_id = ?;";
+    private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM TASK WHERE project_id = :project_id;";
 
     /**
      * Константа для запроса удаления задачи из БД по идентификатору.
      */
-    private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = ?;";
+    private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = :id;";
 
     /**
      * Константа для запроса обновления задачи в БД.
      */
-    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = ?, title = ?, work_time = ?, " +
-        "begin_date = ?, end_date = ?, project_id = ?, employee_id = ? WHERE id = ?;";
+    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = :status, title = :title," +
+        " work_time = :work_time, begin_date = :begin_date, end_date = :end_date, project_id = :project_id," +
+        " employee_id = :employee_id WHERE id = :id;";
 
 
     @Override
-    public boolean add(Task task) throws DaoException {
+    public void add(Task task) throws DaoException {
     
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
-            setDataInToStatement(task, preparedStatement);
-            return preparedStatement.execute();
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {
+            setDataInToStatement(task, preparedStatementHelper);
+            preparedStatementHelper.execute();
+            LOGGER.log(Level.INFO, "Created new task");
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when adding a task to the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when adding a task to the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
         }
     }
 
-
     @Override
-    public boolean update(Task task) throws DaoException {
+    public void update(Task task) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL)) {
-            int index = setDataInToStatement(task, preparedStatement);
-            preparedStatement.setInt(index, task.getId());
-
-            return preparedStatement.execute();
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
+            setDataInToStatement(task, preparedStatementHelper);
+            preparedStatementHelper.setInt(COLON + ID, task.getId());
+            preparedStatementHelper.execute();
+            LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when updating a task in the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when updating a task in the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -166,50 +170,37 @@ public class TaskDao implements IDao<Task> {
      * Внесение данных о задаче в выражение SQL.
      *
      * @param task объект класса "Задача".
-     * @param preparedStatement выражение SQL.
+     * @param preparedStatementHelper выражение SQL.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private int setDataInToStatement(Task task, PreparedStatement preparedStatement) throws DaoException {
+    private void setDataInToStatement(Task task, PreparedStatementHelper preparedStatementHelper) throws DaoException {
         try {
-            int index = 1;
-            preparedStatement.setInt(index++, task.getStatus().getId());
-            preparedStatement.setString(index++, task.getTitle());
-            preparedStatement.setLong(index++, task.getWorkTime());
-            preparedStatement.setString(index++, task.getBeginDate().toString());
-            preparedStatement.setString(index++, task.getEndDate().toString());
-
-            if (task.getProjectId() == null) {
-                preparedStatement.setNull(index++, 0);
-            }
-            else {
-                preparedStatement.setInt(index++, task.getProjectId());
-            }
-            if (task.getEmployeeId() == null) {
-                preparedStatement.setNull(index++, 0);
-            }
-            else {
-                preparedStatement.setInt(index++, task.getEmployeeId());
-            }
-            return index;
+            preparedStatementHelper.setInt(COLON + STATUS, task.getStatus().getId());
+            preparedStatementHelper.setString(COLON + TITLE, task.getTitle());
+            preparedStatementHelper.setInt(COLON + WORK_TIME, task.getWorkTime());
+            preparedStatementHelper.setDate(COLON + BEGIN_DATE, task.getBeginDate());
+            preparedStatementHelper.setDate(COLON + END_DATE, task.getEndDate());
+            preparedStatementHelper.setInt(COLON + PROJECT_ID, task.getProjectId());
+            preparedStatementHelper.setInt(COLON + EMPLOYEE_ID, task.getEmployeeId());
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when entering task data into an SQL expression", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when entering task data into an SQL expression", e);
+            throw new DaoException(e);
         }
     }
 
-
     @Override
-    public boolean delete(Integer id) throws DaoException {
+    public void delete(Integer id) throws DaoException {
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)) {
-            preparedStatement.setInt(1, id);
-            return preparedStatement.execute();
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_TASK_SQL, connection)) {
+            preparedStatementHelper.setInt(COLON + ID, id);
+            preparedStatementHelper.execute();
+            LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when deleting a task from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when deleting a task from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -227,17 +218,18 @@ public class TaskDao implements IDao<Task> {
 
         Connection connection = ConnectionManipulator.getConnection();
         List<Task> tasks = new ArrayList<>();
+        PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection);
+        preparedStatementHelper.setInt(COLON + PROJECT_ID, id);
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_PROJECT)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             return getList(tasks, resultSet);
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting project tasks from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when getting project tasks from the database", e);
+            throw new DaoException(e);
         }
         finally {
+            preparedStatementHelper.close();
             ConnectionManipulator.closeConnection(connection);
         }
     }
@@ -247,14 +239,14 @@ public class TaskDao implements IDao<Task> {
 
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK)) {
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_TASK, connection);
+            ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             List<Task> tasks = new ArrayList<>();
-            ResultSet resultSet = preparedStatement.executeQuery();
             return getList(tasks, resultSet);
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting all tasks from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when getting all tasks from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -276,8 +268,9 @@ public class TaskDao implements IDao<Task> {
                 setDataFromDatabase(task, resultSet);
                 tasks.add(task);
             }
+            resultSet.close();
         }
-        catch (SQLException e) {
+        catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
             throw new DaoException("Error when getting tasks from the database", e);
         }
@@ -288,22 +281,24 @@ public class TaskDao implements IDao<Task> {
     public Task getById(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
+        PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection);
+        preparedStatementHelper.setInt(COLON + ID, id);
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             if (resultSet.next()) {
                 Task task = new Task();
                 setDataFromDatabase(task, resultSet);
+                resultSet.close();
                 return task;
             }
             else {
+                resultSet.close();
                 throw new DaoException("An employee with such data was not found");
             }
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting a task by ID from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when getting a task by ID from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -318,24 +313,18 @@ public class TaskDao implements IDao<Task> {
      */
     private void setDataFromDatabase(Task task, ResultSet resultSet) throws DaoException {
         try {
-            task.setId(resultSet.getInt(TASK_ID));
+            task.setId(resultSet.getInt(ID));
             task.setStatus(Status.getStatusById(Integer.parseInt(resultSet.getString(STATUS))));
             task.setTitle(resultSet.getString(TITLE));
             task.setWorkTime(resultSet.getInt(WORK_TIME));
             task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
             task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
             task.setProjectId(resultSet.getInt(PROJECT_ID));
-
-            if (resultSet.getInt(EMPLOYEE_ID) != 0) {
-                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
-            }
-            else {
-                task.setEmployeeId(null);
-            }
+            task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when retrieving task data from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
+            throw new DaoException(e);
         }
     }
 }

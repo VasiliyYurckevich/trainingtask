@@ -27,6 +27,11 @@ package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 public class Employee {
 
     /**
+     * Пробел.
+     */
+    public static final String SPACE = " ";
+
+    /**
      * Идентификатор сотрудника.
      */
     private Integer id;
@@ -99,5 +104,9 @@ public class Employee {
                 ", firstName=" + firstName +
                 ", patronymic=" + patronymic +
                 ", post=" + post;
+    }
+
+    public String getFullName() {
+        return getSurname() + SPACE + getFirstName() + SPACE + getPatronymic();
     }
 }

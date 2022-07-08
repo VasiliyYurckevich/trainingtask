@@ -99,3 +99,20 @@ li a:hover:not(.active) {
     text-align: center;
 }
 
+.field {
+    clear:both;
+    text-align:right;
+    line-height:25px;
+}
+
+label {
+    float:left;
+    padding-right:10px;
+}
+.main {
+    float:left
+}
+.header {
+    clear:both;
+    text-align:center;
+}

@@ -20,9 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,7 +29,7 @@ import java.util.logging.Logger;
 import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
-
+import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper;
 
 /**
  * Содержит методы для работы объектов класса "Проект" с БД.
@@ -43,9 +41,14 @@ import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 public class ProjectDao implements IDao<Project> {
 
     /**
+     * Двоеточие.
+     */
+    private static final String COLON = ":";
+
+    /**
      * Хранит константу для колонки ID проекта в БД.
      */
-    private static final String PROJECT_ID = "id";
+    private static final String ID = "id";
 
     /**
      * Хранит константу для колонки названия проекта в БД.
@@ -56,121 +59,116 @@ public class ProjectDao implements IDao<Project> {
      * Хранит константу для колонки описания сотрудника в БД.
      */
     private static final String DESCRIPTION = "description";
+
     /**
      * Логгер для ведения журнала действий.
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectDao.class.getName());
 
-
     /**
      * Константа для запроса добавления проекта в БД.
      */
-    private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (?,?);";
+    private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (:title, :description);";
 
     /**
      * Константа для запроса всех проектов из БД.
      */
-    private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT ;";
+    private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT;";
 
     /**
      * Константа для запроса получения проекта по его ID.
      */
-    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE id = ?;";
+    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE id = :id;";
 
     /**
      * Константа для запроса удаления проекта по его ID.
      */
-    private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE id = ?;";
+    private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE id = :id;";
 
     /**
      * Константа для запроса обновления проекта в БД.
      */
-    private static final String UPDATE_PROJECT_SQL = "UPDATE PROJECT SET title = ?, description = ? WHERE id = ?;";
+    private static final String UPDATE_PROJECT_SQL = 
+        "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
 
 
 
     @Override
-    public boolean add(Project project) throws DaoException {
+    public void add(Project project) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PROJECT_SQL)) {
-            int index = 1;
-            preparedStatement.setString(index++, project.getTitle());
-            preparedStatement.setString(index, project.getDescription());
-            return preparedStatement.execute();
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
+            preparedStatementHelper.setString(COLON + TITLE, project.getTitle());
+            preparedStatementHelper.setString(COLON + DESCRIPTION, project.getDescription());
+            preparedStatementHelper.execute();
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when adding a project to the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when adding a project to the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
         }
     }
 
-
     @Override
-    public boolean update(Project project) throws DaoException {
+    public void update(Project project) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PROJECT_SQL)) {
-            int index = 1;
-            preparedStatement.setString(index++, project.getTitle());
-            preparedStatement.setString(index++, project.getDescription());
-            preparedStatement.setInt(index, project.getId());
-
-            return preparedStatement.execute();
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_PROJECT_SQL, connection)) {
+            preparedStatementHelper.setString(COLON + TITLE, project.getTitle());
+            preparedStatementHelper.setString(COLON + DESCRIPTION, project.getDescription());
+            preparedStatementHelper.setInt(COLON + ID, project.getId());
+            preparedStatementHelper.execute();
+            LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when updating the project in the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when updating the project in the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
         }
     }
 
-
     @Override
-    public boolean delete(Integer id) throws DaoException {
+    public void delete(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)) {
-            int index = 1;
-            preparedStatement.setInt(index, id);
-
-            return preparedStatement.execute();
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_PROJECT_SQL, connection)) {
+            preparedStatementHelper.setInt(COLON + ID, id);
+            preparedStatementHelper.execute();
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when deleting a project from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when deleting a project from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
         }
     }
-
 
     @Override
     public List<Project> getAll() throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PROJECTS)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_PROJECTS, connection);
+            ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             List<Project> projects = new ArrayList<>();
             while (resultSet.next()) {
                 Project project = getProjectFromDB(resultSet);
                 projects.add(project);
             }
+            resultSet.close();
             return projects;
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting all projects from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when getting all projects from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -186,39 +184,38 @@ public class ProjectDao implements IDao<Project> {
     private static Project getProjectFromDB(ResultSet resultSet) {
         try {
             Project project = new Project();
-            project.setId(resultSet.getInt(PROJECT_ID));
+            project.setId(resultSet.getInt(ID));
             project.setTitle(resultSet.getString(TITLE));
             project.setDescription(resultSet.getString(DESCRIPTION));
+
             return project;
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when retrieving task data from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
+            throw new DaoException(e);
         }
     }
-
 
     @Override
     public Project getById(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PROJECT_BY_ID)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection);
+        preparedStatementHelper.setInt(COLON + ID, id);
+        try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             if (resultSet.next()) {
-                Project project = getProjectFromDB(resultSet);
-                return project;
+                return getProjectFromDB(resultSet);
             }
             else {
                 throw new DaoException("A project with such data was not found");
             }
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting a project by id from the database", e);
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error when getting a project by id from the database", e);
+            throw new DaoException(e);
         }
         finally {
+            preparedStatementHelper.close();
             ConnectionManipulator.closeConnection(connection);
         }
     }

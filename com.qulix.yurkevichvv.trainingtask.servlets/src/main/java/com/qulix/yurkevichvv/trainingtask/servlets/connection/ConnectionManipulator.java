@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 
 /**
- * Провайдер подключения к БД.
+ * Провайдер подключения к БД и закрытия подключения.
  *
  * @author Q-YVV
  */

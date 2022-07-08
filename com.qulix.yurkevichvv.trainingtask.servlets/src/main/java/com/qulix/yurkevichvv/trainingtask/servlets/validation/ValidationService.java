@@ -45,7 +45,6 @@ public class ValidationService {
      */
     private static final String WORK_TIME = "workTime";
 
-
     /**
      * Хранит константу для обозначения название проекта.
      */

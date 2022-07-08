@@ -27,17 +27,19 @@
                             Отмена
                         </button>
                     </div>
-                    <div>
-                        <label>Наименование:</label>
-                        <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
-                        <h4>${ERRORS.get("titleProject")}</h4>
+                    <div class="main">
+                        <div class="field">
+                            <label>Наименование:</label>
+                            <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
+                            <h4>${ERRORS.get("titleProject")}</h4>
+                        </div>
+                        <div class="field">
+                            <label>Описание:</label>
+                            <input id="description" name="description" value="${fn:escapeXml(description)}">
+                            <h4>${ERRORS.get("description")}</h4>
+                        </div>
                     </div>
-                    <div>
-                        <label>Описание:</label>
-                        <input id="description" name="description" value="${fn:escapeXml(description)}">
-                        <h4>${ERRORS.get("description")}</h4>
-                    </div>
-                    <div>
+                    <div class="header">
                         <h3>Задачи проекта</h3>
                     </div>
                     <table>
@@ -63,12 +65,12 @@
                             <c:param name="action" value="/editTaskForm"/>
                             <c:param name="taskId" value="${tempTask.id}"/>
                             <c:param name="projectId" value="${thisProjectId}"/>
-                            <c:param name="numberInList" value="${theCount.index}"/>
+                            <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 
                             <c:url var="deleteLink" value="/projects">
                             <c:param name="action" value="/deleteTaskInProject"/>
-                            <c:param name="numberInList" value="${theCount.index}"/>
+                            <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 
                             <tr>
@@ -77,7 +79,7 @@
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)} </td>
-                                <td> ${fn:escapeXml(titleProject)}</td>
+                                <td> ${fn:escapeXml(projectDAO.getById(tempTask.projectId).title)}</td>
                                 <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index))}
 
                                 </td>

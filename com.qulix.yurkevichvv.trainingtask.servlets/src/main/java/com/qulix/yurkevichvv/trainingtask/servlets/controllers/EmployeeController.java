@@ -38,10 +38,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
-
-
-
-
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
  *
@@ -52,17 +48,12 @@ public class EmployeeController extends HttpServlet {
     /**
      * Хранит название JSP добавления сотрудника.
      */
-    private static final String ADD_EMPLOYEE_FORM_JSP = "/add1-employee-form.jsp";
+    private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
 
     /**
      * Хранит название JSP редактирования сотрудника.
      */
     private static final String EDIT_EMPLOYEE_FORM_JSP = "/edit-employee-form.jsp";
-
-    /**
-     * Хранит название кейса для выбора списка сотрудников.
-     */
-    private static final String LIST = "/list";
 
     /**
      * Хранит константу для обозначения действия сервлета.
@@ -99,6 +90,15 @@ public class EmployeeController extends HttpServlet {
      */
     private static final String EMPLOYEES_LIST = "employees";
 
+    /**
+     * Хранит название кейса для выбора списка сотрудников.
+     */
+    private static final String LIST = "/list";
+
+    /**
+     * Хранит текст для исключения при выборе неизвестной команды.
+     */
+    public static final String UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER = "Unknown command of Employee Controller:";
 
     /**
      * Переменная доступа к методам классов DAO.
@@ -116,35 +116,32 @@ public class EmployeeController extends HttpServlet {
         employeeInterface = new EmployeeDao();
     }
 
-
     @Override
-    protected synchronized void doPost(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
+
             switch (action) {
-                case "/add":
-                    addEmployee(req, resp);
-                    break;
                 case "/update":
                     updateEmployee(req, resp);
                     break;
+                case "/add":
+                    addEmployee(req, resp);
+                    break;
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }
-        catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new ServletException(e);
-        }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException(e);
+        catch (IOException | ServletException | IllegalArgumentException e) {
+            LOGGER.log(Level.SEVERE, "Problem in doPost method in Employee Controller", e);
+            throw e;
         }
     }
 
-
     @Override
-    protected synchronized void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -154,9 +151,6 @@ public class EmployeeController extends HttpServlet {
             }
 
             switch (action) {
-                case LIST:
-                    listEmployees(req, resp);
-                    break;
                 case "/delete":
                     deleteEmployee(req, resp);
                     break;
@@ -165,18 +159,19 @@ public class EmployeeController extends HttpServlet {
                     break;
                 case "/edit":
                     updateEmployeeForm(req, resp);
+                    break;
+                case LIST:
+                    listEmployees(req, resp);
+                    break;
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new ServletException(e);
-        }
-        catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException(e);
+            LOGGER.log(Level.SEVERE, "Problem in doGet method in Employee Controller", e);
+            throw e;
         }
     }
-
 
     /**
      * Отображает форму для редактирования сотрудника.
@@ -233,7 +228,6 @@ public class EmployeeController extends HttpServlet {
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeInterface.delete(employeeId);
         resp.sendRedirect(EMPLOYEES_LIST);
-        LOGGER.log(Level.INFO, "Employee with id {0} deleted", employeeId);
     }
 
     /**
@@ -245,7 +239,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
+    private void    updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, DaoException, IOException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
@@ -256,7 +250,6 @@ public class EmployeeController extends HttpServlet {
             req.setAttribute(EMPLOYEE_ID, employeeId);
             Employee theEmployee = getEmployee(paramsList);
             theEmployee.setId(employeeId);
-            LOGGER.log(Level.INFO, "Employee with id {0} updated", employeeId);
             employeeInterface.update(theEmployee);
             resp.sendRedirect(EMPLOYEES_LIST);
 
@@ -332,7 +325,6 @@ public class EmployeeController extends HttpServlet {
         if (Utils.isBlankMap(errorsList)) {
             Employee employee = getEmployee(paramsList);
             employeeInterface.add(employee);
-            LOGGER.log(Level.INFO, "Created employee");
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {

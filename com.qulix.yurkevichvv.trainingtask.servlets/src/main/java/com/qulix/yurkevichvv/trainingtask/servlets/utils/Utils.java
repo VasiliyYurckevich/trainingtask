@@ -32,14 +32,12 @@ import com.qulix.yurkevichvv.trainingtask.servlets.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 
-
 /**
  * Утилиты для классов модуля.
  *
  * @author Q-YVV
  */
 public class Utils {
-
 
     /**
      * Проверяет Map на пустоту значений.
@@ -59,10 +57,9 @@ public class Utils {
     public static void setDataToDropDownList(HttpServletRequest req) throws DaoException {
         List<Employee> employees = new EmployeeDao().getAll();
         List<Project> projects = new ProjectDao().getAll();
-        req.getServletContext().setAttribute("EMPLOYEE_LIST", employees);
-        req.getServletContext().setAttribute("PROJECT_LIST", projects);
-        req.getServletContext().setAttribute("STATUS_LIST", Status.values());
-
+        req.getSession().setAttribute("EMPLOYEE_LIST", employees);
+        req.getSession().setAttribute("PROJECT_LIST", projects);
+        req.getSession().setAttribute("STATUS_LIST", Status.values());
     }
 
     /**
