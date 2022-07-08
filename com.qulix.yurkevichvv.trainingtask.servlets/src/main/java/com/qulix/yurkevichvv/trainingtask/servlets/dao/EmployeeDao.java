@@ -100,7 +100,7 @@ public class EmployeeDao implements IDao<Employee> {
 
 
     @Override
-    public boolean add(Employee employee) throws DaoException {
+    public void add(Employee employee) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -110,9 +110,8 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatement.setString(index++, employee.getFirstName());
             preparedStatement.setString(index++, employee.getPatronymic());
             preparedStatement.setString(index, employee.getPost());
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Created employee");
-
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a new employee to the database", e);
@@ -124,7 +123,7 @@ public class EmployeeDao implements IDao<Employee> {
     }
 
     @Override
-    public boolean update(Employee employee) throws DaoException {
+    public void update(Employee employee) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -135,9 +134,8 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatement.setString(index++, employee.getPatronymic());
             preparedStatement.setString(index++, employee.getPost());
             preparedStatement.setInt(index, employee.getId());
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
-
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when trying to change employee data", e);
@@ -149,15 +147,14 @@ public class EmployeeDao implements IDao<Employee> {
     }
 
     @Override
-    public boolean delete(Integer id) throws DaoException {
+    public void delete(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_EMPLOYEE_SQL)) {
             preparedStatement.setInt(1, id);
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Employee with id {0} deleted", id);
-
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when trying to delete employee data", e);

@@ -124,14 +124,14 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public boolean add(Task task) throws DaoException {
+    public void add(Task task) throws DaoException {
     
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
             setDataInToStatement(task, preparedStatement);
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Created new task");
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a task to the database", e);
@@ -143,16 +143,15 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public boolean update(Task task) throws DaoException {
+    public void update(Task task) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_SQL)) {
             int index = setDataInToStatement(task, preparedStatement);
             preparedStatement.setInt(index, task.getId());
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
-
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when updating a task in the database", e);
@@ -200,13 +199,13 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public boolean delete(Integer id) throws DaoException {
+    public void delete(Integer id) throws DaoException {
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_SQL)) {
             preparedStatement.setInt(1, id);
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when deleting a task from the database", e);

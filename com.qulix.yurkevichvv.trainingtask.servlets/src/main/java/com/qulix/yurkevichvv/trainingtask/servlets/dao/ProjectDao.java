@@ -88,7 +88,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public boolean add(Project project) throws DaoException {
+    public void add(Project project) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -96,8 +96,8 @@ public class ProjectDao implements IDao<Project> {
             int index = 1;
             preparedStatement.setString(index++, project.getTitle());
             preparedStatement.setString(index, project.getDescription());
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Created new project");
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a project to the database", e);
@@ -109,7 +109,7 @@ public class ProjectDao implements IDao<Project> {
     }
 
     @Override
-    public boolean update(Project project) throws DaoException {
+    public void update(Project project) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
@@ -118,8 +118,8 @@ public class ProjectDao implements IDao<Project> {
             preparedStatement.setString(index++, project.getTitle());
             preparedStatement.setString(index++, project.getDescription());
             preparedStatement.setInt(index, project.getId());
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when updating the project in the database", e);
@@ -131,16 +131,15 @@ public class ProjectDao implements IDao<Project> {
     }
 
     @Override
-    public boolean delete(Integer id) throws DaoException {
+    public void delete(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PROJECT_SQL)) {
             int index = 1;
             preparedStatement.setInt(index, id);
+            preparedStatement.execute();
             LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
-
-            return preparedStatement.execute();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when deleting a project from the database", e);
