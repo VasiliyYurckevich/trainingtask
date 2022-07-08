@@ -545,7 +545,7 @@ public class TaskController extends HttpServlet {
      * @param task задача
      */
     private void setEmployeeList(List<String> employeeOfTask, Task task) {
-        if (task.getEmployeeId() != null) {
+        if (task.getEmployeeId() != 0) {
             Employee employee = new EmployeeDao().getById(task.getEmployeeId());
             employeeOfTask.add(employee.getFullName());
         }
