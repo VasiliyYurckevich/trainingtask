@@ -328,13 +328,7 @@ public class TaskDao implements IDao<Task> {
             task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
             task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
             task.setProjectId(resultSet.getInt(PROJECT_ID));
-
-            if (resultSet.getInt(EMPLOYEE_ID) != 0) {
-                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
-            }
-            else {
-                task.setEmployeeId(null);
-            }
+            task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
