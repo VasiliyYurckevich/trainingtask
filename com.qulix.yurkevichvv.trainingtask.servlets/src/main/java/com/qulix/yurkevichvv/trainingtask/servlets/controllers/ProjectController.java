@@ -109,6 +109,16 @@ public class ProjectController extends HttpServlet {
     private static final String THIS_PROJECT_ID = "thisProjectId";
 
     /**
+     * Хранит название кейса для выбора списка проектов.
+     */
+    private static final String LIST = "/list";
+
+    /**
+     * Хранит текст для исключения при выборе неизвестной команды.
+     */
+    public static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Employee Controller:";
+
+    /**
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
@@ -144,14 +154,15 @@ public class ProjectController extends HttpServlet {
                 case "/update":
                     updateProject(req, resp);
                     break;
-                default:
+                case "/add":
                     addProject(req, resp);
                     break;
-
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
             }
         }
-        catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        catch (IOException | ServletException | IllegalArgumentException e) {
+            LOGGER.log(Level.SEVERE, "Problem in doPost method in Project Controller", e);
             throw e;
         }
     }
@@ -163,7 +174,7 @@ public class ProjectController extends HttpServlet {
             String action = req.getParameter(ACTION);
 
             if (action == null) {
-                action = "/list";
+                action = LIST;
             }
 
             switch (action) {
@@ -185,17 +196,18 @@ public class ProjectController extends HttpServlet {
                 case "/deleteTaskInProject":
                     deleteTaskInProject(req, resp);
                     break;
-                default:
+                case LIST:
                     listProjects(req, resp);
                     break;
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
             }
         }
-        catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+        catch (IOException | ServletException | IllegalArgumentException e) {
+            LOGGER.log(Level.SEVERE, "Problem in doGet method in Project Controller", e);
             throw e;
         }
     }
-
 
     /**
      * Удаляет задачу из списка задач во время редактирования проекта.

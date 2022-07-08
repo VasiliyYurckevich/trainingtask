@@ -71,7 +71,6 @@ public class EmployeeDao implements IDao<Employee> {
      */
     private static final Logger LOGGER = Logger.getLogger(EmployeeDao.class.getName());
 
-
     /**
      * Константа для запроса на добавление нового сотрудника в БД.
      */
@@ -116,8 +115,8 @@ public class EmployeeDao implements IDao<Employee> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when adding a new employee to the database");
+            LOGGER.log(Level.SEVERE, "Error when adding a new employee to the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -141,8 +140,8 @@ public class EmployeeDao implements IDao<Employee> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when trying to change employee data", e);
+            LOGGER.log(Level.SEVERE, "Error when trying to change employee data", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -161,8 +160,8 @@ public class EmployeeDao implements IDao<Employee> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when trying to delete employee data", e);
+            LOGGER.log(Level.SEVERE, "Error when trying to delete employee data", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -187,8 +186,8 @@ public class EmployeeDao implements IDao<Employee> {
             return employees;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting all employee data", e);
+            LOGGER.log(Level.SEVERE, "Error when getting all employee data", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -214,9 +213,9 @@ public class EmployeeDao implements IDao<Employee> {
                 throw new DaoException("An employee with such data was not found");
             }
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting employee data", e);
+        catch (SQLException | DaoException e) {
+            LOGGER.log(Level.SEVERE, "Error when getting employee data", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -241,8 +240,8 @@ public class EmployeeDao implements IDao<Employee> {
             return employee;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting employee data from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when getting employee data from the database", e);
+            throw new DaoException(e);
         }
     }
 }

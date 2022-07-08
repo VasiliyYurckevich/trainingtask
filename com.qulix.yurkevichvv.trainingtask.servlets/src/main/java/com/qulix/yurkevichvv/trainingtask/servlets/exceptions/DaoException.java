@@ -52,5 +52,3 @@ public class DaoException extends RuntimeException {
         return this.getMessage();
     }
 }
-
-

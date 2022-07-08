@@ -134,8 +134,8 @@ public class TaskDao implements IDao<Task> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when adding a task to the database", e);
+            LOGGER.log(Level.SEVERE, "Error when adding a task to the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -155,8 +155,8 @@ public class TaskDao implements IDao<Task> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when updating a task in the database", e);
+            LOGGER.log(Level.SEVERE, "Error when updating a task in the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -194,8 +194,8 @@ public class TaskDao implements IDao<Task> {
             return index;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when entering task data into an SQL expression", e);
+            LOGGER.log(Level.SEVERE, "Error when entering task data into an SQL expression", e);
+            throw new DaoException(e);
         }
     }
 
@@ -209,8 +209,8 @@ public class TaskDao implements IDao<Task> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when deleting a task from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when deleting a task from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -235,8 +235,8 @@ public class TaskDao implements IDao<Task> {
             return getList(tasks, resultSet);
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting project tasks from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when getting project tasks from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -254,8 +254,8 @@ public class TaskDao implements IDao<Task> {
             return getList(tasks, resultSet);
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting all tasks from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when getting all tasks from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -305,9 +305,9 @@ public class TaskDao implements IDao<Task> {
                 throw new DaoException("An employee with such data was not found");
             }
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting a task by ID from the database", e);
+        catch (SQLException | DaoException e) {
+            LOGGER.log(Level.SEVERE, "Error when getting a task by ID from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -338,8 +338,8 @@ public class TaskDao implements IDao<Task> {
             }
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when retrieving task data from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
+            throw new DaoException(e);
         }
     }
 }

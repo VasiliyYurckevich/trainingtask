@@ -55,6 +55,11 @@ import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 public class TaskController extends HttpServlet {
 
     /**
+     * Хранит название кейса для выбора списка задач.
+     */
+    public static final String LIST = "/list";
+
+    /**
      * Пробел.
      */
     private static final String SPACE = " ";
@@ -130,6 +135,11 @@ public class TaskController extends HttpServlet {
     private static final String NUMBER_IN_LIST = "numberInList";
 
     /**
+     * Хранит текст для исключения при выборе неизвестной команды.
+     */
+    public static final String UNKNOWN_COMMAND_OF_TASK_CONTROLLER = "Unknown command of Task Controller:";
+
+    /**
      * Хранит название JSP редактирования проекта.
      */
     private static final String EDIT_PROJECT_JSP = "/edit-project-form.jsp";
@@ -176,13 +186,15 @@ public class TaskController extends HttpServlet {
                 case "/newTaskInProject":
                     newTaskInProject(req, resp);
                     break;
-                default:
+                case "/add":
                     addTask(req, resp);
                     break;
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_TASK_CONTROLLER + action);
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.log(Level.SEVERE, "Problem in doPost method in Task Controller", e);
             throw e;
         }
     }
@@ -194,7 +206,7 @@ public class TaskController extends HttpServlet {
             String action = req.getParameter(ACTION);
 
             if (action == null) {
-                action = "/list";
+                action = LIST;
             }
 
             switch (action) {
@@ -207,13 +219,15 @@ public class TaskController extends HttpServlet {
                 case "/new":
                     newTaskForm(req, resp);
                     break;
-                default:
+                case LIST:
                     listTasks(req, resp);
                     break;
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_TASK_CONTROLLER + action);
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.log(Level.SEVERE, "Problem in doGet method in Task Controller", e);
             throw e;
         }
     }
@@ -584,5 +598,3 @@ public class TaskController extends HttpServlet {
         return paramsList;
     }
 }
-
-

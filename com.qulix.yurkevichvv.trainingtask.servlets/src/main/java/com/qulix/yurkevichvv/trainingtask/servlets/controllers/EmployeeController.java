@@ -38,7 +38,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
-
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
  *
@@ -91,6 +90,15 @@ public class EmployeeController extends HttpServlet {
      */
     private static final String EMPLOYEES_LIST = "employees";
 
+    /**
+     * Хранит название кейса для выбора списка сотрудников.
+     */
+    private static final String LIST = "/list";
+
+    /**
+     * Хранит текст для исключения при выборе неизвестной команды.
+     */
+    public static final String UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER = "Unknown command of Employee Controller:";
 
     /**
      * Переменная доступа к методам классов DAO.
@@ -101,7 +109,6 @@ public class EmployeeController extends HttpServlet {
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
-
 
     @Override
     public void init() throws ServletException, NullPointerException {
@@ -115,17 +122,20 @@ public class EmployeeController extends HttpServlet {
 
         try {
             String action = req.getParameter(ACTION);
+
             switch (action) {
                 case "/update":
                     updateEmployee(req, resp);
                     break;
-                default:
+                case "/add":
                     addEmployee(req, resp);
+                    break;
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }
-        catch (IOException | ServletException e) {
-
-    LOGGER.log(Level.SEVERE, e.toString(), e);
+        catch (IOException | ServletException | IllegalArgumentException e) {
+            LOGGER.log(Level.SEVERE, "Problem in doPost method in Employee Controller", e);
             throw e;
         }
     }
@@ -137,7 +147,7 @@ public class EmployeeController extends HttpServlet {
             String action = req.getParameter(ACTION);
 
             if (action == null) {
-                action = "/list";
+                action = LIST;
             }
 
             switch (action) {
@@ -150,13 +160,15 @@ public class EmployeeController extends HttpServlet {
                 case "/edit":
                     updateEmployeeForm(req, resp);
                     break;
-                default:
+                case LIST:
                     listEmployees(req, resp);
                     break;
+                default:
+                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }
         catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.log(Level.SEVERE, "Problem in doGet method in Employee Controller", e);
             throw e;
         }
     }

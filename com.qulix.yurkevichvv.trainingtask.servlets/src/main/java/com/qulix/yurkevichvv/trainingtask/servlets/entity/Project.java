@@ -41,7 +41,6 @@ public class Project {
      */
     private String description;
 
-
     public int getId() {
         return id;
     }

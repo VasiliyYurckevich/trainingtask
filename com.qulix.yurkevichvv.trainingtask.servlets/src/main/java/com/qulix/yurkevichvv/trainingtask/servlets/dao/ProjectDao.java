@@ -61,7 +61,6 @@ public class ProjectDao implements IDao<Project> {
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectDao.class.getName());
 
-
     /**
      * Константа для запроса добавления проекта в БД.
      */
@@ -101,8 +100,8 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when adding a project to the database", e);
+            LOGGER.log(Level.SEVERE, "Error when adding a project to the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -123,8 +122,8 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when updating the project in the database", e);
+            LOGGER.log(Level.SEVERE, "Error when updating the project in the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -144,8 +143,8 @@ public class ProjectDao implements IDao<Project> {
             return preparedStatement.execute();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when deleting a project from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when deleting a project from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -168,8 +167,8 @@ public class ProjectDao implements IDao<Project> {
             return projects;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting all projects from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when getting all projects from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
@@ -192,8 +191,8 @@ public class ProjectDao implements IDao<Project> {
             return project;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when retrieving task data from the database", e);
+            LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
+            throw new DaoException(e);
         }
     }
 
@@ -215,9 +214,9 @@ public class ProjectDao implements IDao<Project> {
                 throw new DaoException("A project with such data was not found");
             }
         }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new DaoException("Error when getting a project by id from the database", e);
+        catch (SQLException | DaoException e) {
+            LOGGER.log(Level.SEVERE, "Error when getting a project by id from the database", e);
+            throw new DaoException(e);
         }
         finally {
             ConnectionManipulator.closeConnection(connection);
