@@ -22,6 +22,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.Types;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -179,13 +180,13 @@ public class TaskDao implements IDao<Task> {
             preparedStatement.setDate(index++, Date.valueOf(task.getEndDate()));
 
             if (task.getProjectId() == null) {
-                preparedStatement.setNull(index++, 0);
+                preparedStatement.setNull(index++, Types.INTEGER);
             }
             else {
                 preparedStatement.setInt(index++, task.getProjectId());
             }
             if (task.getEmployeeId() == null) {
-                preparedStatement.setNull(index++, 0);
+                preparedStatement.setNull(index++, Types.INTEGER);
             }
             else {
                 preparedStatement.setInt(index++, task.getEmployeeId());

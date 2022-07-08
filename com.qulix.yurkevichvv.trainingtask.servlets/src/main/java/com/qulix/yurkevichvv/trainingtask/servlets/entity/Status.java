@@ -19,6 +19,11 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
+import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Описывает сущность "Статус".
  *
@@ -29,7 +34,7 @@ public enum Status {
     /**
      * Статус "Не начата".
      */
-    NOBEGIN(1, "Не начата"),
+    NOTBEGIN(1, "Не начата"),
 
     /**
      * Статус "В процессе".
@@ -45,6 +50,11 @@ public enum Status {
      * Статус "Отложена".
      */
     POSTPONED(4, "Отложена");
+
+    /**
+     * Логгер для записи логов.
+     */
+    private static final Logger LOGGER = Logger.getLogger(TaskDao.class.getName());
 
     Status(int id, String status) {
         this.id = id;
@@ -67,14 +77,23 @@ public enum Status {
 
     /**
      * Возвращает статус по идентификатору.
+     *
+     * @throws IllegalArgumentException если полученный id статуса не найден в списке
+     * @return название статуса
      */
-    public static Status getStatusById(Integer id) {
-        for (Status e : values()) {
-            if (e.id.equals(id)) {
-                return e;
+    public static Status getStatusById(Integer id) throws IllegalArgumentException {
+        try {
+            for (Status status : values()) {
+                if (status.id.equals(id)) {
+                    return status;
+                }
             }
+            throw new IllegalArgumentException("Unknown status value");
         }
-        throw new IllegalArgumentException("Unknown status value");
+        catch (Throwable e){
+            LOGGER.log(Level.SEVERE,"Task status error", e);
+            throw e;
+        }
     }
 
     public String getStatusTitle() {

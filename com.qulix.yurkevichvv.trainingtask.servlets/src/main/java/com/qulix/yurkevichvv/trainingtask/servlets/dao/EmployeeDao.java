@@ -75,7 +75,7 @@ public class EmployeeDao implements IDao<Employee> {
      * Константа для запроса на добавление нового сотрудника в БД.
      */
     private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +
-        " VALUES (?,?,?,?);";
+        " VALUES (?, ?, ?, ?);";
 
     /**
      * Константа для запроса на получение всех сотрудников из БД.
