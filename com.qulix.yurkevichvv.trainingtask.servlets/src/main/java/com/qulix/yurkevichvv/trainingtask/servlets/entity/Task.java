@@ -19,7 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Реализует сущность задачи в приложении.
@@ -51,12 +51,12 @@ public class Task {
     /**
      * Дата начала задачи.
      */
-    private Date beginDate;
+    private LocalDate beginDate;
 
     /**
      * Дата окончания задачи.
      */
-    private Date endDate;
+    private LocalDate endDate;
 
     /**
      * Идентификатор проекта задачи.
@@ -101,19 +101,19 @@ public class Task {
         this.projectId = projectId;
     }
 
-    public Date getBeginDate() {
+    public LocalDate getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(Date beginDate) {
+    public void setBeginDate(LocalDate beginDate) {
         this.beginDate = beginDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
