@@ -40,7 +40,7 @@ tr:nth-child(odd) {
     border-radius: 5px;
     font-size: 12px;
     font-weight: bold;
-    width: 120px;
+    width: 140px;
     padding: 5px 10px;
     margin-bottom: 15px;
 }
@@ -52,7 +52,10 @@ h2 {
 }
 
 select {
-    width: 150px;
+    width: 208px;
+}
+input {
+    width: 200px;
 }
 
 h4 {
@@ -107,12 +110,17 @@ li a:hover:not(.active) {
 
 label {
     float:left;
-    padding-right:10px;
 }
+
 .main {
     float:left
 }
+
 .header {
     clear:both;
     text-align:center;
+}
+
+.chief {
+    padding-left: 30px;
 }

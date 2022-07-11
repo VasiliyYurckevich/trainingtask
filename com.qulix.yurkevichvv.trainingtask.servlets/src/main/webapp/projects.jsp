@@ -14,8 +14,8 @@
 
         <my:mainMenu></my:mainMenu>
 
-        <div>
-            <div>
+        <div class="chief">
+            <div class="header">
                 <div>
                     <h2>Проекты</h2>
                 </div>

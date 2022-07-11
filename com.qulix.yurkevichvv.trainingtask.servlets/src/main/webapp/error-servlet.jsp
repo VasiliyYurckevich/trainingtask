@@ -8,7 +8,7 @@
 	</head>
 
 	<body>
-		<div>
+		<div class="chief">
 			<div class="start-page">
 				<h2>Ошибка сервлета. Что-то пошло не так....</h2>
 				<button class="add-button" onclick="window.location.href = 'index.jsp'">На главную</button>

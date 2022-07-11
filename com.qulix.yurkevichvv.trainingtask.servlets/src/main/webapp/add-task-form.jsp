@@ -14,7 +14,7 @@
 
         <my:mainMenu></my:mainMenu>
 
-        <div>
+        <div class="chief">
             <div id="container" class="main">
                 <h3>Добавить задачу</h3>
                 <form action="tasks" method="post" id="form" >
@@ -27,7 +27,7 @@
 
                     <div class="field">
                         <label>Статус:</label>
-                        <select name="status" data-selected="${status}">
+                        <select name="status">
                             <c:forEach items="${STATUS_LIST}" var="statuses">
                                 <option value="${statuses.getId()}">
                                         ${fn:escapeXml(statuses.getStatusTitle())}

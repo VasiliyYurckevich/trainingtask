@@ -14,7 +14,7 @@
 
         <my:mainMenu></my:mainMenu>
 
-        <div>
+        <div class="chief">
             <div id="container" class="main">
                 <h3>Добавить проект</h3>
                 <form action="projects" method="post" >

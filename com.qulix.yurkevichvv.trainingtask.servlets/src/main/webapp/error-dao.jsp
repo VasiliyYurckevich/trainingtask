@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <div>
+        <div class="chief">
             <div class="start-page">
                 <h2>Ошибка!</h2>
                 <h2>БД временно недоступна. Повторите попытку позже</h2>
