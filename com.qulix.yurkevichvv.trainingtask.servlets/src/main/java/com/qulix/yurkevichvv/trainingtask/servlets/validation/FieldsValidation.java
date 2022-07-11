@@ -131,9 +131,9 @@ public class FieldsValidation {
     /**
      * Проверят формат и существование даты.
      *
-     * @param date Дата для проверки.
-     * @param error Строка с ошибкой.
-     * @return true если дата валидная, false если нет.
+     * @param date Дата для проверки
+     * @param error Строка с ошибкой
+     * @return true если дата валидная, false если нет
      */
     private static boolean isDateFormatValid(String date, StringBuffer error) {
         try {

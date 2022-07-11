@@ -68,8 +68,8 @@ public class Project {
     @Override
     public String toString() {
         return "Project id=" + id +
-                ", title=" + title +
-                ", description=" + description;
+            ", title=" + title +
+            ", description=" + description;
     }
 
 }

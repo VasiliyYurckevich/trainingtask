@@ -42,7 +42,8 @@ public class Utils {
     /**
      * Проверяет Map на пустоту значений.
      *
-     * @return Возвращает true, если список пустой или содержащий только пустые строки.
+     * @param map Map для проверки
+     * @return Возвращает true, если список пустой или содержащий только пустые строки
      */
     public static boolean isBlankMap(Map<String, String> map) {
         return map.isEmpty() || map.values().stream().allMatch(String::isEmpty);

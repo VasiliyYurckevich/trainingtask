@@ -128,10 +128,7 @@ public class TaskDao implements IDao<Task> {
 
 
     @Override
-    public void add(Task task) throws DaoException {
-    
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void add(Task task, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             preparedStatementHelper.execute();
@@ -147,10 +144,7 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public void update(Task task) throws DaoException {
-
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void update(Task task, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             preparedStatementHelper.setInt(COLON + ID, task.getId());
@@ -169,8 +163,8 @@ public class TaskDao implements IDao<Task> {
     /**
      * Внесение данных о задаче в выражение SQL.
      *
-     * @param task объект класса "Задача".
-     * @param preparedStatementHelper выражение SQL.
+     * @param task объект класса "Задача"
+     * @param preparedStatementHelper выражение SQL
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void setDataInToStatement(Task task, PreparedStatementHelper preparedStatementHelper) throws DaoException {
@@ -190,9 +184,7 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public void delete(Integer id) throws DaoException {
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_TASK_SQL, connection)) {
             preparedStatementHelper.setInt(COLON + ID, id);
             preparedStatementHelper.execute();
@@ -210,8 +202,8 @@ public class TaskDao implements IDao<Task> {
     /**
      * Получение всех задач определенного проекта из БД.
      *
-     * @param id идентификатор проекта.
-     * @return все задачи проекта.
+     * @param id идентификатор проекта
+     * @return все задачи проекта
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public List<Task> getTasksInProject(Integer id) throws DaoException {
@@ -308,7 +300,7 @@ public class TaskDao implements IDao<Task> {
     /**
      * Заполнение объекта Task данными из БД.
      *
-     * @param resultSet выражение SQL.
+     * @param resultSet результат выполнения SQL-запроса
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void setDataFromDatabase(Task task, ResultSet resultSet) throws DaoException {

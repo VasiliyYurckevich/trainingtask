@@ -100,10 +100,10 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee id=" + id +
-                ", surname=" + surname +
-                ", firstName=" + firstName +
-                ", patronymic=" + patronymic +
-                ", post=" + post;
+            ", surname=" + surname +
+            ", firstName=" + firstName +
+            ", patronymic=" + patronymic +
+            ", post=" + post;
     }
 
     public String getFullName() {

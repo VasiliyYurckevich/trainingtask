@@ -94,10 +94,7 @@ public class ProjectDao implements IDao<Project> {
 
 
     @Override
-    public void add(Project project) throws DaoException {
-
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void add(Project project, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(COLON + TITLE, project.getTitle());
             preparedStatementHelper.setString(COLON + DESCRIPTION, project.getDescription());
@@ -113,10 +110,7 @@ public class ProjectDao implements IDao<Project> {
     }
 
     @Override
-    public void update(Project project) throws DaoException {
-
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void update(Project project, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(COLON + TITLE, project.getTitle());
             preparedStatementHelper.setString(COLON + DESCRIPTION, project.getDescription());
@@ -128,16 +122,10 @@ public class ProjectDao implements IDao<Project> {
             LOGGER.log(Level.SEVERE, "Error when updating the project in the database", e);
             throw new DaoException(e);
         }
-        finally {
-            ConnectionManipulator.closeConnection(connection);
-        }
     }
 
     @Override
-    public void delete(Integer id) throws DaoException {
-
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_PROJECT_SQL, connection)) {
             preparedStatementHelper.setInt(COLON + ID, id);
             preparedStatementHelper.execute();
@@ -202,6 +190,7 @@ public class ProjectDao implements IDao<Project> {
         Connection connection = ConnectionManipulator.getConnection();
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection);
         preparedStatementHelper.setInt(COLON + ID, id);
+
         try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             if (resultSet.next()) {
                 return getProjectFromDB(resultSet);

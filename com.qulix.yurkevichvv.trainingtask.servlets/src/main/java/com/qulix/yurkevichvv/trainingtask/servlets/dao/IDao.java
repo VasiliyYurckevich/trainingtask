@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
+import java.sql.Connection;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
@@ -36,7 +37,7 @@ public interface IDao<T> {
      * @param t Сущность для добавления.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    void add(T t) throws DaoException;
+    void add(T t, Connection connection) throws DaoException;
 
     /**
      * Обновляет сущность в БД.
@@ -44,7 +45,7 @@ public interface IDao<T> {
      * @param t Сущность для обновления.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    void update(T t) throws DaoException;
+    void update(T t, Connection connection) throws DaoException;
 
     /**
      * Удаляет сущность из БД.
@@ -52,7 +53,7 @@ public interface IDao<T> {
      * @param id Идентификатор сущности.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    void delete(Integer id) throws DaoException;
+    void delete(Integer id, Connection connection) throws DaoException;
 
     /**
      * Возвращает все сущности определенного класса из БД.

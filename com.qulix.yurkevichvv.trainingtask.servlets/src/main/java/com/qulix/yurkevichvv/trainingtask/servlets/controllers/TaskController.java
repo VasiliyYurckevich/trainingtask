@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
@@ -269,7 +270,7 @@ public class TaskController extends HttpServlet {
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             task.setId(taskId);
-            tasksInterface.update(task);
+            tasksInterface.update(task, ConnectionManipulator.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {
@@ -455,7 +456,7 @@ public class TaskController extends HttpServlet {
         throws DaoException, IOException {
 
         String taskId = req.getParameter(TASK_ID);
-        tasksInterface.delete(Integer.parseInt(taskId));
+        tasksInterface.delete(Integer.parseInt(taskId), ConnectionManipulator.getConnection());
         resp.sendRedirect(TASKS);
     }
 
@@ -476,7 +477,7 @@ public class TaskController extends HttpServlet {
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
-            tasksInterface.add(task);
+            tasksInterface.add(task, ConnectionManipulator.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {

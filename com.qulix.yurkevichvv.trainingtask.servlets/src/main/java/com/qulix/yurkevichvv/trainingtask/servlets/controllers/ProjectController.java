@@ -20,6 +20,8 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
@@ -409,7 +412,7 @@ public class ProjectController extends HttpServlet {
         throws DaoException, IOException {
 
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
-        projectDAO.delete(projectId);
+        projectDAO.delete(projectId, ConnectionManipulator.getConnection());
         resp.sendRedirect(PROJECTS);
     }
 
@@ -492,7 +495,7 @@ public class ProjectController extends HttpServlet {
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        TaskDao taskInterface = new TaskDao();
+        TaskDao taskDao = new TaskDao();
         HttpSession session = req.getSession();
 
         Integer projectId = (Integer) session.getAttribute(PROJECT_ID);
@@ -501,8 +504,20 @@ public class ProjectController extends HttpServlet {
         if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
             theProject.setId(projectId);
-            updateTasksFromProjectEditing(taskInterface, session, projectId);
-            projectDAO.update(theProject);
+            Connection connection = ConnectionManipulator.getConnection();
+            try {
+                connection.setAutoCommit(false);
+                projectDAO.update(theProject, connection);
+                updateTasksFromProjectEditing(taskDao, connection, session, projectId);
+                ConnectionManipulator.commitConnection(connection);
+            }
+            catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Exception trying create transaction", e);
+                throw new DaoException(e);
+            }
+            finally {
+                ConnectionManipulator.closeConnection(connection);
+            }
             resp.sendRedirect(PROJECTS);
         }
         else {
@@ -516,13 +531,13 @@ public class ProjectController extends HttpServlet {
     /**
      * Создает и обновляет задачи проекта во время изменения проекта.
      *
-     * @param taskInterface интерфейс для работы с задачами
+     * @param taskDao объект для работы с задачами
      * @param session сессия
      * @param projectId идентификатор проекта
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private static void updateTasksFromProjectEditing(TaskDao taskInterface, HttpSession session, Integer projectId)
-        throws DaoException {
+    private static void updateTasksFromProjectEditing(TaskDao taskDao, Connection connection,
+        HttpSession session, Integer projectId) throws DaoException {
 
         List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
         List<Integer> deleteTaskIdProject = (List<Integer>) session.getAttribute(DELETED_LIST);
@@ -530,16 +545,15 @@ public class ProjectController extends HttpServlet {
         for (Task task : tasksListInProject) {
             task.setProjectId(projectId);
             if (task.getId() != null) {
-                taskInterface.update(task);
+                taskDao.update(task, connection);
             }
             else {
-                task.setId(null);
-                taskInterface.add(task);
+                taskDao.add(task, connection);
             }
         }
         for (Integer id : deleteTaskIdProject) {
             if (id != null) {
-                taskInterface.delete(id);
+                taskDao.delete(id, connection);
             }
         }
     }
@@ -587,7 +601,7 @@ public class ProjectController extends HttpServlet {
 
         if (Utils.isBlankMap(errorsList)) {
             Project theProject = getProject(paramsList);
-            projectDAO.add(theProject);
+            projectDAO.add(theProject, ConnectionManipulator.getConnection());
             resp.sendRedirect(PROJECTS);
         }
         else {

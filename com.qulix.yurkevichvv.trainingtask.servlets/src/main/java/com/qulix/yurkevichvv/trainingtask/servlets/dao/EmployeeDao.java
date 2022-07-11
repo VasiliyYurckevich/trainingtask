@@ -104,10 +104,7 @@ public class EmployeeDao implements IDao<Employee> {
 
 
     @Override
-    public void add(Employee employee) throws DaoException {
-
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void add(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_EMPLOYEE_SQL, connection)) {
             preparedStatementHelper.setString(COLON + SURNAME, employee.getSurname());
             preparedStatementHelper.setString(COLON + FIRST_NAME, employee.getFirstName());
@@ -126,10 +123,7 @@ public class EmployeeDao implements IDao<Employee> {
     }
 
     @Override
-    public void update(Employee employee) throws DaoException {
-
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void update(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_CLIENT_SQL, connection)) {
             preparedStatementHelper.setString(COLON + SURNAME, employee.getSurname());
             preparedStatementHelper.setString(COLON + FIRST_NAME, employee.getFirstName());
@@ -149,10 +143,7 @@ public class EmployeeDao implements IDao<Employee> {
     }
 
     @Override
-    public void delete(Integer id) throws DaoException {
-
-        Connection connection = ConnectionManipulator.getConnection();
-
+    public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_EMPLOYEE_SQL, connection)) {
             preparedStatementHelper.setInt(COLON + ID, id);
             preparedStatementHelper.execute();

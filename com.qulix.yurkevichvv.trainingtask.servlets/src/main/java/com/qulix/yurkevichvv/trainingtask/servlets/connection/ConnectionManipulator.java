@@ -58,11 +58,10 @@ public class ConnectionManipulator {
      */
     private static final Logger LOGGER = Logger.getLogger(ConnectionManipulator.class.getName());
 
-
     /**
      * Устанавливает соединение с БД.
      *
-     * @return подключение к БД.
+     * @return подключение к БД
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public static Connection getConnection() throws DaoException {
@@ -71,7 +70,7 @@ public class ConnectionManipulator {
             return DriverManager.getConnection(PATH, USER, PASS);
         }
         catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.log(Level.SEVERE, "ConnectionManipulator getConnection() error", e);
             throw new DaoException("The database is temporarily unavailable. Try again later", e);
         }
     }
@@ -79,17 +78,35 @@ public class ConnectionManipulator {
     /**
      * Закрывает соединение с БД.
      *
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД.
+     * @param connection соединение
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public static void closeConnection(Connection connection) throws DaoException {
         try {
-            if (connection != null && !connection.isClosed()) {
+            if (connection != null && !connection.isClosed() && connection.getAutoCommit()) {
                 connection.close();
             }
         }
         catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            LOGGER.log(Level.SEVERE, "ConnectionManipulator closeConnection() error", e);
             throw new DaoException("Error closing the database connection", e);
+        }
+    }
+
+    /**
+     * Операция, отправляющая транзакцию в БД.
+     *
+     * @param connection соединение
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     */
+    public static void commitConnection(Connection connection) throws DaoException {
+        try {
+            connection.commit();
+            connection.setAutoCommit(true);
+        }
+        catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "ConnectionManipulator commitConnection() error", e);
+            throw new DaoException("Error commit transaction", e);
         }
     }
 }

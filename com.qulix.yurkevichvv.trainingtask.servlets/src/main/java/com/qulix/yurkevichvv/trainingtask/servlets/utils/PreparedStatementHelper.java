@@ -41,10 +41,10 @@ public class PreparedStatementHelper implements AutoCloseable {
     /**
      * Соединение с БД.
      */
-    private final Connection connection;
+    private Connection connection;
 
     /**
-     * Предварительно скомпилированный оператор SQL.    
+     * Предварительно скомпилированный оператор SQL.
      */
     private PreparedStatement preparedStatement;
 
@@ -89,7 +89,7 @@ public class PreparedStatementHelper implements AutoCloseable {
         int paramIndex = 1;
         Matcher matcher = pattern.matcher(sqlStatement);
         while (matcher.find()) {
-            parametersMap.put(matcher.group(), paramIndex);
+            this.parametersMap.put(matcher.group(), paramIndex);
             paramIndex++;
         }
         return sqlStatement.replaceAll(REGEX, "?");
@@ -204,7 +204,7 @@ public class PreparedStatementHelper implements AutoCloseable {
     @Override
     public void close() {
         try {
-            preparedStatement.close();
+            this.preparedStatement.close();
         }
         catch (Throwable e) {
             LOGGER.log(Level.SEVERE, "Exception close() PrepareStatementHelper", e);
