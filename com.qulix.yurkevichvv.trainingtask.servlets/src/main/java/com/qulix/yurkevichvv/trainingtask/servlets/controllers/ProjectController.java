@@ -377,15 +377,13 @@ public class ProjectController extends HttpServlet {
      * @return номер проекта
      */
     private static Integer getProjectId(HttpServletRequest req, HttpSession session) {
-        Integer thisProjectId;
-        try {
-            thisProjectId = Integer.valueOf(req.getParameter(PROJECT_ID));
+        if (req.getParameter(PROJECT_ID) != null) {
+            return Integer.valueOf(req.getParameter(PROJECT_ID));
         }
-        catch (NumberFormatException e) {
-            thisProjectId = (Integer) session.getAttribute(PROJECT_ID);
+        else  {
+            return  (Integer) session.getAttribute(PROJECT_ID);
 
         }
-        return thisProjectId;
     }
 
     /**

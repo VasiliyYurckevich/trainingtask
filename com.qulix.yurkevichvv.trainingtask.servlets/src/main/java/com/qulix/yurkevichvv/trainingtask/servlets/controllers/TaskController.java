@@ -325,7 +325,7 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             tasksListInProject.add(task);
             String taskIndex = String.valueOf(tasksListInProject.size());
-            getEmployeesInProject(req, taskIndex, task);
+            getEmployeesInProject(req, Integer.valueOf(taskIndex), task);
             setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
@@ -364,7 +364,7 @@ public class TaskController extends HttpServlet {
             Task task = getTask(paramsList);
             task.setId(taskId);
             tasksListInProject.set(Integer.parseInt(taskIndex), task);
-            List<String> employeeListInProject = getEmployeesInProject(req, taskIndex, task);
+            List<String> employeeListInProject = getEmployeesInProject(req, Integer.valueOf(taskIndex), task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
             setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
             req.getSession().setAttribute(TASK_INDEX, taskIndex);
@@ -401,28 +401,20 @@ public class TaskController extends HttpServlet {
      * @return список сотрудников привязанных к проекту.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private static List<String> getEmployeesInProject(HttpServletRequest req, String taskIndex, Task task)
+    private static List<String> getEmployeesInProject(HttpServletRequest req, Integer taskIndex, Task task)
         throws DaoException {
 
         List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
-        if (task.getEmployeeId() == null) {
-            try {
-                employeeListInProject.set(Integer.parseInt(taskIndex), null);
-            }
-            catch (IndexOutOfBoundsException e) {
-                employeeListInProject.add(null);
+        String fullName = null;
+        if (task.getEmployeeId() != null) {
+             fullName = new EmployeeDao().getById(task.getEmployeeId()).getFullName();
+        }
+        if (employeeListInProject.size() < taskIndex) {
+            employeeListInProject.add(fullName);
+        } else {
+            employeeListInProject.set(taskIndex, fullName);
+        }
 
-            }
-        }
-        else {
-            Employee employee = new EmployeeDao().getById(task.getEmployeeId());
-            try {
-                employeeListInProject.set(Integer.parseInt(taskIndex), employee.getFullName());
-            }
-            catch (IndexOutOfBoundsException e) {
-                employeeListInProject.add(employee.getFullName());
-            }
-        }
         return employeeListInProject;
     }
 
