@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 
+<!DOCTYPE html>
 <html lang="ru">
-    <!DOCTYPE html>
     <meta charset="UTF-8">
 
     <head>

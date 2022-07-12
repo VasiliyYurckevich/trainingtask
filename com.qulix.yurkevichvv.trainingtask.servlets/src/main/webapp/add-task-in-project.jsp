@@ -31,7 +31,7 @@
 
                     <div class="field">
                         <label>Статус:</label>
-                        <select name="status" data-selected="${status}">
+                        <select name="status">
                             <c:forEach items="${STATUS_LIST}" var="statuses">
                                 <option value="${statuses.getId()}">
                                         ${fn:escapeXml(statuses.getStatusTitle())}
@@ -86,13 +86,7 @@
                 </form>
             </div>
         </div>
-        <script>
-            let forms = document.querySelector('form');
-            forms.addEventListener('submit', function(){
-                let btn = this.querySelector("input[type=submit], button[type=submit]");
-                btn.disabled = true;
-            });
-        </script>
+        <script type="text/javascript" src="blocker.js"></script>
     </body>
 </html>
 
