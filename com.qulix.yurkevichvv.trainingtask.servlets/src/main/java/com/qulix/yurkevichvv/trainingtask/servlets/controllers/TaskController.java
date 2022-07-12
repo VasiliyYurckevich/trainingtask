@@ -407,11 +407,12 @@ public class TaskController extends HttpServlet {
         List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
         String fullName = null;
         if (task.getEmployeeId() != null) {
-             fullName = new EmployeeDao().getById(task.getEmployeeId()).getFullName();
+            fullName = new EmployeeDao().getById(task.getEmployeeId()).getFullName();
         }
         if (employeeListInProject.size() < taskIndex) {
             employeeListInProject.add(fullName);
-        } else {
+        }
+        else {
             employeeListInProject.set(taskIndex, fullName);
         }
 

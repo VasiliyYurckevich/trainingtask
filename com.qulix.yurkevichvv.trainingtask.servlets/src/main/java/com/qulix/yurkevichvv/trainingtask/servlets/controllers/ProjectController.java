@@ -21,7 +21,6 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -166,7 +165,7 @@ public class ProjectController extends HttpServlet {
     }
 
     @Override
-    protected  void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
@@ -380,8 +379,8 @@ public class ProjectController extends HttpServlet {
         if (req.getParameter(PROJECT_ID) != null) {
             return Integer.valueOf(req.getParameter(PROJECT_ID));
         }
-        else  {
-            return  (Integer) session.getAttribute(PROJECT_ID);
+        else {
+            return (Integer) session.getAttribute(PROJECT_ID);
 
         }
     }

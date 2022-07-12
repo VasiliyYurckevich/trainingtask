@@ -240,7 +240,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void    updateEmployee(HttpServletRequest req, HttpServletResponse resp)
+    private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, DaoException, IOException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
