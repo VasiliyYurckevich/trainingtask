@@ -104,7 +104,7 @@ public class EmployeeController extends HttpServlet {
     /**
      * Переменная доступа к методам классов DAO.
      */
-    private IDao<Employee> employeeInterface;
+    private IDao<Employee> employeeDao;
 
     /**
      * Логгер для записи событий.
@@ -114,7 +114,7 @@ public class EmployeeController extends HttpServlet {
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        employeeInterface = new EmployeeDao();
+        employeeDao = new EmployeeDao();
     }
 
     @Override
@@ -187,7 +187,7 @@ public class EmployeeController extends HttpServlet {
         throws ServletException, IOException, DaoException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        Employee existingEmployee = employeeInterface.getById(employeeId);
+        Employee existingEmployee = employeeDao.getById(employeeId);
         req.setAttribute(EMPLOYEE_ID, employeeId);
         req.setAttribute(SURNAME, existingEmployee.getSurname());
         req.setAttribute(FIRST_NAME, existingEmployee.getFirstName());
@@ -227,7 +227,7 @@ public class EmployeeController extends HttpServlet {
         throws DaoException, IOException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        employeeInterface.delete(employeeId, ConnectionManipulator.getConnection());
+        employeeDao.delete(employeeId, ConnectionManipulator.getConnection());
         resp.sendRedirect(EMPLOYEES_LIST);
     }
 
@@ -251,7 +251,7 @@ public class EmployeeController extends HttpServlet {
             req.setAttribute(EMPLOYEE_ID, employeeId);
             Employee theEmployee = getEmployee(paramsList);
             theEmployee.setId(employeeId);
-            employeeInterface.update(theEmployee, ConnectionManipulator.getConnection());
+            employeeDao.update(theEmployee, ConnectionManipulator.getConnection());
             resp.sendRedirect(EMPLOYEES_LIST);
 
         }
@@ -325,7 +325,7 @@ public class EmployeeController extends HttpServlet {
 
         if (Utils.isBlankMap(errorsList)) {
             Employee employee = getEmployee(paramsList);
-            employeeInterface.add(employee, ConnectionManipulator.getConnection());
+            employeeDao.add(employee, ConnectionManipulator.getConnection());
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {

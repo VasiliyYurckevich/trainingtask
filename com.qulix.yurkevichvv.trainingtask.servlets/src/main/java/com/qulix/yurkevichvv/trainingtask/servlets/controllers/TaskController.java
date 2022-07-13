@@ -153,7 +153,7 @@ public class TaskController extends HttpServlet {
     /**
      * Переменная доступа к методам классов DAO.
      */
-    private IDao<Task> tasksInterface;
+    private IDao<Task> taskDao;
 
     /**
      * Логгер для записи событий.
@@ -163,7 +163,7 @@ public class TaskController extends HttpServlet {
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        tasksInterface = new TaskDao();
+        taskDao = new TaskDao();
     }
 
     @Override
@@ -241,7 +241,7 @@ public class TaskController extends HttpServlet {
         throws DaoException, ServletException, IOException {
 
         String taskId = req.getParameter(TASK_ID);
-        Task existingTask = tasksInterface.getById(Integer.parseInt(taskId));
+        Task existingTask = taskDao.getById(Integer.parseInt(taskId));
         Utils.setTaskDataInJsp(req, existingTask);
         Utils.setDataToDropDownList(req);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
@@ -270,7 +270,7 @@ public class TaskController extends HttpServlet {
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
             task.setId(taskId);
-            tasksInterface.update(task, ConnectionManipulator.getConnection());
+            taskDao.update(task, ConnectionManipulator.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {
@@ -449,7 +449,7 @@ public class TaskController extends HttpServlet {
         throws DaoException, IOException {
 
         String taskId = req.getParameter(TASK_ID);
-        tasksInterface.delete(Integer.parseInt(taskId), ConnectionManipulator.getConnection());
+        taskDao.delete(Integer.parseInt(taskId), ConnectionManipulator.getConnection());
         resp.sendRedirect(TASKS);
     }
 
@@ -470,7 +470,7 @@ public class TaskController extends HttpServlet {
 
         if (Utils.isBlankMap(errorsList)) {
             Task task = getTask(paramsList);
-            tasksInterface.add(task, ConnectionManipulator.getConnection());
+            taskDao.add(task, ConnectionManipulator.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {
@@ -515,7 +515,7 @@ public class TaskController extends HttpServlet {
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        List<Task> tasks = tasksInterface.getAll();
+        List<Task> tasks = taskDao.getAll();
         List<Project> projects = new ProjectDao().getAll();
         List<String> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
