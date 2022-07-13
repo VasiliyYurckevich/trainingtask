@@ -135,7 +135,7 @@ public class EmployeeController extends HttpServlet {
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }
-        catch (IOException | ServletException | IllegalArgumentException e) {
+        catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Problem in doPost method in Employee Controller", e);
             throw e;
         }

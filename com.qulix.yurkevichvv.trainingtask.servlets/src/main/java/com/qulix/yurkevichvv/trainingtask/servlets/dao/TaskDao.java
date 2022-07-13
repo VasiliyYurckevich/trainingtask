@@ -48,11 +48,6 @@ public class TaskDao implements IDao<Task> {
     private static final String ID = "id";
 
     /**
-     * Двоеточие.
-     */
-    private static final String COLON = ":";
-
-    /**
      * Хранит константу для имени колонки статуса проекта в БД.
      */
     private static final String STATUS = "status";
@@ -147,7 +142,7 @@ public class TaskDao implements IDao<Task> {
     public void update(Task task, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
-            preparedStatementHelper.setInt(COLON + ID, task.getId());
+            preparedStatementHelper.setInt(ID, task.getId());
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
         }
@@ -169,13 +164,13 @@ public class TaskDao implements IDao<Task> {
      */
     private void setDataInToStatement(Task task, PreparedStatementHelper preparedStatementHelper) throws DaoException {
         try {
-            preparedStatementHelper.setInt(COLON + STATUS, task.getStatus().getId());
-            preparedStatementHelper.setString(COLON + TITLE, task.getTitle());
-            preparedStatementHelper.setInt(COLON + WORK_TIME, task.getWorkTime());
-            preparedStatementHelper.setDate(COLON + BEGIN_DATE, task.getBeginDate());
-            preparedStatementHelper.setDate(COLON + END_DATE, task.getEndDate());
-            preparedStatementHelper.setInt(COLON + PROJECT_ID, task.getProjectId());
-            preparedStatementHelper.setInt(COLON + EMPLOYEE_ID, task.getEmployeeId());
+            preparedStatementHelper.setInt(STATUS, task.getStatus().getId());
+            preparedStatementHelper.setString(TITLE, task.getTitle());
+            preparedStatementHelper.setInt(WORK_TIME, task.getWorkTime());
+            preparedStatementHelper.setDate(BEGIN_DATE, task.getBeginDate());
+            preparedStatementHelper.setDate(END_DATE, task.getEndDate());
+            preparedStatementHelper.setInt(PROJECT_ID, task.getProjectId());
+            preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployeeId());
         }
         catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error when entering task data into an SQL expression", e);
@@ -186,7 +181,7 @@ public class TaskDao implements IDao<Task> {
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_TASK_SQL, connection)) {
-            preparedStatementHelper.setInt(COLON + ID, id);
+            preparedStatementHelper.setInt(ID, id);
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
         }
@@ -211,7 +206,7 @@ public class TaskDao implements IDao<Task> {
         Connection connection = ConnectionManipulator.getConnection();
         List<Task> tasks = new ArrayList<>();
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection);
-        preparedStatementHelper.setInt(COLON + PROJECT_ID, id);
+        preparedStatementHelper.setInt(PROJECT_ID, id);
 
         try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             return getList(tasks, resultSet);
@@ -274,7 +269,7 @@ public class TaskDao implements IDao<Task> {
 
         Connection connection = ConnectionManipulator.getConnection();
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection);
-        preparedStatementHelper.setInt(COLON + ID, id);
+        preparedStatementHelper.setInt(ID, id);
 
         try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             if (resultSet.next()) {

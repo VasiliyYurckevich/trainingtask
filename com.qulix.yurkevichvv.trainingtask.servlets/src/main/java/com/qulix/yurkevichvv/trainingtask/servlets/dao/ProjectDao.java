@@ -39,11 +39,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper
  * @see Project
  */
 public class ProjectDao implements IDao<Project> {
-
-    /**
-     * Двоеточие.
-     */
-    private static final String COLON = ":";
+    
 
     /**
      * Хранит константу для колонки ID проекта в БД.
@@ -96,8 +92,8 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public void add(Project project, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
-            preparedStatementHelper.setString(COLON + TITLE, project.getTitle());
-            preparedStatementHelper.setString(COLON + DESCRIPTION, project.getDescription());
+            preparedStatementHelper.setString(TITLE, project.getTitle());
+            preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
             preparedStatementHelper.execute();
         }
         catch (Exception e) {
@@ -112,9 +108,9 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public void update(Project project, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_PROJECT_SQL, connection)) {
-            preparedStatementHelper.setString(COLON + TITLE, project.getTitle());
-            preparedStatementHelper.setString(COLON + DESCRIPTION, project.getDescription());
-            preparedStatementHelper.setInt(COLON + ID, project.getId());
+            preparedStatementHelper.setString(TITLE, project.getTitle());
+            preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
+            preparedStatementHelper.setInt(ID, project.getId());
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
         }
@@ -127,7 +123,7 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_PROJECT_SQL, connection)) {
-            preparedStatementHelper.setInt(COLON + ID, id);
+            preparedStatementHelper.setInt(ID, id);
             preparedStatementHelper.execute();
         }
         catch (Exception e) {
@@ -189,7 +185,7 @@ public class ProjectDao implements IDao<Project> {
 
         Connection connection = ConnectionManipulator.getConnection();
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection);
-        preparedStatementHelper.setInt(COLON + ID, id);
+        preparedStatementHelper.setInt(ID, id);
 
         try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             if (resultSet.next()) {

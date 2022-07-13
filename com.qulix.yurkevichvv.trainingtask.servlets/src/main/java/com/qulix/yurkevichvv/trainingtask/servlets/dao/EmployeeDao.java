@@ -41,11 +41,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper
 public class EmployeeDao implements IDao<Employee> {
 
     /**
-     * Двоеточие.
-     */
-    private static final String COLON = ":";
-
-    /**
      * Хранит константу для колонки фамилии сотрудника в БД.
      */
     private static final String SURNAME = "surname";
@@ -106,10 +101,10 @@ public class EmployeeDao implements IDao<Employee> {
     @Override
     public void add(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_EMPLOYEE_SQL, connection)) {
-            preparedStatementHelper.setString(COLON + SURNAME, employee.getSurname());
-            preparedStatementHelper.setString(COLON + FIRST_NAME, employee.getFirstName());
-            preparedStatementHelper.setString(COLON + PATRONYMIC, employee.getPatronymic());
-            preparedStatementHelper.setString(COLON + POST, employee.getPost());
+            preparedStatementHelper.setString(SURNAME, employee.getSurname());
+            preparedStatementHelper.setString(FIRST_NAME, employee.getFirstName());
+            preparedStatementHelper.setString(PATRONYMIC, employee.getPatronymic());
+            preparedStatementHelper.setString(POST, employee.getPost());
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Created employee");
         }
@@ -125,11 +120,11 @@ public class EmployeeDao implements IDao<Employee> {
     @Override
     public void update(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_CLIENT_SQL, connection)) {
-            preparedStatementHelper.setString(COLON + SURNAME, employee.getSurname());
-            preparedStatementHelper.setString(COLON + FIRST_NAME, employee.getFirstName());
-            preparedStatementHelper.setString(COLON + PATRONYMIC, employee.getPatronymic());
-            preparedStatementHelper.setString(COLON + POST, employee.getPost());
-            preparedStatementHelper.setInt(COLON + ID, employee.getId());
+            preparedStatementHelper.setString(SURNAME, employee.getSurname());
+            preparedStatementHelper.setString(FIRST_NAME, employee.getFirstName());
+            preparedStatementHelper.setString(PATRONYMIC, employee.getPatronymic());
+            preparedStatementHelper.setString(POST, employee.getPost());
+            preparedStatementHelper.setInt(ID, employee.getId());
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
         }
@@ -145,7 +140,7 @@ public class EmployeeDao implements IDao<Employee> {
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_EMPLOYEE_SQL, connection)) {
-            preparedStatementHelper.setInt(COLON + ID, id);
+            preparedStatementHelper.setInt(ID, id);
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Employee with id {0} deleted", id);
         }
@@ -189,7 +184,7 @@ public class EmployeeDao implements IDao<Employee> {
 
         Connection connection = ConnectionManipulator.getConnection();
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_EMPLOYEE_BY_ID, connection);
-        preparedStatementHelper.setInt(COLON + ID, id);
+        preparedStatementHelper.setInt(ID, id);
 
         try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
 
