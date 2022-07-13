@@ -21,6 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,7 @@ public class TaskDao implements IDao<Task> {
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Created new task");
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a task to the database", e);
             throw new DaoException(e);
         }
@@ -146,7 +147,7 @@ public class TaskDao implements IDao<Task> {
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when updating a task in the database", e);
             throw new DaoException(e);
         }
@@ -172,7 +173,7 @@ public class TaskDao implements IDao<Task> {
             preparedStatementHelper.setInt(PROJECT_ID, task.getProjectId());
             preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployeeId());
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when entering task data into an SQL expression", e);
             throw new DaoException(e);
         }
@@ -185,7 +186,7 @@ public class TaskDao implements IDao<Task> {
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when deleting a task from the database", e);
             throw new DaoException(e);
         }
@@ -211,7 +212,7 @@ public class TaskDao implements IDao<Task> {
         try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
             return getList(tasks, resultSet);
         }
-        catch (Exception e) {
+        catch (DaoException | SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when getting project tasks from the database", e);
             throw new DaoException(e);
         }
@@ -231,7 +232,7 @@ public class TaskDao implements IDao<Task> {
             List<Task> tasks = new ArrayList<>();
             return getList(tasks, resultSet);
         }
-        catch (Exception e) {
+        catch (DaoException | SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when getting all tasks from the database", e);
             throw new DaoException(e);
         }
@@ -257,7 +258,7 @@ public class TaskDao implements IDao<Task> {
             }
             resultSet.close();
         }
-        catch (Exception e) {
+        catch (DaoException | SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
             throw new DaoException("Error when getting tasks from the database", e);
         }
@@ -283,7 +284,7 @@ public class TaskDao implements IDao<Task> {
                 throw new DaoException("An employee with such data was not found");
             }
         }
-        catch (Exception e) {
+        catch (DaoException | SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when getting a task by ID from the database", e);
             throw new DaoException(e);
         }
@@ -309,7 +310,7 @@ public class TaskDao implements IDao<Task> {
             task.setProjectId(resultSet.getInt(PROJECT_ID));
             task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
         }
-        catch (Exception e) {
+        catch (DaoException | SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
             throw new DaoException(e);
         }

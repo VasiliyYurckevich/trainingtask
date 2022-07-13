@@ -158,7 +158,7 @@ public class ProjectController extends HttpServlet {
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
             }
         }
-        catch (Exception e) {
+        catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, "Problem in doPost method in Project Controller", e);
             throw e;
         }
@@ -200,7 +200,7 @@ public class ProjectController extends HttpServlet {
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
             }
         }
-        catch (Exception e) {
+        catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, "Problem in doGet method in Project Controller", e);
             throw e;
         }

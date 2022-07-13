@@ -22,7 +22,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 import java.time.LocalDate;
 
 /**
- * Реализует сущность задачи в приложении.
+ * Сущность "Задачи".
  *
  * @author Q-YVV
  */

@@ -168,7 +168,7 @@ public class EmployeeController extends HttpServlet {
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }
-        catch (IOException | ServletException e) {
+        catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Problem in doGet method in Employee Controller", e);
             throw e;
         }

@@ -21,6 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -96,7 +97,7 @@ public class ProjectDao implements IDao<Project> {
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
             preparedStatementHelper.execute();
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a project to the database", e);
             throw new DaoException(e);
         }
@@ -114,7 +115,7 @@ public class ProjectDao implements IDao<Project> {
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when updating the project in the database", e);
             throw new DaoException(e);
         }
@@ -126,7 +127,7 @@ public class ProjectDao implements IDao<Project> {
             preparedStatementHelper.setInt(ID, id);
             preparedStatementHelper.execute();
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when deleting a project from the database", e);
             throw new DaoException(e);
         }
@@ -150,7 +151,7 @@ public class ProjectDao implements IDao<Project> {
             resultSet.close();
             return projects;
         }
-        catch (Exception e) {
+        catch (SQLException | DaoException  e) {
             LOGGER.log(Level.SEVERE, "Error when getting all projects from the database", e);
             throw new DaoException(e);
         }
@@ -174,7 +175,7 @@ public class ProjectDao implements IDao<Project> {
 
             return project;
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
             throw new DaoException(e);
         }
@@ -195,7 +196,7 @@ public class ProjectDao implements IDao<Project> {
                 throw new DaoException("A project with such data was not found");
             }
         }
-        catch (Exception e) {
+        catch (DaoException | SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when getting a project by id from the database", e);
             throw new DaoException(e);
         }

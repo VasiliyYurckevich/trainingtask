@@ -20,7 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
 /**
- * Описывает сущность класса "Проект".
+ * Сущность "Проект".
  *
  * @author Q-YVV
  */

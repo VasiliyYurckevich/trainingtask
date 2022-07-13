@@ -21,6 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,7 +88,7 @@ public class ConnectionManipulator {
                 connection.close();
             }
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "ConnectionManipulator closeConnection() error", e);
             throw new DaoException("Error closing the database connection", e);
         }
@@ -104,7 +105,7 @@ public class ConnectionManipulator {
             connection.commit();
             connection.setAutoCommit(true);
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "ConnectionManipulator commitConnection() error", e);
             throw new DaoException("Error commit transaction", e);
         }

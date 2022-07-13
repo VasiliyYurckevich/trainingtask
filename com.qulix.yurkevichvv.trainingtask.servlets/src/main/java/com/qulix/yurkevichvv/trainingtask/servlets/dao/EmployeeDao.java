@@ -21,6 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -108,7 +109,7 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Created employee");
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a new employee to the database", e);
             throw new DaoException(e);
         }
@@ -128,7 +129,7 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when trying to change employee data", e);
             throw new DaoException(e);
         }
@@ -144,7 +145,7 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatementHelper.execute();
             LOGGER.log(Level.INFO, "Employee with id {0} deleted", id);
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when trying to delete employee data", e);
             throw new DaoException(e);
         }
@@ -170,7 +171,7 @@ public class EmployeeDao implements IDao<Employee> {
 
             return employees;
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when getting all employee data", e);
             throw new DaoException(e);
         }
@@ -195,7 +196,7 @@ public class EmployeeDao implements IDao<Employee> {
                 throw new DaoException("An employee with such data was not found");
             }
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when getting employee data", e);
             throw new DaoException(e);
         }
@@ -222,7 +223,7 @@ public class EmployeeDao implements IDao<Employee> {
 
             return employee;
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when getting employee data from the database", e);
             throw new DaoException(e);
         }

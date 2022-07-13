@@ -20,7 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
 /**
- * Описывает сущность "Сотрудник".
+ * Сущность "Сотрудник".
  *
  * @author Q-YVV
  */
