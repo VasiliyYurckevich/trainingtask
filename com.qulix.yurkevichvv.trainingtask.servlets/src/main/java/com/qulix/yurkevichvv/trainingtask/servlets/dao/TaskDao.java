@@ -269,7 +269,6 @@ public class TaskDao implements IDao<Task> {
                 setDataFromDatabase(task, resultSet);
                 tasks.add(task);
             }
-            resultSet.close();
         }
         catch (DaoException | SQLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
@@ -282,19 +281,18 @@ public class TaskDao implements IDao<Task> {
     public Task getById(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
-        PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection);
-        preparedStatementHelper.setInt(ID, id);
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection)) {
+            preparedStatementHelper.setInt(ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
-            if (resultSet.next()) {
-                Task task = new Task();
-                setDataFromDatabase(task, resultSet);
-                resultSet.close();
-                return task;
-            }
-            else {
-                resultSet.close();
-                throw new DaoException("An employee with such data was not found");
+            try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
+                if (resultSet.next()) {
+                    Task task = new Task();
+                    setDataFromDatabase(task, resultSet);
+                    return task;
+                }
+                else {
+                    throw new DaoException("An employee with such data was not found");
+                }
             }
         }
         catch (DaoException | SQLException e) {

@@ -181,7 +181,6 @@ public class EmployeeDao implements IDao<Employee> {
                 Employee employee = getEmployeeFromDB(resultSet);
                 employees.add(employee);
             }
-            resultSet.close();
 
             return employees;
         }
@@ -198,16 +197,17 @@ public class EmployeeDao implements IDao<Employee> {
     public Employee getById(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
-        PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_EMPLOYEE_BY_ID, connection);
-        preparedStatementHelper.setInt(ID, id);
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_EMPLOYEE_BY_ID, connection)) {
+            preparedStatementHelper.setInt(ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
+            try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
 
-            if (resultSet.next()) {
-                return getEmployeeFromDB(resultSet);
-            }
-            else {
-                throw new DaoException("An employee with such data was not found");
+                if (resultSet.next()) {
+                    return getEmployeeFromDB(resultSet);
+                }
+                else {
+                    throw new DaoException("An employee with such data was not found");
+                }
             }
         }
         catch (SQLException e) {
@@ -215,7 +215,6 @@ public class EmployeeDao implements IDao<Employee> {
             throw new DaoException(e);
         }
         finally {
-            preparedStatementHelper.close();
             ConnectionManipulator.closeConnection(connection);
         }
     }

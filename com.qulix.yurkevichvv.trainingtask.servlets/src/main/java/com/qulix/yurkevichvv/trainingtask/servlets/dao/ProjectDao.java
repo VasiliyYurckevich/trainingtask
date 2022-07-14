@@ -163,7 +163,6 @@ public class ProjectDao implements IDao<Project> {
                 Project project = getProjectFromDB(resultSet);
                 projects.add(project);
             }
-            resultSet.close();
             return projects;
         }
         catch (SQLException | DaoException e) {
@@ -200,15 +199,16 @@ public class ProjectDao implements IDao<Project> {
     public Project getById(Integer id) throws DaoException {
 
         Connection connection = ConnectionManipulator.getConnection();
-        PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection);
-        preparedStatementHelper.setInt(ID, id);
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection)) {
+            preparedStatementHelper.setInt(ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
-            if (resultSet.next()) {
-                return getProjectFromDB(resultSet);
-            }
-            else {
-                throw new DaoException("A project with such data was not found");
+            try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
+                if (resultSet.next()) {
+                    return getProjectFromDB(resultSet);
+                }
+                else {
+                    throw new DaoException("A project with such data was not found");
+                }
             }
         }
         catch (DaoException | SQLException e) {
@@ -216,7 +216,6 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException(e);
         }
         finally {
-            preparedStatementHelper.close();
             ConnectionManipulator.closeConnection(connection);
         }
     }
