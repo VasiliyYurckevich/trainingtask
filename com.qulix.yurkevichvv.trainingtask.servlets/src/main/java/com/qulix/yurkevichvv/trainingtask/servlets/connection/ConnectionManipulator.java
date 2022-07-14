@@ -70,7 +70,7 @@ public class ConnectionManipulator {
             Class.forName(JDBC_DRIVER);
             return DriverManager.getConnection(PATH, USER, PASS);
         }
-        catch (Exception e) {
+        catch (ClassNotFoundException | SQLException e) {
             LOGGER.log(Level.SEVERE, "ConnectionManipulator getConnection() error", e);
             throw new DaoException("The database is temporarily unavailable. Try again later", e);
         }

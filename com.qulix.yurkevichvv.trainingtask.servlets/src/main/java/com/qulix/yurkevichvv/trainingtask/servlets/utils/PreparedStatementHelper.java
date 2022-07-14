@@ -79,7 +79,7 @@ public class PreparedStatementHelper implements AutoCloseable {
             this.parametersMap = new HashMap<>();
             this.preparedStatement = fillPreparedStatement();
         }
-        catch (Exception e) {
+        catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "PreparedStatementHelper creating error", e);
             throw new DaoException(ERROR_WHEN_TRY_CREATE_NEW_PREPARED_STATEMENT_HELPER, e);
         }
@@ -196,7 +196,7 @@ public class PreparedStatementHelper implements AutoCloseable {
     }
 
     /**
-     * Выполняет SQL-запрос по получению данных из БД.
+     * Выполняет SQL-запрос по получению данных из БД
      */
     public ResultSet executeQuery() {
         try {
