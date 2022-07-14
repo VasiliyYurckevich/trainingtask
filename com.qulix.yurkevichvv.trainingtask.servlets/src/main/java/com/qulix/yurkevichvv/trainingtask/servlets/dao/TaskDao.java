@@ -209,7 +209,7 @@ public class TaskDao implements IDao<Task> {
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection);
         preparedStatementHelper.setInt(PROJECT_ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
+        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
             return getList(tasks, resultSet);
         }
         catch (DaoException | SQLException e) {
@@ -228,7 +228,7 @@ public class TaskDao implements IDao<Task> {
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_TASK, connection);
-            ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
+            ResultSet resultSet = preparedStatementHelper.executeQuery()) {
             List<Task> tasks = new ArrayList<>();
             return getList(tasks, resultSet);
         }
@@ -272,7 +272,7 @@ public class TaskDao implements IDao<Task> {
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection);
         preparedStatementHelper.setInt(ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
+        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
             if (resultSet.next()) {
                 Task task = new Task();
                 setDataFromDatabase(task, resultSet);

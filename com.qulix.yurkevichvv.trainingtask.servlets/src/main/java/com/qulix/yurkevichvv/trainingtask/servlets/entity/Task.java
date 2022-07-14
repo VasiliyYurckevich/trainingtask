@@ -20,6 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Сущность "Задачи".
@@ -144,5 +145,25 @@ public class Task {
             ", endDate=" + endDate +
             ", project_id=" + projectId +
             ", employee_id=" + employeeId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Task task = (Task) o;
+        return Objects.equals(id, task.id) && status == task.status && Objects.equals(title, task.title) &&
+            Objects.equals(workTime, task.workTime) &&
+            Objects.equals(beginDate, task.beginDate) &&
+            Objects.equals(endDate, task.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status, title, workTime, beginDate, endDate);
     }
 }

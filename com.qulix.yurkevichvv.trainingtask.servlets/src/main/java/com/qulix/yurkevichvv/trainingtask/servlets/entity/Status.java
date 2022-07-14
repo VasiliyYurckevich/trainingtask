@@ -31,7 +31,7 @@ public enum Status {
     /**
      * Статус "Не начата".
      */
-    NOTBEGIN(1, "Не начата"),
+    NOTSTARTED(1, "Не начата"),
 
     /**
      * Статус "В процессе".
@@ -73,7 +73,7 @@ public enum Status {
      * @throws IllegalArgumentException если полученный id статуса не найден в списке
      * @return название статуса
      */
-    public static Status getStatusById(Integer id)  {
+    public static Status getStatusById(Integer id) {
         return Arrays.stream(Status.values()).filter(e -> e.id.equals(id)).findFirst()
             .orElseThrow(() -> new IllegalStateException(String.format("Unsupported status %s.", id)));
     }

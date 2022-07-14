@@ -1,6 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.utils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,7 +112,7 @@ public class PreparedStatementHelper implements AutoCloseable {
             String result = parseSqlStatement(sqlStatement);
             return connection.prepareStatement(result);
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception creating PrepareStatement", e);
             throw new DaoException(ERROR_WHEN_TRY_CREATE_NEW_PREPARED_STATEMENT_HELPER, e);
         }
@@ -122,13 +127,13 @@ public class PreparedStatementHelper implements AutoCloseable {
     public void setInt(String name, Integer value) {
         try {
             if (value == null) {
-                this.preparedStatement.setNull(getIndex(COLON + name), Types.INTEGER);
+                this.preparedStatement.setNull(getIndex(name), Types.INTEGER);
             }
             else {
-                this.preparedStatement.setInt(getIndex(COLON + name), value);
+                this.preparedStatement.setInt(getIndex(name), value);
             }
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "PreparedStatementHelper set Integer in PreparedStatement error", e);
             throw new DaoException("setInt in PreparedStatement error", e);
         }
@@ -143,13 +148,13 @@ public class PreparedStatementHelper implements AutoCloseable {
     public void setString(String name, String value) {
         try {
             if (value == null || value.isEmpty()) {
-                this.preparedStatement.setNull(getIndex(COLON + name), Types.VARCHAR);
+                this.preparedStatement.setNull(getIndex(name), Types.VARCHAR);
             }
             else {
-                this.preparedStatement.setString(getIndex(COLON + name), value);
+                this.preparedStatement.setString(getIndex(name), value);
             }
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "PreparedStatementHelper set string in PreparedStatement error", e);
             throw new DaoException("setString in PreparedStatement error", e);
         }
@@ -164,13 +169,13 @@ public class PreparedStatementHelper implements AutoCloseable {
     public void setDate(String name, LocalDate value) {
         try {
             if (value == null) {
-                this.preparedStatement.setNull(getIndex(COLON + name), Types.DATE);
+                this.preparedStatement.setNull(getIndex(name), Types.DATE);
             }
             else {
-                this.preparedStatement.setDate(getIndex(COLON + name), Date.valueOf(value));
+                this.preparedStatement.setDate(getIndex(name), Date.valueOf(value));
             }
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "PreparedStatementHelper set date in PreparedStatement error", e);
             throw new DaoException("setDate in PreparedStatement error", e);
         }
@@ -183,7 +188,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @return индекс параметра
      */
     private Integer getIndex(String name) {
-        return this.parametersMap.get(name);
+        return this.parametersMap.get(COLON + name);
     }
 
     public PreparedStatement getPreparedStatement() {
@@ -197,7 +202,7 @@ public class PreparedStatementHelper implements AutoCloseable {
         try {
             return this.preparedStatement.executeQuery();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception creating PrepareStatementHelper", e);
             throw new DaoException("Error when try execute PrepareStatement", e);
         }
@@ -210,7 +215,7 @@ public class PreparedStatementHelper implements AutoCloseable {
         try {
             return this.preparedStatement.executeUpdate();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception executeUpdate() PrepareStatementHelper", e);
             throw new DaoException("Error when try executeUpdate() PrepareStatement", e);
         }
@@ -223,7 +228,7 @@ public class PreparedStatementHelper implements AutoCloseable {
         try {
             this.preparedStatement.execute();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception execute() PrepareStatementHelper", e);
             throw new DaoException("Error when try execute() PrepareStatement", e);
         }
@@ -234,7 +239,7 @@ public class PreparedStatementHelper implements AutoCloseable {
         try {
             this.preparedStatement.close();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception close() PrepareStatementHelper", e);
             throw new DaoException("Error when try close PrepareStatement in PrepareStatementHelper", e);
         }

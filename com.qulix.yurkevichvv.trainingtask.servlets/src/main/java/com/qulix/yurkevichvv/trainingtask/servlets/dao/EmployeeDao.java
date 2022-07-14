@@ -161,7 +161,7 @@ public class EmployeeDao implements IDao<Employee> {
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_CLIENT, connection);
-            ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
+            ResultSet resultSet = preparedStatementHelper.executeQuery()) {
 
             while (resultSet.next()) {
                 Employee employee = getEmployeeFromDB(resultSet);
@@ -187,7 +187,7 @@ public class EmployeeDao implements IDao<Employee> {
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_EMPLOYEE_BY_ID, connection);
         preparedStatementHelper.setInt(ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
+        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
 
             if (resultSet.next()) {
                 return getEmployeeFromDB(resultSet);

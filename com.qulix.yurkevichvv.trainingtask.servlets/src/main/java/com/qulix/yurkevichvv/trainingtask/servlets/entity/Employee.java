@@ -19,6 +19,8 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
+import java.util.Objects;
+
 /**
  * Сущность "Сотрудник".
  *
@@ -107,6 +109,27 @@ public class Employee {
     }
 
     public String getFullName() {
-        return getSurname() + SPACE + getFirstName() + SPACE + getPatronymic();
+        return String.format("%s %s %s", surname, firstName, patronymic);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Employee employee = (Employee) o;
+        return Objects.equals(id, employee.id) &&
+            Objects.equals(surname, employee.surname) &&
+            Objects.equals(firstName, employee.firstName) &&
+            Objects.equals(patronymic, employee.patronymic) &&
+            Objects.equals(post, employee.post);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, surname, firstName, patronymic, post);
     }
 }

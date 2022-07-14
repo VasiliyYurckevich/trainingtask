@@ -244,12 +244,12 @@ public class EmployeeController extends HttpServlet {
         throws ServletException, DaoException, IOException {
 
         int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        Map<String, String> paramsList = getDataFromJsp(req);
-        Map<String, String> errorsList = ValidationService.inspectEmployeeData(paramsList);
+        Map<String, String> paramsMap = getDataFromJsp(req);
+        Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
-        if (Utils.isBlankMap(errorsList)) {
+        if (errorsMap.isEmpty()) {
             req.setAttribute(EMPLOYEE_ID, employeeId);
-            Employee theEmployee = getEmployee(paramsList);
+            Employee theEmployee = getEmployee(paramsMap);
             theEmployee.setId(employeeId);
             employeeDao.update(theEmployee, ConnectionManipulator.getConnection());
             resp.sendRedirect(EMPLOYEES_LIST);
@@ -257,7 +257,7 @@ public class EmployeeController extends HttpServlet {
         }
         else {
             req.setAttribute(EMPLOYEE_ID, employeeId);
-            setDataToJsp(req, paramsList, errorsList);
+            setDataToJsp(req, paramsMap, errorsMap);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
             dispatcher.forward(req, resp);
         }
@@ -266,15 +266,15 @@ public class EmployeeController extends HttpServlet {
     /**
      * Создает сотрудника с полученными параметрами.
      *
-     * @param paramsList список параметров
+     * @param paramsMap список параметров
      * @return возвращаемый сотрудник
      */
-    private static Employee getEmployee(Map<String, String> paramsList) {
+    private static Employee getEmployee(Map<String, String> paramsMap) {
         Employee theEmployee = new Employee();
-        theEmployee.setSurname(paramsList.get(SURNAME));
-        theEmployee.setFirstName(paramsList.get(FIRST_NAME));
-        theEmployee.setPatronymic(paramsList.get(PATRONYMIC));
-        theEmployee.setPost(paramsList.get(POST));
+        theEmployee.setSurname(paramsMap.get(SURNAME));
+        theEmployee.setFirstName(paramsMap.get(FIRST_NAME));
+        theEmployee.setPatronymic(paramsMap.get(PATRONYMIC));
+        theEmployee.setPost(paramsMap.get(POST));
         return theEmployee;
     }
 
@@ -282,15 +282,15 @@ public class EmployeeController extends HttpServlet {
      * Заполняет форму данными о сотруднике.
      *
      * @param req запрос
-     * @param paramsList список параметров
-     * @param errorsList список ошибок
+     * @param paramsMap список параметров
+     * @param errorsMap список ошибок
      */
-    private void setDataToJsp(HttpServletRequest req, Map<String, String> paramsList, Map<String, String> errorsList) {
-        req.setAttribute("ERRORS", errorsList);
-        req.setAttribute(SURNAME, paramsList.get(SURNAME).trim());
-        req.setAttribute(FIRST_NAME, paramsList.get(FIRST_NAME).trim());
-        req.setAttribute(PATRONYMIC, paramsList.get(PATRONYMIC).trim());
-        req.setAttribute(POST, paramsList.get(POST).trim());
+    private void setDataToJsp(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
+        req.setAttribute("ERRORS", errorsMap);
+        req.setAttribute(SURNAME, paramsMap.get(SURNAME).trim());
+        req.setAttribute(FIRST_NAME, paramsMap.get(FIRST_NAME).trim());
+        req.setAttribute(PATRONYMIC, paramsMap.get(PATRONYMIC).trim());
+        req.setAttribute(POST, paramsMap.get(POST).trim());
     }
 
     /**
@@ -320,16 +320,16 @@ public class EmployeeController extends HttpServlet {
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        Map<String, String> paramsList = getDataFromJsp(req);
-        Map<String, String> errorsList = ValidationService.inspectEmployeeData(paramsList);
+        Map<String, String> paramsMap = getDataFromJsp(req);
+        Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
-        if (Utils.isBlankMap(errorsList)) {
-            Employee employee = getEmployee(paramsList);
+        if (errorsMap.isEmpty()) {
+            Employee employee = getEmployee(paramsMap);
             employeeDao.add(employee, ConnectionManipulator.getConnection());
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
-            setDataToJsp(req, paramsList, errorsList);
+            setDataToJsp(req, paramsMap, errorsMap);
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
             dispatcher.forward(req, resp);
         }

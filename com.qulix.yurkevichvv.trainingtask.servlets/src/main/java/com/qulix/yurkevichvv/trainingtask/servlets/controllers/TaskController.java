@@ -264,18 +264,18 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, DaoException {
 
         int taskId = Integer.parseInt(req.getParameter(TASK_ID));
-        Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
+        Map<String, String> paramsMap = getDataFromForm(req);
+        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
-        if (Utils.isBlankMap(errorsList)) {
-            Task task = getTask(paramsList);
+        if (errorsMap.isEmpty()) {
+            Task task = getTask(paramsMap);
             task.setId(taskId);
             taskDao.update(task, ConnectionManipulator.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {
-            setDataAboutTaskInJsp(req, paramsList, errorsList);
-            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsList.get(PROJECT_ID).trim()));
+            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
+            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
             req.setAttribute(TASK_ID, taskId);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
             dispatcher.forward(req, resp);
@@ -285,18 +285,18 @@ public class TaskController extends HttpServlet {
     /**
      * Заполняет поля задачи.
      *
-     * @param paramsList поля задачи
+     * @param paramsMap поля задачи
      */
-    private static Task getTask(Map<String, String> paramsList) {
+    private static Task getTask(Map<String, String> paramsMap) {
         Task task = new Task();
-        task.setStatus(Status.getStatusById(Integer.parseInt(paramsList.get(STATUS))));
-        task.setTitle(paramsList.get(TITLE));
-        task.setWorkTime(Integer.valueOf(paramsList.get(WORK_TIME)));
-        task.setBeginDate(LocalDate.parse(paramsList.get(BEGIN_DATE)));
-        task.setEndDate(LocalDate.parse(paramsList.get(END_DATE)));
-        task.setProjectId(Integer.valueOf(paramsList.get(PROJECT_ID)));
-        if (!paramsList.get(EMPLOYEE_ID).isEmpty()) {
-            task.setEmployeeId(Integer.valueOf(paramsList.get(EMPLOYEE_ID)));
+        task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
+        task.setTitle(paramsMap.get(TITLE));
+        task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
+        task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
+        task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
+        task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
+        if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
+            task.setEmployeeId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
         }
         else {
             task.setEmployeeId(null);
@@ -318,11 +318,11 @@ public class TaskController extends HttpServlet {
 
         List<Task> tasksListInProject = (List<Task>) req.getSession().getAttribute(TASKS_LIST);
         List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
-        Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
+        Map<String, String> paramsMap = getDataFromForm(req);
+        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
-        if (Utils.isBlankMap(errorsList)) {
-            Task task = getTask(paramsList);
+        if (errorsMap.isEmpty()) {
+            Task task = getTask(paramsMap);
             tasksListInProject.add(task);
             String taskIndex = String.valueOf(tasksListInProject.size());
             getEmployeesInProject(req, Integer.valueOf(taskIndex), task);
@@ -333,7 +333,7 @@ public class TaskController extends HttpServlet {
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
-            setDataAboutTaskInJsp(req, paramsList, errorsList);
+            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             dispatcher.forward(req, resp);
         }
     }
@@ -357,11 +357,11 @@ public class TaskController extends HttpServlet {
             taskId = Integer.valueOf(req.getParameter(TASK_ID));
         }
         String taskIndex = (String) req.getSession().getAttribute(TASK_INDEX);
-        Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
+        Map<String, String> paramsMap = getDataFromForm(req);
+        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
-        if (Utils.isBlankMap(errorsList)) {
-            Task task = getTask(paramsList);
+        if (errorsMap.isEmpty()) {
+            Task task = getTask(paramsMap);
             task.setId(taskId);
             tasksListInProject.set(Integer.parseInt(taskIndex), task);
             List<String> employeeListInProject = getEmployeesInProject(req, Integer.valueOf(taskIndex), task);
@@ -371,7 +371,7 @@ public class TaskController extends HttpServlet {
             dispatcher.forward(req, resp);
         }
         else {
-            setDataAboutTaskInJsp(req, paramsList, errorsList);
+            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
             req.setAttribute(TASK_ID, taskId);
             dispatcher.forward(req, resp);
@@ -465,17 +465,17 @@ public class TaskController extends HttpServlet {
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException {
 
-        Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.inspectTaskData(paramsList);
+        Map<String, String> paramsMap = getDataFromForm(req);
+        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
-        if (Utils.isBlankMap(errorsList)) {
-            Task task = getTask(paramsList);
+        if (errorsMap.isEmpty()) {
+            Task task = getTask(paramsMap);
             taskDao.add(task, ConnectionManipulator.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {
-            setDataAboutTaskInJsp(req, paramsList, errorsList);
-            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsList.get(PROJECT_ID).trim()));
+            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
+            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
             dispatcher.forward(req, resp);
         }
@@ -484,19 +484,19 @@ public class TaskController extends HttpServlet {
     /**
      * Вносит данные о задаче в форму.
      *
-     * @param paramsList список данных из формы
+     * @param paramsMap список данных из формы
      */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
-        Map<String, String> paramsList, Map<String, String> errorsList) {
+        Map<String, String> paramsMap, Map<String, String> errorsMap) {
 
-        req.setAttribute("ERRORS", errorsList);
-        req.setAttribute(STATUS, paramsList.get(STATUS));
-        req.setAttribute(TITLE, paramsList.get(TITLE));
-        req.setAttribute(WORK_TIME, paramsList.get(WORK_TIME).trim());
-        req.setAttribute(BEGIN_DATE, paramsList.get(BEGIN_DATE).trim());
-        req.setAttribute(END_DATE, paramsList.get(END_DATE).trim());
-        if (!paramsList.get(EMPLOYEE_ID).isEmpty()) {
-            req.setAttribute(EMPLOYEE_ID, Integer.valueOf(paramsList.get(EMPLOYEE_ID)));
+        req.setAttribute("ERRORS", errorsMap);
+        req.setAttribute(STATUS, paramsMap.get(STATUS));
+        req.setAttribute(TITLE, paramsMap.get(TITLE));
+        req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME).trim());
+        req.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
+        req.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
+        if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
+            req.setAttribute(EMPLOYEE_ID, Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
         }
         else {
             req.setAttribute(EMPLOYEE_ID, "");
@@ -555,19 +555,19 @@ public class TaskController extends HttpServlet {
      * @return список данных из формы
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
-        Map<String, String> paramsList = new HashMap<>();
-        paramsList.put(STATUS, req.getParameter(STATUS));
-        paramsList.put(TITLE , req.getParameter(TITLE).trim());
-        paramsList.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
-        paramsList.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
-        paramsList.put(END_DATE, req.getParameter(END_DATE).trim());
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put(STATUS, req.getParameter(STATUS));
+        paramsMap.put(TITLE , req.getParameter(TITLE).trim());
+        paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
+        paramsMap.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
+        paramsMap.put(END_DATE, req.getParameter(END_DATE).trim());
         if (req.getParameter(PROJECT_ID) != null) {
-            paramsList.put(PROJECT_ID, req.getParameter(PROJECT_ID).trim());
+            paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID).trim());
         }
         else {
-            paramsList.put(PROJECT_ID, req.getSession().getAttribute(PROJECT_ID).toString());
+            paramsMap.put(PROJECT_ID, req.getSession().getAttribute(PROJECT_ID).toString());
         }
-        paramsList.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
-        return paramsList;
+        paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
+        return paramsMap;
     }
 }

@@ -20,7 +20,6 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.utils;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,16 +37,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
  * @author Q-YVV
  */
 public class Utils {
-
-    /**
-     * Проверяет Map на пустоту значений.
-     *
-     * @param map Map для проверки
-     * @return Возвращает true, если список пустой или содержащий только пустые строки
-     */
-    public static boolean isBlankMap(Map<String, String> map) {
-        return map.isEmpty() || map.values().stream().allMatch(String::isEmpty);
-    }
 
     /**
      * Создает и обновляет данные для выпадающих списков.

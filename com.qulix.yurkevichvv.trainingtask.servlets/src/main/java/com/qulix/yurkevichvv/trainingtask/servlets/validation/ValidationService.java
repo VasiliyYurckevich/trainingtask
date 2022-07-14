@@ -61,6 +61,16 @@ public class ValidationService {
     private static final String SURNAME = "surname";
 
     /**
+     * Хранит константу для обозначения даты начала выполнения задачи.
+     */
+    private static final String BEGIN_DATE = "beginDate";
+
+    /**
+     * Хранит константу для обозначения даты окончания выполнения задачи.
+     */
+    private static final String END_DATE = "endDate";
+
+    /**
      * Хранит константу для обозначения имени сотрудника.
      */
     private static final String FIRST_NAME = "firstName";
@@ -88,45 +98,52 @@ public class ValidationService {
     /**
      * Проверяет вводимые данные о сотруднике.
      *
-     * @param paramsList Список параметров для валидации
+     * @param paramsMap Список параметров для валидации
      * @return Список ошибок
      */
-    public static Map<String, String> inspectEmployeeData(Map<String, String> paramsList) {
-        Map<String, String> errorList = new HashMap<>(paramsList.size());
-        errorList.put(SURNAME, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(SURNAME), SHORT_LENGTH));
-        errorList.put(FIRST_NAME, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(FIRST_NAME), SHORT_LENGTH));
-        errorList.put(PATRONYMIC, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(PATRONYMIC), SHORT_LENGTH));
-        errorList.put(POST, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(POST), SHORT_LENGTH));
+    public static Map<String, String> checkEmployeeData(Map<String, String> paramsMap) {
+        Map<String, String> errorList = new HashMap<>(paramsMap.size());
+        errorList.compute(SURNAME, (k, v) ->
+            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(SURNAME), SHORT_LENGTH));
+        errorList.compute(FIRST_NAME, (k, v) ->
+            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(FIRST_NAME), SHORT_LENGTH));
+        errorList.compute(PATRONYMIC, (k, v) ->
+            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(PATRONYMIC), SHORT_LENGTH));
+        errorList.compute(POST,
+            (k, v) -> FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(POST), SHORT_LENGTH));
         return errorList;
     }
 
     /**
      * Проверяет вводимые данные о проекте.
      *
-     * @param paramsList Список параметров для валидации
+     * @param paramsMap Список параметров для валидации
      * @return Список ошибок
      */
-    public static Map<String, String> inspectProjectData(Map<String, String> paramsList) {
-        Map<String, String> errorList = new HashMap<>(paramsList.size());
-        errorList.put(TITLE_OF_PROJECT,
-            FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(TITLE_OF_PROJECT), SHORT_LENGTH));
-        errorList.put(DESCRIPTION, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(DESCRIPTION), LONG_LENGTH));
+    public static Map<String, String> checkProjectData(Map<String, String> paramsMap) {
+        Map<String, String> errorList = new HashMap<>(paramsMap.size());
+        errorList.compute(TITLE_OF_PROJECT, (k, v) ->
+            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(TITLE_OF_PROJECT), SHORT_LENGTH));
+        errorList.compute(DESCRIPTION, (k, v) ->
+            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(DESCRIPTION), LONG_LENGTH));
         return errorList;
     }
 
     /**
      * Проверяет вводимые данные о задаче.
      *
-     * @param paramsList Список параметров для валидации
+     * @param paramsMap Список параметров для валидации
      * @return Список ошибок
      */
-    public static Map<String, String> inspectTaskData(Map<String, String> paramsList) {
+    public static Map<String, String> checkTaskData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>();
-        errorList.put(STATUS, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(STATUS), SHORT_LENGTH));
-        errorList.put(TITLE, FieldsValidation.inspectValidityOfTheEnteredString(paramsList.get(TITLE), SHORT_LENGTH));
-        errorList.put(WORK_TIME, FieldsValidation.inspectNumberValidity(paramsList.get(WORK_TIME)));
-        errorList.putAll(FieldsValidation.inspectDateValidity(paramsList.get("beginDate"),
-            paramsList.get("endDate")));
+        errorList.compute(STATUS, (k, v) ->
+            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(STATUS), SHORT_LENGTH));
+        errorList.compute(TITLE, (k, v) ->
+            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(TITLE), SHORT_LENGTH));
+        errorList.compute(WORK_TIME, (k, v) ->
+            FieldsValidation.checkNumberValidity(paramsMap.get(WORK_TIME)));
+        errorList.putAll(FieldsValidation.checkDateValidity(paramsMap.get(BEGIN_DATE), paramsMap.get(END_DATE)));
         return errorList;
     }
 

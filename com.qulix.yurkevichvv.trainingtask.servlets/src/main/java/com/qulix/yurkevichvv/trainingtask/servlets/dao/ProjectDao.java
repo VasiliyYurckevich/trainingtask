@@ -142,7 +142,7 @@ public class ProjectDao implements IDao<Project> {
         Connection connection = ConnectionManipulator.getConnection();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_PROJECTS, connection);
-            ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
+            ResultSet resultSet = preparedStatementHelper.executeQuery()) {
             List<Project> projects = new ArrayList<>();
             while (resultSet.next()) {
                 Project project = getProjectFromDB(resultSet);
@@ -151,7 +151,7 @@ public class ProjectDao implements IDao<Project> {
             resultSet.close();
             return projects;
         }
-        catch (SQLException | DaoException  e) {
+        catch (SQLException | DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when getting all projects from the database", e);
             throw new DaoException(e);
         }
@@ -188,7 +188,7 @@ public class ProjectDao implements IDao<Project> {
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection);
         preparedStatementHelper.setInt(ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.getPreparedStatement().executeQuery()) {
+        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
             if (resultSet.next()) {
                 return getProjectFromDB(resultSet);
             }

@@ -496,10 +496,10 @@ public class ProjectController extends HttpServlet {
         HttpSession session = req.getSession();
 
         Integer projectId = (Integer) session.getAttribute(PROJECT_ID);
-        Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.inspectProjectData(paramsList);
-        if (Utils.isBlankMap(errorsList)) {
-            Project theProject = getProject(paramsList);
+        Map<String, String> paramsMap = getDataFromForm(req);
+        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
+        if (errorsMap.isEmpty()) {
+            Project theProject = getProject(paramsMap);
             theProject.setId(projectId);
             Connection connection = ConnectionManipulator.getConnection();
             try {
@@ -519,7 +519,7 @@ public class ProjectController extends HttpServlet {
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
-            setDataToJspAfterValidation(req, paramsList, errorsList);
+            setDataToJspAfterValidation(req, paramsMap, errorsMap);
             session.setAttribute(PROJECT_ID, projectId);
             dispatcher.forward(req, resp);
         }
@@ -558,13 +558,13 @@ public class ProjectController extends HttpServlet {
     /**
      * Создает проект с полученными данными.
      *
-     * @param paramsList данные из формы
+     * @param paramsMap данные из формы
      * @return проект
      */
-    private static Project getProject(Map<String, String> paramsList) {
+    private static Project getProject(Map<String, String> paramsMap) {
         Project theProject = new Project();
-        theProject.setTitle(paramsList.get(TITLE_OF_PROJECT));
-        theProject.setDescription(paramsList.get(DESCRIPTION));
+        theProject.setTitle(paramsMap.get(TITLE_OF_PROJECT));
+        theProject.setDescription(paramsMap.get(DESCRIPTION));
         return theProject;
     }
 
@@ -575,10 +575,10 @@ public class ProjectController extends HttpServlet {
      * @return список данных
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
-        Map<String, String> paramsList = new HashMap<>();
-        paramsList.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
-        paramsList.put(DESCRIPTION, req.getParameter(DESCRIPTION));
-        return paramsList;
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
+        paramsMap.put(DESCRIPTION, req.getParameter(DESCRIPTION));
+        return paramsMap;
     }
 
     /**
@@ -593,17 +593,17 @@ public class ProjectController extends HttpServlet {
     private void addProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, DaoException, IOException {
 
-        Map<String, String> paramsList = getDataFromForm(req);
-        Map<String, String> errorsList = ValidationService.inspectProjectData(paramsList);
+        Map<String, String> paramsMap = getDataFromForm(req);
+        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
 
-        if (Utils.isBlankMap(errorsList)) {
-            Project theProject = getProject(paramsList);
+        if (errorsMap.isEmpty()) {
+            Project theProject = getProject(paramsMap);
             projectDAO.add(theProject, ConnectionManipulator.getConnection());
             resp.sendRedirect(PROJECTS);
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
-            setDataToJspAfterValidation(req, paramsList, errorsList);
+            setDataToJspAfterValidation(req, paramsMap, errorsMap);
             dispatcher.forward(req, resp);
         }
     }
@@ -612,14 +612,14 @@ public class ProjectController extends HttpServlet {
      * Вносит в форму введенные данные и сообщения об ошибках.
      *
      * @param req запрос
-     * @param paramsList данные из формы
-     * @param errorsList сообщения об ошибках
+     * @param paramsMap данные из формы
+     * @param errorsMap сообщения об ошибках
      */
     private void setDataToJspAfterValidation(HttpServletRequest req,
-        Map<String, String> paramsList, Map<String, String> errorsList) {
+        Map<String, String> paramsMap, Map<String, String> errorsMap) {
 
-        req.setAttribute("ERRORS", errorsList);
-        req.setAttribute(TITLE_OF_PROJECT, paramsList.get(TITLE_OF_PROJECT).trim());
-        req.setAttribute(DESCRIPTION, paramsList.get(DESCRIPTION).trim());
+        req.setAttribute("ERRORS", errorsMap);
+        req.setAttribute(TITLE_OF_PROJECT, paramsMap.get(TITLE_OF_PROJECT).trim());
+        req.setAttribute(DESCRIPTION, paramsMap.get(DESCRIPTION).trim());
     }
 }
