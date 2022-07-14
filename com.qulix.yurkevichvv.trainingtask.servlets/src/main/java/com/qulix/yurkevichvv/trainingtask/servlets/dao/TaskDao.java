@@ -127,8 +127,13 @@ public class TaskDao implements IDao<Task> {
     public void add(Task task, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
-            preparedStatementHelper.execute();
-            LOGGER.log(Level.INFO, "Created new task");
+            if (preparedStatementHelper.executeUpdate() > 0) {
+                LOGGER.log(Level.INFO, "Created new task");
+            }
+            else {
+                LOGGER.log(Level.INFO, "Task creation failed");
+
+            }
         }
         catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a task to the database", e);
@@ -144,8 +149,12 @@ public class TaskDao implements IDao<Task> {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             preparedStatementHelper.setInt(ID, task.getId());
-            preparedStatementHelper.execute();
-            LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
+            if (preparedStatementHelper.executeUpdate() > 0) {
+                LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
+            }
+            else {
+                LOGGER.log(Level.INFO, "Task with id {0} updating failed",  task.getId());
+            }
         }
         catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when updating a task in the database", e);
@@ -183,8 +192,12 @@ public class TaskDao implements IDao<Task> {
     public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_TASK_SQL, connection)) {
             preparedStatementHelper.setInt(ID, id);
-            preparedStatementHelper.execute();
-            LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
+            if (preparedStatementHelper.executeUpdate() > 0) {
+                LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
+            }
+            else {
+                LOGGER.log(Level.INFO, "Task with id {0} deleting failed", id);
+            }
         }
         catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when deleting a task from the database", e);

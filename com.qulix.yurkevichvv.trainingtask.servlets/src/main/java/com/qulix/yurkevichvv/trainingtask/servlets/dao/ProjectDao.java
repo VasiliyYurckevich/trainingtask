@@ -95,7 +95,12 @@ public class ProjectDao implements IDao<Project> {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
-            preparedStatementHelper.execute();
+            if (preparedStatementHelper.executeUpdate() > 0) {
+                LOGGER.log(Level.INFO, "Project created");
+            }
+            else {
+                LOGGER.log(Level.INFO, "Project creation failed");
+            }
         }
         catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when adding a project to the database", e);
@@ -112,8 +117,13 @@ public class ProjectDao implements IDao<Project> {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
             preparedStatementHelper.setInt(ID, project.getId());
-            preparedStatementHelper.execute();
-            LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
+            if (preparedStatementHelper.executeUpdate() > 0) {
+                LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
+            }
+            else {
+                LOGGER.log(Level.INFO, "Project with id {0} updating failed", project.getId());
+
+            }
         }
         catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when updating the project in the database", e);
@@ -125,7 +135,12 @@ public class ProjectDao implements IDao<Project> {
     public void delete(Integer id, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_PROJECT_SQL, connection)) {
             preparedStatementHelper.setInt(ID, id);
-            preparedStatementHelper.execute();
+            if (preparedStatementHelper.executeUpdate() > 0) {
+                LOGGER.log(Level.INFO, "Project with id {0} deleted", id);
+            }
+            else {
+                LOGGER.log(Level.INFO, "Project with id {0} deleting failed", id);
+            }
         }
         catch (DaoException e) {
             LOGGER.log(Level.SEVERE, "Error when deleting a project from the database", e);

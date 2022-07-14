@@ -40,8 +40,8 @@ public class FieldsValidation {
      * @param length максимальная длина строки
      * @return Строка с ошибкой или пустой строкой
      */
-    public static String checkValidityOfTheEnteredString(String s, int length) {
-        String error = checkFieldForEmptiness(s);
+    public static String checkString(String s, int length) {
+        String error = checkForEmptiness(s);
         if (error == null) {
             if (s.trim().length() > length) {
                 return String.format("Максимальная длинна ввода: %d символов", length);
@@ -56,8 +56,8 @@ public class FieldsValidation {
      * @param s Строка для валидации
      * @return Строка с ошибкой или пустой строкой
      */
-    public static String checkNumberValidity(String s) {
-        String error = checkFieldForEmptiness(s);
+    public static String checkNumber(String s) {
+        String error = checkForEmptiness(s);
         if (error == null) {
             try {
                 Integer.parseInt(s.trim());
@@ -74,7 +74,7 @@ public class FieldsValidation {
      *
      * @param s Строка для валидации
      */
-    private static String checkFieldForEmptiness(String s) {
+    private static String checkForEmptiness(String s) {
         if (s.isEmpty() || s.trim().length() == 0) {
             return "Поле для ввода не должно быть пустым";
         }
@@ -90,11 +90,11 @@ public class FieldsValidation {
      * @param endDate Дата окончания
      * @return Строка с ошибкой или пустой строкой
      */
-    public static Map<String, String> checkDateValidity(String beginDate, String endDate) {
+    public static Map<String, String> checkDate(String beginDate, String endDate) {
         Map<String, String> listErrors = new HashMap<>();
 
-        String beginDateError = isDateFormatValid(beginDate);
-        String endDateError = isDateFormatValid(endDate);
+        String beginDateError = checkDateFormatValid(beginDate);
+        String endDateError = checkDateFormatValid(endDate);
 
         if (beginDateError == null && endDateError == null) {
             endDateError = checkDateRangeCorrectness(beginDate, endDate);
@@ -126,7 +126,7 @@ public class FieldsValidation {
      * @param date Дата для проверки
      * @return true если дата валидная, false если нет
      */
-    private static String isDateFormatValid(String date) {
+    private static String checkDateFormatValid(String date) {
         try {
             LocalDate.parse(date , DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT));
         }

@@ -104,13 +104,13 @@ public class ValidationService {
     public static Map<String, String> checkEmployeeData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
         errorList.compute(SURNAME, (k, v) ->
-            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(SURNAME), SHORT_LENGTH));
+            FieldsValidation.checkString(paramsMap.get(SURNAME), SHORT_LENGTH));
         errorList.compute(FIRST_NAME, (k, v) ->
-            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(FIRST_NAME), SHORT_LENGTH));
+            FieldsValidation.checkString(paramsMap.get(FIRST_NAME), SHORT_LENGTH));
         errorList.compute(PATRONYMIC, (k, v) ->
-            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(PATRONYMIC), SHORT_LENGTH));
+            FieldsValidation.checkString(paramsMap.get(PATRONYMIC), SHORT_LENGTH));
         errorList.compute(POST,
-            (k, v) -> FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(POST), SHORT_LENGTH));
+            (k, v) -> FieldsValidation.checkString(paramsMap.get(POST), SHORT_LENGTH));
         return errorList;
     }
 
@@ -123,9 +123,9 @@ public class ValidationService {
     public static Map<String, String> checkProjectData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
         errorList.compute(TITLE_OF_PROJECT, (k, v) ->
-            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(TITLE_OF_PROJECT), SHORT_LENGTH));
+            FieldsValidation.checkString(paramsMap.get(TITLE_OF_PROJECT), SHORT_LENGTH));
         errorList.compute(DESCRIPTION, (k, v) ->
-            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(DESCRIPTION), LONG_LENGTH));
+            FieldsValidation.checkString(paramsMap.get(DESCRIPTION), LONG_LENGTH));
         return errorList;
     }
 
@@ -138,12 +138,12 @@ public class ValidationService {
     public static Map<String, String> checkTaskData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>();
         errorList.compute(STATUS, (k, v) ->
-            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(STATUS), SHORT_LENGTH));
+            FieldsValidation.checkString(paramsMap.get(STATUS), SHORT_LENGTH));
         errorList.compute(TITLE, (k, v) ->
-            FieldsValidation.checkValidityOfTheEnteredString(paramsMap.get(TITLE), SHORT_LENGTH));
+            FieldsValidation.checkString(paramsMap.get(TITLE), SHORT_LENGTH));
         errorList.compute(WORK_TIME, (k, v) ->
-            FieldsValidation.checkNumberValidity(paramsMap.get(WORK_TIME)));
-        errorList.putAll(FieldsValidation.checkDateValidity(paramsMap.get(BEGIN_DATE), paramsMap.get(END_DATE)));
+            FieldsValidation.checkNumber(paramsMap.get(WORK_TIME)));
+        errorList.putAll(FieldsValidation.checkDate(paramsMap.get(BEGIN_DATE), paramsMap.get(END_DATE)));
         return errorList;
     }
 
