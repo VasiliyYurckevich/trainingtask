@@ -211,7 +211,7 @@ public class PreparedStatementHelper implements AutoCloseable {
     /**
      * Выполняет SQL-оператор по изменению записией.
      */
-    public Integer executeUpdate() {
+        public Integer executeUpdate() {
         try {
             return this.preparedStatement.executeUpdate();
         }

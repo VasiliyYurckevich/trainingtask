@@ -21,6 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -508,14 +509,14 @@ public class ProjectController extends HttpServlet {
                 updateTasksFromProjectEditing(taskDao, connection, session, projectId);
                 ConnectionManipulator.commitConnection(connection);
             }
-            catch (Exception e) {
+            catch (SQLException e) {
+                ConnectionManipulator.rollbackConnection(connection);
                 LOGGER.log(Level.SEVERE, "Exception trying create transaction", e);
                 throw new DaoException(e);
             }
             finally {
-                ConnectionManipulator.closeConnection(connection);
+                resp.sendRedirect(PROJECTS);
             }
-            resp.sendRedirect(PROJECTS);
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);

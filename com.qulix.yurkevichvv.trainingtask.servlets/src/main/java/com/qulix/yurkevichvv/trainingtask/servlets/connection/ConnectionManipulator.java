@@ -95,7 +95,7 @@ public class ConnectionManipulator {
     }
 
     /**
-     * Операция, отправляющая транзакцию в БД.
+     * Отправляет транзакцию в БД.
      *
      * @param connection соединение
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
@@ -108,6 +108,26 @@ public class ConnectionManipulator {
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "ConnectionManipulator commitConnection() error", e);
             throw new DaoException("Error commit transaction", e);
+        }
+    }
+
+    /**
+     * Отменяет все изменения в транзакции.
+     *
+     * @param connection соединение
+     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     */
+    public static void rollbackConnection(Connection connection) {
+        try {
+            connection.setAutoCommit(true);
+            connection.rollback();
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "ConnectionManipulator rollbackConnection() error", e);
+            throw new DaoException("Error rollback transaction", e);
+        }
+        finally {
+            ConnectionManipulator.closeConnection(connection);
         }
     }
 }
