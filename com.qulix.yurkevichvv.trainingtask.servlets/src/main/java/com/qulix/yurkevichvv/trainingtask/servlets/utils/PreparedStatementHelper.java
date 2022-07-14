@@ -196,7 +196,7 @@ public class PreparedStatementHelper implements AutoCloseable {
     }
 
     /**
-     * Выполняет SQL-запрос по получению данных из БД
+     * Выполняет SQL-запрос по получению данных из БД.
      */
     public ResultSet executeQuery() {
         try {
@@ -209,9 +209,9 @@ public class PreparedStatementHelper implements AutoCloseable {
     }
 
     /**
-     * Выполняет SQL-оператор по изменению записией.
+     * Выполняет SQL-оператор по изменению записей.
      */
-        public Integer executeUpdate() {
+    public Integer executeUpdate() {
         try {
             return this.preparedStatement.executeUpdate();
         }
