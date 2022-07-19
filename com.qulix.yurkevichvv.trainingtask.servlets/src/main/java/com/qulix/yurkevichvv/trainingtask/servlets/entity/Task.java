@@ -136,15 +136,9 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task " +
-            "id=" + id +
-            ", status='" + status +
-            ", title='" + title +
-            ", workTime=" + workTime +
-            ", beginDate=" + beginDate +
-            ", endDate=" + endDate +
-            ", project_id=" + projectId +
-            ", employee_id=" + employeeId;
+        return String.format("Task id = %d,  status = %s, title = %s, workTime = %d, beginDate = %s, endDate = %s," +
+                " projectId = %d, employeeId = %d", id, status.getStatusTitle(), title, workTime, beginDate.toString(),
+                endDate.toString(), projectId, employeeId);
     }
 
     @Override

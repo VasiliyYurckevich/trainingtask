@@ -29,11 +29,6 @@ import java.util.Objects;
 public class Employee {
 
     /**
-     * Пробел.
-     */
-    public static final String SPACE = " ";
-
-    /**
      * Идентификатор сотрудника.
      */
     private Integer id;
@@ -101,11 +96,8 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee id=" + id +
-            ", surname=" + surname +
-            ", firstName=" + firstName +
-            ", patronymic=" + patronymic +
-            ", post=" + post;
+        return String.format("Employee id = %d, surname = %s, firstName = %s, patronymic = %s, post = %s",
+                id, surname, firstName, patronymic, post);
     }
 
     public String getFullName() {

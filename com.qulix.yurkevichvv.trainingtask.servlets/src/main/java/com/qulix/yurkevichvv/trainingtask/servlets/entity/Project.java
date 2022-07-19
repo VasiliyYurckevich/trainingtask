@@ -69,9 +69,7 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project id=" + id +
-            ", title=" + title +
-            ", description=" + description;
+        return String.format("Project id = %d, title = %s, description = %s", id, title, description);
     }
 
     @Override

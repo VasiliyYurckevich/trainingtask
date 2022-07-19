@@ -519,9 +519,9 @@ public class TaskController extends HttpServlet {
         List<Project> projects = new ProjectDao().getAll();
         List<String> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();
-        for (Task t: tasks) {
-            setEmployeeList(employeeOfTask, t);
-            Project project = new ProjectDao().getById(t.getProjectId());
+        for (Task task : tasks) {
+            setEmployeeList(employeeOfTask, task);
+            Project project = new ProjectDao().getById(task.getProjectId());
             projectsOfTask.add(project);
         }
         req.setAttribute(PROJECT_LIST, projects);
