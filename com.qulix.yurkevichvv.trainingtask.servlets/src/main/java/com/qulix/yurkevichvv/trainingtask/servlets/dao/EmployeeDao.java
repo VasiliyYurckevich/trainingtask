@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper;
@@ -119,7 +119,7 @@ public class EmployeeDao implements IDao<Employee> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -144,7 +144,7 @@ public class EmployeeDao implements IDao<Employee> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -164,7 +164,7 @@ public class EmployeeDao implements IDao<Employee> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -172,7 +172,7 @@ public class EmployeeDao implements IDao<Employee> {
     public List<Employee> getAll() throws DaoException {
 
         List<Employee> employees = new ArrayList<>();
-        Connection connection = ConnectionManipulator.getConnection();
+        Connection connection = ConnectionController.getConnection();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_CLIENT, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -189,14 +189,14 @@ public class EmployeeDao implements IDao<Employee> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
     @Override
     public Employee getById(Integer id) throws DaoException {
 
-        Connection connection = ConnectionManipulator.getConnection();
+        Connection connection = ConnectionController.getConnection();
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_EMPLOYEE_BY_ID, connection)) {
             preparedStatementHelper.setInt(ID, id);
 
@@ -215,7 +215,7 @@ public class EmployeeDao implements IDao<Employee> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 

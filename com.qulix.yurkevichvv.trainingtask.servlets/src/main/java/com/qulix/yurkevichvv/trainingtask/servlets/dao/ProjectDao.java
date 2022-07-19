@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper;
@@ -107,7 +107,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -147,14 +147,14 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
     @Override
     public List<Project> getAll() throws DaoException {
 
-        Connection connection = ConnectionManipulator.getConnection();
+        Connection connection = ConnectionController.getConnection();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_PROJECTS, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -170,7 +170,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -198,7 +198,7 @@ public class ProjectDao implements IDao<Project> {
     @Override
     public Project getById(Integer id) throws DaoException {
 
-        Connection connection = ConnectionManipulator.getConnection();
+        Connection connection = ConnectionController.getConnection();
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection)) {
             preparedStatementHelper.setInt(ID, id);
 
@@ -216,7 +216,7 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 }

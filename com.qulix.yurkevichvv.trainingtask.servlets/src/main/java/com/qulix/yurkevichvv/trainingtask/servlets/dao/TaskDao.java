@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
@@ -140,7 +140,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -153,7 +153,7 @@ public class TaskDao implements IDao<Task> {
                 LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
             }
             else {
-                LOGGER.log(Level.INFO, "Task with id {0} updating failed",  task.getId());
+                LOGGER.log(Level.INFO, "Task with id {0} updating failed", task.getId());
             }
         }
         catch (DaoException e) {
@@ -161,7 +161,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -204,7 +204,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -217,7 +217,7 @@ public class TaskDao implements IDao<Task> {
      */
     public List<Task> getTasksInProject(Integer id) throws DaoException {
 
-        Connection connection = ConnectionManipulator.getConnection();
+        Connection connection = ConnectionController.getConnection();
         List<Task> tasks = new ArrayList<>();
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection);
         preparedStatementHelper.setInt(PROJECT_ID, id);
@@ -231,14 +231,14 @@ public class TaskDao implements IDao<Task> {
         }
         finally {
             preparedStatementHelper.close();
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
     @Override
     public List<Task> getAll() throws DaoException {
 
-        Connection connection = ConnectionManipulator.getConnection();
+        Connection connection = ConnectionController.getConnection();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_TASK, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -250,7 +250,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -280,7 +280,7 @@ public class TaskDao implements IDao<Task> {
     @Override
     public Task getById(Integer id) throws DaoException {
 
-        Connection connection = ConnectionManipulator.getConnection();
+        Connection connection = ConnectionController.getConnection();
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection)) {
             preparedStatementHelper.setInt(ID, id);
 
@@ -300,7 +300,7 @@ public class TaskDao implements IDao<Task> {
             throw new DaoException(e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 

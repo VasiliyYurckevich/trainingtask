@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
@@ -270,7 +270,7 @@ public class TaskController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Task task = getTask(paramsMap);
             task.setId(taskId);
-            taskDao.update(task, ConnectionManipulator.getConnection());
+            taskDao.update(task, ConnectionController.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {
@@ -449,7 +449,7 @@ public class TaskController extends HttpServlet {
         throws DaoException, IOException {
 
         String taskId = req.getParameter(TASK_ID);
-        taskDao.delete(Integer.parseInt(taskId), ConnectionManipulator.getConnection());
+        taskDao.delete(Integer.parseInt(taskId), ConnectionController.getConnection());
         resp.sendRedirect(TASKS);
     }
 
@@ -470,7 +470,7 @@ public class TaskController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Task task = getTask(paramsMap);
-            taskDao.add(task, ConnectionManipulator.getConnection());
+            taskDao.add(task, ConnectionController.getConnection());
             resp.sendRedirect(TASKS);
         }
         else {

@@ -32,7 +32,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
  *
  * @author Q-YVV
  */
-public class ConnectionManipulator {
+public class ConnectionController {
 
     /**
      * Хранит константу названия драйвера JDBC.
@@ -57,7 +57,7 @@ public class ConnectionManipulator {
     /**
      * Логгер для записи событий.
      */
-    private static final Logger LOGGER = Logger.getLogger(ConnectionManipulator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConnectionController.class.getName());
 
     /**
      * Устанавливает соединение с БД.
@@ -71,7 +71,7 @@ public class ConnectionManipulator {
             return DriverManager.getConnection(PATH, USER, PASS);
         }
         catch (ClassNotFoundException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionManipulator getConnection() error", e);
+            LOGGER.log(Level.SEVERE, "ConnectionController getConnection() error", e);
             throw new DaoException("The database is temporarily unavailable. Try again later", e);
         }
     }
@@ -89,7 +89,7 @@ public class ConnectionManipulator {
             }
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionManipulator closeConnection() error", e);
+            LOGGER.log(Level.SEVERE, "ConnectionController closeConnection() error", e);
             throw new DaoException("Error closing the database connection", e);
         }
     }
@@ -106,7 +106,7 @@ public class ConnectionManipulator {
             connection.setAutoCommit(true);
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionManipulator commitConnection() error", e);
+            LOGGER.log(Level.SEVERE, "ConnectionController commitConnection() error", e);
             throw new DaoException("Error commit transaction", e);
         }
     }
@@ -123,11 +123,11 @@ public class ConnectionManipulator {
             connection.rollback();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionManipulator rollbackConnection() error", e);
+            LOGGER.log(Level.SEVERE, "ConnectionController rollbackConnection() error", e);
             throw new DaoException("Error rollback transaction", e);
         }
         finally {
-            ConnectionManipulator.closeConnection(connection);
+            ConnectionController.closeConnection(connection);
         }
     }
 }

@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
@@ -410,7 +410,7 @@ public class ProjectController extends HttpServlet {
         throws DaoException, IOException {
 
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
-        projectDAO.delete(projectId, ConnectionManipulator.getConnection());
+        projectDAO.delete(projectId, ConnectionController.getConnection());
         resp.sendRedirect(PROJECTS);
     }
 
@@ -502,15 +502,15 @@ public class ProjectController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Project theProject = getProject(paramsMap);
             theProject.setId(projectId);
-            Connection connection = ConnectionManipulator.getConnection();
+            Connection connection = ConnectionController.getConnection();
             try {
                 connection.setAutoCommit(false);
                 projectDAO.update(theProject, connection);
                 updateTasksFromProjectEditing(taskDao, connection, session, projectId);
-                ConnectionManipulator.commitConnection(connection);
+                ConnectionController.commitConnection(connection);
             }
             catch (SQLException e) {
-                ConnectionManipulator.rollbackConnection(connection);
+                ConnectionController.rollbackConnection(connection);
                 LOGGER.log(Level.SEVERE, "Exception trying create transaction", e);
                 throw new DaoException(e);
             }
@@ -599,7 +599,7 @@ public class ProjectController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Project theProject = getProject(paramsMap);
-            projectDAO.add(theProject, ConnectionManipulator.getConnection());
+            projectDAO.add(theProject, ConnectionController.getConnection());
             resp.sendRedirect(PROJECTS);
         }
         else {

@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionManipulator;
+import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
@@ -227,7 +227,7 @@ public class EmployeeController extends HttpServlet {
         throws DaoException, IOException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        employeeDao.delete(employeeId, ConnectionManipulator.getConnection());
+        employeeDao.delete(employeeId, ConnectionController.getConnection());
         resp.sendRedirect(EMPLOYEES_LIST);
     }
 
@@ -251,7 +251,7 @@ public class EmployeeController extends HttpServlet {
             req.setAttribute(EMPLOYEE_ID, employeeId);
             Employee theEmployee = getEmployee(paramsMap);
             theEmployee.setId(employeeId);
-            employeeDao.update(theEmployee, ConnectionManipulator.getConnection());
+            employeeDao.update(theEmployee, ConnectionController.getConnection());
             resp.sendRedirect(EMPLOYEES_LIST);
 
         }
@@ -325,7 +325,7 @@ public class EmployeeController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Employee employee = getEmployee(paramsMap);
-            employeeDao.add(employee, ConnectionManipulator.getConnection());
+            employeeDao.add(employee, ConnectionController.getConnection());
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
