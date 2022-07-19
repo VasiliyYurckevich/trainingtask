@@ -98,7 +98,6 @@ public class EmployeeDao implements IDao<Employee> {
      */
     private static final String ID = "id";
 
-
     @Override
     public void add(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_EMPLOYEE_SQL, connection)) {

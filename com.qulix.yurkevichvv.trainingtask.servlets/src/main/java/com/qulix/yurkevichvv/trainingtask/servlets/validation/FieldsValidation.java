@@ -38,7 +38,7 @@ public class FieldsValidation {
      *
      * @param s Строка для валидации
      * @param length максимальная длина строки
-     * @return Строка с ошибкой или пустой строкой
+     * @return строка-сообщение об ошибке либо null
      */
     public static String checkString(String s, int length) {
         String error = checkForEmptiness(s);
@@ -54,7 +54,7 @@ public class FieldsValidation {
      * Проверяет численное поле.
      *
      * @param s Строка для валидации
-     * @return Строка с ошибкой или пустой строкой
+     * @return строка-сообщение об ошибке либо null
      */
     public static String checkNumber(String s) {
         String error = checkForEmptiness(s);
@@ -73,6 +73,7 @@ public class FieldsValidation {
      * Проверяет поле на пустоту.
      *
      * @param s Строка для валидации
+     * @return строка-сообщение об ошибке либо null
      */
     private static String checkForEmptiness(String s) {
         if (s.isEmpty() || s.trim().length() == 0) {
@@ -110,6 +111,7 @@ public class FieldsValidation {
      *
      * @param beginDate Дата начала
      * @param endDate Дата окончания
+     * @return строка-сообщение об ошибке либо null
      */
     private static String checkDateRangeCorrectness(String beginDate, String endDate) {
         LocalDate parsedBeginDate = LocalDate.parse(beginDate);
@@ -124,7 +126,7 @@ public class FieldsValidation {
      * Проверят формат и существование даты.
      *
      * @param date Дата для проверки
-     * @return true если дата валидная, false если нет
+     * @return строка-сообщение об ошибке либо null
      */
     private static String checkDateFormatValid(String date) {
         try {

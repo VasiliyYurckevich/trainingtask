@@ -69,7 +69,6 @@ public class Task {
      */
     private Integer employeeId;
 
-
     public Integer getId() {
         return id;
     }

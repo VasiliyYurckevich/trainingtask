@@ -191,12 +191,10 @@ public class PreparedStatementHelper implements AutoCloseable {
         return this.parametersMap.get(COLON + name);
     }
 
-    public PreparedStatement getPreparedStatement() {
-        return preparedStatement;
-    }
-
     /**
      * Выполняет SQL-запрос по получению данных из БД.
+     *
+     * @return объект результирующего набора, содержащий данные, полученные в результате запроса
      */
     public ResultSet executeQuery() {
         try {
@@ -210,6 +208,8 @@ public class PreparedStatementHelper implements AutoCloseable {
 
     /**
      * Выполняет SQL-оператор по изменению записей.
+     *
+     * @return количество обновленных строк
      */
     public Integer executeUpdate() {
         try {
@@ -218,19 +218,6 @@ public class PreparedStatementHelper implements AutoCloseable {
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception executeUpdate() PrepareStatementHelper", e);
             throw new DaoException("Error when try executeUpdate() PrepareStatement", e);
-        }
-    }
-
-    /**
-     * Выполняет SQL-запрос.
-     */
-    public void execute() {
-        try {
-            this.preparedStatement.execute();
-        }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception execute() PrepareStatementHelper", e);
-            throw new DaoException("Error when try execute() PrepareStatement", e);
         }
     }
 

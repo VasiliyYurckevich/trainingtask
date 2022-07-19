@@ -40,7 +40,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper
  * @see Project
  */
 public class ProjectDao implements IDao<Project> {
-    
 
     /**
      * Хранит константу для колонки ID проекта в БД.
@@ -87,8 +86,6 @@ public class ProjectDao implements IDao<Project> {
      */
     private static final String UPDATE_PROJECT_SQL = 
         "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
-
-
 
     @Override
     public void add(Project project, Connection connection) throws DaoException {

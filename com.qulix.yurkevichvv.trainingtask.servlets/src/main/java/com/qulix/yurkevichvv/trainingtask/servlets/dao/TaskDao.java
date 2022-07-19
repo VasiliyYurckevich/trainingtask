@@ -122,7 +122,6 @@ public class TaskDao implements IDao<Task> {
         " work_time = :work_time, begin_date = :begin_date, end_date = :end_date, project_id = :project_id," +
         " employee_id = :employee_id WHERE id = :id;";
 
-
     @Override
     public void add(Task task, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {

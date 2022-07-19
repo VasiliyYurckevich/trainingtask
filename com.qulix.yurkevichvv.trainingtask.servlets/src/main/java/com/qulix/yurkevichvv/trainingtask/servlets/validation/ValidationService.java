@@ -98,8 +98,8 @@ public class ValidationService {
     /**
      * Проверяет вводимые данные о сотруднике.
      *
-     * @param paramsMap Список параметров для валидации
-     * @return Список ошибок
+     * @param paramsMap Map, где ключ - имя соответствующего поля Employee, значение - введенное пользователем значение
+     * @return Map, где ключ - имя соответствующего поля Employee, значение - сообщение об ошибке для данного поля
      */
     public static Map<String, String> checkEmployeeData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
@@ -117,8 +117,8 @@ public class ValidationService {
     /**
      * Проверяет вводимые данные о проекте.
      *
-     * @param paramsMap Список параметров для валидации
-     * @return Список ошибок
+     * @param paramsMap Map, где ключ - имя соответствующего поля Project, значение - введенное пользователем значение
+     * @return Map, где ключ - имя соответствующего поля Project, значение - сообщение об ошибке для данного поля
      */
     public static Map<String, String> checkProjectData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
@@ -132,8 +132,8 @@ public class ValidationService {
     /**
      * Проверяет вводимые данные о задаче.
      *
-     * @param paramsMap Список параметров для валидации
-     * @return Список ошибок
+     * @param paramsMap Map, где ключ - имя соответствующего поля Task, значение - введенное пользователем значение
+     * @return Map, где ключ - имя соответствующего поля Task, значение - сообщение об ошибке для данного поля
      */
     public static Map<String, String> checkTaskData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>();

@@ -53,7 +53,6 @@ public class Employee {
      */
     private String post;
 
-
     public Integer getId() {
         return id;
     }
