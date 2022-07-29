@@ -9,4 +9,7 @@ gradle.ext.dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;sql.syntax_mys=true"
 gradle.ext.dbDrive = "org.hsqldb.jdbc.JDBCDriver"
 
 include 'com.qulix.yurkevichvv.trainingtask.servlets'
+include 'com.qulix.yurkevichvv.trainingtask.wicket'
+include 'com.qulix.yurkevichvv.trainingtask.wicket'
+findProject(':com.qulix.yurkevichvv.trainingtask.wicket')?.name = 'trainingtask.wicket'
 

@@ -15,14 +15,14 @@ plugins {
     id 'war'
     id "com.bmuschko.tomcat" version "2.7.0"
 }
-group 'com.qulix.yurkevichvv'
+group 'com.qulix.yurkevichvv.trainingtask'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-ext {6
+ext {
     junitVersion = '5.8.2'
 }
 
