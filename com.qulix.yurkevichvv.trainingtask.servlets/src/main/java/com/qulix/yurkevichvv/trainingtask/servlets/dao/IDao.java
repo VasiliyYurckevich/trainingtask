@@ -39,6 +39,7 @@ public interface IDao<T> {
      */
     void add(T t, Connection connection) throws DaoException;
 
+
     /**
      * Обновляет сущность в БД.
      *

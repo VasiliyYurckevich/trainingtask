@@ -131,7 +131,6 @@ public class TaskDao implements IDao<Task> {
             }
             else {
                 LOGGER.log(Level.INFO, "Task creation failed");
-
             }
         }
         catch (DaoException e) {

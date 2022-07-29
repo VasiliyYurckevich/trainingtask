@@ -119,7 +119,6 @@ public class ProjectDao implements IDao<Project> {
             }
             else {
                 LOGGER.log(Level.INFO, "Project with id {0} updating failed", project.getId());
-
             }
         }
         catch (DaoException e) {
