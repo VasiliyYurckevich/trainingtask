@@ -1,0 +1,58 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.hsqldb:hsqldb:${gradle.hsqldbVersion}"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'war'
+    id "com.bmuschko.tomcat" version "2.7.0"
+}
+group 'com.qulix.yurkevichvv.trainingtask'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.8.2'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
+}
+
+dependencies {
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.hsqldb:hsqldb:2.5.1'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.11'
+    compileOnly('javax:javaee-web-api:8.0.1')
+    implementation 'org.apache.wicket:wicket-core:9.9.1'
+    testImplementation 'junit:junit:4.11'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+sourceSets {
+    main {
+        resources {
+            srcDirs += ['src/main/java']
+            includes = ["**"]
+        }
+    }
+}
