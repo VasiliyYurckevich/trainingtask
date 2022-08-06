@@ -54,3 +54,11 @@ test {
 apply from: 'databaseManipulationScripts.gradle'
 
 
+sourceSets {
+    main {
+        resources {
+            srcDirs += ['com.qulix.yurkevichvv.trainingtask.wicket/src/main/java']
+            includes = ["**/*.html"]
+        }
+    }
+}
