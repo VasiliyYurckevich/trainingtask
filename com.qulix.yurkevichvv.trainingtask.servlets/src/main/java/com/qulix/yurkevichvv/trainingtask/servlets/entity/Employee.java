@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -26,7 +27,10 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Employee {
+public class Employee implements Serializable {
+
+    private static final long  serialVersionUID = 1234567L;
+
 
     /**
      * Идентификатор сотрудника.

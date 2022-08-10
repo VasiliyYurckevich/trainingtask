@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -27,7 +28,9 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Task {
+public class Task implements Serializable {
+
+    private static final long  serialVersionUID = 3456L;
 
     /**
      * Идентификатор задачи.

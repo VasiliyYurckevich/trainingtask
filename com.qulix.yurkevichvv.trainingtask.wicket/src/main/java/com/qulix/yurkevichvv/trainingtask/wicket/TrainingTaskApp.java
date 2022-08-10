@@ -1,11 +1,12 @@
 package com.qulix.yurkevichvv.trainingtask.wicket;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.HomePage;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 
-public class    HelloWorldApp extends WebApplication {
+public class TrainingTaskApp extends WebApplication {
 
-    public HelloWorldApp() {
+    public TrainingTaskApp() {
     }
 
     @Override
@@ -13,8 +14,10 @@ public class    HelloWorldApp extends WebApplication {
         return HomePage.class;
     }
 
+    @Override
     protected void init() {
         super.init();
+        getCspSettings().blocking().disabled();
     }
 }
 

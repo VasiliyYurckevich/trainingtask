@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+    <head>
+        <title>Wicket Examples - echo</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <wicket:extend>
+                <button class="add-button" wicket:id="addEmployee">Добавить</button>
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>Фамилия</th>
+                        <th>Имя</th>
+                        <th>Отчество</th>
+                        <th>Должность</th>
+                        <th>Действия</th>
+                    </tr>
+                    <tr wicket:id="employees">
+                        <td wicket:id="surname"></td>
+                        <td wicket:id="firstName"></td>
+                        <td wicket:id="patronymic"></td>
+                        <td wicket:id="post"></td>
+                        <td>
+                            <a href wicket:id="editLink">Редактировать</a>
+                            <a href wicket:id="deleteLink">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </wicket:extend>
+    </body>
+</html>
