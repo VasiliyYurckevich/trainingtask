@@ -97,12 +97,6 @@ public class Employee implements Serializable {
         this.post = post;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Employee id = %d, surname = %s, firstName = %s, patronymic = %s, post = %s",
-                id, surname, firstName, patronymic, post);
-    }
-
     public String getFullName() {
         return String.format("%s %s %s", surname, firstName, patronymic);
     }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+    <body>
+        <wicket:extend>
+            <div class="container">
+                <div class="chief">
+                    <div id="container" class="main">
+                        <form wicket:id="addTaskForm">
+                            <input type="submit" class="add-button" value="Сохранить"/>
+                            <div class="field">
+                                <label>Статус:</label>
+                                <select wicket:id="statuses"></select>
+                            </div>
+                            <div class="field">
+                                <label>Наименование:</label>
+                                <input type="text" wicket:id="title"/>
+                            </div>
+                            <div class="field">
+                                <label>workTime:</label>
+                                <input type="text" wicket:id="workTime"/>
+                            </div>
+                            <div class="field">
+                                <label>beginDate:</label>
+                                <input type="text" wicket:id="beginDate"/>
+                            </div>
+                            <div class="field">
+                                <label>endDate:</label>
+                                <input type="text" wicket:id="endDate"/>
+                            </div>
+                            <div class="field">
+                                <label>Проект:</label>
+                                <select wicket:id="projects"></select>
+                            </div>
+                            <div class="field">
+                                <label>Сотрудник:</label>
+                                <select wicket:id="employees"></select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </wicket:extend>
+        </body>
+</html>

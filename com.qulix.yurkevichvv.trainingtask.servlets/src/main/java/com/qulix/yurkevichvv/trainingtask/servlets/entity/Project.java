@@ -71,11 +71,6 @@ public class Project implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return String.format("Project id = %d, title = %s, description = %s", id, title, description);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

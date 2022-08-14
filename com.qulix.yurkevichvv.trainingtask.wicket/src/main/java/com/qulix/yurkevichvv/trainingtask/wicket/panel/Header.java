@@ -1,8 +1,8 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.panel;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.EmployeesListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.ProjectsListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.TasksListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
