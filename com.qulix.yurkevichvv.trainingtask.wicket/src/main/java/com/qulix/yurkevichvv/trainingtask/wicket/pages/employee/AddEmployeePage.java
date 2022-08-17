@@ -18,7 +18,7 @@ public class AddEmployeePage extends BasePage {
         EmployeeForm employeeForm = new EmployeeForm("addEmployeeForm"){
             @Override
             protected void onSubmit() {
-                employeeDao.add(this.getEmployee(), ConnectionController.getConnection());
+                employeeDao.add(getModelObject(), ConnectionController.getConnection());
                 setResponsePage(EmployeesListPage.class);
             }
         };

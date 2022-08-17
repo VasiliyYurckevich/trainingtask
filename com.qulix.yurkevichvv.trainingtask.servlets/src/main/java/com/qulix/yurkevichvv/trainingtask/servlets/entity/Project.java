@@ -34,7 +34,7 @@ public class Project implements Serializable {
     /**
      * Идентификатор проекта.
      */
-    private int id;
+    private Integer id;
 
     /**
      * Название проекта.
@@ -68,6 +68,15 @@ public class Project implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 
     @Override

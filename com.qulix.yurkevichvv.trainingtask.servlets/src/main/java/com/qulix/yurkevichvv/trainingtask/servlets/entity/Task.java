@@ -137,6 +137,20 @@ public class Task implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", status=" + status +
+                ", title='" + title + '\'' +
+                ", workTime=" + workTime +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", projectId=" + projectId +
+                ", employeeId=" + employeeId +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

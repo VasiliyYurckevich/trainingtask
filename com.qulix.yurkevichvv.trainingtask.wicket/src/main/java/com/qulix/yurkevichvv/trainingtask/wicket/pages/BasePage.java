@@ -8,11 +8,8 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class BasePage extends WebPage {
 
     public BasePage() {
-        super();
-        add(new Label("pageTitle", ""));
-
+        this(new PageParameters());
     }
-
 
     public BasePage(final PageParameters parameters) {
         super(parameters);

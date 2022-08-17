@@ -9,6 +9,7 @@ public class EmployeeForm extends Form<Employee> {
     public EmployeeForm(String id) {
         super(id, new CompoundPropertyModel<>(new Employee()));
     }
+
     public EmployeeForm(String id,  Employee employee) {
         super(id, new CompoundPropertyModel<>(employee));
     }
@@ -16,10 +17,5 @@ public class EmployeeForm extends Form<Employee> {
     @Override
     protected void onSubmit() {
 
-    }
-
-    protected Employee getEmployee(){
-        Employee employee = getModelObject();
-        return employee;
     }
 }

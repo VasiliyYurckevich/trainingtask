@@ -7,6 +7,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Status;
+import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.forms.TaskForm;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
@@ -19,19 +20,18 @@ import org.apache.wicket.model.PropertyModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AddTaskPage extends BasePage {
+public class EditTaskPage extends BasePage {
 
     private ProjectDao projectDao = new ProjectDao();
     private EmployeeDao employeeDao = new EmployeeDao();
     private TaskDao taskDao = new TaskDao();
 
-    public AddTaskPage() {
-        super();
-        get("pageTitle").setDefaultModelObject("Добавить задачу");
-        TaskForm taskForm = new TaskForm("addTaskForm"){
+    public EditTaskPage(final Task task) {
+        get("pageTitle").setDefaultModelObject("Редактировать задачу");
+        TaskForm taskForm = new TaskForm("addTaskForm", task){
             @Override
             protected void onSubmit() {
-                taskDao.add(getModelObject(), ConnectionController.getConnection());
+                taskDao.update(getModelObject(), ConnectionController.getConnection());
                 setResponsePage(TasksListPage.class);
             }
         };
@@ -42,7 +42,7 @@ public class AddTaskPage extends BasePage {
         taskForm.add(titleField);
         taskForm.add(new RequiredTextField<Integer>("workTime"));
         taskForm.add(new LocalDateTextField("beginDate",
-            new PropertyModel<>(taskForm.getModelObject(), "beginDate"),"yyyy-MM-dd"));
+                new PropertyModel<>(taskForm.getModelObject(), "beginDate"),"yyyy-MM-dd"));
         taskForm.add(new LocalDateTextField("endDate", new PropertyModel<>(taskForm.getModelObject(), "endDate"),"yyyy-MM-dd"));
         DropDownChoice projectDropDownChoice = new DropDownChoice<Integer>("projects", new PropertyModel(taskForm.getModelObject(), "projectId"),
                 projectDao.getAll().stream().map(Project::getId).collect(Collectors.toList()), new ChoiceRenderer<Integer>(){
@@ -53,7 +53,7 @@ public class AddTaskPage extends BasePage {
         });
         taskForm.add(projectDropDownChoice);
         taskForm.add(new DropDownChoice<Integer>("employees", new PropertyModel(taskForm.getModelObject(), "employeeId"),
-            employeeDao.getAll().stream().map(Employee::getId).collect(Collectors.toList()), new ChoiceRenderer<Integer>() {
+                employeeDao.getAll().stream().map(Employee::getId).collect(Collectors.toList()), new ChoiceRenderer<Integer>() {
             @Override
             public String getDisplayValue(Integer id)
             {

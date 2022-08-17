@@ -31,7 +31,6 @@ public class Employee implements Serializable {
 
     private static final long  serialVersionUID = 1234567L;
 
-
     /**
      * Идентификатор сотрудника.
      */
@@ -99,6 +98,17 @@ public class Employee implements Serializable {
 
     public String getFullName() {
         return String.format("%s %s %s", surname, firstName, patronymic);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", post='" + post + '\'' +
+                '}';
     }
 
     @Override
