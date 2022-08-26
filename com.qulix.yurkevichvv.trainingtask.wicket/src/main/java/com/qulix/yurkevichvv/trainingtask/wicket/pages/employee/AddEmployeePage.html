@@ -5,26 +5,7 @@
             <div class="container">
                 <div class="chief">
                     <div id="container" class="main">
-                        <h3>Добавить сотрудника</h3>
-                        <form wicket:id="addEmployeeForm">
-                            <input type="submit" class="add-button" value="Сохранить"/>
-                            <div class="field">
-                                <label>Фамилия:</label>
-                                <input type="text" wicket:id="surname"/>
-                            </div>
-                            <div class="field">
-                                <label>Имя:</label>
-                                <input type="text" wicket:id="firstName"/>
-                            </div>
-                            <div class="field">
-                                <label>Отчество:</label>
-                                <input type="text" wicket:id="patronymic"/>
-                            </div>
-                            <div class="field">
-                                <label>Должность:</label>
-                                <input type="text" wicket:id="post"/>
-                            </div>
-                        </form>
+                        <div wicket:id="employeeFormPanel"/>
                     </div>
                 </div>
             </div>

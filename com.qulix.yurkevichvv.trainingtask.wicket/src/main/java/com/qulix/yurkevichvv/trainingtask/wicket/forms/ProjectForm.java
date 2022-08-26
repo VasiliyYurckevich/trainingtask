@@ -9,6 +9,7 @@ public class ProjectForm extends Form<Project> {
     public ProjectForm(String id) {
         super(id, new CompoundPropertyModel<>(new Project()));
     }
+
     public ProjectForm(String id, Project project) {
         super(id, new CompoundPropertyModel<>(project));
     }

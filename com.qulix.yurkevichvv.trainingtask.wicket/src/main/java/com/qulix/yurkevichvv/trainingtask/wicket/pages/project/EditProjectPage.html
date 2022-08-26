@@ -6,15 +6,52 @@
                 <div class="chief">
                     <div id="container" class="main">
                         <form wicket:id="addProjectForm">
-                            <input type="submit" class="add-button" value="Сохранить"/>
-                            <div class="field">
-                                <label>Наименование:</label>
-                                <input type="text" wicket:id="title"/>
+                            <div class="main">
+                                <input type="submit" class="add-button" value="Сохранить"/>
+                                <div class="field">
+                                    <label>Наименование:</label>
+                                    <input type="text" wicket:id="title"/>
+                                </div>
+                                <div class="field">
+                                    <label>Описание:</label>
+                                    <input type="text" wicket:id="description"/>
+                                </div>
                             </div>
-                            <div class="field">
-                                <label>Описание:</label>
-                                <input type="text" wicket:id="description"/>
+                            <div class="header">
+                                <h3>Задачи проекта</h3>
                             </div>
+                            <div class="main">
+                                <div class="field">
+                                    <button wicket:id="addTaskInProject" value="Добавить задачу" class="add-button"/>
+                                </div>
+                            </div>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <th>Статус</th>
+                                    <th>Наименование</th>
+                                    <th>Работа</th>
+                                    <th>Дата начала</th>
+                                    <th>Дата окончания</th>
+                                    <th>Проект</th>
+                                    <th>Исполнитель</th>
+                                    <th>Действия</th>
+                                </tr>
+                                <tr wicket:id="tasks">
+                                    <td wicket:id="status"></td>
+                                    <td wicket:id="title"></td>
+                                    <td wicket:id="workTime"></td>
+                                    <td wicket:id="beginDate"></td>
+                                    <td wicket:id="endDate"></td>
+                                    <td wicket:id="projectTitle"></td>
+                                    <td wicket:id="employeeName"></td>
+                                    <td>
+                                        <a href wicket:id="editLink">Редактировать</a>
+                                        <a href wicket:id="deleteLink">Удалить</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </form>
                     </div>
                 </div>

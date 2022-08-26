@@ -9,6 +9,7 @@ public class TaskForm extends Form<Task> {
     public TaskForm(String id) {
         super(id, new CompoundPropertyModel<>(new Task()));
     }
+
     public TaskForm(String id, Task task) {
         super(id, new CompoundPropertyModel<>(task));
     }
