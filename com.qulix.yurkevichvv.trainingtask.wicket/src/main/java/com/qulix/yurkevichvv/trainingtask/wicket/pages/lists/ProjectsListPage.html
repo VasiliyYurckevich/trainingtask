@@ -7,23 +7,7 @@
     <body>
         <wicket:extend>
             <button class="add-button" wicket:id="addProject">Добавить</button>
-            <table>
-                <tbody>
-                <tr>
-                    <th>Наименование</th>
-                    <th>Описание</th>
-                    <th>Действия</th>
-                </tr>
-                <tr wicket:id="projects">
-                    <td wicket:id="title"></td>
-                    <td wicket:id="description"></td>
-                    <td>
-                        <a href wicket:id="editLink">Редактировать</a>
-                        <a href wicket:id="deleteLink">Удалить</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div wicket:id="projects"/>
         </wicket:extend>
     </body>
 </html>
