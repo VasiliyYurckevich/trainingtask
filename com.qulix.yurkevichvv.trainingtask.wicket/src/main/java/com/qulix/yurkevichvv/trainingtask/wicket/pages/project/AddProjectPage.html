@@ -4,16 +4,20 @@
         <wicket:extend>
             <div class="container">
                 <div class="chief">
-                    <div id="container" class="main">
+                    <div class="main">
                         <form wicket:id="addProjectForm">
                             <input type="submit" class="add-button" value="Сохранить"/>
                             <div class="field">
                                 <label>Наименование:</label>
                                 <input type="text" wicket:id="title"/>
+                                <h4 wicket:id="titleFeedbackPanel">
+                                </h4>
                             </div>
                             <div class="field">
                                 <label>Описание:</label>
                                 <input type="text" wicket:id="description"/>
+                                <h4 wicket:id="descriptionFeedbackPanel">
+                                </h4>
                             </div>
                         </form>
                     </div>

@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.panel;
+package com.qulix.yurkevichvv.trainingtask.wicket.panels;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;

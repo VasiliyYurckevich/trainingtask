@@ -16,7 +16,7 @@ public class EmployeesListPage extends BasePage {
 
     public EmployeesListPage() {
         super();
-        get("pageTitle").setDefaultModelObject("Сотруднки");
+        get("pageTitle").setDefaultModelObject("Сотрудники");
         List<Employee> employees = new EmployeeDao().getAll();
         add(new EmployeeTablePanel("employees", employees));
         add(new Link<WebPage>("addEmployee") {
