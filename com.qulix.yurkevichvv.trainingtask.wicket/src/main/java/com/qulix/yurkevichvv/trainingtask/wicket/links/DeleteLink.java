@@ -15,9 +15,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 
 public class DeleteLink extends Link<Void> {
     private ListItem<?> item;
-    private EmployeeDao employeeDao= new EmployeeDao();
-    private ProjectDao projectDao= new ProjectDao();
-    private TaskDao taskDao = new TaskDao();
 
     public DeleteLink(String id, ListItem<?> item) {
         super(id);
@@ -27,12 +24,15 @@ public class DeleteLink extends Link<Void> {
     @Override
     public void onClick() {
         if (item.getModelObject() instanceof Employee) {
+            EmployeeDao employeeDao = new EmployeeDao();
             employeeDao.delete(((Employee) item.getModelObject()).getId(), ConnectionController.getConnection());
             setResponsePage(EmployeesListPage.class);
         } else if (item.getModelObject() instanceof Project) {
+            ProjectDao projectDao = new ProjectDao();
             projectDao.delete(((Project) item.getModelObject()).getId(), ConnectionController.getConnection());
             setResponsePage(ProjectsListPage.class);
         } else if (item.getModelObject() instanceof Task) {
+            TaskDao taskDao = new TaskDao();
             taskDao.delete(((Task) item.getModelObject()).getId(), ConnectionController.getConnection());
             setResponsePage(TasksListPage.class);
         }

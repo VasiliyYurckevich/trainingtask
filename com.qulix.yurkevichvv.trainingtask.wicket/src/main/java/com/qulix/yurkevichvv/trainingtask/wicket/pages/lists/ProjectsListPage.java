@@ -1,12 +1,17 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.lists;
 
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.AddProjectPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.panels.tables.ProjectTablePanel;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 
 import java.util.List;
 
@@ -16,11 +21,21 @@ public class ProjectsListPage extends BasePage {
         super();
         get("pageTitle").setDefaultModelObject("Проекты");
         List<Project> projects = new ProjectDao().getAll();
-        add(new ProjectTablePanel("projects", projects));
+        ListView<Project> projectListView = new ListView<>("projects", projects) {
+            @Override
+            protected void populateItem(ListItem<Project> item) {
+                final Project project = item.getModelObject();
+                item.add(new Label("title", project.getTitle()));
+                item.add(new Label("description", project.getDescription()));
+                item.add(new DeleteLink("deleteLink", item));
+                item.add(new EditLink("editLink", item));
+            }
+        };
+        add(projectListView);
         add(new Link<WebPage>("addProject") {
             @Override
             public void onClick() {
-                setResponsePage(new AddProjectPage());
+                setResponsePage(new ProjectPage());
             }
         });
     }
