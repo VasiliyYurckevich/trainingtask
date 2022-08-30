@@ -8,8 +8,18 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 
+/**
+ * Верхняя панель для переключения между страницами.
+ *
+ * @author Q-YVV
+ */
 public class Header extends Panel {
 
+    /**
+     * Конструктор.
+     *
+     * @param id идентификатор
+     */
     public Header(String id) {
         super(id);
         WebMarkupContainer css = new WebMarkupContainer( "style" );

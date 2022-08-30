@@ -13,9 +13,24 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 
+/**
+ * Ссылка для удаления сущности.
+ *
+ * @author Q-YVV
+ */
 public class DeleteLink extends Link<Void> {
+
+    /**
+     * Элемент ListView
+     */
     private ListItem<?> item;
 
+    /**
+     * Конструктор.
+     *
+     * @param id идентификатор
+     * @param item элемент ListView
+     */
     public DeleteLink(String id, ListItem<?> item) {
         super(id);
         this.item = item;

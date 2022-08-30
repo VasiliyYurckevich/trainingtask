@@ -26,8 +26,16 @@ import org.apache.wicket.model.PropertyModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Страница добавления/редактирования задач.
+ *
+ * @author Q-YVV
+ */
 public class TaskPage extends BasePage {
 
+    /**
+     * Конструктор.
+     */
     public TaskPage() {
         get("pageTitle").setDefaultModelObject("Добавить задачу");
         Form<Task> taskForm = new Form<Task>("taskForm", new CompoundPropertyModel<>(new Task())) {
@@ -38,10 +46,16 @@ public class TaskPage extends BasePage {
                 setResponsePage(TasksListPage.class);
             }
         };
-        addFormComponent(taskForm);
+        addFormComponents(taskForm);
         add(taskForm);
     }
 
+    /**
+     * Конструктор.
+     *
+     * @param project проект, к которому привязана задача
+     * @param projectTasks список задач проекта
+     */
     public TaskPage(Project project, List<Task> projectTasks) {
         get("pageTitle").setDefaultModelObject("Добавить задачу в проект " + project.getTitle());
         Form<Task> taskForm = new Form<>("taskForm", new CompoundPropertyModel<>(new Task())){
@@ -51,11 +65,17 @@ public class TaskPage extends BasePage {
                 setResponsePage(new EditProjectPage(project, projectTasks));
             }
         };
-        addFormComponent(taskForm);
+        addFormComponents(taskForm);
         taskForm.get("projects").setDefaultModelObject(project.getId());
         taskForm.get("projects").setEnabled(false);
         add(taskForm);
     }
+
+    /**
+     * Конструктор.
+     *
+     * @param task редактируемая задача
+     */
     public TaskPage(Task task) {
         get("pageTitle").setDefaultModelObject("Редактировать задачу");
         Form<Task> taskForm = new Form<Task>("taskForm", new CompoundPropertyModel<>(task)){
@@ -67,11 +87,16 @@ public class TaskPage extends BasePage {
                 setResponsePage(TasksListPage.class);
             }
         };
-        addFormComponent(taskForm);
+        addFormComponents(taskForm);
         add(taskForm);
     }
 
-    private void addFormComponent(Form<Task> form) {
+    /**
+     * Добавляет компаненты в форму задачи.
+     *
+     * @param form форма для добавления
+     */
+    private void addFormComponents(Form<Task> form) {
         Link<Void> cancelButton = new Link<>("cancel") {
             @Override
             public void onClick() {
@@ -88,6 +113,11 @@ public class TaskPage extends BasePage {
         addEmployeesDropDownChoice(form);
     }
 
+    /**
+     * Добавляет выпадающий список статусов в форму задачи.
+     *
+     * @param form форма для добавления
+     */
     private static void addStatusesDropDownChoice(Form<Task> form) {
         DropDownChoice statusesDropDownChoice = new DropDownChoice("statuses", new PropertyModel<>(form.getModelObject(), "status"),
                 List.of(Status.values()), new ChoiceRenderer<Status>("statusTitle"));
@@ -98,6 +128,11 @@ public class TaskPage extends BasePage {
         form.add(statusesDropDownChoice);
     }
 
+    /**
+     * Добавляет поле наименования в форму задачи.
+     *
+     * @param form форма для добавления
+     */
     private static void addTitleField(Form<Task> form) {
         RequiredTextField<String> titleField =  new RequiredTextField<String>("title");
         titleField.add(new CustomStringValidator(50));
@@ -107,6 +142,11 @@ public class TaskPage extends BasePage {
         form.add(titleFeedbackPanel);
     }
 
+    /**
+     * Добавляет поле времени работы в форму задачи.
+     *
+     * @param form форма для добавления
+     */
     private static void addWorkTimeField(Form<Task> form) {
         RequiredTextField<Integer> workTimeField = new RequiredTextField<>("workTime");
         form.add(workTimeField);
@@ -115,6 +155,12 @@ public class TaskPage extends BasePage {
         form.add(workTimeFeedbackPanel);
     }
 
+
+    /**
+     * Добавляет поле даты начала работы в форму задачи.
+     *
+     * @param form форма для добавления
+     */
     private static void addBeginDateField(Form<Task> form) {
         LocalDateTextField beginDateField =  new LocalDateTextField("beginDate",
             new PropertyModel<>(form.getModelObject(), "beginDate"),"yyyy-MM-dd");
@@ -125,6 +171,11 @@ public class TaskPage extends BasePage {
         form.add(beginDateFeedbackPanel);
     }
 
+    /**
+     * Добавляет поле даты окончания работы в форму задачи.
+     *
+     * @param form форма для добавления
+     */
     private static void addEndDateTextField(Form<Task> form) {
         LocalDateTextField endDateTextField = new LocalDateTextField("endDate",
             new PropertyModel<>(form.getModelObject(), "endDate"), "yyyy-MM-dd");
@@ -135,6 +186,11 @@ public class TaskPage extends BasePage {
         form.add(endDateFeedbackPanel);
     }
 
+    /**
+     * Добавляет выпадающий список проектов в форму задачи.
+     *
+     * @param form форма для добавления
+     */
     private static void addProjectDropDownChoice(Form<Task> form) {
         ProjectDao projectDao = new ProjectDao();
         DropDownChoice projectDropDownChoice = new DropDownChoice<Integer>("projects",
@@ -152,6 +208,11 @@ public class TaskPage extends BasePage {
         form.add(projectDropDownChoice);
     }
 
+    /**
+     * Добавляет выпадающий список сотрудников в форму задачи.
+     *
+     * @param form форма для добавления
+     */
     private static void addEmployeesDropDownChoice(Form<Task> form) {
         EmployeeDao employeeDao = new EmployeeDao();
         DropDownChoice<Integer> employeesDropDownChoice = new DropDownChoice<Integer>("employees",

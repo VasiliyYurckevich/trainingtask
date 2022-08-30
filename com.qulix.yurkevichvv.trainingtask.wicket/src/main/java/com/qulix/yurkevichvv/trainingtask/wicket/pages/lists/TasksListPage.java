@@ -16,8 +16,16 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import java.util.List;
 
+/**
+ * Страница списка задач.
+ *
+ * @author Q-YVV
+ */
 public class TasksListPage extends BasePage {
 
+    /**
+     * Конструктор.
+     */
     public TasksListPage() {
         super();
         get("pageTitle").setDefaultModelObject("Задачи");

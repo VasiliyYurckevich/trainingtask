@@ -1,14 +1,28 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.validation;
 
+import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.FieldsValidation;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 
+/**
+ * Валидатор текстового ввода.
+ *
+ * @author Q-YVV
+ */
 public class CustomStringValidator implements IValidator<String> {
 
+    /**
+     * Максимальная длинна вводимой строки.
+     */
     private Integer maxlength;
 
+    /**
+     * Конструктор.
+     *
+     * @param maxlength максимальная длинна вводимой строки
+     */
     public CustomStringValidator(Integer maxlength) {
         this.maxlength = maxlength;
     }
@@ -18,12 +32,19 @@ public class CustomStringValidator implements IValidator<String> {
         final String string = validatable.getValue();
         final String errorMessage = FieldsValidation.checkString(string, maxlength);
         if (errorMessage != null) {
-            error(validatable, "", errorMessage);
+            error(validatable, "key", errorMessage);
         }
 
     }
 
-    private void error(IValidatable<String> validatable, String errorKey,String errorMessage) {
+    /**
+     *
+     *
+     * @param validatable объект, который проверяется
+     * @param errorKey ключ сообщения ошибки
+     * @param errorMessage сообщение ошибки
+     */
+    private void error(IValidatable<String> validatable, String errorKey, String errorMessage) {
         ValidationError error = new ValidationError();
         error.addKey(getClass().getSimpleName() + "." + errorKey).setMessage(errorMessage);
         validatable.error(error);

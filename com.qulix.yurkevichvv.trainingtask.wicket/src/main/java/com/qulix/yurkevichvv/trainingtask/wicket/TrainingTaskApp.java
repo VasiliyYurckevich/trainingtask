@@ -6,8 +6,12 @@ import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.util.lang.Bytes;
 
+/**
+ * Базовый класс приложения
+ *
+ * @author Q-YVV
+ */
 public class TrainingTaskApp extends WebApplication {
-
 
     @Override
     public Class<? extends Page> getHomePage() {

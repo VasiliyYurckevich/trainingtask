@@ -11,7 +11,19 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 
+/**
+ * Ссылка для редактирования сущности.
+ *
+ * @author Q-YVV
+ */
 public class EditLink extends Link<Void> {
+
+    /**
+     * Конструктор.
+     *
+     * @param id идентификатор
+     * @param item элемент ListView
+     */
     private ListItem<?> item;
 
     public EditLink(String id, ListItem<?> item) {

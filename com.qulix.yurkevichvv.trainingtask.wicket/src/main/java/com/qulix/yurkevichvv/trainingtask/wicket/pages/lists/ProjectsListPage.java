@@ -15,8 +15,16 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import java.util.List;
 
+/**
+ * Список проектов.
+ *
+ * @author Q-YVV
+ */
 public class ProjectsListPage extends BasePage {
 
+    /**
+     * Конструктор.
+     */
     public ProjectsListPage() {
         super();
         get("pageTitle").setDefaultModelObject("Проекты");

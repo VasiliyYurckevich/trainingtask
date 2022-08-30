@@ -14,8 +14,16 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 
+/**
+ * Страница добавления проекта.
+ *
+ * @author Q-YVV
+ */
 public class ProjectPage extends BasePage {
 
+    /**
+     * Конструктор.
+     */
     public ProjectPage() {
         get("pageTitle").setDefaultModelObject("Добавить проект");
         Form<Project> projectForm = new Form<>("projectForm", new CompoundPropertyModel<>(new Project())){
@@ -26,28 +34,33 @@ public class ProjectPage extends BasePage {
                 setResponsePage(ProjectsListPage.class);
             }
         };
-        addContent(projectForm);
+        addFormComponents(projectForm);
         add(projectForm);
     }
 
-    protected static void addContent(Form<Project> projectForm) {
+    /**
+     * Добавляет компаненты в форму проекта.
+     *
+     * @param form форма для добавления
+     */
+    protected static void addFormComponents(Form<Project> form) {
         Link<Void> cancelButton = new Link<Void>("cancel") {
             @Override
             public void onClick() {
                 setResponsePage(ProjectsListPage.class);
             }
         };
-        projectForm.add(cancelButton);
+        form.add(cancelButton);
         RequiredTextField<String> title = new RequiredTextField<>("title");
         title.add(new CustomStringValidator(50));
-        projectForm.add(title);
+        form.add(title);
         RequiredTextField<String> description = new RequiredTextField<>("description");
         description.add(new CustomStringValidator(250));
-        projectForm.add(description);
+        form.add(description);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel", new ComponentFeedbackMessageFilter(title));
-        projectForm.add(titleFeedbackPanel);
+        form.add(titleFeedbackPanel);
         CustomFeedbackPanel descriptionFeedbackPanel = new CustomFeedbackPanel("descriptionFeedbackPanel", new ComponentFeedbackMessageFilter(description));
-        projectForm.add(descriptionFeedbackPanel);
+        form.add(descriptionFeedbackPanel);
 
     }
 

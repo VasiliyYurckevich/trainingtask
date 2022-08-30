@@ -19,9 +19,21 @@ import org.apache.wicket.model.CompoundPropertyModel;
 
 import java.util.List;
 
-import static com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage.addContent;
+import static com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage.addFormComponents;
 
+/**
+ * Страница редактирования проекта.
+ *
+ * @author Q-YVV
+ */
 public class EditProjectPage extends BasePage {
+
+    /**
+     * Конструктор.
+     *
+     * @param project редактируемый проект
+     * @param tasks список задач проекта
+     */
     public EditProjectPage(Project project, List<Task> tasks) {
         System.out.println(this);
         get("pageTitle").setDefaultModelObject("Добавить проект");
@@ -44,11 +56,16 @@ public class EditProjectPage extends BasePage {
             }
         };
         add(addTaskLink);
-        addContent(projectForm);
+        addFormComponents(projectForm);
         addTaskList(tasks);
         add(projectForm);
     }
 
+    /**
+     * Добавляет список задач проекта.
+     *
+     * @param tasks список задач
+     */
     private void addTaskList(List<Task> tasks) {
         ListView<Task> taskListView = new ListView<>("tasks", tasks) {
             @Override

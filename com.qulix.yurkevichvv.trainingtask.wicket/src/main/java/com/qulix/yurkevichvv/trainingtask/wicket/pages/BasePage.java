@@ -7,12 +7,24 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import java.util.Locale;
 
+/**
+ * Шаблоная страница приложения.
+ *
+ * @author Q-YVV
+ */
 public class BasePage extends WebPage {
-
+    /**
+     * Конструктор.
+     */
     public BasePage() {
         this(new PageParameters());
     }
 
+    /**
+     * Конструктор.
+     *
+     * @param parameters Обернутые параметры строки запроса
+     */
     public BasePage(final PageParameters parameters) {
         super(parameters);
         add(new Label("pageTitle", ""));

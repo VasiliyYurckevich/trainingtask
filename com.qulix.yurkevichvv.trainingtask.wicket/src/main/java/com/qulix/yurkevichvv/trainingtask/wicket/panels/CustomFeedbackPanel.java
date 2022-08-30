@@ -3,10 +3,19 @@ package com.qulix.yurkevichvv.trainingtask.wicket.panels;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
+/**
+ * Панель для вывода валидационных сообщений.
+ *
+ * @author Q-YVV
+ */
 public class CustomFeedbackPanel extends FeedbackPanel {
 
-    private static final long serialVersionUID = 1L;
-
+    /**
+     * Конструктор.
+     *
+     * @param id идентификатор
+     * @param filter фильтр сообщений об ошибках
+     */
     public CustomFeedbackPanel(String id, IFeedbackMessageFilter filter) {
         super(id,filter);
     }

@@ -14,10 +14,16 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import java.util.List;
 
-;
-
+/**
+ * Страница списка сотрудников.
+ *
+ * @author Q-YVV
+ */
 public class EmployeesListPage extends BasePage {
 
+    /**
+     * Конструктор.
+     */
     public EmployeesListPage() {
         super();
         get("pageTitle").setDefaultModelObject("Сотрудники");

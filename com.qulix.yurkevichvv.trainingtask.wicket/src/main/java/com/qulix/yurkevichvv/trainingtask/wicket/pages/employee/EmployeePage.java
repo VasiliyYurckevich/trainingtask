@@ -13,8 +13,16 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 
+/**
+ * Страница добавления/редактирования сотрудников.
+ *
+ * @author Q-YVV
+ */
 public class EmployeePage extends BasePage {
 
+    /**
+     * Конструктор.
+     */
     public EmployeePage() {
         super();
         get("pageTitle").setDefaultModelObject("Добавить сотрудника");
@@ -26,9 +34,15 @@ public class EmployeePage extends BasePage {
                 setResponsePage(EmployeesListPage.class);
             }
         };
-        addFields(employeeForm);
+        addFormComponents(employeeForm);
         add(employeeForm);
     }
+
+    /**
+     * Конструктор.
+     *
+     * @param employee редактируемый сотрудник
+     */
     public EmployeePage(final Employee employee) {
         get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
         Form employeeForm =  new Form<>("employeeForm", new CompoundPropertyModel<>(employee)){
@@ -39,10 +53,16 @@ public class EmployeePage extends BasePage {
                 setResponsePage(EmployeesListPage.class);
             }
         };
-        addFields(employeeForm);
+        addFormComponents(employeeForm);
         add(employeeForm);
     }
-    private void addFields(Form form) {
+
+    /**
+     * Добавляет компаненты в форму задачи.
+     *
+     * @param form форма для добавления
+     */
+    private void addFormComponents(Form form) {
         Link<Void> cancelButton = new Link<Void>("cancel") {
             @Override
             public void onClick() {
