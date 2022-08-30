@@ -1,29 +1,18 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
-
-import java.util.List;
 
 public class ProjectPage extends BasePage {
 
@@ -42,6 +31,13 @@ public class ProjectPage extends BasePage {
     }
 
     protected static void addContent(Form<Project> projectForm) {
+        Link<Void> cancelButton = new Link<Void>("cancel") {
+            @Override
+            public void onClick() {
+                setResponsePage(ProjectsListPage.class);
+            }
+        };
+        projectForm.add(cancelButton);
         RequiredTextField<String> title = new RequiredTextField<>("title");
         title.add(new CustomStringValidator(50));
         projectForm.add(title);

@@ -10,6 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidato
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 public class EmployeePage extends BasePage {
@@ -42,25 +43,44 @@ public class EmployeePage extends BasePage {
         add(employeeForm);
     }
     private void addFields(Form form) {
+        Link<Void> cancelButton = new Link<Void>("cancel") {
+            @Override
+            public void onClick() {
+                setResponsePage(EmployeesListPage.class);
+            }
+        };
+        form.add(cancelButton);
+
         RequiredTextField<String> surname = new RequiredTextField<>("surname");
         surname.add(new CustomStringValidator(50));
         form.add(surname);
+
         RequiredTextField<String> firstName = new RequiredTextField<>("firstName");
         firstName.add(new CustomStringValidator(50));
         form.add(firstName);
+
         RequiredTextField<String> patronymic = new RequiredTextField<>("patronymic");
         patronymic.add(new CustomStringValidator(50));
         form.add(patronymic);
+
         RequiredTextField<String> post = new RequiredTextField<>("post");
         post.add(new CustomStringValidator(50));
         form.add(post);
-        CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel("surnameFeedbackPanel", new ComponentFeedbackMessageFilter(surname));
+
+        CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel("surnameFeedbackPanel",
+            new ComponentFeedbackMessageFilter(surname));
         form.add(surnameFeedbackPanel);
-        CustomFeedbackPanel firstNameFeedbackPanel = new CustomFeedbackPanel("firstNameFeedbackPanel", new ComponentFeedbackMessageFilter(firstName));
+
+        CustomFeedbackPanel firstNameFeedbackPanel = new CustomFeedbackPanel("firstNameFeedbackPanel",
+            new ComponentFeedbackMessageFilter(firstName));
         form.add(firstNameFeedbackPanel);
-        CustomFeedbackPanel patronymicFeedbackPanel = new CustomFeedbackPanel("patronymicFeedbackPanel", new ComponentFeedbackMessageFilter(patronymic));
+
+        CustomFeedbackPanel patronymicFeedbackPanel = new CustomFeedbackPanel("patronymicFeedbackPanel",
+            new ComponentFeedbackMessageFilter(patronymic));
         form.add(patronymicFeedbackPanel);
-        CustomFeedbackPanel postFeedbackPanel = new CustomFeedbackPanel("postFeedbackPanel", new ComponentFeedbackMessageFilter(post));
+
+        CustomFeedbackPanel postFeedbackPanel = new CustomFeedbackPanel("postFeedbackPanel",
+            new ComponentFeedbackMessageFilter(post));
         form.add(postFeedbackPanel);
     }
 }

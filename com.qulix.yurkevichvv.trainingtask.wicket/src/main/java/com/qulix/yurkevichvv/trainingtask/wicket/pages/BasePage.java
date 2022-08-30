@@ -5,6 +5,8 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import java.util.Locale;
+
 public class BasePage extends WebPage {
 
     public BasePage() {
@@ -21,5 +23,6 @@ public class BasePage extends WebPage {
         super.onInitialize();
         Header header = new Header("header");
         add(header);
+        getSession().setLocale(new Locale("ru","RU"));
     }
 }

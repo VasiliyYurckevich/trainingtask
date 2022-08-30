@@ -11,12 +11,15 @@ import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.EditProjectPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
+import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
+import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
 
@@ -32,7 +35,7 @@ public class TaskPage extends BasePage {
             protected void onSubmit() {
                 TaskDao taskDao = new TaskDao();
                 taskDao.add(getModelObject(), ConnectionController.getConnection());
-                setResponsePage(new TasksListPage());
+                setResponsePage(TasksListPage.class);
             }
         };
         addFormComponent(taskForm);
@@ -53,7 +56,7 @@ public class TaskPage extends BasePage {
         taskForm.get("projects").setEnabled(false);
         add(taskForm);
     }
-    public TaskPage(final Task task) {
+    public TaskPage(Task task) {
         get("pageTitle").setDefaultModelObject("Редактировать задачу");
         Form<Task> taskForm = new Form<Task>("taskForm", new CompoundPropertyModel<>(task)){
             @Override
@@ -68,43 +71,103 @@ public class TaskPage extends BasePage {
         add(taskForm);
     }
 
-    private void addFormComponent(Form<Task> taskForm) {
-        DropDownChoice statusesDropDownChoice = new DropDownChoice("statuses", new PropertyModel<>(taskForm.getModelObject(), "status"),
+    private void addFormComponent(Form<Task> form) {
+        Link<Void> cancelButton = new Link<>("cancel") {
+            @Override
+            public void onClick() {
+                setResponsePage(TasksListPage.class);
+            }
+        };
+        form.add(cancelButton);
+        addStatusesDropDownChoice(form);
+        addTitleField(form);
+        addWorkTimeField(form);
+        addBeginDateField(form);
+        addEndDateTextField(form);
+        addProjectDropDownChoice(form);
+        addEmployeesDropDownChoice(form);
+    }
+
+    private static void addStatusesDropDownChoice(Form<Task> form) {
+        DropDownChoice statusesDropDownChoice = new DropDownChoice("statuses", new PropertyModel<>(form.getModelObject(), "status"),
                 List.of(Status.values()), new ChoiceRenderer<Status>("statusTitle"));
         statusesDropDownChoice.setRequired(true);
-        taskForm.add(statusesDropDownChoice);
+        CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("statusesFeedbackPanel",
+                new ComponentFeedbackMessageFilter(statusesDropDownChoice));
+        form.add(employeesFeedbackPanel);
+        form.add(statusesDropDownChoice);
+    }
+
+    private static void addTitleField(Form<Task> form) {
         RequiredTextField<String> titleField =  new RequiredTextField<String>("title");
-        taskForm.add(titleField);
+        titleField.add(new CustomStringValidator(50));
+        form.add(titleField);
+        CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
+                new ComponentFeedbackMessageFilter(titleField));
+        form.add(titleFeedbackPanel);
+    }
+
+    private static void addWorkTimeField(Form<Task> form) {
         RequiredTextField<Integer> workTimeField = new RequiredTextField<>("workTime");
-        taskForm.add(workTimeField);
+        form.add(workTimeField);
+        CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("workTimeFeedbackPanel",
+                new ComponentFeedbackMessageFilter(workTimeField));
+        form.add(workTimeFeedbackPanel);
+    }
+
+    private static void addBeginDateField(Form<Task> form) {
         LocalDateTextField beginDateField =  new LocalDateTextField("beginDate",
-                new PropertyModel<>(taskForm.getModelObject(), "beginDate"),"yyyy-MM-dd");
-        taskForm.add(beginDateField.setEnabled(true));
-        LocalDateTextField endDateTextField = new LocalDateTextField("endDate", new PropertyModel<>(taskForm.getModelObject(), "endDate"), "yyyy-MM-dd");
-        taskForm.add(endDateTextField);
+            new PropertyModel<>(form.getModelObject(), "beginDate"),"yyyy-MM-dd");
+        form.add(beginDateField);
+        beginDateField.setRequired(true);
+        CustomFeedbackPanel beginDateFeedbackPanel = new CustomFeedbackPanel("beginDateFeedbackPanel",
+                new ComponentFeedbackMessageFilter(beginDateField));
+        form.add(beginDateFeedbackPanel);
+    }
+
+    private static void addEndDateTextField(Form<Task> form) {
+        LocalDateTextField endDateTextField = new LocalDateTextField("endDate",
+            new PropertyModel<>(form.getModelObject(), "endDate"), "yyyy-MM-dd");
+        endDateTextField.setRequired(true);
+        form.add(endDateTextField);
+        CustomFeedbackPanel endDateFeedbackPanel = new CustomFeedbackPanel("endDateFeedbackPanel",
+                new ComponentFeedbackMessageFilter(endDateTextField));
+        form.add(endDateFeedbackPanel);
+    }
+
+    private static void addProjectDropDownChoice(Form<Task> form) {
         ProjectDao projectDao = new ProjectDao();
-        DropDownChoice projectDropDownChoice = new DropDownChoice<Integer>("projects", new PropertyModel(taskForm.getModelObject(), "projectId"),
+        DropDownChoice projectDropDownChoice = new DropDownChoice<Integer>("projects",
+            new PropertyModel(form.getModelObject(), "projectId"),
             projectDao.getAll().stream().map(Project::getId).collect(Collectors.toList()), new ChoiceRenderer<>() {
                 @Override
                 public String getDisplayValue(Integer id){
                     return projectDao.getAll().stream().filter(project -> id.equals(project.getId())).findFirst().orElse(null).getTitle();
                 }
         });
-        System.out.println(projectDropDownChoice.getChoices());
         projectDropDownChoice.setRequired(true);
-        taskForm.add(projectDropDownChoice);
+        CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("projectFeedbackPanel",
+                new ComponentFeedbackMessageFilter(projectDropDownChoice));
+        form.add(workTimeFeedbackPanel);
+        form.add(projectDropDownChoice);
+    }
+
+    private static void addEmployeesDropDownChoice(Form<Task> form) {
         EmployeeDao employeeDao = new EmployeeDao();
         DropDownChoice<Integer> employeesDropDownChoice = new DropDownChoice<Integer>("employees",
-            new PropertyModel(taskForm.getModelObject(), "employeeId"),
+            new PropertyModel(form.getModelObject(), "employeeId"),
             employeeDao.getAll().stream().map(Employee::getId).collect(Collectors.toList()), new ChoiceRenderer<Integer>() {
-            @Override
-            public String getDisplayValue(Integer id) {
-                return employeeDao.getAll().stream().filter(employee ->
-                        id.equals(employee.getId())).findFirst().orElse(null).getFullName();
+                @Override
+                public String getDisplayValue(Integer id) {
+                    return employeeDao.getAll().stream().filter(employee ->
+                            id.equals(employee.getId())).findFirst().orElse(null).getFullName();
 
-            }
+                }
         });
         employeesDropDownChoice.setNullValid(true);
-        taskForm.add(employeesDropDownChoice);
+        CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("employeesFeedbackPanel",
+                new ComponentFeedbackMessageFilter(employeesDropDownChoice));
+        form.add(employeesFeedbackPanel);
+        form.add(employeesDropDownChoice);
     }
 }

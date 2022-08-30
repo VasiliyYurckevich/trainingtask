@@ -23,7 +23,12 @@ import static com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPag
 
 public class EditProjectPage extends BasePage {
     public EditProjectPage(Project project, List<Task> tasks) {
+        System.out.println(this);
         get("pageTitle").setDefaultModelObject("Добавить проект");
+        System.out.println("isStateless " + isStateless());
+        System.out.println("isPageStateless " + isPageStateless());
+        System.out.println("isVersioned " + isVersioned());
+
         Form<Project> projectForm = new Form<Project>("projectForm", new CompoundPropertyModel<>(project)){
             @Override
             protected void onSubmit() {
