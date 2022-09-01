@@ -38,15 +38,28 @@ import static com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPag
  */
 public class EditProjectPage extends BasePage {
 
+    /**
+     * Проект.
+     */
     private final Project project;
+
+    /**
+     * Список задач проекта.
+     */
     private List<Task> tasks;
+
+    /**
+     * Переменные доступа к методам классов DAO.
+     */
     private ProjectDao projectDao = new ProjectDao();
     private TaskDao taskDao  = new TaskDao();
+    private EmployeeDao employeeDao = new EmployeeDao();
 
     /**
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(EditProjectPage.class.getName());
+
     /**
      * Конструктор.
      *
@@ -86,8 +99,7 @@ public class EditProjectPage extends BasePage {
             @Override
             protected void populateItem(ListItem<Task> item) {
                 final Task task = item.getModelObject();
-                final ProjectDao projectDao = new ProjectDao();
-                final EmployeeDao employeeDao = new EmployeeDao();
+
                 item.add(new Label("status", task.getStatus().getStatusTitle()));
                 item.add(new Label("title", task.getTitle()));
                 item.add(new Label("workTime", task.getWorkTime()));

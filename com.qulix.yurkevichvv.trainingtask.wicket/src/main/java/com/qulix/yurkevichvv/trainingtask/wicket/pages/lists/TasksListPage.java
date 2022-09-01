@@ -23,6 +23,9 @@ import java.util.List;
  */
 public class TasksListPage extends BasePage {
 
+    /**
+     * Переменные доступа к методам классов DAO.
+     */
     private final ProjectDao projectDao = new ProjectDao();
     private final EmployeeDao employeeDao = new EmployeeDao();
 
@@ -61,6 +64,9 @@ public class TasksListPage extends BasePage {
                 setResponsePage(new TaskPage());
             }
         };
+        if (projectDao.getAll().isEmpty()){
+            addTask.setEnabled(false);
+        }
         add(addTask);
     }
 }

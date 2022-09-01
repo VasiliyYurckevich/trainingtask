@@ -1,3 +1,5 @@
+import com.bmuschko.gradle.tomcat.tasks.TomcatRun
+
 buildscript {
     repositories {
         mavenCentral()
@@ -46,10 +48,29 @@ dependencies {
     testImplementation 'junit:junit:4.11'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    def tomcatVersion = '9.0.56'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
+            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }
 
 test {
     useJUnitPlatform()
+}
+
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = '8.14'
+    configFile = rootProject.file('checkstyle/checkstyle.xml')
+}
+
+task Checkstyle(type: Checkstyle) {
+    source 'src/main/java'
+    include '**/*.java'
+
+    classpath = rootProject.files()
 }
 
 sourceSets {
@@ -60,3 +81,15 @@ sourceSets {
         }
     }
 }
+
+tomcat {
+    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    ajpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+}
+
+task startWicketServer(type: TomcatRun) {
+    httpPort = 8443
+    httpsPort = 8443
+}
+
+tomcatRun.contextPath = '/'

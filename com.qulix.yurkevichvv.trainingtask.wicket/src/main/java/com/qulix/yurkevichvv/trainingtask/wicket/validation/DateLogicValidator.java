@@ -11,6 +11,7 @@ import org.apache.wicket.validation.IValidationError;
 import java.io.Serializable;
 
 public class DateLogicValidator extends AbstractFormValidator {
+
     private static final long serialVersionUID = 1L;
 
     private final FormComponent[] components;
@@ -26,6 +27,7 @@ public class DateLogicValidator extends AbstractFormValidator {
     }
 
 
+    @Override
     public FormComponent[] getDependentFormComponents() {
         return components;
     }

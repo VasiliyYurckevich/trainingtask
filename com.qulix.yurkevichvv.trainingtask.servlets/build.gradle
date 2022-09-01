@@ -48,7 +48,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
-    def tomcatVersion = '10.0.23'
+    def tomcatVersion = '9.0.56'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
@@ -79,8 +79,8 @@ tomcat {
 }
 
 task startServer(type: TomcatRun) {
-    httpPort = 8080
-    httpsPort = 8080
+    httpPort = 8109
+    httpsPort = 8109
 }
 
 tomcatRun.contextPath = '/'
