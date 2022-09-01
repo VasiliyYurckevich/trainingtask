@@ -75,12 +75,12 @@ task Checkstyle(type: Checkstyle) {
 
 tomcat {
     httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    ajpProtocol = 'org.apache.coyote.ajp.Http11Nio2Protocol'
 }
 
 task startServer(type: TomcatRun) {
-    httpPort = 8109
-    httpsPort = 8109
+    httpPort = 8080
+    httpsPort = 8080
 }
 
-tomcatRun.contextPath = '/'
+tomcatRun.contextPath = '/servlets/'

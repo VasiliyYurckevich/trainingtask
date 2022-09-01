@@ -1,5 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
+import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.CompoundPropertyModel;
+
 import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
@@ -7,11 +13,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
-import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.CompoundPropertyModel;
 
 /**
  * Страница добавления/редактирования сотрудников.
@@ -21,12 +22,27 @@ import org.apache.wicket.model.CompoundPropertyModel;
 public class EmployeePage extends BasePage {
 
     /**
+     * Идентификатор элемента названия страницы.
+     */
+    public static final String PAGE_TITLE = "pageTitle";
+
+    /**
+     * Идентификатор элемента формы.
+     */
+    public static final String EMPLOYEE_FORM = "employeeForm";
+
+    /**
+     * Максимальная длинна ввода полей.
+     */
+    public static final int MAXLENGTH = 50;
+
+    /**
      * Конструктор.
      */
     public EmployeePage() {
         super();
-        get("pageTitle").setDefaultModelObject("Добавить сотрудника");
-        Form employeeForm =  new Form<Employee>("employeeForm", new CompoundPropertyModel<>(new Employee()) ){
+        get(PAGE_TITLE).setDefaultModelObject("Добавить сотрудника");
+        Form employeeForm =  new Form<Employee>(EMPLOYEE_FORM, new CompoundPropertyModel<>(new Employee())) {
             @Override
             protected void onSubmit() {
                 EmployeeDao employeeDao = new EmployeeDao();
@@ -44,8 +60,8 @@ public class EmployeePage extends BasePage {
      * @param employee редактируемый сотрудник
      */
     public EmployeePage(final Employee employee) {
-        get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
-        Form employeeForm =  new Form<>("employeeForm", new CompoundPropertyModel<>(employee)){
+        get(PAGE_TITLE).setDefaultModelObject("Редактировать сотрудника");
+        Form employeeForm =  new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
             @Override
             protected void onSubmit() {
                 EmployeeDao employeeDao = new EmployeeDao();
@@ -72,19 +88,19 @@ public class EmployeePage extends BasePage {
         form.add(cancelButton);
 
         RequiredTextField<String> surname = new RequiredTextField<>("surname");
-        surname.add(new CustomStringValidator(50));
+        surname.add(new CustomStringValidator(MAXLENGTH));
         form.add(surname);
 
         RequiredTextField<String> firstName = new RequiredTextField<>("firstName");
-        firstName.add(new CustomStringValidator(50));
+        firstName.add(new CustomStringValidator(MAXLENGTH));
         form.add(firstName);
 
         RequiredTextField<String> patronymic = new RequiredTextField<>("patronymic");
-        patronymic.add(new CustomStringValidator(50));
+        patronymic.add(new CustomStringValidator(MAXLENGTH));
         form.add(patronymic);
 
         RequiredTextField<String> post = new RequiredTextField<>("post");
-        post.add(new CustomStringValidator(50));
+        post.add(new CustomStringValidator(MAXLENGTH));
         form.add(post);
 
         CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel("surnameFeedbackPanel",

@@ -1,20 +1,21 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.lists;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import java.util.List;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import java.util.List;
+import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 
 /**
  * Страница списка задач.
@@ -22,6 +23,11 @@ import java.util.List;
  * @author Q-YVV
  */
 public class TasksListPage extends BasePage {
+
+    /**
+     * Идентификатор метки имени сотрудника.
+     */
+    public static final String EMPLOYEE_NAME = "employeeName";
 
     /**
      * Переменные доступа к методам классов DAO.
@@ -48,9 +54,10 @@ public class TasksListPage extends BasePage {
                 item.add(new Label("endDate", task.getEndDate().toString()));
                 item.add(new Label("projectTitle", projectDao.getById(task.getProjectId()).getTitle()));
                 if (task.getEmployeeId() != 0) {
-                    item.add(new Label("employeeName", employeeDao.getById(task.getEmployeeId()).getFullName()));
-                } else {
-                    item.add(new Label("employeeName", " "));
+                    item.add(new Label(EMPLOYEE_NAME, employeeDao.getById(task.getEmployeeId()).getFullName()));
+                }
+                else {
+                    item.add(new Label(EMPLOYEE_NAME, " "));
 
                 }
                 item.add(new DeleteLink("deleteLink", item));
@@ -64,7 +71,7 @@ public class TasksListPage extends BasePage {
                 setResponsePage(new TaskPage());
             }
         };
-        if (projectDao.getAll().isEmpty()){
+        if (projectDao.getAll().isEmpty()) {
             addTask.setEnabled(false);
         }
         add(addTask);

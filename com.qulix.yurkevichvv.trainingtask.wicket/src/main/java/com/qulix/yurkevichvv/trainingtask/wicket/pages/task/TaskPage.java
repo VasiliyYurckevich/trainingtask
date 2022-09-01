@@ -1,5 +1,18 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
+import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.PropertyModel;
+
 import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
@@ -14,16 +27,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.EditProjectPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateLogicValidator;
-import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
-import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
-import org.apache.wicket.markup.html.form.*;
-import org.apache.wicket.markup.html.form.validation.IFormValidator;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.PropertyModel;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Страница добавления/редактирования задач.
@@ -33,12 +36,48 @@ import java.util.stream.Collectors;
 public class TaskPage extends BasePage {
 
     /**
+     * Идентификатор элемента названия страницы.
+     */
+    public static final String PAGE_TITLE = "pageTitle";
+
+    /**
+     * Идентификатор элемента формы.
+     */
+    public static final String TASK_FORM = "taskForm";
+
+    /**
+     * Идентификатор проекта.
+     */
+    public static final String PROJECTS = "projects";
+
+    /**
+     * Максимальная длинна ввода полей.
+     */
+    public static final int MAXLENGTH = 50;
+
+    /**
+     * Идентификатор поля начала работы.
+     */
+    public static final String BEGIN_DATE = "beginDate";
+
+    /**
+     * Паттерн для дат.
+     */
+    public static final String PATTERN = "yyyy-MM-dd";
+
+    /**
+     * Идентификатор поля начала работы.
+     */
+    public static final String END_DATE = "endDate";
+
+
+    /**
      * Конструктор.
      */
     public TaskPage() {
-        get("pageTitle").setDefaultModelObject("Добавить задачу");
-        Form<Task> taskForm = new Form<Task>("taskForm", new CompoundPropertyModel<>(new Task())) {
-        @Override
+        get(PAGE_TITLE).setDefaultModelObject("Добавить задачу");
+        Form<Task> taskForm = new Form<Task>(TASK_FORM, new CompoundPropertyModel<>(new Task())) {
+            @Override
             protected void onSubmit() {
                 TaskDao taskDao = new TaskDao();
                 taskDao.add(getModelObject(), ConnectionController.getConnection());
@@ -56,8 +95,8 @@ public class TaskPage extends BasePage {
      * @param projectTasks список задач проекта
      */
     public TaskPage(Project project, List<Task> projectTasks) {
-        get("pageTitle").setDefaultModelObject("Добавить задачу в проект " + project.getTitle());
-        Form<Task> taskForm = new Form<>("taskForm", new CompoundPropertyModel<>(new Task())){
+        get(PAGE_TITLE).setDefaultModelObject("Добавить задачу в проект " + project.getTitle());
+        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(new Task())) {
             @Override
             protected void onSubmit() {
                 projectTasks.add(getModelObject());
@@ -65,8 +104,8 @@ public class TaskPage extends BasePage {
             }
         };
         addFormComponents(taskForm);
-        taskForm.get("projects").setDefaultModelObject(project.getId());
-        taskForm.get("projects").setEnabled(false);
+        taskForm.get(PROJECTS).setDefaultModelObject(project.getId());
+        taskForm.get(PROJECTS).setEnabled(false);
         add(taskForm);
     }
 
@@ -78,9 +117,9 @@ public class TaskPage extends BasePage {
      * @param taskId индекс задачи в projectTasks
      */
     public TaskPage(Project project, List<Task> projectTasks, int taskId) {
-        get("pageTitle").setDefaultModelObject("Добавить задачу в проект " + project.getTitle());
+        get(PAGE_TITLE).setDefaultModelObject("Редактировать задачу в проекте " + project.getTitle());
         Task task = projectTasks.get(taskId);
-        Form<Task> taskForm = new Form<>("taskForm", new CompoundPropertyModel<>(task)){
+        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override
             protected void onSubmit() {
                 projectTasks.set(taskId, getModelObject());
@@ -88,8 +127,8 @@ public class TaskPage extends BasePage {
             }
         };
         addFormComponents(taskForm);
-        taskForm.get("projects").setDefaultModelObject(project.getId());
-        taskForm.get("projects").setEnabled(false);
+        taskForm.get(PROJECTS).setDefaultModelObject(project.getId());
+        taskForm.get(PROJECTS).setEnabled(false);
         add(taskForm);
     }
 
@@ -99,11 +138,10 @@ public class TaskPage extends BasePage {
      * @param task редактируемая задача
      */
     public TaskPage(Task task) {
-        get("pageTitle").setDefaultModelObject("Редактировать задачу");
-        Form<Task> taskForm = new Form<Task>("taskForm", new CompoundPropertyModel<>(task)){
+        get(PAGE_TITLE).setDefaultModelObject("Редактировать задачу");
+        Form<Task> taskForm = new Form<Task>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override
             protected void onSubmit() {
-                System.out.println(getModelObject().toString());
                 TaskDao taskDao = new TaskDao();
                 taskDao.update(getModelObject(), ConnectionController.getConnection());
                 setResponsePage(TasksListPage.class);
@@ -114,7 +152,7 @@ public class TaskPage extends BasePage {
     }
 
     /**
-     * Добавляет компаненты в форму задачи.
+     * Добавляет компоненты в форму задачи.
      *
      * @param form форма для добавления
      */
@@ -140,11 +178,12 @@ public class TaskPage extends BasePage {
      * @param form форма для добавления
      */
     private static void addStatusesDropDownChoice(Form<Task> form) {
-        DropDownChoice statusesDropDownChoice = new DropDownChoice("statuses", new PropertyModel<>(form.getModelObject(), "status"),
-                List.of(Status.values()), new ChoiceRenderer<Status>("statusTitle"));
+        DropDownChoice statusesDropDownChoice =
+            new DropDownChoice("statuses", new PropertyModel<>(form.getModelObject(), "status"),
+            List.of(Status.values()), new ChoiceRenderer<Status>("statusTitle"));
         statusesDropDownChoice.setRequired(true);
         CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("statusesFeedbackPanel",
-                new ComponentFeedbackMessageFilter(statusesDropDownChoice));
+            new ComponentFeedbackMessageFilter(statusesDropDownChoice));
         form.add(employeesFeedbackPanel);
         form.add(statusesDropDownChoice);
     }
@@ -156,10 +195,10 @@ public class TaskPage extends BasePage {
      */
     private static void addTitleField(Form<Task> form) {
         RequiredTextField<String> titleField =  new RequiredTextField<String>("title");
-        titleField.add(new CustomStringValidator(50));
+        titleField.add(new CustomStringValidator(MAXLENGTH));
         form.add(titleField);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
-                new ComponentFeedbackMessageFilter(titleField));
+            new ComponentFeedbackMessageFilter(titleField));
         form.add(titleFeedbackPanel);
     }
 
@@ -172,7 +211,7 @@ public class TaskPage extends BasePage {
         RequiredTextField<Integer> workTimeField = new RequiredTextField<>("workTime");
         form.add(workTimeField);
         CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("workTimeFeedbackPanel",
-                new ComponentFeedbackMessageFilter(workTimeField));
+            new ComponentFeedbackMessageFilter(workTimeField));
         form.add(workTimeFeedbackPanel);
     }
 
@@ -183,23 +222,23 @@ public class TaskPage extends BasePage {
      * @param form форма для добавления
      */
     private static void addDateField(Form<Task> form) {
-        LocalDateTextField beginDateField =  new LocalDateTextField("beginDate",
-            new PropertyModel<>(form.getModelObject(), "beginDate"),"yyyy-MM-dd");
+        LocalDateTextField beginDateField =  new LocalDateTextField(BEGIN_DATE,
+            new PropertyModel<>(form.getModelObject(), BEGIN_DATE), PATTERN);
         form.add(beginDateField);
         beginDateField.setRequired(true);
         CustomFeedbackPanel beginDateFeedbackPanel = new CustomFeedbackPanel("beginDateFeedbackPanel",
-                new ComponentFeedbackMessageFilter(beginDateField));
+            new ComponentFeedbackMessageFilter(beginDateField));
         form.add(beginDateFeedbackPanel);
 
-        LocalDateTextField endDateTextField = new LocalDateTextField("endDate",
-            new PropertyModel<>(form.getModelObject(), "endDate"), "yyyy-MM-dd");
+        LocalDateTextField endDateTextField = new LocalDateTextField(END_DATE,
+            new PropertyModel<>(form.getModelObject(), END_DATE), PATTERN);
         endDateTextField.setRequired(true);
         form.add(endDateTextField);
         CustomFeedbackPanel endDateFeedbackPanel = new CustomFeedbackPanel("endDateFeedbackPanel",
-                new ComponentFeedbackMessageFilter(endDateTextField));
+            new ComponentFeedbackMessageFilter(endDateTextField));
         form.add(endDateFeedbackPanel);
 
-        form.add(new DateLogicValidator(beginDateField,endDateTextField));
+        form.add(new DateLogicValidator(beginDateField, endDateTextField));
     }
 
     /**
@@ -209,17 +248,18 @@ public class TaskPage extends BasePage {
      */
     private static void addProjectDropDownChoice(Form<Task> form) {
         ProjectDao projectDao = new ProjectDao();
-        DropDownChoice projectDropDownChoice = new DropDownChoice<Integer>("projects",
+        DropDownChoice projectDropDownChoice = new DropDownChoice<Integer>(PROJECTS,
             new PropertyModel(form.getModelObject(), "projectId"),
             projectDao.getAll().stream().map(Project::getId).collect(Collectors.toList()), new ChoiceRenderer<>() {
                 @Override
-                public String getDisplayValue(Integer id){
-                    return projectDao.getAll().stream().filter(project -> id.equals(project.getId())).findFirst().orElse(null).getTitle();
+                public String getDisplayValue(Integer id) {
+                    return projectDao.getAll().stream().filter(project ->
+                        id.equals(project.getId())).findFirst().orElse(null).getTitle();
                 }
-        });
+            });
         projectDropDownChoice.setRequired(true);
         CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("projectFeedbackPanel",
-                new ComponentFeedbackMessageFilter(projectDropDownChoice));
+            new ComponentFeedbackMessageFilter(projectDropDownChoice));
         form.add(workTimeFeedbackPanel);
         form.add(projectDropDownChoice);
     }
@@ -240,10 +280,10 @@ public class TaskPage extends BasePage {
                             id.equals(employee.getId())).findFirst().orElse(null).getFullName();
 
                 }
-        });
+            });
         employeesDropDownChoice.setNullValid(true);
         CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("employeesFeedbackPanel",
-                new ComponentFeedbackMessageFilter(employeesDropDownChoice));
+            new ComponentFeedbackMessageFilter(employeesDropDownChoice));
         form.add(employeesFeedbackPanel);
         form.add(employeesDropDownChoice);
     }

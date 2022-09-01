@@ -17,7 +17,7 @@ public class CustomFeedbackPanel extends FeedbackPanel {
      * @param filter фильтр сообщений об ошибках
      */
     public CustomFeedbackPanel(String id, IFeedbackMessageFilter filter) {
-        super(id,filter);
+        super(id, filter);
     }
 
 }

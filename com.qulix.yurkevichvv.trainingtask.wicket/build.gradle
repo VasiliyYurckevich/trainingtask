@@ -88,8 +88,8 @@ tomcat {
 }
 
 task startWicketServer(type: TomcatRun) {
-    httpPort = 8443
-    httpsPort = 8443
+    httpPort = 8090
+    httpsPort = 8090
 }
 
-tomcatRun.contextPath = '/'
+tomcatRun.contextPath = '/wicket/'

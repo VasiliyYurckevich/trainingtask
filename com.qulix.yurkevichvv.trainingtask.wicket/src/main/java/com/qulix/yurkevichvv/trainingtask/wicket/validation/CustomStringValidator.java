@@ -1,10 +1,10 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.validation;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.servlets.validation.FieldsValidation;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
+
+import com.qulix.yurkevichvv.trainingtask.servlets.validation.FieldsValidation;
 
 /**
  * Валидатор текстового ввода.
@@ -32,19 +32,19 @@ public class CustomStringValidator implements IValidator<String> {
         final String string = validatable.getValue();
         final String errorMessage = FieldsValidation.checkString(string, maxlength);
         if (errorMessage != null) {
-            error(validatable, "key", errorMessage);
+            newError(validatable, "key", errorMessage);
         }
 
     }
 
     /**
-     *
+     * Создает новую ошибку.
      *
      * @param validatable объект, который проверяется
      * @param errorKey ключ сообщения ошибки
      * @param errorMessage сообщение ошибки
      */
-    private void error(IValidatable<String> validatable, String errorKey, String errorMessage) {
+    private void newError(IValidatable<String> validatable, String errorKey, String errorMessage) {
         ValidationError error = new ValidationError();
         error.addKey(getClass().getSimpleName() + "." + errorKey).setMessage(errorMessage);
         validatable.error(error);

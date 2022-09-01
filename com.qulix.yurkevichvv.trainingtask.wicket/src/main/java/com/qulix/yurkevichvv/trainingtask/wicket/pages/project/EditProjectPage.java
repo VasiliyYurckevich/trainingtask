@@ -1,34 +1,29 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.CompoundPropertyModel;
+
 import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.servlets.controllers.ProjectController;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.StatelessForm;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.CompoundPropertyModel;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 import static com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage.addFormComponents;
 
 /**
@@ -38,6 +33,10 @@ import static com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPag
  */
 public class EditProjectPage extends BasePage {
 
+    /**
+     * Идентификатор поля сотрудника.
+     */
+    public static final String EMPLOYEE_NAME = "employeeName";
     /**
      * Проект.
      */
@@ -70,7 +69,7 @@ public class EditProjectPage extends BasePage {
         get("pageTitle").setDefaultModelObject("Добавить проект");
         this.project = project;
         this.tasks = tasks;
-        Form<Project> projectForm = new Form<Project>("projectForm", new CompoundPropertyModel<>(project)){
+        Form<Project> projectForm = new Form<Project>("projectForm", new CompoundPropertyModel<>(project)) {
             @Override
             protected void onSubmit() {
                 updateProject();
@@ -99,7 +98,6 @@ public class EditProjectPage extends BasePage {
             @Override
             protected void populateItem(ListItem<Task> item) {
                 final Task task = item.getModelObject();
-
                 item.add(new Label("status", task.getStatus().getStatusTitle()));
                 item.add(new Label("title", task.getTitle()));
                 item.add(new Label("workTime", task.getWorkTime()));
@@ -107,13 +105,12 @@ public class EditProjectPage extends BasePage {
                 item.add(new Label("endDate", task.getEndDate().toString()));
                 item.add(new Label("projectTitle", projectDao.getById(task.getProjectId()).getTitle()));
                 if (task.getEmployeeId() != 0) {
-                    item.add(new Label("employeeName", employeeDao.getById(task.getEmployeeId()).getFullName()));
-                } else {
-                    item.add(new Label("employeeName", " "));
-
+                    item.add(new Label(EMPLOYEE_NAME, employeeDao.getById(task.getEmployeeId()).getFullName()));
                 }
-                item.add(new Link<Void>("deleteLink"){
-
+                else {
+                    item.add(new Label(EMPLOYEE_NAME, " "));
+                }
+                item.add(new Link<Void>("deleteLink") {
                     @Override
                     public void onClick() {
                         tasks.remove(item.getIndex());
@@ -130,22 +127,20 @@ public class EditProjectPage extends BasePage {
         add(taskListView);
     }
 
-    private void updateProject(){
+    private void updateProject() {
         Connection connection = ConnectionController.getConnection();
         try {
             connection.setAutoCommit(false);
-            System.out.println();
-            List<Integer> oldTasksId = taskDao.getTasksInProject(project.getId()).stream().map(Task::getId).collect(Collectors.toList());
+            List<Integer> oldTasksId =
+                taskDao.getTasksInProject(project.getId()).stream().map(Task::getId).collect(Collectors.toList());
             List<Integer> newTasksId = tasks.stream().map(Task::getId).collect(Collectors.toList());
-            System.out.println(oldTasksId);
-            System.out.println(newTasksId);
-            tasks.stream().filter(task -> task.getId() != null).forEach(task -> taskDao.update(task,connection));
-            tasks.stream().filter(task -> task.getId() == null).forEach(task -> taskDao.add(task,connection));
-            oldTasksId.stream().filter(id -> !newTasksId.contains(id)).forEach(id -> taskDao.delete(id,connection));
+            tasks.stream().filter(task -> task.getId() != null).forEach(task -> taskDao.update(task, connection));
+            tasks.stream().filter(task -> task.getId() == null).forEach(task -> taskDao.add(task, connection));
+            oldTasksId.stream().filter(id -> !newTasksId.contains(id)).forEach(id -> taskDao.delete(id, connection));
             projectDao.update(project, connection);
             ConnectionController.commitConnection(connection);
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
             LOGGER.log(Level.SEVERE, "Exception trying create transaction", e);
             throw new DaoException(e);

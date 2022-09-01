@@ -1,19 +1,20 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.lists;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import java.util.List;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import java.util.List;
+import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
+
 
 /**
  * Список проектов.

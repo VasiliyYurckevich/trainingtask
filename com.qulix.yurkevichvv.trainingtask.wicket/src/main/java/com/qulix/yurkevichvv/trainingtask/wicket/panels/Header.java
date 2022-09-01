@@ -1,12 +1,13 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.panels;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 
 /**
  * Верхняя панель для переключения между страницами.
@@ -22,7 +23,7 @@ public class Header extends Panel {
      */
     public Header(String id) {
         super(id);
-        WebMarkupContainer css = new WebMarkupContainer( "style" );
+        WebMarkupContainer css = new WebMarkupContainer("style");
         add(css);
         add(new Link<WebPage>("projectsList") {
             @Override

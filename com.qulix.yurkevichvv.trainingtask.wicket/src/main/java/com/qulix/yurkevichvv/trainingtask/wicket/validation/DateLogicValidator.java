@@ -1,15 +1,17 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.validation;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.validation.FieldsValidation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
-import org.apache.wicket.util.lang.Objects;
-import org.apache.wicket.validation.IErrorMessageSource;
 import org.apache.wicket.validation.IValidationError;
 
-import java.io.Serializable;
+import com.qulix.yurkevichvv.trainingtask.servlets.validation.FieldsValidation;
 
+/**
+ * Валидатор полей на логичность последовательности даты начала и даты окончания.
+ *
+ * @author Q-YVV
+ */
 public class DateLogicValidator extends AbstractFormValidator {
 
     private static final long serialVersionUID = 1L;

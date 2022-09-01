@@ -1,11 +1,13 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.panels.Header;
+import java.util.Locale;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import java.util.Locale;
+import com.qulix.yurkevichvv.trainingtask.wicket.panels.Header;
+
 
 /**
  * Шаблоная страница приложения.
@@ -35,7 +37,7 @@ public class BasePage extends WebPage {
         super.onInitialize();
         Header header = new Header("header");
         add(header);
-        getSession().setLocale(new Locale("ru","RU"));
+        getSession().setLocale(new Locale("ru", "RU"));
     }
 
 }
