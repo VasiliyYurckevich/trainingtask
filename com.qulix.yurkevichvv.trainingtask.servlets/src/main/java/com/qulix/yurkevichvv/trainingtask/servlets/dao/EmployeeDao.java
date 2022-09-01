@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +40,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper
  * @see Employee
  * @see IDao
  */
-public class EmployeeDao implements IDao<Employee> {
+public class EmployeeDao implements IDao<Employee>, Serializable {
 
     /**
      * Хранит константу для колонки фамилии сотрудника в БД.

@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.validation;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -31,7 +32,7 @@ import java.util.Map;
  *
  * @author Q-YVV
  */
-public class FieldsValidation {
+public class FieldsValidation implements Serializable {
 
     /**
      * Проверяет на валидность вводимую строку.
@@ -113,7 +114,7 @@ public class FieldsValidation {
      * @param endDate Дата окончания
      * @return строка-сообщение об ошибке либо null
      */
-    private static String checkDateRangeCorrectness(String beginDate, String endDate) {
+    public static String checkDateRangeCorrectness(String beginDate, String endDate) {
         LocalDate parsedBeginDate = LocalDate.parse(beginDate);
         LocalDate parsedEndDate = LocalDate.parse(endDate);
         if (parsedBeginDate.isAfter(parsedEndDate)) {

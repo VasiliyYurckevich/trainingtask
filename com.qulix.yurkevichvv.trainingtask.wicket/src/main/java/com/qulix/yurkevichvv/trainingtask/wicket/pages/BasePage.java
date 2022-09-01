@@ -37,4 +37,5 @@ public class BasePage extends WebPage {
         add(header);
         getSession().setLocale(new Locale("ru","RU"));
     }
+
 }

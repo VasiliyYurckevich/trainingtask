@@ -23,6 +23,9 @@ import java.util.List;
  */
 public class TasksListPage extends BasePage {
 
+    private final ProjectDao projectDao = new ProjectDao();
+    private final EmployeeDao employeeDao = new EmployeeDao();
+
     /**
      * Конструктор.
      */
@@ -34,8 +37,7 @@ public class TasksListPage extends BasePage {
             @Override
             protected void populateItem(ListItem<Task> item) {
                 final Task task = item.getModelObject();
-                final ProjectDao projectDao = new ProjectDao();
-                final EmployeeDao employeeDao = new EmployeeDao();
+
                 item.add(new Label("status", task.getStatus().getStatusTitle()));
                 item.add(new Label("title", task.getTitle()));
                 item.add(new Label("workTime", task.getWorkTime()));
@@ -53,11 +55,12 @@ public class TasksListPage extends BasePage {
             }
         };
         add(taskListView);
-        add(new Link<WebPage>("addTask") {
+        Link<WebPage> addTask = new Link<>("addTask") {
             @Override
             public void onClick() {
                 setResponsePage(new TaskPage());
             }
-        });
+        };
+        add(addTask);
     }
 }

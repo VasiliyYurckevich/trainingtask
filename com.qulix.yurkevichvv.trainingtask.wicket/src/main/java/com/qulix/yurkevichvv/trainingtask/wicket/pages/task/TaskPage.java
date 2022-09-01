@@ -13,12 +13,11 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.EditProjectPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateLogicValidator;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
-import org.apache.wicket.markup.html.form.ChoiceRenderer;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.form.validation.IFormValidator;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
@@ -74,6 +73,29 @@ public class TaskPage extends BasePage {
     /**
      * Конструктор.
      *
+     * @param project проект, к которому привязана задача
+     * @param projectTasks список задач проекта
+     * @param taskId индекс задачи в projectTasks
+     */
+    public TaskPage(Project project, List<Task> projectTasks, int taskId) {
+        get("pageTitle").setDefaultModelObject("Добавить задачу в проект " + project.getTitle());
+        Task task = projectTasks.get(taskId);
+        Form<Task> taskForm = new Form<>("taskForm", new CompoundPropertyModel<>(task)){
+            @Override
+            protected void onSubmit() {
+                projectTasks.set(taskId, getModelObject());
+                setResponsePage(new EditProjectPage(project, projectTasks));
+            }
+        };
+        addFormComponents(taskForm);
+        taskForm.get("projects").setDefaultModelObject(project.getId());
+        taskForm.get("projects").setEnabled(false);
+        add(taskForm);
+    }
+
+    /**
+     * Конструктор.
+     *
      * @param task редактируемая задача
      */
     public TaskPage(Task task) {
@@ -107,8 +129,7 @@ public class TaskPage extends BasePage {
         addStatusesDropDownChoice(form);
         addTitleField(form);
         addWorkTimeField(form);
-        addBeginDateField(form);
-        addEndDateTextField(form);
+        addDateField(form);
         addProjectDropDownChoice(form);
         addEmployeesDropDownChoice(form);
     }
@@ -161,7 +182,7 @@ public class TaskPage extends BasePage {
      *
      * @param form форма для добавления
      */
-    private static void addBeginDateField(Form<Task> form) {
+    private static void addDateField(Form<Task> form) {
         LocalDateTextField beginDateField =  new LocalDateTextField("beginDate",
             new PropertyModel<>(form.getModelObject(), "beginDate"),"yyyy-MM-dd");
         form.add(beginDateField);
@@ -169,14 +190,7 @@ public class TaskPage extends BasePage {
         CustomFeedbackPanel beginDateFeedbackPanel = new CustomFeedbackPanel("beginDateFeedbackPanel",
                 new ComponentFeedbackMessageFilter(beginDateField));
         form.add(beginDateFeedbackPanel);
-    }
 
-    /**
-     * Добавляет поле даты окончания работы в форму задачи.
-     *
-     * @param form форма для добавления
-     */
-    private static void addEndDateTextField(Form<Task> form) {
         LocalDateTextField endDateTextField = new LocalDateTextField("endDate",
             new PropertyModel<>(form.getModelObject(), "endDate"), "yyyy-MM-dd");
         endDateTextField.setRequired(true);
@@ -184,6 +198,8 @@ public class TaskPage extends BasePage {
         CustomFeedbackPanel endDateFeedbackPanel = new CustomFeedbackPanel("endDateFeedbackPanel",
                 new ComponentFeedbackMessageFilter(endDateTextField));
         form.add(endDateFeedbackPanel);
+
+        form.add(new DateLogicValidator(beginDateField,endDateTextField));
     }
 
     /**

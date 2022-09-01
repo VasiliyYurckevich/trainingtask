@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +40,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper
  * @see IDao
  * @see Project
  */
-public class ProjectDao implements IDao<Project> {
+public class ProjectDao implements IDao<Project>, Serializable {
 
     /**
      * Хранит константу для колонки ID проекта в БД.
