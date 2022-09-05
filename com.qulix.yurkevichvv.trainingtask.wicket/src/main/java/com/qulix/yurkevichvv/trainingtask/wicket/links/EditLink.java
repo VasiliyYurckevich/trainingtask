@@ -3,10 +3,10 @@ package com.qulix.yurkevichvv.trainingtask.wicket.links;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.EditProjectPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;

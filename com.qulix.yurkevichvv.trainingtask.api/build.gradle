@@ -12,7 +12,7 @@ plugins {
     id 'java'
     id 'war'
 }
-group 'com.qulix.yurkevichvv'
+group 'com.qulix.yurkevichvv.trainingtask'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -20,14 +20,13 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.8.2'
+    junitVersion = '5.9.0'
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -36,20 +35,13 @@ tasks.withType(JavaCompile) {
 
 
 dependencies {
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'org.hsqldb:hsqldb:2.5.1'
-    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
-    compileOnly('javax:javaee-web-api:8.0.1')
-    implementation group: 'jstl', name: 'jstl', version: '1.2'
-
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 test {
     useJUnitPlatform()
 }
-
-apply from: 'databaseManipulationScripts.gradle'
-
 apply plugin: 'checkstyle'
 
 checkstyle {
@@ -61,14 +53,5 @@ task Checkstyle(type: Checkstyle) {
     source 'src/main/java'
     include '**/*.java'
 
-    classpath = rootProject.files()
-}
-
-sourceSets {
-    main {
-        resources {
-            srcDirs += ['src/main/java','src/main/webapp']
-            includes = ["**/*.html","**/*.css"]
-        }
-    }
+    classpath = getProject().files()
 }

@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.servlets.connection;
+package com.qulix.yurkevichvv.trainingtask.api.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,7 +25,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 
 /**
  * Провайдер подключения к БД и закрытия подключения.

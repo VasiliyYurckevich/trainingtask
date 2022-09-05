@@ -8,8 +8,8 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;

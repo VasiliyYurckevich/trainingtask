@@ -36,17 +36,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.IDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
+import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.api.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
+import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Проект".

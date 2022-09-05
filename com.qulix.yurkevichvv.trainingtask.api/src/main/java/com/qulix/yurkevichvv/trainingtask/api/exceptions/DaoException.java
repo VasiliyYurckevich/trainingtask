@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.servlets.exceptions;
+package com.qulix.yurkevichvv.trainingtask.api.exceptions;
 
 /**
  * Описывает исключение, возникающее при ошибке выполнения запроса к базе данных.

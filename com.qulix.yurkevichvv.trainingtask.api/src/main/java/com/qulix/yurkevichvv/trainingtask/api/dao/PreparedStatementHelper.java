@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.utils;
+package com.qulix.yurkevichvv.trainingtask.api.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,8 +14,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 
 /**
  * Позволяет заполнять PreparedStatement с помощью имени переменной.

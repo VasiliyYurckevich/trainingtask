@@ -13,20 +13,21 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Status;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.EditProjectPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateLogicValidator;
+import org.apache.wicket.validation.validator.DateValidator;
 
 /**
  * Страница добавления/редактирования задач.

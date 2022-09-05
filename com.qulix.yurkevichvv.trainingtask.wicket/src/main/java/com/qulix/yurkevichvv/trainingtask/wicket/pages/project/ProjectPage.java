@@ -6,9 +6,9 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.servlets.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;

@@ -17,12 +17,12 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.servlets.dao;
+package com.qulix.yurkevichvv.trainingtask.api.dao;
 
 import java.sql.Connection;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 
 /**
  * Обобщает основные методы для записи сущностей в БД.

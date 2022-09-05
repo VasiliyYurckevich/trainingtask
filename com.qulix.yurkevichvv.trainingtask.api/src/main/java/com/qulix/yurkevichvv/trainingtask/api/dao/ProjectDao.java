@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.servlets.dao;
+package com.qulix.yurkevichvv.trainingtask.api.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -28,10 +28,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.servlets.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.servlets.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.servlets.utils.PreparedStatementHelper;
+import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 
 /**
  * Содержит методы для работы объектов класса "Проект" с БД.
