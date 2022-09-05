@@ -4,6 +4,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.HomePage;
+import org.apache.wicket.settings.RequestCycleSettings;
 
 /**
  * Базовый класс приложения.
@@ -21,6 +22,7 @@ public class TrainingTaskApp extends WebApplication {
     protected void init() {
         super.init();
         getCspSettings().blocking().disabled();
+        getRequestCycleSettings().setRenderStrategy(RequestCycleSettings.RenderStrategy.ONE_PASS_RENDER);
     }
 }
 
