@@ -37,7 +37,7 @@ public class BasePage extends WebPage {
         super.onInitialize();
         Header header = new Header("header");
         add(header);
-        getSession().setLocale(new Locale("ru", "RU"));
+        getSession().setLocale(new Locale("ru"));
     }
 
 }
