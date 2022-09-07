@@ -9,6 +9,8 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
@@ -29,7 +31,7 @@ public class EmployeePage extends BasePage {
     /**
      * Идентификатор элемента формы.
      */
-    public static final String EMPLOYEE_FORM = "employeeForm";
+    public static final String EMPLOYEE_FORM = "form";
 
     /**
      * Максимальная длинна ввода полей.
@@ -42,11 +44,11 @@ public class EmployeePage extends BasePage {
     public EmployeePage() {
         super();
         get(PAGE_TITLE).setDefaultModelObject("Добавить сотрудника");
-        Form employeeForm =  new Form<Employee>(EMPLOYEE_FORM, new CompoundPropertyModel<>(new Employee())) {
+        Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(new Employee())) {
             @Override
-            protected void onSubmit() {
+            public void onSubmit() {
                 EmployeeDao employeeDao = new EmployeeDao();
-                employeeDao.add(getModelObject(), ConnectionController.getConnection());
+                employeeDao.add((Employee)getModelObject(), ConnectionController.getConnection());
                 setResponsePage(EmployeesListPage.class);
             }
         };
@@ -61,9 +63,9 @@ public class EmployeePage extends BasePage {
      */
     public EmployeePage(final Employee employee) {
         get(PAGE_TITLE).setDefaultModelObject("Редактировать сотрудника");
-        Form employeeForm =  new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
+        Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
             @Override
-            protected void onSubmit() {
+            public void onSubmit() {
                 EmployeeDao employeeDao = new EmployeeDao();
                 employeeDao.update(getModelObject(), ConnectionController.getConnection());
                 setResponsePage(EmployeesListPage.class);
@@ -79,6 +81,11 @@ public class EmployeePage extends BasePage {
      * @param form форма для добавления
      */
     private void addFormComponents(Form form) {
+        NoDoubleClickButton button = new NoDoubleClickButton("submit");
+        form.add(button);
+        form.setDefaultButton(button);
+        form.add(new PreventSubmitOnEnterBehavior());
+
         Link<Void> cancelButton = new Link<Void>("cancel") {
             @Override
             public void onClick() {

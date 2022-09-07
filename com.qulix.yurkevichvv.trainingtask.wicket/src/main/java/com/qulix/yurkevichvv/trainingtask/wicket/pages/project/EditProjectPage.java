@@ -82,6 +82,7 @@ public class EditProjectPage extends BasePage {
                 setResponsePage(new TaskPage(project, tasks));
             }
         };
+
         add(addTaskLink);
         addFormComponents(projectForm);
         addTaskList(tasks);

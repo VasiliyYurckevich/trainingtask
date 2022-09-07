@@ -3,6 +3,9 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -158,6 +161,27 @@ public class TaskPage extends BasePage {
      * @param form форма для добавления
      */
     private void addFormComponents(Form<Task> form) {
+        addButtons(form);
+        addStatusesDropDownChoice(form);
+        addTitleField(form);
+        addWorkTimeField(form);
+        addDateField(form);
+        addProjectDropDownChoice(form);
+        addEmployeesDropDownChoice(form);
+    }
+
+    /**
+     * Добавляет кнопки.
+     *
+     * @param form форма для добавления
+     */
+    private void addButtons(Form<Task> form) {
+        NoDoubleClickButton button = new NoDoubleClickButton("submit");
+        form.add(button);
+        form.setDefaultButton(button);
+
+        form.add(new PreventSubmitOnEnterBehavior());
+
         Link<Void> cancelButton = new Link<>("cancel") {
             @Override
             public void onClick() {
@@ -165,12 +189,6 @@ public class TaskPage extends BasePage {
             }
         };
         form.add(cancelButton);
-        addStatusesDropDownChoice(form);
-        addTitleField(form);
-        addWorkTimeField(form);
-        addDateField(form);
-        addProjectDropDownChoice(form);
-        addEmployeesDropDownChoice(form);
     }
 
     /**
