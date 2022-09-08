@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -26,11 +26,9 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.EditProjectPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateLogicValidator;
-import org.apache.wicket.validation.validator.DateValidator;
 
 /**
  * Страница добавления/редактирования задач.
@@ -104,7 +102,7 @@ public class TaskPage extends BasePage {
             @Override
             protected void onSubmit() {
                 projectTasks.add(getModelObject());
-                setResponsePage(new EditProjectPage(project, projectTasks));
+                setResponsePage(new ProjectPage(project, projectTasks));
             }
         };
         addFormComponents(taskForm);
@@ -127,7 +125,7 @@ public class TaskPage extends BasePage {
             @Override
             protected void onSubmit() {
                 projectTasks.set(taskId, getModelObject());
-                setResponsePage(new EditProjectPage(project, projectTasks));
+                setResponsePage(new ProjectPage(project, projectTasks));
             }
         };
         addFormComponents(taskForm);

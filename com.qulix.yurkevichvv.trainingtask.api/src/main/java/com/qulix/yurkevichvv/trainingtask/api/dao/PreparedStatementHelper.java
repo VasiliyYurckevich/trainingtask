@@ -125,7 +125,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      */
     public void setInt(String name, Integer value) {
         try {
-            if (value == null) {
+            if (value == null || value == 0) {
                 this.preparedStatement.setNull(getIndex(name), Types.INTEGER);
             }
             else {

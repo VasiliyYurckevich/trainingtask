@@ -86,6 +86,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
      */
     private static final String UPDATE_PROJECT_SQL = 
         "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
+    public static final String ID_DESC = "SELECT TOP 1 id FROM PROJECT ORDER BY id DESC";
 
     @Override
     public void add(Project project, Connection connection) throws DaoException {
@@ -188,6 +189,27 @@ public class ProjectDao implements IDao<Project>, Serializable {
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
             throw new DaoException(e);
+        }
+    }
+
+    public void cellIdentity(Connection connection) {
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(ID_DESC, connection)) {
+            try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println(resultSet.getInt(ID));
+                    //return getProjectFromDB(resultSet);
+                }
+                else {
+                    throw new DaoException("A project with such data was not found");
+                }
+            }
+        }
+        catch (DaoException | SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error when getting a project by id from the database", e);
+            throw new DaoException(e);
+        }
+        finally {
+            ConnectionController.closeConnection(connection);
         }
     }
 

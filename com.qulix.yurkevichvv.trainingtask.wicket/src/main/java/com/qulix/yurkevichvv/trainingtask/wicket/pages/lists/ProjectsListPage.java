@@ -1,7 +1,9 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.lists;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -44,7 +46,7 @@ public class ProjectsListPage extends BasePage {
         add(new Link<WebPage>("addProject") {
             @Override
             public void onClick() {
-                setResponsePage(new ProjectPage());
+                setResponsePage(new ProjectPage(new ArrayList<Task>()));
             }
         });
     }
