@@ -43,7 +43,7 @@
             <property name="max" value="30"/>
         </module>
 
-        <module name="ExecutableStatementCount">z
+        <module name="ExecutableStatementCount">
             <property name="max" value="30"/>
             <property name="tokens" value="CTOR_DEF, METHOD_DEF, INSTANCE_INIT, STATIC_INIT"/>
         </module>
