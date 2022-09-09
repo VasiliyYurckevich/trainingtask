@@ -19,10 +19,10 @@
  */
 package com.qulix.yurkevichvv.trainingtask.servlets.validation;
 
-import com.qulix.yurkevichvv.trainingtask.api.validation.FieldsValidation;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.qulix.yurkevichvv.trainingtask.api.validation.FieldsValidation;
 
 /**
  * Сервис для валидации данных на соответственных страницах.

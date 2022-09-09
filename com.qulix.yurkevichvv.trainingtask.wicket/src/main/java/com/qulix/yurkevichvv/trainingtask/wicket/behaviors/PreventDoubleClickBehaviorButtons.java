@@ -10,8 +10,11 @@ import org.apache.wicket.ajax.attributes.AjaxCallListener;
  */
 public class PreventDoubleClickBehaviorButtons extends AjaxCallListener {
 
-    private static final String enableDisableJavascriptPointerEvents = ";$('#%s').css('pointer-events', '%s');";
+    private static final String JAVASCRIPT_POINTER_EVENTS = ";$('#%s').css('pointer-events', '%s');";
 
+    /**
+     * Конструктор.
+     */
     public PreventDoubleClickBehaviorButtons() {
         super();
     }
@@ -21,7 +24,12 @@ public class PreventDoubleClickBehaviorButtons extends AjaxCallListener {
         return getEnableDisableJavascript(component);
     }
 
+    /**
+     * Добавление поведения при нажатии кнопки.
+     * @param component кнопка.
+     * @return js ивент для блокирования двойного нажатия.
+     */
     public static String getEnableDisableJavascript(Component component) {
-        return String.format(enableDisableJavascriptPointerEvents, component.getMarkupId(),"none");
+        return String.format(JAVASCRIPT_POINTER_EVENTS, component.getMarkupId(), "none");
     }
 }

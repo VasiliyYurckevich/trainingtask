@@ -2,9 +2,9 @@ package com.qulix.yurkevichvv.trainingtask.wicket;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.settings.RequestCycleSettings;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.HomePage;
-import org.apache.wicket.settings.RequestCycleSettings;
 
 /**
  * Базовый класс приложения.

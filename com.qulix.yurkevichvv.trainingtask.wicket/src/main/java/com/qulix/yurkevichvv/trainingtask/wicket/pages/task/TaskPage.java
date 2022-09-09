@@ -3,9 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
+
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -24,8 +22,11 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateLogicValidator;
@@ -72,12 +73,22 @@ public class TaskPage extends BasePage {
      */
     public static final String END_DATE = "endDate";
 
+    /**
+     * Имя страницы добавления задачи в проект.
+     */
+    public static final String ADD_TASK_PAGE_TITLE = "Добавить задачу";
+
+    /**
+     * Имя страницы редактирования задачи в проекте.
+     */
+    public static final String EDIT_TASK = "Редактировать задачу";
+
 
     /**
      * Конструктор.
      */
     public TaskPage() {
-        get(PAGE_TITLE).setDefaultModelObject("Добавить задачу");
+        get(PAGE_TITLE).setDefaultModelObject(ADD_TASK_PAGE_TITLE);
         Form<Task> taskForm = new Form<Task>(TASK_FORM, new CompoundPropertyModel<>(new Task())) {
             @Override
             protected void onSubmit() {
@@ -137,10 +148,50 @@ public class TaskPage extends BasePage {
     /**
      * Конструктор.
      *
+     * @param projectTasks список задач проекта
+     */
+    public TaskPage(List<Task> projectTasks) {
+        get(PAGE_TITLE).setDefaultModelObject(ADD_TASK_PAGE_TITLE);
+        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(new Task())) {
+            @Override
+            protected void onSubmit() {
+                projectTasks.add(getModelObject());
+                setResponsePage(new ProjectPage(projectTasks));
+            }
+        };
+        addFormComponents(taskForm);
+        taskForm.get(PROJECTS).setEnabled(false);
+        add(taskForm);
+    }
+
+    /**
+     * Конструктор.
+     *
+     * @param projectTasks список задач проекта
+     * @param taskId индекс задачи в projectTasks
+     */
+    public TaskPage(List<Task> projectTasks, int taskId) {
+        get(PAGE_TITLE).setDefaultModelObject(EDIT_TASK);
+        Task task = projectTasks.get(taskId);
+        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
+            @Override
+            protected void onSubmit() {
+                projectTasks.set(taskId, getModelObject());
+                setResponsePage(new ProjectPage(projectTasks));
+            }
+        };
+        addFormComponents(taskForm);
+        taskForm.get(PROJECTS).setEnabled(false);
+        add(taskForm);
+    }
+
+    /**
+     * Конструктор.
+     *
      * @param task редактируемая задача
      */
     public TaskPage(Task task) {
-        get(PAGE_TITLE).setDefaultModelObject("Редактировать задачу");
+        get(PAGE_TITLE).setDefaultModelObject(EDIT_TASK);
         Form<Task> taskForm = new Form<Task>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override
             protected void onSubmit() {

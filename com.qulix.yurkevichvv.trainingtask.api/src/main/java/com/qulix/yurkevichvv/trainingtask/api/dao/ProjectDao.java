@@ -84,9 +84,23 @@ public class ProjectDao implements IDao<Project>, Serializable {
     /**
      * Константа для запроса обновления проекта в БД.
      */
-    private static final String UPDATE_PROJECT_SQL = 
+    private static final String UPDATE_PROJECT_SQL =
         "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
+
+    /**
+     * Константа для запроса последнего проекта в БД.
+     */
     public static final String ID_DESC = "SELECT TOP 1 id FROM PROJECT ORDER BY id DESC";
+
+    /**
+     * Сообщение при отсутствии проекта.
+     */
+    public static final String NOT_FOUND = "A project with such data was not found";
+
+    /**
+     * Сообщение при попытке получения проекта.
+     */
+    public static final String ERROR_GETTING_DATA = "Error when getting a project by id from the database";
 
     @Override
     public void add(Project project, Connection connection) throws DaoException {
@@ -192,20 +206,25 @@ public class ProjectDao implements IDao<Project>, Serializable {
         }
     }
 
-    public void cellIdentity(Connection connection) {
+    /**
+     * Получение последнего проекта.
+     *
+     * @param connection соединение с БД
+     * @return id проекта
+     */
+    public int cellIdentity(Connection connection) {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(ID_DESC, connection)) {
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
                 if (resultSet.next()) {
-                    System.out.println(resultSet.getInt(ID));
-                    //return getProjectFromDB(resultSet);
+                    return resultSet.getInt(ID);
                 }
                 else {
-                    throw new DaoException("A project with such data was not found");
+                    throw new DaoException(NOT_FOUND);
                 }
             }
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting a project by id from the database", e);
+            LOGGER.log(Level.SEVERE, ERROR_GETTING_DATA, e);
             throw new DaoException(e);
         }
         finally {
@@ -225,12 +244,12 @@ public class ProjectDao implements IDao<Project>, Serializable {
                     return getProjectFromDB(resultSet);
                 }
                 else {
-                    throw new DaoException("A project with such data was not found");
+                    throw new DaoException(NOT_FOUND);
                 }
             }
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting a project by id from the database", e);
+            LOGGER.log(Level.SEVERE, ERROR_GETTING_DATA, e);
             throw new DaoException(e);
         }
         finally {

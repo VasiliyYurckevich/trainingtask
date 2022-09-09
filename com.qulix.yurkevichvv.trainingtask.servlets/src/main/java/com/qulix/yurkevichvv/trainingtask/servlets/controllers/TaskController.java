@@ -44,8 +44,8 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
+import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Задача".

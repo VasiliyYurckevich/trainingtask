@@ -1,12 +1,12 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -17,19 +17,20 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.links.EditInProject;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * Страница добавления проекта.
@@ -48,9 +49,25 @@ public class ProjectPage extends BasePage {
     public static final int DESCRIPTION_MAXLENGTH = 250;
 
     /**
+     * Идентификатор элемента названия страницы.
+     */
+    public static final String PAGE_TITLE = "pageTitle";
+
+
+    /**
      * Идентификатор поля сотрудника.
      */
     public static final String EMPLOYEE_NAME = "employeeName";
+
+    /**
+     * Идентификатор формы проекта.
+     */
+    public static final String PROJECT_FORM = "projectForm";
+
+    /**
+     * Сообщение ошибки транзакции.
+     */
+    public static final String TRANSACTION_ERROR_MESSAGE = "Exception trying create transaction";
 
     /**
      * Список задач проекта.
@@ -73,14 +90,13 @@ public class ProjectPage extends BasePage {
      * Конструктор.
      */
     public ProjectPage(List<Task> tasks) {
-        get("pageTitle").setDefaultModelObject("Добавить проект");
+        get(PAGE_TITLE).setDefaultModelObject("Добавить проект");
         Project project = new Project();
         this.tasks = tasks;
-        Form<Project> form = new Form<>("projectForm", new CompoundPropertyModel<>(project)) {
+        Form<Project> form = new Form<>(PROJECT_FORM, new CompoundPropertyModel<>(project)) {
             @Override
             protected void onSubmit() {
-                ProjectDao projectDao = new ProjectDao();
-                projectDao.add(getModelObject(), ConnectionController.getConnection());
+                addProject(getModelObject());
                 setResponsePage(ProjectsListPage.class);
             }
         };
@@ -97,9 +113,9 @@ public class ProjectPage extends BasePage {
      * @param tasks список задач проекта
      */
     public ProjectPage(Project project, List<Task> tasks) {
-        get("pageTitle").setDefaultModelObject("Редактировать проект");
+        get(PAGE_TITLE).setDefaultModelObject("Редактировать проект");
         this.tasks = tasks;
-        Form<Project> form = new Form<Project>("projectForm", new CompoundPropertyModel<>(project)) {
+        Form<Project> form = new Form<Project>(PROJECT_FORM, new CompoundPropertyModel<>(project)) {
             @Override
             protected void onSubmit() {
                 updateProject(project);
@@ -116,7 +132,13 @@ public class ProjectPage extends BasePage {
         Link<Void> addTaskLink = new Link<Void>("addTaskInProject") {
             @Override
             public void onClick() {
-                setResponsePage(new TaskPage(project, tasks));
+                if (project.getId() != null) {
+                    setResponsePage(new TaskPage(project, tasks));
+                }
+                else {
+                    setResponsePage(new TaskPage(tasks));
+
+                }
             }
         };
         add(addTaskLink);
@@ -165,11 +187,11 @@ public class ProjectPage extends BasePage {
             protected void populateItem(ListItem<Task> item) {
                 final Task task = item.getModelObject();
                 item.add(new Label("status", task.getStatus().getStatusTitle()));
-                item.add(new Label("title", task.getTitle()));
+                item.add(new Label("task_title", task.getTitle()));
                 item.add(new Label("workTime", task.getWorkTime()));
                 item.add(new Label("beginDate", task.getBeginDate().toString()));
                 item.add(new Label("endDate", task.getEndDate().toString()));
-                item.add(new Label("projectTitle", projectDao.getById(task.getProjectId()).getTitle()));
+                item.add(new Label("projectTitle", project.getTitle()));
                 if (task.getEmployeeId() != null && task.getEmployeeId() != 0) {
                     item.add(new Label(EMPLOYEE_NAME, employeeDao.getById(task.getEmployeeId()).getFullName()));
                 }
@@ -182,12 +204,7 @@ public class ProjectPage extends BasePage {
                         tasks.remove(item.getIndex());
                     }
                 });
-                item.add(new Link<Void>("editLink") {
-                    @Override
-                    public void onClick() {
-                        setResponsePage(new TaskPage(project, tasks, item.getIndex()));
-                    }
-                });
+                item.add(new EditInProject("editLink", item, project, tasks));
             }
         };
         add(taskListView);
@@ -198,18 +215,38 @@ public class ProjectPage extends BasePage {
         try {
             connection.setAutoCommit(false);
             List<Integer> oldTasksId =
-                    taskDao.getTasksInProject(project.getId()).stream().map(Task::getId).collect(Collectors.toList());
+                taskDao.getTasksInProject(project.getId()).stream().map(Task::getId).collect(Collectors.toList());
             List<Integer> newTasksId = tasks.stream().map(Task::getId).collect(Collectors.toList());
             projectDao.update(project, connection);
-            tasks.stream().filter(task -> task.getId() == null).forEach(task -> {System.out.println(task); taskDao.add(task, connection);});
-            tasks.stream().filter(task -> task.getId() != null).forEach(task -> {System.out.println(task); taskDao.update(task, connection);});
+            tasks.stream().filter(task -> task.getId() == null).forEach(task -> taskDao.add(task, connection));
+            tasks.stream().filter(task -> task.getId() != null).forEach(task -> taskDao.update(task, connection));
             projectDao.cellIdentity(connection);
             oldTasksId.stream().filter(id -> !newTasksId.contains(id)).forEach(id -> taskDao.delete(id, connection));
             ConnectionController.commitConnection(connection);
         }
         catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
-            LOGGER.log(Level.SEVERE, "Exception trying create transaction", e);
+            LOGGER.log(Level.SEVERE, TRANSACTION_ERROR_MESSAGE, e);
+            throw new DaoException(e);
+        }
+    }
+
+    private void addProject(Project project) {
+        Connection connection = ConnectionController.getConnection();
+        try {
+            connection.setAutoCommit(false);
+            projectDao.add(project, connection);
+            int newProjectId = projectDao.cellIdentity(connection);
+            tasks.stream().forEach(task -> {
+                task.setProjectId(newProjectId);
+                taskDao.add(task, connection);
+            }
+            );
+            ConnectionController.commitConnection(connection);
+        }
+        catch (SQLException e) {
+            ConnectionController.rollbackConnection(connection);
+            LOGGER.log(Level.SEVERE, TRANSACTION_ERROR_MESSAGE, e);
             throw new DaoException(e);
         }
     }
