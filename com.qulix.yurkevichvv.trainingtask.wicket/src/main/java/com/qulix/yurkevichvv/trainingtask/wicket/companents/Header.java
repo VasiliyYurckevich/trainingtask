@@ -1,13 +1,13 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.panels;
+package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeesListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectsListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TasksListPage;
 
 /**
  * Верхняя панель для переключения между страницами.

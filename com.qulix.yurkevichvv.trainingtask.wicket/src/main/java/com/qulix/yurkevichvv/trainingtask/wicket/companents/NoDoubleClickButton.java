@@ -1,8 +1,6 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.button;
+package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import org.apache.wicket.markup.html.form.Button;
-
-import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventDoubleClickBehaviorButtons;
 
 /**
  * Кнопка предотвращающая двойногой щелчок.

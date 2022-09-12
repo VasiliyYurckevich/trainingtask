@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages.lists;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 

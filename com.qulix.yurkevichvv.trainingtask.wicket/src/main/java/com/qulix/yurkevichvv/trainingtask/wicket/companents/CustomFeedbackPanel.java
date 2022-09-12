@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.panels;
+package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;

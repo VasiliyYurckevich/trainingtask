@@ -15,7 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.api.validation.FieldsValidation;
  *
  * @author Q-YVV
  */
-public class DateLogicValidator extends AbstractFormValidator {
+public class DateValidator extends AbstractFormValidator {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class DateLogicValidator extends AbstractFormValidator {
      * @param beginDate поле даты начала
      * @param endDate поле даты окончания
      */
-    public DateLogicValidator(FormComponent beginDate, FormComponent endDate) {
+    public DateValidator(FormComponent beginDate, FormComponent endDate) {
         components = new FormComponent[] {beginDate, endDate};
     }
 

@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.links;
+package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -10,9 +10,9 @@ import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeesListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectsListPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TasksListPage;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.links;
+package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import java.util.List;
 

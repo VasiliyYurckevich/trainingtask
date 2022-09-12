@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.behaviors;
+package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;

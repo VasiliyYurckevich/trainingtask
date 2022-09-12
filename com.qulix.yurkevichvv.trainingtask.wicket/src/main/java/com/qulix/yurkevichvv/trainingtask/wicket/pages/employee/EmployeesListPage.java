@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages.lists;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.DeleteLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.EditLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeePage;
 
