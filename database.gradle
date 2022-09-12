@@ -1,4 +1,14 @@
 import groovy.sql.Sql
+ext {
+    dbName = "mydb"
+    dbUser = "SA"
+    dbPassword = ""
+    dbPort = 9001
+    dbHost = "localhost"
+    dbFile = "mydb"
+    dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;sql.syntax_mys=true"
+    dbDrive = "org.hsqldb.jdbc.JDBCDriver"
+}
 
 task startDatabase() {
     group = 'develop'
@@ -7,10 +17,10 @@ task startDatabase() {
     }
 
     doLast {
-        def dbUser = project.properties['dbUser'] ?: gradle.dbUser
-        def dbPassword = project.properties['dbPassword'] ?: gradle.dbPassword
-        def dbFile = project.properties['dbFile'] ?: gradle.dbFile
-        def dbName = project.properties['dbName'] ?: gradle.dbName
+        def dbUser = dbUser
+        def dbPassword = dbPassword
+        def dbFile = dbFile
+        def dbName = dbName
 
         def className = "org.hsqldb.server.Server"
         def filePath = "file:${projectDir}/${dbFile};user=${dbUser};password=${dbPassword}"
@@ -49,8 +59,8 @@ def wait(Process process) {
 }
 
 def createDatabaseTables(dbUser, dbPassword) {
-    def dbUrl = project.properties['dbUrl'] ?: gradle.dbUrl
-    def dbDrive = project.properties['dbDrive'] ?: gradle.dbDrive
+    def dbUrl = dbUrl
+    def dbDrive = dbDrive
 
     ClassLoader loader = Sql.class.classLoader
     project.buildscript.configurations.classpath.each { File file ->
@@ -70,10 +80,10 @@ task dropDatabase() {
         return available()
     }
     doLast {
-        def dbUser = project.properties['dbUser'] ?: gradle.dbUser
-        def dbPassword = project.properties['dbPassword'] ?: gradle.dbPassword
-        def dbUrl = project.properties['dbUrl'] ?: gradle.dbUrl
-        def dbDrive = project.properties['dbDrive'] ?: gradle.dbDrive
+        def dbUser = dbUser
+        def dbPassword = dbPassword
+        def dbUrl = dbUrl
+        def dbDrive = dbDrive
 
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
@@ -88,23 +98,23 @@ task dropDatabase() {
     }
 }
 
-task setDataInDB() {
+task insertData() {
     group = 'develop'
     outputs.upToDateWhen {
         return available()
     }
     doLast {
-        def dbUser = project.properties['dbUser'] ?: gradle.dbUser
-        def dbPassword = project.properties['dbPassword'] ?: gradle.dbPassword
-        def dbUrl = project.properties['dbUrl'] ?: gradle.dbUrl
-        def dbDrive = project.properties['dbDrive'] ?: gradle.dbDrive
+        def dbUser = dbUser
+        def dbPassword = dbPassword
+        def dbUrl = dbUrl
+        def dbDrive = dbDrive
 
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
             loader.addURL(file.toURI().toURL())
         }
 
-        String query = new File("${rootDir.absolutePath}/sql-scripts/setDataInDB.sql").text
+        String query = new File("${rootDir.absolutePath}/sql-scripts/insertData.sql").text
 
         Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
         sql.execute(query)
@@ -118,10 +128,10 @@ task stopDatabase() {
         return available()
     }
     doLast {
-        def dbUser = project.properties['dbUser'] ?: gradle.dbUser
-        def dbPassword = project.properties['dbPassword'] ?: gradle.dbPassword
-        def dbUrl = project.properties['dbUrl'] ?: gradle.dbUrl
-        def dbDrive = project.properties['dbDrive'] ?: gradle.dbDrive
+        def dbUser = dbUser
+        def dbPassword = dbPassword
+        def dbUrl =dbUrl
+        def dbDrive = dbDrive
 
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
@@ -135,8 +145,8 @@ task stopDatabase() {
 
 boolean available() {
     try {
-        int dbPort = project.properties['dbPort'] ?: gradle.dbPort as int
-        String dbHost = project.properties['dbHost'] ?: gradle.dbHost
+        int dbPort = dbPort as int
+        String dbHost = dbHost
         Socket ignored = new Socket(dbHost, dbPort)
         ignored.close()
         return false
