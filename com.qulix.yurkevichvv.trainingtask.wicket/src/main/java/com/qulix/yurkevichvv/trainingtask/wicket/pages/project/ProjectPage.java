@@ -23,14 +23,14 @@ import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.links.EditInProject;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditInProject;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.ProjectsListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
+import org.apache.wicket.validation.validator.RangeValidator;
+import org.apache.wicket.validation.validator.StringValidator;
 
 /**
  * Страница добавления проекта.
@@ -162,10 +162,10 @@ public class ProjectPage extends BasePage {
         };
         form.add(cancelButton);
         RequiredTextField<String> title = new RequiredTextField<>("title");
-        title.add(new CustomStringValidator(TITLE_MAXLENGTH));
+        title.add(new RangeValidator<Integer>(0,50));
         form.add(title);
         RequiredTextField<String> description = new RequiredTextField<>("description");
-        description.add(new CustomStringValidator(DESCRIPTION_MAXLENGTH));
+        description.add(new StringValidator(0,50));
         form.add(description);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
             new ComponentFeedbackMessageFilter(title));

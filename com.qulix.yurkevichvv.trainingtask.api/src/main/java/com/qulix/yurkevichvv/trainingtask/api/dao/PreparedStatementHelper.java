@@ -1,11 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.api.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,7 +104,7 @@ public class PreparedStatementHelper implements AutoCloseable {
     public PreparedStatement fillPreparedStatement() {
         try {
             String result = parseSqlStatement(sqlStatement);
-            return connection.prepareStatement(result);
+            return connection.prepareStatement(result, Statement.RETURN_GENERATED_KEYS);
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception creating PrepareStatement", e);
@@ -212,13 +207,24 @@ public class PreparedStatementHelper implements AutoCloseable {
      */
     public Integer executeUpdate() {
         try {
-            return this.preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception executeUpdate() PrepareStatementHelper", e);
             throw new DaoException("Error when try executeUpdate() PrepareStatement", e);
         }
     }
+
+    public Integer getGeneratedKeys(){
+        try {
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+            return resultSet.getInt(1);
+        }catch (SQLException e){
+            throw new DaoException("Error when try get generated keys of PrepareStatement", e);
+        }
+    }
+
 
     @Override
     public void close() {

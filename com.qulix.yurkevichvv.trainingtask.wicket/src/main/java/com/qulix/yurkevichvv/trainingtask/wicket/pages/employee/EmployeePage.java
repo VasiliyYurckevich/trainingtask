@@ -9,12 +9,11 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.EmployeesListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
+import org.apache.wicket.validation.validator.StringValidator;
 
 /**
  * Страница добавления/редактирования сотрудников.
@@ -95,19 +94,19 @@ public class EmployeePage extends BasePage {
         form.add(cancelButton);
 
         RequiredTextField<String> surname = new RequiredTextField<>("surname");
-        surname.add(new CustomStringValidator(MAXLENGTH));
+        surname.add(new StringValidator(0,50));
         form.add(surname);
 
         RequiredTextField<String> firstName = new RequiredTextField<>("firstName");
-        firstName.add(new CustomStringValidator(MAXLENGTH));
+        firstName.add(new StringValidator(0,50));
         form.add(firstName);
 
         RequiredTextField<String> patronymic = new RequiredTextField<>("patronymic");
-        patronymic.add(new CustomStringValidator(MAXLENGTH));
+        patronymic.add(new StringValidator(0,50));
         form.add(patronymic);
 
         RequiredTextField<String> post = new RequiredTextField<>("post");
-        post.add(new CustomStringValidator(MAXLENGTH));
+        post.add(new StringValidator(0,50));
         form.add(post);
 
         CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel("surnameFeedbackPanel",

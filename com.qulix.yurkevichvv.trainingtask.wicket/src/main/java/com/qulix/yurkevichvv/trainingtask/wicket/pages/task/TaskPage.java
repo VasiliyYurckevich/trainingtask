@@ -22,14 +22,13 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.wicket.behaviors.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.button.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.lists.TasksListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.panels.CustomFeedbackPanel;
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateLogicValidator;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
+import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
+import org.apache.wicket.validation.validator.StringValidator;
 
 /**
  * Страница добавления/редактирования задач.
@@ -263,7 +262,7 @@ public class TaskPage extends BasePage {
      */
     private static void addTitleField(Form<Task> form) {
         RequiredTextField<String> titleField =  new RequiredTextField<String>("title");
-        titleField.add(new CustomStringValidator(MAXLENGTH));
+        titleField.add(new StringValidator(0,50));
         form.add(titleField);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
             new ComponentFeedbackMessageFilter(titleField));
@@ -306,7 +305,7 @@ public class TaskPage extends BasePage {
             new ComponentFeedbackMessageFilter(endDateTextField));
         form.add(endDateFeedbackPanel);
 
-        form.add(new DateLogicValidator(beginDateField, endDateTextField));
+        form.add(new DateValidator(beginDateField, endDateTextField));
     }
 
     /**

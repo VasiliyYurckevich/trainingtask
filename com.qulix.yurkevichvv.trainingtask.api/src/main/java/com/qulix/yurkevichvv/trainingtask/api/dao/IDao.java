@@ -34,19 +34,19 @@ public interface IDao<T> {
     /**
      * Добавляет новую сущность в БД.
      *
-     * @param t Сущность для добавления.
+     * @param object Сущность для добавления.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    void add(T t, Connection connection) throws DaoException;
+    Integer add(T object, Connection connection) throws DaoException;
 
 
     /**
      * Обновляет сущность в БД.
      *
-     * @param t Сущность для обновления.
+     * @param object Сущность для обновления.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    void update(T t, Connection connection) throws DaoException;
+    void update(T object, Connection connection) throws DaoException;
 
     /**
      * Удаляет сущность из БД.

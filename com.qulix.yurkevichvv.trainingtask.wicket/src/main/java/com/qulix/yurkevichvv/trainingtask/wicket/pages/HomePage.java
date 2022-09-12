@@ -1,5 +1,8 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.Header;
+import org.apache.wicket.markup.html.basic.Label;
+
 /**
  *  Домашняя страница приложения.
  *
@@ -12,7 +15,11 @@ public class HomePage extends BasePage {
      */
     public HomePage() {
         super();
-        get("pageTitle").setDefaultModelObject("Приложение для управления задачами");
     }
 
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
+        get("pageTitle").setDefaultModelObject("Приложение для управления задачами");
+    }
 }

@@ -103,19 +103,19 @@ public class ProjectDao implements IDao<Project>, Serializable {
     public static final String ERROR_GETTING_DATA = "Error when getting a project by id from the database";
 
     @Override
-    public void add(Project project, Connection connection) throws DaoException {
+    public Integer add(Project project, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Project created");
+                return preparedStatementHelper.getGeneratedKeys();
             }
             else {
-                LOGGER.log(Level.INFO, "Project creation failed");
+                throw new DaoException("Error when adding a project to the database");
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when adding a project to the database", e);
             throw new DaoException(e);
         }
         finally {

@@ -24,7 +24,7 @@ package com.qulix.yurkevichvv.trainingtask.api.exceptions;
  *
  * @author Q-YVV
  */
-public class DaoException extends RuntimeException {
+public class    DaoException extends RuntimeException {
 
     /**
      * Конструктор класса с сообщением.

@@ -123,18 +123,18 @@ public class TaskDao implements IDao<Task>, Serializable {
         " employee_id = :employee_id WHERE id = :id;";
 
     @Override
-    public void add(Task task, Connection connection) throws DaoException {
+    public Integer add(Task task, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Created new task");
+                return preparedStatementHelper.getGeneratedKeys();
             }
             else {
-                LOGGER.log(Level.INFO, "Task creation failed");
+                throw new DaoException("Error when adding a task to the database");
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when adding a task to the database", e);
             throw new DaoException(e);
         }
         finally {

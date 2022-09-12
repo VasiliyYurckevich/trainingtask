@@ -99,7 +99,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
     private static final String ID = "id";
 
     @Override
-    public void add(Employee employee, Connection connection) throws DaoException {
+    public Integer add(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_EMPLOYEE_SQL, connection)) {
             preparedStatementHelper.setString(SURNAME, employee.getSurname());
             preparedStatementHelper.setString(FIRST_NAME, employee.getFirstName());
@@ -107,14 +107,13 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             preparedStatementHelper.setString(POST, employee.getPost());
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Created employee");
+                return preparedStatementHelper.getGeneratedKeys();
             }
             else {
-                LOGGER.log(Level.INFO, "Employee creation failed");
-
+                throw new DaoException("Error when adding a new employee to the database");
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when adding a new employee to the database", e);
             throw new DaoException(e);
         }
         finally {
@@ -134,12 +133,11 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
                 LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
             }
             else {
-                LOGGER.log(Level.INFO, "Employee with id {0} updating failed", employee.getId());
+                throw new DaoException("Error when trying to change employee data");
 
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when trying to change employee data", e);
             throw new DaoException(e);
         }
         finally {
@@ -155,11 +153,10 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
                 LOGGER.log(Level.INFO, "Employee with id {0} deleted", id);
             }
             else {
-                LOGGER.log(Level.INFO, "Employee with id {0} deleting failed", id);
+                throw new DaoException("Error when trying to delete employee data");
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when trying to delete employee data", e);
             throw new DaoException(e);
         }
         finally {
@@ -184,8 +181,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             return employees;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting all employee data", e);
-            throw new DaoException(e);
+            throw new DaoException("Error when getting all employee data", e);
         }
         finally {
             ConnectionController.closeConnection(connection);
@@ -210,7 +206,6 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             }
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting employee data", e);
             throw new DaoException(e);
         }
         finally {
@@ -236,8 +231,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             return employee;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting employee data from the database", e);
-            throw new DaoException(e);
+            throw new DaoException("Error when getting employee data from the database", e);
         }
     }
 }
