@@ -2,11 +2,16 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    ext {
+        hsqldbVersion = '2.5.1'
 
+    }
     dependencies {
-        classpath "org.hsqldb:hsqldb:${gradle.hsqldbVersion}"
+        classpath "org.hsqldb:hsqldb:${hsqldbVersion}"
     }
 }
+
+
 
 plugins {
     id 'java'
@@ -18,14 +23,14 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
-
 ext {
+    hsqldbVersion = '2.5.1'
     junitVersion = '5.8.2'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 
@@ -48,7 +53,7 @@ test {
     useJUnitPlatform()
 }
 
-apply from: 'databaseManipulationScripts.gradle'
+apply from: 'database.gradle'
 
 apply plugin: 'checkstyle'
 
