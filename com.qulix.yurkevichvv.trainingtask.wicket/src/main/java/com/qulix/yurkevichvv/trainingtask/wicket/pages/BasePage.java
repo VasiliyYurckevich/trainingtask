@@ -27,6 +27,7 @@ public class BasePage extends WebPage {
      */
     public BasePage(final PageParameters parameters) {
         super(parameters);
+        add(new Label("pageTitle", ""));
     }
 
     @Override
@@ -34,7 +35,6 @@ public class BasePage extends WebPage {
         super.onInitialize();
         Header header = new Header("header");
         add(header);
-        add(new Label("pageTitle", ""));
     }
 
 }

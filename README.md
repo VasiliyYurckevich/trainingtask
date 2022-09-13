@@ -38,4 +38,4 @@
 
 - Заполнение базы данных тестовыми данными 
 
-   `./gradlew setDataInDB`
+   `./gradlew insertData`
