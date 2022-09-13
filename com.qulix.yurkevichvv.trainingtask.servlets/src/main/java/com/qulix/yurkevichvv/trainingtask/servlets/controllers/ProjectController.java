@@ -339,7 +339,7 @@ public class ProjectController extends HttpServlet {
         if (employeeListInProject == null) {
             employeeListInProject = new ArrayList<>();
             for (Task task : tasksListInProject) {
-                if (task.getEmployeeId() != null && task.getEmployeeId() !=0) {
+                if (task.getEmployeeId() != null && task.getEmployeeId() != 0) {
                     Employee employee = new EmployeeDao().getById(task.getEmployeeId());
                     employeeListInProject.add(employee.getFullName());
                 }

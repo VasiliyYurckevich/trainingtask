@@ -15,6 +15,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.validation.validator.StringValidator;
 
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
@@ -23,14 +24,13 @@ import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditInProject;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
-import org.apache.wicket.validation.validator.RangeValidator;
-import org.apache.wicket.validation.validator.StringValidator;
+
 
 /**
  * Страница добавления проекта.
@@ -73,6 +73,11 @@ public class ProjectPage extends BasePage {
      * Список задач проекта.
      */
     private List<Task> tasks;
+
+    /**
+     * Максимальная длинна ввода полей.
+     */
+    public static final int MAXLENGTH = 50;
 
     /**
      * Переменные доступа к методам классов DAO.
@@ -162,10 +167,10 @@ public class ProjectPage extends BasePage {
         };
         form.add(cancelButton);
         RequiredTextField<String> title = new RequiredTextField<>("title");
-        title.add(new RangeValidator<Integer>(0,50));
+        title.add(new StringValidator(0, MAXLENGTH));
         form.add(title);
         RequiredTextField<String> description = new RequiredTextField<>("description");
-        description.add(new StringValidator(0,50));
+        description.add(new StringValidator(0, MAXLENGTH));
         form.add(description);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
             new ComponentFeedbackMessageFilter(title));

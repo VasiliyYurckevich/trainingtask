@@ -1,8 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.Header;
-import org.apache.wicket.markup.html.basic.Label;
-
 /**
  *  Домашняя страница приложения.
  *

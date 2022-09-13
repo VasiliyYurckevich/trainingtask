@@ -13,7 +13,6 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeePage;
 
 /**
  * Страница списка сотрудников.

@@ -1,6 +1,12 @@
 package com.qulix.yurkevichvv.trainingtask.api.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -215,12 +221,18 @@ public class PreparedStatementHelper implements AutoCloseable {
         }
     }
 
-    public Integer getGeneratedKeys(){
+    /**
+     * Возврщает сгенерированый идентифекатор.
+     *
+     * @return сгенерированый идентифекатор
+     */
+    public Integer getGeneratedKeys() {
         try {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
             return resultSet.getInt(1);
-        }catch (SQLException e){
+        }
+        catch (SQLException e) {
             throw new DaoException("Error when try get generated keys of PrepareStatement", e);
         }
     }

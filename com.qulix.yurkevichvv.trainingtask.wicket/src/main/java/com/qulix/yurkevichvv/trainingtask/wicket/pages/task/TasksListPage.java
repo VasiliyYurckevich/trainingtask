@@ -15,7 +15,6 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 
 /**
  * Страница списка задач.

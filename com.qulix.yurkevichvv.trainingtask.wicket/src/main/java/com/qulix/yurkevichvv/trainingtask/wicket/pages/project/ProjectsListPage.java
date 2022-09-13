@@ -3,7 +3,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.Header;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -16,7 +15,6 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
 
 
 /**
