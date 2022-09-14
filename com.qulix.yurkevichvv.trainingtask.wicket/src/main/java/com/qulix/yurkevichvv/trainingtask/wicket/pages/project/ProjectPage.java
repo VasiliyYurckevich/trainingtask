@@ -51,33 +51,28 @@ public class ProjectPage extends BasePage {
     /**
      * Идентификатор элемента названия страницы.
      */
-    public static final String PAGE_TITLE = "pageTitle";
+    private static final String PAGE_TITLE = "pageTitle";
 
 
     /**
      * Идентификатор поля сотрудника.
      */
-    public static final String EMPLOYEE_NAME = "employeeName";
+    private static final String EMPLOYEE_NAME = "employeeName";
 
     /**
      * Идентификатор формы проекта.
      */
-    public static final String PROJECT_FORM = "projectForm";
+    private static final String PROJECT_FORM = "projectForm";
 
     /**
      * Сообщение ошибки транзакции.
      */
-    public static final String TRANSACTION_ERROR_MESSAGE = "Exception trying create transaction";
+    private static final String TRANSACTION_ERROR_MESSAGE = "Exception trying create transaction";
 
     /**
      * Список задач проекта.
      */
     private List<Task> tasks;
-
-    /**
-     * Максимальная длинна ввода полей.
-     */
-    public static final int MAXLENGTH = 50;
 
     /**
      * Переменные доступа к методам классов DAO.
@@ -167,10 +162,10 @@ public class ProjectPage extends BasePage {
         };
         form.add(cancelButton);
         RequiredTextField<String> title = new RequiredTextField<>("title");
-        title.add(new StringValidator(0, MAXLENGTH));
+        title.add(new StringValidator(0, TITLE_MAXLENGTH));
         form.add(title);
         RequiredTextField<String> description = new RequiredTextField<>("description");
-        description.add(new StringValidator(0, MAXLENGTH));
+        description.add(new StringValidator(0, DESCRIPTION_MAXLENGTH));
         form.add(description);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
             new ComponentFeedbackMessageFilter(title));
