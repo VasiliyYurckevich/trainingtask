@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Project implements Serializable {
+public class Project implements Serializable, Entity {
 
     private static final long  serialVersionUID = 87654L;
 
@@ -45,7 +45,7 @@ public class Project implements Serializable {
      * Описание проекта.
      */
     private String description;
-
+    @Override
     public Integer getId() {
         return id;
     }

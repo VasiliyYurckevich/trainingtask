@@ -28,7 +28,7 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Task implements Serializable {
+public class Task implements Entity, Serializable {
 
     private static final long  serialVersionUID = 3456L;
 
@@ -72,6 +72,7 @@ public class Task implements Serializable {
      */
     private Integer employeeId;
 
+    @Override
     public Integer getId() {
         return id;
     }

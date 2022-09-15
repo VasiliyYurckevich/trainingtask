@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Employee implements Serializable {
+public class Employee implements Entity, Serializable {
 
     private static final long  serialVersionUID = 1234567L;
 
@@ -56,6 +56,7 @@ public class Employee implements Serializable {
      */
     private String post;
 
+    @Override
     public Integer getId() {
         return id;
     }

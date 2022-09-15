@@ -22,6 +22,7 @@ package com.qulix.yurkevichvv.trainingtask.api.dao;
 import java.sql.Connection;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.api.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 
 /**
@@ -29,7 +30,7 @@ import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
  *
  * @author Q-YVV
  */
-public interface IDao<T> {
+public interface IDao<T extends Entity> {
 
     /**
      * Добавляет новую сущность в БД.
