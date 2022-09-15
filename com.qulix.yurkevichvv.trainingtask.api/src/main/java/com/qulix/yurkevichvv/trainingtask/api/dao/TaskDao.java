@@ -151,11 +151,10 @@ public class TaskDao implements IDao<Task>, Serializable {
                 LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
             }
             else {
-                LOGGER.log(Level.INFO, "Task with id {0} updating failed", task.getId());
+                throw new DaoException("Error when updating a task in the database");
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when updating a task in the database", e);
             throw new DaoException(e);
         }
         finally {
@@ -181,7 +180,6 @@ public class TaskDao implements IDao<Task>, Serializable {
             preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployeeId());
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when entering task data into an SQL expression", e);
             throw new DaoException(e);
         }
     }
@@ -198,7 +196,6 @@ public class TaskDao implements IDao<Task>, Serializable {
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when deleting a task from the database", e);
             throw new DaoException(e);
         }
         finally {
@@ -224,8 +221,7 @@ public class TaskDao implements IDao<Task>, Serializable {
             return getList(tasks, resultSet);
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting project tasks from the database", e);
-            throw new DaoException(e);
+            throw new DaoException("Error when getting project tasks from the database", e);
         }
         finally {
             preparedStatementHelper.close();
@@ -244,8 +240,7 @@ public class TaskDao implements IDao<Task>, Serializable {
             return getList(tasks, resultSet);
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting all tasks from the database", e);
-            throw new DaoException(e);
+            throw new DaoException("Error when getting all tasks from the database", e);
         }
         finally {
             ConnectionController.closeConnection(connection);
@@ -269,7 +264,6 @@ public class TaskDao implements IDao<Task>, Serializable {
             }
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
             throw new DaoException("Error when getting tasks from the database", e);
         }
         return tasks;
@@ -294,8 +288,7 @@ public class TaskDao implements IDao<Task>, Serializable {
             }
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting a task by ID from the database", e);
-            throw new DaoException(e);
+            throw new DaoException("An employee with such data was not found", e);
         }
         finally {
             ConnectionController.closeConnection(connection);
@@ -320,8 +313,7 @@ public class TaskDao implements IDao<Task>, Serializable {
             task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
-            throw new DaoException(e);
+            throw new DaoException("Error when retrieving task data from the database", e);
         }
     }
 }

@@ -133,11 +133,10 @@ public class ProjectDao implements IDao<Project>, Serializable {
                 LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
             }
             else {
-                LOGGER.log(Level.INFO, "Project with id {0} updating failed", project.getId());
+                throw new DaoException("Error when updating the project in the database");
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when updating the project in the database", e);
             throw new DaoException(e);
         }
     }
@@ -150,11 +149,10 @@ public class ProjectDao implements IDao<Project>, Serializable {
                 LOGGER.log(Level.INFO, "Project with id {0} deleted", id);
             }
             else {
-                LOGGER.log(Level.INFO, "Project with id {0} deleting failed", id);
+                throw new DaoException("Error when deleting a project from the database");
             }
         }
         catch (DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when deleting a project from the database", e);
             throw new DaoException(e);
         }
         finally {
@@ -177,8 +175,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
             return projects;
         }
         catch (SQLException | DaoException e) {
-            LOGGER.log(Level.SEVERE, "Error when getting all projects from the database", e);
-            throw new DaoException(e);
+            throw new DaoException("Error when getting all projects from the database", e);
         }
         finally {
             ConnectionController.closeConnection(connection);
@@ -201,8 +198,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
             return project;
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when retrieving task data from the database", e);
-            throw new DaoException(e);
+            throw new DaoException("Error when retrieving task data from the database", e);
         }
     }
 
@@ -224,8 +220,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
             }
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, ERROR_GETTING_DATA, e);
-            throw new DaoException(e);
+            throw new DaoException(NOT_FOUND, e);
         }
         finally {
             ConnectionController.closeConnection(connection);
@@ -249,8 +244,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
             }
         }
         catch (DaoException | SQLException e) {
-            LOGGER.log(Level.SEVERE, ERROR_GETTING_DATA, e);
-            throw new DaoException(e);
+            throw new DaoException(NOT_FOUND, e);
         }
         finally {
             ConnectionController.closeConnection(connection);
