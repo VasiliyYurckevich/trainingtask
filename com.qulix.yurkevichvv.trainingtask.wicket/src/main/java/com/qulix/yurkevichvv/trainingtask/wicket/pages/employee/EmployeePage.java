@@ -1,12 +1,10 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.validation.validator.StringValidator;
 
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
@@ -15,6 +13,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
  * Страница добавления/редактирования сотрудников.
