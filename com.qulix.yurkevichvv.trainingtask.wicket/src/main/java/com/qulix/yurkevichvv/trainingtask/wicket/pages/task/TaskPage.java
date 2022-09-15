@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.validation.validator.RangeValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
@@ -277,6 +278,7 @@ public class TaskPage extends BasePage {
      */
     private static void addWorkTimeField(Form<Task> form) {
         RequiredTextField<Integer> workTimeField = new RequiredTextField<>("workTime");
+        workTimeField.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
         form.add(workTimeField);
         CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("workTimeFeedbackPanel",
             new ComponentFeedbackMessageFilter(workTimeField));
