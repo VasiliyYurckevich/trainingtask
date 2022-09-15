@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -94,19 +95,19 @@ public class EmployeePage extends BasePage {
         form.add(cancelButton);
 
         RequiredTextField<String> surname = new RequiredTextField<>("surname");
-        surname.add(new StringValidator(0, MAXLENGTH));
+        surname.add(new CustomStringValidator(MAXLENGTH));
         form.add(surname);
 
         RequiredTextField<String> firstName = new RequiredTextField<>("firstName");
-        firstName.add(new StringValidator(0, MAXLENGTH));
+        firstName.add(new CustomStringValidator(MAXLENGTH));
         form.add(firstName);
 
         RequiredTextField<String> patronymic = new RequiredTextField<>("patronymic");
-        patronymic.add(new StringValidator(0, MAXLENGTH));
+        patronymic.add(new CustomStringValidator(MAXLENGTH));
         form.add(patronymic);
 
         RequiredTextField<String> post = new RequiredTextField<>("post");
-        post.add(new StringValidator(0, MAXLENGTH));
+        post.add(new CustomStringValidator(MAXLENGTH));
         form.add(post);
 
         CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel("surnameFeedbackPanel",

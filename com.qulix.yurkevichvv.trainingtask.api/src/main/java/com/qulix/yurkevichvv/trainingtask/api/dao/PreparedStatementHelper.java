@@ -222,9 +222,9 @@ public class PreparedStatementHelper implements AutoCloseable {
     }
 
     /**
-     * Возврщает сгенерированый идентифекатор.
+     * Возвращает сгенерированный идентификатор.
      *
-     * @return сгенерированый идентифекатор
+     * @return сгенерированный идентификатор
      */
     public Integer getGeneratedKeys() {
         try {

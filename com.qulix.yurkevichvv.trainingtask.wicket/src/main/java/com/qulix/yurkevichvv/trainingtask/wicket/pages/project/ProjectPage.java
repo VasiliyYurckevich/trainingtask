@@ -7,14 +7,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+import org.apache.wicket.Component;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.validation.validator.RangeValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
@@ -162,10 +167,10 @@ public class ProjectPage extends BasePage {
         };
         form.add(cancelButton);
         RequiredTextField<String> title = new RequiredTextField<>("title");
-        title.add(new StringValidator(0, TITLE_MAXLENGTH));
+        title.add(new CustomStringValidator(TITLE_MAXLENGTH));
         form.add(title);
         RequiredTextField<String> description = new RequiredTextField<>("description");
-        description.add(new StringValidator(0, DESCRIPTION_MAXLENGTH));
+        description.add(new CustomStringValidator(DESCRIPTION_MAXLENGTH));
         form.add(description);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
             new ComponentFeedbackMessageFilter(title));

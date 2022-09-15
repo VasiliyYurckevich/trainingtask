@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -264,7 +265,7 @@ public class TaskPage extends BasePage {
      */
     private static void addTitleField(Form<Task> form) {
         RequiredTextField<String> titleField =  new RequiredTextField<String>("title");
-        titleField.add(new StringValidator(0, MAXLENGTH));
+        titleField.add(new CustomStringValidator(MAXLENGTH));
         form.add(titleField);
         CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
             new ComponentFeedbackMessageFilter(titleField));
@@ -278,7 +279,7 @@ public class TaskPage extends BasePage {
      */
     private static void addWorkTimeField(Form<Task> form) {
         RequiredTextField<Integer> workTimeField = new RequiredTextField<>("workTime");
-        workTimeField.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
+        workTimeField.add(new RangeValidator<>(0, Integer.MAX_VALUE));
         form.add(workTimeField);
         CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("workTimeFeedbackPanel",
             new ComponentFeedbackMessageFilter(workTimeField));
