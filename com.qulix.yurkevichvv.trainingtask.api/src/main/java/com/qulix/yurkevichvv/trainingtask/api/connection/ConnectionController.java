@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.api.connection;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
  *
  * @author Q-YVV
  */
-public class ConnectionController {
+public class ConnectionController implements Serializable {
 
     /**
      * Хранит константу названия драйвера JDBC.
