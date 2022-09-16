@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -20,7 +21,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidato
  *
  * @author Q-YVV
  */
-public class EmployeePage extends BasePage {
+public class EmployeePage<T extends Page> extends BasePage {
 
     /**
      * Идентификатор элемента названия страницы.
@@ -39,35 +40,18 @@ public class EmployeePage extends BasePage {
 
     /**
      * Конструктор.
-     */
-    public EmployeePage() {
-        super();
-        get(PAGE_TITLE).setDefaultModelObject("Добавить сотрудника");
-        Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(new Employee())) {
-            @Override
-            public void onSubmit() {
-                EmployeeDao employeeDao = new EmployeeDao();
-                employeeDao.add((Employee)getModelObject(), ConnectionController.getConnection());
-                setResponsePage(EmployeesListPage.class);
-            }
-        };
-        addFormComponents(employeeForm);
-        add(employeeForm);
-    }
-
-    /**
-     * Конструктор.
      *
+     * @param page страница
      * @param employee редактируемый сотрудник
      */
-    public EmployeePage(final Employee employee) {
+    public EmployeePage(T page, Employee employee) {
         get(PAGE_TITLE).setDefaultModelObject("Редактировать сотрудника");
         Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
             @Override
             public void onSubmit() {
                 EmployeeDao employeeDao = new EmployeeDao();
                 employeeDao.update(getModelObject(), ConnectionController.getConnection());
-                setResponsePage(EmployeesListPage.class);
+                setResponsePage(page);
             }
         };
         addFormComponents(employeeForm);
@@ -75,7 +59,7 @@ public class EmployeePage extends BasePage {
     }
 
     /**
-     * Добавляет компаненты в форму задачи.
+     * Добавляет компоненты в форму задачи.
      *
      * @param form форма для добавления
      */

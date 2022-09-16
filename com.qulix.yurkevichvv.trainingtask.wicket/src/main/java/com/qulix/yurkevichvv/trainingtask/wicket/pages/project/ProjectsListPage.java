@@ -3,6 +3,8 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -15,6 +17,7 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
@@ -35,15 +38,20 @@ public class ProjectsListPage extends BasePage {
     protected void onInitialize() {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Проекты");
-        List<Project> projects = new ProjectDao().getAll();
+        LoadableDetachableModel<List<Project>> projects = new LoadableDetachableModel<>() {
+            @Override
+            protected List<Project> load() {
+                return new ProjectDao().getAll();
+            }
+        };
         ListView<Project> projectListView = new ListView<>("projects", projects) {
             @Override
             protected void populateItem(ListItem<Project> item) {
                 final Project project = item.getModelObject();
                 item.add(new Label("title", project.getTitle()));
                 item.add(new Label("description", project.getDescription()));
-                item.add(new DeleteLink("deleteLink", item));
-                item.add(new EditLink("editLink", item));
+                item.add(new DeleteLink("deleteLink", item.getModelObject()));
+                item.add(new EditLink("editLink", item.getModelObject()));
             }
         };
         add(projectListView);
@@ -55,3 +63,4 @@ public class ProjectsListPage extends BasePage {
         });
     }
 }
+

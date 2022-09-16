@@ -13,6 +13,7 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 /**
  * Страница списка сотрудников.
@@ -26,26 +27,46 @@ public class EmployeesListPage extends BasePage {
      */
     public EmployeesListPage() {
         super();
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
         get("pageTitle").setDefaultModelObject("Сотрудники");
-        List<Employee> employees = new EmployeeDao().getAll();
-        ListView<Employee> employeeListView = new ListView<>("employees", employees) {
+
+        LoadableDetachableModel <List<Employee>> employees = new LoadableDetachableModel<>() {
             @Override
-            protected void populateItem(ListItem<Employee> item) {
-                final Employee employee = item.getModelObject();
-                item.add(new Label("surname", employee.getSurname()));
-                item.add(new Label("firstName", employee.getFirstName()));
-                item.add(new Label("patronymic", employee.getPatronymic()));
-                item.add(new Label("post", employee.getPost()));
-                item.add(new DeleteLink("deleteLink", item));
-                item.add(new EditLink("editLink", item));
+            protected List<Employee> load() {
+                return new EmployeeDao().getAll();
             }
         };
+
+        ListView<Employee> employeeListView = new EmployeeListView(employees);
         add(employeeListView);
+
         add(new Link<WebPage>("addEmployee") {
             @Override
             public void onClick() {
-                setResponsePage(new EmployeePage());
+                setResponsePage(new EmployeePage(this.getPage(),new Employee()));
             }
         });
+    }
+
+    private static class EmployeeListView extends ListView<Employee> {
+        public EmployeeListView(LoadableDetachableModel<List<Employee>> employees) {
+            super("employees", employees);
+            this.setReuseItems(true);
+        }
+
+        @Override
+        protected void populateItem(ListItem<Employee> item) {
+            final Employee employee = item.getModelObject();
+            item.add(new Label("surname", employee.getSurname()));
+            item.add(new Label("firstName", employee.getFirstName()));
+            item.add(new Label("patronymic", employee.getPatronymic()));
+            item.add(new Label("post", employee.getPost()));
+            item.add(new DeleteLink("deleteLink", item.getModelObject()));
+            item.add(new EditLink("editLink", item.getModelObject()));
+        }
     }
 }

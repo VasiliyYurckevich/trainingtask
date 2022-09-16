@@ -1,5 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
+import com.qulix.yurkevichvv.trainingtask.api.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 
@@ -14,18 +16,20 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeesListPag
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectsListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TasksListPage;
 
+import java.sql.Connection;
+
 
 /**
  * Ссылка для удаления сущности.
  *
  * @author Q-YVV
  */
-public class DeleteLink extends Link<Void> {
+public class DeleteLink<T extends Entity> extends Link<T> {
 
     /**
      * Элемент ListView.
      */
-    private ListItem<?> item;
+    private T item;
 
     /**
      * Конструктор.
@@ -33,27 +37,19 @@ public class DeleteLink extends Link<Void> {
      * @param id идентификатор
      * @param item элемент ListView
      */
-    public DeleteLink(String id, ListItem<?> item) {
+    public DeleteLink(String id, T item) {
         super(id);
         this.item = item;
     }
 
     @Override
     public void onClick() {
-        if (item.getModelObject() instanceof Employee) {
-            EmployeeDao employeeDao = new EmployeeDao();
-            employeeDao.delete(((Employee) item.getModelObject()).getId(), ConnectionController.getConnection());
-            setResponsePage(EmployeesListPage.class);
+        Connection connection = ConnectionController.getConnection();
+        try {
+            item.getDao().delete(item.getId(), ConnectionController.getConnection());
         }
-        else if (item.getModelObject() instanceof Project) {
-            ProjectDao projectDao = new ProjectDao();
-            projectDao.delete(((Project) item.getModelObject()).getId(), ConnectionController.getConnection());
-            setResponsePage(ProjectsListPage.class);
-        }
-        else if (item.getModelObject() instanceof Task) {
-            TaskDao taskDao = new TaskDao();
-            taskDao.delete(((Task) item.getModelObject()).getId(), ConnectionController.getConnection());
-            setResponsePage(TasksListPage.class);
+        finally {
+            ConnectionController.closeConnection(connection);
         }
     }
 }

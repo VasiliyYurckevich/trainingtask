@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
+import com.qulix.yurkevichvv.trainingtask.api.entity.Entity;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 
@@ -16,12 +17,12 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
  *
  * @author Q-YVV
  */
-public class EditLink extends Link<Void> {
+public class EditLink<T extends Entity> extends Link<T> {
 
     /**
      * Элемент ListView.
      */
-    private ListItem<?> item;
+    private T item;
 
     /**
      * Конструктор.
@@ -29,22 +30,12 @@ public class EditLink extends Link<Void> {
      * @param id идентификатор
      * @param item элемент ListView
      */
-    public EditLink(String id, ListItem<?> item) {
+    public EditLink(String id, T item) {
         super(id);
         this.item = item;
     }
 
     @Override
     public void onClick() {
-        if (item.getModelObject() instanceof Employee) {
-            setResponsePage(new EmployeePage((Employee) item.getModelObject()));
-        }
-        else if (item.getModelObject() instanceof Project) {
-            setResponsePage(new ProjectPage((Project) item.getModelObject(),
-                new TaskDao().getTasksInProject(((Project) item.getModelObject()).getId())));
-        }
-        else if (item.getModelObject() instanceof Task) {
-            setResponsePage(new TaskPage((Task) item.getModelObject()));
-        }
     }
 }
