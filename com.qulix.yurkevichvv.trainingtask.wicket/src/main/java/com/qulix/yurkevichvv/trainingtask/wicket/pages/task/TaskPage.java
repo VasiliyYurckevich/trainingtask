@@ -324,7 +324,7 @@ public class TaskPage extends BasePage {
      */
     private static void addProjectDropDownChoice(Form<Task> form) {
         List<Project> projects = new ProjectDao().getAll();
-        IModel<Project> model = new ProjectIModel(projects, form.getModelObject());
+        ProjectIModel model = new ProjectIModel(projects, form.getModelObject());
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId" , model, projects,
             new ChoiceRenderer<>(TITLE));
@@ -346,7 +346,7 @@ public class TaskPage extends BasePage {
         LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
             Employee::getId);
 
-        IModel<Employee> model = new EmployeeIModel(employees, form.getModelObject());
+        EmployeeIModel model = new EmployeeIModel(employees, form.getModelObject());
         DropDownChoice<Employee> employeesDropDownChoice = new DropDownChoice<>("employeeId" , model, employees,
             employeeChoiceRenderer);
         form.add(employeesDropDownChoice);
@@ -356,7 +356,4 @@ public class TaskPage extends BasePage {
             new ComponentFeedbackMessageFilter(employeesDropDownChoice));
         form.add(employeesFeedbackPanel);
     }
-
-
-
 }

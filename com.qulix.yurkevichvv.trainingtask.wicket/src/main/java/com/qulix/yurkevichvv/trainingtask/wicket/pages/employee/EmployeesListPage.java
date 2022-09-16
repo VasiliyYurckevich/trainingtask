@@ -13,6 +13,7 @@ import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 /**
@@ -47,13 +48,18 @@ public class EmployeesListPage extends BasePage {
         add(new Link<WebPage>("addEmployee") {
             @Override
             public void onClick() {
-                setResponsePage(new EmployeePage(this.getPage(),new Employee()));
+                setResponsePage(new EmployeePage(new Employee()){
+                    @Override
+                    protected void onAfterSubmit() {
+                        setResponsePage(this);
+                    }
+                });
             }
         });
     }
 
     private static class EmployeeListView extends ListView<Employee> {
-        public EmployeeListView(LoadableDetachableModel<List<Employee>> employees) {
+        public EmployeeListView(IModel<List<Employee>> employees) {
             super("employees", employees);
             this.setReuseItems(true);
         }

@@ -16,6 +16,7 @@ class ProjectIModel implements IModel<Project> {
         this.task = task;
     }
 
+    @Override
     public Project getObject() {
         for (Project project : list) {
             if (project.getId().equals(task.getProjectId())) {

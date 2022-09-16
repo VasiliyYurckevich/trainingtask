@@ -52,7 +52,7 @@ public class TasksListPage extends BasePage {
             @Override
             protected void onConfigure(){
                 super.onConfigure();
-                this.setEnabled(new ProjectDao().getAll().isEmpty() ? false : true);
+                this.setEnabled(!new ProjectDao().getAll().isEmpty());
             }
         };
         add(addTask);

@@ -23,20 +23,23 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidato
  */
 public class EmployeePage<T extends Page> extends BasePage {
 
+
     /**
      * Идентификатор элемента названия страницы.
      */
-    public static final String PAGE_TITLE = "pageTitle";
+    private static final String PAGE_TITLE = "pageTitle";
 
     /**
      * Идентификатор элемента формы.
      */
-    public static final String EMPLOYEE_FORM = "form";
+    private static final String EMPLOYEE_FORM = "form";
 
     /**
      * Максимальная длинна ввода полей.
      */
-    public static final int MAXLENGTH = 50;
+    private static final int MAXLENGTH = 50;
+    private T page;
+    private Employee employee;
 
     /**
      * Конструктор.
@@ -44,18 +47,29 @@ public class EmployeePage<T extends Page> extends BasePage {
      * @param page страница
      * @param employee редактируемый сотрудник
      */
-    public EmployeePage(T page, Employee employee) {
+    public EmployeePage(Employee employee) {
+        super();
+        this.page = page;
+        this.employee = employee;
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
         get(PAGE_TITLE).setDefaultModelObject("Редактировать сотрудника");
         Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
             @Override
             public void onSubmit() {
                 EmployeeDao employeeDao = new EmployeeDao();
                 employeeDao.update(getModelObject(), ConnectionController.getConnection());
-                setResponsePage(page);
-            }
+                onAfterSubmit();
+                }
         };
         addFormComponents(employeeForm);
         add(employeeForm);
+    }
+
+    protected void onAfterSubmit() {
     }
 
     /**

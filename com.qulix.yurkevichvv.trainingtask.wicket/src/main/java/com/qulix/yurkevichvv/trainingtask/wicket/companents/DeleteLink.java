@@ -1,22 +1,12 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
-import com.qulix.yurkevichvv.trainingtask.api.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import java.sql.Connection;
+
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
 
 import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeesListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectsListPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TasksListPage;
+import com.qulix.yurkevichvv.trainingtask.api.entity.Entity;
 
-import java.sql.Connection;
 
 
 /**
