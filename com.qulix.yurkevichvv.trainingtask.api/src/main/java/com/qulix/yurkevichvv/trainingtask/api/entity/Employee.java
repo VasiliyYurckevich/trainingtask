@@ -19,6 +19,9 @@
  */
 package com.qulix.yurkevichvv.trainingtask.api.entity;
 
+import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.api.dao.IDao;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -59,6 +62,11 @@ public class Employee implements Entity, Serializable {
     @Override
     public Integer getId() {
         return id;
+    }
+
+    @Override
+    public IDao getDao() {
+        return new EmployeeDao();
     }
 
     public void setId(Integer id) {

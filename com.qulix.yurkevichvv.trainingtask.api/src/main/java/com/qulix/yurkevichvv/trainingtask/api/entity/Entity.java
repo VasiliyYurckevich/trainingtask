@@ -1,5 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.api.entity;
 
+import com.qulix.yurkevichvv.trainingtask.api.dao.IDao;
+
 /**
  * Интерфейс сущностей.
  *
@@ -13,4 +15,11 @@ public interface Entity {
      * @return идентификатор
      */
     Integer getId();
+
+    /**
+     * Возвращает объект DAO-класса, связанный с сущностью.
+     *
+     * @return  объект DAO-класса
+     */
+    IDao getDao();
 }
