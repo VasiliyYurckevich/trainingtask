@@ -98,7 +98,7 @@ task dropDatabase() {
     }
 }
 
-task insertData() {
+task fillDatabase() {
     group = 'develop'
     outputs.upToDateWhen {
         return available()
@@ -114,7 +114,7 @@ task insertData() {
             loader.addURL(file.toURI().toURL())
         }
 
-        String query = new File("${rootDir.absolutePath}/sql-scripts/insertData.sql").text
+        String query = new File("${rootDir.absolutePath}/sql-scripts/fill.sql").text
 
         Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
         sql.execute(query)
