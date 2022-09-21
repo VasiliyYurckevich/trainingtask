@@ -37,7 +37,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    implementation project(':com.qulix.yurkevichvv.trainingtask.api')
+    implementation project(':com.qulix.yurkevichvv.trainingtask.model')
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'org.hsqldb:hsqldb:2.7.0'
     implementation 'org.codehaus.groovy:groovy-all:3.0.12'
