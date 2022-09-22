@@ -4,8 +4,8 @@ import java.sql.Connection;
 
 import org.apache.wicket.markup.html.link.Link;
 
-import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 
 
 

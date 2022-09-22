@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.dao;
+package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -28,9 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 
 /**
  * Содержит методы для работы объектов класса "Проект" с БД.
@@ -40,6 +38,8 @@ import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
  * @see Project
  */
 public class ProjectDao implements IDao<Project>, Serializable {
+
+    private Integer generatedKey = null;
 
     /**
      * Хранит константу для колонки ID проекта в БД.
@@ -97,19 +97,15 @@ public class ProjectDao implements IDao<Project>, Serializable {
      */
     public static final String NOT_FOUND = "A project with such data was not found";
 
-    /**
-     * Сообщение при попытке получения проекта.
-     */
-    public static final String ERROR_GETTING_DATA = "Error when getting a project by id from the database";
 
     @Override
-    public Integer add(Project project, Connection connection) throws DaoException {
+    public void add(Project project, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Project created");
-                return preparedStatementHelper.getGeneratedKeys();
+                this.generatedKey = preparedStatementHelper.getGeneratedKey();
             }
             else {
                 throw new DaoException("Error when adding a project to the database");
@@ -155,9 +151,6 @@ public class ProjectDao implements IDao<Project>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
     }
 
     @Override
@@ -175,10 +168,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
             return projects;
         }
         catch (SQLException | DaoException e) {
-            throw new DaoException("Error when getting all projects from the database", e);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
+            throw new DaoException(e);
         }
     }
 
@@ -194,7 +184,6 @@ public class ProjectDao implements IDao<Project>, Serializable {
             project.setId(resultSet.getInt(ID));
             project.setTitle(resultSet.getString(TITLE));
             project.setDescription(resultSet.getString(DESCRIPTION));
-
             return project;
         }
         catch (SQLException e) {
@@ -202,30 +191,6 @@ public class ProjectDao implements IDao<Project>, Serializable {
         }
     }
 
-    /**
-     * Получение последнего проекта.
-     *
-     * @param connection соединение с БД
-     * @return id проекта
-     */
-    public int cellIdentity(Connection connection) {
-        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(ID_DESC, connection)) {
-            try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt(ID);
-                }
-                else {
-                    throw new DaoException(NOT_FOUND);
-                }
-            }
-        }
-        catch (DaoException | SQLException e) {
-            throw new DaoException(NOT_FOUND, e);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
-    }
 
     @Override
     public Project getById(Integer id) throws DaoException {
@@ -246,8 +211,9 @@ public class ProjectDao implements IDao<Project>, Serializable {
         catch (DaoException | SQLException e) {
             throw new DaoException(NOT_FOUND, e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+    }
+
+    public Integer getGeneratedKey() {
+        return generatedKey;
     }
 }

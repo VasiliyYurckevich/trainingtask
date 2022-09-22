@@ -17,13 +17,12 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.dao;
+package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 import java.sql.Connection;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.api.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 
 /**
  * Обобщает основные методы для записи сущностей в БД.
@@ -38,7 +37,7 @@ public interface IDao<T extends Entity> {
      * @param object Сущность для добавления.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    Integer add(T object, Connection connection) throws DaoException;
+    void add(T object, Connection connection) throws DaoException;
 
 
     /**

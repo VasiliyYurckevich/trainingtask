@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.entity;
+package com.qulix.yurkevichvv.trainingtask.model.entity;
 
 import java.util.Arrays;
 

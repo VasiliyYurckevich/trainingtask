@@ -11,23 +11,19 @@ import org.apache.wicket.markup.html.form.LambdaChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.RangeValidator;
 
-import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
@@ -87,124 +83,20 @@ public class TaskPage extends BasePage {
      */
     public static final String TITLE = "title";
 
-
-    /**
-     * Конструктор.
-     */
-    public TaskPage() {
-        get(PAGE_TITLE).setDefaultModelObject(ADD_TASK_PAGE_TITLE);
-        Form<Task> taskForm = new Form<Task>(TASK_FORM, new CompoundPropertyModel<>(new Task())) {
-            @Override
-            protected void onSubmit() {
-                TaskDao taskDao = new TaskDao();
-                taskDao.add(getModelObject(), ConnectionController.getConnection());
-                setResponsePage(TasksListPage.class);
-            }
-        };
-        addFormComponents(taskForm);
-        add(taskForm);
-    }
-
     /**
      * Конструктор.
      *
-     * @param project проект, к которому привязана задача
-     * @param projectTasks список задач проекта
-     */
-    public TaskPage(Project project, List<Task> projectTasks) {
-        get(PAGE_TITLE).setDefaultModelObject("Добавить задачу в проект " + project.getTitle());
-        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(new Task())) {
-            @Override
-            protected void onSubmit() {
-                projectTasks.add(getModelObject());
-                setResponsePage(new ProjectPage(project, projectTasks));
-            }
-        };
-        addFormComponents(taskForm);
-        taskForm.get(PROJECTS).setDefaultModelObject(project.getId());
-        taskForm.get(PROJECTS).setEnabled(false);
-        add(taskForm);
-    }
-
-    /**
-     * Конструктор.
-     *
-     * @param project проект, к которому привязана задача
-     * @param projectTasks список задач проекта
-     * @param taskId индекс задачи в projectTasks
-     */
-    public TaskPage(Project project, List<Task> projectTasks, int taskId) {
-        get(PAGE_TITLE).setDefaultModelObject("Редактировать задачу в проекте " + project.getTitle());
-        Task task = projectTasks.get(taskId);
-        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
-            @Override
-            protected void onSubmit() {
-                projectTasks.set(taskId, getModelObject());
-                setResponsePage(new ProjectPage(project, projectTasks));
-            }
-        };
-        addFormComponents(taskForm);
-        taskForm.get(PROJECTS).setDefaultModelObject(project.getId());
-        taskForm.get(PROJECTS).setEnabled(false);
-        add(taskForm);
-    }
-
-    /**
-     * Конструктор.
-     *
-     * @param projectTasks список задач проекта
-     */
-    public TaskPage(List<Task> projectTasks) {
-        get(PAGE_TITLE).setDefaultModelObject(ADD_TASK_PAGE_TITLE);
-        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(new Task())) {
-            @Override
-            protected void onSubmit() {
-                projectTasks.add(getModelObject());
-                setResponsePage(new ProjectPage(projectTasks));
-            }
-        };
-        addFormComponents(taskForm);
-        taskForm.get(PROJECTS).setEnabled(false);
-        add(taskForm);
-    }
-
-    /**
-     * Конструктор.
-     *
-     * @param projectTasks список задач проекта
-     * @param taskId индекс задачи в projectTasks
-     */
-    public TaskPage(List<Task> projectTasks, int taskId) {
-        get(PAGE_TITLE).setDefaultModelObject(EDIT_TASK);
-        Task task = projectTasks.get(taskId);
-        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
-            @Override
-            protected void onSubmit() {
-                projectTasks.set(taskId, getModelObject());
-                setResponsePage(new ProjectPage(projectTasks));
-            }
-        };
-        addFormComponents(taskForm);
-        taskForm.get(PROJECTS).setEnabled(false);
-        add(taskForm);
-    }
-
-    /**
-     * Конструктор.
-     *
-     * @param task редактируемая задача
      */
     public TaskPage(Task task) {
-        get(PAGE_TITLE).setDefaultModelObject(EDIT_TASK);
-        Form<Task> taskForm = new Form<Task>(TASK_FORM, new CompoundPropertyModel<>(task)) {
+        get(PAGE_TITLE).setDefaultModelObject("Редактировать задачу");
+        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override
             protected void onSubmit() {
-                TaskDao taskDao = new TaskDao();
-                taskDao.update(getModelObject(), ConnectionController.getConnection());
-                setResponsePage(TasksListPage.class);
             }
         };
         addFormComponents(taskForm);
+        /*taskForm.get(PROJECTS).setDefaultModelObject(service());
+        taskForm.get(PROJECTS).setEnabled(false);*/
         add(taskForm);
     }
 

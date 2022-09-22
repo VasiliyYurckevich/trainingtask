@@ -17,12 +17,14 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.entity;
+package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.IDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -48,6 +50,14 @@ public class Project implements Serializable, Entity {
      * Описание проекта.
      */
     private String description;
+
+    /**
+     * Задачи проекта.
+     */
+    private List<Task> tasksList;
+
+    private List<Task> deletedTasksList = null;
+
     @Override
     public Integer getId() {
         return id;
@@ -76,6 +86,25 @@ public class Project implements Serializable, Entity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Task> getTasksList() {
+        if (tasksList == null){
+            tasksList = new TaskDao().getTasksInProject(id);
+        }
+        return tasksList;
+    }
+
+    public void setTasksList(List<Task> tasksList) {
+        this.tasksList = tasksList;
+    }
+
+    public List<Task> getDeletedTasksList() {
+        return deletedTasksList;
+    }
+
+    public void setDeletedTasksList(List<Task> deletedTasksList) {
+        this.deletedTasksList = deletedTasksList;
     }
 
     @Override

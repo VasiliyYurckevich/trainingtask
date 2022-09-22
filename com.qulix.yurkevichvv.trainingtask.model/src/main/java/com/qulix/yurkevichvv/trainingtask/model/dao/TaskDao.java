@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.dao;
+package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -29,10 +29,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 /**
  * Содержит методы для работы объектов класса "Задача" с БД.
@@ -41,7 +39,7 @@ import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
  * @see IDao
  * @see Task
  */
-public class TaskDao implements IDao<Task>, Serializable {
+public class    TaskDao implements IDao<Task>, Serializable {
 
     /**
      * Хранит константу для имени колонки ID проекта в БД.
@@ -123,12 +121,11 @@ public class TaskDao implements IDao<Task>, Serializable {
         " employee_id = :employee_id WHERE id = :id;";
 
     @Override
-    public Integer add(Task task, Connection connection) throws DaoException {
+    public void add(Task task, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Created new task");
-                return preparedStatementHelper.getGeneratedKeys();
             }
             else {
                 throw new DaoException("Error when adding a task to the database");

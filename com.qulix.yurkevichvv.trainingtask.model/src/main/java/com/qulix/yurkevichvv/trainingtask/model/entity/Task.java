@@ -17,10 +17,10 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.entity;
+package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.IDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 
 import java.io.Serializable;
 import java.time.LocalDate;

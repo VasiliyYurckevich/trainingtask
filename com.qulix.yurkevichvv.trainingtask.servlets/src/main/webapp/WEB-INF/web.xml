@@ -55,7 +55,7 @@
         <location>/error-servlet.jsp</location>
     </error-page>
     <error-page>
-        <exception-type>com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException</exception-type>
+        <exception-type>com.qulix.yurkevichvv.trainingtask.model.dao.DaoException</exception-type>
         <location>/error-dao.jsp</location>
     </error-page>
     <error-page>

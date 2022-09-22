@@ -5,9 +5,8 @@ import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 /**
  * Ссылка для редактирования задачи проекта.
@@ -46,10 +45,10 @@ public class EditInProject extends Link<Void> {
     @Override
     public void onClick() {
         if (project.getId() != null) {
-            setResponsePage(new TaskPage(project, tasks, item.getIndex()));
+            //setResponsePage(new TaskPage());
         }
         else {
-            setResponsePage(new TaskPage(tasks, item.getIndex()));
+           // setResponsePage(new TaskPage(tasks));
         }
     }
 }

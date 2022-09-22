@@ -17,14 +17,14 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.exceptions;
+package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 /**
  * Описывает исключение, возникающее при ошибке выполнения запроса к базе данных.
  *
  * @author Q-YVV
  */
-public class    DaoException extends RuntimeException {
+public class DaoException extends RuntimeException {
 
     /**
      * Конструктор класса с сообщением.

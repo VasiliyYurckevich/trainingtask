@@ -1,4 +1,5 @@
 import groovy.sql.Sql
+
 ext {
     dbName = "mydb"
     dbUser = "SA"
@@ -6,7 +7,7 @@ ext {
     dbPort = 9001
     dbHost = "localhost"
     dbFile = "mydb"
-    dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;sql.syntax_mys=true"
+    dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;"
     dbDrive = "org.hsqldb.jdbc.JDBCDriver"
 }
 

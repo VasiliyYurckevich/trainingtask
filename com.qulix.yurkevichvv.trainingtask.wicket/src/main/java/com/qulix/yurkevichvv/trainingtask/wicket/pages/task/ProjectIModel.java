@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.wicket.model.IModel;
 
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 class ProjectIModel implements IModel<Project> {
     private final List<Project> list;

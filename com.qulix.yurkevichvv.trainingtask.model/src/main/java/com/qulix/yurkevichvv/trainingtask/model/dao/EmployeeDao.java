@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.dao;
+package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -28,9 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 
 /**
  * Содержит методы для работы объектов класса "Сотрудник" с БД.
@@ -40,6 +38,7 @@ import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
  * @see IDao
  */
 public class EmployeeDao implements IDao<Employee>, Serializable {
+
 
     /**
      * Хранит константу для колонки фамилии сотрудника в БД.
@@ -99,7 +98,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
     private static final String ID = "id";
 
     @Override
-    public Integer add(Employee employee, Connection connection) throws DaoException {
+    public void add(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_EMPLOYEE_SQL, connection)) {
             preparedStatementHelper.setString(SURNAME, employee.getSurname());
             preparedStatementHelper.setString(FIRST_NAME, employee.getFirstName());
@@ -107,7 +106,6 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             preparedStatementHelper.setString(POST, employee.getPost());
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Created employee");
-                return preparedStatementHelper.getGeneratedKeys();
             }
             else {
                 throw new DaoException("Error when adding a new employee to the database");

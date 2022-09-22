@@ -2,21 +2,20 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.LoadableDetachableModel;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
-import org.apache.wicket.model.LoadableDetachableModel;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 
 /**
  * Страница списка задач.
@@ -40,17 +39,17 @@ public class TasksListPage extends BasePage {
 
     @Override
     protected void onInitialize() {
-            super.onInitialize();
+        super.onInitialize();
         get("pageTitle").setDefaultModelObject("Задачи");
 
         Link<WebPage> addTask = new Link<>("addTask") {
             @Override
             public void onClick() {
-                setResponsePage(new TaskPage());
+                setResponsePage(new TaskPage(new Task()));
             }
 
             @Override
-            protected void onConfigure(){
+            protected void onConfigure() {
                 super.onConfigure();
                 this.setEnabled(!new ProjectDao().getAll().isEmpty());
             }
@@ -69,16 +68,16 @@ public class TasksListPage extends BasePage {
             protected void populateItem(ListItem<Task> item) {
                 final Task task = item.getModelObject();
 
-                item.add(new Label("status", task.getStatus().getStatusTitle()));
-                item.add(new Label("title", task.getTitle()));
-                item.add(new Label("workTime", task.getWorkTime()));
-                item.add(new Label("beginDate", task.getBeginDate().toString()));
-                item.add(new Label("endDate", task.getEndDate().toString()));
-                item.add(new Label("projectTitle", new ProjectDao().getById(task.getProjectId()).getTitle()));
-                item.add(new Label(EMPLOYEE_NAME,
-                    task.getEmployeeId() != 0 ? new EmployeeDao().getById(task.getEmployeeId()).getFullName():""));
-                item.add(new DeleteLink("deleteLink", item.getModelObject()));
-                item.add(new EditLink("editLink", item.getModelObject()));
+                item.add(new Label("status", task.getStatus().getStatusTitle()))
+                    .add(new Label("title", task.getTitle()))
+                    .add(new Label("workTime", task.getWorkTime()))
+                    .add(new Label("beginDate", task.getBeginDate().toString()))
+                    .add(new Label("endDate", task.getEndDate().toString()))
+                    .add(new Label("projectTitle", new ProjectDao().getById(task.getProjectId()).getTitle()))
+                    .add(new Label(EMPLOYEE_NAME,
+                            task.getEmployeeId() != 0 ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
+                    .add(new DeleteLink("deleteLink", item.getModelObject()))
+                    .add(new EditLink("editLink", item.getModelObject()));
             }
         };
         add(taskListView);

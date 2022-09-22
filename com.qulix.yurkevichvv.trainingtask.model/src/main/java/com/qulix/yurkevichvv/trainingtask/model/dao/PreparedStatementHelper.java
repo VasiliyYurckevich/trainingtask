@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.api.dao;
+package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,12 +10,8 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
 
 /**
  * Позволяет заполнять PreparedStatement с помощью имени переменной.
@@ -214,7 +210,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      *
      * @return сгенерированный идентификатор
      */
-    public Integer getGeneratedKeys() {
+    public Integer getGeneratedKey() {
         try {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();

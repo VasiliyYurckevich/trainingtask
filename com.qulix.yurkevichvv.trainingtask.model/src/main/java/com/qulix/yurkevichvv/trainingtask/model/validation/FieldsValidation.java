@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.api.validation;
+package com.qulix.yurkevichvv.trainingtask.model.validation;
 
 import java.io.Serializable;
 import java.time.LocalDate;

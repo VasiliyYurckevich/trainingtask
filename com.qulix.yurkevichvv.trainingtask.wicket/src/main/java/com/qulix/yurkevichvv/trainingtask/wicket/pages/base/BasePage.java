@@ -1,10 +1,8 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.Header;
 
 
 /**

@@ -1,6 +1,6 @@
-package com.qulix.yurkevichvv.trainingtask.api.entity;
+package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
 
 /**
  * Интерфейс сущностей.

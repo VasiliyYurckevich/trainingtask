@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.companents;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;

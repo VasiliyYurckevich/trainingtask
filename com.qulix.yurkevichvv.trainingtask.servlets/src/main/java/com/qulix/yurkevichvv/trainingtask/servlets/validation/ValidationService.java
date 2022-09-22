@@ -22,7 +22,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.validation;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.qulix.yurkevichvv.trainingtask.api.validation.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.validation.FieldsValidation;
 
 /**
  * Сервис для валидации данных на соответственных страницах.
