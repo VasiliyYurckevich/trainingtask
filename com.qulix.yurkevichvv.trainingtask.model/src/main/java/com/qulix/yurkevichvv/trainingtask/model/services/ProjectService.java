@@ -1,0 +1,143 @@
+package com.qulix.yurkevichvv.trainingtask.model.services;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
+
+public class ProjectService implements IProjectService, IService<Project>  {
+    private final ProjectDao projectDao = new ProjectDao();
+
+    private final TaskDao taskDao = new TaskDao();
+
+
+    @Override
+    public void add(Project project) {
+        Connection connection = ConnectionController.getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+
+            projectDao.add(project, connection);
+            Integer generatedKey = projectDao.getGeneratedKey();
+            project.getTasksList().forEach(task -> task.setProjectId(generatedKey));
+            updateTasks(project, connection);
+
+            ConnectionController.commitConnection(connection);
+        }
+        catch (SQLException e) {
+            ConnectionController.rollbackConnection(connection);
+            throw new DaoException(e);
+        }
+        finally {
+            ConnectionController.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public void update(Project project) {
+        Connection connection = ConnectionController.getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+
+            projectDao.update(project, connection);
+            updateTasks(project, connection);
+
+            ConnectionController.commitConnection(connection);
+        }
+        catch (SQLException e) {
+            ConnectionController.rollbackConnection(connection);
+            throw new DaoException(e);
+        }
+        finally {
+            ConnectionController.closeConnection(connection);
+        }
+    }
+
+    private void updateTasks(Project project, Connection connection) {
+
+        for (Task task : project.getTasksList()) {
+            if (task.getId() == null) {
+                taskDao.add(task, connection);
+            }
+            else {
+                taskDao.update(task, connection);
+            }
+        }
+
+        project.getDeletedTasksList().stream().filter(task -> task.getId() != null).
+            forEach(task -> taskDao.delete(task.getId(), connection));
+    }
+
+    @Override
+    public void delete(Integer id) {
+        Connection connection = ConnectionController.getConnection();
+
+        try(connection) {
+            projectDao.delete(id, connection);
+        }
+        catch (SQLException e) {
+            ConnectionController.rollbackConnection(connection);
+            throw new ServiceException(e);
+        }
+        finally {
+            ConnectionController.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Project> findAll() {
+        Connection connection = ConnectionController.getConnection();
+        try (connection){
+             return projectDao.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            ConnectionController.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public Project getById(Integer id) {
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection){
+            return projectDao.getById(id);
+        } catch (SQLException e) {
+            ConnectionController.rollbackConnection(connection);
+            throw new ServiceException(e);
+        }
+        finally {
+            ConnectionController.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Task> getProjectsTasks(Project project) {
+        return project.getTasksList();
+    }
+
+    @Override
+    public void deleteTask(Project project, Task task) {
+        project.getDeletedTasksList().add(task);
+        project.getTasksList().remove(task);
+    }
+
+    @Override
+    public void addTask(Project project, Task task) {
+        project.getTasksList().add(task);
+    }
+
+    @Override
+    public void updateTask(Project project, Integer index, Task task) {
+        project.getTasksList().set(index, task);
+    }
+}

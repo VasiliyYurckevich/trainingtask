@@ -1,23 +1,22 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 
 /**
@@ -50,15 +49,21 @@ public class ProjectsListPage extends BasePage {
                 final Project project = item.getModelObject();
                 item.add(new Label("title", project.getTitle()));
                 item.add(new Label("description", project.getDescription()));
-                item.add(new DeleteLink("deleteLink", item.getModelObject()));
-                item.add(new EditLink("editLink", item.getModelObject()));
+                item.add(new DeleteLink("deleteLink", project));
+                item.add(new Link<>("editLink", item.getModel()) {
+                    @Override
+                    public void onClick() {
+                        setResponsePage(new ProjectPage(project));
+                    }
+                });
             }
         };
         add(projectListView);
         add(new Link<WebPage>("addProject") {
             @Override
             public void onClick() {
-                setResponsePage(new ProjectPage(new ArrayList<Task>()));
+                Project project = new Project();
+                setResponsePage(new ProjectPage(project));
             }
         });
     }

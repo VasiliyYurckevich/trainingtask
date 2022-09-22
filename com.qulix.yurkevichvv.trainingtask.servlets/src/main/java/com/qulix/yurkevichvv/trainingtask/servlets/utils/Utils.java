@@ -23,13 +23,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Status;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 
 /**
  * Утилиты для классов модуля.

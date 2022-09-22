@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import org.apache.wicket.Page;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
@@ -7,13 +8,11 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 
-import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
@@ -38,18 +37,15 @@ public class EmployeePage<T extends Page> extends BasePage {
      * Максимальная длинна ввода полей.
      */
     private static final int MAXLENGTH = 50;
-    private T page;
     private Employee employee;
 
     /**
      * Конструктор.
      *
-     * @param page страница
      * @param employee редактируемый сотрудник
      */
     public EmployeePage(Employee employee) {
         super();
-        this.page = page;
         this.employee = employee;
     }
 
@@ -60,8 +56,6 @@ public class EmployeePage<T extends Page> extends BasePage {
         Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
             @Override
             public void onSubmit() {
-                EmployeeDao employeeDao = new EmployeeDao();
-                employeeDao.update(getModelObject(), ConnectionController.getConnection());
                 onAfterSubmit();
                 }
         };

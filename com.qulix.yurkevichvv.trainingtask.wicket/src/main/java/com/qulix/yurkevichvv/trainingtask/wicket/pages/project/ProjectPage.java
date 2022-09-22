@@ -1,12 +1,8 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -17,18 +13,16 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 
-import com.qulix.yurkevichvv.trainingtask.api.connection.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.api.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.api.exceptions.DaoException;
+import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditInProject;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
@@ -69,6 +63,7 @@ public class ProjectPage extends BasePage {
      * Сообщение ошибки транзакции.
      */
     private static final String TRANSACTION_ERROR_MESSAGE = "Exception trying create transaction";
+    private final Project project;
 
     /**
      * Список задач проекта.
@@ -79,47 +74,30 @@ public class ProjectPage extends BasePage {
      * Переменные доступа к методам классов DAO.
      */
     private ProjectDao projectDao = new ProjectDao();
+
     private TaskDao taskDao  = new TaskDao();
     private EmployeeDao employeeDao = new EmployeeDao();
-
-    /**
-     * Логгер для записи событий.
-     */
-    private static final Logger LOGGER = Logger.getLogger(ProjectPage.class.getName());
-
-    /**
-     * Конструктор.
-     */
-    public ProjectPage(List<Task> tasks) {
-        get(PAGE_TITLE).setDefaultModelObject("Добавить проект");
-        Project project = new Project();
-        this.tasks = tasks;
-        Form<Project> form = new Form<>(PROJECT_FORM, new CompoundPropertyModel<>(project)) {
-            @Override
-            protected void onSubmit() {
-                addProject(getModelObject());
-                setResponsePage(ProjectsListPage.class);
-            }
-        };
-        addButtons(project, tasks, form);
-        addFormComponents(form);
-        addTaskList(project, tasks);
-        add(form);
-    }
 
     /**
      * Конструктор.
      *
      * @param project редактируемый проект
-     * @param tasks список задач проекта
      */
-    public ProjectPage(Project project, List<Task> tasks) {
+    public ProjectPage(Project project) {
+        super();
+        this.project = project;
+        this.tasks = project.getTasksList();
+
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
         get(PAGE_TITLE).setDefaultModelObject("Редактировать проект");
-        this.tasks = tasks;
         Form<Project> form = new Form<Project>(PROJECT_FORM, new CompoundPropertyModel<>(project)) {
             @Override
             protected void onSubmit() {
-                updateProject(project);
+                //ProjectService.update(project);
                 setResponsePage(ProjectsListPage.class);
             }
         };
@@ -133,13 +111,7 @@ public class ProjectPage extends BasePage {
         Link<Void> addTaskLink = new Link<Void>("addTaskInProject") {
             @Override
             public void onClick() {
-                if (project.getId() != null) {
-                    setResponsePage(new TaskPage(project, tasks));
-                }
-                else {
-                    setResponsePage(new TaskPage(tasks));
-
-                }
+                setResponsePage(new TaskPage(new Task()));
             }
         };
         add(addTaskLink);
@@ -209,46 +181,5 @@ public class ProjectPage extends BasePage {
             }
         };
         add(taskListView);
-    }
-
-    private void updateProject(Project project) {
-        Connection connection = ConnectionController.getConnection();
-        try {
-            connection.setAutoCommit(false);
-            List<Integer> oldTasksId =
-                taskDao.getTasksInProject(project.getId()).stream().map(Task::getId).collect(Collectors.toList());
-            List<Integer> newTasksId = tasks.stream().map(Task::getId).collect(Collectors.toList());
-            projectDao.update(project, connection);
-            tasks.stream().filter(task -> task.getId() == null).forEach(task -> taskDao.add(task, connection));
-            tasks.stream().filter(task -> task.getId() != null).forEach(task -> taskDao.update(task, connection));
-            projectDao.cellIdentity(connection);
-            oldTasksId.stream().filter(id -> !newTasksId.contains(id)).forEach(id -> taskDao.delete(id, connection));
-            ConnectionController.commitConnection(connection);
-        }
-        catch (SQLException e) {
-            ConnectionController.rollbackConnection(connection);
-            LOGGER.log(Level.SEVERE, TRANSACTION_ERROR_MESSAGE, e);
-            throw new DaoException(e);
-        }
-    }
-
-    private void addProject(Project project) {
-        Connection connection = ConnectionController.getConnection();
-        try {
-            connection.setAutoCommit(false);
-            projectDao.add(project, connection);
-            int newProjectId = projectDao.cellIdentity(connection);
-            tasks.stream().forEach(task -> {
-                task.setProjectId(newProjectId);
-                taskDao.add(task, connection);
-            }
-            );
-            ConnectionController.commitConnection(connection);
-        }
-        catch (SQLException e) {
-            ConnectionController.rollbackConnection(connection);
-            LOGGER.log(Level.SEVERE, TRANSACTION_ERROR_MESSAGE, e);
-            throw new DaoException(e);
-        }
     }
 }

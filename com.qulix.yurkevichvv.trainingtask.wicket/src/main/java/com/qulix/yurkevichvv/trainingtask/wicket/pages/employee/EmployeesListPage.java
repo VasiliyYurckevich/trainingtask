@@ -2,17 +2,18 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import com.qulix.yurkevichvv.trainingtask.api.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.api.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
@@ -48,7 +49,8 @@ public class EmployeesListPage extends BasePage {
         add(new Link<WebPage>("addEmployee") {
             @Override
             public void onClick() {
-                setResponsePage(new EmployeePage(new Employee()){
+                Employee employee = new Employee();
+                setResponsePage(new EmployeePage(employee){
                     @Override
                     protected void onAfterSubmit() {
                         setResponsePage(this);
