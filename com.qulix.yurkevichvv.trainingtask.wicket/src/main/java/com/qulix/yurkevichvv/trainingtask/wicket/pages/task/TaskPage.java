@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -23,7 +24,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
@@ -88,6 +88,7 @@ public class TaskPage extends BasePage {
      *
      */
     public TaskPage(Task task) {
+        super(task);
         get(PAGE_TITLE).setDefaultModelObject("Редактировать задачу");
         Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override

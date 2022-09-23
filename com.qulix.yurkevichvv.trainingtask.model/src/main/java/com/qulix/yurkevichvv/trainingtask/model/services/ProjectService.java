@@ -14,7 +14,11 @@ public class ProjectService implements IProjectService, IService<Project>  {
     private final ProjectDao projectDao = new ProjectDao();
 
     private final TaskDao taskDao = new TaskDao();
+    private final Project project;
 
+    public ProjectService(Project project) {
+        this.project = project;
+    }
 
     @Override
     public void add(Project project) {

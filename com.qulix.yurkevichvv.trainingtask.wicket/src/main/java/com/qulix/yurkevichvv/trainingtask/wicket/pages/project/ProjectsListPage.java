@@ -50,7 +50,7 @@ public class ProjectsListPage extends BasePage {
                 item.add(new Label("title", project.getTitle()));
                 item.add(new Label("description", project.getDescription()));
                 item.add(new DeleteLink("deleteLink", project));
-                item.add(new Link<>("editLink", item.getModel()) {
+                item.add(new EditLink()("editLink",new ProjectPage(), item.getModelObject()) {
                     @Override
                     public void onClick() {
                         setResponsePage(new ProjectPage(project));

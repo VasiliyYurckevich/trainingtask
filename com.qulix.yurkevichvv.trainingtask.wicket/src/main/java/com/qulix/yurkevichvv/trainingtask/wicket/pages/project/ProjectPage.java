@@ -63,12 +63,11 @@ public class ProjectPage extends BasePage {
      * Сообщение ошибки транзакции.
      */
     private static final String TRANSACTION_ERROR_MESSAGE = "Exception trying create transaction";
-    private final Project project;
+    private Project project;
 
     /**
      * Список задач проекта.
      */
-    private List<Task> tasks;
 
     /**
      * Переменные доступа к методам классов DAO.
@@ -86,8 +85,11 @@ public class ProjectPage extends BasePage {
     public ProjectPage(Project project) {
         super();
         this.project = project;
-        this.tasks = project.getTasksList();
 
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override
@@ -101,13 +103,15 @@ public class ProjectPage extends BasePage {
                 setResponsePage(ProjectsListPage.class);
             }
         };
-        addButtons(project, tasks, form);
+        addButtons(form);
         addFormComponents(form);
         addTaskList(project, tasks);
         add(form);
     }
 
-    private void addButtons(Project project, List<Task> tasks, Form<Project> form) {
+
+
+    private void addButtons(Form<Project> form) {
         Link<Void> addTaskLink = new Link<Void>("addTaskInProject") {
             @Override
             public void onClick() {
