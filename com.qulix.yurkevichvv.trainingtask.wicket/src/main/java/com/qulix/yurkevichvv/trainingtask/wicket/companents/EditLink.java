@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import org.apache.wicket.markup.html.link.Link;
 
 /**
@@ -8,25 +9,26 @@ import org.apache.wicket.markup.html.link.Link;
  *
  * @author Q-YVV
  */
-public class EditLink<T extends Entity> extends Link<T> {
+public class EditLink<T extends BasePage> extends Link<T> {
 
     /**
      * Элемент ListView.
      */
-    private T item;
+    private T page  ;
 
     /**
      * Конструктор.
      *
      * @param id идентификатор
-     * @param item элемент ListView
+     * @param page элемент ListView
      */
-    public EditLink(String id, T item) {
+    public EditLink(String id, T page) {
         super(id);
-        this.item = item;
+        this.page = page;
     }
 
     @Override
     public void onClick() {
+        setResponsePage(page);
     }
 }

@@ -9,7 +9,6 @@ import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 
 public class ProjectService implements IProjectService, IService<Project>  {
     private final ProjectDao projectDao = new ProjectDao();
@@ -21,7 +20,7 @@ public class ProjectService implements IProjectService, IService<Project>  {
     public void add(Project project) {
         Connection connection = ConnectionController.getConnection();
 
-        try {
+        try (connection) {
             connection.setAutoCommit(false);
 
             projectDao.add(project, connection);
@@ -33,10 +32,7 @@ public class ProjectService implements IProjectService, IService<Project>  {
         }
         catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
-            throw new DaoException(e);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
+            throw new ServiceException("Error during adding project", e);
         }
     }
 
@@ -54,70 +50,35 @@ public class ProjectService implements IProjectService, IService<Project>  {
         }
         catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
-            throw new DaoException(e);
+            throw new ServiceException("Error during updating project", e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+
     }
 
-    private void updateTasks(Project project, Connection connection) {
 
-        for (Task task : project.getTasksList()) {
-            if (task.getId() == null) {
-                taskDao.add(task, connection);
-            }
-            else {
-                taskDao.update(task, connection);
-            }
-        }
-
-        project.getDeletedTasksList().stream().filter(task -> task.getId() != null).
-            forEach(task -> taskDao.delete(task.getId(), connection));
-    }
 
     @Override
     public void delete(Integer id) {
         Connection connection = ConnectionController.getConnection();
 
-        try(connection) {
+        try (connection) {
             projectDao.delete(id, connection);
         }
         catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
-            throw new ServiceException(e);
+            throw new ServiceException("Error deleting project by id", e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+
     }
 
     @Override
     public List<Project> findAll() {
-        Connection connection = ConnectionController.getConnection();
-        try (connection){
-             return projectDao.getAll();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        return projectDao.getAll();
     }
 
     @Override
     public Project getById(Integer id) {
-        Connection connection = ConnectionController.getConnection();
-
-        try (connection){
-            return projectDao.getById(id);
-        } catch (SQLException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException(e);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        return projectDao.getById(id);
     }
 
     @Override
@@ -140,4 +101,19 @@ public class ProjectService implements IProjectService, IService<Project>  {
     public void updateTask(Project project, Integer index, Task task) {
         project.getTasksList().set(index, task);
     }
+
+    private void updateTasks(Project project, Connection connection) {
+
+        project.getTasksList().forEach(task -> {
+            if (task.getId() == null) {
+                taskDao.add(task, connection);
+            } else {
+                taskDao.update(task, connection);
+            }
+        });
+
+        project.getDeletedTasksList().stream().filter(task -> task.getId() != null).
+                forEach(task -> taskDao.delete(task.getId(), connection));
+    }
+
 }

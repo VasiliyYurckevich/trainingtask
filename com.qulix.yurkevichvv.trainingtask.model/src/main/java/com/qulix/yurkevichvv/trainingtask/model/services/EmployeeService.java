@@ -17,12 +17,11 @@ public class EmployeeService implements IService<Employee> {
     public void add(Employee employee) {
         Connection connection = ConnectionController.getConnection();
 
-        try(connection) {
+        try (connection) {
             employeeDao.add(employee, connection);
         } catch (SQLException e) {
-            throw new ServiceException(e);
-        } finally {
-            ConnectionController.closeConnection(connection);
+            ConnectionController.rollbackConnection(connection);
+            throw new ServiceException("Error adding employee", e);
         }
     }
 
@@ -30,12 +29,11 @@ public class EmployeeService implements IService<Employee> {
     public void update(Employee employee) {
         Connection connection = ConnectionController.getConnection();
 
-        try(connection) {
+        try (connection) {
             employeeDao.update(employee, connection);
         } catch (SQLException e) {
-            throw new ServiceException(e);
-        } finally {
-            ConnectionController.closeConnection(connection);
+            ConnectionController.rollbackConnection(connection);
+            throw new ServiceException("Error updating employee", e);
         }
     }
 
@@ -43,13 +41,12 @@ public class EmployeeService implements IService<Employee> {
     public void delete(Integer id) {
         Connection connection = ConnectionController.getConnection();
 
-        try {
+        try (connection){
             employeeDao.delete(id, connection);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
+        } catch (SQLException e) {
+            ConnectionController.rollbackConnection(connection);
+            throw new ServiceException("Error deleting employee by id", e);        }
 
-        }
     }
 
     @Override

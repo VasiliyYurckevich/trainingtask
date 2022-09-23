@@ -95,8 +95,6 @@ public class TaskPage extends BasePage {
             }
         };
         addFormComponents(taskForm);
-        /*taskForm.get(PROJECTS).setDefaultModelObject(service());
-        taskForm.get(PROJECTS).setEnabled(false);*/
         add(taskForm);
     }
 
