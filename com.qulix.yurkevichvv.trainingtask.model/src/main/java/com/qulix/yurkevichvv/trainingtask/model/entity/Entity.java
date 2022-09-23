@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 
 /**
  * Интерфейс сущностей.
@@ -21,5 +22,5 @@ public interface Entity {
      *
      * @return  объект DAO-класса
      */
-    IDao getDao();
+    IService getService();
 }

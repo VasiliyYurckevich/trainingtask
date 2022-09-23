@@ -22,6 +22,8 @@ package com.qulix.yurkevichvv.trainingtask.model.entity;
 import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -64,8 +66,8 @@ public class Project implements Serializable, Entity {
     }
 
     @Override
-    public IDao getDao() {
-        return new ProjectDao();
+    public IService getService() {
+        return new ProjectService();
     }
 
     public void setId(Integer id) {

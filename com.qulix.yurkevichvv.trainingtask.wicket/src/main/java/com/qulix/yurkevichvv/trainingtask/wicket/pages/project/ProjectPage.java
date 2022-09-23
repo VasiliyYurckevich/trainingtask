@@ -25,6 +25,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnter
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
@@ -105,7 +106,7 @@ public class ProjectPage extends BasePage {
         };
         addButtons(form);
         addFormComponents(form);
-        addTaskList(project, tasks);
+        addTaskList(project);
         add(form);
     }
 
@@ -156,10 +157,15 @@ public class ProjectPage extends BasePage {
     /**
      * Добавляет список задач проекта.
      *
-     * @param tasks список задач
-     */
-    private void addTaskList(Project project, List<Task> tasks) {
-        ListView<Task> taskListView = new ListView<>("tasks", tasks) {
+     * */
+    private void addTaskList(Project project) {
+        LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<List<Task>>() {
+            @Override
+            protected List<Task> load() {
+                return project.getTasksList();
+            }
+        };
+        ListView<Task> taskListView = new ListView<Task>("tasks", tasks) {
             @Override
             protected void populateItem(ListItem<Task> item) {
                 final Task task = item.getModelObject();
@@ -178,10 +184,11 @@ public class ProjectPage extends BasePage {
                 item.add(new Link<Void>("deleteLink") {
                     @Override
                     public void onClick() {
-                        tasks.remove(item.getIndex());
+                        ProjectService projectService = new ProjectService();
+                        projectService.deleteTask(project,task);
                     }
                 });
-                item.add(new EditInProject("editLink", item, project, tasks));
+                item.add(new EditInProject("editLink", item, project));
             }
         };
         add(taskListView);

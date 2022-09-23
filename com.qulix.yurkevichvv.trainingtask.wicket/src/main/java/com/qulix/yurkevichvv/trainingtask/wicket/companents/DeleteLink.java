@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import java.sql.Connection;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import org.apache.wicket.markup.html.link.Link;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
@@ -34,12 +35,6 @@ public class DeleteLink<T extends Entity> extends Link<T> {
 
     @Override
     public void onClick() {
-        Connection connection = ConnectionController.getConnection();
-        try {
-            item.getDao().delete(item.getId(), ConnectionController.getConnection());
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        item.getService().delete(item.getId());
     }
 }

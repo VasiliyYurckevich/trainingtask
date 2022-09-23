@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -60,21 +61,20 @@ public class EmployeesListPage extends BasePage {
         });
     }
 
-    private static class EmployeeListView extends ListView<Employee> {
+    private static class EmployeeListView extends CustomListView<Employee> {
         public EmployeeListView(IModel<List<Employee>> employees) {
-            super("employees", employees);
+            super("employees", employees, EmployeePage.class);
             this.setReuseItems(true);
         }
 
         @Override
         protected void populateItem(ListItem<Employee> item) {
+            super.populateItem(item);
             final Employee employee = item.getModelObject();
             item.add(new Label("surname", employee.getSurname()));
             item.add(new Label("firstName", employee.getFirstName()));
             item.add(new Label("patronymic", employee.getPatronymic()));
             item.add(new Label("post", employee.getPost()));
-            item.add(new DeleteLink("deleteLink", item.getModelObject()));
-            item.add(new EditLink("editLink", item.getModelObject()));
         }
     }
 }

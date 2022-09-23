@@ -21,6 +21,8 @@ package com.qulix.yurkevichvv.trainingtask.model.entity;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -65,8 +67,8 @@ public class Employee implements Entity, Serializable {
     }
 
     @Override
-    public IDao getDao() {
-        return new EmployeeDao();
+    public IService getService() {
+        return new EmployeeService();
     }
 
     public void setId(Integer id) {

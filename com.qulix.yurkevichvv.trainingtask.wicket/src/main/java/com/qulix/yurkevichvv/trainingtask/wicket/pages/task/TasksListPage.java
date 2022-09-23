@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 import java.security.KeyStore;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -18,6 +19,8 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
+
+import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
 
 /**
  * Страница списка задач.
@@ -65,20 +68,19 @@ public class TasksListPage extends BasePage {
             }
         };
         
-        ListView<Task> taskListView = new ListView<>("tasks", tasks) {
+        CustomListView<Task> taskListView = new CustomListView<>("tasks", tasks,TaskPage.class) {
             @Override
             protected void populateItem(ListItem<Task> item) {
+                super.populateItem(item);
                 final Task task = item.getModelObject();
-                    item.add(new Label("status", task.getStatus().getStatusTitle()))
+                item.add(new Label("status", task.getStatus().getStatusTitle()))
                     .add(new Label("title", task.getTitle()))
                     .add(new Label("workTime", task.getWorkTime()))
                     .add(new Label("beginDate", task.getBeginDate().toString()))
                     .add(new Label("endDate", task.getEndDate().toString()))
                     .add(new Label("projectTitle", new ProjectDao().getById(task.getProjectId()).getTitle()))
                     .add(new Label(EMPLOYEE_NAME,
-                            task.getEmployeeId() != 0 ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
-                    .add(new DeleteLink("deleteLink", item.getModelObject()))
-                    .add(new EditLink("editLink", item.getModelObject()));
+                        task.getEmployeeId() != 0 ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""));
             }
         };
         add(taskListView);

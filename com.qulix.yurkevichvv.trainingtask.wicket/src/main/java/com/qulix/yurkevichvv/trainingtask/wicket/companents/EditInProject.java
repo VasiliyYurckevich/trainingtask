@@ -28,18 +28,17 @@ public class EditInProject extends Link<Void> {
     /**
      * Список задач.
      */
-    private List<Task> tasks;
     /**
      * Конструктор.
      *
      * @param id идентификатор
      * @param item элемент ListView
      */
-    public EditInProject(String id, ListItem<?> item, Project project, List<Task> tasks) {
+    public EditInProject(String id, ListItem<?> item, Project project) {
         super(id);
         this.item = item;
         this.project = project;
-        this.tasks = tasks;
+
     }
 
     @Override
