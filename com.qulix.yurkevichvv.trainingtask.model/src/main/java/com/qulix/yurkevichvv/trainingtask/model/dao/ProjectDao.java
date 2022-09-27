@@ -37,7 +37,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
  * @see IDao
  * @see Project
  */
-public class ProjectDao implements IDao<Project>, Serializable {
+public class    ProjectDao implements IDao<Project>, Serializable {
 
     private Integer generatedKey = null;
 
@@ -87,10 +87,6 @@ public class ProjectDao implements IDao<Project>, Serializable {
     private static final String UPDATE_PROJECT_SQL =
         "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
 
-    /**
-     * Константа для запроса последнего проекта в БД.
-     */
-    public static final String ID_DESC = "SELECT TOP 1 id FROM PROJECT ORDER BY id DESC";
 
     /**
      * Сообщение при отсутствии проекта.
@@ -114,9 +110,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     @Override

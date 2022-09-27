@@ -16,45 +16,28 @@ public class ProjectService implements IProjectService, IService<Project>  {
     private final TaskDao taskDao = new TaskDao();
 
     @Override
-    public void add(Project project) {
+    public void save(Project project) {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
             connection.setAutoCommit(false);
 
-            projectDao.add(project, connection);
-            Integer generatedKey = projectDao.getGeneratedKey();
-            project.getTasksList().forEach(task -> task.setProjectId(generatedKey));
+            if (project.getId() == null){
+                projectDao.add(project, connection);
+                Integer generatedKey = projectDao.getGeneratedKey();
+                project.getTasksList().forEach(task -> task.setProjectId(generatedKey));
+            } else {
+                projectDao.update(project,connection);
+            }
             updateTasks(project, connection);
 
             ConnectionController.commitConnection(connection);
         }
         catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error during adding project", e);
+            throw new ServiceException("Error during saving project", e);
         }
     }
-
-    @Override
-    public void update(Project project) {
-        Connection connection = ConnectionController.getConnection();
-
-        try {
-            connection.setAutoCommit(false);
-
-            projectDao.update(project, connection);
-            updateTasks(project, connection);
-
-            ConnectionController.commitConnection(connection);
-        }
-        catch (SQLException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error during updating project", e);
-        }
-
-    }
-
-
 
     @Override
     public void delete(Integer id) {
@@ -112,7 +95,7 @@ public class ProjectService implements IProjectService, IService<Project>  {
         });
 
         project.getDeletedTasksList().stream().filter(task -> task.getId() != null).
-                forEach(task -> taskDao.delete(task.getId(), connection));
+            forEach(task -> taskDao.delete(task.getId(), connection));
     }
 
 }

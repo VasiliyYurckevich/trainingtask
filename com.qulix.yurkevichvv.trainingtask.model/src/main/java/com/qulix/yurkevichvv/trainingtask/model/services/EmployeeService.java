@@ -14,34 +14,29 @@ public class EmployeeService implements IService<Employee> {
 
 
     @Override
-    public void add(Employee employee) {
+    public void save(Employee employee) {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            employeeDao.add(employee, connection);
+            if (employee.getId() == null){
+                employeeDao.add(employee, connection);
+            }
+            else {
+                employeeDao.update(employee, connection);
+            }
         } catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error adding employee", e);
         }
     }
 
-    @Override
-    public void update(Employee employee) {
-        Connection connection = ConnectionController.getConnection();
-
-        try (connection) {
-            employeeDao.update(employee, connection);
-        } catch (SQLException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error updating employee", e);
-        }
-    }
 
     @Override
     public void delete(Integer id) {
         Connection connection = ConnectionController.getConnection();
 
         try (connection){
+            System.out.println(id);
             employeeDao.delete(id, connection);
         } catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);

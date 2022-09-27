@@ -83,7 +83,7 @@ public class ConnectionController implements Serializable {
      */
     public static void closeConnection(Connection connection) throws DaoException {
         try {
-            if (connection != null && !connection.isClosed() && connection.getAutoCommit()) {
+            if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         }
@@ -125,8 +125,6 @@ public class ConnectionController implements Serializable {
             LOGGER.log(Level.SEVERE, "ConnectionController rollbackConnection() error", e);
             throw new DaoException("Error rollback transaction", e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 }

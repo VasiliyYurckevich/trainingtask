@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface IService<T extends Entity> {
 
-    void add(T entity);
-
-    void update(T entity) throws SQLException;
+    void save(T entity);
 
     void delete(Integer id);
 

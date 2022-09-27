@@ -4,7 +4,7 @@ import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 
-import com.qulix.yurkevichvv.trainingtask.model.validation.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
 
 /**
  * Валидатор текстового ввода.

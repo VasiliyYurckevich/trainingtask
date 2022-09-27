@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 import java.security.KeyStore;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.WebPage;
@@ -50,7 +51,7 @@ public class TasksListPage extends BasePage {
         Link<WebPage> addTask = new Link<>("addTask") {
             @Override
             public void onClick() {
-                setResponsePage(new TaskPage(new Task()));
+                setResponsePage(getTaskPage(new Task()));
             }
 
             @Override
@@ -67,8 +68,9 @@ public class TasksListPage extends BasePage {
                 return new TaskDao().getAll();
             }
         };
-        
-        CustomListView<Task> taskListView = new CustomListView<>("tasks", tasks,TaskPage.class) {
+
+        TaskPage taskPage = getTaskPage(new Task());
+        CustomListView<Task> taskListView = new CustomListView<Task>("tasks", tasks,taskPage) {
             @Override
             protected void populateItem(ListItem<Task> item) {
                 super.populateItem(item);
@@ -84,6 +86,23 @@ public class TasksListPage extends BasePage {
             }
         };
         add(taskListView);
+    }
+
+    private TaskPage getTaskPage(Task task) {
+        TaskPage taskPage = new TaskPage(task){
+            @Override
+            protected void onSubmitting() {
+                TaskService taskService = new TaskService();
+                taskService.save(getTask());
+                System.out.println("hio");
+            }
+
+            @Override
+            protected void onChangesSubmitted() {
+                setResponsePage(this);
+            }
+        };
+        return taskPage;
     }
 
 }

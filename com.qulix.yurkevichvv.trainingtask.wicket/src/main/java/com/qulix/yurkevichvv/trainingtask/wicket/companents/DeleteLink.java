@@ -20,21 +20,21 @@ public class DeleteLink<T extends Entity> extends Link<T> {
     /**
      * Элемент ListView.
      */
-    private T item;
+    private T entity;
 
     /**
      * Конструктор.
      *
      * @param id идентификатор
-     * @param item элемент ListView
+     * @param entity элемент ListView
      */
-    public DeleteLink(String id, T item) {
+    public DeleteLink(String id, T entity) {
         super(id);
-        this.item = item;
+        this.entity = entity;
     }
 
     @Override
     public void onClick() {
-        item.getService().delete(item.getId());
+        entity.getService().delete(entity.getId());
     }
 }

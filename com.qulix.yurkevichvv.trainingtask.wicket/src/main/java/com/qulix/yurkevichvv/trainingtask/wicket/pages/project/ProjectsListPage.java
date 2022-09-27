@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -33,13 +34,16 @@ public class ProjectsListPage extends BasePage {
     protected void onInitialize() {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Проекты");
+
         LoadableDetachableModel<List<Project>> projects = new LoadableDetachableModel<>() {
             @Override
             protected List<Project> load() {
                 return new ProjectDao().getAll();
             }
         };
-        CustomListView<Project> projectListView = new CustomListView<Project>("projects",projects, ProjectPage.class) {
+
+        ProjectPage projectPage = new ProjectPage(new Project());
+        CustomListView<Project> projectListView = new CustomListView<>("projects", projects, projectPage) {
             @Override
             protected void populateItem(ListItem<Project> item) {
                 super.populateItem(item);
@@ -49,6 +53,7 @@ public class ProjectsListPage extends BasePage {
                 }
         };
         add(projectListView);
+
         add(new Link<WebPage>("addProject") {
             @Override
             public void onClick() {

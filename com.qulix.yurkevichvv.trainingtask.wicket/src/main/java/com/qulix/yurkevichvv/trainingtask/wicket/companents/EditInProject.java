@@ -42,12 +42,12 @@ public class EditInProject extends Link<Void> {
     }
 
     @Override
-    public void onClick() {
-        if (project.getId() != null) {
-            //setResponsePage(new TaskPage());
-        }
-        else {
-           // setResponsePage(new TaskPage(tasks));
+        public void onClick() {
+            if (project.getId() != null) {
+                //setResponsePage(new TaskPage());
+            }
+            else {
+               // setResponsePage(new TaskPage(tasks));
         }
     }
 }

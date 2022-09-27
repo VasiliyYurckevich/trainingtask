@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.link.Link;
@@ -21,26 +22,22 @@ public class EditLink<T extends Entity & Serializable > extends Link<T> {
     /*
      * Элемент ListView.
      */
-    private Class<Page> pageClass ;
+    private AbstractEntityPage<T> page;
 
     /**
      * Конструктор.
      *
      * @param id идентификатор
      */
-    public EditLink(String id, Class<Page> pageClass,T entity) {
-        super(id, new Model<T>(entity));
-        this.pageClass = pageClass;
+    public EditLink(String id, AbstractEntityPage<T> page,T entity) {
+        super(id);
+        this.page = page;
         this.entity = entity;
     }
 
     @Override
     public void onClick() {
-        try {
-            Page page = pageClass.getConstructor(entity.getClass()).newInstance(entity);
-            setResponsePage(page);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
+      page.setEntity(entity);
+      setResponsePage(page);
     }
 }

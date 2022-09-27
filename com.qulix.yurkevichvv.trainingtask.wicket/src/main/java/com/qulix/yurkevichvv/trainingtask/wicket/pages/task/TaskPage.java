@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -32,7 +33,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
  *
  * @author Q-YVV
  */
-public class TaskPage extends BasePage {
+public class TaskPage extends AbstractEntityPage<Task> {
 
     /**
      * Идентификатор элемента названия страницы.
@@ -70,11 +71,6 @@ public class TaskPage extends BasePage {
     public static final String END_DATE = "endDate";
 
     /**
-     * Имя страницы добавления задачи в проект.
-     */
-    public static final String ADD_TASK_PAGE_TITLE = "Добавить задачу";
-
-    /**
      * Имя страницы редактирования задачи в проекте.
      */
     public static final String EDIT_TASK = "Редактировать задачу";
@@ -82,20 +78,49 @@ public class TaskPage extends BasePage {
      * Идентификатор поля наименования.
      */
     public static final String TITLE = "title";
+    private Task task;
 
     /**
      * Конструктор.
      *
+     * @param task задача
      */
     public TaskPage(Task task) {
-        get(PAGE_TITLE).setDefaultModelObject("Редактировать задачу");
-        Form<Task> taskForm = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
+       super();
+       this.task = task;
+    }
+
+    @Override
+    public void setEntity(Task task) {
+        this.task = task;
+    }
+
+    @Override
+    protected void onSubmitting() {
+    }
+
+    @Override
+    protected void onChangesSubmitted() {
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
+        get(PAGE_TITLE).setDefaultModelObject(EDIT_TASK);
+        Form<Task> form = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override
             protected void onSubmit() {
+                onSubmitting();
+                onChangesSubmitted();
             }
         };
-        addFormComponents(taskForm);
-        add(taskForm);
+
+        addFormComponents(form);
+        add(form);
     }
 
     /**

@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.validation.IValidationError;
 
-import com.qulix.yurkevichvv.trainingtask.model.validation.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
 
 
 /**

@@ -1,7 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import org.apache.wicket.Page;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -12,7 +12,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
@@ -20,8 +19,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidato
  *
  * @author Q-YVV
  */
-public class EmployeePage<T extends Page> extends BasePage {
-
+public class EmployeePage extends AbstractEntityPage<Employee> {
 
     /**
      * Идентификатор элемента названия страницы.
@@ -41,11 +39,23 @@ public class EmployeePage<T extends Page> extends BasePage {
 
     /**
      * Конструктор.
+     */
+    public EmployeePage() {
+        super();
+    }
+
+    /**
+     * Конструктор.
      *
      * @param employee редактируемый сотрудник
      */
     public EmployeePage(Employee employee) {
         super();
+        this.employee = employee;
+    }
+
+    @Override
+    public void setEntity(Employee employee) {
         this.employee = employee;
     }
 
@@ -56,14 +66,22 @@ public class EmployeePage<T extends Page> extends BasePage {
         Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
             @Override
             public void onSubmit() {
-                onAfterSubmit();
+                onSubmitting();
+                onChangesSubmitted();
                 }
         };
         addFormComponents(employeeForm);
         add(employeeForm);
     }
 
-    protected void onAfterSubmit() {
+    @Override
+    protected void onSubmitting(){
+        EmployeeService service = new EmployeeService();
+        service.save(employee);
+    }
+
+    @Override
+    protected void onChangesSubmitted() {
     }
 
     /**
@@ -80,7 +98,7 @@ public class EmployeePage<T extends Page> extends BasePage {
         Link<Void> cancelButton = new Link<Void>("cancel") {
             @Override
             public void onClick() {
-                setResponsePage(EmployeesListPage.class);
+                onChangesSubmitted();
             }
         };
         form.add(cancelButton);
@@ -117,4 +135,6 @@ public class EmployeePage<T extends Page> extends BasePage {
             new ComponentFeedbackMessageFilter(post));
         form.add(postFeedbackPanel);
     }
+
+
 }

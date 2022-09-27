@@ -27,7 +27,7 @@
                         <input type="hidden" name="action" value="/new" />
                         <input type="submit" value="Добавить" ${PROJECT_LIST.isEmpty() ? 'disabled' : ''} class="add-button">
                         ${PROJECT_LIST.isEmpty() ?
-                        '<h4>Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</h4>': ''}
+                        '<a class = "feedback">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</a>': ''}
                     </form>
 
                     <table id="table" class="table table-striped">

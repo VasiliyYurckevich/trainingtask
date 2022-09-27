@@ -40,20 +40,22 @@ public class EmployeesListPage extends BasePage {
         LoadableDetachableModel <List<Employee>> employees = new LoadableDetachableModel<>() {
             @Override
             protected List<Employee> load() {
-                return new EmployeeDao().getAll();
+                return new EmployeeService().findAll();
             }
         };
+
+        EmployeePage employeePage = new EmployeePage();
 
         ListView<Employee> employeeListView = new EmployeeListView(employees);
         add(employeeListView);
 
-        add(new Link<WebPage>("addEmployee") {
+        add(new Link<Void>("addEmployee") {
             @Override
             public void onClick() {
-                Employee employee = new Employee();
-                setResponsePage(new EmployeePage(employee){
+                setResponsePage(new EmployeePage(new Employee()){
                     @Override
-                    protected void onAfterSubmit() {
+                    protected void onChangesSubmitted() {
+                        System.out.println(this.getPage());
                         setResponsePage(this);
                     }
                 });
@@ -63,8 +65,7 @@ public class EmployeesListPage extends BasePage {
 
     private static class EmployeeListView extends CustomListView<Employee> {
         public EmployeeListView(IModel<List<Employee>> employees) {
-            super("employees", employees, EmployeePage.class);
-            this.setReuseItems(true);
+            super("employees", employees, new EmployeePage());
         }
 
         @Override

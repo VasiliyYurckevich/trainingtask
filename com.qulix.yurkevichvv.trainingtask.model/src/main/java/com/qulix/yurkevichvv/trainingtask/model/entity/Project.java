@@ -26,6 +26,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,7 +59,7 @@ public class Project implements Serializable, Entity {
      */
     private List<Task> tasksList;
 
-    private List<Task> deletedTasksList = null;
+    private List<Task> deletedTasksList = new ArrayList<>();
 
     @Override
     public Integer getId() {
@@ -91,7 +92,7 @@ public class Project implements Serializable, Entity {
     }
 
     public List<Task> getTasksList() {
-        if (tasksList == null){
+        if (tasksList == null && id != null){
             tasksList = new TaskDao().getTasksInProject(id);
         }
         return tasksList;

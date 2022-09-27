@@ -134,9 +134,7 @@ public class    TaskDao implements IDao<Task>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     @Override
@@ -154,9 +152,7 @@ public class    TaskDao implements IDao<Task>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     /**
@@ -195,9 +191,6 @@ public class    TaskDao implements IDao<Task>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
     }
 
     /**
@@ -222,7 +215,6 @@ public class    TaskDao implements IDao<Task>, Serializable {
         }
         finally {
             preparedStatementHelper.close();
-            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -238,9 +230,6 @@ public class    TaskDao implements IDao<Task>, Serializable {
         }
         catch (DaoException | SQLException e) {
             throw new DaoException("Error when getting all tasks from the database", e);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
         }
     }
 
@@ -286,9 +275,6 @@ public class    TaskDao implements IDao<Task>, Serializable {
         }
         catch (DaoException | SQLException e) {
             throw new DaoException("An employee with such data was not found", e);
-        }
-        finally {
-            ConnectionController.closeConnection(connection);
         }
     }
 

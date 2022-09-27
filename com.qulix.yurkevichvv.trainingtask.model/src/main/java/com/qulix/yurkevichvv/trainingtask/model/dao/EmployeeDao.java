@@ -114,9 +114,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     @Override
@@ -138,9 +136,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     @Override
@@ -157,9 +153,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     @Override
@@ -181,9 +175,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
         catch (SQLException e) {
             throw new DaoException("Error when getting all employee data", e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     @Override
@@ -206,9 +198,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
         catch (SQLException e) {
             throw new DaoException(e);
         }
-        finally {
-            ConnectionController.closeConnection(connection);
-        }
+        
     }
 
     /**
