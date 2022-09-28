@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.model.services;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -8,7 +9,12 @@ import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 
-public class EmployeeService implements IService<Employee> {
+/**
+ * Сервис для работы с Employee.
+ *
+ * @author Q-YVV
+ */
+public class EmployeeService implements Serializable, IService<Employee> {
 
     private final EmployeeDao employeeDao = new EmployeeDao();
 
@@ -18,13 +24,14 @@ public class EmployeeService implements IService<Employee> {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            if (employee.getId() == null){
+            if (employee.getId() == null) {
                 employeeDao.add(employee, connection);
             }
             else {
                 employeeDao.update(employee, connection);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error adding employee", e);
         }
@@ -35,12 +42,13 @@ public class EmployeeService implements IService<Employee> {
     public void delete(Integer id) {
         Connection connection = ConnectionController.getConnection();
 
-        try (connection){
-            System.out.println(id);
+        try (connection) {
             employeeDao.delete(id, connection);
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error deleting employee by id", e);        }
+            throw new ServiceException("Error deleting employee by id", e);
+        }
 
     }
 

@@ -2,21 +2,22 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-
-import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.DeleteLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
+
 
 /**
  * Страница списка сотрудников.
@@ -44,28 +45,28 @@ public class EmployeesListPage extends BasePage {
             }
         };
 
-        EmployeePage employeePage = new EmployeePage();
+        EmployeePage employeePage = new EmployeePage(new Model<>(new Employee()), new EmployeeService()) {
+            @Override
+            protected void onChangesSubmitted() {
+                setResponsePage(EmployeesListPage.this);
+            }
+        };
 
-        ListView<Employee> employeeListView = new EmployeeListView(employees);
+        ListView<Employee> employeeListView = new EmployeeListView(employees, new EmployeeService());
         add(employeeListView);
 
-        add(new Link<Void>("addEmployee") {
+
+        add(new Link<WebPage>("addEmployee", new Model<>(employeePage)) {
             @Override
             public void onClick() {
-                setResponsePage(new EmployeePage(new Employee()){
-                    @Override
-                    protected void onChangesSubmitted() {
-                        System.out.println(this.getPage());
-                        setResponsePage(this);
-                    }
-                });
+                setResponsePage(getModelObject());
             }
         });
     }
 
     private static class EmployeeListView extends CustomListView<Employee> {
-        public EmployeeListView(IModel<List<Employee>> employees) {
-            super("employees", employees, new EmployeePage());
+        public EmployeeListView(IModel<List<Employee>> employees, IService service) {
+            super("employees", employees, service);
         }
 
         @Override
@@ -76,6 +77,18 @@ public class EmployeesListPage extends BasePage {
             item.add(new Label("firstName", employee.getFirstName()));
             item.add(new Label("patronymic", employee.getPatronymic()));
             item.add(new Label("post", employee.getPost()));
+        }
+
+        @Override
+        public AbstractEntityPage getNewPage(ListItem<Employee> item) {
+            EmployeePage projectPage = new EmployeePage(item.getModel(), new EmployeeService()) {
+
+                @Override
+                protected void onChangesSubmitted() {
+                    setResponsePage(EmployeesListPage.class);
+                }
+            };
+            return  projectPage;
         }
     }
 }

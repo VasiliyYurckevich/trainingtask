@@ -1,25 +1,28 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+
 
 /**
  * Страница добавления/редактирования сотрудников.
  *
  * @author Q-YVV
  */
-public class EmployeePage extends AbstractEntityPage<Employee> {
+public class EmployeePage extends AbstractEntityPage {
 
     /**
      * Идентификатор элемента названия страницы.
@@ -35,37 +38,27 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      * Максимальная длинна ввода полей.
      */
     private static final int MAXLENGTH = 50;
-    private Employee employee;
+    private IModel<Employee> employeeModel;
 
-    /**
-     * Конструктор.
-     */
-    public EmployeePage() {
-        super();
-    }
-
+    private IService service;
     /**
      * Конструктор.
      *
-     * @param employee редактируемый сотрудник
+     * @param employeeModel редактируемый сотрудник
      */
-    public EmployeePage(Employee employee) {
+    public EmployeePage(IModel<Employee> employeeModel, IService service) {
         super();
-        this.employee = employee;
-    }
-
-    @Override
-    public void setEntity(Employee employee) {
-        this.employee = employee;
+        this.employeeModel = employeeModel;
+        this.service = service;
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
         get(PAGE_TITLE).setDefaultModelObject("Редактировать сотрудника");
-        Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employee)) {
+        Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employeeModel)) {
             @Override
-            public void onSubmit() {
+                public void onSubmit() {
                 onSubmitting();
                 onChangesSubmitted();
                 }
@@ -75,9 +68,8 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
     }
 
     @Override
-    protected void onSubmitting(){
-        EmployeeService service = new EmployeeService();
-        service.save(employee);
+    protected void onSubmitting() {
+        service.save(employeeModel.getObject());
     }
 
     @Override

@@ -1,13 +1,9 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
-import java.sql.Connection;
-
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import org.apache.wicket.markup.html.link.Link;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 
 
 /**
@@ -17,6 +13,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
  */
 public class DeleteLink<T extends Entity> extends Link<T> {
 
+    private final IService service;
     /**
      * Элемент ListView.
      */
@@ -28,13 +25,14 @@ public class DeleteLink<T extends Entity> extends Link<T> {
      * @param id идентификатор
      * @param entity элемент ListView
      */
-    public DeleteLink(String id, T entity) {
+    public DeleteLink(String id, IService service, T entity) {
         super(id);
         this.entity = entity;
+        this.service = service;
     }
 
     @Override
     public void onClick() {
-        entity.getService().delete(entity.getId());
+        service.delete(entity.getId());
     }
 }

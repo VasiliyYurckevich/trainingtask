@@ -1,18 +1,27 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+/**
+ * Обобщает страницу редактирования сущностей.
+ *
+ * @author Q-YVV
+ */
+public abstract class AbstractEntityPage extends BasePage {
 
-public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
-
-
+    /**
+     * Конструктор.
+     */
     public AbstractEntityPage() {
         super();
-
     }
 
-    public abstract void setEntity(T entity);
-
+    /**
+     * Выполнят отправку формы.
+     */
     protected abstract void onSubmitting();
 
+
+    /**
+     * Выполнят переадресацию страницу после отправки формы или отмены редактирования.
+     */
     protected abstract void onChangesSubmitted();
 }

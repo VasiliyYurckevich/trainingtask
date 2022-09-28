@@ -19,11 +19,6 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
-import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -80,11 +75,6 @@ public class Task implements Entity, Serializable {
     @Override
     public Integer getId() {
         return id;
-    }
-
-    @Override
-    public IService getService() {
-        return new TaskService();
     }
 
     public void setId(Integer id) {

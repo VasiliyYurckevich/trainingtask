@@ -9,27 +9,30 @@
                         <form wicket:id="form">
                             <input wicket:id = "submit" type="submit" class="add-button" value="Сохранить"/>
                             <button class="add-button" wicket:id = "cancel">Отмена</button>
+
                             <div class="field">
                                 <label>Фамилия:</label>
                                 <input type="text" wicket:id="surname"/>
+                                <a class = "feedback" wicket:id="surnameFeedbackPanel"/>
                             </div>
 
-                            <a class = "feedback" wicket:id="surnameFeedbackPanel"/>
                             <div class="field">
                                 <label>Имя:</label>
                                 <input type="text" wicket:id="firstName"/>
+                                <a class = "feedback" wicket:id="firstNameFeedbackPanel"/>
                             </div>
-                            <a class = "feedback" wicket:id="firstNameFeedbackPanel"/>
+
                             <div class="field">
                                 <label>Отчество:</label>
                                 <input type="text" wicket:id="patronymic"/>
+                                <a class = "feedback" wicket:id="patronymicFeedbackPanel"/>
                             </div>
-                            <a class = "feedback" wicket:id="patronymicFeedbackPanel"/>
+
                             <div class="field">
                                 <label>Должность:</label>
                                 <input type="text" wicket:id="post"/>
+                                <a class = "feedback" wicket:id="postFeedbackPanel"/>
                             </div>
-                            <a class = "feedback" wicket:id="postFeedbackPanel"/>
                         </form>
                     </div>
                 </div>

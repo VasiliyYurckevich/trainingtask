@@ -1,14 +1,20 @@
 package com.qulix.yurkevichvv.trainingtask.model.services;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
-import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class TaskService implements IService<Task> {
+import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+
+/**
+ * Сервис для работы с Task.
+ *
+ * @author Q-YVV
+ */
+public class TaskService implements Serializable, IService<Task> {
 
     private TaskDao taskDao = new TaskDao();
 
@@ -19,7 +25,8 @@ public class TaskService implements IService<Task> {
         try (connection) {
             if (task.getId() == null) {
                 taskDao.add(task, connection);
-            } else {
+            }
+            else {
                 taskDao.update(task, connection);
             }
         }

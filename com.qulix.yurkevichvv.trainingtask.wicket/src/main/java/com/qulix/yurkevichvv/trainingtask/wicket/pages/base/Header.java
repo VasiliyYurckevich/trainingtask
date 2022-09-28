@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -23,8 +22,7 @@ public class Header extends Panel {
      */
     public Header(String id) {
         super(id);
-        WebMarkupContainer css = new WebMarkupContainer("style");
-        add(css);
+
         add(new Link<WebPage>("projectsList") {
             @Override
             public void onClick() {

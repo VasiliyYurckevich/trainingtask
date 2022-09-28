@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
@@ -44,7 +45,6 @@ import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 

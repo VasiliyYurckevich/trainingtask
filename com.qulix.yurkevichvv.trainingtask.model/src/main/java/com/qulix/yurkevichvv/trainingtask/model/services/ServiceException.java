@@ -1,6 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.model.services;
 
-public class ServiceException extends RuntimeException{
+/**
+ * Описывает исключение, возникающее работе сущностями.
+ *
+ * @author Q-YVV
+ */
+public class ServiceException extends RuntimeException {
 
     /**
      * Конструктор класса с сообщением и исключением.

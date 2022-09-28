@@ -274,7 +274,7 @@ public class    TaskDao implements IDao<Task>, Serializable {
             }
         }
         catch (DaoException | SQLException e) {
-            throw new DaoException("An employee with such data was not found", e);
+            throw new DaoException(e);
         }
     }
 

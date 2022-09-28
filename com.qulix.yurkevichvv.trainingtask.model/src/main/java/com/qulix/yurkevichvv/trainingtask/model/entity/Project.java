@@ -19,16 +19,12 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 
 /**
  * Сущность "Проект".
@@ -66,11 +62,6 @@ public class Project implements Serializable, Entity {
         return id;
     }
 
-    @Override
-    public IService getService() {
-        return new ProjectService();
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -91,8 +82,13 @@ public class Project implements Serializable, Entity {
         this.description = description;
     }
 
+    /**
+     * Возвращает список задач проекта. При первом вызове получает данные из БД.
+     *
+     * @return список задач проекта
+     */
     public List<Task> getTasksList() {
-        if (tasksList == null && id != null){
+        if (tasksList == null && id != null) {
             tasksList = new TaskDao().getTasksInProject(id);
         }
         return tasksList;

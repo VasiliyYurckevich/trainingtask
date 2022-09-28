@@ -2,7 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.form.LambdaChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.RangeValidator;
 
@@ -21,10 +22,11 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
@@ -33,7 +35,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
  *
  * @author Q-YVV
  */
-public class TaskPage extends AbstractEntityPage<Task> {
+public class TaskPage extends AbstractEntityPage {
 
     /**
      * Идентификатор элемента названия страницы.
@@ -45,10 +47,6 @@ public class TaskPage extends AbstractEntityPage<Task> {
      */
     public static final String TASK_FORM = "taskForm";
 
-    /**
-     * Идентификатор проекта.
-     */
-    public static final String PROJECTS = "projects";
 
     /**
      * Максимальная длинна ввода полей.
@@ -78,22 +76,20 @@ public class TaskPage extends AbstractEntityPage<Task> {
      * Идентификатор поля наименования.
      */
     public static final String TITLE = "title";
-    private Task task;
+    protected final IService service;
+    private IModel<Task> task;
 
     /**
      * Конструктор.
      *
      * @param task задача
      */
-    public TaskPage(Task task) {
-       super();
-       this.task = task;
+    public TaskPage(IModel<Task> task, IService service) {
+        super();
+        this.task = task;
+        this.service = service;
     }
 
-    @Override
-    public void setEntity(Task task) {
-        this.task = task;
-    }
 
     @Override
     protected void onSubmitting() {
@@ -104,7 +100,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
     }
 
     public Task getTask() {
-        return task;
+        return task.getObject();
     }
 
     @Override
@@ -153,7 +149,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
         Link<Void> cancelButton = new Link<>("cancel") {
             @Override
             public void onClick() {
-                setResponsePage(TasksListPage.class);
+                onChangesSubmitted();
             }
         };
         form.add(cancelButton);
@@ -237,15 +233,15 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @param form форма для добавления
      */
-    private static void addProjectDropDownChoice(Form<Task> form) {
+    private void addProjectDropDownChoice(Form<Task> form) {
         List<Project> projects = new ProjectDao().getAll();
         ProjectIModel model = new ProjectIModel(projects, form.getModelObject());
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId" , model, projects,
             new ChoiceRenderer<>(TITLE));
         projectDropDownChoice.setRequired(true);
+        projectDropDownChoice.setEnabled(TaskPage.this.service instanceof TaskService);
         form.add(projectDropDownChoice);
-
         CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("projectFeedbackPanel",
             new ComponentFeedbackMessageFilter(projectDropDownChoice));
         form.add(workTimeFeedbackPanel);
