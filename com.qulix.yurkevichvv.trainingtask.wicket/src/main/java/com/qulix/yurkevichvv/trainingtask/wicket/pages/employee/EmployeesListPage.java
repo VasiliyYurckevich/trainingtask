@@ -29,7 +29,7 @@ public class EmployeesListPage extends BasePage {
     /**
      * Сервис для работы с Employee.
      */
-    private EmployeeService service = new EmployeeService();
+    private final EmployeeService service = new EmployeeService();
 
     /**
      * Конструктор.
@@ -64,13 +64,12 @@ public class EmployeesListPage extends BasePage {
     }
 
     private EmployeePage getMewEmployeePage() {
-        EmployeePage employeePage = new EmployeePage(new Model<>(new Employee())) {
+        return new EmployeePage(new Model<>(new Employee())) {
             @Override
             protected void onChangesSubmitted() {
                 setResponsePage(EmployeesListPage.this);
             }
         };
-        return employeePage;
     }
 
     private static class EmployeeListView extends CustomListView<Employee> {
@@ -90,14 +89,13 @@ public class EmployeesListPage extends BasePage {
 
         @Override
         public AbstractEntityPage getNewPage(ListItem<Employee> item) {
-            EmployeePage projectPage = new EmployeePage(item.getModel()) {
+            return new EmployeePage(item.getModel()) {
 
                 @Override
                 protected void onChangesSubmitted() {
                     setResponsePage(EmployeesListPage.class);
                 }
             };
-            return  projectPage;
         }
     }
 }

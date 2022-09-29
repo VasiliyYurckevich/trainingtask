@@ -21,7 +21,7 @@ public class DeleteLink<T extends Entity> extends Link<T> {
     /**
      * Элемент ListView.
      */
-    private T entity;
+    private final T entity;
 
     /**
      * Конструктор.

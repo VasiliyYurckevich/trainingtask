@@ -16,7 +16,7 @@ public class CustomStringValidator implements IValidator<String> {
     /**
      * Максимальная длинна вводимой строки.
      */
-    private Integer maxlength;
+    private final Integer maxlength;
 
     /**
      * Конструктор.
@@ -32,7 +32,7 @@ public class CustomStringValidator implements IValidator<String> {
         final String string = validatable.getValue();
         final String errorMessage = FieldsValidation.checkString(string, maxlength);
         if (errorMessage != null) {
-            newError(validatable, "key", errorMessage);
+            newError(validatable, errorMessage);
         }
 
     }
@@ -40,13 +40,12 @@ public class CustomStringValidator implements IValidator<String> {
     /**
      * Создает новую ошибку.
      *
-     * @param validatable объект, который проверяется
-     * @param errorKey ключ сообщения ошибки
+     * @param validatable  объект, который проверяется
      * @param errorMessage сообщение ошибки
      */
-    private void newError(IValidatable<String> validatable, String errorKey, String errorMessage) {
+    private void newError(IValidatable<String> validatable, String errorMessage) {
         ValidationError error = new ValidationError();
-        error.addKey(getClass().getSimpleName() + "." + errorKey).setMessage(errorMessage);
+        error.addKey(getClass().getSimpleName() + "." + "key").setMessage(errorMessage);
         validatable.error(error);
     }
 }

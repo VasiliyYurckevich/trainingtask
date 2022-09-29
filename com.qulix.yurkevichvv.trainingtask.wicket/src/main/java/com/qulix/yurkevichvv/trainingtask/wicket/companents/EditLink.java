@@ -17,7 +17,7 @@ public class EditLink<T extends AbstractEntityPage> extends Link<T> {
     /*
      * Элемент ListView.
      */
-    private AbstractEntityPage page;
+    private final AbstractEntityPage page;
 
     /**
      * Конструктор.

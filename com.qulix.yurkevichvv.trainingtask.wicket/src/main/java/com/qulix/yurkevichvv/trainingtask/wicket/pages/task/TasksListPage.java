@@ -34,7 +34,7 @@ public class TasksListPage extends BasePage {
     /**
      * Сервис для работы с Task.
      */
-    private TaskService service = new TaskService();
+    private final TaskService service = new TaskService();
 
     /**
      * Конструктор.
@@ -74,7 +74,7 @@ public class TasksListPage extends BasePage {
 
     private TaskPage getTaskPage(Task task) {
 
-        TaskPage taskPage = new TaskPage(new Model<>(task)) {
+        return new TaskPage(new Model<>(task)) {
             @Override
             protected void onSubmitting() {
                 taskService.save(getTaskModel().getObject());
@@ -85,7 +85,6 @@ public class TasksListPage extends BasePage {
                 setResponsePage(TasksListPage.this);
             }
         };
-        return taskPage;
     }
 
     private class TaskCustomListView extends CustomListView<Task> {

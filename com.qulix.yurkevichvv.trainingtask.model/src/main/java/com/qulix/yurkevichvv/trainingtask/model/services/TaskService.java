@@ -19,7 +19,7 @@ public class TaskService implements Serializable, IService<Task> {
     /**
      * DAO-объект для взаимодействия Task с БД.
      */
-    private TaskDao taskDao = new TaskDao();
+    private final TaskDao taskDao = new TaskDao();
 
     @Override
     public void save(Task task) {

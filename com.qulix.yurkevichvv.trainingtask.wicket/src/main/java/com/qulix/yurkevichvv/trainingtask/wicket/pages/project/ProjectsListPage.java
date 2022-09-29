@@ -25,7 +25,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
  */
 public class ProjectsListPage extends BasePage {
 
-    private ProjectService service = new ProjectService();
+    private final ProjectService service = new ProjectService();
     /**
      * Конструктор.
      */
@@ -71,14 +71,13 @@ public class ProjectsListPage extends BasePage {
 
         @Override
         public AbstractEntityPage getNewPage(ListItem<Project> item) {
-            ProjectPage projectPage = new ProjectPage(item.getModel()) {
+            return new ProjectPage(item.getModel()) {
 
                 @Override
                 protected void onChangesSubmitted() {
                     setResponsePage(ProjectsListPage.class);
                 }
             };
-            return  projectPage;
         }
     }
 }

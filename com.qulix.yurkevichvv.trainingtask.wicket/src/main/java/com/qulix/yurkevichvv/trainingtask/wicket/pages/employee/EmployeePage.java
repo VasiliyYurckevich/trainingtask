@@ -42,12 +42,12 @@ public class EmployeePage extends AbstractEntityPage {
     /**
      *  Модель Employee.
      */
-    private IModel<Employee> employeeModel;
+    private final IModel<Employee> employeeModel;
 
     /**
      * Сервис для работы с Employee.
      */
-    private EmployeeService service = new EmployeeService();
+    private final EmployeeService service = new EmployeeService();
 
     /**
      * Конструктор.

@@ -35,8 +35,6 @@ public class CustomListView<T extends Entity>  extends ListView<T> {
         this.service = service;
     }
 
-
-
     @Override
     protected void populateItem(ListItem<T> item) {
 

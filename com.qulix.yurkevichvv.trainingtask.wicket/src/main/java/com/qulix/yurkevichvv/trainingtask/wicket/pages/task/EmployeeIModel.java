@@ -9,10 +9,22 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 class EmployeeIModel implements IModel<Employee> {
 
+    /**
+     * Список сотрудников.
+     */
     private final List<Employee> list;
 
+    /**
+     * Редактируемая задача.
+     */
     private final Task task;
 
+    /**
+     * Конструктор.
+     *
+     * @param list список сотрудников
+     * @param task редактируемая задача
+     */
     public EmployeeIModel(List<Employee> list, Task task) {
         this.list = list;
         this.task = task;

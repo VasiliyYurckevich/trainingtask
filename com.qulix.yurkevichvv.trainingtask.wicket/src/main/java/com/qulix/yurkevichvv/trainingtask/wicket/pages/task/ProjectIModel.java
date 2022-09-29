@@ -8,9 +8,23 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 class ProjectIModel implements IModel<Project> {
+
+    /**
+     * Список проектов.
+     */
     private final List<Project> list;
+
+    /**
+     * Редактируемая задача.
+     */
     private final Task task;
 
+    /**
+     * Конструктор.
+     *
+     * @param list список проектов
+     * @param task редактируемая задача
+     */
     public ProjectIModel(List<Project> list, Task task) {
         this.list = list;
         this.task = task;

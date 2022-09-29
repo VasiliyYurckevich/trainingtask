@@ -92,7 +92,7 @@ public class TaskPage extends AbstractEntityPage {
     /**
      * Модель задачи.
      */
-    private IModel<Task> task;
+    private final IModel<Task> task;
 
     /**
      * Конструктор.

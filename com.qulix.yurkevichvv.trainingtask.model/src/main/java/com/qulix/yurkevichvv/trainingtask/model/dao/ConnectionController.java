@@ -76,24 +76,6 @@ public class ConnectionController implements Serializable {
     }
 
     /**
-     * Закрывает соединение с БД.
-     *
-     * @param connection соединение
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
-     */
-    public static void closeConnection(Connection connection) throws DaoException {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionController closeConnection() error", e);
-            throw new DaoException("Error closing the database connection", e);
-        }
-    }
-
-    /**
      * Отправляет транзакцию в БД.
      *
      * @param connection соединение

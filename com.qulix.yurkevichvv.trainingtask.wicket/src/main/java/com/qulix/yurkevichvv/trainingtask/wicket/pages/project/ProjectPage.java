@@ -61,12 +61,12 @@ public class ProjectPage extends AbstractEntityPage {
     /**
      * Модель проекта.
      */
-    private IModel<Project> projectModel;
+    private final IModel<Project> projectModel;
 
     /**
      * Сервис для работы с Project.
      */
-    private static ProjectService service = new ProjectService();
+    private static final ProjectService service = new ProjectService();
 
     /**
      * Конструктор.
@@ -117,7 +117,7 @@ public class ProjectPage extends AbstractEntityPage {
 
         task.setProjectId(projectModel.getObject().getId());
 
-        TaskPage taskPage = new TaskPage(new Model<Task>(task)) {
+        return new TaskPage(new Model<Task>(task)) {
             @Override
             protected void onSubmitting() {
                 service.addTask(projectModel.getObject(), getTaskModel().getObject());
@@ -133,7 +133,6 @@ public class ProjectPage extends AbstractEntityPage {
                 return false;
             }
         };
-        return taskPage;
     }
 
     /**
@@ -224,7 +223,7 @@ public class ProjectPage extends AbstractEntityPage {
         }
 
         private TaskPage getTaskPage(ListItem<Task> item) {
-            TaskPage taskPage = new TaskPage(item.getModel()) {
+            return new TaskPage(item.getModel()) {
 
                 @Override
                 protected void onSubmitting() {
@@ -241,7 +240,6 @@ public class ProjectPage extends AbstractEntityPage {
                     return false;
                 }
             };
-            return taskPage;
         }
     }
 }
