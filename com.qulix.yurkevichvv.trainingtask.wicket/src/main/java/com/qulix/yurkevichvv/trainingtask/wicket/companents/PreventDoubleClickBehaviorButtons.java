@@ -29,6 +29,7 @@ public class PreventDoubleClickBehaviorButtons extends AjaxCallListener {
 
     /**
      * Добавление поведения при нажатии кнопки.
+     *
      * @param component кнопка.
      * @return js ивент для блокирования двойного нажатия.
      */
