@@ -126,7 +126,6 @@ public class ProjectPage extends AbstractEntityPage {
 
         task.setProjectId(projectModel.getObject().getId());
 
-        System.out.println(task);
         return new TaskPage(new Model<>(task)) {
             @Override
             protected void onSubmitting() {
