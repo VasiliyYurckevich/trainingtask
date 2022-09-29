@@ -226,7 +226,8 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new Label("endDate", task.getEndDate().toString()))
                 .add(new Label("projectTitle", projectModel.getObject().getTitle()))
                 .add(new Label(EMPLOYEE_NAME,
-                    task.getEmployeeId() != null ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
+                        (task.getEmployeeId() != null && task.getEmployeeId() != 0) ?
+                        new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
                 .add(new Link<Void>("deleteLink") {
                     @Override
                     public void onClick() {

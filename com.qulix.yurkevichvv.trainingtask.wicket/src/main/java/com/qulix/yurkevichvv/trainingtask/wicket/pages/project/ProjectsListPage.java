@@ -57,6 +57,7 @@ public class ProjectsListPage extends BasePage {
     }
 
     private class ProjectCustomListView extends CustomListView<Project> {
+
         public ProjectCustomListView(IModel<List<Project>> projects, IService projectService) {
             super("projects", projects, projectService);
         }

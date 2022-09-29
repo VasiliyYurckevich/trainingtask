@@ -279,16 +279,17 @@ public class TaskPage extends AbstractEntityPage {
      * @param form форма для добавления
      */
     private static void addEmployeesDropDownChoice(Form<Task> form) {
+
         List<Employee> employees = new EmployeeService().findAll();
         LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
             Employee::getId);
-
         EmployeeIModel model = new EmployeeIModel(employees, form.getModelObject());
+
         DropDownChoice<Employee> employeesDropDownChoice = new DropDownChoice<>("employeeId" , model, employees,
             employeeChoiceRenderer);
+        employeesDropDownChoice.setNullValid(true);
         form.add(employeesDropDownChoice);
 
-        employeesDropDownChoice.setNullValid(true);
         CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("employeesFeedbackPanel",
             new ComponentFeedbackMessageFilter(employeesDropDownChoice));
         form.add(employeesFeedbackPanel);
