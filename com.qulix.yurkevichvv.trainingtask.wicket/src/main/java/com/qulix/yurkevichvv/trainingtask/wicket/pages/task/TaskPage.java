@@ -82,17 +82,17 @@ public class TaskPage extends AbstractEntityPage {
     /**
      * Сервис для работы с Task.
      */
-    protected final TaskService taskService = new TaskService();
+    protected TaskService taskService = new TaskService();
 
     /**
      * Сервис для работы с Project.
      */
-    private final ProjectService projectService =  new ProjectService();
+    private ProjectService projectService =  new ProjectService();
 
     /**
      * Модель задачи.
      */
-    private final IModel<Task> task;
+    private IModel<Task> task;
 
     /**
      * Конструктор.

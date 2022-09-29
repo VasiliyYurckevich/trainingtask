@@ -59,14 +59,15 @@ public class ProjectPage extends AbstractEntityPage {
     private static final String PROJECT_FORM = "projectForm";
 
     /**
+     * Сервис для работы с Project.
+     */
+    private ProjectService service = new ProjectService();
+
+    /**
      * Модель проекта.
      */
     private IModel<Project> projectModel;
 
-    /**
-     * Сервис для работы с Project.
-     */
-    private static ProjectService service = new ProjectService();
 
     /**
      * Конструктор.
@@ -93,31 +94,40 @@ public class ProjectPage extends AbstractEntityPage {
 
         addButtons(form);
         addFormComponents(form);
-        addTaskList(projectModel);
+        addTaskList();
         add(form);
     }
 
     private void addButtons(Form<Project> form) {
 
-        TaskPage taskPage = getTaskPage(new Task());
         Link<Void> addTaskLink = new Link<>("addTaskInProject") {
             @Override
             public void onClick() {
-                setResponsePage(taskPage);
+                setResponsePage(getTaskPage(new Task()));
             }
         };
         add(addTaskLink);
+
         NoDoubleClickButton button = new NoDoubleClickButton("submit");
         form.add(button);
         form.setDefaultButton(button);
         form.add(new PreventSubmitOnEnterBehavior());
+
+        Link<Void> cancelButton = new Link<Void>("cancel") {
+            @Override
+            public void onClick() {
+                setResponsePage(ProjectsListPage.class);
+            }
+        };
+        form.add(cancelButton);
     }
 
     private TaskPage getTaskPage(Task task) {
 
         task.setProjectId(projectModel.getObject().getId());
 
-        TaskPage taskPage = new TaskPage(new Model<Task>(task)) {
+        System.out.println(task);
+        return new TaskPage(new Model<>(task)) {
             @Override
             protected void onSubmitting() {
                 service.addTask(projectModel.getObject(), getTaskModel().getObject());
@@ -133,7 +143,6 @@ public class ProjectPage extends AbstractEntityPage {
                 return false;
             }
         };
-        return taskPage;
     }
 
     /**
@@ -142,13 +151,6 @@ public class ProjectPage extends AbstractEntityPage {
      * @param form форма для добавления
      */
     protected static void addFormComponents(Form<Project> form) {
-        Link<Void> cancelButton = new Link<Void>("cancel") {
-            @Override
-            public void onClick() {
-                setResponsePage(ProjectsListPage.class);
-            }
-        };
-        form.add(cancelButton);
 
         RequiredTextField<String> title = new RequiredTextField<>("title");
         title.add(new CustomStringValidator(TITLE_MAXLENGTH));
@@ -172,7 +174,7 @@ public class ProjectPage extends AbstractEntityPage {
      * Добавляет список задач проекта.
      *
      * */
-    private void addTaskList(IModel<Project> model) {
+    private void addTaskList() {
         LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<>() {
             @Override
             protected List<Task> load() {
@@ -180,7 +182,7 @@ public class ProjectPage extends AbstractEntityPage {
             }
         };
 
-        ListView<Task> taskListView = new TaskListView(tasks, projectModel);
+        ListView<Task> taskListView = new TaskListView(tasks, projectModel, service);
         add(taskListView);
     }
 
@@ -195,11 +197,23 @@ public class ProjectPage extends AbstractEntityPage {
     }
 
     private class TaskListView extends ListView<Task> {
+
+        /**
+         * Модель проекта, связанного с задачами.
+         */
         private final IModel<Project> projectModel;
 
-        public TaskListView(LoadableDetachableModel<List<Task>> tasks, IModel<Project> projectModel) {
+        /**
+         * Сервис для работы с проектом.
+         */
+        private final ProjectService service;
+
+        public TaskListView(LoadableDetachableModel<List<Task>> tasks, IModel<Project> projectModel,
+            ProjectService service) {
+
             super("tasks", tasks);
             this.projectModel = projectModel;
+            this.service = service;
         }
 
         @Override
@@ -213,7 +227,7 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new Label("endDate", task.getEndDate().toString()))
                 .add(new Label("projectTitle", projectModel.getObject().getTitle()))
                 .add(new Label(EMPLOYEE_NAME,
-                    task.getEmployeeId() != 0 ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
+                    task.getEmployeeId() != null ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
                 .add(new Link<Void>("deleteLink") {
                     @Override
                     public void onClick() {
@@ -224,11 +238,11 @@ public class ProjectPage extends AbstractEntityPage {
         }
 
         private TaskPage getTaskPage(ListItem<Task> item) {
-            TaskPage taskPage = new TaskPage(item.getModel()) {
+            return new TaskPage(item.getModel()) {
 
                 @Override
                 protected void onSubmitting() {
-                    ProjectPage.service.updateTask(projectModel.getObject(), item.getIndex(), getTaskModel().getObject());
+                    service.updateTask(projectModel.getObject(), item.getIndex(), getTaskModel().getObject());
                 }
 
                 @Override
@@ -241,7 +255,6 @@ public class ProjectPage extends AbstractEntityPage {
                     return false;
                 }
             };
-            return taskPage;
         }
     }
 }
