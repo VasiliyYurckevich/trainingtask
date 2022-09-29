@@ -7,9 +7,8 @@ import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
-import org.apache.wicket.settings.RequestCycleSettings;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.HomePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.HomePage;
 
 
 
@@ -29,8 +28,8 @@ public class TrainingTaskApp extends WebApplication {
     protected void init() {
         super.init();
         getCspSettings().blocking().disabled();
-        getRequestCycleSettings().setRenderStrategy(RequestCycleSettings.RenderStrategy.ONE_PASS_RENDER);
     }
+
     @Override
     public Session newSession(Request request, Response response) {
         return super.newSession(request, response).setLocale(new Locale("ru"));

@@ -11,10 +11,6 @@ import org.apache.wicket.model.Model;
  * @author Q-YVV
  */
 public class PreventSubmitOnEnterBehavior extends Behavior {
-    /**
-     * serialVersionUID для сериализации.
-     */
-    private static final long serialVersionUID = 1496517082650792177L;
 
     /**
      * Конструктор.

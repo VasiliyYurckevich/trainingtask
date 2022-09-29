@@ -83,13 +83,19 @@ public class Project implements Serializable, Entity {
     }
 
     /**
-     * Возвращает список задач проекта. При первом вызове получает данные из БД.
+     * Возвращает список задач проекта. При первом вызове получает данные из БД
+     * либо, если проекта нет в БД, пустой список.
      *
      * @return список задач проекта
      */
     public List<Task> getTasksList() {
-        if (tasksList == null && id != null) {
-            tasksList = new TaskDao().getTasksInProject(id);
+        if (tasksList == null) {
+            if (id == null) {
+                tasksList = new ArrayList<>();
+            }
+            else {
+                tasksList = new TaskDao().getTasksInProject(id);
+            }
         }
         return tasksList;
     }

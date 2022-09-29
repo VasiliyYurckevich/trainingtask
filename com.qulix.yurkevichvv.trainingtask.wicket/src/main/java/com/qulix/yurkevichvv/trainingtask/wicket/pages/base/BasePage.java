@@ -5,13 +5,13 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-
 /**
  * Шаблонная страница приложения.
  *
  * @author Q-YVV
  */
 public class BasePage extends WebPage {
+
     /**
      * Конструктор.
      */

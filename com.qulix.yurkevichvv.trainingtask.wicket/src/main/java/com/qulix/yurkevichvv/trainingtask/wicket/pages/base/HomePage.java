@@ -1,6 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages;
-
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 /**
  *  Домашняя страница приложения.

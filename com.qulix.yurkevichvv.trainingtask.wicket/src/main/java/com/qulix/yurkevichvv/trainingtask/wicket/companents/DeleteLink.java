@@ -13,7 +13,11 @@ import com.qulix.yurkevichvv.trainingtask.model.services.IService;
  */
 public class DeleteLink<T extends Entity> extends Link<T> {
 
+    /**
+     * Сервис для работы с сущностями.
+     */
     private final IService service;
+
     /**
      * Элемент ListView.
      */

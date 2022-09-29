@@ -17,8 +17,15 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
  * @author Q-YVV
  */
 public class ProjectService implements IProjectService, Serializable {
+
+    /**
+     * DAO-объект для взаимодействия Project с БД.
+     */
     private final ProjectDao projectDao = new ProjectDao();
 
+    /**
+     * DAO-объект для взаимодействия Task с БД.
+     */
     private final TaskDao taskDao = new TaskDao();
 
     @Override

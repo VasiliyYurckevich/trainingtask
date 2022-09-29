@@ -8,7 +8,9 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 class EmployeeIModel implements IModel<Employee> {
+
     private final List<Employee> list;
+
     private final Task task;
 
     public EmployeeIModel(List<Employee> list, Task task) {
@@ -26,8 +28,7 @@ class EmployeeIModel implements IModel<Employee> {
     }
 
     @Override
-
     public void setObject(final Employee employee) {
-        task.setEmployeeId(employee.getId());
+        task.setEmployeeId(employee != null ? employee.getId() : null);
     }
 }

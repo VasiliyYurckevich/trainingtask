@@ -8,7 +8,7 @@ import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 
 /**
  * Обобщенный ListView для сущностей.
@@ -18,6 +18,9 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
  */
 public class CustomListView<T extends Entity>  extends ListView<T> {
 
+    /**
+     * Сервис для работы с сущностями.
+     */
     private final IService  service;
 
     /**
@@ -36,8 +39,10 @@ public class CustomListView<T extends Entity>  extends ListView<T> {
 
     @Override
     protected void populateItem(ListItem<T> item) {
+
         AbstractEntityPage page = getNewPage(item);
-        item.add(new EditLink("editLink", page, item.getModelObject()))
+
+        item.add(new EditLink("editLink", page))
             .add(new DeleteLink("deleteLink", service, item.getModelObject()));
     }
 
@@ -49,9 +54,5 @@ public class CustomListView<T extends Entity>  extends ListView<T> {
      */
     public AbstractEntityPage getNewPage(ListItem<T> item) {
         return null;
-    }
-
-    public IService getService() {
-        return service;
     }
 }

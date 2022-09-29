@@ -4,7 +4,7 @@ import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 /**
- * Панель для вывода валидационных сообщений.
+ * Панель для вывода вариационных сообщений.
  *
  * @author Q-YVV
  */

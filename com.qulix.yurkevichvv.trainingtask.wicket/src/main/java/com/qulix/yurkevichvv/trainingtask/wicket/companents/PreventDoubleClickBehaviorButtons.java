@@ -10,6 +10,9 @@ import org.apache.wicket.ajax.attributes.AjaxCallListener;
  */
 public class PreventDoubleClickBehaviorButtons extends AjaxCallListener {
 
+    /**
+     * JS-скрипт блокировки кнопки.
+     */
     private static final String JAVASCRIPT_POINTER_EVENTS = ";$('#%s').css('pointer-events', '%s');";
 
     /**

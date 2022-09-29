@@ -16,6 +16,9 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
  */
 public class EmployeeService implements Serializable, IService<Employee> {
 
+    /**
+     * DAO-объект для взаимодействия Employee с БД.
+     */
     private final EmployeeDao employeeDao = new EmployeeDao();
 
 
