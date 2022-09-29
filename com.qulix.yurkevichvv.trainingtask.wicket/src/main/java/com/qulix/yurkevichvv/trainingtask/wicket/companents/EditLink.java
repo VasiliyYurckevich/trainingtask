@@ -1,11 +1,8 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
-import java.io.Serializable;
-
 import org.apache.wicket.markup.html.link.Link;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 
 
 
@@ -15,9 +12,8 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
  *
  * @author Q-YVV
  */
-public class EditLink<T extends Entity & Serializable > extends Link<T> {
+public class EditLink<T extends AbstractEntityPage> extends Link<T> {
 
-    private final T entity;
     /*
      * Элемент ListView.
      */
@@ -28,10 +24,9 @@ public class EditLink<T extends Entity & Serializable > extends Link<T> {
      *
      * @param id идентификатор
      */
-    public EditLink(String id, AbstractEntityPage page, T entity) {
+    public EditLink(String id, AbstractEntityPage page) {
         super(id);
         this.page = page;
-        this.entity = entity;
     }
 
     @Override

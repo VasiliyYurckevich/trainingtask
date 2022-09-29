@@ -16,7 +16,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 
 /**
@@ -31,7 +31,9 @@ public class TasksListPage extends BasePage {
      */
     public static final String EMPLOYEE_NAME = "employeeName";
 
-
+    /**
+     * Сервис для работы с Task.
+     */
     private TaskService service = new TaskService();
 
     /**
@@ -71,11 +73,11 @@ public class TasksListPage extends BasePage {
     }
 
     private TaskPage getTaskPage(Task task) {
-        TaskPage taskPage = new TaskPage(new Model<>(task), new TaskService()) {
+
+        TaskPage taskPage = new TaskPage(new Model<>(task)) {
             @Override
             protected void onSubmitting() {
-                TaskService taskService = new TaskService();
-                taskService.save(getTask());
+                taskService.save(getTaskModel().getObject());
             }
 
             @Override
@@ -87,6 +89,7 @@ public class TasksListPage extends BasePage {
     }
 
     private class TaskCustomListView extends CustomListView<Task> {
+
         public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService service) {
             super("tasks", tasks, service);
         }

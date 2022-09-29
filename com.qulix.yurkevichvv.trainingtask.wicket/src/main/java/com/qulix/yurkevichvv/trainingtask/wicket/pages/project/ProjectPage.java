@@ -22,7 +22,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
@@ -37,6 +37,7 @@ public class ProjectPage extends AbstractEntityPage {
      * Максимальная длинна ввода поля наименования.
      */
     public static final int TITLE_MAXLENGTH = 50;
+
     /**
      * Максимальная длинна ввода поля описания.
      */
@@ -46,7 +47,6 @@ public class ProjectPage extends AbstractEntityPage {
      * Идентификатор элемента названия страницы.
      */
     private static final String PAGE_TITLE = "pageTitle";
-
 
     /**
      * Идентификатор поля сотрудника.
@@ -58,50 +58,49 @@ public class ProjectPage extends AbstractEntityPage {
      */
     private static final String PROJECT_FORM = "projectForm";
 
-    private IModel<Project> project;
-
-    private ProjectService service;
+    /**
+     * Модель проекта.
+     */
+    private IModel<Project> projectModel;
 
     /**
-     * Список задач проекта.
+     * Сервис для работы с Project.
      */
-
+    private static ProjectService service = new ProjectService();
 
     /**
      * Конструктор.
      *
      * @param project редактируемый проект
      */
-    public ProjectPage(IModel<Project> project, ProjectService service) {
+    public ProjectPage(IModel<Project> project) {
         super();
-        this.project = project;
-        this.service = service;
-
+        this.projectModel = project;
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
         get(PAGE_TITLE).setDefaultModelObject("Редактировать проект");
-        Form<Project> form = new Form<Project>(PROJECT_FORM, new CompoundPropertyModel<>(project)) {
+
+        Form<Project> form = new Form<>(PROJECT_FORM, new CompoundPropertyModel<>(projectModel)) {
             @Override
             protected void onSubmit() {
                 onSubmitting();
                 onChangesSubmitted();
             }
         };
+
         addButtons(form);
         addFormComponents(form);
-        addTaskList(project);
+        addTaskList(projectModel);
         add(form);
     }
-
-
 
     private void addButtons(Form<Project> form) {
 
         TaskPage taskPage = getTaskPage(new Task());
-        Link<Void> addTaskLink = new Link<Void>("addTaskInProject") {
+        Link<Void> addTaskLink = new Link<>("addTaskInProject") {
             @Override
             public void onClick() {
                 setResponsePage(taskPage);
@@ -115,15 +114,23 @@ public class ProjectPage extends AbstractEntityPage {
     }
 
     private TaskPage getTaskPage(Task task) {
-        TaskPage taskPage = new TaskPage(new Model<Task>(task), service) {
+
+        task.setProjectId(projectModel.getObject().getId());
+
+        TaskPage taskPage = new TaskPage(new Model<Task>(task)) {
             @Override
             protected void onSubmitting() {
-                service.addTask(project.getObject(), getTask());
+                service.addTask(projectModel.getObject(), getTaskModel().getObject());
             }
 
             @Override
             protected void onChangesSubmitted() {
                 setResponsePage(ProjectPage.this);
+            }
+
+            @Override
+            protected boolean changeProjectOption() {
+                return false;
             }
         };
         return taskPage;
@@ -166,25 +173,20 @@ public class ProjectPage extends AbstractEntityPage {
      *
      * */
     private void addTaskList(IModel<Project> model) {
-        LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<List<Task>>() {
+        LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<>() {
             @Override
             protected List<Task> load() {
-                return service.getProjectsTasks(getProject());
+                return service.getProjectsTasks(projectModel.getObject());
             }
         };
 
-        ListView<Task> taskListView = new TaskListView(tasks, project);
+        ListView<Task> taskListView = new TaskListView(tasks, projectModel);
         add(taskListView);
     }
 
     @Override
     protected void onSubmitting() {
-        service.save(getProject());
-
-    }
-
-    public Project getProject() {
-        return project.getObject();
+        service.save(projectModel.getObject());
     }
 
     @Override
@@ -204,18 +206,6 @@ public class ProjectPage extends AbstractEntityPage {
         protected void populateItem(ListItem<Task> item) {
             final Task task = item.getModelObject();
 
-            TaskPage taskPage = new TaskPage(item.getModel(), service) {
-                @Override
-                protected void onSubmitting() {
-                    service.updateTask(projectModel.getObject(), item.getIndex(), getTask());
-                }
-
-                @Override
-                protected void onChangesSubmitted() {
-                    setResponsePage(ProjectPage.this);
-                }
-            };
-
             item.add(new Label("status", task.getStatus().getStatusTitle()))
                 .add(new Label("task_title", task.getTitle()))
                 .add(new Label("workTime", task.getWorkTime()))
@@ -230,7 +220,28 @@ public class ProjectPage extends AbstractEntityPage {
                         service.deleteTask(projectModel.getObject(), task);
                     }
                 })
-                .add(new EditLink<Task>("editLink", taskPage, task));
+                .add(new EditLink("editLink", getTaskPage(item)));
+        }
+
+        private TaskPage getTaskPage(ListItem<Task> item) {
+            TaskPage taskPage = new TaskPage(item.getModel()) {
+
+                @Override
+                protected void onSubmitting() {
+                    ProjectPage.service.updateTask(projectModel.getObject(), item.getIndex(), getTaskModel().getObject());
+                }
+
+                @Override
+                protected void onChangesSubmitted() {
+                    setResponsePage(ProjectPage.this);
+                }
+
+                @Override
+                protected boolean changeProjectOption() {
+                    return false;
+                }
+            };
+            return taskPage;
         }
     }
 }

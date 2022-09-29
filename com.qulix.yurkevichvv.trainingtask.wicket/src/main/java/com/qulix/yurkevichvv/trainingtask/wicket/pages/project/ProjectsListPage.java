@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -14,7 +13,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 
 
@@ -26,13 +25,12 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
  */
 public class ProjectsListPage extends BasePage {
 
-    private ProjectService service;
+    private ProjectService service = new ProjectService();
     /**
      * Конструктор.
      */
     public ProjectsListPage() {
         super();
-        this.service = new ProjectService();
     }
 
     @Override
@@ -50,10 +48,10 @@ public class ProjectsListPage extends BasePage {
         CustomListView<Project> projectListView = new ProjectCustomListView(projects, service);
         add(projectListView);
 
-        add(new Link<WebPage>("addProject") {
+        add(new Link<>("addProject", new Model<>(new Project())) {
             @Override
             public void onClick() {
-                setResponsePage(new ProjectPage(new Model<>(new Project()), service));
+                setResponsePage(new ProjectPage(this.getModel()));
             }
         });
     }
@@ -73,7 +71,7 @@ public class ProjectsListPage extends BasePage {
 
         @Override
         public AbstractEntityPage getNewPage(ListItem<Project> item) {
-            ProjectPage projectPage = new ProjectPage(item.getModel(), service) {
+            ProjectPage projectPage = new ProjectPage(item.getModel()) {
 
                 @Override
                 protected void onChangesSubmitted() {

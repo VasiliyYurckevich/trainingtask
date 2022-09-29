@@ -2,7 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
+
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -16,17 +16,18 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.RangeValidator;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
+
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
@@ -72,11 +73,25 @@ public class TaskPage extends AbstractEntityPage {
      * Имя страницы редактирования задачи в проекте.
      */
     public static final String EDIT_TASK = "Редактировать задачу";
+
     /**
      * Идентификатор поля наименования.
      */
     public static final String TITLE = "title";
-    protected final IService service;
+
+    /**
+     * Сервис для работы с Task.
+     */
+    protected final TaskService taskService = new TaskService();
+
+    /**
+     * Сервис для работы с Project.
+     */
+    private final ProjectService projectService =  new ProjectService();
+
+    /**
+     * Модель задачи.
+     */
     private IModel<Task> task;
 
     /**
@@ -84,23 +99,13 @@ public class TaskPage extends AbstractEntityPage {
      *
      * @param task задача
      */
-    public TaskPage(IModel<Task> task, IService service) {
+    public TaskPage(IModel<Task> task) {
         super();
         this.task = task;
-        this.service = service;
     }
 
-
-    @Override
-    protected void onSubmitting() {
-    }
-
-    @Override
-    protected void onChangesSubmitted() {
-    }
-
-    public Task getTask() {
-        return task.getObject();
+    public IModel<Task> getTaskModel() {
+        return task;
     }
 
     @Override
@@ -117,6 +122,25 @@ public class TaskPage extends AbstractEntityPage {
 
         addFormComponents(form);
         add(form);
+    }
+
+
+    @Override
+    protected void onSubmitting() {
+    }
+
+    /**
+     * Определяет возможность изменения задачи проекта.
+     *
+     * @return true если изменение возможно, иначе false
+     */
+    protected boolean changeProjectOption() {
+        return true;
+    }
+
+    @Override
+    protected void onChangesSubmitted() {
+        setResponsePage(TaskPage.class);
     }
 
     /**
@@ -179,7 +203,7 @@ public class TaskPage extends AbstractEntityPage {
      */
     private static void addTitleField(Form<Task> form) {
 
-        RequiredTextField<String> titleField =  new RequiredTextField<String>(TITLE);
+        RequiredTextField<String> titleField = new RequiredTextField<String>(TITLE);
         titleField.add(new CustomStringValidator(MAXLENGTH));
         form.add(titleField);
 
@@ -211,8 +235,9 @@ public class TaskPage extends AbstractEntityPage {
      */
     private static void addDateField(Form<Task> form) {
         LocalDateTextField beginDateField =  new LocalDateTextField(BEGIN_DATE, PATTERN);
-        form.add(beginDateField);
+        form.add(beginDateField.setRequired(true));
         beginDateField.setRequired(true);
+
         CustomFeedbackPanel beginDateFeedbackPanel = new CustomFeedbackPanel("beginDateFeedbackPanel",
             new ComponentFeedbackMessageFilter(beginDateField));
         form.add(beginDateFeedbackPanel);
@@ -221,6 +246,7 @@ public class TaskPage extends AbstractEntityPage {
             new PropertyModel<>(form.getModelObject(), END_DATE), PATTERN);
         endDateTextField.setRequired(true);
         form.add(endDateTextField);
+
         CustomFeedbackPanel endDateFeedbackPanel = new CustomFeedbackPanel("endDateFeedbackPanel",
             new ComponentFeedbackMessageFilter(endDateTextField));
         form.add(endDateFeedbackPanel);
@@ -234,14 +260,14 @@ public class TaskPage extends AbstractEntityPage {
      * @param form форма для добавления
      */
     private void addProjectDropDownChoice(Form<Task> form) {
-        List<Project> projects = new ProjectDao().getAll();
+        List<Project> projects = projectService.findAll();
         ProjectIModel model = new ProjectIModel(projects, form.getModelObject());
 
-        DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId" , model, projects,
-            new ChoiceRenderer<>(TITLE));
-        projectDropDownChoice.setRequired(true);
-        projectDropDownChoice.setEnabled(TaskPage.this.service instanceof TaskService);
+        DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId" , model,
+            projects, new ChoiceRenderer<>(TITLE));
+        projectDropDownChoice.setRequired(true).setEnabled(changeProjectOption());
         form.add(projectDropDownChoice);
+
         CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("projectFeedbackPanel",
             new ComponentFeedbackMessageFilter(projectDropDownChoice));
         form.add(workTimeFeedbackPanel);
@@ -253,7 +279,7 @@ public class TaskPage extends AbstractEntityPage {
      * @param form форма для добавления
      */
     private static void addEmployeesDropDownChoice(Form<Task> form) {
-        List<Employee> employees = new EmployeeDao().getAll();
+        List<Employee> employees = new EmployeeService().findAll();
         LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
             Employee::getId);
 

@@ -9,11 +9,11 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 
@@ -38,18 +38,26 @@ public class EmployeePage extends AbstractEntityPage {
      * Максимальная длинна ввода полей.
      */
     private static final int MAXLENGTH = 50;
+
+    /**
+     *  Модель Employee.
+     */
     private IModel<Employee> employeeModel;
 
-    private IService service;
+    /**
+     * Сервис для работы с Employee.
+     */
+    private EmployeeService service = new EmployeeService();
+
     /**
      * Конструктор.
      *
      * @param employeeModel редактируемый сотрудник
      */
-    public EmployeePage(IModel<Employee> employeeModel, IService service) {
+    public EmployeePage(IModel<Employee> employeeModel) {
         super();
         this.employeeModel = employeeModel;
-        this.service = service;
+
     }
 
     @Override
@@ -74,6 +82,7 @@ public class EmployeePage extends AbstractEntityPage {
 
     @Override
     protected void onChangesSubmitted() {
+        setResponsePage(EmployeesListPage.class);
     }
 
     /**
