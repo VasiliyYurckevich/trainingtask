@@ -104,38 +104,19 @@ public class EmployeePage extends AbstractEntityPage {
         };
         form.add(cancelButton);
 
-        RequiredTextField<String> surname = new RequiredTextField<>("surname");
+        setField(form, "surname");
+        setField(form, "firstName");
+        setField(form, "patronymic");
+        setField(form, "post");
+    }
+
+    private static void setField(Form form, String name) {
+        RequiredTextField<String> surname = new RequiredTextField<>(name);
         surname.add(new CustomStringValidator(MAXLENGTH));
         form.add(surname);
 
-        RequiredTextField<String> firstName = new RequiredTextField<>("firstName");
-        firstName.add(new CustomStringValidator(MAXLENGTH));
-        form.add(firstName);
-
-        RequiredTextField<String> patronymic = new RequiredTextField<>("patronymic");
-        patronymic.add(new CustomStringValidator(MAXLENGTH));
-        form.add(patronymic);
-
-        RequiredTextField<String> post = new RequiredTextField<>("post");
-        post.add(new CustomStringValidator(MAXLENGTH));
-        form.add(post);
-
-        CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel("surnameFeedbackPanel",
-            new ComponentFeedbackMessageFilter(surname));
+        CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel(name + "FeedbackPanel",
+                new ComponentFeedbackMessageFilter(surname));
         form.add(surnameFeedbackPanel);
-
-        CustomFeedbackPanel firstNameFeedbackPanel = new CustomFeedbackPanel("firstNameFeedbackPanel",
-            new ComponentFeedbackMessageFilter(firstName));
-        form.add(firstNameFeedbackPanel);
-
-        CustomFeedbackPanel patronymicFeedbackPanel = new CustomFeedbackPanel("patronymicFeedbackPanel",
-            new ComponentFeedbackMessageFilter(patronymic));
-        form.add(patronymicFeedbackPanel);
-
-        CustomFeedbackPanel postFeedbackPanel = new CustomFeedbackPanel("postFeedbackPanel",
-            new ComponentFeedbackMessageFilter(post));
-        form.add(postFeedbackPanel);
     }
-
-
 }
