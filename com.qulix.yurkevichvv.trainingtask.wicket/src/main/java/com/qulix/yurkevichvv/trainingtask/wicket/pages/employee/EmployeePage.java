@@ -116,7 +116,7 @@ public class EmployeePage extends AbstractEntityPage {
         form.add(surname);
 
         CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel(name + "FeedbackPanel",
-                new ComponentFeedbackMessageFilter(surname));
+            new ComponentFeedbackMessageFilter(surname));
         form.add(surnameFeedbackPanel);
     }
 }
