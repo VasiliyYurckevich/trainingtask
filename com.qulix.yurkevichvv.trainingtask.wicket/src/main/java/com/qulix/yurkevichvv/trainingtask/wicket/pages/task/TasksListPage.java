@@ -87,6 +87,9 @@ public class TasksListPage extends BasePage {
         };
     }
 
+    /**
+     * Реализует CustomListView для задач.
+     */
     private class TaskCustomListView extends CustomListView<Task> {
 
         public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService service) {

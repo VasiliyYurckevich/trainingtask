@@ -171,8 +171,7 @@ public class ProjectPage extends AbstractEntityPage {
 
     /**
      * Добавляет список задач проекта.
-     *
-     * */
+     */
     private void addTaskList() {
         LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<>() {
             @Override
@@ -195,6 +194,10 @@ public class ProjectPage extends AbstractEntityPage {
         setResponsePage(ProjectsListPage.class);
     }
 
+
+    /**
+     * Реализует CustomListView для задач проекта.
+     */
     private class TaskListView extends ListView<Task> {
 
         /**

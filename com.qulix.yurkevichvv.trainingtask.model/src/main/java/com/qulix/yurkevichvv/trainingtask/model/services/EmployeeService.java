@@ -21,7 +21,6 @@ public class EmployeeService implements Serializable, IService<Employee> {
      */
     private final EmployeeDao employeeDao = new EmployeeDao();
 
-
     @Override
     public void save(Employee employee) {
         Connection connection = ConnectionController.getConnection();
@@ -39,7 +38,6 @@ public class EmployeeService implements Serializable, IService<Employee> {
             throw new ServiceException("Error adding employee", e);
         }
     }
-
 
     @Override
     public void delete(Integer id) {

@@ -56,6 +56,9 @@ public class ProjectsListPage extends BasePage {
         });
     }
 
+    /**
+     * Реализует CustomListView для проектов.
+     */
     private class ProjectCustomListView extends CustomListView<Project> {
 
         public ProjectCustomListView(IModel<List<Project>> projects, IService projectService) {

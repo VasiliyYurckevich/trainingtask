@@ -113,5 +113,4 @@ public class ProjectService implements IProjectService, Serializable {
         project.getDeletedTasksList().stream().filter(task -> task.getId() != null).
             forEach(task -> taskDao.delete(task.getId(), connection));
     }
-
 }

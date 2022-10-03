@@ -63,6 +63,9 @@ public class EmployeesListPage extends BasePage {
         });
     }
 
+    /**
+     * Реализует CustomListView для сотрудников.
+     */
     private static class EmployeeListView extends CustomListView<Employee> {
         public EmployeeListView(IModel<List<Employee>> employees, IService service) {
             super("employees", employees, service);

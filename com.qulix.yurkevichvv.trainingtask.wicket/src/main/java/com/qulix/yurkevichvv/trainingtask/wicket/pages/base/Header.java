@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -8,7 +7,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeesListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectsListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TasksListPage;
-import org.apache.wicket.model.Model;
 
 /**
  * Верхняя панель для переключения между страницами.
@@ -44,5 +42,4 @@ public class Header extends Panel {
             }
         });
     }
-
 }
