@@ -53,7 +53,7 @@ public class EmployeesListPage extends BasePage {
         ListView<Employee> employeeListView = new EmployeeListView(employees, new EmployeeService());
         add(employeeListView);
 
-        EmployeePage employeePage = getMewEmployeePage();
+        EmployeePage employeePage = new EmployeePage(new Model<>(new Employee()));
 
         add(new Link<WebPage>("addEmployee", new Model<>(employeePage)) {
             @Override
@@ -61,15 +61,6 @@ public class EmployeesListPage extends BasePage {
                 setResponsePage(getModelObject());
             }
         });
-    }
-
-    private EmployeePage getMewEmployeePage() {
-        return new EmployeePage(new Model<>(new Employee())) {
-            @Override
-            protected void onChangesSubmitted() {
-                setResponsePage(EmployeesListPage.this);
-            }
-        };
     }
 
     private static class EmployeeListView extends CustomListView<Employee> {
@@ -89,13 +80,7 @@ public class EmployeesListPage extends BasePage {
 
         @Override
         public AbstractEntityPage getNewPage(ListItem<Employee> item) {
-            return new EmployeePage(item.getModel()) {
-
-                @Override
-                protected void onChangesSubmitted() {
-                    setResponsePage(EmployeesListPage.class);
-                }
-            };
+            return new EmployeePage(item.getModel());
         }
     }
 }

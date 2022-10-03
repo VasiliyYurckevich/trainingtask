@@ -111,12 +111,12 @@ public class EmployeePage extends AbstractEntityPage {
     }
 
     private static void setField(Form form, String name) {
-        RequiredTextField<String> surname = new RequiredTextField<>(name);
-        surname.add(new CustomStringValidator(MAXLENGTH));
-        form.add(surname);
+        RequiredTextField<String> field = new RequiredTextField<>(name);
+        field.add(new CustomStringValidator(MAXLENGTH));
+        form.add(field);
 
-        CustomFeedbackPanel surnameFeedbackPanel = new CustomFeedbackPanel(name + "FeedbackPanel",
-            new ComponentFeedbackMessageFilter(surname));
-        form.add(surnameFeedbackPanel);
+        CustomFeedbackPanel fieldFeedbackPanel = new CustomFeedbackPanel(name + "FeedbackPanel",
+            new ComponentFeedbackMessageFilter(field));
+        form.add(fieldFeedbackPanel);
     }
 }
