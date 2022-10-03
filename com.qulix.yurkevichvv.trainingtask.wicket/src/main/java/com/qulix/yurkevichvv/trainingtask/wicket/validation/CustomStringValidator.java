@@ -40,7 +40,7 @@ public class CustomStringValidator implements IValidator<String> {
     /**
      * Создает новую ошибку.
      *
-     * @param validatable  объект, который проверяется
+     * @param validatable объект, который проверяется
      * @param errorMessage сообщение ошибки
      */
     private void newError(IValidatable<String> validatable, String errorMessage) {

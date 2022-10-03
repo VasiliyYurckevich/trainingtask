@@ -41,7 +41,7 @@ public class TaskService implements Serializable, IService<Task> {
 
     @Override
     public List<Task> findAll() {
-        return  taskDao.getAll();
+        return taskDao.getAll();
     }
 
     @Override

@@ -39,7 +39,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
  * @see IDao
  * @see Task
  */
-public class    TaskDao implements IDao<Task>, Serializable {
+public class TaskDao implements IDao<Task>, Serializable {
 
     /**
      * Хранит константу для имени колонки ID проекта в БД.

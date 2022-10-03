@@ -1,7 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 /**
- *  Домашняя страница приложения.
+ * Домашняя страница приложения.
  *
  * @author Q-YVV
  */

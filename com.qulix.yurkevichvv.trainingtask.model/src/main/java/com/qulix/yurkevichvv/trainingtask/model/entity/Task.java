@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 public class Task implements Entity, Serializable {
 
-    private static final long  serialVersionUID = 3456L;
+    private static final long serialVersionUID = 3456L;
 
     /**
      * Идентификатор задачи.

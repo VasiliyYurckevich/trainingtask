@@ -33,7 +33,7 @@ import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
  */
 public class Project implements Serializable, Entity {
 
-    private static final long  serialVersionUID = 87654L;
+    private static final long serialVersionUID = 87654L;
 
     /**
      * Идентификатор проекта.

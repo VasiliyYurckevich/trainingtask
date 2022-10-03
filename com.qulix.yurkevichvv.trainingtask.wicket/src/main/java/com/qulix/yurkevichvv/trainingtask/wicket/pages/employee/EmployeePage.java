@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
-
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -15,7 +14,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
-
 
 /**
  * Страница добавления/редактирования сотрудников.
@@ -40,7 +38,7 @@ public class EmployeePage extends AbstractEntityPage {
     private static final int MAXLENGTH = 50;
 
     /**
-     *  Модель Employee.
+     * Модель Employee.
      */
     private IModel<Employee> employeeModel;
 
@@ -110,6 +108,12 @@ public class EmployeePage extends AbstractEntityPage {
         setField(form, "post");
     }
 
+    /**
+     * Добавляет поле и фидбек панель.
+     *
+     * @param form форма для добавления
+     * @param name имя поля
+     */
     private static void setField(Form form, String name) {
         RequiredTextField<String> field = new RequiredTextField<>(name);
         field.add(new CustomStringValidator(MAXLENGTH));

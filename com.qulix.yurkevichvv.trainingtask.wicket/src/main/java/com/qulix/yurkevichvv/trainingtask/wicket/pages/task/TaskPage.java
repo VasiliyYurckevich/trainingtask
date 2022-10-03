@@ -79,20 +79,21 @@ public class TaskPage extends AbstractEntityPage {
      */
     public static final String TITLE = "title";
 
-    /**
-     * Сервис для работы с Task.
-     */
-    protected TaskService taskService = new TaskService();
 
     /**
      * Сервис для работы с Project.
      */
-    private ProjectService projectService =  new ProjectService();
+    private ProjectService projectService = new ProjectService();
 
     /**
      * Модель задачи.
      */
     private IModel<Task> task;
+
+    /**
+     * Сервис для работы с Task.
+     */
+    protected TaskService taskService = new TaskService();
 
     /**
      * Конструктор.
@@ -129,6 +130,11 @@ public class TaskPage extends AbstractEntityPage {
     protected void onSubmitting() {
     }
 
+    @Override
+    protected void onChangesSubmitted() {
+        setResponsePage(TaskPage.class);
+    }
+
     /**
      * Определяет возможность изменения задачи проекта.
      *
@@ -136,11 +142,6 @@ public class TaskPage extends AbstractEntityPage {
      */
     protected boolean changeProjectOption() {
         return true;
-    }
-
-    @Override
-    protected void onChangesSubmitted() {
-        setResponsePage(TaskPage.class);
     }
 
     /**
@@ -227,14 +228,13 @@ public class TaskPage extends AbstractEntityPage {
         form.add(workTimeFeedbackPanel);
     }
 
-
     /**
      * Добавляет поле даты начала работы в форму задачи.
      *
      * @param form форма для добавления
      */
     private static void addDateField(Form<Task> form) {
-        LocalDateTextField beginDateField =  new LocalDateTextField(BEGIN_DATE, PATTERN);
+        LocalDateTextField beginDateField = new LocalDateTextField(BEGIN_DATE, PATTERN);
         form.add(beginDateField.setRequired(true));
         beginDateField.setRequired(true);
 

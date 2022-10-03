@@ -37,7 +37,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
  * @see IDao
  * @see Project
  */
-public class    ProjectDao implements IDao<Project>, Serializable {
+public class ProjectDao implements IDao<Project>, Serializable {
 
     private Integer generatedKey = null;
 

@@ -16,12 +16,12 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
  * @param <T> класс сущностей
  * @author Q-YVV
  */
-public class CustomListView<T extends Entity>  extends ListView<T> {
+public class CustomListView<T extends Entity> extends ListView<T> {
 
     /**
      * Сервис для работы с сущностями.
      */
-    private final IService  service;
+    private final IService service;
 
     /**
      * Конструктор.
