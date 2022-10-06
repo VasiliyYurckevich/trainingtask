@@ -22,12 +22,12 @@ public class DateValidator extends AbstractFormValidator {
     /**
      * Поле даты начала.
      */
-    public static final String BEGIN_DATE = "beginDate";
+    private static final String BEGIN_DATE = "beginDate";
 
     /**
      * Поле даты окончания.
      */
-    public static final String END_DATE = "endDate";
+    private static final String END_DATE = "endDate";
 
     /**
      * Массив компонентов формы.

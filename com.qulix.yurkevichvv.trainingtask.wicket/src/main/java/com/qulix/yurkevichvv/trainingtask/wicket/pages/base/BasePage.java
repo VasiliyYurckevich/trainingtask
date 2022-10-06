@@ -33,8 +33,10 @@ public class BasePage extends WebPage {
         super.onInitialize();
         WebMarkupContainer css = new WebMarkupContainer("style");
         add(css);
+
         Header header = new Header("header");
         add(header);
+
         add(new Label("pageTitle", ""));
     }
 
