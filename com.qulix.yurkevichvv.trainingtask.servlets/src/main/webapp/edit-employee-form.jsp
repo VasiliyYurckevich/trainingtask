@@ -20,6 +20,7 @@
                 <form action="employees" method="post">
                     <input type="hidden" name="action" value="/update"/>
                     <input type="hidden" name="employeeId" value="${employeeId}"/>
+
                     <div>
                         <input type="submit" value="Сохранить"
                                name="submitButton" id="submitButton" class="add-button">
@@ -28,21 +29,25 @@
                             Отмена
                         </button>
                     </div>
+
                     <div class="field">
                         <label>Фамилия:</label>
                         <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
                         <a class = "feedback">${ERRORS.get("surname")}</a>
                     </div>
+
                     <div class="field">
                         <label>Имя:</label>
                         <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
                         <a class = "feedback">${ERRORS.get("firstName")}</a>
                     </div>
+
                     <div class="field">
                         <label>Отчество:</label>
                         <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
                         <a class = "feedback">${ERRORS.get("patronymic")}</a>
                     </div>
+
                     <div class="field">
                         <label>Должность:</label>
                         <input type="text" name="post" id="post" value="${fn:escapeXml(post)}">

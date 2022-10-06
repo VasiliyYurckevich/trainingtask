@@ -29,7 +29,7 @@ public class TasksListPage extends BasePage {
     /**
      * Идентификатор метки имени сотрудника.
      */
-    public static final String EMPLOYEE_NAME = "employeeName";
+    private static final String EMPLOYEE_NAME = "employeeName";
 
     /**
      * Сервис для работы с Task.

@@ -41,43 +41,43 @@ public class TaskPage extends AbstractEntityPage {
     /**
      * Идентификатор элемента названия страницы.
      */
-    public static final String PAGE_TITLE = "pageTitle";
+    private static final String PAGE_TITLE = "pageTitle";
 
     /**
      * Идентификатор элемента формы.
      */
-    public static final String TASK_FORM = "taskForm";
+    private static final String TASK_FORM = "taskForm";
 
 
     /**
      * Максимальная длинна ввода полей.
      */
-    public static final int MAXLENGTH = 50;
+    private static final int MAXLENGTH = 50;
 
     /**
      * Идентификатор поля начала работы.
      */
-    public static final String BEGIN_DATE = "beginDate";
+    private static final String BEGIN_DATE = "beginDate";
 
     /**
      * Паттерн для дат.
      */
-    public static final String PATTERN = "yyyy-MM-dd";
+    private static final String PATTERN = "yyyy-MM-dd";
 
     /**
      * Идентификатор поля начала работы.
      */
-    public static final String END_DATE = "endDate";
+    private static final String END_DATE = "endDate";
 
     /**
      * Имя страницы редактирования задачи в проекте.
      */
-    public static final String EDIT_TASK = "Редактировать задачу";
+    private static final String EDIT_TASK = "Редактировать задачу";
 
     /**
      * Идентификатор поля наименования.
      */
-    public static final String TITLE = "title";
+    private static final String TITLE = "title";
 
 
     /**

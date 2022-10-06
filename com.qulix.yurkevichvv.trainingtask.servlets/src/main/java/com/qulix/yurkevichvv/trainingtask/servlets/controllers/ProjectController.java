@@ -39,12 +39,11 @@ import javax.servlet.http.HttpSession;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -134,12 +133,12 @@ public class ProjectController extends HttpServlet {
     /**
      * Переменная доступа к методам классов DAO.
      */
-    private IDao<Project> projectDAO;
+    private ProjectService projectService;
 
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        projectDAO = new ProjectDao();
+        this.projectService = new ProjectService();
     }
 
     @Override
@@ -294,7 +293,7 @@ public class ProjectController extends HttpServlet {
 
         HttpSession session = req.getSession();
         Integer thisProjectId = getProjectId(req, session);
-        Project existingProject = projectDAO.getById(thisProjectId);
+        Project existingProject = projectService.getById(thisProjectId);
         setDataAboutProject(session, existingProject);
         existingProject.setId(thisProjectId);
 
@@ -302,7 +301,7 @@ public class ProjectController extends HttpServlet {
         List<String> employeeListInProject = getEmployeesInProject(session, tasksListInProject);
         List<Integer> deletedTasks = getDeletedTasks(session);
 
-        session.setAttribute("projectDAO", projectDAO);
+        session.setAttribute("projectDAO", projectService);
         session.setAttribute(THIS_PROJECT_ID, thisProjectId);
         session.setAttribute("project", existingProject);
         setParametersAboutProjectEditing(session, deletedTasks, tasksListInProject, employeeListInProject);
@@ -410,7 +409,7 @@ public class ProjectController extends HttpServlet {
         throws DaoException, IOException {
 
         Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
-        projectDAO.delete(projectId, ConnectionController.getConnection());
+        projectService.delete(projectId);
         resp.sendRedirect(PROJECTS);
     }
 
@@ -505,7 +504,7 @@ public class ProjectController extends HttpServlet {
             Connection connection = ConnectionController.getConnection();
             try {
                 connection.setAutoCommit(false);
-                projectDAO.update(theProject, connection);
+                projectService.save(theProject);
                 updateTasksFromProjectEditing(taskDao, connection, session, projectId);
                 ConnectionController.commitConnection(connection);
             }
@@ -599,7 +598,7 @@ public class ProjectController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Project theProject = getProject(paramsMap);
-            projectDAO.add(theProject, ConnectionController.getConnection());
+            projectService.save(theProject);
             resp.sendRedirect(PROJECTS);
         }
         else {

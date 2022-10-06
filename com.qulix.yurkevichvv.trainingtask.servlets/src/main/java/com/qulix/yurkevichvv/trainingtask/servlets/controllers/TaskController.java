@@ -34,16 +34,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.IDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -153,7 +151,7 @@ public class TaskController extends HttpServlet {
     /**
      * Переменная доступа к методам классов DAO.
      */
-    private IDao<Task> taskDao;
+    private TaskService taskService;
 
     /**
      * Логгер для записи событий.
@@ -163,7 +161,7 @@ public class TaskController extends HttpServlet {
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        taskDao = new TaskDao();
+        this.taskService = new TaskService();
     }
 
     @Override
@@ -241,7 +239,7 @@ public class TaskController extends HttpServlet {
         throws DaoException, ServletException, IOException {
 
         String taskId = req.getParameter(TASK_ID);
-        Task existingTask = taskDao.getById(Integer.parseInt(taskId));
+        Task existingTask = taskService.getById(Integer.parseInt(taskId));
         Utils.setTaskDataInJsp(req, existingTask);
         Utils.setDataToDropDownList(req);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
@@ -270,7 +268,7 @@ public class TaskController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Task task = getTask(paramsMap);
             task.setId(taskId);
-            taskDao.update(task, ConnectionController.getConnection());
+            taskService.save(task);
             resp.sendRedirect(TASKS);
         }
         else {
@@ -449,7 +447,7 @@ public class TaskController extends HttpServlet {
         throws DaoException, IOException {
 
         String taskId = req.getParameter(TASK_ID);
-        taskDao.delete(Integer.parseInt(taskId), ConnectionController.getConnection());
+        taskService.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
     }
 
@@ -470,7 +468,7 @@ public class TaskController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Task task = getTask(paramsMap);
-            taskDao.add(task, ConnectionController.getConnection());
+            taskService.save(task);
             resp.sendRedirect(TASKS);
         }
         else {
@@ -515,7 +513,7 @@ public class TaskController extends HttpServlet {
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        List<Task> tasks = taskDao.getAll();
+        List<Task> tasks = taskService.findAll();
         List<Project> projects = new ProjectDao().getAll();
         List<String> employeeOfTask = new ArrayList<>();
         List<Project> projectsOfTask = new ArrayList<>();

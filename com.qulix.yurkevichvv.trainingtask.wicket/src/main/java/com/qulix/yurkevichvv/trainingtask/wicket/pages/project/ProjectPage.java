@@ -36,12 +36,12 @@ public class ProjectPage extends AbstractEntityPage {
     /**
      * Максимальная длинна ввода поля наименования.
      */
-    public static final int TITLE_MAXLENGTH = 50;
+    private static final int TITLE_MAXLENGTH = 50;
 
     /**
      * Максимальная длинна ввода поля описания.
      */
-    public static final int DESCRIPTION_MAXLENGTH = 250;
+    private static final int DESCRIPTION_MAXLENGTH = 250;
 
     /**
      * Идентификатор элемента названия страницы.

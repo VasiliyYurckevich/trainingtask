@@ -24,12 +24,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
-import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 
 /**
  * Утилиты для классов модуля.
@@ -44,9 +44,9 @@ public class Utils {
      * @param req запрос
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public static void setDataToDropDownList(HttpServletRequest req) throws DaoException {
-        List<Employee> employees = new EmployeeDao().getAll();
-        List<Project> projects = new ProjectDao().getAll();
+    public static void setDataToDropDownList(HttpServletRequest req) {
+        List<Employee> employees = new EmployeeService().findAll();
+        List<Project> projects = new ProjectService().findAll();
         req.getSession().setAttribute("EMPLOYEE_LIST", employees);
         req.getSession().setAttribute("PROJECT_LIST", projects);
         req.getSession().setAttribute("STATUS_LIST", Status.values());
