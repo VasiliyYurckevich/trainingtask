@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -469,15 +471,20 @@ public class ProjectController extends HttpServlet {
 
     /**
      * Удаляет атрибуты сервлета в сессии.
+     *
+     * @param session текущая сессия
      */
     private void removeServletAttributes(HttpSession session) {
-        session.removeAttribute(TASKS_LIST);
-        session.removeAttribute(EMPLOYEE_IN_TASKS_LIST);
-        session.removeAttribute(DELETED_LIST);
-        session.removeAttribute(PROJECT_ID);
-        session.removeAttribute(TITLE_OF_PROJECT);
-        session.removeAttribute(DESCRIPTION);
-        session.removeAttribute(TASK_INDEX);
+        //Collections.list(session.getAttributeNames()).stream().filter(name -> name != "PROJECT_LIST").forEach(name -> session.removeAttribute(name));
+
+        Enumeration keys = session.getAttributeNames();
+
+        while (keys.hasMoreElements()) {
+            String key = (String) keys.nextElement();
+            if (key != "PROJECT_LIST"){
+                session.removeAttribute(key);
+            }
+        }
     }
 
     /**
