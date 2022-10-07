@@ -1,4 +1,4 @@
-    import groovy.sql.Sql
+import groovy.sql.Sql
 
 ext {
     dbName = "mydb"
@@ -18,10 +18,10 @@ task startDatabase() {
     }
 
     doLast {
-        def dbUser = dbUser
-        def dbPassword = dbPassword
-        def dbFile = dbFile
-        def dbName = dbName
+        def dbUser = this.dbUser
+        def dbPassword = this.dbPassword
+        def dbFile = this.dbFile
+        def dbName = this.dbName
 
         def className = "org.hsqldb.server.Server"
         def filePath = "file:${projectDir}/${dbFile};user=${dbUser};password=${dbPassword}"
@@ -60,8 +60,8 @@ def wait(Process process) {
 }
 
 def createDatabaseTables(dbUser, dbPassword) {
-    def dbUrl = dbUrl
-    def dbDrive = dbDrive
+    def dbUrl = this.dbUrl
+    def dbDrive = this.dbDrive
 
     ClassLoader loader = Sql.class.classLoader
     project.buildscript.configurations.classpath.each { File file ->
@@ -81,10 +81,10 @@ task dropDatabase() {
         return available()
     }
     doLast {
-        def dbUser = dbUser
-        def dbPassword = dbPassword
-        def dbUrl = dbUrl
-        def dbDrive = dbDrive
+        def dbUser = this.dbUser
+        def dbPassword = this.dbPassword
+        def dbUrl = this.dbUrl
+        def dbDrive = this.dbDrive
 
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
@@ -94,7 +94,7 @@ task dropDatabase() {
         String query = new File("${rootDir.absolutePath}/sql-scripts/drop.sql").text
 
         Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
-        sql.execute(query)
+        println(sql.execute(query))
         sql.close()
     }
 }
@@ -105,10 +105,10 @@ task fillDatabase() {
         return available()
     }
     doLast {
-        def dbUser = dbUser
-        def dbPassword = dbPassword
-        def dbUrl = dbUrl
-        def dbDrive = dbDrive
+        def dbUser = this.dbUser
+        def dbPassword = this.dbPassword
+        def dbUrl = this.dbUrl
+        def dbDrive = this.dbDrive
 
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
@@ -129,15 +129,16 @@ task stopDatabase() {
         return available()
     }
     doLast {
-        def dbUser = dbUser
-        def dbPassword = dbPassword
-        def dbUrl =dbUrl
-        def dbDrive = dbDrive
+        def dbUser = this.dbUser
+        def dbPassword = this.dbPassword
+        def dbUrl = this.dbUrl
+        def dbDrive = this.dbDrive
 
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
             loader.addURL(file.toURI().toURL())
         }
+
         Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
         sql.execute('SHUTDOWN;')
         sql.close()
@@ -146,8 +147,8 @@ task stopDatabase() {
 
 boolean available() {
     try {
-        int dbPort = dbPort as int
-        String dbHost = dbHost
+        int dbPort = this.dbPort as int
+        String dbHost = this.dbHost
         Socket ignored = new Socket(dbHost, dbPort)
         ignored.close()
         return false
