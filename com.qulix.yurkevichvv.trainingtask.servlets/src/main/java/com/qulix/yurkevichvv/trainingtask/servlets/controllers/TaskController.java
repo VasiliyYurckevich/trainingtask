@@ -261,20 +261,19 @@ public class TaskController extends HttpServlet {
     private void updateTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, DaoException {
 
-        int taskId = Integer.parseInt(req.getParameter(TASK_ID));
+        //int taskId = Integer.parseInt(req.getParameter(TASK_ID));
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
             Task task = getTask(paramsMap);
-            task.setId(taskId);
             taskService.save(task);
             resp.sendRedirect(TASKS);
         }
         else {
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
-            req.setAttribute(TASK_ID, taskId);
+//            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
+//            req.setAttribute(TASK_ID, taskId);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
             dispatcher.forward(req, resp);
         }
@@ -522,7 +521,7 @@ public class TaskController extends HttpServlet {
             Project project = new ProjectDao().getById(task.getProjectId());
             projectsOfTask.add(project);
         }
-        req.setAttribute(PROJECT_LIST, projects);
+            req.setAttribute(PROJECT_LIST, projects);
         req.setAttribute(TASKS_LIST, tasks);
         req.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeOfTask);
         req.setAttribute("PROJ_LIST", projectsOfTask);
@@ -554,6 +553,7 @@ public class TaskController extends HttpServlet {
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
         Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("id", req.getParameter("id"));
         paramsMap.put(STATUS, req.getParameter(STATUS));
         paramsMap.put(TITLE , req.getParameter(TITLE).trim());
         paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
