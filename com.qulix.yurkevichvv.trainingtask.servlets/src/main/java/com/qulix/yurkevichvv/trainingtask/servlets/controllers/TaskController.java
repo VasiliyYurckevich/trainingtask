@@ -241,7 +241,7 @@ public class TaskController extends HttpServlet {
         String taskId = req.getParameter(TASK_ID);
         Task existingTask = taskService.getById(Integer.parseInt(taskId));
         Utils.setTaskDataInJsp(req, existingTask);
-        Utils.setDataToDropDownList(req);
+        Utils.setDataToList(req);
         req.setAttribute(PROJECT_ID, existingTask.getProjectId());
         req.getSession().setAttribute("task", existingTask);
 
@@ -429,7 +429,7 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, DaoException {
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
-        Utils.setDataToDropDownList(req);
+        Utils.setDataToList(req);
 
         dispatcher.forward(req, resp);
     }
@@ -513,18 +513,7 @@ public class TaskController extends HttpServlet {
         throws DaoException, ServletException, IOException {
 
         List<Task> tasks = taskService.findAll();
-        List<Project> projects = new ProjectDao().getAll();
-        List<String> employeeOfTask = new ArrayList<>();
-        List<Project> projectsOfTask = new ArrayList<>();
-        for (Task task : tasks) {
-            setEmployeeList(employeeOfTask, task);
-            Project project = new ProjectDao().getById(task.getProjectId());
-            projectsOfTask.add(project);
-        }
-            req.setAttribute(PROJECT_LIST, projects);
         req.setAttribute(TASKS_LIST, tasks);
-        req.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeOfTask);
-        req.setAttribute("PROJ_LIST", projectsOfTask);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
     }

@@ -1,3 +1,6 @@
+<%@ page import="com.qulix.yurkevichvv.trainingtask.model.entity.Task" %>
+<%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.ProjectService" %>
+<%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -43,7 +46,15 @@
 
                         </tr>
 
-                        <c:forEach var="tempTask" items="${TASKS_LIST}" varStatus="theCount" >
+                        <c:forEach var="tempTask" items="${TASKS_LIST}">
+
+                            <%
+                                Task task = (Task) pageContext.getAttribute("tempTask");
+                                pageContext.setAttribute("projectTitle",
+                                    new ProjectService().getById(task.getProjectId()).getTitle());
+                                pageContext.setAttribute("employeeFullName", task.getEmployeeId() != 0 ?
+                                    new EmployeeService().getById(task.getEmployeeId()).getFullName() : "");
+                            %>
 
                             <c:url var="editLink" value="/tasks">
                                 <c:param name="action" value="/edit"/>
@@ -60,8 +71,8 @@
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)}</td>
-                                <td> ${fn:escapeXml(PROJ_LIST.get(theCount.index).title)}</td>
-                                <td> ${fn:escapeXml(EMPLOYEE_IN_TASKS_LIST.get(theCount.index))}</td>
+                                <td> ${fn:escapeXml(projectTitle)}</td>
+                                <td> ${fn:escapeXml(employeeFullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}"

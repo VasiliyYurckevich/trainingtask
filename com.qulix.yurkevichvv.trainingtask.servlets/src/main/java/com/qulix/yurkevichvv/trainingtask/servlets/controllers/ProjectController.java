@@ -21,9 +21,6 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
-import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
@@ -93,24 +87,10 @@ public class ProjectController extends HttpServlet {
     private static final String TASK_INDEX = "taskIndex";
 
     /**
-     * Хранит константу для обозначения списка задач проекта.
-     */
-    private static final String DELETED_LIST = "DELETED_LIST";
-
-    /**
      * Хранит константу для обозначения задач проекта.
      */
     private static final String TASKS_LIST = "TASKS_LIST";
 
-    /**
-     * Хранит константу для обозначения сотрудников, назначенных на соответствующие задачи.
-     */
-    private static final String EMPLOYEE_IN_TASKS_LIST = "EMPLOYEE_IN_TASKS_LIST";
-
-    /**
-     * Хранит константу для обозначения ID проекта, при редактировании проекта.
-    */
-    private static final String THIS_PROJECT_ID = "thisProjectId";
 
     /**
      * Хранит название кейса для выбора списка проектов.
@@ -133,14 +113,18 @@ public class ProjectController extends HttpServlet {
     private static final String PROJECTS = "projects";
 
     /**
+     * Хранит константу для обозначения проекта, при редактировании проекта.
+     */
+    public static final String PROJECT = "project";
+
+    /**
      * Переменная доступа к методам классов DAO.
      */
-    private ProjectService projectService;
+    private final ProjectService projectService = new ProjectService();
 
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        this.projectService = new ProjectService();
     }
 
     @Override
@@ -221,36 +205,13 @@ public class ProjectController extends HttpServlet {
         throws DaoException, ServletException, IOException {
         
         HttpSession session = req.getSession();
-        String taskIndex = req.getParameter(TASK_INDEX);
-        List<Integer> deleteTaskInProject = (List<Integer>) session.getAttribute(DELETED_LIST);
-        List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
-        List<String> employeeListInProject = (List<String>) session.getAttribute(EMPLOYEE_IN_TASKS_LIST);
-        Integer id = tasksListInProject.get(Integer.parseInt(taskIndex)).getId();
+        Task task = (Task) req.getAttribute("task");
+        Project project = (Project) session.getAttribute(PROJECT);
 
-        tasksListInProject.remove(Integer.parseInt(taskIndex));
-        employeeListInProject.remove(Integer.parseInt(taskIndex));
-        if (id != null) {
-            deleteTaskInProject.add(id);
-        }
-        setParametersAboutProjectEditing(session, deleteTaskInProject, tasksListInProject, employeeListInProject);
-        session.setAttribute(TASK_INDEX, taskIndex);
-        editProjectForm(req, resp);
-    }
+        projectService.deleteTask(project, task);
 
-    /**
-     * Назначает списки задач и сотрудников для редактирования проекта.
-     *
-     * @param session сессия
-     * @param deleteTaskInProject список задач, которые были удалены из проекта
-     * @param tasksListInProject список задач в проекте
-     * @param employeeListInProject список имен сотрудников в проекте
-     */
-    private static void setParametersAboutProjectEditing(HttpSession session,
-        List<Integer> deleteTaskInProject, List<Task> tasksListInProject, List<String> employeeListInProject) {
-
-        session.setAttribute(TASKS_LIST, tasksListInProject);
-        session.setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
-        session.setAttribute(DELETED_LIST, deleteTaskInProject);
+        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
+        dispatcher.forward(req, resp);
     }
 
     /**
@@ -266,16 +227,13 @@ public class ProjectController extends HttpServlet {
         throws DaoException, ServletException, IOException {
 
         HttpSession session = req.getSession();
-        List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
-        Integer thisProjectId = (Integer) session.getAttribute(PROJECT_ID);
-        String taskIndex = req.getParameter(TASK_INDEX);
-        session.setAttribute(TASK_INDEX, taskIndex);
+        Project project = (Project) session.getAttribute(PROJECT);
+        Task existingTask = (Task) req.getAttribute("task");
 
-        Task existingTask = tasksListInProject.get(Integer.parseInt(taskIndex));
         Utils.setTaskDataInJsp(req, existingTask);
-        session.setAttribute(PROJECT_ID, thisProjectId);
+        session.setAttribute(PROJECT, project);
 
-        Utils.setDataToDropDownList(req);
+        Utils.setDataToList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
         session.setAttribute("task", existingTask);
         dispatcher.forward(req, resp);
@@ -291,65 +249,16 @@ public class ProjectController extends HttpServlet {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+        throws ServletException, IOException {
 
         HttpSession session = req.getSession();
-        Integer thisProjectId = getProjectId(req, session);
-        Project existingProject = projectService.getById(thisProjectId);
-        setDataAboutProject(session, existingProject);
-        existingProject.setId(thisProjectId);
+        String existingProject =  req.getParameter(PROJECT);
+        System.out.println(existingProject);
+        //setDataAboutProject(session, existingProject);
 
-        List<Task> tasksListInProject = getTasksInProject(existingProject, session);
-        List<String> employeeListInProject = getEmployeesInProject(session, tasksListInProject);
-        List<Integer> deletedTasks = getDeletedTasks(session);
-
-        session.setAttribute("projectDAO", projectService);
-        session.setAttribute(THIS_PROJECT_ID, thisProjectId);
-        session.setAttribute("project", existingProject);
-        setParametersAboutProjectEditing(session, deletedTasks, tasksListInProject, employeeListInProject);
+        session.setAttribute(PROJECT, existingProject);
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
-    }
-
-    /**
-     * Возвращает список удаленных задач во время редактирования проекта.
-     *
-     * @param session сессия
-     * @return список удаленных задач
-     */
-    private static List<Integer> getDeletedTasks(HttpSession session) {
-        List<Integer> deletedTasks = (List<Integer>) session.getAttribute(DELETED_LIST);
-        if (deletedTasks == null) {
-            deletedTasks = new ArrayList<>();
-        }
-        return deletedTasks;
-    }
-
-    /**
-     * Возвращает список сотрудников привязанных к задачам проекта.
-     *
-     * @param session сессия 
-     * @param tasksListInProject список задач в проекте
-     * @return список сотрудников
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
-     */
-    private static List<String> getEmployeesInProject(HttpSession session, List<Task> tasksListInProject)
-        throws DaoException {
-
-        List<String> employeeListInProject = (List<String>) session.getAttribute("EMP_LIST");
-        if (employeeListInProject == null) {
-            employeeListInProject = new ArrayList<>();
-            for (Task task : tasksListInProject) {
-                if (task.getEmployeeId() != null && task.getEmployeeId() != 0) {
-                    Employee employee = new EmployeeDao().getById(task.getEmployeeId());
-                    employeeListInProject.add(employee.getFullName());
-                }
-                else {
-                    employeeListInProject.add("");
-                }
-            }
-        }
-        return employeeListInProject;
     }
 
     /**
@@ -371,30 +280,14 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Возвращает номер проекта.
-     *
-     * @param req запрос
-     * @param session сессия
-     * @return номер проекта
-     */
-    private static Integer getProjectId(HttpServletRequest req, HttpSession session) {
-        if (req.getParameter(PROJECT_ID) != null) {
-            return Integer.valueOf(req.getParameter(PROJECT_ID));
-        }
-        else {
-            return (Integer) session.getAttribute(PROJECT_ID);
-
-        }
-    }
-
-    /**
      * Заносит данные о проекте в сессию.
      *
      * @param session сессия
      * @param existingProject проект
      */
     private static void setDataAboutProject(HttpSession session, Project existingProject) {
-        session.setAttribute(PROJECT_ID, existingProject.getId());
+        session.setAttribute(PROJECT, existingProject);
+        System.out.println(existingProject);
         session.setAttribute(TITLE_OF_PROJECT, existingProject.getTitle());
         session.setAttribute(DESCRIPTION, existingProject.getDescription());
     }
@@ -410,8 +303,8 @@ public class ProjectController extends HttpServlet {
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, IOException {
 
-        Integer projectId = Integer.parseInt(req.getParameter(PROJECT_ID));
-        projectService.delete(projectId);
+        Project project = (Project) req.getAttribute(PROJECT);
+        projectService.delete(project.getId());
         resp.sendRedirect(PROJECTS);
     }
 
@@ -428,11 +321,9 @@ public class ProjectController extends HttpServlet {
         throws DaoException, ServletException, IOException {
 
         HttpSession session = req.getSession();
-        Integer thisProjectId = (Integer) session.getAttribute(PROJECT_ID);
-        String taskIndex = req.getParameter(TASK_INDEX);
-        session.setAttribute(TASK_INDEX, taskIndex);
-        session.setAttribute(PROJECT_ID, thisProjectId);
-        Utils.setDataToDropDownList(req);
+        Project project = (Project) session.getAttribute(PROJECT);
+        session.setAttribute(PROJECT, project);
+        Utils.setDataToList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
         dispatcher.forward(req, resp);
     }
@@ -462,9 +353,7 @@ public class ProjectController extends HttpServlet {
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        HttpSession session = req.getSession();
-        Utils.setDataToDropDownList(req);
-        removeServletAttributes(session);
+        Utils.setDataToList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/projects.jsp");
         dispatcher.forward(req, resp);
     }
@@ -499,35 +388,19 @@ public class ProjectController extends HttpServlet {
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
 
-        TaskDao taskDao = new TaskDao();
-        HttpSession session = req.getSession();
+        Project project = (Project) req.getSession().getAttribute(PROJECT);
 
-        Integer projectId = (Integer) session.getAttribute(PROJECT_ID);
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
+
         if (errorsMap.isEmpty()) {
-            Project theProject = getProject(paramsMap);
-            theProject.setId(projectId);
-            Connection connection = ConnectionController.getConnection();
-            try {
-                connection.setAutoCommit(false);
-                projectService.save(theProject);
-                updateTasksFromProjectEditing(taskDao, connection, session, projectId);
-                ConnectionController.commitConnection(connection);
-            }
-            catch (SQLException e) {
-                ConnectionController.rollbackConnection(connection);
-                LOGGER.log(Level.SEVERE, "Exception trying create transaction", e);
-                throw new DaoException(e);
-            }
-            finally {
-                resp.sendRedirect(PROJECTS);
-            }
+            Project theProject = getProject(project, paramsMap);
+            projectService.save(theProject);
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
             setDataToJspAfterValidation(req, paramsMap, errorsMap);
-            session.setAttribute(PROJECT_ID, projectId);
+            req.getSession().setAttribute(PROJECT, project);
             dispatcher.forward(req, resp);
         }
     }
@@ -543,7 +416,7 @@ public class ProjectController extends HttpServlet {
     private static void updateTasksFromProjectEditing(TaskDao taskDao, Connection connection,
         HttpSession session, Integer projectId) throws DaoException {
 
-        List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
+    /*    List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
         List<Integer> deleteTaskIdProject = (List<Integer>) session.getAttribute(DELETED_LIST);
 
         for (Task task : tasksListInProject) {
@@ -559,7 +432,7 @@ public class ProjectController extends HttpServlet {
             if (id != null) {
                 taskDao.delete(id, connection);
             }
-        }
+        }*/
     }
 
     /**
@@ -568,11 +441,10 @@ public class ProjectController extends HttpServlet {
      * @param paramsMap данные из формы
      * @return проект
      */
-    private static Project getProject(Map<String, String> paramsMap) {
-        Project theProject = new Project();
-        theProject.setTitle(paramsMap.get(TITLE_OF_PROJECT));
-        theProject.setDescription(paramsMap.get(DESCRIPTION));
-        return theProject;
+    private static Project getProject(Project project, Map<String, String> paramsMap) {
+        project.setTitle(paramsMap.get(TITLE_OF_PROJECT));
+        project.setDescription(paramsMap.get(DESCRIPTION));
+        return project;
     }
 
     /**
@@ -600,11 +472,13 @@ public class ProjectController extends HttpServlet {
     private void addProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, DaoException, IOException {
 
+        Project project = (Project) req.getSession().getAttribute(PROJECT);
+
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Project theProject = getProject(paramsMap);
+            Project theProject = getProject(project, paramsMap);
             projectService.save(theProject);
             resp.sendRedirect(PROJECTS);
         }

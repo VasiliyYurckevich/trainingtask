@@ -44,7 +44,7 @@ public class Utils {
      * @param req запрос
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public static void setDataToDropDownList(HttpServletRequest req) {
+    public static void setDataToList(HttpServletRequest req) {
         List<Employee> employees = new EmployeeService().findAll();
         List<Project> projects = new ProjectService().findAll();
         req.getSession().setAttribute("EMPLOYEE_LIST", employees);

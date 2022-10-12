@@ -284,6 +284,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void setDataToJsp(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
         req.setAttribute("ERRORS", errorsMap);
+        req.setAttribute(SURNAME, paramsMap.get(SURNAME).trim());
         req.setAttribute(FIRST_NAME, paramsMap.get(FIRST_NAME).trim());
         req.setAttribute(PATRONYMIC, paramsMap.get(PATRONYMIC).trim());
         req.setAttribute(POST, paramsMap.get(POST).trim());
@@ -339,8 +340,7 @@ public class EmployeeController extends HttpServlet {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Utils.setDataToDropDownList(req);
+        Utils.setDataToList(req);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
     }
