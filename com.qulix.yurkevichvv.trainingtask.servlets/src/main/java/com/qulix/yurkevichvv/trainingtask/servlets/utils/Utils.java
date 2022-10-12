@@ -59,13 +59,12 @@ public class Utils {
      * @param existingTask задача
      */
     public static void setTaskDataInJsp(HttpServletRequest req, Task existingTask) {
-        req.setAttribute("task", existingTask);
-//        req.setAttribute("taskId", existingTask.getId());
-//        req.setAttribute("status", existingTask.getStatus().getId());
-//        req.setAttribute("title", existingTask.getTitle());
-//        req.setAttribute("workTime", existingTask.getWorkTime());
-//        req.setAttribute("beginDate", existingTask.getBeginDate());
-//        req.setAttribute("endDate", existingTask.getEndDate());
-//        req.setAttribute("employeeId", existingTask.getEmployeeId());
+        req.setAttribute("taskId", existingTask.getId());
+        req.setAttribute("status", existingTask.getStatus().getId());
+        req.setAttribute("title", existingTask.getTitle());
+        req.setAttribute("workTime", existingTask.getWorkTime());
+        req.setAttribute("beginDate", existingTask.getBeginDate());
+        req.setAttribute("endDate", existingTask.getEndDate());
+        req.setAttribute("employeeId", existingTask.getEmployeeId());
     }
 }

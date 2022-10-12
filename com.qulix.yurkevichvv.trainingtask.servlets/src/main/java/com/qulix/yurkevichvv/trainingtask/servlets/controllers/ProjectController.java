@@ -21,6 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -228,7 +229,7 @@ public class ProjectController extends HttpServlet {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
-        Task existingTask = (Task) req.getAttribute("task");
+        Task existingTask = (Task) req.getAttribute("taskId");
 
         Utils.setTaskDataInJsp(req, existingTask);
         session.setAttribute(PROJECT, project);
@@ -252,11 +253,12 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException {
 
         HttpSession session = req.getSession();
-        String existingProject =  req.getParameter(PROJECT);
-        System.out.println(existingProject);
-        //setDataAboutProject(session, existingProject);
+        if(session.getAttribute(PROJECT) == null){
+            Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
+            System.out.println(projectId);
+            setDataAboutProject(session, projectService.getById(projectId));
+        }
 
-        session.setAttribute(PROJECT, existingProject);
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
     }
@@ -287,7 +289,6 @@ public class ProjectController extends HttpServlet {
      */
     private static void setDataAboutProject(HttpSession session, Project existingProject) {
         session.setAttribute(PROJECT, existingProject);
-        System.out.println(existingProject);
         session.setAttribute(TITLE_OF_PROJECT, existingProject.getTitle());
         session.setAttribute(DESCRIPTION, existingProject.getDescription());
     }
@@ -352,8 +353,10 @@ public class ProjectController extends HttpServlet {
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws DaoException, ServletException, IOException {
+        removeServletAttributes(req.getSession());
 
         Utils.setDataToList(req);
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("/projects.jsp");
         dispatcher.forward(req, resp);
     }
@@ -364,16 +367,7 @@ public class ProjectController extends HttpServlet {
      * @param session текущая сессия
      */
     private void removeServletAttributes(HttpSession session) {
-        //Collections.list(session.getAttributeNames()).stream().filter(name -> name != "PROJECT_LIST").forEach(name -> session.removeAttribute(name));
-
-        Enumeration keys = session.getAttributeNames();
-
-        while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
-            if (key != "PROJECT_LIST"){
-                session.removeAttribute(key);
-            }
-        }
+        Collections.list(session.getAttributeNames()).stream().filter(name -> name != "PROJECT_LIST").forEach(name -> session.removeAttribute(name));
     }
 
     /**
