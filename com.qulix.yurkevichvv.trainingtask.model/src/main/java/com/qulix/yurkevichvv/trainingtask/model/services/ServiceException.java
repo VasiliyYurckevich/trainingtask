@@ -1,7 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.model.services;
 
 /**
- * Описывает исключение, возникающее работе сущностями.
+ * Описывает исключение, возникающее при работе сущностями.
  *
  * @author Q-YVV
  */

@@ -23,13 +23,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
+import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 
 /**
  * Утилиты для классов модуля.
@@ -39,17 +40,19 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 public class Utils {
 
     /**
-     * Создает и обновляет данные для выпадающих списков.
+     * Создает и обновляет данные списков сущностей в БД.
      *
      * @param req запрос
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     * @throws ServiceException если произошла ошибка при работе с сущностями
      */
-    public static void setDataToList(HttpServletRequest req) {
+    public static void setDataToList(HttpServletRequest req) throws ServiceException {
         List<Employee> employees = new EmployeeService().findAll();
         List<Project> projects = new ProjectService().findAll();
+        List<Task> tasks = new TaskService().findAll();
         req.getSession().setAttribute("EMPLOYEE_LIST", employees);
         req.getSession().setAttribute("PROJECT_LIST", projects);
         req.getSession().setAttribute("STATUS_LIST", Status.values());
+        req.getSession().setAttribute("TASKS_LIST", tasks);
     }
 
     /**
