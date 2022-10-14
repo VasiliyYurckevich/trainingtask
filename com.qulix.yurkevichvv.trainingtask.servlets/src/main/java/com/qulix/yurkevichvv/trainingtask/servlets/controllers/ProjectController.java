@@ -20,11 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
-import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
@@ -83,17 +77,6 @@ public class ProjectController extends HttpServlet {
     private static final String ACTION = "action";
 
     /**
-     * Хранит константу для порядкового номера задачи в списке задач проекта.
-     */
-    private static final String TASK_INDEX = "taskIndex";
-
-    /**
-     * Хранит константу для обозначения задач проекта.
-     */
-    private static final String TASKS_LIST = "TASKS_LIST";
-
-
-    /**
      * Хранит название кейса для выбора списка проектов.
      */
     private static final String LIST = "/list";
@@ -101,7 +84,7 @@ public class ProjectController extends HttpServlet {
     /**
      * Хранит текст для исключения при выборе неизвестной команды.
      */
-    public static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Employee Controller:";
+    private static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Employee Controller:";
 
     /**
      * Логгер для записи событий.
@@ -116,7 +99,17 @@ public class ProjectController extends HttpServlet {
     /**
      * Хранит константу для обозначения проекта, при редактировании проекта.
      */
-    public static final String PROJECT = "project";
+    private static final String PROJECT = "project";
+
+    /**
+     * Хранит константу для обозначения индекса задачи в списке проекта.
+     */
+    private static final String TASK_INDEX = "taskIndex";
+
+    /**
+     * Хранит константу для обозначения задачи проекта.
+     */
+    private static final String TASK = "task";
 
     /**
      * Переменная доступа к методам классов DAO.
@@ -200,16 +193,15 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+        throws ServletException, IOException {
         
         HttpSession session = req.getSession();
-        Task task = (Task) req.getAttribute("task");
+        Integer taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
         Project project = (Project) session.getAttribute(PROJECT);
 
-        projectService.deleteTask(project, task);
+        projectService.deleteTask(project, project.getTasksList().get(taskIndex));
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
@@ -222,22 +214,20 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+        throws ServletException, IOException {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
-        Task existingTask = (Task) req.getAttribute("taskId");
+        Integer taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
+        Task existingTask = project.getTasksList().get(taskIndex);
 
         Utils.setTaskDataInJsp(req, existingTask);
-        session.setAttribute(PROJECT, project);
+        session.setAttribute(TASK_INDEX, taskIndex);
+        session.setAttribute(TASK, existingTask);
 
-        Utils.setDataToList(req);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
-        session.setAttribute("task", existingTask);
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
     }
 
     /**
@@ -247,38 +237,18 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
 
         HttpSession session = req.getSession();
-        if(session.getAttribute(PROJECT) == null){
+        if (session.getAttribute(PROJECT) == null) {
             Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
-            System.out.println(projectId);
             setDataAboutProject(session, projectService.getById(projectId));
         }
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
-    }
-
-    /**
-     * Возвращает список задач проекта.
-     *
-     * @param existingProject проект
-     * @param session сессия
-     * @return список задач в проекте
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
-     */
-    private static List<Task> getTasksInProject(Project existingProject, HttpSession session)
-        throws DaoException {
-
-        List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
-        if (tasksListInProject == null) {
-            tasksListInProject = new TaskDao().getTasksInProject(existingProject.getId());
-        } 
-        return tasksListInProject;
     }
 
     /**
@@ -299,13 +269,12 @@ public class ProjectController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException {
+        throws IOException {
 
-        Project project = (Project) req.getAttribute(PROJECT);
-        projectService.delete(project.getId());
+        Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
+        projectService.delete(projectId);
         resp.sendRedirect(PROJECTS);
     }
 
@@ -316,15 +285,17 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получение данных из БД
      */
     private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+        throws ServletException, IOException {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
-        session.setAttribute(PROJECT, project);
-        Utils.setDataToList(req);
+
+        Task task = new Task();
+        task.setProjectId(project.getId());
+
+        session.setAttribute(TASK, task);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
         dispatcher.forward(req, resp);
     }
@@ -349,11 +320,11 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получение данных из БД
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
-        removeServletAttributes(req.getSession());
+        throws ServletException, IOException {
+
+        req.getSession().invalidate();
 
         Utils.setDataToList(req);
 
@@ -361,14 +332,6 @@ public class ProjectController extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
-    /**
-     * Удаляет атрибуты сервлета в сессии.
-     *
-     * @param session текущая сессия
-     */
-    private void removeServletAttributes(HttpSession session) {
-        Collections.list(session.getAttributeNames()).stream().filter(name -> name != "PROJECT_LIST").forEach(name -> session.removeAttribute(name));
-    }
 
     /**
      * Изменяет данные проекта в БД.
@@ -377,10 +340,10 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+        throws ServletException, IOException {
 
         Project project = (Project) req.getSession().getAttribute(PROJECT);
 
@@ -390,6 +353,7 @@ public class ProjectController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Project theProject = getProject(project, paramsMap);
             projectService.save(theProject);
+            resp.sendRedirect(PROJECTS);
         }
         else {
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
@@ -397,36 +361,6 @@ public class ProjectController extends HttpServlet {
             req.getSession().setAttribute(PROJECT, project);
             dispatcher.forward(req, resp);
         }
-    }
-
-    /**
-     * Создает и обновляет задачи проекта во время изменения проекта.
-     *
-     * @param taskDao объект для работы с задачами
-     * @param session сессия
-     * @param projectId идентификатор проекта
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
-     */
-    private static void updateTasksFromProjectEditing(TaskDao taskDao, Connection connection,
-        HttpSession session, Integer projectId) throws DaoException {
-
-    /*    List<Task> tasksListInProject = (List<Task>) session.getAttribute(TASKS_LIST);
-        List<Integer> deleteTaskIdProject = (List<Integer>) session.getAttribute(DELETED_LIST);
-
-        for (Task task : tasksListInProject) {
-            task.setProjectId(projectId);
-            if (task.getId() != null) {
-                taskDao.update(task, connection);
-            }
-            else {
-                taskDao.add(task, connection);
-            }
-        }
-        for (Integer id : deleteTaskIdProject) {
-            if (id != null) {
-                taskDao.delete(id, connection);
-            }
-        }*/
     }
 
     /**
@@ -449,6 +383,7 @@ public class ProjectController extends HttpServlet {
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
         Map<String, String> paramsMap = new HashMap<>();
+
         paramsMap.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
         paramsMap.put(DESCRIPTION, req.getParameter(DESCRIPTION));
         return paramsMap;
@@ -461,10 +396,9 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void addProject(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, DaoException, IOException {
+        throws ServletException, IOException {
 
         Project project = (Project) req.getSession().getAttribute(PROJECT);
 

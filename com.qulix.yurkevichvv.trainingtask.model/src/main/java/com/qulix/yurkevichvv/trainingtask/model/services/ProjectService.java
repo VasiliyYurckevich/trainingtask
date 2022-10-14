@@ -96,6 +96,7 @@ public class ProjectService implements IProjectService, Serializable {
     @Override
     public void updateTask(Project project, Integer index, Task task) {
         project.getTasksList().set(index, task);
+        System.out.println(project + "  " + index + "  " + task);
     }
 
     private void updateTasks(Project project, Connection connection) {
