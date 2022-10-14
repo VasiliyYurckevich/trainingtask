@@ -60,7 +60,6 @@
 
                         <c:url var="addLink" value="/projects">
                             <c:param name="action" value="/addTaskForm"/>
-                            <c:param name="projectId" value="${thisProjectId}"/>
                         </c:url>
 
                         <c:forEach var="tempTask" items="${project.tasksList}" varStatus="theCount">
@@ -69,14 +68,13 @@
                                 Task task = (Task) pageContext.getAttribute("tempTask");
                                 pageContext.setAttribute("projectTitle",
                                         new ProjectService().getById(task.getProjectId()).getTitle());
-                                pageContext.setAttribute("employeeFullName", task.getEmployeeId() != 0 ?
+                                pageContext.setAttribute("employeeFullName", task.getEmployeeId() != null ?
                                         new EmployeeService().getById(task.getEmployeeId()).getFullName() : "");
                             %>
 
                             <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/editTaskForm"/>
-                                <c:param name="taskId" value="${tempTask.id}"/>
-                                <c:param name="projectId" value="${thisProjectId}"/>
+                                <c:param name="projectId" value="${project.id}"/>
                                 <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 

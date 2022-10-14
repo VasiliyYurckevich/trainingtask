@@ -20,10 +20,9 @@
                 <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/updateTaskInProject" />
-                    <input type="hidden" name="taskId" value="${taskId}" />
                     <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                     <button id="cancelButton" name="cancelButton"
-                            onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${thisProjectId}'"
+                            onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${project.id}'"
                             type="button" class="add-button">
                         Отмена
                     </button>
@@ -37,26 +36,31 @@
                                 </option>
                             </c:forEach>
                         </select>
+                        <br>
                         <a class = "feedback">${ERRORS.get("status")}</a>
                     </div>
                     <div class="field">
                         <label>Наименование:</label>
                         <input id="title" name="title" value="${fn:escapeXml(title)}">
+                        <br>
                         <a class = "feedback">${ERRORS.get("title")}</a>
                     </div>
                     <div class="field">
                         <label>Работа:</label>
                         <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
+                        <br>
                         <a class = "feedback">${ERRORS.get("workTime")}</a>
                     </div>
                     <div class="field">
                         <label>Дата начала(ГГГГ-ММ-ДД):</label>
                         <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
+                        <br>
                         <a class = "feedback">${ERRORS.get("beginDate")}</a>
                     </div>
                     <div class="field">
                         <label>Дата окончания(ГГГГ-ММ-ДД):</label>
                         <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
+                        <br>
                         <a class = "feedback">${ERRORS.get("endDate")}</a>
                     </div>
                     <div class="field">

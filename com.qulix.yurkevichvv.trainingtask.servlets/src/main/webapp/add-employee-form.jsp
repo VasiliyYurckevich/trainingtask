@@ -26,22 +26,26 @@
 
                     <div class="field">
                         <label>Фамилия:</label>
-                        <input name="surname" id="surname" value="${fn:escapeXml(surname)}">
+                        <input name="surname" id="surname" value="${fn:escapeXml(surname)}"/>
+                        <br>
                         <a class = "feedback">${ERRORS.get("surname")}</a>
                     </div>
                     <div class="field">
                         <label>Имя:</label>
-                        <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}">
+                        <input type="text" name="firstName" id="firstName" value="${fn:escapeXml(firstName)}"/>
+                        <br>
                         <a class = "feedback">${ERRORS.get("firstName")}</a>
                     </div>
                     <div class="field">
                         <label>Отчество:</label>
-                        <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}">
+                        <input type="text" name="patronymic" id="patronymic" value="${fn:escapeXml(patronymic)}"/>
+                        <br>
                         <a class = "feedback">${ERRORS.get("patronymic")}</a>
                     </div>
                     <div class="field">
                         <label>Должность:</label>
-                        <input type="text" name="post" id="post" value="${fn:escapeXml(post)}">
+                        <input type="text" name="post" id="post" value="${fn:escapeXml(post)}"/>
+                        <br>
                         <a class = "feedback">${ERRORS.get("post")}</a>
                     </div>
                 </form>

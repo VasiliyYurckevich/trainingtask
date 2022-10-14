@@ -36,27 +36,27 @@
                                         ${fn:escapeXml(statuses.getStatusTitle())}
                                 </option>
                             </c:forEach>
-                        </select>
+                        </select><br>
                         <a class = "feedback">${ERRORS.get("status")}</a>
                     </div>
                     <div class="field">
                         <label>Наименование:</label>
-                        <input id="title" name="title" value="${fn:escapeXml(task.title)}">
+                        <input id="title" name="title" value="${fn:escapeXml(task.title)}"/><br>
                         <a class = "feedback">${ERRORS.get("title")}</a>
                     </div>
                     <div class="field">
                         <label>Работа:</label>
-                        <input id="workTime" name="workTime" value="${fn:escapeXml(task.workTime)}">
+                        <input id="workTime" name="workTime" value="${fn:escapeXml(task.workTime)}"/><br>
                         <a class = "feedback">${ERRORS.get("workTime")}</a>
                     </div>
                     <div class="field">
                         <label>Дата начала(ГГГГ-ММ-ДД):</label>
-                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(task.beginDate)}">
+                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(task.beginDate)}"/><br>
                         <a class = "feedback">${ERRORS.get("beginDate")}</a>
                     </div>
                     <div class="field">
                         <label>Дата окончания(ГГГГ-ММ-ДД):</label>
-                        <input id="endDate" name="endDate" value="${fn:escapeXml(task.endDate)}">
+                        <input id="endDate" name="endDate" value="${fn:escapeXml(task.endDate)}"/><br>
                         <a class = "feedback">${ERRORS.get("endDate")}</a>
                     </div>
                     <div class="field">
