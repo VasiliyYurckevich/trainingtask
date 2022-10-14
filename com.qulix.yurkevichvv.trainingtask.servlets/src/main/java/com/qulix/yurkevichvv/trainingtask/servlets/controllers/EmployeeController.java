@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -98,6 +99,11 @@ public class EmployeeController extends HttpServlet {
      * Хранит текст для исключения при выборе неизвестной команды.
      */
     private static final String UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER = "Unknown command of Employee Controller:";
+
+    /**
+     * Хранит название для хранения сотрудника.
+     */
+    private static final String EMPLOYEE = "employee";
 
     /**
      * Переменная доступа к методам классов DAO.
@@ -187,7 +193,8 @@ public class EmployeeController extends HttpServlet {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeService.getById(employeeId);
-        req.setAttribute(EMPLOYEE_ID, employeeId);
+
+        req.getSession().setAttribute(EMPLOYEE, existingEmployee);
         req.setAttribute(SURNAME, existingEmployee.getSurname());
         req.setAttribute(FIRST_NAME, existingEmployee.getFirstName());
         req.setAttribute(PATRONYMIC, existingEmployee.getPatronymic());
@@ -207,7 +214,8 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, ServiceException, IOException {
+        req.getSession().setAttribute(EMPLOYEE, new Employee());
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
         dispatcher.forward(req, resp);
@@ -221,8 +229,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException {
+    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeService.delete(employeeId);
@@ -241,19 +248,16 @@ public class EmployeeController extends HttpServlet {
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
 
-        int employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
+        Employee employee =  (Employee)  req.getSession().getAttribute(EMPLOYEE);
         Map<String, String> paramsMap = getDataFromJsp(req);
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            req.setAttribute(EMPLOYEE_ID, employeeId);
-            Employee theEmployee = getEmployee(paramsMap);
-            theEmployee.setId(employeeId);
-            employeeService.save(theEmployee);
+            employee = getEmployee(paramsMap, employee);
+            employeeService.save(employee);
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
-            req.setAttribute(EMPLOYEE_ID, employeeId);
             setDataToJsp(req, paramsMap, errorsMap);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
             dispatcher.forward(req, resp);
@@ -266,13 +270,12 @@ public class EmployeeController extends HttpServlet {
      * @param paramsMap список параметров
      * @return возвращаемый сотрудник
      */
-    private static Employee getEmployee(Map<String, String> paramsMap) {
-        Employee theEmployee = new Employee();
-        theEmployee.setSurname(paramsMap.get(SURNAME));
-        theEmployee.setFirstName(paramsMap.get(FIRST_NAME));
-        theEmployee.setPatronymic(paramsMap.get(PATRONYMIC));
-        theEmployee.setPost(paramsMap.get(POST));
-        return theEmployee;
+    private static Employee getEmployee(Map<String, String> paramsMap, Employee employee) {
+        employee.setSurname(paramsMap.get(SURNAME));
+        employee.setFirstName(paramsMap.get(FIRST_NAME));
+        employee.setPatronymic(paramsMap.get(PATRONYMIC));
+        employee.setPost(paramsMap.get(POST));
+        return employee;
     }
 
     /**
@@ -320,7 +323,8 @@ public class EmployeeController extends HttpServlet {
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            employeeService.save(getEmployee(paramsMap));
+            Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
+            employeeService.save(getEmployee(paramsMap, employee));
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
@@ -340,7 +344,10 @@ public class EmployeeController extends HttpServlet {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().invalidate();
+
         Utils.setDataToList(req);
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
         dispatcher.forward(req, resp);
     }

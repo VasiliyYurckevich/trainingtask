@@ -21,9 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,14 +31,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
-import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
@@ -119,11 +116,6 @@ public class TaskController extends HttpServlet {
     private static final String TASKS_LIST = "TASKS_LIST";
 
     /**
-     * Хранит константу для обозначения списка сотрудников, ответственных за задачи.
-     */
-    private static final String EMPLOYEE_IN_TASKS_LIST = "EMPLOYEE_IN_TASKS_LIST";
-
-    /**
      * Хранит константу для порядкового номера задачи в списке задач проекта.
      */
     private static final String TASK_INDEX = "taskIndex";
@@ -149,19 +141,33 @@ public class TaskController extends HttpServlet {
     private static final String TASKS = "tasks";
 
     /**
-     * Переменная доступа к методам классов DAO.
+     * Хранит константу для проекта.
      */
-    private TaskService taskService;
+    private static final String PROJECT = "project";
+
+    /**
+     * Хранит константу для задачи.
+     */
+    private static final String TASK = "task";
 
     /**
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
+    /**
+     * Переменная доступа к методам работы с сущностями Project.
+     */
+    private ProjectService projectService = new ProjectService();
+
+    /**
+     * Переменная доступа к методам работы с сущностями Task.
+     */
+    private TaskService taskService = new TaskService();;
+
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        this.taskService = new TaskService();
     }
 
     @Override
@@ -233,17 +239,13 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
-
+    private void editTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String taskId = req.getParameter(TASK_ID);
         Task existingTask = taskService.getById(Integer.parseInt(taskId));
+
         Utils.setTaskDataInJsp(req, existingTask);
-        Utils.setDataToList(req);
-        req.setAttribute(PROJECT_ID, existingTask.getProjectId());
-        req.getSession().setAttribute("task", existingTask);
+        req.getSession().setAttribute(TASK, existingTask);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
         dispatcher.forward(req, resp);
@@ -256,24 +258,24 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void updateTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException {
+    private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //int taskId = Integer.parseInt(req.getParameter(TASK_ID));
+        int taskId = Integer.parseInt(req.getParameter(TASK_ID));
+        Task task = taskService.getById(taskId);
+
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = getTask(paramsMap);
+            task = getTask(paramsMap, task);
             taskService.save(task);
             resp.sendRedirect(TASKS);
         }
         else {
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-//            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
-//            req.setAttribute(TASK_ID, taskId);
+            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
+            req.setAttribute(TASK_ID, taskId);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
             dispatcher.forward(req, resp);
         }
@@ -284,8 +286,7 @@ public class TaskController extends HttpServlet {
      *
      * @param paramsMap поля задачи
      */
-    private static Task getTask(Map<String, String> paramsMap) {
-        Task task = new Task();
+    private static Task getTask(Map<String, String> paramsMap, Task task) {
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
         task.setTitle(paramsMap.get(TITLE));
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
@@ -308,23 +309,18 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+    private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<Task> tasksListInProject = (List<Task>) req.getSession().getAttribute(TASKS_LIST);
-        List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
+        HttpSession session = req.getSession();
+        Project project = (Project) session.getAttribute(PROJECT);
+
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = getTask(paramsMap);
-            tasksListInProject.add(task);
-            String taskIndex = String.valueOf(tasksListInProject.size());
-            getEmployeesInProject(req, Integer.valueOf(taskIndex), task);
-            setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
-
+            Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
+            projectService.addTask(project, task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
             dispatcher.forward(req, resp);
         }
@@ -342,79 +338,29 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+    private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<Task> tasksListInProject = (List<Task>) req.getSession().getAttribute(TASKS_LIST);
+        HttpSession session = req.getSession();
+        Project project = (Project) session.getAttribute(PROJECT);
 
-        Integer taskId = null;
-        if (!req.getParameter(TASK_ID).equals("")) {
-            taskId = Integer.valueOf(req.getParameter(TASK_ID));
-        }
-        String taskIndex = (String) req.getSession().getAttribute(TASK_INDEX);
+        Integer taskIndex = (Integer) req.getSession().getAttribute(TASK_INDEX);
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = getTask(paramsMap);
-            task.setId(taskId);
-            tasksListInProject.set(Integer.parseInt(taskIndex), task);
-            List<String> employeeListInProject = getEmployeesInProject(req, Integer.valueOf(taskIndex), task);
+            Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
+            projectService.updateTask(project, taskIndex, task);
             RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            setListOfTasksInProject(req, tasksListInProject, employeeListInProject);
-            req.getSession().setAttribute(TASK_INDEX, taskIndex);
             dispatcher.forward(req, resp);
         }
         else {
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
-            req.setAttribute(TASK_ID, taskId);
             dispatcher.forward(req, resp);
         }
     }
 
-    /**
-     * Обновляет список задач в проекте во время его редактирования.
-     *
-     * @param req запрос
-     * @param tasksListInProject список задач в проекте
-     * @param employeeListInProject список сотрудников привязанных к задаче в проекте
-     */
-    private static void setListOfTasksInProject(HttpServletRequest req,
-        List<Task> tasksListInProject, List<String> employeeListInProject) {
-
-        req.getSession().setAttribute(TASKS_LIST, tasksListInProject);
-        req.getSession().setAttribute(EMPLOYEE_IN_TASKS_LIST, employeeListInProject);
-    }
-
-    /**
-     * Вносит данные о сотруднике связанном с задачей в список задач проекта.
-     *
-     * @param req запрос
-     * @param taskIndex номер задачи в списке проекта
-     * @param task задача
-     * @return список сотрудников привязанных к проекту.
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
-     */
-    private static List<String> getEmployeesInProject(HttpServletRequest req, Integer taskIndex, Task task)
-        throws DaoException {
-
-        List<String> employeeListInProject = (List<String>) req.getSession().getAttribute(EMPLOYEE_IN_TASKS_LIST);
-        String fullName = null;
-        if (task.getEmployeeId() != null) {
-            fullName = new EmployeeDao().getById(task.getEmployeeId()).getFullName();
-        }
-        if (employeeListInProject.size() < taskIndex) {
-            employeeListInProject.add(fullName);
-        }
-        else {
-            employeeListInProject.set(taskIndex, fullName);
-        }
-
-        return employeeListInProject;
-    }
 
     /**
      * Открывает форму добавления задачи.
@@ -423,13 +369,13 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException {
+    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        req.getSession().setAttribute(TASK, new Task());
+        Utils.setDataToList(req);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
-        Utils.setDataToList(req);
 
         dispatcher.forward(req, resp);
     }
@@ -440,11 +386,8 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, IOException {
-
+    private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String taskId = req.getParameter(TASK_ID);
         taskService.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
@@ -457,16 +400,18 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, DaoException {
+        throws ServletException, IOException {
+
+        HttpSession session = req.getSession();
+        Task task = (Task) session.getAttribute(TASK);
 
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = getTask(paramsMap);
+            task = getTask(paramsMap, task);
             taskService.save(task);
             resp.sendRedirect(TASKS);
         }
@@ -510,28 +455,14 @@ public class TaskController extends HttpServlet {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД.
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
-        throws DaoException, ServletException, IOException {
+        throws ServletException, IOException {
 
-        List<Task> tasks = taskService.findAll();
-        req.setAttribute(TASKS_LIST, tasks);
+        req.getSession().invalidate();
+
+        Utils.setDataToList(req);
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
         dispatcher.forward(req, resp);
-    }
-
-    /**
-     * Выводит список имен исполнителей задачи.
-     *
-     * @param employeeOfTask список имен исполнителей задачи
-     * @param task задача
-     */
-    private void setEmployeeList(List<String> employeeOfTask, Task task) {
-        if (task.getEmployeeId() != 0) {
-            Employee employee = new EmployeeDao().getById(task.getEmployeeId());
-            employeeOfTask.add(employee.getFullName());
-        }
-        else {
-            employeeOfTask.add("");
-        }
     }
 
     /**
@@ -542,7 +473,6 @@ public class TaskController extends HttpServlet {
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
         Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("id", req.getParameter("id"));
         paramsMap.put(STATUS, req.getParameter(STATUS));
         paramsMap.put(TITLE , req.getParameter(TITLE).trim());
         paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
@@ -552,7 +482,8 @@ public class TaskController extends HttpServlet {
             paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID).trim());
         }
         else {
-            paramsMap.put(PROJECT_ID, req.getSession().getAttribute(PROJECT_ID).toString());
+            Task task = (Task) req.getSession().getAttribute(TASK);
+            paramsMap.put(PROJECT_ID, task.getProjectId().toString());
         }
         paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         return paramsMap;
