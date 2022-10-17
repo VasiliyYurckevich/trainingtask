@@ -292,13 +292,8 @@ public class TaskDao implements IDao<Task>, Serializable {
             task.setWorkTime(resultSet.getInt(WORK_TIME));
             task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
             task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-            task.setProjectId(resultSet.getInt(PROJECT_ID));
-            if (resultSet.getInt(EMPLOYEE_ID) != 0) {
-                task.setEmployeeId(resultSet.getInt(EMPLOYEE_ID));
-            }
-            else {
-                task.setEmployeeId(null);
-            }
+            task.setProjectId(resultSet.getObject(PROJECT_ID, Integer.class));
+            task.setEmployeeId(resultSet.getObject(EMPLOYEE_ID, Integer.class));
         }
         catch (DaoException | SQLException e) {
             throw new DaoException("Error when retrieving task data from the database", e);

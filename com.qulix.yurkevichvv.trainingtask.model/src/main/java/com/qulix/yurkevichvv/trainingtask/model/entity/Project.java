@@ -100,16 +100,8 @@ public class Project implements Serializable, Entity {
         return tasksList;
     }
 
-    public void setTasksList(List<Task> tasksList) {
-        this.tasksList = tasksList;
-    }
-
     public List<Task> getDeletedTasksList() {
         return deletedTasksList;
-    }
-
-    public void setDeletedTasksList(List<Task> deletedTasksList) {
-        this.deletedTasksList = deletedTasksList;
     }
 
     @Override

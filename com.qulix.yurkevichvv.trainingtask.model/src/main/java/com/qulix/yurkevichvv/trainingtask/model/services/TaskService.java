@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
@@ -22,7 +23,7 @@ public class TaskService implements Serializable, IService<Task> {
     private final TaskDao taskDao = new TaskDao();
 
     @Override
-    public void save(Task task) {
+    public void save(Task task) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
@@ -33,30 +34,40 @@ public class TaskService implements Serializable, IService<Task> {
                 taskDao.update(task, connection);
             }
         }
-        catch (SQLException e) {
+        catch (SQLException | DaoException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error adding task", e);
         }
     }
 
     @Override
-    public List<Task> findAll() {
-        return taskDao.getAll();
+    public List<Task> findAll() throws ServiceException {
+        try {
+            return taskDao.getAll();
+        }
+        catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public Task getById(Integer id) {
-        return taskDao.getById(id);
+    public Task getById(Integer id) throws ServiceException {
+        try {
+            return taskDao.getById(id);
+        }
+        catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
             taskDao.delete(id, connection);
         }
-        catch (SQLException e) {
+        catch (SQLException | DaoException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error during getting task by id", e);
         }

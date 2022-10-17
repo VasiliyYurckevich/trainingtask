@@ -18,7 +18,7 @@ public interface IProjectService extends IService<Project> {
      * @param project проект
      * @return список задач
      */
-    List<Task> getProjectsTasks(Project project);
+    List<Task> getProjectsTasks(Project project) throws ServiceException;
 
     /**
      * Удаляет задачу из проекта.
@@ -26,7 +26,7 @@ public interface IProjectService extends IService<Project> {
      * @param project проект
      * @param task задача
      */
-    void deleteTask(Project project, Task task);
+    void deleteTask(Project project, Task task) throws ServiceException;
 
     /**
      * Добавляет задачу в проект.
@@ -34,7 +34,7 @@ public interface IProjectService extends IService<Project> {
      * @param project проект.
      * @param task задача.
      */
-    void addTask(Project project, Task task);
+    void addTask(Project project, Task task) throws ServiceException;
 
     /**
      * Редактирует задачу в проекте.
@@ -43,5 +43,5 @@ public interface IProjectService extends IService<Project> {
      * @param index номер задачи в списке
      * @param task задача
      */
-    void updateTask(Project project, Integer index, Task task);
+    void updateTask(Project project, Integer index, Task task) throws ServiceException;
 }

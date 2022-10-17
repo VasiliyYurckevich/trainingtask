@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 
@@ -22,7 +23,7 @@ public class EmployeeService implements Serializable, IService<Employee> {
     private final EmployeeDao employeeDao = new EmployeeDao();
 
     @Override
-    public void save(Employee employee) {
+    public void save(Employee employee) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
@@ -40,7 +41,7 @@ public class EmployeeService implements Serializable, IService<Employee> {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
@@ -54,12 +55,22 @@ public class EmployeeService implements Serializable, IService<Employee> {
     }
 
     @Override
-    public List<Employee> findAll() {
-        return employeeDao.getAll();
+    public List<Employee> findAll() throws ServiceException {
+        try {
+            return employeeDao.getAll();
+        }
+        catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public Employee getById(Integer id) {
-        return employeeDao.getById(id);
+    public Employee getById(Integer id) throws ServiceException {
+        try {
+
+            return employeeDao.getById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 }

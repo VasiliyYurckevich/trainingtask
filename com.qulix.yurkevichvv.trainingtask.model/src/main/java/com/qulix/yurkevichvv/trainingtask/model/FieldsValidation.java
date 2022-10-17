@@ -64,7 +64,7 @@ public class FieldsValidation implements Serializable {
                 Integer.parseInt(s.trim());
             }
             catch (NumberFormatException e) {
-                return "Значение ввода должно быть в промежутке от 0 до 2147483647";
+                return "Значение ввода должно быть числом в промежутке от 0 до 2147483647";
             }
         }
         return error;

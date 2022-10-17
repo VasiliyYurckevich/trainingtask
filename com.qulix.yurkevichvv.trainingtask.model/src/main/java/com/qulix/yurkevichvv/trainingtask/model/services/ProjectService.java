@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
@@ -29,7 +30,7 @@ public class ProjectService implements IProjectService, Serializable {
     private final TaskDao taskDao = new TaskDao();
 
     @Override
-    public void save(Project project) {
+    public void save(Project project) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
@@ -54,7 +55,7 @@ public class ProjectService implements IProjectService, Serializable {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
@@ -69,34 +70,43 @@ public class ProjectService implements IProjectService, Serializable {
 
     @Override
     public List<Project> findAll() {
-        return projectDao.getAll();
+        try {
+            return projectDao.getAll();
+        }
+        catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public Project getById(Integer id) {
-        return projectDao.getById(id);
+    public Project getById(Integer id) throws ServiceException {
+        try {
+            return projectDao.getById(id);
+        }
+        catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Task> getProjectsTasks(Project project) {
+    public List<Task> getProjectsTasks(Project project) throws ServiceException {
         return project.getTasksList();
     }
 
     @Override
-    public void deleteTask(Project project, Task task) {
+    public void deleteTask(Project project, Task task) throws ServiceException {
         project.getDeletedTasksList().add(task);
         project.getTasksList().remove(task);
     }
 
     @Override
-    public void addTask(Project project, Task task) {
+    public void addTask(Project project, Task task) throws ServiceException {
         project.getTasksList().add(task);
     }
 
     @Override
-    public void updateTask(Project project, Integer index, Task task) {
+    public void updateTask(Project project, Integer index, Task task) throws ServiceException {
         project.getTasksList().set(index, task);
-        System.out.println(project + "  " + index + "  " + task);
     }
 
     private void updateTasks(Project project, Connection connection) {
