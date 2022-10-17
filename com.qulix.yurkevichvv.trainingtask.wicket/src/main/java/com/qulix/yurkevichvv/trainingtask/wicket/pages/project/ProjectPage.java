@@ -2,10 +2,8 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -18,13 +16,11 @@ import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
  * Страница добавления проекта.
@@ -91,35 +87,9 @@ public class ProjectPage extends AbstractEntityPage {
                 onChangesSubmitted();
             }
         };
-
-        addButtons(form);
         addFormComponents(form);
         addTaskList();
         add(form);
-    }
-
-    private void addButtons(Form<Project> form) {
-
-        Link<Void> addTaskLink = new Link<>("addTaskInProject") {
-            @Override
-            public void onClick() {
-                setResponsePage(getTaskPage(new Task()));
-            }
-        };
-        add(addTaskLink);
-
-        NoDoubleClickButton button = new NoDoubleClickButton("submit");
-        form.add(button);
-        form.setDefaultButton(button);
-        form.add(new PreventSubmitOnEnterBehavior());
-
-        Link<Void> cancelButton = new Link<Void>("cancel") {
-            @Override
-            public void onClick() {
-                setResponsePage(ProjectsListPage.class);
-            }
-        };
-        form.add(cancelButton);
     }
 
     private TaskPage getTaskPage(Task task) {
@@ -144,28 +114,31 @@ public class ProjectPage extends AbstractEntityPage {
         };
     }
 
-    /**
-     * Добавляет компоненты в форму проекта.
-     *
-     * @param form форма для добавления
-     */
-    protected static void addFormComponents(Form<Project> form) {
+    @Override
+    protected void addFormComponents(Form form) {
+        Link<Void> addTaskLink = new Link<>("addTaskInProject") {
+            @Override
+            public void onClick() {
+                setResponsePage(getTaskPage(new Task()));
+            }
+        };
+        add(addTaskLink);
 
-        RequiredTextField<String> title = new RequiredTextField<>("title");
-        title.add(new CustomStringValidator(TITLE_MAXLENGTH));
-        form.add(title);
+        NoDoubleClickButton button = new NoDoubleClickButton("submit");
+        form.add(button)
+                .add(new PreventSubmitOnEnterBehavior());
+        form.setDefaultButton(button);
 
-        RequiredTextField<String> description = new RequiredTextField<>("description");
-        description.add(new CustomStringValidator(DESCRIPTION_MAXLENGTH));
-        form.add(description);
+        Link<Void> cancelButton = new Link<Void>("cancel") {
+            @Override
+            public void onClick() {
+                setResponsePage(ProjectsListPage.class);
+            }
+        };
+        form.add(cancelButton);
 
-        CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
-            new ComponentFeedbackMessageFilter(title));
-        form.add(titleFeedbackPanel);
-
-        CustomFeedbackPanel descriptionFeedbackPanel = new CustomFeedbackPanel("descriptionFeedbackPanel",
-            new ComponentFeedbackMessageFilter(description));
-        form.add(descriptionFeedbackPanel);
+        addStringField(form, "title", TITLE_MAXLENGTH);
+        addStringField(form, "description", DESCRIPTION_MAXLENGTH);
 
     }
 
@@ -194,7 +167,6 @@ public class ProjectPage extends AbstractEntityPage {
         setResponsePage(ProjectsListPage.class);
     }
 
-
     /**
      * Реализует CustomListView для задач проекта.
      */
@@ -210,6 +182,13 @@ public class ProjectPage extends AbstractEntityPage {
          */
         private final ProjectService service;
 
+        /**
+         * Конструктор.
+         *
+         * @param tasks модель списка задач
+         * @param projectModel модель проекта
+         * @param service сервис для работ с проектом
+         */
         public TaskListView(LoadableDetachableModel<List<Task>> tasks, IModel<Project> projectModel,
             ProjectService service) {
 
@@ -228,9 +207,8 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new Label("beginDate", task.getBeginDate().toString()))
                 .add(new Label("endDate", task.getEndDate().toString()))
                 .add(new Label("projectTitle", projectModel.getObject().getTitle()))
-                .add(new Label(EMPLOYEE_NAME,
-                        (task.getEmployeeId() != null && task.getEmployeeId() != 0) ?
-                        new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
+                .add(new Label(EMPLOYEE_NAME, task.getEmployeeId() != null ?
+                    new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
                 .add(new Link<Void>("deleteLink") {
                     @Override
                     public void onClick() {

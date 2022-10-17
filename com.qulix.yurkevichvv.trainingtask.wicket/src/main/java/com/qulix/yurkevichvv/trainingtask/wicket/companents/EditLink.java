@@ -4,9 +4,6 @@ import org.apache.wicket.markup.html.link.Link;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 
-
-
-
 /**
  * Ссылка для редактирования сущности.
  *
@@ -14,8 +11,8 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
  */
 public class EditLink<T extends AbstractEntityPage> extends Link<T> {
 
-    /*
-     * Элемент ListView.
+    /**
+     * Страница для перехода.
      */
     private final AbstractEntityPage page;
 

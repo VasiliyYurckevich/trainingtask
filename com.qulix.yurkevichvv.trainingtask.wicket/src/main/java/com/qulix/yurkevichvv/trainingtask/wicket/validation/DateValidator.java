@@ -9,15 +9,12 @@ import org.apache.wicket.validation.IValidationError;
 
 import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
 
-
 /**
  * Валидатор полей на логичность последовательности даты начала и даты окончания.
  *
  * @author Q-YVV
  */
 public class DateValidator extends AbstractFormValidator {
-
-    private static final long serialVersionUID = 1L;
 
     /**
      * Поле даты начала.
@@ -43,7 +40,6 @@ public class DateValidator extends AbstractFormValidator {
     public DateValidator(FormComponent beginDate, FormComponent endDate) {
         components = new FormComponent[] {beginDate, endDate};
     }
-
 
     @Override
     public FormComponent[] getDependentFormComponents() {

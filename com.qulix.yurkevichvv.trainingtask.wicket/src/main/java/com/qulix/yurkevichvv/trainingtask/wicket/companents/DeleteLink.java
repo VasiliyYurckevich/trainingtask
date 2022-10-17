@@ -5,7 +5,6 @@ import org.apache.wicket.markup.html.link.Link;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 
-
 /**
  * Ссылка для удаления сущности.
  *

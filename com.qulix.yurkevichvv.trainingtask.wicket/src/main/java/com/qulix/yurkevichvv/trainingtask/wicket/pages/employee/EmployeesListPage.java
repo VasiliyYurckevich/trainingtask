@@ -18,7 +18,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 
-
 /**
  * Страница списка сотрудников.
  *
@@ -49,12 +48,10 @@ public class EmployeesListPage extends BasePage {
                 return service.findAll();
             }
         };
-
         ListView<Employee> employeeListView = new EmployeeListView(employees, new EmployeeService());
         add(employeeListView);
 
         EmployeePage employeePage = new EmployeePage(new Model<>(new Employee()));
-
         add(new Link<WebPage>("addEmployee", new Model<>(employeePage)) {
             @Override
             public void onClick() {
@@ -67,6 +64,13 @@ public class EmployeesListPage extends BasePage {
      * Реализует CustomListView для сотрудников.
      */
     private static class EmployeeListView extends CustomListView<Employee> {
+
+        /**
+         * Конструктор.
+         *
+         * @param employees модель списка сотрудников
+         * @param service сервис для работы с сущностями
+         */
         public EmployeeListView(IModel<List<Employee>> employees, IService service) {
             super("employees", employees, service);
         }
@@ -75,10 +79,10 @@ public class EmployeesListPage extends BasePage {
         protected void populateItem(ListItem<Employee> item) {
             super.populateItem(item);
             final Employee employee = item.getModelObject();
-            item.add(new Label("surname", employee.getSurname()));
-            item.add(new Label("firstName", employee.getFirstName()));
-            item.add(new Label("patronymic", employee.getPatronymic()));
-            item.add(new Label("post", employee.getPost()));
+            item.add(new Label("surname", employee.getSurname()))
+                .add(new Label("firstName", employee.getFirstName()))
+                .add(new Label("patronymic", employee.getPatronymic()))
+                .add(new Label("post", employee.getPost()));
         }
 
         @Override

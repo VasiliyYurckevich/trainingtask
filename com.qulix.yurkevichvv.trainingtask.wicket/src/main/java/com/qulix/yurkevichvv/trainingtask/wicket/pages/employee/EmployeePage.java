@@ -1,19 +1,15 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
-import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
  * Страница добавления/редактирования сотрудников.
@@ -83,16 +79,12 @@ public class EmployeePage extends AbstractEntityPage {
         setResponsePage(EmployeesListPage.class);
     }
 
-    /**
-     * Добавляет компоненты в форму задачи.
-     *
-     * @param form форма для добавления
-     */
-    private void addFormComponents(Form form) {
+    @Override
+    protected void addFormComponents(Form form) {
         NoDoubleClickButton button = new NoDoubleClickButton("submit");
-        form.add(button);
+        form.add(button)
+            .add(new PreventSubmitOnEnterBehavior());
         form.setDefaultButton(button);
-        form.add(new PreventSubmitOnEnterBehavior());
 
         Link<Void> cancelButton = new Link<Void>("cancel") {
             @Override
@@ -102,25 +94,9 @@ public class EmployeePage extends AbstractEntityPage {
         };
         form.add(cancelButton);
 
-        setField(form, "surname");
-        setField(form, "firstName");
-        setField(form, "patronymic");
-        setField(form, "post");
-    }
-
-    /**
-     * Добавляет поле и фидбек панель.
-     *
-     * @param form форма для добавления
-     * @param name имя поля
-     */
-    private static void setField(Form form, String name) {
-        RequiredTextField<String> field = new RequiredTextField<>(name);
-        field.add(new CustomStringValidator(MAXLENGTH));
-        form.add(field);
-
-        CustomFeedbackPanel fieldFeedbackPanel = new CustomFeedbackPanel(name + "FeedbackPanel",
-            new ComponentFeedbackMessageFilter(field));
-        form.add(fieldFeedbackPanel);
+        addStringField(form, "surname", MAXLENGTH);
+        addStringField(form, "firstName", MAXLENGTH);
+        addStringField(form, "patronymic", MAXLENGTH);
+        addStringField(form, "post", MAXLENGTH);
     }
 }

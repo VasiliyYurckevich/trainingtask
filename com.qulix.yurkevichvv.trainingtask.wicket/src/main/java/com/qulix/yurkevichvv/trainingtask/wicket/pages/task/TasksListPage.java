@@ -92,6 +92,12 @@ public class TasksListPage extends BasePage {
      */
     private class TaskCustomListView extends CustomListView<Task> {
 
+        /**
+         * Конструктор.
+         *
+         * @param tasks модель списка задач
+         * @param service сервис для работы с сущностями
+         */
         public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService service) {
             super("tasks", tasks, service);
         }
@@ -108,7 +114,7 @@ public class TasksListPage extends BasePage {
                 .add(new Label("endDate", task.getEndDate().toString()))
                 .add(new Label("projectTitle", new ProjectDao().getById(task.getProjectId()).getTitle()))
                 .add(new Label(EMPLOYEE_NAME,
-                task.getEmployeeId() != 0 ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""));
+                task.getEmployeeId() != null ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""));
         }
 
         @Override

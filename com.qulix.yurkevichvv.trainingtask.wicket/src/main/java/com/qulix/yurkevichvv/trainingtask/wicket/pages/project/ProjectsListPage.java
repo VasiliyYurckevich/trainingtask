@@ -26,6 +26,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 public class ProjectsListPage extends BasePage {
 
     private ProjectService service = new ProjectService();
+
     /**
      * Конструктор.
      */
@@ -44,7 +45,6 @@ public class ProjectsListPage extends BasePage {
                 return service.findAll();
             }
         };
-
         CustomListView<Project> projectListView = new ProjectCustomListView(projects, service);
         add(projectListView);
 
@@ -61,6 +61,12 @@ public class ProjectsListPage extends BasePage {
      */
     private class ProjectCustomListView extends CustomListView<Project> {
 
+        /**
+         * Конструктор.
+         *
+         * @param projects модель списка проектов
+         * @param projectService сервис для работы с проектами
+         */
         public ProjectCustomListView(IModel<List<Project>> projects, IService projectService) {
             super("projects", projects, projectService);
         }
@@ -69,8 +75,8 @@ public class ProjectsListPage extends BasePage {
         protected void populateItem(ListItem<Project> item) {
             super.populateItem(item);
             final Project project = item.getModelObject();
-            item.add(new Label("title", project.getTitle()));
-            item.add(new Label("description", project.getDescription()));
+            item.add(new Label("title", project.getTitle()))
+                .add(new Label("description", project.getDescription()));
         }
 
         @Override

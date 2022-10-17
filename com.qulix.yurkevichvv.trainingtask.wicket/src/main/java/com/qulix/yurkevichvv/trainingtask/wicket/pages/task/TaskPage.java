@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
-
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -16,7 +15,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.RangeValidator;
 
-
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
@@ -28,7 +26,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
 /**
@@ -47,7 +44,6 @@ public class TaskPage extends AbstractEntityPage {
      * Идентификатор элемента формы.
      */
     private static final String TASK_FORM = "taskForm";
-
 
     /**
      * Максимальная длинна ввода полей.
@@ -78,7 +74,6 @@ public class TaskPage extends AbstractEntityPage {
      * Идентификатор поля наименования.
      */
     private static final String TITLE = "title";
-
 
     /**
      * Сервис для работы с Project.
@@ -128,6 +123,7 @@ public class TaskPage extends AbstractEntityPage {
 
     @Override
     protected void onSubmitting() {
+        taskService.save(task.getObject());
     }
 
     @Override
@@ -144,17 +140,13 @@ public class TaskPage extends AbstractEntityPage {
         return true;
     }
 
-    /**
-     * Добавляет компоненты в форму задачи.
-     *
-     * @param form форма для добавления
-     */
-    private void addFormComponents(Form<Task> form) {
+    @Override
+    protected void addFormComponents(Form form) {
         addButtons(form);
         addStatusesDropDownChoice(form);
-        addTitleField(form);
+        addStringField(form, TITLE, MAXLENGTH);
         addWorkTimeField(form);
-        addDateField(form);
+        addDateFields(form);
         addProjectDropDownChoice(form);
         addEmployeesDropDownChoice(form);
     }
@@ -198,22 +190,6 @@ public class TaskPage extends AbstractEntityPage {
     }
 
     /**
-     * Добавляет поле наименования в форму задачи.
-     *
-     * @param form форма для добавления
-     */
-    private static void addTitleField(Form<Task> form) {
-
-        RequiredTextField<String> titleField = new RequiredTextField<String>(TITLE);
-        titleField.add(new CustomStringValidator(MAXLENGTH));
-        form.add(titleField);
-
-        CustomFeedbackPanel titleFeedbackPanel = new CustomFeedbackPanel("titleFeedbackPanel",
-            new ComponentFeedbackMessageFilter(titleField));
-        form.add(titleFeedbackPanel);
-    }
-
-    /**
      * Добавляет поле времени работы в форму задачи.
      *
      * @param form форма для добавления
@@ -233,7 +209,7 @@ public class TaskPage extends AbstractEntityPage {
      *
      * @param form форма для добавления
      */
-    private static void addDateField(Form<Task> form) {
+    private static void addDateFields(Form<Task> form) {
         LocalDateTextField beginDateField = new LocalDateTextField(BEGIN_DATE, PATTERN);
         form.add(beginDateField.setRequired(true));
         beginDateField.setRequired(true);
@@ -293,5 +269,83 @@ public class TaskPage extends AbstractEntityPage {
         CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("employeesFeedbackPanel",
             new ComponentFeedbackMessageFilter(employeesDropDownChoice));
         form.add(employeesFeedbackPanel);
+    }
+
+    static class EmployeeIModel implements IModel<Employee> {
+
+        /**
+         * Список сотрудников.
+         */
+        private final List<Employee> list;
+
+        /**
+         * Редактируемая задача.
+         */
+        private final Task task;
+
+        /**
+         * Конструктор.
+         *
+         * @param list список сотрудников
+         * @param task редактируемая задача
+         */
+        public EmployeeIModel(List<Employee> list, Task task) {
+            this.list = list;
+            this.task = task;
+        }
+
+        @Override
+        public Employee getObject() {
+            for (Employee employee : list) {
+                if (employee.getId().equals(task.getEmployeeId())) {
+                    return employee;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public void setObject(final Employee employee) {
+            task.setEmployeeId(employee != null ? employee.getId() : null);
+        }
+    }
+
+    static class ProjectIModel implements IModel<Project> {
+
+        /**
+         * Список проектов.
+         */
+        private final List<Project> list;
+
+        /**
+         * Редактируемая задача.
+         */
+        private final Task task;
+
+        /**
+         * Конструктор.
+         *
+         * @param list список проектов
+         * @param task редактируемая задача
+         */
+        public ProjectIModel(List<Project> list, Task task) {
+            this.list = list;
+            this.task = task;
+        }
+
+        @Override
+        public Project getObject() {
+            for (Project project : list) {
+                if (project.getId().equals(task.getProjectId())) {
+                    return project;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public void setObject(final Project project) {
+            task.setProjectId(project.getId());
+        }
     }
 }

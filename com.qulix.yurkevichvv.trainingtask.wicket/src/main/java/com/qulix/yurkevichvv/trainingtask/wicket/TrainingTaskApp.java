@@ -10,8 +10,6 @@ import org.apache.wicket.request.Response;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.HomePage;
 
-
-
 /**
  * Базовый класс приложения.
  *
