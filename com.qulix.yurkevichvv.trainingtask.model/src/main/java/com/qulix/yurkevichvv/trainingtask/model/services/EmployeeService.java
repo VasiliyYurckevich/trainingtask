@@ -69,7 +69,8 @@ public class EmployeeService implements Serializable, IService<Employee> {
         try {
 
             return employeeDao.getById(id);
-        } catch (DaoException e) {
+        }
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
