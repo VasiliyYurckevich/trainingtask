@@ -25,13 +25,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
@@ -106,20 +104,18 @@ public class EmployeeController extends HttpServlet {
     private static final String EMPLOYEE = "employee";
 
     /**
-     * Переменная доступа к методам классов DAO.
-     */
-    private EmployeeService employeeService;
-
-    /**
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
+    /**
+     * Сервис для работы с Employee.
+     */
+    private EmployeeService employeeService = new EmployeeService();;
+
     @Override
     public void init() throws ServletException, NullPointerException {
         super.init();
-        this.employeeService = new EmployeeService();
-
     }
 
     @Override
@@ -186,13 +182,14 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     * @throws ServiceException ошибка при работе сервиса с сущностью
      */
     private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         Employee existingEmployee = employeeService.getById(employeeId);
+        existingEmployee.setId(employeeId);
 
         req.getSession().setAttribute(EMPLOYEE, existingEmployee);
         req.setAttribute(SURNAME, existingEmployee.getSurname());
@@ -200,9 +197,7 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute(PATRONYMIC, existingEmployee.getPatronymic());
         req.setAttribute(POST, existingEmployee.getPost());
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
-        existingEmployee.setId(employeeId);
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -212,13 +207,14 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка при работе сервиса с сущностью
      */
     private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, ServiceException, IOException {
+
         req.getSession().setAttribute(EMPLOYEE, new Employee());
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -227,9 +223,10 @@ public class EmployeeController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
+    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
+        throws ServiceException, IOException {
 
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeService.delete(employeeId);
@@ -243,24 +240,23 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     * @throws ServiceException ошибка при работе сервиса с сущностью
      */
     private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
 
-        Employee employee =  (Employee)  req.getSession().getAttribute(EMPLOYEE);
         Map<String, String> paramsMap = getDataFromJsp(req);
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
         if (errorsMap.isEmpty()) {
+            Employee employee = (Employee)  req.getSession().getAttribute(EMPLOYEE);
             employee = getEmployee(paramsMap, employee);
             employeeService.save(employee);
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
             setDataToJsp(req, paramsMap, errorsMap);
-            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP);
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP).forward(req, resp);
         }
     }
 
@@ -315,9 +311,10 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void addEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = getDataFromJsp(req);
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
@@ -329,8 +326,7 @@ public class EmployeeController extends HttpServlet {
         }
         else {
             setDataToJsp(req, paramsMap, errorsMap);
-            RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP);
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP).forward(req, resp);
         }
     }
 
@@ -341,14 +337,14 @@ public class EmployeeController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void listEmployees(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().invalidate();
+    private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException, ServiceException {
 
+        req.getSession().invalidate();
         Utils.setDataToList(req);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/employees.jsp");
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher("/employees.jsp").forward(req, resp);
     }
 }

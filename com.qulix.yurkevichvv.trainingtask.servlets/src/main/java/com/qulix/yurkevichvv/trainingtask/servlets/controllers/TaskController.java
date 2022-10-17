@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +37,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
@@ -104,16 +104,6 @@ public class TaskController extends HttpServlet {
      * Хранит константу для обозначения ID сотрудника, ответственного за задачу.
      */
     private static final String EMPLOYEE_ID = "employeeId";
-
-    /**
-     * Хранит константу для обозначения списка проектов.
-     */
-    private static final String PROJECT_LIST = "PROJECT_LIST";
-
-    /**
-     * Хранит константу для обозначения списка задач.
-     */
-    private static final String TASKS_LIST = "TASKS_LIST";
 
     /**
      * Хранит константу для порядкового номера задачи в списке задач проекта.
@@ -240,15 +230,17 @@ public class TaskController extends HttpServlet {
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    private void editTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
+        throws ServiceException, ServletException, IOException {
+
         String taskId = req.getParameter(TASK_ID);
-        Task existingTask = taskService.getById(Integer.parseInt(taskId));
+        if (req.getSession().getAttribute(TASK) == null) {
+            Task existingTask = taskService.getById(Integer.parseInt(taskId));
+            req.getSession().setAttribute(TASK, existingTask);
+            Utils.setTaskDataInJsp(req, existingTask);
+        }
 
-        Utils.setTaskDataInJsp(req, existingTask);
-        req.getSession().setAttribute(TASK, existingTask);
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -258,26 +250,25 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка работы сервисов с сущностью
      */
-    private void updateTask(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void updateTask(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException, ServiceException {
 
-        int taskId = Integer.parseInt(req.getParameter(TASK_ID));
-        Task task = taskService.getById(taskId);
+        HttpSession session = req.getSession();
 
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            task = getTask(paramsMap, task);
+            Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
             taskService.save(task);
             resp.sendRedirect(TASKS);
         }
         else {
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
-            req.setAttribute(TASK_ID, taskId);
-            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_TASK_FORM_JSP);
-            dispatcher.forward(req, resp);
+            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
+            req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
         }
     }
 
@@ -309,8 +300,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка работы сервисов с сущностью
      */
-    private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
@@ -321,13 +314,11 @@ public class TaskController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
             projectService.addTask(project, task);
-            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
         else {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher("/add-task-in-project.jsp").forward(req, resp);
         }
     }
 
@@ -338,26 +329,26 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка работы сервисов с сущностью
      */
-    private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
-
         Integer taskIndex = (Integer) req.getSession().getAttribute(TASK_INDEX);
+
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
             Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
             projectService.updateTask(project, taskIndex, task);
-            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_JSP);
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
         else {
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/edit-task-in-project.jsp");
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
     }
 
@@ -371,13 +362,8 @@ public class TaskController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         req.getSession().setAttribute(TASK, new Task());
-        Utils.setDataToList(req);
-
-        RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
-
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher(ADD_TASK_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -417,9 +403,8 @@ public class TaskController extends HttpServlet {
         }
         else {
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID).trim()));
-            RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_TASK_FORM_JSP);
-            dispatcher.forward(req, resp);
+            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
+            req.getRequestDispatcher(ADD_TASK_FORM_JSP).forward(req, resp);
         }
     }
 
@@ -434,7 +419,7 @@ public class TaskController extends HttpServlet {
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(STATUS, paramsMap.get(STATUS));
         req.setAttribute(TITLE, paramsMap.get(TITLE));
-        req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME).trim());
+        req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
         req.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
         req.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
         if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
@@ -458,11 +443,9 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException {
 
         req.getSession().invalidate();
-
         Utils.setDataToList(req);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/tasks.jsp");
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
     }
 
     /**

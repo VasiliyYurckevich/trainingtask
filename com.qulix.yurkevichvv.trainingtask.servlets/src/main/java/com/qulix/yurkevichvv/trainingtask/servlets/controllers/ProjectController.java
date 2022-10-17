@@ -35,6 +35,7 @@ import javax.servlet.http.HttpSession;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -87,11 +88,6 @@ public class ProjectController extends HttpServlet {
     private static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Employee Controller:";
 
     /**
-     * Логгер для записи событий.
-     */
-    private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
-
-    /**
      * Хранит название кейса для обозначения списка проектов.
      */
     private static final String PROJECTS = "projects";
@@ -112,7 +108,12 @@ public class ProjectController extends HttpServlet {
     private static final String TASK = "task";
 
     /**
-     * Переменная доступа к методам классов DAO.
+     * Логгер для записи событий.
+     */
+    private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
+
+    /**
+     * Сервис для работы с Project.
      */
     private final ProjectService projectService = new ProjectService();
 
@@ -193,13 +194,13 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException при ошибке удаления задачи из списка проекта
      */
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
         
-        HttpSession session = req.getSession();
         Integer taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
-        Project project = (Project) session.getAttribute(PROJECT);
+        Project project = (Project) req.getSession().getAttribute(PROJECT);
 
         projectService.deleteTask(project, project.getTasksList().get(taskIndex));
 
@@ -237,18 +238,19 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка при попытке получения данных проекта
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
+
         if (session.getAttribute(PROJECT) == null) {
             Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
             setDataAboutProject(session, projectService.getById(projectId));
         }
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -269,10 +271,9 @@ public class ProjectController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка при попытке удаления проекта
      */
-    private void deleteProject(HttpServletRequest req, HttpServletResponse resp)
-        throws IOException {
-
+    private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServiceException {
         Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
         projectService.delete(projectId);
         resp.sendRedirect(PROJECTS);
@@ -294,10 +295,9 @@ public class ProjectController extends HttpServlet {
 
         Task task = new Task();
         task.setProjectId(project.getId());
-
         session.setAttribute(TASK, task);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/add-task-in-project.jsp");
-        dispatcher.forward(req, resp);
+
+        req.getRequestDispatcher("/add-task-in-project.jsp").forward(req, resp);
     }
 
     /**
@@ -309,8 +309,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher(ADD_PROJECT_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -320,16 +319,15 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка при получении данных сущностей
      */
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
 
         req.getSession().invalidate();
-
         Utils.setDataToList(req);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/projects.jsp");
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher("/projects.jsp").forward(req, resp);
     }
 
 
@@ -340,10 +338,10 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     
+     * @throws ServiceException при ошибке сохранения проекта
      */
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
 
         Project project = (Project) req.getSession().getAttribute(PROJECT);
 
@@ -353,13 +351,13 @@ public class ProjectController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Project theProject = getProject(project, paramsMap);
             projectService.save(theProject);
+
             resp.sendRedirect(PROJECTS);
         }
         else {
-            RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
-            setDataToJspAfterValidation(req, paramsMap, errorsMap);
             req.getSession().setAttribute(PROJECT, project);
-            dispatcher.forward(req, resp);
+            setDataToJspAfterValidation(req, paramsMap, errorsMap);
+            req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
         }
     }
 
@@ -396,9 +394,9 @@ public class ProjectController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void addProject(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+    private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Project project = (Project) req.getSession().getAttribute(PROJECT);
 
@@ -408,12 +406,12 @@ public class ProjectController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Project theProject = getProject(project, paramsMap);
             projectService.save(theProject);
+
             resp.sendRedirect(PROJECTS);
         }
         else {
-            RequestDispatcher dispatcher = req.getRequestDispatcher(ADD_PROJECT_FORM_JSP);
             setDataToJspAfterValidation(req, paramsMap, errorsMap);
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher(ADD_PROJECT_FORM_JSP).forward(req, resp);
         }
     }
 

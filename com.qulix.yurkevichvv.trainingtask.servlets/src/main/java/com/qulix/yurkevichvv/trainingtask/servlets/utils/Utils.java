@@ -49,6 +49,7 @@ public class Utils {
         List<Employee> employees = new EmployeeService().findAll();
         List<Project> projects = new ProjectService().findAll();
         List<Task> tasks = new TaskService().findAll();
+
         req.getSession().setAttribute("EMPLOYEE_LIST", employees);
         req.getSession().setAttribute("PROJECT_LIST", projects);
         req.getSession().setAttribute("STATUS_LIST", Status.values());
