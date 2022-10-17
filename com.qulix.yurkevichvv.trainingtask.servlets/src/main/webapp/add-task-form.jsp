@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <title>Добавить задачу</title>
+        <title>Редактировать задачу</title>
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 
@@ -16,8 +16,9 @@
 
         <div class="chief">
             <div id="container" class="main">
-                <h3>Добавить задачу</h3>
+                <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" id="form" >
+
                     <input type="hidden" name="action" value="/add" />
                     <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                     <button id="cancelButton" name="cancelButton" onclick="location.href='tasks'"
@@ -29,7 +30,7 @@
                         <label>Статус:</label>
                         <select name="status">
                             <c:forEach items="${STATUS_LIST}" var="statuses">
-                                <option value="${statuses.getId()}">
+                                <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
                                         ${fn:escapeXml(statuses.getStatusTitle())}
                                 </option>
                             </c:forEach>
@@ -41,25 +42,25 @@
                         <label>Наименование:</label>
                         <input id="title" name="title" value="${fn:escapeXml(title)}">
                         <br>
-                        <a class = "feedback">${ERRORS.get("title")}</a>
+                        <a class="feedback">${ERRORS.get("title")}</a>
                     </div>
                     <div class="field">
                         <label>Работа:</label>
                         <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                         <br>
-                        <a class = "feedback">${ERRORS.get("workTime")}</a>
+                        <a class="feedback">${ERRORS.get("workTime")}</a>
                     </div>
                     <div class="field">
                         <label>Дата начала(ГГГГ-ММ-ДД):</label>
-                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
+                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}"/>
                         <br>
-                        <a class = "feedback">${ERRORS.get("beginDate")}</a>
+                        <a class="feedback">${ERRORS.get("beginDate")}</a>
                     </div>
                     <div class="field">
                         <label>Дата окончания(ГГГГ-ММ-ДД):</label>
-                        <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
+                        <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}"/>
                         <br>
-                        <a class = "feedback">${ERRORS.get("endDate")}</a>
+                        <a class="feedback">${ERRORS.get("endDate")}</a>
                     </div>
                     <div class="field">
                         <label>Наименование проекта:</label>
@@ -90,4 +91,3 @@
         <script type="text/javascript" src="blocker.js"></script>
     </body>
 </html>
-

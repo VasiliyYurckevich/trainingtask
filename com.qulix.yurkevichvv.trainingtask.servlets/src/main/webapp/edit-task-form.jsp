@@ -1,8 +1,7 @@
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -21,7 +20,6 @@
                 <form action="tasks" method="post" id ="form">
                     <input type="hidden" name="action" value="/update" />
                     <input type="hidden" name="taskId" value="${taskId}" />
-
                     <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                     <button id="cancelButton" name="cancelButton"
                             onclick="location.href='tasks'" type="button" class="add-button">
@@ -32,38 +30,43 @@
                         <label>Статус:</label>
                         <select name="status">
                             <c:forEach items="${STATUS_LIST}" var="statuses">
-                                <option value="${statuses.getId()}" ${statuses.getId() == task.status.getId() ? 'selected="selected"' : ''}>
+                                <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
                                         ${fn:escapeXml(statuses.getStatusTitle())}
                                 </option>
                             </c:forEach>
-                        </select><br>
-                        <a class = "feedback">${ERRORS.get("status")}</a>
+                        </select>
+                        <br>
+                        <a class="feedback">${ERRORS.get("status")}</a>
                     </div>
                     <div class="field">
                         <label>Наименование:</label>
-                        <input id="title" name="title" value="${fn:escapeXml(task.title)}"/><br>
-                        <a class = "feedback">${ERRORS.get("title")}</a>
+                        <input id="title" name="title" value="${fn:escapeXml(title)}"/>
+                        <br>
+                        <a class="feedback">${ERRORS.get("title")}</a>
                     </div>
                     <div class="field">
                         <label>Работа:</label>
-                        <input id="workTime" name="workTime" value="${fn:escapeXml(task.workTime)}"/><br>
-                        <a class = "feedback">${ERRORS.get("workTime")}</a>
+                        <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}"/>
+                        <br>
+                        <a class="feedback">${ERRORS.get("workTime")}</a>
                     </div>
                     <div class="field">
                         <label>Дата начала(ГГГГ-ММ-ДД):</label>
-                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(task.beginDate)}"/><br>
-                        <a class = "feedback">${ERRORS.get("beginDate")}</a>
+                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}"/>
+                        <br>
+                        <a class="feedback">${ERRORS.get("beginDate")}</a>
                     </div>
                     <div class="field">
                         <label>Дата окончания(ГГГГ-ММ-ДД):</label>
-                        <input id="endDate" name="endDate" value="${fn:escapeXml(task.endDate)}"/><br>
-                        <a class = "feedback">${ERRORS.get("endDate")}</a>
+                        <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}"/>
+                        <br>
+                        <a class="feedback">${ERRORS.get("endDate")}</a>
                     </div>
                     <div class="field">
                         <label>Наименование проекта:</label>
                         <select name="projectId">
                             <c:forEach items="${PROJECT_LIST}" var="projects">
-                                <option value="${projects.id}" ${projects.id == task.projectId ? 'selected="selected"' : ''}>
+                                <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>
                                         ${fn:escapeXml(projects.title)}
                                 </option>
                             </c:forEach>

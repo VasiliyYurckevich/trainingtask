@@ -35,12 +35,14 @@
                         <div class="field">
                             <label>Наименование:</label>
                             <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
-                            <a class = "feedback">${ERRORS.get("titleProject")}</a>
+                            <br>
+                            <a class="feedback">${ERRORS.get("titleProject")}</a>
                         </div>
                         <div class="field">
                             <label>Описание:</label>
                             <input id="description" name="description" value="${fn:escapeXml(description)}">
-                            <a class = "feedback">${ERRORS.get("description")}</a>
+                            <br>
+                            <a class="feedback">${ERRORS.get("description")}</a>
                         </div>
                     </div>
                     <div class="header">

@@ -38,31 +38,31 @@
                             </c:forEach>
                         </select>
                         <br>
-                        <a class = "feedback">${ERRORS.get("status")}</a>
+                        <a class="feedback">${ERRORS.get("status")}</a>
                     </div>
                     <div class="field">
                         <label>Наименование:</label>
                         <input id="title" name="title" value="${fn:escapeXml(title)}">
                         <br>
-                        <a class = "feedback">${ERRORS.get("title")}</a>
+                        <a class="feedback">${ERRORS.get("title")}</a>
                     </div>
                     <div class="field">
                         <label>Работа:</label>
                         <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
                         <br>
-                        <a class = "feedback">${ERRORS.get("workTime")}</a>
+                        <a class="feedback">${ERRORS.get("workTime")}</a>
                     </div>
                     <div class="field">
                         <label>Дата начала(ГГГГ-ММ-ДД):</label>
                         <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
                         <br>
-                        <a class = "feedback">${ERRORS.get("beginDate")}</a>
+                        <a class="feedback">${ERRORS.get("beginDate")}</a>
                     </div>
                     <div class="field">
                         <label>Дата окончания(ГГГГ-ММ-ДД):</label>
                         <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
                         <br>
-                        <a class = "feedback">${ERRORS.get("endDate")}</a>
+                        <a class="feedback">${ERRORS.get("endDate")}</a>
                     </div>
                     <div class="field">
                         <label>Наименование проекта:</label>

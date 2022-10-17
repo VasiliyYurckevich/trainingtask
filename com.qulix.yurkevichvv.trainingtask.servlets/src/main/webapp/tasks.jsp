@@ -30,7 +30,7 @@
                         <input type="hidden" name="action" value="/new" />
                         <input type="submit" value="Добавить" ${PROJECT_LIST.isEmpty() ? 'disabled' : ''} class="add-button">
                         ${PROJECT_LIST.isEmpty() ?
-                        '<a class = "feedback">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</a>': ''}
+                        '<a class="feedback">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</a>': ''}
                     </form>
 
                     <table id="table" class="table table-striped">
@@ -52,7 +52,7 @@
                                 Task task = (Task) pageContext.getAttribute("tempTask");
                                 pageContext.setAttribute("projectTitle",
                                     new ProjectService().getById(task.getProjectId()).getTitle());
-                                pageContext.setAttribute("employeeFullName", task.getEmployeeId() != 0 ?
+                                pageContext.setAttribute("employeeFullName", task.getEmployeeId() != null ?
                                     new EmployeeService().getById(task.getEmployeeId()).getFullName() : "");
                             %>
 
