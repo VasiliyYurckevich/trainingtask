@@ -218,6 +218,12 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new EditLink("editLink", getTaskPage(item)));
         }
 
+        /**
+         * Генерирует страницу редактирования задачи.
+         *
+         * @param item задача, элемент списка
+         * @return страницу редактирования задачи
+         */
         private TaskPage getTaskPage(ListItem<Task> item) {
             return new TaskPage(item.getModel()) {
 

@@ -34,7 +34,7 @@ public class EmployeeService implements Serializable, IService<Employee> {
                 employeeDao.update(employee, connection);
             }
         }
-        catch (SQLException e) {
+        catch (SQLException | DaoException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error adding employee", e);
         }
@@ -47,7 +47,7 @@ public class EmployeeService implements Serializable, IService<Employee> {
         try (connection) {
             employeeDao.delete(id, connection);
         }
-        catch (SQLException e) {
+        catch (SQLException | DaoException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error deleting employee by id", e);
         }

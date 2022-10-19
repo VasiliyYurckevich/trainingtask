@@ -41,7 +41,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         AbstractEntityPage page = getNewPage(item);
 
         item.add(new EditLink("editLink", page))
-            .add(new DeleteLink("deleteLink", service, item.getModelObject()));
+            .add(new DeleteLink<>("deleteLink", service, item.getModelObject()));
     }
 
     /**

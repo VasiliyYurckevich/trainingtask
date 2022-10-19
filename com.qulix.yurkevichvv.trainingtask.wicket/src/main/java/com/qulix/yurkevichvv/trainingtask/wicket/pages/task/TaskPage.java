@@ -76,11 +76,6 @@ public class TaskPage extends AbstractEntityPage {
     private static final String TITLE = "title";
 
     /**
-     * Сервис для работы с Project.
-     */
-    private ProjectService projectService = new ProjectService();
-
-    /**
      * Модель задачи.
      */
     private IModel<Task> task;
@@ -236,7 +231,7 @@ public class TaskPage extends AbstractEntityPage {
      * @param form форма для добавления
      */
     private void addProjectDropDownChoice(Form<Task> form) {
-        List<Project> projects = projectService.findAll();
+        List<Project> projects = new ProjectService().findAll();
         ProjectIModel model = new ProjectIModel(projects, form.getModelObject());
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId" , model,

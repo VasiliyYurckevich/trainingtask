@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
@@ -153,7 +152,7 @@ public class TaskController extends HttpServlet {
     /**
      * Переменная доступа к методам работы с сущностями Task.
      */
-    private TaskService taskService = new TaskService();;
+    private TaskService taskService = new TaskService();
 
     @Override
     public void init() throws ServletException, NullPointerException {
@@ -360,8 +359,11 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка работы сервисов с сущностью
      */
-    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException, ServiceException {
+
         req.getSession().setAttribute(TASK, new Task());
         req.getRequestDispatcher(ADD_TASK_FORM_JSP).forward(req, resp);
     }
@@ -372,8 +374,9 @@ public class TaskController extends HttpServlet {
      * @param req запрос
      * @param resp ответ
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка работы сервисов с сущностью
      */
-    private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
         String taskId = req.getParameter(TASK_ID);
         taskService.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
@@ -386,9 +389,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws ServiceException ошибка работы сервисов с сущностью
      */
     private void addTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
         Task task = (Task) session.getAttribute(TASK);
@@ -437,10 +441,10 @@ public class TaskController extends HttpServlet {
      * @param resp ответ
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД.
+     * @throws ServiceException ошибка работы сервисов с сущностью
      */
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+        throws ServletException, IOException, ServiceException {
 
         req.getSession().invalidate();
         Utils.setDataToList(req);

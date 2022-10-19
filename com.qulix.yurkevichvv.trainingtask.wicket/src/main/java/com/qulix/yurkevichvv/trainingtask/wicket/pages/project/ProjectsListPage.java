@@ -25,6 +25,9 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
  */
 public class ProjectsListPage extends BasePage {
 
+    /**
+     * Сервис работы с Project.
+     */
     private ProjectService service = new ProjectService();
 
     /**

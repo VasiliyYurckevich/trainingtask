@@ -48,7 +48,7 @@ public class ProjectService implements IProjectService, Serializable {
 
             ConnectionController.commitConnection(connection);
         }
-        catch (SQLException e) {
+        catch (SQLException | DaoException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error during saving project", e);
         }
@@ -61,7 +61,7 @@ public class ProjectService implements IProjectService, Serializable {
         try (connection) {
             projectDao.delete(id, connection);
         }
-        catch (SQLException e) {
+        catch (SQLException | DaoException e) {
             ConnectionController.rollbackConnection(connection);
             throw new ServiceException("Error deleting project by id", e);
         }
@@ -69,7 +69,7 @@ public class ProjectService implements IProjectService, Serializable {
     }
 
     @Override
-    public List<Project> findAll() {
+    public List<Project> findAll() throws ServiceException {
         try {
             return projectDao.getAll();
         }

@@ -111,7 +111,7 @@ public class EmployeeController extends HttpServlet {
     /**
      * Сервис для работы с Employee.
      */
-    private EmployeeService employeeService = new EmployeeService();;
+    private EmployeeService employeeService = new EmployeeService();
 
     @Override
     public void init() throws ServletException, NullPointerException {
@@ -225,11 +225,10 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServiceException, IOException {
-
+    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeService.delete(employeeId);
+
         resp.sendRedirect(EMPLOYEES_LIST);
     }
 
@@ -249,7 +248,7 @@ public class EmployeeController extends HttpServlet {
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Employee employee = (Employee)  req.getSession().getAttribute(EMPLOYEE);
+            Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
             employee = getEmployee(paramsMap, employee);
             employeeService.save(employee);
             resp.sendRedirect(EMPLOYEES_LIST);

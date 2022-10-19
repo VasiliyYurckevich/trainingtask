@@ -199,7 +199,7 @@ public class ProjectController extends HttpServlet {
     private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
         
-        Integer taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
+        int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
         Project project = (Project) req.getSession().getAttribute(PROJECT);
 
         projectService.deleteTask(project, project.getTasksList().get(taskIndex));
@@ -221,7 +221,7 @@ public class ProjectController extends HttpServlet {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
-        Integer taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
+        int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
         Task existingTask = project.getTasksList().get(taskIndex);
 
         Utils.setTaskDataInJsp(req, existingTask);

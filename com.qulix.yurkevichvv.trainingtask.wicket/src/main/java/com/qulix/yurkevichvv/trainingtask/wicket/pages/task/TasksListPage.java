@@ -27,11 +27,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 public class TasksListPage extends BasePage {
 
     /**
-     * Идентификатор метки имени сотрудника.
-     */
-    private static final String EMPLOYEE_NAME = "employeeName";
-
-    /**
      * Сервис для работы с Task.
      */
     private final TaskService service = new TaskService();
@@ -61,13 +56,13 @@ public class TasksListPage extends BasePage {
             }
         };
         add(addTask);
+
         LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<>() {
             @Override
             protected List<Task> load() {
                 return service.findAll();
             }
         };
-
         CustomListView<Task> taskListView = new TaskCustomListView(tasks, service);
         add(taskListView);
     }
@@ -113,7 +108,7 @@ public class TasksListPage extends BasePage {
                 .add(new Label("beginDate", task.getBeginDate().toString()))
                 .add(new Label("endDate", task.getEndDate().toString()))
                 .add(new Label("projectTitle", new ProjectDao().getById(task.getProjectId()).getTitle()))
-                .add(new Label(EMPLOYEE_NAME,
+                .add(new Label("employeeName",
                 task.getEmployeeId() != null ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""));
         }
 
