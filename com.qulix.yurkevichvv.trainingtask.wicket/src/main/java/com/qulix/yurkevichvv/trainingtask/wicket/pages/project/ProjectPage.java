@@ -74,6 +74,7 @@ public class ProjectPage extends AbstractEntityPage {
     public ProjectPage(IModel<Project> project) {
         super();
         this.projectModel = project;
+        System.out.println(project.getObject());
     }
 
     @Override
@@ -159,12 +160,12 @@ public class ProjectPage extends AbstractEntityPage {
     }
 
     @Override
-    protected void onSubmitting() {
+    protected final void onSubmitting() {
         service.save(projectModel.getObject());
     }
 
     @Override
-    protected void onChangesSubmitted() {
+    protected final void onChangesSubmitted() {
         setResponsePage(ProjectsListPage.class);
     }
 

@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -107,9 +108,9 @@ public class TasksListPage extends BasePage {
                 .add(new Label("workTime", task.getWorkTime()))
                 .add(new Label("beginDate", task.getBeginDate().toString()))
                 .add(new Label("endDate", task.getEndDate().toString()))
-                .add(new Label("projectTitle", new ProjectDao().getById(task.getProjectId()).getTitle()))
+                .add(new Label("projectTitle", new ProjectService().getById(task.getProjectId()).getTitle()))
                 .add(new Label("employeeName",
-                task.getEmployeeId() != null ? new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""));
+                task.getEmployeeId() != null ? new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""));
         }
 
         @Override

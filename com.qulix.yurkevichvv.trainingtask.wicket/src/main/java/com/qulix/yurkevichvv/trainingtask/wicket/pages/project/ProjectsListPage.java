@@ -84,13 +84,7 @@ public class ProjectsListPage extends BasePage {
 
         @Override
         public AbstractEntityPage getNewPage(ListItem<Project> item) {
-            return new ProjectPage(item.getModel()) {
-
-                @Override
-                protected void onChangesSubmitted() {
-                    setResponsePage(ProjectsListPage.class);
-                }
-            };
+            return new ProjectPage(item.getModel());
         }
     }
 }

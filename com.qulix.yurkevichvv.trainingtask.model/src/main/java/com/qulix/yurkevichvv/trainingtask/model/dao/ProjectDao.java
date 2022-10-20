@@ -110,7 +110,6 @@ public class ProjectDao implements IDao<Project>, Serializable {
         catch (DaoException e) {
             throw new DaoException(e);
         }
-        
     }
 
     @Override

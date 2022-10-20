@@ -70,12 +70,12 @@ public class EmployeePage extends AbstractEntityPage {
     }
 
     @Override
-    protected void onSubmitting() {
+    protected final void onSubmitting() {
         service.save(employeeModel.getObject());
     }
 
     @Override
-    protected void onChangesSubmitted() {
+    protected final void onChangesSubmitted() {
         setResponsePage(EmployeesListPage.class);
     }
 

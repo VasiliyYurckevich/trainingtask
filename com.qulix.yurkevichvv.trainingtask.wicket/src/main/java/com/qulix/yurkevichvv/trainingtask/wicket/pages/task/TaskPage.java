@@ -118,12 +118,10 @@ public class TaskPage extends AbstractEntityPage {
 
     @Override
     protected void onSubmitting() {
-        taskService.save(task.getObject());
     }
 
     @Override
     protected void onChangesSubmitted() {
-        setResponsePage(TaskPage.class);
     }
 
     /**
