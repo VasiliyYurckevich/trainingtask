@@ -84,7 +84,6 @@ public class ConnectionController implements Serializable {
     public static void commitConnection(Connection connection) throws DaoException {
         try {
             connection.commit();
-            connection.setAutoCommit(true);
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "ConnectionController commitConnection() error", e);
@@ -100,13 +99,11 @@ public class ConnectionController implements Serializable {
      */
     public static void rollbackConnection(Connection connection) {
         try {
-            connection.setAutoCommit(true);
             connection.rollback();
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "ConnectionController rollbackConnection() error", e);
             throw new DaoException("Error rollback transaction", e);
         }
-        
     }
 }

@@ -103,6 +103,7 @@ public class TaskPage extends AbstractEntityPage {
     protected void onInitialize() {
         super.onInitialize();
         get(PAGE_TITLE).setDefaultModelObject(EDIT_TASK);
+
         Form<Task> form = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override
             protected void onSubmit() {
@@ -114,7 +115,6 @@ public class TaskPage extends AbstractEntityPage {
         addFormComponents(form);
         add(form);
     }
-
 
     @Override
     protected void onSubmitting() {

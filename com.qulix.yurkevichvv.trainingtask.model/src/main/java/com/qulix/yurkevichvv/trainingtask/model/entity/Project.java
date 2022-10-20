@@ -20,6 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -88,13 +89,13 @@ public class Project implements Serializable, Entity {
      *
      * @return список задач проекта
      */
-    public List<Task> getTasksList() {
+    public List<Task> getTasksList(Connection connection) {
         if (tasksList == null) {
             if (id == null) {
                 tasksList = new ArrayList<>();
             }
             else {
-                tasksList = new TaskDao().getTasksInProject(id);
+                tasksList = new TaskDao().getTasksInProject(id, connection);
             }
         }
         return tasksList;

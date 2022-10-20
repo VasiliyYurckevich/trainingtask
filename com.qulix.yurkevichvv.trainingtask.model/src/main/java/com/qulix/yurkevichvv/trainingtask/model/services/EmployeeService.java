@@ -35,8 +35,7 @@ public class EmployeeService implements Serializable, IService<Employee> {
             }
         }
         catch (SQLException | DaoException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error adding employee", e);
+            throw new ServiceException("Error during saving employee", e);
         }
     }
 
@@ -48,30 +47,32 @@ public class EmployeeService implements Serializable, IService<Employee> {
             employeeDao.delete(id, connection);
         }
         catch (SQLException | DaoException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error deleting employee by id", e);
+            throw new ServiceException("Error during deleting employee by id", e);
         }
 
     }
 
     @Override
     public List<Employee> findAll() throws ServiceException {
-        try {
-            return employeeDao.getAll();
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            return employeeDao.getAll(connection);
         }
-        catch (DaoException e) {
-            throw new ServiceException(e);
+        catch (DaoException | SQLException e) {
+            throw new ServiceException("Error during getting all employees", e);
         }
     }
 
     @Override
     public Employee getById(Integer id) throws ServiceException {
-        try {
+        Connection connection = ConnectionController.getConnection();
 
-            return employeeDao.getById(id);
+        try (connection) {
+            return employeeDao.getById(id, connection);
         }
-        catch (DaoException e) {
-            throw new ServiceException(e);
+        catch (DaoException | SQLException e) {
+            throw new ServiceException("Error during get employee by id", e);
         }
     }
 }

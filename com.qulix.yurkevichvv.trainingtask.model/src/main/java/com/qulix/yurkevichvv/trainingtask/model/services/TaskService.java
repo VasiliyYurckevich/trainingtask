@@ -35,28 +35,31 @@ public class TaskService implements Serializable, IService<Task> {
             }
         }
         catch (SQLException | DaoException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error adding task", e);
+            throw new ServiceException("Error during saving task", e);
         }
     }
 
     @Override
     public List<Task> findAll() throws ServiceException {
-        try {
-            return taskDao.getAll();
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            return taskDao.getAll(connection);
         }
-        catch (DaoException e) {
-            throw new ServiceException(e);
+        catch (DaoException | SQLException e) {
+            throw new ServiceException("Error during getting all tasks", e);
         }
     }
 
     @Override
     public Task getById(Integer id) throws ServiceException {
-        try {
-            return taskDao.getById(id);
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            return taskDao.getById(id, connection);
         }
-        catch (DaoException e) {
-            throw new ServiceException(e);
+        catch (DaoException | SQLException e) {
+            throw new ServiceException("Error during getting task by id", e);
         }
     }
 
@@ -68,8 +71,7 @@ public class TaskService implements Serializable, IService<Task> {
             taskDao.delete(id, connection);
         }
         catch (SQLException | DaoException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error during getting task by id", e);
+            throw new ServiceException("Error during deleting task by id", e);
         }
     }
 }

@@ -157,10 +157,9 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
     }
 
     @Override
-    public List<Employee> getAll() throws DaoException {
+    public List<Employee> getAll(Connection connection) throws DaoException {
 
         List<Employee> employees = new ArrayList<>();
-        Connection connection = ConnectionController.getConnection();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_CLIENT, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -179,9 +178,8 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
     }
 
     @Override
-    public Employee getById(Integer id) throws DaoException {
+    public Employee getById(Integer id, Connection connection) throws DaoException {
 
-        Connection connection = ConnectionController.getConnection();
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_EMPLOYEE_BY_ID, connection)) {
             preparedStatementHelper.setInt(ID, id);
 

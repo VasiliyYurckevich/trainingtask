@@ -20,6 +20,7 @@
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
@@ -62,7 +63,7 @@ public interface IDao<T extends Entity> {
      * @return Список сущностей
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    List<T> getAll() throws DaoException;
+    List<T> getAll(Connection connection) throws DaoException, SQLException;
 
     /**
      * Находит сущность по ее идентификатору.
@@ -71,5 +72,5 @@ public interface IDao<T extends Entity> {
      * @return Сущность
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    T getById(Integer id) throws DaoException;
+    T getById(Integer id, Connection connection) throws DaoException, SQLException;
 }

@@ -148,9 +148,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
     }
 
     @Override
-    public List<Project> getAll() throws DaoException {
-
-        Connection connection = ConnectionController.getConnection();
+    public List<Project> getAll(Connection connection) throws DaoException, SQLException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_PROJECTS, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -163,6 +161,9 @@ public class ProjectDao implements IDao<Project>, Serializable {
         }
         catch (SQLException | DaoException e) {
             throw new DaoException(e);
+        }
+        finally {
+            connection.close();
         }
     }
 
@@ -187,9 +188,8 @@ public class ProjectDao implements IDao<Project>, Serializable {
 
 
     @Override
-    public Project getById(Integer id) throws DaoException {
+    public Project getById(Integer id, Connection connection) throws DaoException, SQLException {
 
-        Connection connection = ConnectionController.getConnection();
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection)) {
             preparedStatementHelper.setInt(ID, id);
 
@@ -204,6 +204,9 @@ public class ProjectDao implements IDao<Project>, Serializable {
         }
         catch (DaoException | SQLException e) {
             throw new DaoException(NOT_FOUND, e);
+        }
+        finally {
+            connection.close();
         }
     }
 

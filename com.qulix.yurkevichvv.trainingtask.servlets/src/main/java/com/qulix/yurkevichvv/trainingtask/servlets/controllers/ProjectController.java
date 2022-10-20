@@ -202,7 +202,7 @@ public class ProjectController extends HttpServlet {
         int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
         Project project = (Project) req.getSession().getAttribute(PROJECT);
 
-        projectService.deleteTask(project, project.getTasksList().get(taskIndex));
+        projectService.deleteTask(project, projectService.getProjectsTasks(project).get(taskIndex));
 
         RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
         dispatcher.forward(req, resp);
@@ -222,7 +222,7 @@ public class ProjectController extends HttpServlet {
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
         int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
-        Task existingTask = project.getTasksList().get(taskIndex);
+        Task existingTask = projectService.getProjectsTasks(project).get(taskIndex);
 
         Utils.setTaskDataInJsp(req, existingTask);
         session.setAttribute(TASK_INDEX, taskIndex);

@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -208,7 +209,7 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new Label("endDate", task.getEndDate().toString()))
                 .add(new Label("projectTitle", projectModel.getObject().getTitle()))
                 .add(new Label(EMPLOYEE_NAME, task.getEmployeeId() != null ?
-                    new EmployeeDao().getById(task.getEmployeeId()).getFullName() : ""))
+                    new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""))
                 .add(new Link<Void>("deleteLink") {
                     @Override
                     public void onClick() {

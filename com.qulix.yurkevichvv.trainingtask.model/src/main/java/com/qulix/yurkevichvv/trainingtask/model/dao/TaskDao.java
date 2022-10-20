@@ -200,15 +200,12 @@ public class TaskDao implements IDao<Task>, Serializable {
      * @return все задачи проекта
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public List<Task> getTasksInProject(Integer id) throws DaoException {
-
-        Connection connection = ConnectionController.getConnection();
-        List<Task> tasks = new ArrayList<>();
+    public List<Task> getTasksInProject(Integer id, Connection connection) throws DaoException {
         PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection);
         preparedStatementHelper.setInt(PROJECT_ID, id);
 
         try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
-            return getList(tasks, resultSet);
+            return getList(resultSet);
         }
         catch (DaoException | SQLException e) {
             throw new DaoException("Error when getting project tasks from the database", e);
@@ -219,14 +216,11 @@ public class TaskDao implements IDao<Task>, Serializable {
     }
 
     @Override
-    public List<Task> getAll() throws DaoException {
-
-        Connection connection = ConnectionController.getConnection();
+    public List<Task> getAll(Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_TASK, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
-            List<Task> tasks = new ArrayList<>();
-            return getList(tasks, resultSet);
+            return getList(resultSet);
         }
         catch (DaoException | SQLException e) {
             throw new DaoException("Error when getting all tasks from the database", e);
@@ -236,12 +230,12 @@ public class TaskDao implements IDao<Task>, Serializable {
     /**
      * Получение добавление задачи в лист.
      *
-     * @param tasks лист задач.
      * @param resultSet выражение SQL.
      * @return лист задач.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    private List<Task> getList(List<Task> tasks, ResultSet resultSet) throws DaoException {
+    private List<Task> getList(ResultSet resultSet) throws DaoException {
+        List<Task> tasks = new ArrayList<>();
         try {
             while (resultSet.next()) {
                 Task task = new Task();
@@ -256,9 +250,8 @@ public class TaskDao implements IDao<Task>, Serializable {
     }
 
     @Override
-    public Task getById(Integer id) throws DaoException {
+    public Task getById(Integer id, Connection connection) throws DaoException {
 
-        Connection connection = ConnectionController.getConnection();
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection)) {
             preparedStatementHelper.setInt(ID, id);
 

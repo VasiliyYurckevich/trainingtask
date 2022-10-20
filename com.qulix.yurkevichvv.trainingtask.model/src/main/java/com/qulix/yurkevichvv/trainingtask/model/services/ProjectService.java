@@ -39,7 +39,7 @@ public class ProjectService implements IProjectService, Serializable {
             if (project.getId() == null) {
                 projectDao.add(project, connection);
                 Integer generatedKey = projectDao.getGeneratedKey();
-                project.getTasksList().forEach(task -> task.setProjectId(generatedKey));
+                project.getTasksList(connection).forEach(task -> task.setProjectId(generatedKey));
             }
             else {
                 projectDao.update(project, connection);
@@ -62,56 +62,93 @@ public class ProjectService implements IProjectService, Serializable {
             projectDao.delete(id, connection);
         }
         catch (SQLException | DaoException e) {
-            ConnectionController.rollbackConnection(connection);
-            throw new ServiceException("Error deleting project by id", e);
+            throw new ServiceException("Error during deleting project by id", e);
         }
 
     }
 
     @Override
     public List<Project> findAll() throws ServiceException {
-        try {
-            return projectDao.getAll();
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            return projectDao.getAll(connection);
         }
-        catch (DaoException e) {
-            throw new ServiceException(e);
+        catch (DaoException | SQLException e) {
+            throw new ServiceException("Error during getting all project", e);
         }
     }
 
     @Override
     public Project getById(Integer id) throws ServiceException {
-        try {
-            return projectDao.getById(id);
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            return projectDao.getById(id, connection);
         }
-        catch (DaoException e) {
-            throw new ServiceException(e);
+        catch (DaoException | SQLException e) {
+            throw new ServiceException("Error during getting project by id", e);
         }
     }
 
     @Override
     public List<Task> getProjectsTasks(Project project) throws ServiceException {
-        return project.getTasksList();
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            return project.getTasksList(connection);
+        }
+        catch (SQLException | DaoException e) {
+            throw new ServiceException("Error during getting project tasks", e);
+        }
     }
 
     @Override
     public void deleteTask(Project project, Task task) throws ServiceException {
-        project.getDeletedTasksList().add(task);
-        project.getTasksList().remove(task);
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            project.getDeletedTasksList().add(task);
+            project.getTasksList(connection).remove(task);
+        }
+        catch (SQLException | DaoException e) {
+            throw new ServiceException("Error during deleting project task", e);
+        }
     }
 
     @Override
     public void addTask(Project project, Task task) throws ServiceException {
-        project.getTasksList().add(task);
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            project.getTasksList(connection).add(task);
+        }
+        catch (SQLException | DaoException e) {
+            throw new ServiceException("Error during adding project task", e);
+        }
     }
 
     @Override
     public void updateTask(Project project, Integer index, Task task) throws ServiceException {
-        project.getTasksList().set(index, task);
+        Connection connection = ConnectionController.getConnection();
+
+        try (connection) {
+            project.getTasksList(connection).set(index, task);
+        }
+        catch (SQLException | DaoException e) {
+            throw new ServiceException("Error during updating project task", e);
+        }
     }
 
+    /**
+     * Обновляет задачи связанные с проектом.
+     *
+     * @param project проект
+     * @param connection соединение
+     */
     private void updateTasks(Project project, Connection connection) {
 
-        project.getTasksList().forEach(task -> {
+        project.getTasksList(connection).forEach(task -> {
             if (task.getId() == null) {
                 taskDao.add(task, connection);
             }
