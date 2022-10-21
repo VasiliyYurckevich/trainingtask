@@ -122,7 +122,7 @@ public class Employee implements Entity, Serializable {
             return false;
         }
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) &&
+        return id == employee.id &&
             Objects.equals(surname, employee.surname) &&
             Objects.equals(firstName, employee.firstName) &&
             Objects.equals(patronymic, employee.patronymic) &&

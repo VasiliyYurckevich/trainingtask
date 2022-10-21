@@ -38,7 +38,7 @@
                         <c:forEach var="tempProject" items="${PROJECT_LIST}">
 
                             <c:url var="editLink" value="/projects">
-                                <c:param name="action" value="/edit"/>
+                                <c:param name="action" value="/editForm"/>
                                 <c:param name="projectId" value="${tempProject.id}"/>
                             </c:url>
                             <c:url var="deleteLink" value="/projects">

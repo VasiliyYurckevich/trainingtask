@@ -21,10 +21,13 @@ package com.qulix.yurkevichvv.trainingtask.model.entity;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 
 /**
@@ -92,13 +95,17 @@ public class Project implements Serializable, Entity {
      *
      * @return список задач проекта
      */
-    public List<Task> getTasksList(Connection connection) {
+    public List<Task> getTasksList()  {
         if (tasksList == null) {
             if (id == null) {
                 tasksList = new ArrayList<>();
             }
             else {
-                tasksList = new TaskDao().getTasksInProject(id, connection);
+                try(Connection connection = ConnectionController.getConnection()) {
+                    tasksList = new TaskDao().getTasksInProject(id, connection);
+                } catch (SQLException e) {
+                    throw new DaoException("Error during getting tasks in project ", e);
+                }
             }
         }
         return tasksList;

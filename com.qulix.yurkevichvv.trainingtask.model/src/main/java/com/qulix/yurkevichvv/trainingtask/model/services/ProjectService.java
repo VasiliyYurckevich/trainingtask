@@ -39,7 +39,7 @@ public class ProjectService implements IProjectService, Serializable {
             if (project.getId() == null) {
                 projectDao.add(project, connection);
                 Integer generatedKey = projectDao.getGeneratedKey();
-                project.getTasksList(connection).forEach(task -> task.setProjectId(generatedKey));
+                project.getTasksList().forEach(task -> task.setProjectId(generatedKey));
             }
             else {
                 projectDao.update(project, connection);
@@ -96,7 +96,7 @@ public class ProjectService implements IProjectService, Serializable {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            return project.getTasksList(connection);
+            return project.getTasksList();
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during getting project tasks", e);
@@ -109,7 +109,7 @@ public class ProjectService implements IProjectService, Serializable {
 
         try (connection) {
             project.getDeletedTasksList().add(task);
-            project.getTasksList(connection).remove(task);
+            project.getTasksList().remove(task);
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during deleting project task", e);
@@ -121,7 +121,7 @@ public class ProjectService implements IProjectService, Serializable {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            project.getTasksList(connection).add(task);
+            project.getTasksList().add(task);
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during adding project task", e);
@@ -133,7 +133,7 @@ public class ProjectService implements IProjectService, Serializable {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            project.getTasksList(connection).set(index, task);
+            project.getTasksList().set(index, task);
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during updating project task", e);
@@ -148,7 +148,7 @@ public class ProjectService implements IProjectService, Serializable {
      */
     private void updateTasks(Project project, Connection connection) {
 
-        project.getTasksList(connection).forEach(task -> {
+        project.getTasksList().forEach(task -> {
             if (task.getId() == null) {
                 taskDao.add(task, connection);
             }

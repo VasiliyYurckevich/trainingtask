@@ -176,19 +176,19 @@ public class EmployeeController extends HttpServlet {
     private void editForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        Employee existingEmployee;
+        Employee employee;
         if (req.getParameter(EMPLOYEE_ID) != null) {
-            existingEmployee = employeeService.getById(Integer.valueOf(req.getParameter(EMPLOYEE_ID)));
+            employee = employeeService.getById(Integer.valueOf(req.getParameter(EMPLOYEE_ID)));
         }
         else {
-            existingEmployee = new Employee();
+            employee = new Employee();
         }
 
-        req.getSession().setAttribute(EMPLOYEE, existingEmployee);
-        req.setAttribute(SURNAME, existingEmployee.getSurname());
-        req.setAttribute(FIRST_NAME, existingEmployee.getFirstName());
-        req.setAttribute(PATRONYMIC, existingEmployee.getPatronymic());
-        req.setAttribute(POST, existingEmployee.getPost());
+        req.getSession().setAttribute(EMPLOYEE, employee);
+        req.setAttribute(SURNAME, employee.getSurname());
+        req.setAttribute(FIRST_NAME, employee.getFirstName());
+        req.setAttribute(PATRONYMIC, employee.getPatronymic());
+        req.setAttribute(POST, employee.getPost());
 
         req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP).forward(req, resp);
     }
@@ -226,6 +226,7 @@ public class EmployeeController extends HttpServlet {
         if (errorsMap.isEmpty()) {
             Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
             getEmployee(paramsMap, employee);
+
             employeeService.save(employee);
             resp.sendRedirect(EMPLOYEES_LIST);
         }

@@ -60,15 +60,15 @@ public class Utils {
      * Заносит начальные данные в поля формы для Задачи.
      *
      * @param req запрос
-     * @param existingTask задача
+     * @param task задача
      */
-    public static void setTaskDataInJsp(HttpServletRequest req, Task existingTask) {
-        req.setAttribute("taskId", existingTask.getId());
-        req.setAttribute("status", existingTask.getStatus().getId());
-        req.setAttribute("title", existingTask.getTitle());
-        req.setAttribute("workTime", existingTask.getWorkTime());
-        req.setAttribute("beginDate", existingTask.getBeginDate());
-        req.setAttribute("endDate", existingTask.getEndDate());
-        req.setAttribute("employeeId", existingTask.getEmployeeId());
+    public static void setTaskDataInJsp(HttpServletRequest req, Task task) {
+        req.setAttribute("taskId", task.getId());
+        req.setAttribute("status", task.getStatus().getId());
+        req.setAttribute("title", task.getTitle());
+        req.setAttribute("workTime", task.getWorkTime());
+        req.setAttribute("beginDate", task.getBeginDate());
+        req.setAttribute("endDate", task.getEndDate());
+        req.setAttribute("employeeId", task.getEmployeeId());
     }
 }

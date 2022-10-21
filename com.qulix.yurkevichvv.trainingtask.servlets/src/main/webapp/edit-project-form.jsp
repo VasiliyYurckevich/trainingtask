@@ -20,10 +20,13 @@
 
         <div class="chief">
             <div id="container">
+
                 <h3>Редактировать проект</h3>
+
                 <form action="projects" method="post">
-                    <input type="hidden" name="action" value="/update" />
+                    <input type="hidden" name="action" value="/save" />
                     <input type="hidden" name="projectId" value="${project.id}"/>
+
                     <div>
                         <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
                         <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
@@ -31,6 +34,7 @@
                             Отмена
                         </button>
                     </div>
+
                     <div class="main">
                         <div class="field">
                             <label>Наименование:</label>
@@ -38,6 +42,7 @@
                             <br>
                             <a class="feedback">${ERRORS.get("titleProject")}</a>
                         </div>
+
                         <div class="field">
                             <label>Описание:</label>
                             <input id="description" name="description" value="${fn:escapeXml(description)}">
@@ -45,9 +50,11 @@
                             <a class="feedback">${ERRORS.get("description")}</a>
                         </div>
                     </div>
+
                     <div class="header">
                         <h3>Задачи проекта</h3>
                     </div>
+
                     <table>
                         <tr>
                             <th>Статус</th>
@@ -61,7 +68,9 @@
                         </tr>
 
                         <c:url var="addLink" value="/projects">
-                            <c:param name="action" value="/addTaskForm"/>
+                            <c:param name="action" value="/editTaskForm"/>
+                            <c:param name="projectId" value="${project.id}"/>
+                            <c:param name="taskIndex" value="${fn:length(project.tasksList)}"/>
                         </c:url>
 
                         <c:forEach var="tempTask" items="${project.tasksList}" varStatus="theCount">

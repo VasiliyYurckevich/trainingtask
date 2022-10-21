@@ -229,13 +229,16 @@ public class TaskController extends HttpServlet {
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServiceException, ServletException, IOException {
 
-        String taskId = req.getParameter(TASK_ID);
-        if (req.getSession().getAttribute(TASK) == null) {
-            Task existingTask = taskService.getById(Integer.parseInt(taskId));
-            req.getSession().setAttribute(TASK, existingTask);
-            Utils.setTaskDataInJsp(req, existingTask);
+        final Task task;
+        if (req.getParameter(TASK_ID) != null) {
+            task = taskService.getById(Integer.valueOf(req.getParameter(TASK_ID)));
         }
-
+        else {
+            task = new Task();
+            System.out.println(task);
+        }
+        req.getSession().setAttribute(TASK, task);
+        Utils.setTaskDataInJsp(req, task);
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
 
@@ -258,7 +261,7 @@ public class TaskController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Task task = (Task) session.getAttribute(TASK);
-            getTask(paramsMap, task);
+            updateTaskData(paramsMap, task);
             taskService.save(task);
             resp.sendRedirect(TASKS);
         }
@@ -274,7 +277,7 @@ public class TaskController extends HttpServlet {
      *
      * @param paramsMap поля задачи
      */
-    private static void getTask(Map<String, String> paramsMap, Task task) {
+    private static void updateTaskData(Map<String, String> paramsMap, Task task) {
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
         task.setTitle(paramsMap.get(TITLE));
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
@@ -301,14 +304,15 @@ public class TaskController extends HttpServlet {
     private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        HttpSession session = req.getSession();
-        Project project = (Project) session.getAttribute(PROJECT);
-        Task task = (Task) session.getAttribute(TASK);
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            getTask(paramsMap, task);
+            HttpSession session = req.getSession();
+            Project project = (Project) session.getAttribute(PROJECT);
+            Task task = (Task) session.getAttribute(TASK);
+
+            updateTaskData(paramsMap, task);
             projectService.addTask(project, task);
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
@@ -330,16 +334,17 @@ public class TaskController extends HttpServlet {
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        HttpSession session = req.getSession();
-        Project project = (Project) session.getAttribute(PROJECT);
-        Integer taskIndex = (Integer) req.getSession().getAttribute(TASK_INDEX);
-        Task task = (Task) session.getAttribute(TASK);
 
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            getTask(paramsMap, task);
+            HttpSession session = req.getSession();
+            Project project = (Project) session.getAttribute(PROJECT);
+            Integer taskIndex = (Integer) req.getSession().getAttribute(TASK_INDEX);
+            Task task = (Task) session.getAttribute(TASK);
+
+            updateTaskData(paramsMap, task);
             projectService.updateTask(project, taskIndex, task);
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
@@ -381,43 +386,13 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Создает новую задачу.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws ServiceException ошибка работы сервисов с сущностью
-     */
-    private void addTask(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, ServiceException {
-
-        HttpSession session = req.getSession();
-
-        Map<String, String> paramsMap = getDataFromForm(req);
-        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
-
-        if (errorsMap.isEmpty()) {
-            Task task = (Task) session.getAttribute(TASK);
-            getTask(paramsMap, task);
-            taskService.save(task);
-            resp.sendRedirect(TASKS);
-        }
-        else {
-            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-            req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
-            req.getRequestDispatcher(ADD_TASK_FORM_JSP).forward(req, resp);
-        }
-    }
-
-    /**
      * Вносит данные о задаче в форму.
      *
      * @param paramsMap список данных из формы
      */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
         Map<String, String> paramsMap, Map<String, String> errorsMap) {
-
+        System.out.println(paramsMap);
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(STATUS, paramsMap.get(STATUS));
         req.setAttribute(TITLE, paramsMap.get(TITLE));
@@ -464,7 +439,7 @@ public class TaskController extends HttpServlet {
         paramsMap.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
         paramsMap.put(END_DATE, req.getParameter(END_DATE).trim());
         if (req.getParameter(PROJECT_ID) != null) {
-            paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID).trim());
+            paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
         }
         else {
             Task task = (Task) req.getSession().getAttribute(TASK);

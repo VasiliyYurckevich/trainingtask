@@ -48,11 +48,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 public class ProjectController extends HttpServlet {
 
     /**
-     * Хранит название JSP добавления проекта.
-     */
-    private static final String ADD_PROJECT_FORM_JSP = "/add-project-form.jsp";
-
-    /**
      * Хранит название JSP редактирования сотрудника.
      */
     private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
@@ -129,11 +124,8 @@ public class ProjectController extends HttpServlet {
             String action = req.getParameter(ACTION);
 
             switch (action) {
-                case "/update":
+                case "/save":
                     updateProject(req, resp);
-                    break;
-                case "/add":
-                    addProject(req, resp);
                     break;
                 default:
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
@@ -165,11 +157,8 @@ public class ProjectController extends HttpServlet {
                 case "/addTaskForm":
                     newTaskInProjectForm(req, resp);
                     break;
-                case "/edit":
+                case "/editForm":
                     editProjectForm(req, resp);
-                    break;
-                case "/new":
-                    addProjectForm(req, resp);
                     break;
                 case "/deleteTaskInProject":
                     deleteTaskInProject(req, resp);
@@ -222,11 +211,19 @@ public class ProjectController extends HttpServlet {
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
         int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
-        Task existingTask = projectService.getProjectsTasks(project).get(taskIndex);
 
-        Utils.setTaskDataInJsp(req, existingTask);
+        Task task;
+        if (taskIndex < project.getTasksList().size()) {
+             task = projectService.getProjectsTasks(project).get(taskIndex);
+        }
+        else {
+            task =  new Task();
+            task.setProjectId(project.getId());
+            System.out.println(task);
+        }
+        Utils.setTaskDataInJsp(req, task);
         session.setAttribute(TASK_INDEX, taskIndex);
-        session.setAttribute(TASK, existingTask);
+        session.setAttribute(TASK, task);
 
         req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
     }
@@ -244,12 +241,13 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
-
-        if (session.getAttribute(PROJECT) == null) {
+        if (req.getParameter(PROJECT_ID) != null) {
             Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
             setDataAboutProject(session, projectService.getById(projectId));
         }
-
+        else {
+            setDataAboutProject(session, new Project());
+        }
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 
@@ -301,18 +299,6 @@ public class ProjectController extends HttpServlet {
     }
 
     /**
-     * Открывает форму для создания проекта.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     */
-    private void addProjectForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(ADD_PROJECT_FORM_JSP).forward(req, resp);
-    }
-
-    /**
      * Выводит список проектов.
      *
      * @param req запрос
@@ -355,7 +341,6 @@ public class ProjectController extends HttpServlet {
             resp.sendRedirect(PROJECTS);
         }
         else {
-            req.getSession().setAttribute(PROJECT, project);
             setDataToJspAfterValidation(req, paramsMap, errorsMap);
             req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
         }
@@ -385,34 +370,6 @@ public class ProjectController extends HttpServlet {
         paramsMap.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
         paramsMap.put(DESCRIPTION, req.getParameter(DESCRIPTION));
         return paramsMap;
-    }
-
-    /**
-     * Добавляет новый проект в БД.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws ServiceException ошибка при работе сервиса с сущностью
-     */
-    private void addProject(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Project project = (Project) req.getSession().getAttribute(PROJECT);
-
-        Map<String, String> paramsMap = getDataFromForm(req);
-        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
-
-        if (errorsMap.isEmpty()) {
-            Project theProject = getProject(project, paramsMap);
-            projectService.save(theProject);
-
-            resp.sendRedirect(PROJECTS);
-        }
-        else {
-            setDataToJspAfterValidation(req, paramsMap, errorsMap);
-            req.getRequestDispatcher(ADD_PROJECT_FORM_JSP).forward(req, resp);
-        }
     }
 
     /**

@@ -77,10 +77,8 @@
                         <select name="employeeId">
                             <option value=""> </option>
                             <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                                <option value="${employees.id}" ${employees.id == task.employeeId ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(employees.surname)}
-                                        ${fn:escapeXml(employees.firstName)}
-                                        ${fn:escapeXml(employees.patronymic)}
+                                <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
+                                        ${fn:escapeXml(employees.fullName)}
                                 </option>
                             </c:forEach>
                         </select>
