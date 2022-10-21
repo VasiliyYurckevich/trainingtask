@@ -21,11 +21,6 @@ import java.util.regex.Pattern;
 public class PreparedStatementHelper implements AutoCloseable {
 
     /**
-     * Двоеточие.
-     */
-    private static final String COLON = ":";
-    
-    /**
      * Regex для поиска имени переменной.
      */
     private static final String REGEX = "(:(\\w+))";
@@ -174,7 +169,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @return индекс параметра
      */
     private Integer getIndex(String name) {
-        return this.parametersMap.get(COLON + name);
+        return this.parametersMap.get(":" + name);
     }
 
     /**

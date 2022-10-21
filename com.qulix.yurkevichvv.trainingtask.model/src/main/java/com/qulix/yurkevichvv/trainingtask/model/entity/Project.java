@@ -56,6 +56,9 @@ public class Project implements Serializable, Entity {
      */
     private List<Task> tasksList;
 
+    /**
+     * Удаленные задачи проекта.
+     */
     private List<Task> deletedTasksList = new ArrayList<>();
 
     @Override

@@ -39,7 +39,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
  */
 public class EmployeeDao implements IDao<Employee>, Serializable {
 
-
     /**
      * Хранит константу для колонки фамилии сотрудника в БД.
      */

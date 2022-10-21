@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -13,9 +12,9 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
@@ -74,7 +73,6 @@ public class ProjectPage extends AbstractEntityPage {
     public ProjectPage(IModel<Project> project) {
         super();
         this.projectModel = project;
-        System.out.println(project.getObject());
     }
 
     @Override
@@ -94,7 +92,13 @@ public class ProjectPage extends AbstractEntityPage {
         add(form);
     }
 
-    private TaskPage getTaskPage(Task task) {
+    /**
+     * Генерирует страницу редактирования задачи.
+     *
+     * @param task задача
+     * @return страницу редактирования задачи
+     */
+    protected TaskPage getTaskPage(Task task) {
 
         task.setProjectId(projectModel.getObject().getId());
 
@@ -219,6 +223,7 @@ public class ProjectPage extends AbstractEntityPage {
                 })
                 .add(new EditLink("editLink", getTaskPage(item)));
         }
+
 
         /**
          * Генерирует страницу редактирования задачи.

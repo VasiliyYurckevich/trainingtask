@@ -19,5 +19,4 @@ public class CustomFeedbackPanel extends FeedbackPanel {
     public CustomFeedbackPanel(String id, IFeedbackMessageFilter filter) {
         super(id, filter);
     }
-
 }
