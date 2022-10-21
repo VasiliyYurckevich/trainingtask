@@ -26,7 +26,7 @@
             <div>
                 <div>
                     <form action="employees" method="get">
-                        <input type="hidden" name="action" value="/new"/>
+                        <input type="hidden" name="action" value="/edit"/>
                         <input type="submit" value="Добавить" class="add-button">
                     </form>
                     <table id="table" class="table table-striped">

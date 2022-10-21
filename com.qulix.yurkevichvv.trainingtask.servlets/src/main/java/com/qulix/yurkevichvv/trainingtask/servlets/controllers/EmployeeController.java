@@ -44,11 +44,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 public class EmployeeController extends HttpServlet {
 
     /**
-     * Хранит название JSP добавления сотрудника.
-     */
-    private static final String ADD_EMPLOYEE_FORM_JSP = "/add-employee-form.jsp";
-
-    /**
      * Хранит название JSP редактирования сотрудника.
      */
     private static final String EDIT_EMPLOYEE_FORM_JSP = "/edit-employee-form.jsp";
@@ -126,11 +121,8 @@ public class EmployeeController extends HttpServlet {
             String action = req.getParameter(ACTION);
 
             switch (action) {
-                case "/update":
-                    updateEmployee(req, resp);
-                    break;
-                case "/add":
-                    addEmployee(req, resp);
+                case "/save":
+                    saveEmployee(req, resp);
                     break;
                 default:
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
@@ -156,11 +148,8 @@ public class EmployeeController extends HttpServlet {
                 case "/delete":
                     deleteEmployee(req, resp);
                     break;
-                case "/new":
-                    addEmployeeForm(req, resp);
-                    break;
                 case "/edit":
-                    updateEmployeeForm(req, resp);
+                    editForm(req, resp);
                     break;
                 case LIST:
                     listEmployees(req, resp);
@@ -184,12 +173,16 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
+    private void editForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        Employee existingEmployee = employeeService.getById(employeeId);
-        existingEmployee.setId(employeeId);
+        Employee existingEmployee;
+        if (req.getParameter(EMPLOYEE_ID) != null) {
+            existingEmployee = employeeService.getById(Integer.valueOf(req.getParameter(EMPLOYEE_ID)));
+        }
+        else {
+            existingEmployee = new Employee();
+        }
 
         req.getSession().setAttribute(EMPLOYEE, existingEmployee);
         req.setAttribute(SURNAME, existingEmployee.getSurname());
@@ -198,23 +191,6 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute(POST, existingEmployee.getPost());
 
         req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP).forward(req, resp);
-    }
-
-    /**
-     * Отображает форму для добавления сотрудника.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws ServiceException ошибка при работе сервиса с сущностью
-     */
-    private void addEmployeeForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, ServiceException, IOException {
-
-        req.getSession().setAttribute(EMPLOYEE, new Employee());
-
-        req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -241,7 +217,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void updateEmployee(HttpServletRequest req, HttpServletResponse resp)
+    private void saveEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = getDataFromJsp(req);
@@ -249,7 +225,7 @@ public class EmployeeController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
-            employee = getEmployee(paramsMap, employee);
+            getEmployee(paramsMap, employee);
             employeeService.save(employee);
             resp.sendRedirect(EMPLOYEES_LIST);
         }
@@ -265,12 +241,11 @@ public class EmployeeController extends HttpServlet {
      * @param paramsMap список параметров
      * @return возвращаемый сотрудник
      */
-    private static Employee getEmployee(Map<String, String> paramsMap, Employee employee) {
+    private static void getEmployee(Map<String, String> paramsMap, Employee employee) {
         employee.setSurname(paramsMap.get(SURNAME));
         employee.setFirstName(paramsMap.get(FIRST_NAME));
         employee.setPatronymic(paramsMap.get(PATRONYMIC));
         employee.setPost(paramsMap.get(POST));
-        return employee;
     }
 
     /**
@@ -301,32 +276,6 @@ public class EmployeeController extends HttpServlet {
         params.put(PATRONYMIC, req.getParameter(PATRONYMIC));
         params.put(POST, req.getParameter(POST));
         return params;
-    }
-
-    /**
-     * Валидация и добавление сотрудника в БД.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws ServiceException ошибка при работе сервиса с сущностью
-     */
-    private void addEmployee(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, ServiceException {
-
-        Map<String, String> paramsMap = getDataFromJsp(req);
-        Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
-
-        if (errorsMap.isEmpty()) {
-            Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
-            employeeService.save(getEmployee(paramsMap, employee));
-            resp.sendRedirect(EMPLOYEES_LIST);
-        }
-        else {
-            setDataToJsp(req, paramsMap, errorsMap);
-            req.getRequestDispatcher(ADD_EMPLOYEE_FORM_JSP).forward(req, resp);
-        }
     }
 
     /**

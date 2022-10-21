@@ -18,7 +18,7 @@
             <div id="container" class="main">
                 <h3>Редактировать сотрудника</h3>
                 <form action="employees" method="post">
-                    <input type="hidden" name="action" value="/update"/>
+                    <input type="hidden" name="action" value="/save"/>
                     <input type="hidden" name="employeeId" value="${employeeId}"/>
 
                     <div>

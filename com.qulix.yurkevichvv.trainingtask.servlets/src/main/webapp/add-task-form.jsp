@@ -16,10 +16,10 @@
 
         <div class="chief">
             <div id="container" class="main">
-                <h3>Редактировать задачу</h3>
+                <h3>{Редактировать} задачу</h3>
                 <form action="tasks" method="post" id="form" >
 
-                    <input type="hidden" name="action" value="/add" />
+                    <input type="hidden" name="action" value="/save" />
                     <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                     <button id="cancelButton" name="cancelButton" onclick="location.href='tasks'"
                             type="button" class="add-button">

@@ -166,17 +166,14 @@ public class TaskController extends HttpServlet {
             String action = req.getParameter(ACTION);
 
             switch (action) {
-                case "/update":
-                    updateTask(req, resp);
+                case "/save":
+                    saveTask(req, resp);
                     break;
                 case "/updateTaskInProject":
                     updateTaskInProject(req, resp);
                     break;
                 case "/newTaskInProject":
                     newTaskInProject(req, resp);
-                    break;
-                case "/add":
-                    addTask(req, resp);
                     break;
                 default:
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_TASK_CONTROLLER + action);
@@ -251,7 +248,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException ошибка работы сервисов с сущностью
      */
-    private void updateTask(HttpServletRequest req, HttpServletResponse resp)
+    private void saveTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
@@ -260,7 +257,8 @@ public class TaskController extends HttpServlet {
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
+            Task task = (Task) session.getAttribute(TASK);
+            getTask(paramsMap, task);
             taskService.save(task);
             resp.sendRedirect(TASKS);
         }
@@ -276,7 +274,7 @@ public class TaskController extends HttpServlet {
      *
      * @param paramsMap поля задачи
      */
-    private static Task getTask(Map<String, String> paramsMap, Task task) {
+    private static void getTask(Map<String, String> paramsMap, Task task) {
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
         task.setTitle(paramsMap.get(TITLE));
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
@@ -289,7 +287,6 @@ public class TaskController extends HttpServlet {
         else {
             task.setEmployeeId(null);
         }
-        return task;
     }
 
     /**
@@ -306,12 +303,12 @@ public class TaskController extends HttpServlet {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
-
+        Task task = (Task) session.getAttribute(TASK);
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
+            getTask(paramsMap, task);
             projectService.addTask(project, task);
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
@@ -336,12 +333,13 @@ public class TaskController extends HttpServlet {
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
         Integer taskIndex = (Integer) req.getSession().getAttribute(TASK_INDEX);
+        Task task = (Task) session.getAttribute(TASK);
 
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = getTask(paramsMap, (Task) session.getAttribute(TASK));
+            getTask(paramsMap, task);
             projectService.updateTask(project, taskIndex, task);
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
@@ -395,13 +393,13 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
-        Task task = (Task) session.getAttribute(TASK);
 
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            task = getTask(paramsMap, task);
+            Task task = (Task) session.getAttribute(TASK);
+            getTask(paramsMap, task);
             taskService.save(task);
             resp.sendRedirect(TASKS);
         }

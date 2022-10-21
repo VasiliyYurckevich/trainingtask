@@ -18,7 +18,7 @@
             <div id="container" class="main">
                 <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" id ="form">
-                    <input type="hidden" name="action" value="/update" />
+                    <input type="hidden" name="action" value="/save" />
                     <input type="hidden" name="taskId" value="${taskId}" />
                     <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                     <button id="cancelButton" name="cancelButton"
