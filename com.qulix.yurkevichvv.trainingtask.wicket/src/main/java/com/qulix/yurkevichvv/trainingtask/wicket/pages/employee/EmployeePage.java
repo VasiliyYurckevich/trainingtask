@@ -26,7 +26,7 @@ public class EmployeePage extends AbstractEntityPage {
     /**
      * Идентификатор элемента формы.
      */
-    private static final String EMPLOYEE_FORM = "form";
+    private static final String FORM = "form";
 
     /**
      * Максимальная длинна ввода полей.
@@ -51,20 +51,22 @@ public class EmployeePage extends AbstractEntityPage {
     public EmployeePage(IModel<Employee> employeeModel) {
         super();
         this.employeeModel = employeeModel;
-
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get(PAGE_TITLE).setDefaultModelObject("Редактировать сотрудника");
-        Form employeeForm = new Form<>(EMPLOYEE_FORM, new CompoundPropertyModel<>(employeeModel)) {
+
+        get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
+
+        Form employeeForm = new Form<>(FORM, new CompoundPropertyModel<>(employeeModel)) {
             @Override
                 public void onSubmit() {
                 onSubmitting();
                 onChangesSubmitted();
                 }
         };
+
         addFormComponents(employeeForm);
         add(employeeForm);
     }

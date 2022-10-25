@@ -40,11 +40,6 @@ public class ProjectPage extends AbstractEntityPage {
     private static final int DESCRIPTION_MAXLENGTH = 250;
 
     /**
-     * Идентификатор элемента названия страницы.
-     */
-    private static final String PAGE_TITLE = "pageTitle";
-
-    /**
      * Идентификатор поля сотрудника.
      */
     private static final String EMPLOYEE_NAME = "employeeName";
@@ -78,7 +73,8 @@ public class ProjectPage extends AbstractEntityPage {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get(PAGE_TITLE).setDefaultModelObject("Редактировать проект");
+
+        get("pageTitle").setDefaultModelObject("Редактировать проект");
 
         Form<Project> form = new Form<>(PROJECT_FORM, new CompoundPropertyModel<>(projectModel)) {
             @Override

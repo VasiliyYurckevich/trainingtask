@@ -318,22 +318,6 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Открывает форму добавления задачи.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws ServiceException ошибка работы сервисов с сущностью
-     */
-    private void newTaskForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, ServiceException {
-
-        req.getSession().setAttribute(TASK, new Task());
-        req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
-    }
-
-    /**
      * Удаляет задачу из БД.
      *
      * @param req запрос

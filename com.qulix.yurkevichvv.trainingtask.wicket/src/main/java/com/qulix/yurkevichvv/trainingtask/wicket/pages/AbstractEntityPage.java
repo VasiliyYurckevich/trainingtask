@@ -55,5 +55,4 @@ public abstract class AbstractEntityPage extends BasePage {
             new ComponentFeedbackMessageFilter(field));
         form.add(fieldFeedbackPanel);
     }
-
 }

@@ -36,11 +36,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 public class TaskPage extends AbstractEntityPage {
 
     /**
-     * Идентификатор элемента названия страницы.
-     */
-    private static final String PAGE_TITLE = "pageTitle";
-
-    /**
      * Идентификатор элемента формы.
      */
     private static final String TASK_FORM = "taskForm";
@@ -102,7 +97,7 @@ public class TaskPage extends AbstractEntityPage {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get(PAGE_TITLE).setDefaultModelObject(EDIT_TASK);
+        get("pageTitle").setDefaultModelObject(EDIT_TASK);
 
         Form<Task> form = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override

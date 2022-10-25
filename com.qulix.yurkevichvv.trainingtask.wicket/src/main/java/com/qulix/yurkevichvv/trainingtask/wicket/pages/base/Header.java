@@ -22,6 +22,11 @@ public class Header extends Panel {
      */
     public Header(String id) {
         super(id);
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
 
         add(new Link<WebPage>("projectsList") {
             @Override

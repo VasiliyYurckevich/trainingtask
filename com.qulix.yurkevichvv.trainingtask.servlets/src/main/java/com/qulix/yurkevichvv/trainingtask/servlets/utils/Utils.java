@@ -70,6 +70,7 @@ public class Utils {
         req.setAttribute("workTime", task.getWorkTime());
         req.setAttribute("beginDate", task.getBeginDate());
         req.setAttribute("endDate", task.getEndDate());
+        req.setAttribute("projectId", task.getProjectId());
         req.setAttribute("employeeId", task.getEmployeeId());
     }
 }
