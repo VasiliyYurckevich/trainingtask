@@ -4,7 +4,7 @@
 <html lang="ru">
 	<head>
 		<title>Exception</title>
-		<link type="text/css" rel="stylesheet" href="css/style.css">
+		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 	</head>
 
 	<body>

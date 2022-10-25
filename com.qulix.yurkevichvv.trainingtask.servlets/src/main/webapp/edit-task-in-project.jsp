@@ -19,7 +19,8 @@
             <div id="container" class="main">
                 <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" >
-                    <input type="hidden" name="action" value="/updateTaskInProject" />
+                    <input type="hidden" name="action" value="/saveTaskInProject" />
+                    <input type="hidden" name="taskIndex" value="${tas}" />
                     <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                     <button id="cancelButton" name="cancelButton"
                             onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${project.id}'"

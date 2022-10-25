@@ -106,6 +106,7 @@ public class ProjectController extends HttpServlet {
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
+    public static final String EDIT_TASK_IN_PROJECT_JSP = "/edit-task-in-project.jsp";
 
     /**
      * Сервис для работы с Project.
@@ -151,17 +152,14 @@ public class ProjectController extends HttpServlet {
                 case "/delete":
                     deleteProject(req, resp);
                     break;
-                case "/editTaskForm":
+                case "/editTask":
                     editTaskInProjectForm(req, resp);
                     break;
-                case "/addTaskForm":
-                    newTaskInProjectForm(req, resp);
-                    break;
-                case "/editForm":
+                case "/edit":
                     editProjectForm(req, resp);
                     break;
-                case "/deleteTaskInProject":
-                    deleteTaskInProject(req, resp);
+                case "/deleteTask":
+                    deleteTask(req, resp);
                     break;
                 case LIST:
                     listProjects(req, resp);
@@ -185,7 +183,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException при ошибке удаления задачи из списка проекта
      */
-    private void deleteTaskInProject(HttpServletRequest req, HttpServletResponse resp)
+    private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
         
         int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
@@ -210,22 +208,27 @@ public class ProjectController extends HttpServlet {
 
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
-        int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
 
+        Utils.setTaskDataInJsp(req, getTask(req, session, project));
+
+        req.getRequestDispatcher(EDIT_TASK_IN_PROJECT_JSP).forward(req, resp);
+    }
+
+    private Task getTask(HttpServletRequest req, HttpSession session, Project project) {
         Task task;
-        if (taskIndex < project.getTasksList().size()) {
-             task = projectService.getProjectsTasks(project).get(taskIndex);
+        if (req.getParameter(TASK_INDEX) != null) {
+            int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
+            task = projectService.getProjectsTasks(project).get(taskIndex);
+            session.setAttribute(TASK_INDEX, taskIndex);
+
         }
         else {
             task =  new Task();
             task.setProjectId(project.getId());
-            System.out.println(task);
-        }
-        Utils.setTaskDataInJsp(req, task);
-        session.setAttribute(TASK_INDEX, taskIndex);
-        session.setAttribute(TASK, task);
+            session.setAttribute(TASK_INDEX, null);
 
-        req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
+        }
+        return task;
     }
 
     /**
@@ -274,28 +277,8 @@ public class ProjectController extends HttpServlet {
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServiceException {
         Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
         projectService.delete(projectId);
+
         resp.sendRedirect(PROJECTS);
-    }
-
-    /**
-     * Открывает страницу создания задачи и вносит данные о новой задаче в форму.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     */
-    private void newTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
-
-        HttpSession session = req.getSession();
-        Project project = (Project) session.getAttribute(PROJECT);
-
-        Task task = new Task();
-        task.setProjectId(project.getId());
-        session.setAttribute(TASK, task);
-
-        req.getRequestDispatcher("/add-task-in-project.jsp").forward(req, resp);
     }
 
     /**

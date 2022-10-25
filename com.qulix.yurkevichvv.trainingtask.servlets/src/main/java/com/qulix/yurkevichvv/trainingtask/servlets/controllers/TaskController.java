@@ -119,10 +119,6 @@ public class TaskController extends HttpServlet {
      */
     private static final String EDIT_PROJECT_JSP = "/edit-project-form.jsp";
 
-    /**
-     * Хранит название JSP добавления задачи.
-     */
-    private static final String ADD_TASK_FORM_JSP = "/add-task-form.jsp";
 
     /**
      * Хранит константу для страницы списка задач.
@@ -169,11 +165,8 @@ public class TaskController extends HttpServlet {
                 case "/save":
                     saveTask(req, resp);
                     break;
-                case "/updateTaskInProject":
+                case "/saveTaskInProject":
                     updateTaskInProject(req, resp);
-                    break;
-                case "/newTaskInProject":
-                    newTaskInProject(req, resp);
                     break;
                 default:
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_TASK_CONTROLLER + action);
@@ -235,9 +228,8 @@ public class TaskController extends HttpServlet {
         }
         else {
             task = new Task();
-            System.out.println(task);
         }
-        req.getSession().setAttribute(TASK, task);
+
         Utils.setTaskDataInJsp(req, task);
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
@@ -254,15 +246,16 @@ public class TaskController extends HttpServlet {
     private void saveTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        HttpSession session = req.getSession();
 
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
-            Task task = (Task) session.getAttribute(TASK);
+            Task task = (Task) req.getSession().getAttribute(TASK);
             updateTaskData(paramsMap, task);
+
             taskService.save(task);
+
             resp.sendRedirect(TASKS);
         }
         else {
@@ -293,36 +286,6 @@ public class TaskController extends HttpServlet {
     }
 
     /**
-     * Добавляет новую задачу во время редактирования проекта.
-     *
-     * @param req запрос
-     * @param resp ответ
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
-     * @throws ServiceException ошибка работы сервисов с сущностью
-     */
-    private void newTaskInProject(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException, ServiceException {
-
-        Map<String, String> paramsMap = getDataFromForm(req);
-        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
-
-        if (errorsMap.isEmpty()) {
-            HttpSession session = req.getSession();
-            Project project = (Project) session.getAttribute(PROJECT);
-            Task task = (Task) session.getAttribute(TASK);
-
-            updateTaskData(paramsMap, task);
-            projectService.addTask(project, task);
-            req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
-        }
-        else {
-            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
-            req.getRequestDispatcher("/add-task-in-project.jsp").forward(req, resp);
-        }
-    }
-
-    /**
      * Изменяет данные задачи во время редактирования проекта.
      *
      * @param req запрос
@@ -334,18 +297,24 @@ public class TaskController extends HttpServlet {
     private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
         if (errorsMap.isEmpty()) {
             HttpSession session = req.getSession();
             Project project = (Project) session.getAttribute(PROJECT);
-            Integer taskIndex = (Integer) req.getSession().getAttribute(TASK_INDEX);
             Task task = (Task) session.getAttribute(TASK);
+            Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
+
+            System.out.println(taskIndex);
 
             updateTaskData(paramsMap, task);
-            projectService.updateTask(project, taskIndex, task);
+
+            if (taskIndex != null) {
+                projectService.updateTask(project, taskIndex, task);
+            } else {
+                projectService.addTask(project, task);
+            }
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
         else {
@@ -353,7 +322,6 @@ public class TaskController extends HttpServlet {
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
     }
-
 
     /**
      * Открывает форму добавления задачи.
@@ -368,7 +336,7 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         req.getSession().setAttribute(TASK, new Task());
-        req.getRequestDispatcher(ADD_TASK_FORM_JSP).forward(req, resp);
+        req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
 
     /**

@@ -30,8 +30,6 @@ import java.util.Objects;
  */
 public class Task implements Entity, Serializable {
 
-    private static final long serialVersionUID = 3456L;
-
     /**
      * Идентификатор задачи.
      */
@@ -161,7 +159,7 @@ public class Task implements Entity, Serializable {
             return false;
         }
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && status == task.status && Objects.equals(title, task.title) &&
+        return id == task.id && status == task.status && Objects.equals(title, task.title) &&
             Objects.equals(workTime, task.workTime) &&
             Objects.equals(beginDate, task.beginDate) &&
             Objects.equals(endDate, task.endDate);

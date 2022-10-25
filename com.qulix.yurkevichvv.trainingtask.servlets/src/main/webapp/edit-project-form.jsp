@@ -68,9 +68,8 @@
                         </tr>
 
                         <c:url var="addLink" value="/projects">
-                            <c:param name="action" value="/editTaskForm"/>
+                            <c:param name="action" value="/editTask"/>
                             <c:param name="projectId" value="${project.id}"/>
-                            <c:param name="taskIndex" value="${fn:length(project.tasksList)}"/>
                         </c:url>
 
                         <c:forEach var="tempTask" items="${project.tasksList}" varStatus="theCount">
@@ -84,13 +83,13 @@
                             %>
 
                             <c:url var="editLink" value="/projects">
-                                <c:param name="action" value="/editTaskForm"/>
+                                <c:param name="action" value="/editTask"/>
                                 <c:param name="projectId" value="${project.id}"/>
                                 <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 
                             <c:url var="deleteLink" value="/projects">
-                                <c:param name="action" value="/deleteTaskInProject"/>
+                                <c:param name="action" value="/deleteTask"/>
                                 <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 
