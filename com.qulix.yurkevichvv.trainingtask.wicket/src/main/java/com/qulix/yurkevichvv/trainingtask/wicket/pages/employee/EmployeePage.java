@@ -19,11 +19,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 public class EmployeePage extends AbstractEntityPage {
 
     /**
-     * Идентификатор элемента названия страницы.
-     */
-    private static final String PAGE_TITLE = "pageTitle";
-
-    /**
      * Идентификатор элемента формы.
      */
     private static final String FORM = "form";
