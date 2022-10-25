@@ -16,8 +16,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 
-
-
 /**
  * Список проектов.
  *
@@ -61,6 +59,8 @@ public class ProjectsListPage extends BasePage {
 
     /**
      * Реализует CustomListView для проектов.
+     *
+     * @author Q-YVV
      */
     private class ProjectCustomListView extends CustomListView<Project> {
 

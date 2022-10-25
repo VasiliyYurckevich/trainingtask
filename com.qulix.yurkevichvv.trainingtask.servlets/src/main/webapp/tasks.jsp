@@ -27,7 +27,7 @@
             <div>
                 <div>
                     <form action="tasks" method="get">
-                        <input type="hidden" name="action" value="/new" />
+                        <input type="hidden" name="action" value="/edit" />
                         <input type="submit" value="Добавить" ${PROJECT_LIST.isEmpty() ? 'disabled' : ''} class="add-button">
                         ${PROJECT_LIST.isEmpty() ?
                         '<a class="feedback">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</a>': ''}

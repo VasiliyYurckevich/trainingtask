@@ -1,22 +1,3 @@
-/*
- * Copyright 2007 Qulix Systems, Inc. All rights reserved.
- * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
- * terms.
- * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
- *
- * This software is the confidential and proprietary information of
- * Qulix Systems. ("Confidential Information"). You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Sun.
- *
- * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
- * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
- * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
- * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
- * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
- */
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
@@ -43,6 +24,11 @@ import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
  */
 public class EmployeeController extends HttpServlet {
 
+    /**
+     * Хранит название кейса для выбора списка сотрудников.
+     */
+    private static final String LIST = "/list";
+    
     /**
      * Хранит название JSP редактирования сотрудника.
      */
@@ -82,12 +68,7 @@ public class EmployeeController extends HttpServlet {
      * Хранит константу для обозначения списка сотрудников.
      */
     private static final String EMPLOYEES_LIST = "employees";
-
-    /**
-     * Хранит название кейса для выбора списка сотрудников.
-     */
-    private static final String LIST = "/list";
-
+    
     /**
      * Хранит текст для исключения при выборе неизвестной команды.
      */
@@ -106,7 +87,7 @@ public class EmployeeController extends HttpServlet {
     /**
      * Сервис для работы с Employee.
      */
-    private EmployeeService employeeService = new EmployeeService();
+    private final EmployeeService employeeService = new EmployeeService();
 
     @Override
     public void init() throws ServletException, NullPointerException {
@@ -202,6 +183,7 @@ public class EmployeeController extends HttpServlet {
      * @throws ServiceException ошибка при работе сервиса с сущностью
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
+
         Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
         employeeService.delete(employeeId);
 
@@ -225,9 +207,10 @@ public class EmployeeController extends HttpServlet {
 
         if (errorsMap.isEmpty()) {
             Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
-            getEmployee(paramsMap, employee);
+            setEmployeeData(paramsMap, employee);
 
             employeeService.save(employee);
+
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
@@ -237,12 +220,12 @@ public class EmployeeController extends HttpServlet {
     }
 
     /**
-     * Создает сотрудника с полученными параметрами.
+     * Устанавливает обновленные данные сотрудника.
      *
      * @param paramsMap список параметров
-     * @return возвращаемый сотрудник
      */
-    private static void getEmployee(Map<String, String> paramsMap, Employee employee) {
+    private static void setEmployeeData(Map<String, String> paramsMap, Employee employee) {
+
         employee.setSurname(paramsMap.get(SURNAME));
         employee.setFirstName(paramsMap.get(FIRST_NAME));
         employee.setPatronymic(paramsMap.get(PATRONYMIC));
@@ -257,6 +240,7 @@ public class EmployeeController extends HttpServlet {
      * @param errorsMap список ошибок
      */
     private void setDataToJsp(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
+
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(SURNAME, paramsMap.get(SURNAME).trim());
         req.setAttribute(FIRST_NAME, paramsMap.get(FIRST_NAME).trim());
@@ -271,6 +255,7 @@ public class EmployeeController extends HttpServlet {
      * @return список параметров
      */
     private Map<String, String> getDataFromJsp(HttpServletRequest req) {
+
         Map<String, String> params = new HashMap<>();
         params.put(SURNAME, req.getParameter(SURNAME));
         params.put(FIRST_NAME, req.getParameter(FIRST_NAME));

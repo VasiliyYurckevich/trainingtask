@@ -34,7 +34,6 @@ public class CustomStringValidator implements IValidator<String> {
         if (errorMessage != null) {
             newError(validatable, errorMessage);
         }
-
     }
 
     /**

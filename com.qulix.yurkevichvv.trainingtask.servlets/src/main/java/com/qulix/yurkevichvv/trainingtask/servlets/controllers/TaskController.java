@@ -119,7 +119,6 @@ public class TaskController extends HttpServlet {
      */
     private static final String EDIT_PROJECT_JSP = "/edit-project-form.jsp";
 
-
     /**
      * Хранит константу для страницы списка задач.
      */
@@ -194,9 +193,6 @@ public class TaskController extends HttpServlet {
                     break;
                 case "/delete":
                     deleteTask(req, resp);
-                    break;
-                case "/new":
-                    newTaskForm(req, resp);
                     break;
                 case LIST:
                     listTasks(req, resp);
@@ -346,8 +342,10 @@ public class TaskController extends HttpServlet {
      * @throws ServiceException ошибка работы сервисов с сущностью
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
+
         String taskId = req.getParameter(TASK_ID);
         taskService.delete(Integer.parseInt(taskId));
+
         resp.sendRedirect(TASKS);
     }
 

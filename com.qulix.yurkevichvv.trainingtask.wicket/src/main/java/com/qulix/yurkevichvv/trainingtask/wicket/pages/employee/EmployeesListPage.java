@@ -62,6 +62,8 @@ public class EmployeesListPage extends BasePage {
 
     /**
      * Реализует CustomListView для сотрудников.
+     *
+     * @author Q-YVV
      */
     private static class EmployeeListView extends CustomListView<Employee> {
 

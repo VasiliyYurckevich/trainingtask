@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import java.util.List;
 
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -49,5 +50,40 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      */
     public AbstractEntityPage getNewPage(ListItem<T> item) {
         return null;
+    }
+
+    /**
+     * Ссылка для удаления сущности.
+     *
+     * @author Q-YVV
+     */
+    private static class DeleteLink<T extends Entity> extends Link<T> {
+
+        /**
+         * Сервис для работы с сущностями.
+         */
+        private final IService service;
+
+        /**
+         * Элемент ListView.
+         */
+        private final T entity;
+
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         * @param entity элемент ListView
+         */
+        public DeleteLink(String id, IService service, T entity) {
+            super(id);
+            this.entity = entity;
+            this.service = service;
+        }
+
+        @Override
+        public void onClick() {
+            service.delete(entity.getId());
+        }
     }
 }

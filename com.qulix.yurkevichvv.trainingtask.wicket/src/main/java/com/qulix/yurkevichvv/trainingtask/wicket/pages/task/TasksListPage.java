@@ -66,6 +66,12 @@ public class TasksListPage extends BasePage {
         add(taskListView);
     }
 
+    /**
+     * Возвращает страницу редактирования задачи.
+     *
+     * @param task задача
+     * @return экземпляр TaskPage дял данной задачи
+     */
     private TaskPage getTaskPage(Task task) {
 
         return new TaskPage(new Model<>(task)) {
@@ -83,6 +89,8 @@ public class TasksListPage extends BasePage {
 
     /**
      * Реализует CustomListView для задач.
+     *
+     * @author Q-YVV
      */
     private class TaskCustomListView extends CustomListView<Task> {
 

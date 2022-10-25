@@ -29,9 +29,19 @@ import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 public class ProjectController extends HttpServlet {
 
     /**
+     * Хранит название кейса для выбора списка проектов.
+     */
+    private static final String LIST = "/list";
+
+    /**
      * Хранит название JSP редактирования проекта.
      */
     private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
+
+    /**
+     * Хранит название JSP редактирования задачи проекта.
+     */
+    public static final String EDIT_TASK_IN_PROJECT_JSP = "/edit-task-in-project.jsp";
 
     /**
      * Хранит константу для обозначения ID проекта.
@@ -54,11 +64,6 @@ public class ProjectController extends HttpServlet {
     private static final String ACTION = "action";
 
     /**
-     * Хранит название кейса для выбора списка проектов.
-     */
-    private static final String LIST = "/list";
-
-    /**
      * Хранит текст для исключения при выборе неизвестной команды.
      */
     private static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Employee Controller:";
@@ -77,11 +82,6 @@ public class ProjectController extends HttpServlet {
      * Хранит константу для обозначения индекса задачи в списке проекта.
      */
     private static final String TASK_INDEX = "taskIndex";
-
-    /**
-     * Хранит название JSP редактирования задачи проекта.
-     */
-    public static final String EDIT_TASK_IN_PROJECT_JSP = "/edit-task-in-project.jsp";
 
     /**
      * Логгер для записи событий.

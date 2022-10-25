@@ -264,6 +264,11 @@ public class TaskPage extends AbstractEntityPage {
         form.add(employeesFeedbackPanel);
     }
 
+    /**
+     * Представляет модель списка сотрудников для выпадающего списка.
+     *
+     * @author Q-YVV
+     */
     static class EmployeeIModel implements IModel<Employee> {
 
         /**
@@ -303,6 +308,11 @@ public class TaskPage extends AbstractEntityPage {
         }
     }
 
+    /**
+     * Представляет модель списка проектов для выпадающего списка.
+     *
+     * @author Q-YVV
+     */
     static class ProjectIModel implements IModel<Project> {
 
         /**

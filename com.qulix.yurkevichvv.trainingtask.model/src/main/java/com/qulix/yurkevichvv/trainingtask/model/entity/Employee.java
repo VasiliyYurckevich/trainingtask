@@ -30,8 +30,6 @@ import java.util.Objects;
  */
 public class Employee implements Entity, Serializable {
 
-    private static final long serialVersionUID = 1234567L;
-
     /**
      * Идентификатор сотрудника.
      */

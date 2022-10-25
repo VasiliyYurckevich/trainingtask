@@ -87,12 +87,10 @@ public class ProjectDao implements IDao<Project>, Serializable {
     private static final String UPDATE_PROJECT_SQL =
         "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
 
-
     /**
      * Сообщение при отсутствии проекта.
      */
     public static final String NOT_FOUND = "A project with such data was not found";
-
 
     @Override
     public void add(Project project, Connection connection) throws DaoException {

@@ -13,5 +13,4 @@ public interface Entity {
      * @return идентификатор
      */
     Integer getId();
-
 }
