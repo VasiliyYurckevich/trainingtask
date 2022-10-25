@@ -41,7 +41,7 @@ public class Task implements Entity, Serializable {
 
     private Status status = Status.NOTSTARTED;
 
-        /**
+    /**
      * Название задачи.
      */
     private String title;

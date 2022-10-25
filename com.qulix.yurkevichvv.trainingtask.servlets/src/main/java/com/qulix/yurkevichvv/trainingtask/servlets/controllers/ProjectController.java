@@ -1,22 +1,3 @@
-/*
- * Copyright 2007 Qulix Systems, Inc. All rights reserved.
- * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
- * terms.
- * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
- *
- * This software is the confidential and proprietary information of
- * Qulix Systems. ("Confidential Information"). You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Sun.
- *
- * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
- * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
- * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
- * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
- * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
- */
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
@@ -48,7 +29,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 public class ProjectController extends HttpServlet {
 
     /**
-     * Хранит название JSP редактирования сотрудника.
+     * Хранит название JSP редактирования проекта.
      */
     private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
 
@@ -98,15 +79,14 @@ public class ProjectController extends HttpServlet {
     private static final String TASK_INDEX = "taskIndex";
 
     /**
-     * Хранит константу для обозначения задачи проекта.
+     * Хранит название JSP редактирования задачи проекта.
      */
-    private static final String TASK = "task";
+    public static final String EDIT_TASK_IN_PROJECT_JSP = "/edit-task-in-project.jsp";
 
     /**
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
-    public static final String EDIT_TASK_IN_PROJECT_JSP = "/edit-task-in-project.jsp";
 
     /**
      * Сервис для работы с Project.
@@ -209,24 +189,31 @@ public class ProjectController extends HttpServlet {
         HttpSession session = req.getSession();
         Project project = (Project) session.getAttribute(PROJECT);
 
-        Utils.setTaskDataInJsp(req, getTask(req, session, project));
+        Utils.setTaskDataInJsp(req, getTask(req, project));
 
         req.getRequestDispatcher(EDIT_TASK_IN_PROJECT_JSP).forward(req, resp);
     }
 
-    private Task getTask(HttpServletRequest req, HttpSession session, Project project) {
+    /**
+     * Находит или создает новую задачу в проекте.
+     *
+     * @param req запрос
+     * @param project проект
+     * @return задача проекта для редактирования
+     */
+    private Task getTask(HttpServletRequest req, Project project) {
         Task task;
         if (req.getParameter(TASK_INDEX) != null) {
             int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
             task = projectService.getProjectsTasks(project).get(taskIndex);
-            session.setAttribute(TASK_INDEX, taskIndex);
 
+            req.getSession().setAttribute(TASK_INDEX, taskIndex);
         }
         else {
             task =  new Task();
             task.setProjectId(project.getId());
-            session.setAttribute(TASK_INDEX, null);
 
+            req.getSession().setAttribute(TASK_INDEX, null);
         }
         return task;
     }

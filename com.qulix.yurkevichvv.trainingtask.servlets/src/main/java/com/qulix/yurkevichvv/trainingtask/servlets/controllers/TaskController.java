@@ -246,7 +246,6 @@ public class TaskController extends HttpServlet {
     private void saveTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
@@ -306,13 +305,12 @@ public class TaskController extends HttpServlet {
             Task task = (Task) session.getAttribute(TASK);
             Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
 
-            System.out.println(taskIndex);
-
             updateTaskData(paramsMap, task);
 
             if (taskIndex != null) {
                 projectService.updateTask(project, taskIndex, task);
-            } else {
+            }
+            else {
                 projectService.addTask(project, task);
             }
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
@@ -360,7 +358,7 @@ public class TaskController extends HttpServlet {
      */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
         Map<String, String> paramsMap, Map<String, String> errorsMap) {
-        System.out.println(paramsMap);
+
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(STATUS, paramsMap.get(STATUS));
         req.setAttribute(TITLE, paramsMap.get(TITLE));
@@ -400,6 +398,7 @@ public class TaskController extends HttpServlet {
      * @return список данных из формы
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
+
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put(STATUS, req.getParameter(STATUS));
         paramsMap.put(TITLE , req.getParameter(TITLE).trim());

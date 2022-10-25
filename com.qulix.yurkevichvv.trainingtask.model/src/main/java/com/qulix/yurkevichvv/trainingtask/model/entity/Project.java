@@ -101,9 +101,10 @@ public class Project implements Serializable, Entity {
                 tasksList = new ArrayList<>();
             }
             else {
-                try(Connection connection = ConnectionController.getConnection()) {
+                try (Connection connection = ConnectionController.getConnection()) {
                     tasksList = new TaskDao().getTasksInProject(id, connection);
-                } catch (SQLException e) {
+                }
+                catch (SQLException e) {
                     throw new DaoException("Error during getting tasks in project ", e);
                 }
             }
