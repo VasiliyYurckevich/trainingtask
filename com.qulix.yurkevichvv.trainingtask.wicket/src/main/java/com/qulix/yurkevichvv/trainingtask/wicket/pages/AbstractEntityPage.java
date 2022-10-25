@@ -3,9 +3,9 @@ import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 /**
  * Обобщает страницу редактирования сущностей.
@@ -50,7 +50,7 @@ public abstract class AbstractEntityPage extends BasePage {
         field.add(new CustomStringValidator(maxLength));
         form.add(field);
 
-        CustomFeedbackPanel fieldFeedbackPanel = new CustomFeedbackPanel(name + "FeedbackPanel",
+        FeedbackPanel fieldFeedbackPanel = new FeedbackPanel(name + "FeedbackPanel",
             new ComponentFeedbackMessageFilter(field));
         form.add(fieldFeedbackPanel);
     }

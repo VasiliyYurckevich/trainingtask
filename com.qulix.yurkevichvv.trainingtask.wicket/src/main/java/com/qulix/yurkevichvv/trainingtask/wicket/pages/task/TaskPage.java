@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.LambdaChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
@@ -22,7 +23,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomFeedbackPanel;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
@@ -176,7 +176,7 @@ public class TaskPage extends AbstractEntityPage {
             List.of(Status.values()), new ChoiceRenderer<Status>("statusTitle"));
         statusesDropDownChoice.setRequired(true);
 
-        CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("statusesFeedbackPanel",
+        FeedbackPanel employeesFeedbackPanel = new FeedbackPanel("statusesFeedbackPanel",
             new ComponentFeedbackMessageFilter(statusesDropDownChoice));
         form.add(employeesFeedbackPanel);
         form.add(statusesDropDownChoice);
@@ -192,7 +192,7 @@ public class TaskPage extends AbstractEntityPage {
         workTimeField.add(new RangeValidator<>(0, Integer.MAX_VALUE));
         form.add(workTimeField);
 
-        CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("workTimeFeedbackPanel",
+        FeedbackPanel workTimeFeedbackPanel = new FeedbackPanel("workTimeFeedbackPanel",
             new ComponentFeedbackMessageFilter(workTimeField));
         form.add(workTimeFeedbackPanel);
     }
@@ -207,7 +207,7 @@ public class TaskPage extends AbstractEntityPage {
         form.add(beginDateField.setRequired(true));
         beginDateField.setRequired(true);
 
-        CustomFeedbackPanel beginDateFeedbackPanel = new CustomFeedbackPanel("beginDateFeedbackPanel",
+        FeedbackPanel beginDateFeedbackPanel = new FeedbackPanel("beginDateFeedbackPanel",
             new ComponentFeedbackMessageFilter(beginDateField));
         form.add(beginDateFeedbackPanel);
 
@@ -216,7 +216,7 @@ public class TaskPage extends AbstractEntityPage {
         endDateTextField.setRequired(true);
         form.add(endDateTextField);
 
-        CustomFeedbackPanel endDateFeedbackPanel = new CustomFeedbackPanel("endDateFeedbackPanel",
+        FeedbackPanel endDateFeedbackPanel = new FeedbackPanel("endDateFeedbackPanel",
             new ComponentFeedbackMessageFilter(endDateTextField));
         form.add(endDateFeedbackPanel);
 
@@ -237,7 +237,7 @@ public class TaskPage extends AbstractEntityPage {
         projectDropDownChoice.setRequired(true).setEnabled(changeProjectOption());
         form.add(projectDropDownChoice);
 
-        CustomFeedbackPanel workTimeFeedbackPanel = new CustomFeedbackPanel("projectFeedbackPanel",
+        FeedbackPanel workTimeFeedbackPanel = new FeedbackPanel("projectFeedbackPanel",
             new ComponentFeedbackMessageFilter(projectDropDownChoice));
         form.add(workTimeFeedbackPanel);
     }
@@ -259,7 +259,7 @@ public class TaskPage extends AbstractEntityPage {
         employeesDropDownChoice.setNullValid(true);
         form.add(employeesDropDownChoice);
 
-        CustomFeedbackPanel employeesFeedbackPanel = new CustomFeedbackPanel("employeesFeedbackPanel",
+        FeedbackPanel employeesFeedbackPanel = new FeedbackPanel("employeesFeedbackPanel",
             new ComponentFeedbackMessageFilter(employeesDropDownChoice));
         form.add(employeesFeedbackPanel);
     }
