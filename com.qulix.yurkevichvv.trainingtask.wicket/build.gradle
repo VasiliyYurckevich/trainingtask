@@ -40,7 +40,6 @@ dependencies {
     implementation project(':com.qulix.yurkevichvv.trainingtask.model')
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'org.hsqldb:hsqldb:2.5.1'
-    implementation 'org.codehaus.groovy:groovy-all:3.0.11'
     compileOnly('javax:javaee-web-api:8.0.1')
     implementation 'org.apache.wicket:wicket:9.9.1'
     implementation 'org.apache.wicket:wicket-core:9.9.1'
@@ -59,20 +58,6 @@ test {
     useJUnitPlatform()
 }
 
-apply plugin: 'checkstyle'
-
-checkstyle {
-    toolVersion = '8.14'
-    configFile = rootProject.file('checkstyle/checkstyle.xml')
-}
-
-task Checkstyle(type: Checkstyle) {
-    source 'src/main/java'
-    include '**/*.java'
-
-    classpath = getProject().files()
-}
-
 sourceSets {
     main {
         resources {
@@ -84,7 +69,7 @@ sourceSets {
 
 tomcat {
     httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
 }
 
 task startWicketServer(type: TomcatRun) {

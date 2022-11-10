@@ -1,4 +1,4 @@
-import com.bmuschko.gradle.tomcat.tasks.TomcatRun
+import com.bmuschko.gradle.tomcat.tasks.*
 
 buildscript {
     repositories {
@@ -40,7 +40,6 @@ dependencies {
     implementation project(':com.qulix.yurkevichvv.trainingtask.model')
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'org.hsqldb:hsqldb:2.7.0'
-    implementation 'org.codehaus.groovy:groovy-all:3.0.12'
     compileOnly('javax:javaee-web-api:8.0.1')
     implementation 'org.apache.wicket:wicket:9.9.1'
 
@@ -59,28 +58,21 @@ test {
     useJUnitPlatform()
 }
 
-apply plugin: 'checkstyle'
-
-checkstyle {
-    toolVersion = '8.14'
-    configFile = rootProject.file('checkstyle/checkstyle.xml')
-}
-
-task Checkstyle(type: Checkstyle) {
-    source 'src/main/java'
-    include '**/*.java'
-
-    classpath = getProject().files()
-}
-
 tomcat {
     httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol = 'org.apache.coyote.ajp.Http11Nio2Protocol'
+    ajpProtocol  = 'org.apache.coyote.http11.Http11Nio2Protocol'
 }
+
 
 task startServer(type: TomcatRun) {
     httpPort = 8080
-    httpsPort = 8080
+    httpsPort = 8888
+    stopPort = 8081
+}
+
+task stopServer(type: TomcatStop){
+    stopPort = 8081
+    stopKey = "stopKey"
 }
 
 tomcatRun.contextPath = '/servlets/'

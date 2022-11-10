@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     ext {
-        hsqldbVersion = '2.5.1'
+        hsqldbVersion = "2.5.1"
 
     }
     dependencies {
@@ -11,69 +11,60 @@ buildscript {
     }
 }
 
-
-
-plugins {
-    id 'java'
-    id 'war'
+plugins{
+    id "java"
 }
-group 'com.qulix.yurkevichvv'
-version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
-ext {
-    hsqldbVersion = '2.5.1'
-    junitVersion = '5.8.2'
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
-}
-
 
 dependencies {
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'org.hsqldb:hsqldb:2.5.1'
-    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
-    compileOnly('javax:javaee-web-api:8.0.1')
-    implementation group: 'jstl', name: 'jstl', version: '1.2'
-
+    compileOnly "javax.servlet:javax.servlet-api:4.0.1"
+    implementation "org.hsqldb:hsqldb:2.5.1"
+    compileOnly("javax:javaee-web-api:8.0.1")
+    implementation group: "jstl", name: "jstl", version: "1.2"
 }
 
 test {
     useJUnitPlatform()
 }
 
-apply from: 'database.gradle'
+apply from: "database.gradle"
 
-apply plugin: 'checkstyle'
-
-checkstyle {
-    toolVersion = '8.14'
-    configFile = rootProject.file('checkstyle/checkstyle.xml')
-}
-
-task Checkstyle(type: Checkstyle) {
-    source 'src/main/java'
-    include '**/*.java'
-
-    classpath = rootProject.files()
-}
 
 sourceSets {
     main {
         resources {
-            srcDirs += ['src/main/java','src/main/webapp']
+            srcDirs += ["src/main/java","src/main/webapp"]
             includes = ["**/*.html","**/*.css"]
         }
     }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "war"
+    apply plugin: "checkstyle"
+
+    group "com.qulix.yurkevichvv"
+    version "1.0-SNAPSHOT"
+
+    checkstyle {
+        toolVersion = "8.14"
+        configFile = rootProject.file("checkstyle/checkstyle.xml")
+    }
+
+    task Checkstyle(type: Checkstyle) {
+        source "src/main/java"
+        include "**/*.java"
+
+        classpath = getProject().files()
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
 }

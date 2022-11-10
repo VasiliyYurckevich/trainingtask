@@ -1,12 +1,3 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath "org.hsqldb:hsqldb:2.5.1"
-    }
-}
 
 plugins {
     id 'java'
@@ -23,10 +14,7 @@ ext {
     junitVersion = '5.9.0'
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
+
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -44,14 +32,4 @@ test {
 }
 apply plugin: 'checkstyle'
 
-checkstyle {
-    toolVersion = '8.14'
-    configFile = rootProject.file('checkstyle/checkstyle.xml')
-}
 
-task Checkstyle(type: Checkstyle) {
-    source 'src/main/java'
-    include '**/*.java'
-
-    classpath = getProject().files()
-}
