@@ -39,8 +39,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
  */
 public class ProjectDao implements IDao<Project>, Serializable {
 
-    private Integer generatedKey = null;
-
     /**
      * Хранит константу для колонки ID проекта в БД.
      */
@@ -91,6 +89,11 @@ public class ProjectDao implements IDao<Project>, Serializable {
      * Сообщение при отсутствии проекта.
      */
     public static final String NOT_FOUND = "A project with such data was not found";
+
+    /**
+     * Сгенерированный Бд ключ при добавлении нового проекта.
+     */
+    private Integer generatedKey = null;
 
     @Override
     public void add(Project project, Connection connection) throws DaoException {

@@ -286,7 +286,6 @@ public class ProjectController extends HttpServlet {
         req.getRequestDispatcher("/projects.jsp").forward(req, resp);
     }
 
-
     /**
      * Изменяет данные проекта в БД.
      *

@@ -78,7 +78,7 @@ public class ConnectionController implements Serializable {
      * @param connection соединение
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public static void rollbackConnection(Connection connection) {
+    public static void rollbackConnection(Connection connection) throws DaoException {
         try {
             connection.rollback();
         }
