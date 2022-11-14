@@ -1,4 +1,4 @@
-import com.bmuschko.gradle.tomcat.tasks.TomcatRun
+import com.bmuschko.gradle.tomcat.tasks.*
 
 buildscript {
     repositories {
@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.hsqldb:hsqldb:${this.hsqldbVersion}"
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
     }
 }
 
@@ -23,17 +23,17 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.8.2'
+    junitVersion = "5.9.0"
+    tomcatVersion = "9.0.56"
+    cargoVersion = "1.9.10"
+    tomcatStopPort = 6666
+    tomcatStopKey = "wicketStopKey"
+
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
 }
 
 dependencies {
@@ -68,13 +68,20 @@ sourceSets {
 }
 
 tomcat {
-    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+    httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
+    ajpProtocol  = "org.apache.coyote.http11.Http11Nio2Protocol"
 }
 
 task startWicketServer(type: TomcatRun) {
-    httpPort = 8090
-    httpsPort = 8090
+    httpPort = 8888
+    stopPort = tomcatStopPort
+    stopKey = tomcatStopKey
+    contextPath = "/wicket"
+    daemon = true
 }
 
-tomcatRun.contextPath = '/wicket/'
+task stopWicketServer(type: TomcatStop){
+    stopPort = tomcatStopPort
+    stopKey = tomcatStopKey
+    finalizedBy tomcatStop
+}

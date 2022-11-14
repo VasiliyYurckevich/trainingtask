@@ -14,14 +14,6 @@ ext {
     junitVersion = '5.9.0'
 }
 
-
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
-}
-
-
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'

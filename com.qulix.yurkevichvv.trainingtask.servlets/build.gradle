@@ -6,24 +6,30 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.hsqldb:hsqldb:2.5.1"
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
     }
 }
 
 plugins {
-    id 'java'
-    id 'war'
+    id "java"
+    id "war"
     id "com.bmuschko.tomcat" version "2.7.0"
 }
-group 'com.qulix.yurkevichvv.trainingtask'
-version '1.0-SNAPSHOT'
+
+group "com.qulix.yurkevichvv.trainingtask"
+version "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 ext {
-    junitVersion = '5.9.0'
+    junitVersion = "5.9.0"
+    tomcatVersion = "9.0.56"
+    cargoVersion = "1.9.10"
+    tomcatStopPort = 8090
+    tomcatStopKey = "servletStopKey"
+
 }
 
 java {
@@ -31,27 +37,22 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
-}
-
 dependencies {
-    implementation project(':com.qulix.yurkevichvv.trainingtask.model')
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'org.hsqldb:hsqldb:2.7.0'
-    compileOnly('javax:javaee-web-api:8.0.1')
-    implementation 'org.apache.wicket:wicket:9.9.1'
+    implementation project(":com.qulix.yurkevichvv.trainingtask.model")
+    compileOnly "javax.servlet:javax.servlet-api:4.0.1"
+    implementation "org.hsqldb:hsqldb:2.7.0"
+    compileOnly("javax:javaee-web-api:8.0.1")
+    implementation "org.apache.wicket:wicket:9.9.1"
 
-    implementation group: 'jstl', name: 'jstl', version: '1.2'
-    implementation group: 'taglibs', name: 'standard', version: '1.1.2'
+    implementation group: "jstl", name: "jstl", version: "1.2"
+    implementation group: "taglibs", name: "standard", version: "1.1.2"
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
-    def tomcatVersion = '9.0.56'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
 }
 
 test {
@@ -59,20 +60,20 @@ test {
 }
 
 tomcat {
-    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol  = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
+    ajpProtocol  = "org.apache.coyote.http11.Http11Nio2Protocol"
 }
 
-
 task startServer(type: TomcatRun) {
-    httpPort = 8080
-    httpsPort = 8888
-    stopPort = 8081
+    httpPort = 8070
+    stopPort = tomcatStopPort
+    stopKey = tomcatStopKey
+    contextPath = "/servlets"
+    daemon = true
 }
 
 task stopServer(type: TomcatStop){
-    stopPort = 8081
-    stopKey = "stopKey"
+    stopPort = tomcatStopPort
+    stopKey = tomcatStopKey
+    finalizedBy tomcatStop
 }
-
-tomcatRun.contextPath = '/servlets/'
