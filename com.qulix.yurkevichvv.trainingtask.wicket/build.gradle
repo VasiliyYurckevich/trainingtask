@@ -28,7 +28,7 @@ ext {
     cargoVersion = "1.9.10"
     tomcatStopPort = 6666
     tomcatStopKey = "wicketStopKey"
-
+    tomcatAjpPort = 1235
 }
 
 java {
@@ -72,8 +72,9 @@ tomcat {
     ajpProtocol  = "org.apache.coyote.http11.Http11Nio2Protocol"
 }
 
-task startWicketServer(type: TomcatRun) {
+task startWicketServer(type: TomcatRunWar) {
     httpPort = 8888
+    ajpPort = tomcatAjpPort
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
     contextPath = "/wicket"
@@ -83,5 +84,4 @@ task startWicketServer(type: TomcatRun) {
 task stopWicketServer(type: TomcatStop){
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
-    finalizedBy tomcatStop
 }
