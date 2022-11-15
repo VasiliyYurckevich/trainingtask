@@ -83,7 +83,7 @@ public class EmployeePage extends AbstractEntityPage {
             .add(new PreventSubmitOnEnterBehavior());
         form.setDefaultButton(button);
 
-        Link<Void> cancelButton = new Link<Void>("cancel") {
+        Link<Void> cancelButton = new Link<>("cancel") {
             @Override
             public void onClick() {
                 onChangesSubmitted();

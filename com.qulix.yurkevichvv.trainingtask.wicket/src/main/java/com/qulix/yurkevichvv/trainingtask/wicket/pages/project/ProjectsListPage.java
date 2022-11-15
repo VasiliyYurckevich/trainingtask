@@ -62,7 +62,7 @@ public class ProjectsListPage extends BasePage {
      *
      * @author Q-YVV
      */
-    private class ProjectCustomListView extends CustomListView<Project> {
+    private static class ProjectCustomListView extends CustomListView<Project> {
 
         /**
          * Конструктор.

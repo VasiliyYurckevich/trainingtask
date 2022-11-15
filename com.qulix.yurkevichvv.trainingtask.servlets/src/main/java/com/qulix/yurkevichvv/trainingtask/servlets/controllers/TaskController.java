@@ -150,11 +150,6 @@ public class TaskController extends HttpServlet {
     private TaskService taskService = new TaskService();
 
     @Override
-    public void init() throws ServletException, NullPointerException {
-        super.init();
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {

@@ -191,9 +191,6 @@ public class TaskDao implements IDao<Task>, Serializable {
         catch (DaoException | SQLException e) {
             throw new DaoException("Error when getting project tasks from the database", e);
         }
-        finally {
-            preparedStatementHelper.close();
-        }
     }
 
     @Override

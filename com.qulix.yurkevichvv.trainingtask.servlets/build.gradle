@@ -59,6 +59,7 @@ test {
     useJUnitPlatform()
 }
 
+/*
 tomcat {
     httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
     ajpProtocol  = "org.apache.coyote.http11.Http11Nio2Protocol"
@@ -77,3 +78,4 @@ task stopServer(type: TomcatStop){
     stopKey = tomcatStopKey
     finalizedBy tomcatStop
 }
+*/

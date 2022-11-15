@@ -90,23 +90,16 @@ public class EmployeeController extends HttpServlet {
     private final EmployeeService employeeService = new EmployeeService();
 
     @Override
-    public void init() throws ServletException, NullPointerException {
-        super.init();
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
 
-            switch (action) {
-                case "/save":
-                    saveEmployee(req, resp);
-                    break;
-                default:
-                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
+            if (action.equals("/save")) {
+                saveEmployee(req, resp);
+            } else {
+                throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }
         catch (IOException | ServletException e) {

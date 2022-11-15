@@ -92,7 +92,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             }
         }
         catch (DaoException e) {
-            throw new DaoException(e);
+            throw e;
         }
         
     }
@@ -114,7 +114,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             }
         }
         catch (DaoException e) {
-            throw new DaoException(e);
+            throw e;
         }
         
     }

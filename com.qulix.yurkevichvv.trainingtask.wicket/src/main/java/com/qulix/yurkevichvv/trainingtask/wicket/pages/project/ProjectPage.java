@@ -131,7 +131,7 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new PreventSubmitOnEnterBehavior());
         form.setDefaultButton(button);
 
-        Link<Void> cancelButton = new Link<Void>("cancel") {
+        Link<Void> cancelButton = new Link<>("cancel") {
             @Override
             public void onClick() {
                 setResponsePage(ProjectsListPage.class);
@@ -219,7 +219,6 @@ public class ProjectPage extends AbstractEntityPage {
                 })
                 .add(new EditLink("editLink", getTaskPage(item)));
         }
-
 
         /**
          * Генерирует страницу редактирования задачи.

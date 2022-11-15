@@ -37,7 +37,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
  * @see IDao
  * @see Project
  */
-public class ProjectDao implements IDao<Project>, Serializable {
+public class ProjectDao implements IDao<Project> {
 
     /**
      * Хранит константу для колонки ID проекта в БД.
@@ -148,7 +148,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
     }
 
     @Override
-    public List<Project> getAll(Connection connection) throws DaoException, SQLException {
+    public List<Project> getAll(Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_PROJECTS, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -161,9 +161,6 @@ public class ProjectDao implements IDao<Project>, Serializable {
         }
         catch (SQLException | DaoException e) {
             throw new DaoException(e);
-        }
-        finally {
-            connection.close();
         }
     }
 
@@ -188,7 +185,7 @@ public class ProjectDao implements IDao<Project>, Serializable {
 
 
     @Override
-    public Project getById(Integer id, Connection connection) throws DaoException, SQLException {
+    public Project getById(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection)) {
             preparedStatementHelper.setInt(ID, id);
@@ -204,9 +201,6 @@ public class ProjectDao implements IDao<Project>, Serializable {
         }
         catch (DaoException | SQLException e) {
             throw new DaoException(NOT_FOUND, e);
-        }
-        finally {
-            connection.close();
         }
     }
 

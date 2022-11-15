@@ -44,7 +44,7 @@ public interface IDao<T extends Entity> {
      * @return Список сущностей
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    List<T> getAll(Connection connection) throws DaoException, SQLException;
+    List<T> getAll(Connection connection) throws DaoException;
 
     /**
      * Находит сущность по ее идентификатору.
@@ -53,5 +53,5 @@ public interface IDao<T extends Entity> {
      * @return Сущность
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    T getById(Integer id, Connection connection) throws DaoException, SQLException;
+    T getById(Integer id, Connection connection) throws DaoException;
 }

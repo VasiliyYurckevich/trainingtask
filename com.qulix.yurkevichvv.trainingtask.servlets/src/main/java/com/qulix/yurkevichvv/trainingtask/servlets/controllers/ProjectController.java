@@ -94,22 +94,15 @@ public class ProjectController extends HttpServlet {
     private final ProjectService projectService = new ProjectService();
 
     @Override
-    public void init() throws ServletException, NullPointerException {
-        super.init();
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
             String action = req.getParameter(ACTION);
 
-            switch (action) {
-                case "/save":
-                    updateProject(req, resp);
-                    break;
-                default:
-                    throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
+            if (action.equals("/save")) {
+                updateProject(req, resp);
+            } else {
+                throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
             }
         }
         catch (IOException | ServletException e) {
