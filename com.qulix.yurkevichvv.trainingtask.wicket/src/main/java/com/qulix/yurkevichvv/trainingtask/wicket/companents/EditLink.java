@@ -1,5 +1,8 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.wicket.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.EntityPageFactory;
 import org.apache.wicket.markup.html.link.Link;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
@@ -9,25 +12,26 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
  *
  * @author Q-YVV
  */
-public class EditLink<T extends AbstractEntityPage> extends Link<T> {
+public class EditLink<T extends Entity> extends Link<T> {
 
     /**
      * Страница для перехода.
      */
-    private final AbstractEntityPage page;
+    private final T entity;
 
     /**
      * Конструктор.
      *
      * @param id идентификатор
      */
-    public EditLink(String id, AbstractEntityPage page) {
+    public EditLink(String id, T entity) {
         super(id);
-        this.page = page;
+        this.entity = entity;
     }
 
     @Override
     public void onClick() {
+        AbstractEntityPage page = new EntityPageFactory().getPage(entity);
         setResponsePage(page);
     }
 }

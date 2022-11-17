@@ -38,7 +38,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
 
     @Override
     protected void populateItem(ListItem<T> item) {
-        item.add(new EditLink("editLink", getNewPage(item)))
+        item.add(new EditLink<>("editLink", item.getModelObject()))
             .add(new DeleteLink<>("deleteLink", service, item.getModelObject()));
     }
 

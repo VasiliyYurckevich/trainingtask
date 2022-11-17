@@ -16,7 +16,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
  *
  * @author Q-YVV
  */
-public class EmployeePage extends AbstractEntityPage {
+    public class EmployeePage extends AbstractEntityPage {
 
     /**
      * Идентификатор элемента формы.

@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -13,7 +14,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidato
  *
  * @author Q-YVV
  */
-public abstract class AbstractEntityPage extends BasePage {
+public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
     /**
      * Конструктор.
@@ -37,7 +38,7 @@ public abstract class AbstractEntityPage extends BasePage {
      *
      * @param form форма для добавления
      */
-    protected abstract void addFormComponents(Form form);
+    protected abstract void addFormComponents(Form<T> form);
 
     /**
      * Добавляет поле и фидбек панель.
