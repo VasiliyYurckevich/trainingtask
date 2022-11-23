@@ -2,6 +2,9 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPageFactory;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -102,6 +105,11 @@ public class TasksListPage extends BasePage {
          */
         public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService service) {
             super("tasks", tasks, service);
+        }
+
+        @Override
+        protected AbstractEntityPageFactory<Task> getPageFactory() {
+            return new TaskPageFactory();
         }
 
         @Override

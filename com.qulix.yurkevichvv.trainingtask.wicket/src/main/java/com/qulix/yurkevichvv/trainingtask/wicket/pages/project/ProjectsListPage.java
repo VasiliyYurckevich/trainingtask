@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -72,6 +73,11 @@ public class ProjectsListPage extends BasePage {
          */
         public ProjectCustomListView(IModel<List<Project>> projects, IService projectService) {
             super("projects", projects, projectService);
+        }
+
+        @Override
+        protected AbstractEntityPageFactory<Project> getPageFactory() {
+            return new ProjectPageFactory();
         }
 
         @Override

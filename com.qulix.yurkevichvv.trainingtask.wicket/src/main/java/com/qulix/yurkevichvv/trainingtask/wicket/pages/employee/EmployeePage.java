@@ -54,7 +54,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 
         get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
 
-        Form employeeForm = new Form<>(FORM, new CompoundPropertyModel<>(employeeModel)) {
+        Form employeeForm = new Form<>(FORM,employeeModel) {
             @Override
                 public void onSubmit() {
                 onSubmitting();

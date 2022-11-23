@@ -1,37 +1,42 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.wicket.AbstractEntityPageFactory;
-import com.qulix.yurkevichvv.trainingtask.wicket.EntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
 import org.apache.wicket.markup.html.link.Link;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+
+import java.io.Serializable;
 
 /**
  * Ссылка для редактирования сущности.
  *
  * @author Q-YVV
  */
-public class EditLink<T extends Entity> extends Link<T> {
+public class EditLink<T extends Entity & Serializable> extends Link<T> {
 
     /**
      * Страница для перехода.
      */
-    private final T entity;
+    private final CompoundPropertyModel<T> model;
 
+    private final AbstractEntityPageFactory<T> pageFactory;
     /**
      * Конструктор.
      *
      * @param id идентификатор
      */
-    public EditLink(String id, T entity) {
+    public EditLink(String id, CompoundPropertyModel<T> model, AbstractEntityPageFactory<T> pageFactory) {
         super(id);
-        this.entity = entity;
+        this.model = model;
+        this.pageFactory = pageFactory;
     }
 
     @Override
     public void onClick() {
-        AbstractEntityPage page = new EntityPageFactory().getPage(entity);
-        setResponsePage(page);
+        setResponsePage(pageFactory.create(model));
     }
 }

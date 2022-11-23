@@ -2,6 +2,8 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPageFactory;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -184,6 +186,8 @@ public class ProjectPage extends AbstractEntityPage {
          */
         private final ProjectService service;
 
+        private final AbstractEntityPageFactory pageFactory;
+
         /**
          * Конструктор.
          *
@@ -197,7 +201,10 @@ public class ProjectPage extends AbstractEntityPage {
             super("tasks", tasks);
             this.projectModel = projectModel;
             this.service = service;
+            this.pageFactory = new TaskPageFactory();
         }
+
+
 
         @Override
         protected void populateItem(ListItem<Task> item) {
@@ -217,7 +224,7 @@ public class ProjectPage extends AbstractEntityPage {
                         service.deleteTask(projectModel.getObject(), task);
                     }
                 })
-                .add(new EditLink("editLink", getTaskPage(item)));
+                .add(new EditLink("editLink", CompoundPropertyModel.of(item), pageFactory));
         }
 
         /**

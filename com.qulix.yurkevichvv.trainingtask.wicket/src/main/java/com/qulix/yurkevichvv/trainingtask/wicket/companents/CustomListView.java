@@ -2,9 +2,11 @@ package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
@@ -24,6 +26,8 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      */
     private final IService service;
 
+    private final AbstractEntityPageFactory<T> pageFactory;
+
     /**
      * Конструктор.
      *
@@ -34,11 +38,16 @@ public class CustomListView<T extends Entity> extends ListView<T> {
     public CustomListView(String id, IModel<? extends List<T>> model, IService service) {
         super(id, model);
         this.service = service;
+        pageFactory = getPageFactory();
+    }
+
+    protected AbstractEntityPageFactory<T> getPageFactory() {
+        return null;
     }
 
     @Override
     protected void populateItem(ListItem<T> item) {
-        item.add(new EditLink<>("editLink", item.getModelObject()))
+        item.add(new EditLink("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory))
             .add(new DeleteLink<>("deleteLink", service, item.getModelObject()));
     }
 

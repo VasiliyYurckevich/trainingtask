@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -48,7 +49,7 @@ public class EmployeesListPage extends BasePage {
                 return service.findAll();
             }
         };
-        ListView<Employee> employeeListView = new EmployeeListView(employees, new EmployeeService());
+        ListView<Employee> employeeListView = new EmployeeCustomListView(employees, new EmployeeService());
         add(employeeListView);
 
         EmployeePage employeePage = new EmployeePage(new Model<>(new Employee()));
@@ -65,7 +66,7 @@ public class EmployeesListPage extends BasePage {
      *
      * @author Q-YVV
      */
-    private static class EmployeeListView extends CustomListView<Employee> {
+    private static class EmployeeCustomListView extends CustomListView<Employee> {
 
         /**
          * Конструктор.
@@ -73,8 +74,13 @@ public class EmployeesListPage extends BasePage {
          * @param employees модель списка сотрудников
          * @param service сервис для работы с сущностями
          */
-        public EmployeeListView(IModel<List<Employee>> employees, IService service) {
+        public EmployeeCustomListView(IModel<List<Employee>> employees, IService service) {
             super("employees", employees, service);
+        }
+
+        @Override
+        protected AbstractEntityPageFactory<Employee> getPageFactory() {
+            return new EmployeePageFactory();
         }
 
         @Override
