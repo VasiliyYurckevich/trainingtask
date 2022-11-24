@@ -6,12 +6,10 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 
 /**
  * Обобщенный ListView для сущностей.
@@ -47,18 +45,8 @@ public class CustomListView<T extends Entity> extends ListView<T> {
 
     @Override
     protected void populateItem(ListItem<T> item) {
-        item.add(new EditLink("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory))
-            .add(new DeleteLink<>("deleteLink", service, item.getModelObject()));
-    }
-
-    /**
-     * Определяет страницу редактирования сущности для перенаправления EditLink.
-     *
-     * @param item элемент списка
-     * @return страница редактирования сущности
-     */
-    public AbstractEntityPage getNewPage(ListItem<T> item) {
-        return null;
+        item.add(new EditLink("editLink", pageFactory, item.getModel()))
+            .add(new DeleteLink<>("deleteLink", service, item.getModel()));
     }
 
     /**
@@ -76,7 +64,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         /**
          * Элемент ListView.
          */
-        private final T entity;
+        private final IModel<T> entityModel;
 
         /**
          * Конструктор.
@@ -84,15 +72,15 @@ public class CustomListView<T extends Entity> extends ListView<T> {
          * @param id идентификатор
          * @param entity элемент ListView
          */
-        public DeleteLink(String id, IService service, T entity) {
+        public DeleteLink(String id, IService service, IModel<T> entityModel) {
             super(id);
-            this.entity = entity;
+            this.entityModel = entityModel;
             this.service = service;
         }
 
         @Override
         public void onClick() {
-            service.delete(entity.getId());
+            service.delete(entityModel.getObject().getId());
         }
     }
 }

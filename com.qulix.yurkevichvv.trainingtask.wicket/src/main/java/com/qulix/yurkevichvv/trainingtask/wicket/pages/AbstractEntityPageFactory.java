@@ -7,5 +7,5 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import java.io.Serializable;
 
 public interface AbstractEntityPageFactory<T extends Entity> extends Serializable {
-    AbstractEntityPage<T> create(CompoundPropertyModel<T> entityModel);
+    AbstractEntityPage<T> createPage(CompoundPropertyModel<T> entityModel);
 }

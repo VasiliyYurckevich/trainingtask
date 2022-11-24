@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
@@ -16,7 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
  *
  * @author Q-YVV
  */
-    public class EmployeePage extends AbstractEntityPage {
+public class EmployeePage extends AbstractEntityPage {
 
     /**
      * Идентификатор элемента формы.
@@ -54,7 +53,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 
         get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
 
-        Form employeeForm = new Form<>(FORM,employeeModel) {
+        Form employeeForm = new Form<>(FORM, employeeModel) {
             @Override
                 public void onSubmit() {
                 onSubmitting();

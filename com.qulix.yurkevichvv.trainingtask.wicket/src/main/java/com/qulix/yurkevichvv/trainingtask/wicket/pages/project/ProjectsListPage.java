@@ -41,12 +41,7 @@ public class ProjectsListPage extends BasePage {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Проекты");
 
-        LoadableDetachableModel<List<Project>> projects = new LoadableDetachableModel<>() {
-            @Override
-            protected List<Project> load() {
-                return service.findAll();
-            }
-        };
+        LoadableDetachableModel<List<Project>> projects = new ProjectListLoadableModel();
         CustomListView<Project> projectListView = new ProjectCustomListView(projects, service);
         add(projectListView);
 
@@ -68,7 +63,7 @@ public class ProjectsListPage extends BasePage {
         /**
          * Конструктор.
          *
-         * @param projects модель списка проектов
+         * @param projects       модель списка проектов
          * @param projectService сервис для работы с проектами
          */
         public ProjectCustomListView(IModel<List<Project>> projects, IService projectService) {
@@ -87,10 +82,12 @@ public class ProjectsListPage extends BasePage {
             item.add(new Label("title", project.getTitle()))
                 .add(new Label("description", project.getDescription()));
         }
+    }
 
+    private class ProjectListLoadableModel extends LoadableDetachableModel<List<Project>> {
         @Override
-        public AbstractEntityPage getNewPage(ListItem<Project> item) {
-            return new ProjectPage(item.getModel());
+        protected List<Project> load() {
+            return service.findAll();
         }
     }
 }

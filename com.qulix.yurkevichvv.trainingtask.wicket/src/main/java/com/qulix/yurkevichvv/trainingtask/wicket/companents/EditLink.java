@@ -21,7 +21,7 @@ public class EditLink<T extends Entity & Serializable> extends Link<T> {
     /**
      * Страница для перехода.
      */
-    private final CompoundPropertyModel<T> model;
+    private final IModel<T> model;
 
     private final AbstractEntityPageFactory<T> pageFactory;
     /**
@@ -29,7 +29,7 @@ public class EditLink<T extends Entity & Serializable> extends Link<T> {
      *
      * @param id идентификатор
      */
-    public EditLink(String id, CompoundPropertyModel<T> model, AbstractEntityPageFactory<T> pageFactory) {
+    public EditLink(String id,  AbstractEntityPageFactory<T> pageFactory, IModel<T> model) {
         super(id);
         this.model = model;
         this.pageFactory = pageFactory;
@@ -37,6 +37,6 @@ public class EditLink<T extends Entity & Serializable> extends Link<T> {
 
     @Override
     public void onClick() {
-        setResponsePage(pageFactory.create(model));
+        setResponsePage(pageFactory.createPage(CompoundPropertyModel.of(model)));
     }
 }

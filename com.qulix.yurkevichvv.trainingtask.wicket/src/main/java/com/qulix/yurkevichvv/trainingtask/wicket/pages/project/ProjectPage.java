@@ -2,8 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPageFactory;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -22,7 +20,9 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPageFactory;
 
 /**
  * Страница добавления проекта.
@@ -150,12 +150,7 @@ public class ProjectPage extends AbstractEntityPage {
      * Добавляет список задач проекта.
      */
     private void addTaskList() {
-        LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<>() {
-            @Override
-            protected List<Task> load() {
-                return service.getProjectsTasks(projectModel.getObject());
-            }
-        };
+        LoadableDetachableModel<List<Task>> tasks = new TaskListLoadableDetachableModel();
 
         ListView<Task> taskListView = new TaskListView(tasks, projectModel, service);
         add(taskListView);
@@ -204,8 +199,6 @@ public class ProjectPage extends AbstractEntityPage {
             this.pageFactory = new TaskPageFactory();
         }
 
-
-
         @Override
         protected void populateItem(ListItem<Task> item) {
             final Task task = item.getModelObject();
@@ -218,39 +211,29 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new Label("projectTitle", projectModel.getObject().getTitle()))
                 .add(new Label(EMPLOYEE_NAME, task.getEmployeeId() != null ?
                     new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""))
-                .add(new Link<Void>("deleteLink") {
-                    @Override
-                    public void onClick() {
-                        service.deleteTask(projectModel.getObject(), task);
-                    }
-                })
-                .add(new EditLink("editLink", CompoundPropertyModel.of(item), pageFactory));
+                .add(new DeleteInProjectLink(item.getModel()))
+                .add(new EditLink("editLink", pageFactory, item.getModel()));
         }
 
-        /**
-         * Генерирует страницу редактирования задачи.
-         *
-         * @param item задача, элемент списка
-         * @return страницу редактирования задачи
-         */
-        private TaskPage getTaskPage(ListItem<Task> item) {
-            return new TaskPage(item.getModel()) {
+        private class DeleteInProjectLink extends Link<Void> {
+            private final IModel<Task> taskModel;
 
-                @Override
-                protected void onSubmitting() {
-                    service.updateTask(projectModel.getObject(), item.getIndex(), getTaskModel().getObject());
-                }
+            public DeleteInProjectLink(IModel<Task> taskModel) {
+                super("deleteLink");
+                this.taskModel = taskModel;
+            }
 
-                @Override
-                protected void onChangesSubmitted() {
-                    setResponsePage(ProjectPage.this);
-                }
+            @Override
+            public void onClick() {
+                service.deleteTask(projectModel.getObject(), taskModel.getObject());
+            }
+        }
+    }
 
-                @Override
-                protected boolean changeProjectOption() {
-                    return false;
-                }
-            };
+    private class TaskListLoadableDetachableModel extends LoadableDetachableModel<List<Task>> {
+        @Override
+        protected List<Task> load() {
+            return service.getProjectsTasks(projectModel.getObject());
         }
     }
 }

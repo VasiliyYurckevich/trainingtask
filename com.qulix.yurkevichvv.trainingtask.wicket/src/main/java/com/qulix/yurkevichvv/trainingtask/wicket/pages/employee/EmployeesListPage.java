@@ -92,10 +92,5 @@ public class EmployeesListPage extends BasePage {
                 .add(new Label("patronymic", employee.getPatronymic()))
                 .add(new Label("post", employee.getPost()));
         }
-
-        @Override
-        public AbstractEntityPage getNewPage(ListItem<Employee> item) {
-            return new EmployeePage(item.getModel());
-        }
     }
 }

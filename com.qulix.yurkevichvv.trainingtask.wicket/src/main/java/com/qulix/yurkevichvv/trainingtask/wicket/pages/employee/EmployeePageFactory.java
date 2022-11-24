@@ -7,7 +7,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 
 public class EmployeePageFactory implements AbstractEntityPageFactory<Employee> {
     @Override
-    public AbstractEntityPage create(CompoundPropertyModel<Employee> entityModel) {
+    public AbstractEntityPage createPage(CompoundPropertyModel<Employee> entityModel) {
         return new EmployeePage(entityModel);
     }
 }

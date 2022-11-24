@@ -7,7 +7,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 
 public class TaskPageFactory implements AbstractEntityPageFactory<Task> {
     @Override
-    public AbstractEntityPage<Task> create(CompoundPropertyModel<Task> entityModel) {
+    public AbstractEntityPage<Task> createPage(CompoundPropertyModel<Task> entityModel) {
         return new TaskPage(entityModel);
     }
 }

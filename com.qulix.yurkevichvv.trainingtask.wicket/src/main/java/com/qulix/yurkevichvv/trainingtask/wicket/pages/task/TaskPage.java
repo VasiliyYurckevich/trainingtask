@@ -227,7 +227,7 @@ public class TaskPage extends AbstractEntityPage {
         List<Project> projects = new ProjectService().findAll();
         ProjectIModel model = new ProjectIModel(projects, form.getModelObject());
 
-        DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId" , model,
+        DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId", model,
             projects, new ChoiceRenderer<>(TITLE));
         projectDropDownChoice.setRequired(true).setEnabled(changeProjectOption());
         form.add(projectDropDownChoice);

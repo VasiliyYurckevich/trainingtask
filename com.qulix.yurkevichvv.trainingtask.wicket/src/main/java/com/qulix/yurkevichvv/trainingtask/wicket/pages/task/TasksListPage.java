@@ -45,26 +45,10 @@ public class TasksListPage extends BasePage {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Задачи");
 
-        Link<WebPage> addTask = new Link<>("addTask") {
-            @Override
-            public void onClick() {
-                setResponsePage(getTaskPage(new Task()));
-            }
-
-            @Override
-            protected void onConfigure() {
-                super.onConfigure();
-                this.setEnabled(!new ProjectService().findAll().isEmpty());
-            }
-        };
+        Link<WebPage> addTask = new AddTaskLink();
         add(addTask);
 
-        LoadableDetachableModel<List<Task>> tasks = new LoadableDetachableModel<>() {
-            @Override
-            protected List<Task> load() {
-                return service.findAll();
-            }
-        };
+        LoadableDetachableModel<List<Task>> tasks = new TaskListLoadableDetachableModel();
         CustomListView<Task> taskListView = new TaskCustomListView(tasks, service);
         add(taskListView);
     }
@@ -76,18 +60,7 @@ public class TasksListPage extends BasePage {
      * @return экземпляр TaskPage дял данной задачи
      */
     private TaskPage getTaskPage(Task task) {
-
-        return new TaskPage(new Model<>(task)) {
-            @Override
-            protected void onSubmitting() {
-                taskService.save(getTaskModel().getObject());
-            }
-
-            @Override
-            protected void onChangesSubmitted() {
-                setResponsePage(TasksListPage.this);
-            }
-        };
+        return new NewTaskPage(task);
     }
 
     /**
@@ -127,9 +100,45 @@ public class TasksListPage extends BasePage {
                 task.getEmployeeId() != null ? new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""));
         }
 
+    }
+
+    private class TaskListLoadableDetachableModel extends LoadableDetachableModel<List<Task>> {
         @Override
-        public AbstractEntityPage getNewPage(ListItem<Task> item) {
-            return TasksListPage.this.getTaskPage(item.getModelObject());
+        protected List<Task> load() {
+            return service.findAll();
+        }
+    }
+
+    private class AddTaskLink extends Link<WebPage> {
+        public AddTaskLink() {
+            super("addTask");
+        }
+
+        @Override
+        public void onClick() {
+            setResponsePage(getTaskPage(new Task()));
+        }
+
+        @Override
+        protected void onConfigure() {
+            super.onConfigure();
+            this.setEnabled(!new ProjectService().findAll().isEmpty());
+        }
+    }
+
+    private class NewTaskPage extends TaskPage {
+        public NewTaskPage(Task task) {
+            super(new Model<>(task));
+        }
+
+        @Override
+        protected void onSubmitting() {
+            taskService.save(getTaskModel().getObject());
+        }
+
+        @Override
+        protected void onChangesSubmitted() {
+            setResponsePage(TasksListPage.this);
         }
     }
 }
