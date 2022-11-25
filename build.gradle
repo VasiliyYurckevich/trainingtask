@@ -8,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "org.hsqldb:hsqldb:${hsqldbVersion}"
+        classpath "com.bmuschko:gradle-cargo-plugin:2.1.1"
     }
 }
 
@@ -41,6 +42,23 @@ sourceSets {
         }
     }
 }
+apply plugin: "com.bmuschko.cargo"
+
+cargo {
+    containerId = "tomcat9x"
+    port = 9090
+
+    deployable {
+        file = file("../com.qulix.yurkevichvv.trainingtask.servlets/build/libs/com.qulix.yurkevichvv.trainingtask.servlets-1.0-SNAPSHOT.war")
+        context = "servlets"
+    }
+
+    deployable {
+        file = file("../com.qulix.yurkevichvv.trainingtask.wicket/build/libs/com.qulix.yurkevichvv.trainingtask.wicket-1.0-SNAPSHOT.war")
+        context = "wicket"
+    }
+
+}
 
 allprojects {
     apply plugin: "java"
@@ -68,7 +86,6 @@ allprojects {
     }
 
     tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
+        options.encoding = "UTF-8"
     }
-
 }

@@ -1,3 +1,4 @@
+import com.bmuschko.gradle.tomcat.embedded.Tomcat9xServer
 import com.bmuschko.gradle.tomcat.tasks.*
 
 buildscript {
@@ -6,17 +7,17 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
+        classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
     }
 }
 
 plugins {
-    id 'java'
-    id 'war'
+    id "java"
+    id "war"
     id "com.bmuschko.tomcat" version "2.7.0"
 }
-group 'com.qulix.yurkevichvv.trainingtask'
-version '1.0-SNAPSHOT'
+group "com.qulix.yurkevichvv.trainingtask"
+version "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -29,6 +30,8 @@ ext {
     tomcatStopPort = 6666
     tomcatStopKey = "wicketStopKey"
     tomcatAjpPort = 1235
+    tomcatHttpPort = 8888
+    tomcatHttpsPort = 8889
 }
 
 java {
@@ -37,18 +40,18 @@ java {
 }
 
 dependencies {
-    implementation project(':com.qulix.yurkevichvv.trainingtask.model')
-    implementation 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'org.hsqldb:hsqldb:2.5.1'
-    compileOnly('javax:javaee-web-api:8.0.1')
-    implementation 'org.apache.wicket:wicket:9.9.1'
-    implementation 'org.apache.wicket:wicket-core:9.9.1'
-    implementation 'org.apache.wicket:wicket-extensions:9.9.1'
-    testImplementation 'junit:junit:4.11'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation project(":com.qulix.yurkevichvv.trainingtask.model")
+    implementation "javax.servlet:javax.servlet-api:4.0.1"
+    implementation "org.hsqldb:hsqldb:2.5.1"
+    compileOnly("javax:javaee-web-api:8.0.1")
+    implementation "org.apache.wicket:wicket:9.9.1"
+    implementation "org.apache.wicket:wicket-core:9.9.1"
+    implementation "org.apache.wicket:wicket-extensions:9.9.1"
+    testImplementation "junit:junit:4.11"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 
-    def tomcatVersion = '9.0.56'
+    def tomcatVersion = "9.0.56"
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
@@ -61,7 +64,7 @@ test {
 sourceSets {
     main {
         resources {
-            srcDirs += ['src/main/java','src/main/webapp']
+            srcDirs += ["src/main/java","src/main/webapp"]
             includes = ["**/*.html","**/*.css","**/*.properties"]
         }
     }
@@ -69,16 +72,18 @@ sourceSets {
 
 tomcat {
     httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
-    ajpProtocol  = "org.apache.coyote.http11.Http11Nio2Protocol"
+    ajpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
 }
 
-task startWicketServer(type: TomcatRunWar) {
-    httpPort = 8888
+task startWicketServer(type: TomcatRun) {
+    httpPort = tomcatHttpPort
+    httpsPort = tomcatHttpsPort
     ajpPort = tomcatAjpPort
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
     contextPath = "/wicket"
-    daemon = true
+    reloadable = true
+    dependsOn war
 }
 
 task stopWicketServer(type: TomcatStop){

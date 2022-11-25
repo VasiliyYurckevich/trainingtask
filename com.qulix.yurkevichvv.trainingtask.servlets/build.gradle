@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
+        classpath "com.bmuschko:gradle-cargo-plugin:2.1.1"
     }
 }
 
@@ -26,10 +26,11 @@ repositories {
 ext {
     junitVersion = "5.9.0"
     tomcatVersion = "9.0.56"
-    cargoVersion = "1.9.10"
+    cargoVersion = "2.1.1"
     tomcatStopPort = 8090
+    tomcatHttpPort = 8070
+    tomcatAjpPort = 9091
     tomcatStopKey = "servletStopKey"
-
 }
 
 java {
@@ -61,20 +62,29 @@ test {
 
 tomcat {
     httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
-    ajpProtocol  = "org.apache.coyote.http11.Http11Nio2Protocol"
+    ajpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
+}
+tomcatStop{
+
 }
 
 task startServer(type: TomcatRun) {
-    httpPort = 8070
+    httpPort = tomcatHttpPort
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
+    ajpPort = tomcatAjpPort
     contextPath = "/servlets"
-    daemon = true
+    reloadable = true
+    dependsOn war
 }
 
 task stopServer(type: TomcatStop){
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
-    finalizedBy
 }
 
+
+task startServlet(type: Test) {
+    dependsOn startServer
+    finalizedBy stopServer
+}

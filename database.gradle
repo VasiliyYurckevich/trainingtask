@@ -4,7 +4,7 @@ ext {
     dbName = "mydb"
     dbUser = "SA"
     dbPassword = ""
-    dbPort = 9001
+    dbPort = 9080
     dbHost = "localhost"
     dbFile = "mydb"
     dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;"
@@ -12,7 +12,7 @@ ext {
 }
 
 task startDatabase() {
-    group = 'develop'
+    group = "develop"
     outputs.upToDateWhen {
         return !available()
     }
@@ -76,7 +76,7 @@ def createDatabaseTables(dbUser, dbPassword) {
 }
 
 task dropDatabase() {
-    group = 'develop'
+    group = "develop"
     outputs.upToDateWhen {
         return available()
     }
@@ -100,7 +100,7 @@ task dropDatabase() {
 }
 
 task fillDatabase() {
-    group = 'develop'
+    group = "develop"
     outputs.upToDateWhen {
         return available()
     }
@@ -124,7 +124,7 @@ task fillDatabase() {
 }
 
 task stopDatabase() {
-    group = 'develop'
+    group = "develop"
     outputs.upToDateWhen {
         return available()
     }
@@ -140,7 +140,7 @@ task stopDatabase() {
         }
 
         Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
-        sql.execute('SHUTDOWN;')
+        sql.execute("SHUTDOWN;")
         sql.close()
     }
 }
