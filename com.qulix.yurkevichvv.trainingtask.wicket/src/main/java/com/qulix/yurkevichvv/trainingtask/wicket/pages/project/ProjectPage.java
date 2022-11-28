@@ -42,16 +42,6 @@ public class ProjectPage extends AbstractEntityPage {
     private static final int DESCRIPTION_MAXLENGTH = 250;
 
     /**
-     * Идентификатор поля сотрудника.
-     */
-    private static final String EMPLOYEE_NAME = "employeeName";
-
-    /**
-     * Идентификатор формы проекта.
-     */
-    private static final String PROJECT_FORM = "projectForm";
-
-    /**
      * Сервис для работы с Project.
      */
     private ProjectService service = new ProjectService();
@@ -78,7 +68,7 @@ public class ProjectPage extends AbstractEntityPage {
 
         get("pageTitle").setDefaultModelObject("Редактировать проект");
 
-        Form<Project> form = new Form<>(PROJECT_FORM, new CompoundPropertyModel<>(projectModel)) {
+        Form<Project> form = new Form<>("projectForm", new CompoundPropertyModel<>(projectModel)) {
             @Override
             protected void onSubmit() {
                 onSubmitting();
@@ -143,7 +133,6 @@ public class ProjectPage extends AbstractEntityPage {
 
         addStringField(form, "title", TITLE_MAXLENGTH);
         addStringField(form, "description", DESCRIPTION_MAXLENGTH);
-
     }
 
     /**
@@ -209,7 +198,7 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new Label("beginDate", task.getBeginDate().toString()))
                 .add(new Label("endDate", task.getEndDate().toString()))
                 .add(new Label("projectTitle", projectModel.getObject().getTitle()))
-                .add(new Label(EMPLOYEE_NAME, task.getEmployeeId() != null ?
+                .add(new Label("employeeName", task.getEmployeeId() != null ?
                     new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""))
                 .add(new DeleteInProjectLink(item.getModel()))
                 .add(new EditLink("editLink", pageFactory, item.getModel()));

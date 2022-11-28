@@ -61,11 +61,6 @@ public class TaskPage extends AbstractEntityPage {
     private static final String END_DATE = "endDate";
 
     /**
-     * Имя страницы редактирования задачи в проекте.
-     */
-    private static final String EDIT_TASK = "Редактировать задачу";
-
-    /**
      * Идентификатор поля наименования.
      */
     private static final String TITLE = "title";
@@ -97,7 +92,7 @@ public class TaskPage extends AbstractEntityPage {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get("pageTitle").setDefaultModelObject(EDIT_TASK);
+        get("pageTitle").setDefaultModelObject("Редактировать задачу");
 
         Form<Task> form = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
             @Override
