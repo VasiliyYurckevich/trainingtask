@@ -1,23 +1,25 @@
-import com.bmuschko.gradle.tomcat.embedded.Tomcat9xServer
-import com.bmuschko.gradle.tomcat.tasks.*
-
 buildscript {
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
+        classpath "com.bmuschko:gradle-cargo-plugin:2.1.1"
+        classpath "com.bmuschko:gradle-tomcat-plugin:2.7.0"
     }
 }
 
 plugins {
     id "java"
     id "war"
-    id "com.bmuschko.tomcat" version "2.7.0"
 }
+
 group "com.qulix.yurkevichvv.trainingtask"
 version "1.0-SNAPSHOT"
+
+
+apply plugin: "com.bmuschko.cargo"
+apply plugin: "com.bmuschko.tomcat"
 
 repositories {
     mavenCentral()
@@ -25,13 +27,11 @@ repositories {
 
 ext {
     junitVersion = "5.9.0"
-    tomcatVersion = "9.0.56"
-    cargoVersion = "1.9.10"
     tomcatStopPort = 6666
     tomcatStopKey = "wicketStopKey"
     tomcatAjpPort = 1235
     tomcatHttpPort = 8888
-    tomcatHttpsPort = 8889
+    tomcatID = "tomcat8x"
 }
 
 java {
@@ -55,6 +55,11 @@ dependencies {
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
+    def cargoVersion = '1.9.10'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-licensed-dtds:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
 }
 
 test {
@@ -64,29 +69,53 @@ test {
 sourceSets {
     main {
         resources {
-            srcDirs += ["src/main/java","src/main/webapp"]
-            includes = ["**/*.html","**/*.css","**/*.properties"]
+            srcDirs += ["src/main/java", "src/main/webapp"]
+            includes = ["**/*.html", "**/*.css", "**/*.properties"]
         }
     }
 }
-
 tomcat {
     httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
     ajpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
 }
 
-task startWicketServer(type: TomcatRun) {
+cargo {
+    containerId = "tomcat8x"
+
+    port = tomcatHttpPort
+
+    deployable {
+        context = "wicket"
+
+    }
+
+    remote {
+        hostname = 'localhost'
+        username = 'manager'
+        password = 'manager'
+    }
+
+    local {
+        containerProperties {
+            property 'cargo.tomcat.ajp.port', 9099
+        }
+    }
+}
+
+task startWicketServer(type: com.bmuschko.gradle.tomcat.tasks.TomcatRun) {
     httpPort = tomcatHttpPort
-    httpsPort = tomcatHttpsPort
     ajpPort = tomcatAjpPort
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
     contextPath = "/wicket"
+    daemon = true
     reloadable = true
     dependsOn war
 }
 
-task stopWicketServer(type: TomcatStop){
+
+task stopWicketServer(type: com.bmuschko.gradle.tomcat.tasks.TomcatStop){
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
 }
+cargoRunLocal.dependsOn assemble

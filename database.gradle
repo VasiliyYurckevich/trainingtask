@@ -60,17 +60,14 @@ def wait(Process process) {
 }
 
 def createDatabaseTables(dbUser, dbPassword) {
-    def dbUrl = this.dbUrl
-    def dbDrive = this.dbDrive
 
-    ClassLoader loader = Sql.class.classLoader
     project.buildscript.configurations.classpath.each { File file ->
-        loader.addURL(file.toURI().toURL())
+        Sql.class.classLoader.addURL(file.toURI().toURL())
     }
 
     String query = new File("${rootDir.absolutePath}/sql-scripts/create.sql").text
 
-    Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
+    Sql sql = Sql.newInstance(this.dbUrl, dbUser, dbPassword, this.dbDrive) as Sql
     sql.execute(query)
     sql.close()
 }
@@ -80,6 +77,7 @@ task dropDatabase() {
     outputs.upToDateWhen {
         return available()
     }
+
     doLast {
         def dbUser = this.dbUser
         def dbPassword = this.dbPassword
@@ -105,11 +103,6 @@ task fillDatabase() {
         return available()
     }
     doLast {
-        def dbUser = this.dbUser
-        def dbPassword = this.dbPassword
-        def dbUrl = this.dbUrl
-        def dbDrive = this.dbDrive
-
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
             loader.addURL(file.toURI().toURL())
@@ -117,7 +110,7 @@ task fillDatabase() {
 
         String query = new File("${rootDir.absolutePath}/sql-scripts/fill.sql").text
 
-        Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
+        Sql sql = Sql.newInstance(this.dbUrl, this.dbUser, this.dbPassword, this.dbDrive) as Sql
         sql.execute(query)
         sql.close()
     }
