@@ -1,11 +1,17 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
+import org.apache.wicket.model.CompoundPropertyModel;
+
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
-import org.apache.wicket.model.CompoundPropertyModel;
 
+/**
+ * Генерирует страницу редактирования проекта.
+ *
+ * @author Q-YVV
+ */
 public class ProjectPageFactory implements AbstractEntityPageFactory<Project> {
 
     @Override

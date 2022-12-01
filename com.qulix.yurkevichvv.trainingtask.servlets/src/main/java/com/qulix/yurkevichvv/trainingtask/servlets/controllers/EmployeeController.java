@@ -98,7 +98,8 @@ public class EmployeeController extends HttpServlet {
 
             if (action.equals("/save")) {
                 saveEmployee(req, resp);
-            } else {
+            }
+            else {
                 throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER + action);
             }
         }

@@ -101,7 +101,8 @@ public class ProjectController extends HttpServlet {
 
             if (action.equals("/save")) {
                 updateProject(req, resp);
-            } else {
+            }
+            else {
                 throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER + action);
             }
         }

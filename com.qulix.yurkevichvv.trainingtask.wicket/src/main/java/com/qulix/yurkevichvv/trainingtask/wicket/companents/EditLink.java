@@ -1,15 +1,14 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
-import org.apache.wicket.markup.html.link.Link;
-
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 import java.io.Serializable;
+
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
 
 /**
  * Ссылка для редактирования сущности.
