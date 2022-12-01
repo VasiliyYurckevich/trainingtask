@@ -80,7 +80,7 @@ tomcat {
 }
 
 cargo {
-    containerId = "tomcat8x"
+    containerId = "tomcat9x"
 
     port = tomcatHttpPort
 

@@ -75,7 +75,7 @@ cargo {
     port = tomcatHttpPort
 
     deployable {
-        context = "servlet"
+        context = "/servlets"
     }
 
     remote {
@@ -97,7 +97,7 @@ task startServer(type: com.bmuschko.gradle.tomcat.tasks.TomcatRun) {
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
     ajpPort = tomcatAjpPort
-    contextPath = "/servlets"
+    //contextPath = "/servlets"
     reloadable = true
     daemon = true
     dependsOn war
