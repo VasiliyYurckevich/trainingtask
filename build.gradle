@@ -8,12 +8,16 @@ buildscript {
     }
     dependencies {
         classpath "org.hsqldb:hsqldb:${hsqldbVersion}"
+        classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
     }
 }
 
-plugins{
+plugins {
     id "java"
 }
+
+apply plugin: "java"
+apply plugin: "com.bmuschko.cargo"
 
 repositories {
     mavenCentral()
@@ -24,7 +28,13 @@ dependencies {
     implementation "org.hsqldb:hsqldb:2.5.1"
     compileOnly("javax:javaee-web-api:8.0.1")
     implementation group: "jstl", name: "jstl", version: "1.2"
+
+    def cargoVersion = "1.9.8"
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-licensed-dtds:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
 }
+
 
 test {
     useJUnitPlatform()
@@ -41,12 +51,41 @@ sourceSets {
     }
 }
 
-allprojects {
+cargo {
+    containerId = "tomcat9x"
+
+    deployable {
+        context = "servlets"
+        file = file("${rootDir}/com.qulix.yurkevichvv.trainingtask.servlets/build/libs/com.qulix.yurkevichvv.trainingtask.servlets-1.0-SNAPSHOT.war")
+    }
+
+    deployable {
+        context = "wicket"
+        file = file("${rootDir}/com.qulix.yurkevichvv.trainingtask.wicket/build/libs/com.qulix.yurkevichvv.trainingtask.wicket-1.0-SNAPSHOT.war")
+    }
+
+    local{
+        installer {
+            installUrl = "https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.59/bin/apache-tomcat-9.0.59.zip"
+            downloadDir = file("download")
+            extractDir = file("extract")
+        }
+        rmiPort = 1234
+    }
+}
+
+subprojects {
     apply plugin: "java"
     apply plugin: "checkstyle"
 
     group "com.qulix.yurkevichvv"
     version "1.0-SNAPSHOT"
+
+    build{
+        doLast {
+            Checkstyle
+        }
+    }
 
     checkstyle {
         toolVersion = "8.14"

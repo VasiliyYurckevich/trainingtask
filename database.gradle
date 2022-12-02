@@ -10,11 +10,7 @@ ext {
     dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;"
     dbDrive = "org.hsqldb.jdbc.JDBCDriver"
 }
-task getTom(){
-    System.getenv().forEach {x,y -> System.out.println(x + "  " + y)}
-    System.getProperties().forEach {x,y -> System.out.println(x + "  " + y)}
 
-}
 task startDatabase() {
     group = "develop"
     outputs.upToDateWhen {

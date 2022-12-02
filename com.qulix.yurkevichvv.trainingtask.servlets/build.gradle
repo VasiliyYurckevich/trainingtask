@@ -1,11 +1,14 @@
+import com.bmuschko.gradle.tomcat.tasks.TomcatRun;
+import com.bmuschko.gradle.tomcat.tasks.TomcatStop;
+
 buildscript {
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath "com.bmuschko:gradle-cargo-plugin:2.1.1"
-        classpath "com.bmuschko:gradle-tomcat-plugin:2.7.0"
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.7.0'
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
     }
 }
 
@@ -17,8 +20,8 @@ plugins {
 group "com.qulix.yurkevichvv.trainingtask"
 version "1.0-SNAPSHOT"
 
-apply plugin: 'com.bmuschko.cargo'
-apply plugin: 'com.bmuschko.tomcat'
+apply plugin: "com.bmuschko.tomcat"
+apply plugin: "com.bmuschko.cargo"
 
 repositories {
     mavenCentral()
@@ -27,14 +30,10 @@ repositories {
 ext {
     junitVersion = "5.9.0"
     tomcatStopPort = 8090
-    tomcatHttpPort = 8070
+    tomcatHttpPort = 2134
+    tomcatHttpsPort = 18080
     tomcatAjpPort = 9091
     tomcatStopKey = "servletStopKey"
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
 }
 
 dependencies {
@@ -55,9 +54,9 @@ dependencies {
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 
     def cargoVersion = '1.9.10'
-    cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoVersion}",
-            "org.codehaus.cargo:cargo-licensed-dtds:${cargoVersion}",
-            "org.codehaus.cargo:cargo-ant:${cargoVersion}"
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+
 }
 
 test {
@@ -65,45 +64,48 @@ test {
 }
 
 tomcat {
+    httpsPort = tomcatHttpsPort
     httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
     ajpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
 }
-
-cargo {
+cargo{
     containerId = "tomcat8x"
-
     port = tomcatHttpPort
 
     deployable {
+        file = file("${buildDir}/libs/com.qulix.yurkevichvv.trainingtask.servlets-1.0-SNAPSHOT.war")
         context = "/servlets"
+    }
+
+    local {
+        homeDir= file("${rootDir}/extract/apache-tomcat-9.0.59/apache-tomcat-9.0.59")
+        outputFile = new File('logs/apache-tomcat-9.0.59/server.log')
+        rmiPort = 4444
     }
 
     remote {
         hostname = 'localhost'
-        username = 'manager'
-        password = 'manager'
+        username = 'admin'
+        password = 'admin'
     }
 }
 
-cargoRedeployRemote {
-    dependsOn war
-}
-
-cargoDeployRemote {
-    dependsOn war
-}
-task startServer(type: com.bmuschko.gradle.tomcat.tasks.TomcatRun) {
+task startServer(type: TomcatRun) {
     httpPort = tomcatHttpPort
+    httpsPort = tomcatHttpsPort
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
     ajpPort = tomcatAjpPort
-    //contextPath = "/servlets"
+    contextPath = 'servlet'
     reloadable = true
     daemon = true
     dependsOn war
 }
 
-task stopServer(type: com.bmuschko.gradle.tomcat.tasks.TomcatStop){
+task stopServer(type: TomcatStop){
     stopPort = tomcatStopPort
     stopKey = tomcatStopKey
 }
+
+cargoDeployRemote.dependsOn build
+cargoRedeployRemote.dependsOn build
