@@ -12,7 +12,6 @@ ext {
 }
 
 task startDatabase() {
-    group = "develop"
     outputs.upToDateWhen {
         return !available()
     }
@@ -73,7 +72,6 @@ def createDatabaseTables(dbUser, dbPassword) {
 }
 
 task dropDatabase() {
-    group = "develop"
     outputs.upToDateWhen {
         return available()
     }
@@ -91,7 +89,7 @@ task dropDatabase() {
 
         String query = new File("${rootDir.absolutePath}/sql-scripts/drop.sql").text
 
-        Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
+        Sql sql = Sql.newInstance(this.dbUrl, this.dbUser, this.dbPassword, this.dbDrive) as Sql
         println(sql.execute(query))
         sql.close()
     }
@@ -117,28 +115,23 @@ task fillDatabase() {
 }
 
 task stopDatabase() {
-    group = "develop"
     outputs.upToDateWhen {
         return available()
     }
     doLast {
-        def dbUser = this.dbUser
-        def dbPassword = this.dbPassword
-        def dbUrl = this.dbUrl
-        def dbDrive = this.dbDrive
 
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
             loader.addURL(file.toURI().toURL())
         }
 
-        Sql sql = Sql.newInstance(dbUrl, dbUser, dbPassword, dbDrive) as Sql
+        Sql sql = Sql.newInstance(this.dbUrl, this.dbUser, this.dbPassword, this.dbDrive) as Sql
         sql.execute("SHUTDOWN;")
         sql.close()
     }
 }
 
-boolean available() {
+boolean isAvailable() {
     try {
         int dbPort = this.dbPort as int
         String dbHost = this.dbHost

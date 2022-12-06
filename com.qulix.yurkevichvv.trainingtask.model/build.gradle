@@ -1,6 +1,5 @@
 plugins {
     id "java"
-    id "war"
 }
 group "com.qulix.yurkevichvv.trainingtask"
 version "1.0-SNAPSHOT"
@@ -21,6 +20,5 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-apply plugin: "checkstyle"
 
 

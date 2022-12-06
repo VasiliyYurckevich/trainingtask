@@ -54,6 +54,7 @@ sourceSets {
 cargo {
     containerId = "tomcat9x"
 
+    port = 9090
     deployable {
         context = "servlets"
         file = file("${rootDir}/com.qulix.yurkevichvv.trainingtask.servlets/build/libs/com.qulix.yurkevichvv.trainingtask.servlets-1.0-SNAPSHOT.war")
