@@ -173,7 +173,7 @@ public class TaskDao implements IDao<Task>, Serializable {
      */
     public List<Task> getTasksInProject(Integer id, Connection connection) throws DaoException {
 
-        try(PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection)){
+        try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection)) {
             preparedStatementHelper.setInt(PROJECT_ID, id);
 
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -197,6 +197,7 @@ public class TaskDao implements IDao<Task>, Serializable {
         }
     }
 
+    @SuppressWarnings("Regexp")
     /**
      * Получение добавление задачи в лист.
      *

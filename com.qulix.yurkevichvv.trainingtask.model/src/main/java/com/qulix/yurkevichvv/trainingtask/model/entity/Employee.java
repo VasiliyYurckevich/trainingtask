@@ -22,7 +22,6 @@ package com.qulix.yurkevichvv.trainingtask.model.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 /**
  * Сущность "Сотрудник".
  *

@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -26,7 +27,7 @@ import java.util.Arrays;
  *
  * @author Q-YVV
  */
-public enum Status {
+public enum Status implements Serializable {
 
     /**
      * Статус "Не начата".
