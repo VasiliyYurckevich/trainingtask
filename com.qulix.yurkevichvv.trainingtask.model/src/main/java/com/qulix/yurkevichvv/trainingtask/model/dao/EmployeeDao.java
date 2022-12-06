@@ -91,14 +91,11 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
                 throw new DaoException("Error when adding a new employee to the database");
             }
         }
-        catch (DaoException e) {
-            throw e;
-        }
-        
     }
 
     @Override
     public void update(Employee employee, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_CLIENT_SQL, connection)) {
             preparedStatementHelper.setString(SURNAME, employee.getSurname());
             preparedStatementHelper.setString(FIRST_NAME, employee.getFirstName());
@@ -110,17 +107,13 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
             }
             else {
                 throw new DaoException("Error when trying to change employee data");
-
             }
         }
-        catch (DaoException e) {
-            throw e;
-        }
-        
     }
 
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_EMPLOYEE_SQL, connection)) {
             preparedStatementHelper.setInt(ID, id);
             if (preparedStatementHelper.executeUpdate() > 0) {
@@ -130,10 +123,6 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
                 throw new DaoException("Error when trying to delete employee data");
             }
         }
-        catch (DaoException e) {
-            throw new DaoException(e);
-        }
-        
     }
 
     @Override
@@ -172,11 +161,10 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
                     throw new DaoException("An employee with such data was not found");
                 }
             }
+            catch (SQLException e) {
+                throw new DaoException("Error when working with the ResultSet", e);
+            }
         }
-        catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        
     }
 
     /**
@@ -186,6 +174,7 @@ public class EmployeeDao implements IDao<Employee>, Serializable {
      * @return сотрудник
      */
     private static Employee getEmployeeFromDB(ResultSet resultSet) {
+
         try {
             Employee employee = new Employee();
             employee.setId(resultSet.getInt(ID));

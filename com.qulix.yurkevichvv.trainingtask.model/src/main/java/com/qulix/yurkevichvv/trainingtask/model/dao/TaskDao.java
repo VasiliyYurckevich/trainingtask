@@ -103,8 +103,10 @@ public class TaskDao implements IDao<Task>, Serializable {
 
     @Override
     public void add(Task task, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
+
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Created new task");
             }
@@ -112,17 +114,15 @@ public class TaskDao implements IDao<Task>, Serializable {
                 throw new DaoException("Error when adding a task to the database");
             }
         }
-        catch (DaoException e) {
-            throw new DaoException(e);
-        }
-        
     }
 
     @Override
     public void update(Task task, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             preparedStatementHelper.setInt(ID, task.getId());
+
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
             }
@@ -130,10 +130,6 @@ public class TaskDao implements IDao<Task>, Serializable {
                 throw new DaoException("Error when updating a task in the database");
             }
         }
-        catch (DaoException e) {
-            throw new DaoException(e);
-        }
-        
     }
 
     /**
@@ -144,33 +140,27 @@ public class TaskDao implements IDao<Task>, Serializable {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private void setDataInToStatement(Task task, PreparedStatementHelper preparedStatementHelper) throws DaoException {
-        try {
-            preparedStatementHelper.setInt(STATUS, task.getStatus().getId());
-            preparedStatementHelper.setString(TITLE, task.getTitle());
-            preparedStatementHelper.setInt(WORK_TIME, task.getWorkTime());
-            preparedStatementHelper.setDate(BEGIN_DATE, task.getBeginDate());
-            preparedStatementHelper.setDate(END_DATE, task.getEndDate());
-            preparedStatementHelper.setInt(PROJECT_ID, task.getProjectId());
-            preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployeeId());
-        }
-        catch (DaoException e) {
-            throw new DaoException(e);
-        }
+        preparedStatementHelper.setInt(STATUS, task.getStatus().getId());
+        preparedStatementHelper.setString(TITLE, task.getTitle());
+        preparedStatementHelper.setInt(WORK_TIME, task.getWorkTime());
+        preparedStatementHelper.setDate(BEGIN_DATE, task.getBeginDate());
+        preparedStatementHelper.setDate(END_DATE, task.getEndDate());
+        preparedStatementHelper.setInt(PROJECT_ID, task.getProjectId());
+        preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployeeId());
     }
 
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_TASK_SQL, connection)) {
             preparedStatementHelper.setInt(ID, id);
+
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
             }
             else {
                 LOGGER.log(Level.INFO, "Task with id {0} deleting failed", id);
             }
-        }
-        catch (DaoException e) {
-            throw new DaoException(e);
         }
     }
 
@@ -182,14 +172,16 @@ public class TaskDao implements IDao<Task>, Serializable {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public List<Task> getTasksInProject(Integer id, Connection connection) throws DaoException {
-        PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection);
-        preparedStatementHelper.setInt(PROJECT_ID, id);
 
-        try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
-            return getList(resultSet);
-        }
-        catch (DaoException | SQLException e) {
-            throw new DaoException("Error when getting project tasks from the database", e);
+        try(PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection)){
+            preparedStatementHelper.setInt(PROJECT_ID, id);
+
+            try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
+                return getList(resultSet);
+            }
+            catch (SQLException e) {
+                throw new DaoException("Error when getting project tasks from the database", e);
+            }
         }
     }
 
@@ -200,7 +192,7 @@ public class TaskDao implements IDao<Task>, Serializable {
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
             return getList(resultSet);
         }
-        catch (DaoException | SQLException e) {
+        catch (SQLException e) {
             throw new DaoException("Error when getting all tasks from the database", e);
         }
     }
@@ -213,7 +205,9 @@ public class TaskDao implements IDao<Task>, Serializable {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     private List<Task> getList(ResultSet resultSet) throws DaoException {
+
         List<Task> tasks = new ArrayList<>();
+
         try {
             while (resultSet.next()) {
                 Task task = new Task();
@@ -221,7 +215,7 @@ public class TaskDao implements IDao<Task>, Serializable {
                 tasks.add(task);
             }
         }
-        catch (DaoException | SQLException e) {
+        catch (SQLException e) {
             throw new DaoException("Error when getting tasks from the database", e);
         }
         return tasks;
@@ -243,9 +237,9 @@ public class TaskDao implements IDao<Task>, Serializable {
                     throw new DaoException("An employee with such data was not found");
                 }
             }
-        }
-        catch (DaoException | SQLException e) {
-            throw new DaoException(e);
+            catch (SQLException e) {
+                throw new DaoException("Error when working with ResultSet", e);
+            }
         }
     }
 
@@ -266,7 +260,7 @@ public class TaskDao implements IDao<Task>, Serializable {
             task.setProjectId(resultSet.getObject(PROJECT_ID, Integer.class));
             task.setEmployeeId(resultSet.getObject(EMPLOYEE_ID, Integer.class));
         }
-        catch (DaoException | SQLException e) {
+        catch (SQLException e) {
             throw new DaoException("Error when retrieving task data from the database", e);
         }
     }

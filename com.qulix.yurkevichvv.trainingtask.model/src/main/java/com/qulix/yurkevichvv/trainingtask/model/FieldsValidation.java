@@ -13,7 +13,8 @@ import java.util.Map;
  *
  * @author Q-YVV
  */
-public class FieldsValidation implements Serializable {
+public class
+FieldsValidation implements Serializable {
 
     /**
      * Проверяет на валидность вводимую строку.
@@ -86,8 +87,8 @@ public class FieldsValidation implements Serializable {
         }
         String finalEndDateError = endDateError;
 
-        listErrors.compute("beginDate", (k, v) -> beginDateError);
-        listErrors.compute("endDate", (k, v) -> finalEndDateError);
+        listErrors.put("beginDate", beginDateError);
+        listErrors.put("endDate", finalEndDateError);
         return listErrors;
     }
 

@@ -96,6 +96,7 @@ public class ProjectDao implements IDao<Project> {
 
     @Override
     public void add(Project project, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
@@ -107,13 +108,11 @@ public class ProjectDao implements IDao<Project> {
                 throw new DaoException("Error when adding a project to the database");
             }
         }
-        catch (DaoException e) {
-            throw new DaoException(e);
-        }
     }
 
     @Override
     public void update(Project project, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
@@ -125,13 +124,11 @@ public class ProjectDao implements IDao<Project> {
                 throw new DaoException("Error when updating the project in the database");
             }
         }
-        catch (DaoException e) {
-            throw new DaoException(e);
-        }
     }
 
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_PROJECT_SQL, connection)) {
             preparedStatementHelper.setInt(ID, id);
             if (preparedStatementHelper.executeUpdate() > 0) {
@@ -140,9 +137,6 @@ public class ProjectDao implements IDao<Project> {
             else {
                 throw new DaoException("Error when deleting a project from the database");
             }
-        }
-        catch (DaoException e) {
-            throw new DaoException(e);
         }
     }
 
@@ -158,8 +152,8 @@ public class ProjectDao implements IDao<Project> {
             }
             return projects;
         }
-        catch (SQLException | DaoException e) {
-            throw new DaoException(e);
+        catch (SQLException e) {
+            throw new DaoException("Error when working with ResultSet getting all project", e);
         }
     }
 
@@ -170,6 +164,7 @@ public class ProjectDao implements IDao<Project> {
      * @return проект
      */
     private static Project getProjectFromDB(ResultSet resultSet) {
+
         try {
             Project project = new Project();
             project.setId(resultSet.getInt(ID));
@@ -181,7 +176,6 @@ public class ProjectDao implements IDao<Project> {
             throw new DaoException("Error when retrieving task data from the database", e);
         }
     }
-
 
     @Override
     public Project getById(Integer id, Connection connection) throws DaoException {
@@ -197,9 +191,9 @@ public class ProjectDao implements IDao<Project> {
                     throw new DaoException(NOT_FOUND);
                 }
             }
-        }
-        catch (DaoException | SQLException e) {
-            throw new DaoException(NOT_FOUND, e);
+            catch (SQLException e) {
+                throw new DaoException("Error when trying get project from ResultSet", e);
+            }
         }
     }
 

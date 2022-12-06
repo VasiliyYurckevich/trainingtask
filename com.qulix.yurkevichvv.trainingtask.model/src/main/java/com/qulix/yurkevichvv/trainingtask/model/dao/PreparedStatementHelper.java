@@ -26,12 +26,6 @@ public class PreparedStatementHelper implements AutoCloseable {
     private static final String REGEX = "(:(\\w+))";
 
     /**
-     * Сообщение ошибки при создании PreparedStatementHelper.
-     */
-    public static final String ERROR_WHEN_TRY_CREATE_NEW_PREPARED_STATEMENT_HELPER =
-        "Error when try create new PreparedStatementHelper";
-
-    /**
      * SQL-запрос.
      */
     private final String sqlStatement;
@@ -59,15 +53,10 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public PreparedStatementHelper(String sqlStatement, Connection connection) throws DaoException {
-        try {
-            this.connection = connection;
-            this.sqlStatement = sqlStatement;
-            this.parametersMap = new HashMap<>();
-            this.preparedStatement = fillPreparedStatement();
-        }
-        catch (DaoException e) {
-            throw new DaoException(ERROR_WHEN_TRY_CREATE_NEW_PREPARED_STATEMENT_HELPER, e);
-        }
+        this.connection = connection;
+        this.sqlStatement = sqlStatement;
+        this.parametersMap = new HashMap<>();
+        this.preparedStatement = fillPreparedStatement();
     }
 
     /**
@@ -98,7 +87,7 @@ public class PreparedStatementHelper implements AutoCloseable {
             return connection.prepareStatement(result, Statement.RETURN_GENERATED_KEYS);
         }
         catch (SQLException e) {
-            throw new DaoException(ERROR_WHEN_TRY_CREATE_NEW_PREPARED_STATEMENT_HELPER, e);
+            throw new DaoException("Error when try create new PreparedStatementHelper", e);
         }
     }
 
@@ -110,7 +99,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      */
     public void setInt(String name, Integer value) {
         try {
-            if (value == null || value == 0) {
+            if (value == null) {
                 this.preparedStatement.setNull(getIndex(name), Types.INTEGER);
             }
             else {
@@ -215,7 +204,6 @@ public class PreparedStatementHelper implements AutoCloseable {
             throw new DaoException("Error when try get generated keys of PrepareStatement", e);
         }
     }
-
 
     @Override
     public void close() {
