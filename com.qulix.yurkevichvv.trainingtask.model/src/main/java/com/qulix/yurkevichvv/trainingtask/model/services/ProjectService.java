@@ -72,9 +72,11 @@ public class ProjectService implements IProjectService, Serializable {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            return projectDao.getAll(connection);
+            List<Project> projects = projectDao.getAll(connection);
+            projects.forEach(project -> project.setTasksList(getProjectsTasks(project)));
+            return projects;
         }
-        catch (DaoException | SQLException e) {
+        catch (SQLException e) {
             throw new ServiceException("Error during getting all project", e);
         }
     }
@@ -84,9 +86,11 @@ public class ProjectService implements IProjectService, Serializable {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            return projectDao.getById(id, connection);
+            Project project = projectDao.getById(id, connection);
+            project.setTasksList(getProjectsTasks(project));
+            return project;
         }
-        catch (DaoException | SQLException e) {
+        catch (SQLException e) {
             throw new ServiceException("Error during getting project by id", e);
         }
     }

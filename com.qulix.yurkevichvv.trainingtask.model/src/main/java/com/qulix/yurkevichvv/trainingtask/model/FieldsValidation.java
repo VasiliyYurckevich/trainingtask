@@ -13,8 +13,7 @@ import java.util.Map;
  *
  * @author Q-YVV
  */
-public class
-FieldsValidation implements Serializable {
+public class FieldsValidation implements Serializable {
 
     /**
      * Проверяет на валидность вводимую строку.

@@ -142,6 +142,7 @@ public class ProjectDao implements IDao<Project> {
 
     @Override
     public List<Project> getAll(Connection connection) throws DaoException {
+        TaskDao taskDao = new TaskDao();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_PROJECTS, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {

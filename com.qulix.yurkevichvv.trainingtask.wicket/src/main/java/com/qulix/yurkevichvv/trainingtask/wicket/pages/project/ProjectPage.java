@@ -51,7 +51,6 @@ public class ProjectPage extends AbstractEntityPage {
      */
     private IModel<Project> projectModel;
 
-
     /**
      * Конструктор.
      *

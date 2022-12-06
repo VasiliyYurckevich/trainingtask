@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import org.apache.wicket.model.IDetachable;
 
 /**
  * Отвечает за генерацию страниц сущностей.
@@ -12,7 +13,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
  * @param <T> сущность
  * @author Q-YVV
  */
-public interface AbstractEntityPageFactory<T extends Entity> extends Serializable {
+public interface AbstractEntityPageFactory<T extends Entity> {
 
     /**
      *  Создает страницу редактирования сущностей.
