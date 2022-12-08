@@ -77,9 +77,6 @@ subprojects {
     apply plugin: "java"
     apply plugin: "checkstyle"
 
-    group "com.qulix.yurkevichvv"
-    version "1.0-SNAPSHOT"
-
     checkstyle {
         toolVersion = "8.14"
         configFile = rootProject.file("checkstyle/checkstyle.xml")
@@ -170,13 +167,5 @@ gradle.projectsEvaluated {
                 rmiPort = project.ext.rmiPort
             }
         }
-         task startServer(type: com.bmuschko.gradle.cargo.tasks.local.CargoStartLocal){
-
-         }
-
-        task stopServer(type: com.bmuschko.gradle.cargo.tasks.local.CargoStopLocal){
-
-        }
-
     }
 }
