@@ -67,6 +67,7 @@ public class ProjectService implements IProjectService, Serializable {
 
     }
 
+    @SuppressWarnings("all")
     @Override
     public List<Project> findAll() throws ServiceException {
         Connection connection = ConnectionController.getConnection();
@@ -74,6 +75,7 @@ public class ProjectService implements IProjectService, Serializable {
         try (connection) {
             List<Project> projects = projectDao.getAll(connection);
             projects.forEach(project -> project.setTasksList(getProjectsTasks(project)));
+            System.out.println(projects);
             return projects;
         }
         catch (SQLException e) {
@@ -81,6 +83,7 @@ public class ProjectService implements IProjectService, Serializable {
         }
     }
 
+    @SuppressWarnings("all")
     @Override
     public Project getById(Integer id) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
@@ -88,6 +91,7 @@ public class ProjectService implements IProjectService, Serializable {
         try (connection) {
             Project project = projectDao.getById(id, connection);
             project.setTasksList(getProjectsTasks(project));
+            System.out.println(project);
             return project;
         }
         catch (SQLException e) {

@@ -1,11 +1,8 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages;
 
-import java.io.Serializable;
-
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import org.apache.wicket.model.IDetachable;
 
 /**
  * Отвечает за генерацию страниц сущностей.
