@@ -1,33 +1,28 @@
 import groovy.sql.Sql
 
 ext {
-    dbName = "mydb"
+    def dbName = "mydb"
     dbUser = "SA"
     dbPassword = ""
-    dbPort = 9080
+    dbPort = 9001
     dbHost = "localhost"
     dbFile = "mydb"
     dbUrl = "jdbc:hsqldb:hsql://localhost/mydb;"
     dbDrive = "org.hsqldb.jdbc.JDBCDriver"
+    className = "org.hsqldb.server.Server"
 }
 
 task startDatabase() {
     outputs.upToDateWhen {
-        return !available()
+        return !isAvailable()
     }
 
     doLast {
-        def dbUser = this.dbUser
-        def dbPassword = this.dbPassword
-        def dbFile = this.dbFile
-        def dbName = this.dbName
+        def filePath = "file:${projectDir}/${this.dbFile};user=${this.dbUser};password=${this.dbPassword}"
 
-        def className = "org.hsqldb.server.Server"
-        def filePath = "file:${projectDir}/${dbFile};user=${dbUser};password=${dbPassword}"
-
-        def process = buildProcess(className, filePath, dbName)
+        def process = buildProcess(this.className, filePath, this.dbName)
         wait(process)
-        createDatabaseTables(dbUser, dbPassword)
+        createDatabaseTables(this.dbUser, this.dbPassword)
     }
 }
 
@@ -73,15 +68,10 @@ def createDatabaseTables(dbUser, dbPassword) {
 
 task dropDatabase() {
     outputs.upToDateWhen {
-        return available()
+        return isAvailable()
     }
 
     doLast {
-        def dbUser = this.dbUser
-        def dbPassword = this.dbPassword
-        def dbUrl = this.dbUrl
-        def dbDrive = this.dbDrive
-
         ClassLoader loader = Sql.class.classLoader
         project.buildscript.configurations.classpath.each { File file ->
             loader.addURL(file.toURI().toURL())
@@ -98,7 +88,7 @@ task dropDatabase() {
 task fillDatabase() {
     group = "develop"
     outputs.upToDateWhen {
-        return available()
+        return isAvailable()
     }
     doLast {
         ClassLoader loader = Sql.class.classLoader
@@ -116,7 +106,7 @@ task fillDatabase() {
 
 task stopDatabase() {
     outputs.upToDateWhen {
-        return available()
+        return isAvailable()
     }
     doLast {
 
@@ -133,9 +123,7 @@ task stopDatabase() {
 
 boolean isAvailable() {
     try {
-        int dbPort = this.dbPort as int
-        String dbHost = this.dbHost
-        Socket ignored = new Socket(dbHost, dbPort)
+        Socket ignored = new Socket(this.dbHost, this.dbPort)
         ignored.close()
         return false
     }

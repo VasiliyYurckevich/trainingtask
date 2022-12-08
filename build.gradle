@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath "org.hsqldb:hsqldb:${hsqldbVersion}"
         classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.7.0'
     }
 }
 
@@ -17,7 +18,9 @@ plugins {
 }
 
 apply plugin: "java"
-apply plugin: "com.bmuschko.cargo"
+
+group "com.qulix.yurkevichvv"
+version "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -28,11 +31,6 @@ dependencies {
     implementation "org.hsqldb:hsqldb:2.5.1"
     compileOnly("javax:javaee-web-api:8.0.1")
     implementation group: "jstl", name: "jstl", version: "1.2"
-
-    def cargoVersion = "1.9.8"
-    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
-            "org.codehaus.cargo:cargo-licensed-dtds:$cargoVersion",
-            "org.codehaus.cargo:cargo-ant:$cargoVersion"
 }
 
 
@@ -51,10 +49,10 @@ sourceSets {
     }
 }
 
-cargo {
+/*cargo {
     containerId = "tomcat9x"
-
     port = 9090
+
     deployable {
         context = "servlets"
         file = file("${rootDir}/com.qulix.yurkevichvv.trainingtask.servlets/build/libs/com.qulix.yurkevichvv.trainingtask.servlets-1.0-SNAPSHOT.war")
@@ -73,7 +71,7 @@ cargo {
         }
         rmiPort = 1234
     }
-}
+}*/
 
 subprojects {
     apply plugin: "java"
@@ -82,22 +80,22 @@ subprojects {
     group "com.qulix.yurkevichvv"
     version "1.0-SNAPSHOT"
 
-    build{
-        doLast {
-            Checkstyle
-        }
-    }
-
     checkstyle {
         toolVersion = "8.14"
         configFile = rootProject.file("checkstyle/checkstyle.xml")
     }
 
-    task Checkstyle(type: Checkstyle) {
+    task checkstyle(type: Checkstyle) {
         source "src/main/java"
         include "**/*.java"
 
         classpath = getProject().files()
+    }
+
+    build{
+        doLast {
+            checkstyle
+        }
     }
 
     java {
@@ -107,5 +105,78 @@ subprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
+    }
+}
+
+def webProjects() {
+    subprojects.findAll { subproject -> subproject.plugins.hasPlugin("war")}
+}
+
+gradle.projectsEvaluated {
+    configure(webProjects()) {
+        buildscript {
+            repositories {
+                mavenCentral()
+            }
+
+            dependencies {
+                classpath 'com.bmuschko:gradle-tomcat-plugin:2.7.0'
+                classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
+            }
+        }
+
+        apply plugin: 'com.bmuschko.cargo'
+        apply plugin: "com.bmuschko.tomcat"
+
+        dependencies {
+            def cargoVersion = "1.9.10"
+            cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+                    "org.codehaus.cargo:cargo-licensed-dtds:$cargoVersion",
+                    "org.codehaus.cargo:cargo-ant:$cargoVersion"
+
+            def tomcatVersion = "9.0.56"
+            tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+                    "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
+                    "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+        }
+
+
+
+        tomcat {
+            httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
+            ajpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
+        }
+
+        cargo {
+            containerId = "tomcat9x"
+            port = project.ext.tomcatHttpPort
+
+            deployable {
+                file = file("${buildDir}/libs/${project.name}-${project.version}.war")
+                context = "${project.name}"
+            }
+
+            local {
+                installer {
+                    installUrl = "https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.59/bin/apache-tomcat-9.0.59.zip"
+                    downloadDir = file("${rootDir}/download")
+                    extractDir = file("${rootDir}/extract")
+                }
+                containerProperties {
+                    property 'cargo.tomcat.ajp.port', project.ext.tomcatAjpPort
+                }
+                homeDir = file("${rootDir}/extract/apache-tomcat-9.0.59/apache-tomcat-9.0.59")
+                outputFile = new File("${buildDir}/logs/apache-tomcat-9.0.59/server.log")
+                rmiPort = project.ext.rmiPort
+            }
+        }
+         task startServer(type: com.bmuschko.gradle.cargo.tasks.local.CargoStartLocal){
+
+         }
+
+        task stopServer(type: com.bmuschko.gradle.cargo.tasks.local.CargoStopLocal){
+
+        }
+
     }
 }

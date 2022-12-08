@@ -1,6 +1,5 @@
-import com.bmuschko.gradle.tomcat.tasks.TomcatRun;
-import com.bmuschko.gradle.tomcat.tasks.TomcatStop;
 
+/*
 buildscript {
     repositories {
         mavenCentral()
@@ -11,17 +10,15 @@ buildscript {
         classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
     }
 }
+*/
 
 plugins {
-    id "java"
     id "war"
 }
 
 group "com.qulix.yurkevichvv.trainingtask"
 version "1.0-SNAPSHOT"
 
-apply plugin: "com.bmuschko.tomcat"
-apply plugin: "com.bmuschko.cargo"
 
 repositories {
     mavenCentral()
@@ -32,8 +29,8 @@ ext {
     tomcatStopPort = 6666
     tomcatStopKey = "wicketStopKey"
     tomcatAjpPort = 1235
-    tomcatHttpsPort = 18080
-    tomcatHttpPort = 9090
+    rmiPort = 7777
+    tomcatHttpPort = 7070
 }
 
 java {
@@ -52,16 +49,11 @@ dependencies {
     testImplementation "junit:junit:4.11"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
-
+/*
     def tomcatVersion = "9.0.59"
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
-            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
-
-    def cargoVersion = "1.9.8"
-    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
-            "org.codehaus.cargo:cargo-licensed-dtds:$cargoVersion",
-            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"*/
 }
 
 test {
@@ -77,12 +69,7 @@ sourceSets {
     }
 }
 
-tomcat {
-    httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
-    ajpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
-}
-
-cargo{
+/*cargo{
     containerId = "tomcat8x"
     port = tomcatHttpPort
 
@@ -96,28 +83,5 @@ cargo{
         outputFile = new File('logs/apache-tomcat-9.0.59/server.log')
         rmiPort = 7777
     }
+}*/
 
-    remote {
-        hostname = 'localhost'
-        username = 'admin'
-        password = 'admin'
-    }
-}
-
-task startWicketServer(type: TomcatRun) {
-    httpPort = tomcatHttpPort
-    ajpPort = tomcatAjpPort
-    stopPort = tomcatStopPort
-    stopKey = tomcatStopKey
-    contextPath = "/wicket"
-    daemon = true
-    reloadable = true
-    dependsOn war
-}
-
-task stopWicketServer(type: TomcatStop){
-    stopPort = tomcatStopPort
-    stopKey = tomcatStopKey
-}
-
-cargoDeployRemote.dependsOn assemble
