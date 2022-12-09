@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +19,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
  * @see IDao
  * @see Task
  */
-public class TaskDao implements IDao<Task>, Serializable {
+public class TaskDao implements IDao<Task> {
 
     /**
      * Хранит константу для имени колонки ID проекта в БД.
@@ -197,7 +196,6 @@ public class TaskDao implements IDao<Task>, Serializable {
         }
     }
 
-    @SuppressWarnings("Regexp")
     /**
      * Получение добавление задачи в лист.
      *

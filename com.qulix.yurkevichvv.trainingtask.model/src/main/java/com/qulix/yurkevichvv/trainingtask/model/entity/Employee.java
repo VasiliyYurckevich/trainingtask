@@ -19,7 +19,6 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -27,7 +26,7 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Employee implements Entity, Serializable {
+public class Employee implements Entity {
 
     /**
      * Идентификатор сотрудника.

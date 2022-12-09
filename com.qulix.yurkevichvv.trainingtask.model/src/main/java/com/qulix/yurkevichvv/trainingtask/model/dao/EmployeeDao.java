@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
  * @see Employee
  * @see IDao
  */
-public class EmployeeDao implements IDao<Employee>, Serializable {
+public class EmployeeDao implements IDao<Employee> {
 
     /**
      * Хранит константу для колонки фамилии сотрудника в БД.

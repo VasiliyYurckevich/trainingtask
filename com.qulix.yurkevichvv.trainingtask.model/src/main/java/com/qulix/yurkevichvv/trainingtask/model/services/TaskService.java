@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.model.services;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,7 +14,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
  *
  * @author Q-YVV
  */
-public class TaskService implements Serializable, IService<Task> {
+public class TaskService implements IService<Task> {
 
     /**
      * DAO-объект для взаимодействия Task с БД.

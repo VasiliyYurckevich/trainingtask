@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.model.services;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
@@ -9,7 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
  *
  * @author Q-YVV
  */
-public interface IService<T extends Entity> {
+public interface IService<T extends Entity> extends Serializable {
 
     /**
      * Сохраняет сущность в БД.

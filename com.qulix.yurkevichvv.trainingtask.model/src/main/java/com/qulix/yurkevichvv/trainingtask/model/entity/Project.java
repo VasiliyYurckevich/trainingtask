@@ -19,7 +19,6 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +29,7 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Project implements Serializable, Entity {
+public class Project implements Entity {
 
     /**
      * Идентификатор проекта.

@@ -19,7 +19,6 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -28,7 +27,7 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
-public class Task implements Entity, Serializable {
+public class Task implements Entity {
 
     /**
      * Идентификатор задачи.
