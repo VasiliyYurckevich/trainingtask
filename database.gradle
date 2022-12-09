@@ -1,7 +1,7 @@
 import groovy.sql.Sql
 
 ext {
-    def dbName = "mydb"
+    dbName = "mydb"
     dbUser = "SA"
     dbPassword = ""
     dbPort = 9001

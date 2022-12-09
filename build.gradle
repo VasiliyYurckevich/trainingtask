@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath "org.hsqldb:hsqldb:${hsqldbVersion}"
         classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
-        classpath 'com.bmuschko:gradle-tomcat-plugin:2.7.0'
+     //   classpath "com.bmuschko:gradle-tomcat-plugin:2.7.0"
     }
 }
 
@@ -17,7 +17,12 @@ plugins {
     id "java"
 }
 
+ext {
+    tomcatHttpPort = 9090
+}
+
 apply plugin: "java"
+apply plugin: "com.bmuschko.cargo"
 
 group "com.qulix.yurkevichvv"
 version "1.0-SNAPSHOT"
@@ -31,6 +36,12 @@ dependencies {
     implementation "org.hsqldb:hsqldb:2.5.1"
     compileOnly("javax:javaee-web-api:8.0.1")
     implementation group: "jstl", name: "jstl", version: "1.2"
+
+    def cargoVersion = "1.9.10"
+    cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoVersion}",
+            "org.codehaus.cargo:cargo-licensed-dtds:${cargoVersion}",
+            "org.codehaus.cargo:cargo-ant:${cargoVersion}"
+
 }
 
 
@@ -49,9 +60,9 @@ sourceSets {
     }
 }
 
-/*cargo {
+cargo {
     containerId = "tomcat9x"
-    port = 9090
+    port = tomcatHttpPort
 
     deployable {
         context = "servlets"
@@ -71,7 +82,18 @@ sourceSets {
         }
         rmiPort = 1234
     }
-}*/
+}
+
+task startServer(type: com.bmuschko.gradle.cargo.tasks.local.CargoRunLocal) {
+    dependsOn cargoConfigureLocal
+    finalizedBy {
+        println "http://localhost:${project.ext.tomcatHttpPort}/servlets"
+        println "http://localhost:${project.ext.tomcatHttpPort}/wicket"
+    }
+}
+
+task stopServer(type: com.bmuschko.gradle.cargo.tasks.local.CargoStopLocal) {
+}
 
 subprojects {
     apply plugin: "java"
@@ -87,6 +109,15 @@ subprojects {
         include "**/*.java"
 
         classpath = getProject().files()
+    }
+
+    sourceSets {
+        main {
+            resources {
+                srcDirs += ["src/main/java", "src/main/webapp"]
+                includes = ["**/*.html", "**/*.css", "**/*.properties"]
+            }
+        }
     }
 
     build{
@@ -105,43 +136,19 @@ subprojects {
     }
 }
 
-def webProjects() {
+Set<Project> webProjects() {
     subprojects.findAll { subproject -> subproject.plugins.hasPlugin("war")}
 }
 
 gradle.projectsEvaluated {
     configure(webProjects()) {
-        buildscript {
-            repositories {
-                mavenCentral()
-            }
-
-            dependencies {
-                classpath 'com.bmuschko:gradle-tomcat-plugin:2.7.0'
-                classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
-            }
-        }
-
-        apply plugin: 'com.bmuschko.cargo'
-        apply plugin: "com.bmuschko.tomcat"
+        apply plugin: "com.bmuschko.cargo"
 
         dependencies {
             def cargoVersion = "1.9.10"
-            cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
-                    "org.codehaus.cargo:cargo-licensed-dtds:$cargoVersion",
-                    "org.codehaus.cargo:cargo-ant:$cargoVersion"
-
-            def tomcatVersion = "9.0.56"
-            tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-                    "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
-                    "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
-        }
-
-
-
-        tomcat {
-            httpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
-            ajpProtocol = "org.apache.coyote.http11.Http11Nio2Protocol"
+            cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoVersion}",
+                    "org.codehaus.cargo:cargo-licensed-dtds:${cargoVersion}",
+                    "org.codehaus.cargo:cargo-ant:${cargoVersion}"
         }
 
         cargo {
@@ -150,21 +157,27 @@ gradle.projectsEvaluated {
 
             deployable {
                 file = file("${buildDir}/libs/${project.name}-${project.version}.war")
-                context = "${project.name}"
+                context = "${project.ext.context}"
             }
 
             local {
                 installer {
                     installUrl = "https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.59/bin/apache-tomcat-9.0.59.zip"
-                    downloadDir = file("${rootDir}/download")
-                    extractDir = file("${rootDir}/extract")
+                    downloadDir = file("${buildDir}/download")
+                    extractDir = file("${buildDir}/extract")
                 }
                 containerProperties {
-                    property 'cargo.tomcat.ajp.port', project.ext.tomcatAjpPort
+                    property "cargo.tomcat.ajp.port", project.ext.tomcatAjpPort
                 }
-                homeDir = file("${rootDir}/extract/apache-tomcat-9.0.59/apache-tomcat-9.0.59")
-                outputFile = new File("${buildDir}/logs/apache-tomcat-9.0.59/server.log")
+                homeDir = file("${projectDir}/extract/apache-tomcat-9.0.59/apache-tomcat-9.0.59/1")
                 rmiPort = project.ext.rmiPort
+            }
+        }
+
+        task startServer(dependsOn: cargoStartLocal){
+            doLast {
+                println "HI"
+                println "http://localhost:${project.ext.tomcatHttpPort}/${project.ext.context}"
             }
         }
     }

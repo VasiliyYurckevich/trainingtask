@@ -1,17 +1,3 @@
-
-/*
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath "com.bmuschko:gradle-tomcat-plugin:2.7.0"
-        classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
-    }
-}
-*/
-
 plugins {
     id "war"
 }
@@ -19,23 +5,15 @@ plugins {
 group "com.qulix.yurkevichvv.trainingtask"
 version "1.0-SNAPSHOT"
 
-
 repositories {
     mavenCentral()
 }
 
 ext {
-    junitVersion = "5.9.0"
-    tomcatStopPort = 6666
-    tomcatStopKey = "wicketStopKey"
     tomcatAjpPort = 1235
     rmiPort = 7777
     tomcatHttpPort = 7070
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    context = "wicket"
 }
 
 dependencies {
@@ -49,39 +27,8 @@ dependencies {
     testImplementation "junit:junit:4.11"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
-/*
-    def tomcatVersion = "9.0.59"
-    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-            "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
-            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"*/
 }
 
 test {
     useJUnitPlatform()
 }
-
-sourceSets {
-    main {
-        resources {
-            srcDirs += ["src/main/java", "src/main/webapp"]
-            includes = ["**/*.html", "**/*.css", "**/*.properties"]
-        }
-    }
-}
-
-/*cargo{
-    containerId = "tomcat8x"
-    port = tomcatHttpPort
-
-    deployable {
-        file = file("${buildDir}/libs/com.qulix.yurkevichvv.trainingtask.wicket-1.0-SNAPSHOT.war")
-        context = "/wicket"
-    }
-
-    local {
-        homeDir= file("${rootDir}/extract/apache-tomcat-9.0.59/apache-tomcat-9.0.59")
-        outputFile = new File('logs/apache-tomcat-9.0.59/server.log')
-        rmiPort = 7777
-    }
-}*/
-
