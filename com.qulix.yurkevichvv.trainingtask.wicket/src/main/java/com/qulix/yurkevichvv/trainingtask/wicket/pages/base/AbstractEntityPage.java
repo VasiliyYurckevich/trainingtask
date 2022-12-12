@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**

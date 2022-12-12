@@ -10,7 +10,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
@@ -19,8 +18,8 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPageFactory;
 
@@ -29,7 +28,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPageFactory;
  *
  * @author Q-YVV
  */
-public class ProjectPage extends AbstractEntityPage {
+public class ProjectPage extends AbstractEntityPage<Project> {
 
     /**
      * Максимальная длинна ввода поля наименования.
@@ -44,19 +43,19 @@ public class ProjectPage extends AbstractEntityPage {
     /**
      * Сервис для работы с Project.
      */
-    private ProjectService service = new ProjectService();
+    private final ProjectService service = new ProjectService();
 
     /**
      * Модель проекта.
      */
-    private IModel<Project> projectModel;
+    private CompoundPropertyModel<Project> projectModel;
 
     /**
      * Конструктор.
      *
      * @param project редактируемый проект
      */
-    public ProjectPage(IModel<Project> project) {
+    public ProjectPage(CompoundPropertyModel<Project> project) {
         super();
         this.projectModel = project;
     }
@@ -67,7 +66,7 @@ public class ProjectPage extends AbstractEntityPage {
 
         get("pageTitle").setDefaultModelObject("Редактировать проект");
 
-        Form<Project> form = new Form<>("projectForm", new CompoundPropertyModel<>(projectModel)) {
+        Form<Project> form = new Form<>("projectForm", projectModel) {
             @Override
             protected void onSubmit() {
                 onSubmitting();
@@ -89,26 +88,11 @@ public class ProjectPage extends AbstractEntityPage {
 
         task.setProjectId(projectModel.getObject().getId());
 
-        return new TaskPage(new Model<>(task)) {
-            @Override
-            protected void onSubmitting() {
-                service.addTask(projectModel.getObject(), getTaskModel().getObject());
-            }
-
-            @Override
-            protected void onChangesSubmitted() {
-                setResponsePage(ProjectPage.this);
-            }
-
-            @Override
-            protected boolean changeProjectOption() {
-                return false;
-            }
-        };
+        return new NewTaskInProject(task);
     }
 
     @Override
-    protected void addFormComponents(Form form) {
+    protected void addFormComponents(Form<Project> form) {
         Link<Void> addTaskLink = new Link<>("addTaskInProject") {
             @Override
             public void onClick() {
@@ -119,7 +103,7 @@ public class ProjectPage extends AbstractEntityPage {
 
         NoDoubleClickButton button = new NoDoubleClickButton("submit");
         form.add(button)
-                .add(new PreventSubmitOnEnterBehavior());
+            .add(new PreventSubmitOnEnterBehavior());
         form.setDefaultButton(button);
 
         Link<Void> cancelButton = new Link<>("cancel") {
@@ -157,7 +141,7 @@ public class ProjectPage extends AbstractEntityPage {
     /**
      * Реализует CustomListView для задач проекта.
      */
-    private class TaskListView extends ListView<Task> {
+    private static class TaskListView extends ListView<Task> {
 
         /**
          * Модель проекта, связанного с задачами.
@@ -169,7 +153,7 @@ public class ProjectPage extends AbstractEntityPage {
          */
         private final ProjectService service;
 
-        private final AbstractEntityPageFactory pageFactory;
+        private final AbstractEntityPageFactory<Task> pageFactory;
 
         /**
          * Конструктор.
@@ -200,7 +184,7 @@ public class ProjectPage extends AbstractEntityPage {
                 .add(new Label("employeeName", task.getEmployeeId() != null ?
                     new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""))
                 .add(new DeleteInProjectLink(item.getModel()))
-                .add(new EditLink("editLink", pageFactory, item.getModel()));
+                .add(new EditLink<>("editLink", pageFactory, item.getModel()));
         }
 
         private class DeleteInProjectLink extends Link<Void> {
@@ -222,6 +206,27 @@ public class ProjectPage extends AbstractEntityPage {
         @Override
         protected List<Task> load() {
             return service.getProjectsTasks(projectModel.getObject());
+        }
+    }
+
+    private class NewTaskInProject extends TaskPage {
+        public NewTaskInProject(Task task) {
+            super(new CompoundPropertyModel<>(task));
+        }
+
+        @Override
+        protected void onSubmitting() {
+            service.addTask(projectModel.getObject(), getTaskModel().getObject());
+        }
+
+        @Override
+        protected void onChangesSubmitted() {
+            setResponsePage(ProjectPage.this);
+        }
+
+        @Override
+        protected boolean changeProjectOption() {
+            return false;
         }
     }
 }

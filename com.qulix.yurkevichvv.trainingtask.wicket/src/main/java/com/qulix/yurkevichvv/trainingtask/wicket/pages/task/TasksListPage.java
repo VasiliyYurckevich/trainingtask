@@ -15,26 +15,21 @@ import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
 
 /**
  * Страница списка задач.
  *
  * @author Q-YVV
  */
-public class TasksListPage extends BasePage {
-
-    /**
-     * Сервис для работы с Task.
-     */
-    private final TaskService service = new TaskService();
+public class TasksListPage extends AbstractListPage<Task> {
 
     /**
      * Конструктор.
      */
     public TasksListPage() {
-        super();
+        super(new TaskPageFactory(), new TaskService());
     }
 
     @Override

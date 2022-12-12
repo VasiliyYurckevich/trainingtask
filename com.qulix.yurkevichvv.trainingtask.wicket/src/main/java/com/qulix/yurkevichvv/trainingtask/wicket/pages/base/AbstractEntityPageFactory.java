@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 import org.apache.wicket.model.CompoundPropertyModel;
 

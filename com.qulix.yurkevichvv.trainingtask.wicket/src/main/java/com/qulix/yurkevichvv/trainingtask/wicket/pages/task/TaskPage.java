@@ -25,7 +25,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
 /**
@@ -33,7 +33,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
  *
  * @author Q-YVV
  */
-public class TaskPage extends AbstractEntityPage {
+public class TaskPage extends AbstractEntityPage<Task> {
 
     /**
      * Идентификатор элемента формы.
@@ -68,7 +68,7 @@ public class TaskPage extends AbstractEntityPage {
     /**
      * Модель задачи.
      */
-    private IModel<Task> task;
+    private IModel<Task> taskModel;
 
     /**
      * Сервис для работы с Task.
@@ -78,15 +78,15 @@ public class TaskPage extends AbstractEntityPage {
     /**
      * Конструктор.
      *
-     * @param task задача
+     * @param taskModel модель задачи
      */
-    public TaskPage(IModel<Task> task) {
+    public TaskPage(IModel<Task> taskModel) {
         super();
-        this.task = task;
+        this.taskModel = taskModel;
     }
 
     public IModel<Task> getTaskModel() {
-        return task;
+        return taskModel;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class TaskPage extends AbstractEntityPage {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Редактировать задачу");
 
-        Form<Task> form = new Form<>(TASK_FORM, new CompoundPropertyModel<>(task)) {
+        Form<Task> form = new Form<>(TASK_FORM, new CompoundPropertyModel<>(taskModel)) {
             @Override
             protected void onSubmit() {
                 onSubmitting();
@@ -124,7 +124,7 @@ public class TaskPage extends AbstractEntityPage {
     }
 
     @Override
-    protected void addFormComponents(Form form) {
+    protected void addFormComponents(Form<Task> form) {
         addButtons(form);
         addStatusesDropDownChoice(form);
         addStringField(form, TITLE, MAXLENGTH);
@@ -141,10 +141,9 @@ public class TaskPage extends AbstractEntityPage {
      */
     private void addButtons(Form<Task> form) {
         NoDoubleClickButton button = new NoDoubleClickButton("submit");
-        form.add(button);
+        form.add(button)
+            .add(new PreventSubmitOnEnterBehavior());
         form.setDefaultButton(button);
-
-        form.add(new PreventSubmitOnEnterBehavior());
 
         Link<Void> cancelButton = new Link<>("cancel") {
             @Override
@@ -161,9 +160,9 @@ public class TaskPage extends AbstractEntityPage {
      * @param form форма для добавления
      */
     private static void addStatusesDropDownChoice(Form<Task> form) {
-        DropDownChoice statusesDropDownChoice =
-            new DropDownChoice("statuses", new PropertyModel<>(form.getModelObject(), "status"),
-            List.of(Status.values()), new ChoiceRenderer<Status>("statusTitle"));
+        DropDownChoice<Status> statusesDropDownChoice =
+            new DropDownChoice<>("statuses", new PropertyModel<>(form.getModelObject(), "status"),
+            List.of(Status.values()), new ChoiceRenderer<>("statusTitle"));
         statusesDropDownChoice.setRequired(true);
 
         FeedbackPanel employeesFeedbackPanel = new FeedbackPanel("statusesFeedbackPanel",

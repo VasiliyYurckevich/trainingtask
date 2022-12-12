@@ -8,14 +8,14 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 
 /**
  * Страница добавления/редактирования сотрудников.
  *
  * @author Q-YVV
  */
-public class EmployeePage extends AbstractEntityPage {
+public class EmployeePage extends AbstractEntityPage<Employee> {
 
     /**
      * Идентификатор элемента формы.
@@ -35,7 +35,7 @@ public class EmployeePage extends AbstractEntityPage {
     /**
      * Сервис для работы с Employee.
      */
-    private EmployeeService service = new EmployeeService();
+    private final EmployeeService service = new EmployeeService();
 
     /**
      * Конструктор.
@@ -53,7 +53,7 @@ public class EmployeePage extends AbstractEntityPage {
 
         get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
 
-        Form employeeForm = new Form<>(FORM, employeeModel) {
+        Form<Employee> employeeForm = new Form<>(FORM, employeeModel) {
             @Override
                 public void onSubmit() {
                 onSubmitting();
@@ -76,7 +76,7 @@ public class EmployeePage extends AbstractEntityPage {
     }
 
     @Override
-    protected void addFormComponents(Form form) {
+    protected void addFormComponents(Form<Employee> form) {
         NoDoubleClickButton button = new NoDoubleClickButton("submit");
         form.add(button)
             .add(new PreventSubmitOnEnterBehavior());

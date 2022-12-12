@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -15,26 +16,21 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.AbstractEntityPageFactory;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
 
 /**
  * Страница списка сотрудников.
  *
  * @author Q-YVV
 */
-public class EmployeesListPage extends BasePage {
-
-    /**
-     * Сервис для работы с Employee.
-     */
-    private final EmployeeService service = new EmployeeService();
+public class EmployeesListPage extends AbstractListPage<Employee> {
 
     /**
      * Конструктор.
      */
     public EmployeesListPage() {
-        super();
+        super(new EmployeePageFactory(), new EmployeeService());
     }
 
     @Override
@@ -51,8 +47,8 @@ public class EmployeesListPage extends BasePage {
         ListView<Employee> employeeListView = new EmployeeCustomListView(employees, new EmployeeService());
         add(employeeListView);
 
-        EmployeePage employeePage = new EmployeePage(new Model<>(new Employee()));
-        add(new Link<WebPage>("addEmployee", new Model<>(employeePage)) {
+        add(new Link<WebPage>("addEmployee",
+            new Model<>(pageFactory.createPage(CompoundPropertyModel.of(new Employee())))) {
             @Override
             public void onClick() {
                 setResponsePage(getModelObject());
