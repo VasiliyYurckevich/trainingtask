@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
@@ -28,11 +29,6 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
     private static final int MAXLENGTH = 50;
 
     /**
-     * Модель Employee.
-     */
-    private IModel<Employee> employeeModel;
-
-    /**
      * Сервис для работы с Employee.
      */
     private final EmployeeService service = new EmployeeService();
@@ -42,9 +38,8 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      *
      * @param employeeModel редактируемый сотрудник
      */
-    public EmployeePage(IModel<Employee> employeeModel) {
-        super();
-        this.employeeModel = employeeModel;
+    public EmployeePage(CompoundPropertyModel<Employee> employeeModel) {
+        super(employeeModel);
     }
 
     @Override
@@ -53,7 +48,7 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
 
         get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
 
-        Form<Employee> employeeForm = new Form<>(FORM, employeeModel) {
+        Form<Employee> employeeForm = new Form<>(FORM, entityModel) {
             @Override
                 public void onSubmit() {
                 onSubmitting();
@@ -67,7 +62,7 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
 
     @Override
     protected final void onSubmitting() {
-        service.save(employeeModel.getObject());
+        service.save(entityModel.getObject());
     }
 
     @Override

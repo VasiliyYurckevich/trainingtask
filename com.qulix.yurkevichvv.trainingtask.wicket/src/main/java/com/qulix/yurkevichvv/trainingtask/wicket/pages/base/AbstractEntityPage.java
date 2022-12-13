@@ -1,5 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -7,6 +9,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
+import org.apache.wicket.model.CompoundPropertyModel;
 
 /**
  * Обобщает страницу редактирования сущностей.
@@ -15,15 +18,18 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidato
  */
 public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
+    protected CompoundPropertyModel<T> entityModel;
+
     /**
      * Конструктор.
      */
-    public AbstractEntityPage() {
+    public AbstractEntityPage(CompoundPropertyModel<T> entityModel) {
         super();
+        this.entityModel = entityModel;
     }
 
     /**
-     * Выполнят отправку формы.
+     * Выполняет отправку формы.
      */
     protected abstract void onSubmitting();
 

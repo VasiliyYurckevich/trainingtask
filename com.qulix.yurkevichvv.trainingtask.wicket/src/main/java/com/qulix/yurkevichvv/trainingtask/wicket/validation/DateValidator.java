@@ -48,14 +48,13 @@ public class DateValidator extends AbstractFormValidator {
 
     @Override
     public void validate(Form form) {
-
         final FormComponent beginDate = components[0];
         final FormComponent endDate = components[1];
         final Map<String, String> errorMessage = FieldsValidation.checkDate(beginDate.getInput(), endDate.getInput());
-        if (errorMessage.containsKey(BEGIN_DATE)) {
+        if (!errorMessage.get(BEGIN_DATE).isBlank()) {
             beginDate.error((IValidationError) messageSource -> errorMessage.get(BEGIN_DATE));
         }
-        if (errorMessage.containsKey(END_DATE)) {
+        if (!errorMessage.get(END_DATE).isBlank()) {
             endDate.error((IValidationError) messageSource -> errorMessage.get(END_DATE));
         }
     }

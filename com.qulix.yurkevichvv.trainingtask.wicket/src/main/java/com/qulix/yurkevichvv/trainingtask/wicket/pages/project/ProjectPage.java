@@ -46,18 +46,12 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     private final ProjectService service = new ProjectService();
 
     /**
-     * Модель проекта.
-     */
-    private CompoundPropertyModel<Project> projectModel;
-
-    /**
      * Конструктор.
      *
      * @param project редактируемый проект
      */
-    public ProjectPage(CompoundPropertyModel<Project> project) {
-        super();
-        this.projectModel = project;
+    public ProjectPage(CompoundPropertyModel<Project> projectModel) {
+        super(projectModel);
     }
 
     @Override
@@ -66,7 +60,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
 
         get("pageTitle").setDefaultModelObject("Редактировать проект");
 
-        Form<Project> form = new Form<>("projectForm", projectModel) {
+        Form<Project> form = new Form<>("projectForm", entityModel) {
             @Override
             protected void onSubmit() {
                 onSubmitting();
@@ -84,11 +78,11 @@ public class ProjectPage extends AbstractEntityPage<Project> {
      * @param task задача
      * @return страницу редактирования задачи
      */
-    protected TaskPage getTaskPage(Task task) {
+    protected TaskPage getNewTaskPage(Task task) {
 
-        task.setProjectId(projectModel.getObject().getId());
+        task.setProjectId(entityModel.getObject().getId());
 
-        return new NewTaskInProject(task);
+        return new NewTaskInProject(CompoundPropertyModel.of(task), entityModel.getObject());
     }
 
     @Override
@@ -96,7 +90,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
         Link<Void> addTaskLink = new Link<>("addTaskInProject") {
             @Override
             public void onClick() {
-                setResponsePage(getTaskPage(new Task()));
+                setResponsePage(getNewTaskPage(new Task()));
             }
         };
         add(addTaskLink);
@@ -124,13 +118,13 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     private void addTaskList() {
         LoadableDetachableModel<List<Task>> tasks = new TaskListLoadableDetachableModel();
 
-        ListView<Task> taskListView = new TaskListView(tasks, projectModel, service);
+        ListView<Task> taskListView = new TaskListView(tasks, entityModel, service);
         add(taskListView);
     }
 
     @Override
     protected final void onSubmitting() {
-        service.save(projectModel.getObject());
+        service.save(entityModel.getObject());
     }
 
     @Override
@@ -205,18 +199,22 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     private class TaskListLoadableDetachableModel extends LoadableDetachableModel<List<Task>> {
         @Override
         protected List<Task> load() {
-            return service.getProjectsTasks(projectModel.getObject());
+            return service.getProjectsTasks(entityModel.getObject());
         }
     }
 
     private class NewTaskInProject extends TaskPage {
-        public NewTaskInProject(Task task) {
-            super(new CompoundPropertyModel<>(task));
+
+        private Project project;
+
+        public NewTaskInProject(CompoundPropertyModel<Task> task, Project project) {
+            super(task);
+            this.project = project;
         }
 
         @Override
         protected void onSubmitting() {
-            service.addTask(projectModel.getObject(), getTaskModel().getObject());
+            service.addTask(project, entityModel.getObject());
         }
 
         @Override

@@ -29,7 +29,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
 /**
- * Страница добавления/редактирования задач.
+ * Страница добавления редактирования задач.
  *
  * @author Q-YVV
  */
@@ -66,11 +66,6 @@ public class TaskPage extends AbstractEntityPage<Task> {
     private static final String TITLE = "title";
 
     /**
-     * Модель задачи.
-     */
-    private IModel<Task> taskModel;
-
-    /**
      * Сервис для работы с Task.
      */
     protected TaskService taskService = new TaskService();
@@ -80,13 +75,8 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @param taskModel модель задачи
      */
-    public TaskPage(IModel<Task> taskModel) {
-        super();
-        this.taskModel = taskModel;
-    }
-
-    public IModel<Task> getTaskModel() {
-        return taskModel;
+    public TaskPage(CompoundPropertyModel<Task> taskModel) {
+        super(taskModel);
     }
 
     @Override
@@ -94,7 +84,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Редактировать задачу");
 
-        Form<Task> form = new Form<>(TASK_FORM, new CompoundPropertyModel<>(taskModel)) {
+        Form<Task> form = new Form<>(TASK_FORM, entityModel) {
             @Override
             protected void onSubmit() {
                 onSubmitting();
@@ -108,10 +98,12 @@ public class TaskPage extends AbstractEntityPage<Task> {
 
     @Override
     protected void onSubmitting() {
+        taskService.save(entityModel.getObject());
     }
 
     @Override
     protected void onChangesSubmitted() {
+        setResponsePage(TasksListPage.class);
     }
 
     /**

@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
@@ -51,7 +52,7 @@ public class TasksListPage extends AbstractListPage<Task> {
      * @param task задача
      * @return экземпляр TaskPage дял данной задачи
      */
-    private TaskPage getTaskPage(Task task) {
+    private TaskPage getTaskPage(CompoundPropertyModel<Task> task) {
         return new NewTaskPage(task);
     }
 
@@ -108,7 +109,7 @@ public class TasksListPage extends AbstractListPage<Task> {
 
         @Override
         public void onClick() {
-            setResponsePage(getTaskPage(new Task()));
+            setResponsePage(getTaskPage(CompoundPropertyModel.of(new Task())));
         }
 
         @Override
@@ -119,18 +120,18 @@ public class TasksListPage extends AbstractListPage<Task> {
     }
 
     private class NewTaskPage extends TaskPage {
-        public NewTaskPage(Task task) {
-            super(new Model<>(task));
+        public NewTaskPage(CompoundPropertyModel<Task> entityModel) {
+            super(entityModel);
         }
 
         @Override
         protected void onSubmitting() {
-            taskService.save(getTaskModel().getObject());
+            taskService.save(entityModel.getObject());
         }
 
         @Override
         protected void onChangesSubmitted() {
-            setResponsePage(TasksListPage.this);
+            setResponsePage(TasksListPage.class);
         }
     }
 }
