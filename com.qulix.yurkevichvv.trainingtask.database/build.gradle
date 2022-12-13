@@ -1,0 +1,21 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    ext {
+        hsqldbVersion = "2.5.1"
+
+    }
+    dependencies {
+        classpath "org.hsqldb:hsqldb:${hsqldbVersion}"
+    }
+}
+
+group 'com.qulix.yurkevichvv.trainingtask'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+apply from:"database.gradle"
