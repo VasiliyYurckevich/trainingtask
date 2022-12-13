@@ -1,10 +1,10 @@
-/mydb.lck
-/mydb.log
-/mydb.properties
-/mydb.script
 /build
 /.gradle
 /.idea
-/mydb.tmp
 /TrainingTask.iml
 /codeStyle.xml
+/com.qulix.yurkevichvv.trainingtask.database/mydb.tmp/
+/com.qulix.yurkevichvv.trainingtask.database/mydb.lck
+/com.qulix.yurkevichvv.trainingtask.database/mydb.log
+/com.qulix.yurkevichvv.trainingtask.database/mydb.properties
+/com.qulix.yurkevichvv.trainingtask.database/mydb.script

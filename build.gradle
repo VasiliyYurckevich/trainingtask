@@ -2,14 +2,8 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    ext {
-        hsqldbVersion = "2.5.1"
-
-    }
     dependencies {
-        classpath "org.hsqldb:hsqldb:${hsqldbVersion}"
         classpath "com.bmuschko:gradle-cargo-plugin:2.9.0"
-     //   classpath "com.bmuschko:gradle-tomcat-plugin:2.7.0"
     }
 }
 
@@ -48,8 +42,6 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-apply from: "database.gradle"
 
 sourceSets {
     main {
@@ -176,7 +168,6 @@ gradle.projectsEvaluated {
 
         task startServer(dependsOn: cargoStartLocal){
             doLast {
-                println "HI"
                 println "http://localhost:${project.ext.tomcatHttpPort}/${project.ext.context}"
             }
         }

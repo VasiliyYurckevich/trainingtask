@@ -1,4 +1,5 @@
 include "com.qulix.yurkevichvv.trainingtask.model"
 include "com.qulix.yurkevichvv.trainingtask.servlets"
 include "com.qulix.yurkevichvv.trainingtask.wicket"
+include 'com.qulix.yurkevichvv.trainingtask.database'
 
