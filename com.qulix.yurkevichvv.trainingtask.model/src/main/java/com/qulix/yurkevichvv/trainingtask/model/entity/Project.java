@@ -95,11 +95,8 @@ public class Project implements Entity {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return String.format("Project { id= '%s', title='%s', description= '%s', tasksList= '%s'}",
+                id, title, description, tasksList);
     }
 
     @Override

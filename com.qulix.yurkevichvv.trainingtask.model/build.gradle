@@ -5,6 +5,10 @@ repositories {
 group "com.qulix.yurkevichvv"
 version "1.0-SNAPSHOT"
 
+tasks.withType(Jar).all {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 dependencies {
     implementation "org.hsqldb:hsqldb:2.7.0"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"

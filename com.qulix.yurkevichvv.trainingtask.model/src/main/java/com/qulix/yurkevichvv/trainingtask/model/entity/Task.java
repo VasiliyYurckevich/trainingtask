@@ -137,16 +137,9 @@ public class Task implements Entity {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", status=" + status +
-                ", title='" + title + '\'' +
-                ", workTime=" + workTime +
-                ", beginDate=" + beginDate +
-                ", endDate=" + endDate +
-                ", projectId=" + projectId +
-                ", employeeId=" + employeeId +
-                '}';
+        return String.format("Project { id= '%s', status='%s', title= '%s', workTime= '%s'," +
+                " beginDate= '%s', endDate= '%s', projectId= '%s', employeeId= '%s'}",
+                id, status, title, workTime, beginDate, endDate, projectId, employeeId);
     }
 
     @Override

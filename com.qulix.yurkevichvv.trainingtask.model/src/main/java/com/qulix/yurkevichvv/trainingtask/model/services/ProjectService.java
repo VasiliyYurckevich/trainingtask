@@ -66,7 +66,6 @@ public class ProjectService implements IProjectService {
 
     }
 
-    @SuppressWarnings("all")
     @Override
     public List<Project> findAll() throws ServiceException {
         Connection connection = ConnectionController.getConnection();
@@ -74,7 +73,6 @@ public class ProjectService implements IProjectService {
         try (connection) {
             List<Project> projects = projectDao.getAll(connection);
             projects.forEach(project -> project.setTasksList(getProjectsTasks(project)));
-            System.out.println(projects);
             return projects;
         }
         catch (SQLException e) {
@@ -82,7 +80,6 @@ public class ProjectService implements IProjectService {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public Project getById(Integer id) throws ServiceException {
         Connection connection = ConnectionController.getConnection();
@@ -90,7 +87,6 @@ public class ProjectService implements IProjectService {
         try (connection) {
             Project project = projectDao.getById(id, connection);
             project.setTasksList(getProjectsTasks(project));
-            System.out.println(project);
             return project;
         }
         catch (SQLException e) {
@@ -103,7 +99,8 @@ public class ProjectService implements IProjectService {
         Connection connection = ConnectionController.getConnection();
 
         try (connection) {
-            return project.getTasksList();
+            List<Task> projects = taskDao.getTasksInProject(project.getId(), connection);
+            return projects;
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during getting project tasks", e);

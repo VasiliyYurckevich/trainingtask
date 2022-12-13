@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
  *
  * @author Q-YVV
  */
-public interface IDao<T extends Entity> extends Serializable {
+public interface IDao<T extends Entity> {
 
     /**
      * Добавляет новую сущность в БД.

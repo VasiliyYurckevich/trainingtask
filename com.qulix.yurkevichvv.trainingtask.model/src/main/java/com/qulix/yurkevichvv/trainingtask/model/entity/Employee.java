@@ -100,13 +100,8 @@ public class Employee implements Entity {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", surname='" + surname + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", post='" + post + '\'' +
-                '}';
+        return String.format("Employee { id= '%s', surname='%s', firstName= '%s', patronymic= '%s' , post= '%s'}",
+                id, surname, firstName, patronymic, post);
     }
 
     @Override
