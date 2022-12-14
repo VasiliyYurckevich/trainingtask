@@ -10,6 +10,7 @@ import org.apache.wicket.model.IModel;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 /**
  * Обобщенный ListView для сущностей.
@@ -33,7 +34,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      * @param model модель списка
      * @param service сервис для удаления элементов списка
      */
-    public CustomListView(String id, IModel<? extends List<T>> model, IService service) {
+    public CustomListView(String id, LoadableDetachableModel<? extends List<T>> model, IService service) {
         super(id, model);
         this.service = service;
         pageFactory = getPageFactory();
@@ -54,7 +55,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @author Q-YVV
      */
-    private static class DeleteLink<T extends Entity> extends Link<T> {
+    private class DeleteLink<T extends Entity> extends Link<T> {
 
         /**
          * Сервис для работы с сущностями.
@@ -70,7 +71,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
          * Конструктор.
          *
          * @param id идентификатор
-         * @param entity элемент ListView
+         * @param entityModel элемент ListView
          */
         public DeleteLink(String id, IService service, IModel<T> entityModel) {
             super(id);
@@ -81,6 +82,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         @Override
         public void onClick() {
             service.delete(entityModel.getObject().getId());
+            CustomListView.this.getModel().detach();
         }
     }
 }

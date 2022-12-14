@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.EmployeeListLoadableDetachableModel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -38,12 +39,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Сотрудники");
 
-        LoadableDetachableModel <List<Employee>> employees = new LoadableDetachableModel<>() {
-            @Override
-            protected List<Employee> load() {
-                return service.findAll();
-            }
-        };
+        LoadableDetachableModel <List<Employee>> employees = new EmployeeListLoadableDetachableModel();
         ListView<Employee> employeeListView = new EmployeeCustomListView(employees, new EmployeeService());
         add(employeeListView);
 
@@ -69,7 +65,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
          * @param employees модель списка сотрудников
          * @param service сервис для работы с сущностями
          */
-        public EmployeeCustomListView(IModel<List<Employee>> employees, IService service) {
+        public EmployeeCustomListView(LoadableDetachableModel<List<Employee>> employees, IService service) {
             super("employees", employees, service);
         }
 

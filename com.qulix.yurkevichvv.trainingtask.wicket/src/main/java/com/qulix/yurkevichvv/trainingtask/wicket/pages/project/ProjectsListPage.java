@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -37,7 +38,7 @@ public class ProjectsListPage extends AbstractListPage<Project> {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Проекты");
 
-        LoadableDetachableModel<List<Project>> projects = new ProjectListLoadableModel();
+        LoadableDetachableModel<List<Project>> projects = new ProjectListLoadableDetachableModel();
         CustomListView<Project> projectListView = new ProjectCustomListView(projects, service);
         add(projectListView);
 
@@ -63,7 +64,7 @@ public class ProjectsListPage extends AbstractListPage<Project> {
          * @param projects       модель списка проектов
          * @param projectService сервис для работы с проектами
          */
-        public ProjectCustomListView(IModel<List<Project>> projects, IService projectService) {
+        public ProjectCustomListView(LoadableDetachableModel<List<Project>> projects, IService projectService) {
             super("projects", projects, projectService);
         }
 
@@ -78,13 +79,6 @@ public class ProjectsListPage extends AbstractListPage<Project> {
             final Project project = item.getModelObject();
             item.add(new Label("title", project.getTitle()))
                 .add(new Label("description", project.getDescription()));
-        }
-    }
-
-    private class ProjectListLoadableModel extends LoadableDetachableModel<List<Project>> {
-        @Override
-        protected List<Project> load() {
-            return service.findAll();
         }
     }
 }

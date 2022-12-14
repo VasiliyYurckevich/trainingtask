@@ -2,13 +2,13 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.TaskListLoadableDetachableModel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
@@ -44,16 +44,6 @@ public class TasksListPage extends AbstractListPage<Task> {
         LoadableDetachableModel<List<Task>> tasks = new TaskListLoadableDetachableModel();
         CustomListView<Task> taskListView = new TaskCustomListView(tasks, service);
         add(taskListView);
-    }
-
-    /**
-     * Возвращает страницу редактирования задачи.
-     *
-     * @param task задача
-     * @return экземпляр TaskPage дял данной задачи
-     */
-    private TaskPage getTaskPage(CompoundPropertyModel<Task> task) {
-        return new NewTaskPage(task);
     }
 
     /**
@@ -95,13 +85,6 @@ public class TasksListPage extends AbstractListPage<Task> {
 
     }
 
-    private class TaskListLoadableDetachableModel extends LoadableDetachableModel<List<Task>> {
-        @Override
-        protected List<Task> load() {
-            return service.findAll();
-        }
-    }
-
     private class AddTaskLink extends Link<WebPage> {
         public AddTaskLink() {
             super("addTask");
@@ -109,7 +92,7 @@ public class TasksListPage extends AbstractListPage<Task> {
 
         @Override
         public void onClick() {
-            setResponsePage(getTaskPage(CompoundPropertyModel.of(new Task())));
+            setResponsePage(new NewTaskPage(CompoundPropertyModel.of(new Task())));
         }
 
         @Override

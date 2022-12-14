@@ -1,15 +1,13 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
-import org.apache.wicket.model.CompoundPropertyModel;
 
 /**
  * Обобщает страницу редактирования сущностей.

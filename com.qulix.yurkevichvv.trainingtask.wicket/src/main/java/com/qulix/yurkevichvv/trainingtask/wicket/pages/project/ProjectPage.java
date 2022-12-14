@@ -48,7 +48,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     /**
      * Конструктор.
      *
-     * @param project редактируемый проект
+     * @param projectModel редактируемый проект
      */
     public ProjectPage(CompoundPropertyModel<Project> projectModel) {
         super(projectModel);

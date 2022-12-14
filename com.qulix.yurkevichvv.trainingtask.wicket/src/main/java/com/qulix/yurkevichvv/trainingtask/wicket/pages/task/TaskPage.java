@@ -2,6 +2,8 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.EmployeeListLoadableDetachableModel;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -13,6 +15,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.validator.RangeValidator;
 
@@ -20,8 +23,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
@@ -210,8 +211,8 @@ public class TaskPage extends AbstractEntityPage<Task> {
      * @param form форма для добавления
      */
     private void addProjectDropDownChoice(Form<Task> form) {
-        List<Project> projects = new ProjectService().findAll();
-        ProjectIModel model = new ProjectIModel(projects, form.getModelObject());
+        LoadableDetachableModel<List<Project>> projects = new ProjectListLoadableDetachableModel();
+        ProjectDropDownModel model = new ProjectDropDownModel(projects, form.getModelObject());
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId", model,
             projects, new ChoiceRenderer<>(TITLE));
@@ -230,10 +231,10 @@ public class TaskPage extends AbstractEntityPage<Task> {
      */
     private static void addEmployeesDropDownChoice(Form<Task> form) {
 
-        List<Employee> employees = new EmployeeService().findAll();
+        LoadableDetachableModel<List<Employee>> employees = new EmployeeListLoadableDetachableModel();
         LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
             Employee::getId);
-        EmployeeIModel model = new EmployeeIModel(employees, form.getModelObject());
+        EmployeeDropDownModel model = new EmployeeDropDownModel(employees, form.getModelObject());
 
         DropDownChoice<Employee> employeesDropDownChoice = new DropDownChoice<>("employeeId" , model, employees,
             employeeChoiceRenderer);
@@ -250,12 +251,12 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @author Q-YVV
      */
-    static class EmployeeIModel implements IModel<Employee> {
+    static class EmployeeDropDownModel implements IModel<Employee> {
 
         /**
          * Список сотрудников.
          */
-        private final List<Employee> list;
+        private final LoadableDetachableModel<List<Employee>> list;
 
         /**
          * Редактируемая задача.
@@ -268,14 +269,14 @@ public class TaskPage extends AbstractEntityPage<Task> {
          * @param list список сотрудников
          * @param task редактируемая задача
          */
-        public EmployeeIModel(List<Employee> list, Task task) {
+        public EmployeeDropDownModel(LoadableDetachableModel<List<Employee>> list, Task task) {
             this.list = list;
             this.task = task;
         }
 
         @Override
         public Employee getObject() {
-            for (Employee employee : list) {
+            for (Employee employee : list.getObject()) {
                 if (employee.getId().equals(task.getEmployeeId())) {
                     return employee;
                 }
@@ -294,12 +295,12 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @author Q-YVV
      */
-    static class ProjectIModel implements IModel<Project> {
+    static class ProjectDropDownModel implements IModel<Project> {
 
         /**
          * Список проектов.
          */
-        private final List<Project> list;
+        private final LoadableDetachableModel<List<Project>> list;
 
         /**
          * Редактируемая задача.
@@ -312,14 +313,14 @@ public class TaskPage extends AbstractEntityPage<Task> {
          * @param list список проектов
          * @param task редактируемая задача
          */
-        public ProjectIModel(List<Project> list, Task task) {
+        public ProjectDropDownModel(LoadableDetachableModel<List<Project>> list, Task task) {
             this.list = list;
             this.task = task;
         }
 
         @Override
         public Project getObject() {
-            for (Project project : list) {
+            for (Project project : list.getObject()) {
                 if (project.getId().equals(task.getProjectId())) {
                     return project;
                 }
