@@ -18,53 +18,40 @@ public class FieldsValidation implements Serializable {
     /**
      * Проверяет на валидность вводимую строку.
      *
-     * @param s Строка для валидации
+     * @param string Строка для валидации
      * @param length максимальная длина строки
      * @return строка-сообщение об ошибке либо null
      */
-    public static String checkString(String s, int length) {
-        String error = checkForEmptiness(s);
+    public static String checkString(String string, int length) {
 
-        if (error == null) {
-            if (s.trim().length() > length) {
-                return String.format("Максимальная длинна ввода: %d символов", length);
-            }
+        if (string.isBlank()){
+            return "Поле для ввода не должно быть пустым";
         }
-        return error;
+
+        if (string.trim().length() > length) {
+            return String.format("Максимальная длинна ввода: %d символов", length);
+        }
+
+        return null;
     }
 
     /**
      * Проверяет численное поле.
      *
-     * @param s Строка для валидации
+     * @param string Строка для валидации
      * @return строка-сообщение об ошибке либо null
      */
-    public static String checkNumber(String s) {
-        String error = checkForEmptiness(s);
+    public static String checkNumber(String string) {
 
-        if (error == null) {
-            try {
-                Integer.parseInt(s.trim());
-            }
-            catch (NumberFormatException e) {
-                return "Значение ввода должно быть числом в промежутке от 0 до 2147483647";
-            }
-        }
-        return error;
-    }
-
-    /**
-     * Проверяет поле на пустоту.
-     *
-     * @param s Строка для валидации
-     * @return строка-сообщение об ошибке либо null
-     */
-    private static String checkForEmptiness(String s) {
-        if (s.isEmpty() || s.trim().length() == 0) {
+        if (string.isBlank()){
             return "Поле для ввода не должно быть пустым";
         }
-        else {
+        try {
+            Integer.parseInt(string.trim());
             return null;
+        }
+        catch (NumberFormatException e) {
+            return "Значение ввода должно быть числом в промежутке от 0 до 2147483647";
         }
     }
 

@@ -51,10 +51,11 @@ public class DateValidator extends AbstractFormValidator {
         final FormComponent beginDate = components[0];
         final FormComponent endDate = components[1];
         final Map<String, String> errorMessage = FieldsValidation.checkDate(beginDate.getInput(), endDate.getInput());
-        if (!errorMessage.get(BEGIN_DATE).isBlank()) {
+        System.out.println(errorMessage);
+        if (errorMessage.get(BEGIN_DATE) != null) {
             beginDate.error((IValidationError) messageSource -> errorMessage.get(BEGIN_DATE));
         }
-        if (!errorMessage.get(END_DATE).isBlank()) {
+        if (errorMessage.get(END_DATE) != null) {
             endDate.error((IValidationError) messageSource -> errorMessage.get(END_DATE));
         }
     }

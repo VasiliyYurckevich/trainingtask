@@ -199,7 +199,7 @@ public class ProjectController extends HttpServlet {
         Task task;
         if (req.getParameter(TASK_INDEX) != null) {
             int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
-            task = projectService.getProjectsTasks(project).get(taskIndex);
+            task = project.getTasksList().get(taskIndex);
 
             req.getSession().setAttribute(TASK_INDEX, taskIndex);
         }
