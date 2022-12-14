@@ -1,6 +1,8 @@
+
 repositories {
     mavenCentral()
 }
+
 
 group "com.qulix.yurkevichvv"
 version "1.0-SNAPSHOT"
