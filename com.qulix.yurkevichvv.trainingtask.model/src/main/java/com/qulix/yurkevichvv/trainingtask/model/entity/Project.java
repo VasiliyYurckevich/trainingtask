@@ -49,7 +49,7 @@ public class Project implements Entity {
     /**
      * Задачи проекта.
      */
-    private List<Task> tasksList;
+    private List<Task> tasksList = new ArrayList<>();
 
     /**
      * Удаленные задачи проекта.

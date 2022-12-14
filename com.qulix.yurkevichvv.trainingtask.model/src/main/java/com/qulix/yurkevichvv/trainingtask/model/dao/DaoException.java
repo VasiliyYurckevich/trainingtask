@@ -22,9 +22,4 @@ public class DaoException extends RuntimeException implements Serializable {
     public DaoException(String message, Throwable cause) {
         super(message, cause);
     }
-
-    @Override
-    public String toString() {
-        return this.getMessage();
-    }
 }

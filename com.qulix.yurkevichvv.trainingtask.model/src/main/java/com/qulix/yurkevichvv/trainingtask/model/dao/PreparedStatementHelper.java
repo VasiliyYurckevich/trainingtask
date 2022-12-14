@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -52,7 +53,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param connection соединение с БД
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public PreparedStatementHelper(String sqlStatement, Connection connection) throws DaoException {
+    protected PreparedStatementHelper(String sqlStatement, Connection connection) throws DaoException {
         this.connection = connection;
         this.sqlStatement = sqlStatement;
         this.parametersMap = new HashMap<>();
@@ -65,7 +66,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param sqlStatement SQL-запрос
      * @return SQL-запрос для PreparedStatement
      */
-    public String parseSqlStatement(String sqlStatement) {
+    private String parseSqlStatement(String sqlStatement) {
         Pattern pattern = Pattern.compile(REGEX);
         int paramIndex = 1;
         Matcher matcher = pattern.matcher(sqlStatement);
@@ -81,7 +82,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      *
      * @return предварительно скомпилированный оператор SQL
      */
-    public PreparedStatement fillPreparedStatement() {
+    private PreparedStatement fillPreparedStatement() {
         try {
             String result = parseSqlStatement(sqlStatement);
             return connection.prepareStatement(result, Statement.RETURN_GENERATED_KEYS);
@@ -97,7 +98,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    public void setInt(String name, Integer value) {
+    protected void setInt(String name, Integer value) {
         try {
             if (value == null) {
                 this.preparedStatement.setNull(getIndex(name), Types.INTEGER);
@@ -117,9 +118,9 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    public void setString(String name, String value) {
+    protected void setString(String name, String value) {
         try {
-            if (value == null || value.isEmpty()) {
+            if (value == null) {
                 this.preparedStatement.setNull(getIndex(name), Types.VARCHAR);
             }
             else {
@@ -137,7 +138,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    public void setDate(String name, LocalDate value) {
+    protected void setDate(String name, LocalDate value) {
         try {
             if (value == null) {
                 this.preparedStatement.setNull(getIndex(name), Types.DATE);
@@ -166,7 +167,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      *
      * @return объект результирующего набора, содержащий данные, полученные в результате запроса
      */
-    public ResultSet executeQuery() {
+    protected ResultSet executeQuery() {
         try {
             return this.preparedStatement.executeQuery();
         }
@@ -180,7 +181,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      *
      * @return количество обновленных строк
      */
-    public Integer executeUpdate() {
+    protected Integer executeUpdate() {
         try {
             return preparedStatement.executeUpdate();
         }
@@ -194,7 +195,7 @@ public class PreparedStatementHelper implements AutoCloseable {
      *
      * @return сгенерированный идентификатор
      */
-    public Integer getGeneratedKey() {
+    protected Integer getGeneratedKey() {
         try {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
