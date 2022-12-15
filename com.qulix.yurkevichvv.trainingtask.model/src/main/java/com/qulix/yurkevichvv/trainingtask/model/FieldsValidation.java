@@ -16,6 +16,21 @@ import java.util.Map;
 public class FieldsValidation implements Serializable {
 
     /**
+     *  Идентификатор даты начала работы.
+     */
+    private static final String BEGIN_DATE = "beginDate";
+
+    /**
+     *  Идентификатор даты начала работы.
+     */
+    private static final String END_DATE = "endDate";
+
+    /**
+     * Сообщение о пустой строке.
+     */
+    private static final String EMPTY_FIELD_MASSAGE = "Поле для ввода не должно быть пустым";
+
+    /**
      * Проверяет на валидность вводимую строку.
      *
      * @param string Строка для валидации
@@ -24,8 +39,8 @@ public class FieldsValidation implements Serializable {
      */
     public static String checkString(String string, int length) {
 
-        if (string.isBlank()){
-            return "Поле для ввода не должно быть пустым";
+        if (string.isBlank()) {
+            return EMPTY_FIELD_MASSAGE;
         }
 
         if (string.trim().length() > length) {
@@ -43,8 +58,8 @@ public class FieldsValidation implements Serializable {
      */
     public static String checkNumber(String string) {
 
-        if (string.isBlank()){
-            return "Поле для ввода не должно быть пустым";
+        if (string.isBlank()) {
+            return EMPTY_FIELD_MASSAGE;
         }
         try {
             Integer.parseInt(string.trim());
@@ -54,27 +69,27 @@ public class FieldsValidation implements Serializable {
             return "Значение ввода должно быть числом в промежутке от 0 до 2147483647";
         }
     }
-
     /**
      * Проверяет валидность дат.
      *
      * @param beginDate Дата начала
      * @param endDate Дата окончания
-     * @return Строка с ошибкой или пустой строкой
+     * @return map с ошибками или null
      */
     public static Map<String, String> checkDate(String beginDate, String endDate) {
+
         Map<String, String> listErrors = new HashMap<>();
 
         String beginDateError = checkDateFormatValid(beginDate);
         String endDateError = checkDateFormatValid(endDate);
 
-        if (beginDateError == null && endDateError == null) {
-            endDateError = checkDateRangeCorrectness(beginDate, endDate);
-        }
-        String finalEndDateError = endDateError;
+        listErrors.put(BEGIN_DATE, beginDateError);
+        listErrors.put(END_DATE, endDateError);
 
-        listErrors.put("beginDate", beginDateError);
-        listErrors.put("endDate", finalEndDateError);
+        if (beginDateError == null && endDateError == null) {
+            listErrors.put(END_DATE, checkDateRangeCorrectness(beginDate, endDate));
+        }
+
         return listErrors;
     }
 
@@ -85,10 +100,9 @@ public class FieldsValidation implements Serializable {
      * @param endDate Дата окончания
      * @return строка-сообщение об ошибке либо null
      */
-    public static String checkDateRangeCorrectness(String beginDate, String endDate) {
-        LocalDate parsedBeginDate = LocalDate.parse(beginDate);
-        LocalDate parsedEndDate = LocalDate.parse(endDate);
-        if (parsedBeginDate.isAfter(parsedEndDate)) {
+    private static String checkDateRangeCorrectness(String beginDate, String endDate) {
+
+        if (LocalDate.parse(beginDate).isAfter(LocalDate.parse(endDate))) {
             return "Дата начала задачи не может быть больше даты окончания задачи";
         }
         return null;
@@ -101,13 +115,13 @@ public class FieldsValidation implements Serializable {
      * @return строка-сообщение об ошибке либо null
      */
     private static String checkDateFormatValid(String date) {
+
         try {
-            LocalDate.parse(date , DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT));
+            LocalDate.parse(date, DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT));
+            return null;
         }
         catch (DateTimeParseException e) {
             return "Введите существующую дату в формате ГГГГ-ММ-ДД";
-
         }
-        return null;
     }
 }
