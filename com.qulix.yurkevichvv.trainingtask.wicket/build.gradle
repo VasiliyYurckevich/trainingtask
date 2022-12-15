@@ -2,9 +2,6 @@ plugins {
     id "war"
 }
 
-group "com.qulix.yurkevichvv.trainingtask"
-version "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
 }
@@ -17,16 +14,9 @@ ext {
 }
 
 dependencies {
-    implementation project(":com.qulix.yurkevichvv.trainingtask.model")
-    implementation "javax.servlet:javax.servlet-api:4.0.1"
-    implementation "org.hsqldb:hsqldb:2.5.1"
-    compileOnly("javax:javaee-web-api:8.0.1")
     implementation "org.apache.wicket:wicket:9.9.1"
     implementation "org.apache.wicket:wicket-core:9.9.1"
     implementation "org.apache.wicket:wicket-extensions:9.9.1"
-    testImplementation "junit:junit:4.11"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 }
 
 test {

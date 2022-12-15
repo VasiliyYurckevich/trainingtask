@@ -27,9 +27,9 @@ repositories {
 
 dependencies {
     compileOnly "javax.servlet:javax.servlet-api:4.0.1"
-    implementation "org.hsqldb:hsqldb:2.5.1"
+    runtimeOnly "org.hsqldb:hsqldb:2.5.1"
     compileOnly("javax:javaee-web-api:8.0.1")
-    implementation group: "jstl", name: "jstl", version: "1.2"
+    runtimeOnly group: "jstl", name: "jstl", version: "1.2"
 
     def cargoVersion = "1.9.10"
     cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoVersion}",
@@ -134,9 +134,20 @@ Set<Project> webProjects() {
 
 gradle.projectsEvaluated {
     configure(webProjects()) {
+
+        group "com.qulix.yurkevichvv.trainingtask"
+        version "1.0-SNAPSHOT"
+
         apply plugin: "com.bmuschko.cargo"
 
         dependencies {
+            implementation project(":com.qulix.yurkevichvv.trainingtask.model")
+            compileOnly "javax.servlet:javax.servlet-api:4.0.1"
+            compileOnly "javax:javaee-web-api:8.0.1"
+
+            testImplementation "org.junit.jupiter:junit-jupiter-api:5.9.0"
+            testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.9.0"
+
             def cargoVersion = "1.9.10"
             cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoVersion}",
                     "org.codehaus.cargo:cargo-licensed-dtds:${cargoVersion}",

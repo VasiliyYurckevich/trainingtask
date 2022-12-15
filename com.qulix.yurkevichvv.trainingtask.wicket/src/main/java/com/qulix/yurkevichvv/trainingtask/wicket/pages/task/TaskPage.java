@@ -2,8 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.EmployeeListLoadableDetachableModel;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -26,6 +24,8 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.EmployeeListLoadableDetachableModel;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 

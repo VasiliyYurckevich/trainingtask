@@ -86,7 +86,6 @@ task dropDatabase() {
 }
 
 task fillDatabase() {
-    group = "develop"
     outputs.upToDateWhen {
         return isAvailable()
     }

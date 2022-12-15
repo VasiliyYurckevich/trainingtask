@@ -16,6 +16,9 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidato
  */
 public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
+    /**
+     * Модель сущности.
+     */
     protected CompoundPropertyModel<T> entityModel;
 
     /**
