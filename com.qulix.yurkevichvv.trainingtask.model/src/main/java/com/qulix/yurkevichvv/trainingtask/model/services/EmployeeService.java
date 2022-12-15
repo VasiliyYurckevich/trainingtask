@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionService;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
@@ -23,7 +23,7 @@ public class EmployeeService implements IService<Employee> {
 
     @Override
     public void save(Employee employee) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             if (employee.getId() == null) {
@@ -40,7 +40,7 @@ public class EmployeeService implements IService<Employee> {
 
     @Override
     public void delete(Integer id) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             employeeDao.delete(id, connection);
@@ -53,7 +53,7 @@ public class EmployeeService implements IService<Employee> {
 
     @Override
     public List<Employee> findAll() throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             return employeeDao.getAll(connection);
@@ -65,7 +65,7 @@ public class EmployeeService implements IService<Employee> {
 
     @Override
     public Employee getById(Integer id) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             return employeeDao.getById(id, connection);

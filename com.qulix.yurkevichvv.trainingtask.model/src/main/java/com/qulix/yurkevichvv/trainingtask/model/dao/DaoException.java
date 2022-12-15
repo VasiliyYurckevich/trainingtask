@@ -1,13 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
-import java.io.Serializable;
-
 /**
  * Описывает исключение, возникающее при ошибке выполнения запроса к базе данных.
  *
  * @author Q-YVV
  */
-public class DaoException extends RuntimeException implements Serializable {
+public class DaoException extends RuntimeException {
 
     /**
      * Конструктор класса с сообщением.

@@ -21,7 +21,6 @@ public interface IDao<T extends Entity> extends Serializable {
      */
     void add(T object, Connection connection) throws DaoException;
 
-
     /**
      * Обновляет сущность в БД.
      *

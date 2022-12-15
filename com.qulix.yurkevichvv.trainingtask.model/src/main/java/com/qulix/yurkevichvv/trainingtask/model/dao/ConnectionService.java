@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,7 +11,7 @@ import java.util.logging.Logger;
  *
  * @author Q-YVV
  */
-public class ConnectionController implements Serializable {
+public class ConnectionService {
 
     /**
      * Хранит константу названия драйвера JDBC.
@@ -37,7 +36,7 @@ public class ConnectionController implements Serializable {
     /**
      * Логгер для записи событий.
      */
-    private static final Logger LOGGER = Logger.getLogger(ConnectionController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ConnectionService.class.getName());
 
     /**
      * Устанавливает соединение с БД.
@@ -51,7 +50,7 @@ public class ConnectionController implements Serializable {
             return DriverManager.getConnection(PATH, USER, PASS);
         }
         catch (ClassNotFoundException | SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionController getConnection() error", e);
+            LOGGER.log(Level.SEVERE, "ConnectionService getConnection() error", e);
             throw new DaoException("The database is temporarily unavailable. Try again later", e);
         }
     }
@@ -67,7 +66,7 @@ public class ConnectionController implements Serializable {
             connection.commit();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionController commitConnection() error", e);
+            LOGGER.log(Level.SEVERE, "ConnectionService commitConnection() error", e);
             throw new DaoException("Error commit transaction", e);
         }
     }
@@ -83,7 +82,7 @@ public class ConnectionController implements Serializable {
             connection.rollback();
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "ConnectionController rollbackConnection() error", e);
+            LOGGER.log(Level.SEVERE, "ConnectionService rollbackConnection() error", e);
             throw new DaoException("Error rollback transaction", e);
         }
     }

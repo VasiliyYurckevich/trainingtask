@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionService;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
@@ -23,7 +23,7 @@ public class TaskService implements IService<Task> {
 
     @Override
     public void save(Task task) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             if (task.getId() == null) {
@@ -40,7 +40,7 @@ public class TaskService implements IService<Task> {
 
     @Override
     public List<Task> findAll() throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             return taskDao.getAll(connection);
@@ -52,7 +52,7 @@ public class TaskService implements IService<Task> {
 
     @Override
     public Task getById(Integer id) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             return taskDao.getById(id, connection);
@@ -64,7 +64,7 @@ public class TaskService implements IService<Task> {
 
     @Override
     public void delete(Integer id) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             taskDao.delete(id, connection);

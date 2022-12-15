@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.model.services;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
@@ -11,7 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
  *
  * @author Q-YVV
  */
-public interface IProjectService extends IService<Project>, Serializable {
+public interface IProjectService extends IService<Project> {
 
     /**
      * Возвращает список задач проекта.

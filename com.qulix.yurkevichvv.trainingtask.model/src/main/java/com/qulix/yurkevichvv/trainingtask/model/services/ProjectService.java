@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionController;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionService;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
@@ -30,7 +30,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public void save(Project project) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             connection.setAutoCommit(false);
@@ -45,17 +45,17 @@ public class ProjectService implements IProjectService {
             }
             updateTasks(project, connection);
 
-            ConnectionController.commitConnection(connection);
+            ConnectionService.commitConnection(connection);
         }
         catch (SQLException | DaoException e) {
-            ConnectionController.rollbackConnection(connection);
+            ConnectionService.rollbackConnection(connection);
             throw new ServiceException("Error during saving project", e);
         }
     }
 
     @Override
     public void delete(Integer id) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             projectDao.delete(id, connection);
@@ -68,7 +68,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public List<Project> findAll() throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             List<Project> projects = projectDao.getAll(connection);
@@ -82,7 +82,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public Project getById(Integer id) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             Project project = projectDao.getById(id, connection);
@@ -96,7 +96,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public List<Task> getProjectsTasks(Project project) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             List<Task> projects = taskDao.getTasksInProject(project.getId(), connection);
@@ -109,7 +109,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public void deleteTask(Project project, Task task) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             project.getDeletedTasksList().add(task);
@@ -122,7 +122,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public void addTask(Project project, Task task) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             project.getTasksList().add(task);
@@ -134,7 +134,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     public void updateTask(Project project, Integer index, Task task) throws ServiceException {
-        Connection connection = ConnectionController.getConnection();
+        Connection connection = ConnectionService.getConnection();
 
         try (connection) {
             project.getTasksList().set(index, task);
