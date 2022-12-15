@@ -204,7 +204,7 @@ public class ProjectController extends HttpServlet {
             req.getSession().setAttribute(TASK_INDEX, taskIndex);
         }
         else {
-            task =  new Task();
+            task = new Task();
             task.setProjectId(project.getId());
 
             req.getSession().setAttribute(TASK_INDEX, null);

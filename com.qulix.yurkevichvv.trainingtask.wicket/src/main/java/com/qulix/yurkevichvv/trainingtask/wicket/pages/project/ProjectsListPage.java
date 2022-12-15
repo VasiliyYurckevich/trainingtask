@@ -2,13 +2,11 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
@@ -16,6 +14,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
 
@@ -61,7 +60,7 @@ public class ProjectsListPage extends AbstractListPage<Project> {
         /**
          * Конструктор.
          *
-         * @param projects       модель списка проектов
+         * @param projects модель списка проектов
          * @param projectService сервис для работы с проектами
          */
         public ProjectCustomListView(LoadableDetachableModel<List<Project>> projects, IService projectService) {
@@ -82,4 +81,3 @@ public class ProjectsListPage extends AbstractListPage<Project> {
         }
     }
 }
-

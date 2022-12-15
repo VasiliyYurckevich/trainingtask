@@ -16,12 +16,12 @@ import java.util.Map;
 public class FieldsValidation implements Serializable {
 
     /**
-     *  Идентификатор даты начала работы.
+     * Идентификатор даты начала работы.
      */
     private static final String BEGIN_DATE = "beginDate";
 
     /**
-     *  Идентификатор даты начала работы.
+     * Идентификатор даты начала работы.
      */
     private static final String END_DATE = "endDate";
 

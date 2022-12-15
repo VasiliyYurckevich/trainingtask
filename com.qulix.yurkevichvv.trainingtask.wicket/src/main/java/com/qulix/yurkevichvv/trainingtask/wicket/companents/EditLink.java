@@ -28,7 +28,7 @@ public class EditLink<T extends Entity & Serializable> extends Link<T> {
      *
      * @param id идентификатор
      */
-    public EditLink(String id,  AbstractEntityPageFactory<T> pageFactory, IModel<T> model) {
+    public EditLink(String id, AbstractEntityPageFactory<T> pageFactory, IModel<T> model) {
         super(id);
         this.model = model;
         this.pageFactory = pageFactory;
