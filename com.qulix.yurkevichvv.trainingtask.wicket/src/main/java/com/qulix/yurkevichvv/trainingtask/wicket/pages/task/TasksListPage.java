@@ -3,18 +3,17 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.TaskListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
@@ -51,7 +50,7 @@ public class TasksListPage extends AbstractListPage<Task> {
      *
      * @author Q-YVV
      */
-    private class TaskCustomListView extends CustomListView<Task> {
+    private static class TaskCustomListView extends CustomListView<Task> {
 
         /**
          * Конструктор.
@@ -71,16 +70,7 @@ public class TasksListPage extends AbstractListPage<Task> {
         @Override
         protected void populateItem(ListItem<Task> item) {
             super.populateItem(item);
-            final Task task = item.getModelObject();
-
-            item.add(new Label("status", task.getStatus().getStatusTitle()))
-                .add(new Label("title", task.getTitle()))
-                .add(new Label("workTime", task.getWorkTime()))
-                .add(new Label("beginDate", task.getBeginDate().toString()))
-                .add(new Label("endDate", task.getEndDate().toString()))
-                .add(new Label("projectTitle", new ProjectService().getById(task.getProjectId()).getTitle()))
-                .add(new Label("employeeName",
-                task.getEmployeeId() != null ? new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""));
+            ITaskTableColumns.addColumns(item);
         }
 
     }

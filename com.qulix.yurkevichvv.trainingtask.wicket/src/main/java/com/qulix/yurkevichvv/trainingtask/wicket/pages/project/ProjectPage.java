@@ -2,26 +2,20 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.EditLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.TaskListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPageFactory;
 
 /**
  * Страница добавления проекта.
@@ -118,7 +112,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     private void addTaskList() {
         LoadableDetachableModel<List<Task>> tasks = new TaskListLoadableDetachableModel();
 
-        ListView<Task> taskListView = new TaskListView(tasks, entityModel, service);
+        ListView<Task> taskListView = new TasksInProjectListView(tasks, entityModel, service);
         add(taskListView);
     }
 
@@ -130,77 +124,6 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     @Override
     protected final void onChangesSubmitted() {
         setResponsePage(ProjectsListPage.class);
-    }
-
-    /**
-     * Реализует CustomListView для задач проекта.
-     */
-    private static class TaskListView extends ListView<Task> {
-
-        /**
-         * Модель проекта, связанного с задачами.
-         */
-        private final IModel<Project> projectModel;
-
-        /**
-         * Сервис для работы с проектом.
-         */
-        private final ProjectService service;
-
-        private final AbstractEntityPageFactory<Task> pageFactory;
-
-        /**
-         * Конструктор.
-         *
-         * @param tasks модель списка задач
-         * @param projectModel модель проекта
-         * @param service сервис для работ с проектом
-         */
-        public TaskListView(LoadableDetachableModel<List<Task>> tasks, IModel<Project> projectModel,
-            ProjectService service) {
-
-            super("tasks", tasks);
-            this.projectModel = projectModel;
-            this.service = service;
-            this.pageFactory = new TaskPageFactory();
-        }
-
-        @Override
-        protected void populateItem(ListItem<Task> item) {
-            final Task task = item.getModelObject();
-
-            item.add(new Label("status", task.getStatus().getStatusTitle()))
-                .add(new Label("task_title", task.getTitle()))
-                .add(new Label("workTime", task.getWorkTime()))
-                .add(new Label("beginDate", task.getBeginDate().toString()))
-                .add(new Label("endDate", task.getEndDate().toString()))
-                .add(new Label("projectTitle", projectModel.getObject().getTitle()))
-                .add(new Label("employeeName", task.getEmployeeId() != null ?
-                    new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""))
-                .add(new DeleteInProjectLink(item.getModel()))
-                .add(new EditLink<>("editLink", pageFactory, item.getModel()));
-        }
-
-        private class DeleteInProjectLink extends Link<Void> {
-            private final IModel<Task> taskModel;
-
-            public DeleteInProjectLink(IModel<Task> taskModel) {
-                super("deleteLink");
-                this.taskModel = taskModel;
-            }
-
-            @Override
-            public void onClick() {
-                service.deleteTask(projectModel.getObject(), taskModel.getObject());
-            }
-        }
-    }
-
-    private class TaskListLoadableDetachableModel extends LoadableDetachableModel<List<Task>> {
-        @Override
-        protected List<Task> load() {
-            return service.getProjectsTasks(entityModel.getObject());
-        }
     }
 
     private class NewTaskInProject extends TaskPage {
