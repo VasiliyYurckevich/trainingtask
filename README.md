@@ -10,25 +10,41 @@
 
 2. Для компиляции и сборки проекта необходимо выполнить команду
 
-     `./gradlew build` 
+    `./gradlew build` 
 
 ## Инструкция по запуску
 
 1. Запустить базу данных 
 
-     `./gradlew startDatabase`
+   `./gradlew startDatabase`
 
-2. Запустить сервер (для jsp/servlet-версии)
+2. Запустить сервер
 
-   `./gradlew startServer`
+   - для обеих версий
 
-    или (для wicket-версии)
+     `./gradlew startServer`
 
-   `./gradlew startWicketServer`
+   - для jsp/servlet-версии
+   
+       `./gradlew com.qulix.yurkevichvv.trainingtask.servlets:startServer`
 
-3. Перейти по ссылке (для jsp/servlet-версии http://localhost:8080/com.qulix.yurkevichvv.trainingtask.servlets)
+   - для wicket-версии
 
-    или (для wicket-версии http://localhost:8090/com.qulix.yurkevichvv.trainingtask.wicket) 
+       `./gradlew com.qulix.yurkevichvv.trainingtask.wicket:startServer`
+
+3. Перейти по ссылке  
+
+    - jsp/servlet-версия 
+    
+       http://localhost:9090/servlets
+
+    - wicket-версия 
+   
+       http://localhost:9090/wicket
+
+4. Остановка сервера 
+
+    `./gradlew stopServer`
 
 ## Дополнительные функции
 

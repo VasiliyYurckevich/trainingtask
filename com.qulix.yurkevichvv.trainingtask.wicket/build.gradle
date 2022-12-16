@@ -9,7 +9,6 @@ repositories {
 ext {
     tomcatAjpPort = 1235
     rmiPort = 7777
-    tomcatHttpPort = 7070
     context = "wicket"
 }
 

@@ -7,7 +7,6 @@ repositories {
 }
 
 ext {
-    tomcatHttpPort = 2134
     rmiPort = 18080
     tomcatAjpPort = 9091
     context = "servlet"
