@@ -11,6 +11,7 @@ html, body {
 table {
     border-collapse: collapse;
     border-top: 1px solid #0A0A0AFF;
+    font-size: 14px !important;
     font-family: Tahoma, Verdana, Segoe, sans-serif;
     width: 100%;
 }
@@ -24,6 +25,7 @@ th {
 tr {
     line-height: 32px;
     padding: 8px;
+    font-size: 14px;
     border-top: 1px solid #FFFFFF;
 }
 
@@ -110,6 +112,7 @@ li a:hover:not(.active) {
 }
 
 label {
+    font-size: 14px;
     float:left;
 }
 

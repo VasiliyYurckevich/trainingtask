@@ -15,12 +15,9 @@
 
         <my:mainMenu></my:mainMenu>
 
-        <div>
-            <div class="start-page">
+        <div class="chief">
+            <div class="header">
                 <h2>Приложение для управления задачами</h2>
-            </div>
-            <div class="start-page">
-                <h2>Привет!</h2>
             </div>
         </div>
     </body>
