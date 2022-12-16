@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -240,7 +241,7 @@ public class TaskController extends HttpServlet {
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
-        if (errorsMap.isEmpty()) {
+        if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             Task task = (Task) req.getSession().getAttribute(TASK);
             updateTaskData(paramsMap, task);
 
@@ -290,7 +291,7 @@ public class TaskController extends HttpServlet {
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
-        if (errorsMap.isEmpty()) {
+        if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             HttpSession session = req.getSession();
             Project project = (Project) session.getAttribute(PROJECT);
             Task task = (Task) session.getAttribute(TASK);

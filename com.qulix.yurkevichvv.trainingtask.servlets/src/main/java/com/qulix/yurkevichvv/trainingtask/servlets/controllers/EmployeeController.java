@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -199,7 +200,7 @@ public class EmployeeController extends HttpServlet {
         Map<String, String> paramsMap = getDataFromJsp(req);
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
-        if (errorsMap.isEmpty()) {
+        if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
             setEmployeeData(paramsMap, employee);
 

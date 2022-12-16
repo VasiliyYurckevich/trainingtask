@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -297,7 +298,7 @@ public class ProjectController extends HttpServlet {
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
 
-        if (errorsMap.isEmpty()) {
+        if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             Project theProject = getProject(project, paramsMap);
             projectService.save(theProject);
 
