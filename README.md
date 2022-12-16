@@ -42,7 +42,7 @@
    
        http://localhost:9090/wicket
 
-4. Остановка сервера 
+4. Остановить сервер 
 
     `./gradlew stopServer`
 
