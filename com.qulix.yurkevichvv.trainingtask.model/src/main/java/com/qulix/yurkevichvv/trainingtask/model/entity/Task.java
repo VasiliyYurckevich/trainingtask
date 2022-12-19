@@ -151,10 +151,7 @@ public class Task implements Entity {
             return false;
         }
         Task task = (Task) o;
-        return id == task.id && status == task.status && Objects.equals(title, task.title) &&
-            Objects.equals(workTime, task.workTime) &&
-            Objects.equals(beginDate, task.beginDate) &&
-            Objects.equals(endDate, task.endDate);
+        return id == task.id;
     }
 
     @Override

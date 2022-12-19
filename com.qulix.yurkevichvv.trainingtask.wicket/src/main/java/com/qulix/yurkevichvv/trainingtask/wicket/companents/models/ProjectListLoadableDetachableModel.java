@@ -13,6 +13,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
  * @author Q-YVV
  */
 public class ProjectListLoadableDetachableModel extends LoadableDetachableModel<List<Project>> {
+
     @Override
     protected List<Project> load() {
         return new ProjectService().findAll();

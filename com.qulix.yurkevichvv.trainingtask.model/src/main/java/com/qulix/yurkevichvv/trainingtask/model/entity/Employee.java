@@ -113,11 +113,7 @@ public class Employee implements Entity {
             return false;
         }
         Employee employee = (Employee) o;
-        return id == employee.id &&
-            Objects.equals(surname, employee.surname) &&
-            Objects.equals(firstName, employee.firstName) &&
-            Objects.equals(patronymic, employee.patronymic) &&
-            Objects.equals(post, employee.post);
+        return id == employee.id;
     }
 
     @Override

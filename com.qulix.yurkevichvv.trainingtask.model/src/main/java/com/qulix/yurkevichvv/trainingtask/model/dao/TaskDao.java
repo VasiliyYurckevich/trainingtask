@@ -170,7 +170,7 @@ public class TaskDao implements IDao<Task> {
      * @return все задачи проекта
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    public List<Task> getTasksInProject(Integer id, Connection connection) throws DaoException {
+    public List<Task> getProjectTasksInDB(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection)) {
             preparedStatementHelper.setInt(PROJECT_ID, id);

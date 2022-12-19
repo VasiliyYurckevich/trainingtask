@@ -51,11 +51,6 @@ public class Project implements Entity {
      */
     private List<Task> tasksList = new ArrayList<>();
 
-    /**
-     * Удаленные задачи проекта.
-     */
-    private List<Task> deletedTasksList = new ArrayList<>();
-
     @Override
     public Integer getId() {
         return id;
@@ -89,10 +84,6 @@ public class Project implements Entity {
         this.tasksList = tasksList;
     }
 
-    public List<Task> getDeletedTasksList() {
-        return deletedTasksList;
-    }
-
     @Override
     public String toString() {
         return String.format("Project { id= '%s', title='%s', description= '%s', tasksList= '%s'}",
@@ -108,7 +99,7 @@ public class Project implements Entity {
             return false;
         }
         Project project = (Project) o;
-        return id == project.id && Objects.equals(title, project.title) && Objects.equals(description, project.description);
+        return id == project.id;
     }
 
     @Override
