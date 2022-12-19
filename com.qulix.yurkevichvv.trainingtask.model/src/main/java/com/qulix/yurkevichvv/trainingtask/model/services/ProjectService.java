@@ -125,7 +125,6 @@ public class ProjectService implements IProjectService {
 
         try (connection) {
             project.getTasksList().add(task);
-            System.out.println(project.getTasksList());
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during adding project task", e);
@@ -152,7 +151,6 @@ public class ProjectService implements IProjectService {
      */
     private void updateTasks(Project project, Connection connection) {
 
-        System.out.println("Update " + project.getTasksList());
         project.getTasksList().forEach(task -> {
             if (task.getId() == null) {
                 taskDao.add(task, connection);
@@ -164,12 +162,9 @@ public class ProjectService implements IProjectService {
         );
     }
 
-    private void deleteTasks(Project project, Connection connection){
-        List<Task> existingTasks = taskDao.getProjectTasksInDB(project.getId(),connection);
-        System.out.println("existingTasks " + existingTasks);
-        System.out.println("project.getTasksList() " + project.getTasksList());
+    private void deleteTasks(Project project, Connection connection) {
+        List<Task> existingTasks = taskDao.getProjectTasksInDB(project.getId(), connection);
         existingTasks.removeAll(project.getTasksList());
-        System.out.println("deletedTasks " + existingTasks);
         existingTasks.forEach(task -> taskDao.delete(task.getId(), connection));
     }
 }

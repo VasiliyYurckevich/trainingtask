@@ -1,7 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import java.util.List;
-
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListView;
@@ -11,9 +9,6 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.TaskListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 
@@ -54,13 +49,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
 
         get("pageTitle").setDefaultModelObject("Редактировать проект");
 
-        Form<Project> form = new Form<>("projectForm", entityModel) {
-            @Override
-            protected void onSubmit() {
-                onSubmitting();
-                onChangesSubmitted();
-            }
-        };
+        Form<Project> form = new ProjectForm();
         addFormComponents(form);
         addTaskList();
         add(form);
@@ -76,7 +65,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
 
         task.setProjectId(entityModel.getObject().getId());
 
-        return new NewTaskInProject(CompoundPropertyModel.of(task), entityModel.getObject());
+        return new NewProjectTask(CompoundPropertyModel.of(task), entityModel);
     }
 
     @Override
@@ -89,18 +78,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
         };
         add(addTaskLink);
 
-        NoDoubleClickButton button = new NoDoubleClickButton("submit");
-        form.add(button)
-            .add(new PreventSubmitOnEnterBehavior());
-        form.setDefaultButton(button);
-
-        Link<Void> cancelButton = new Link<>("cancel") {
-            @Override
-            public void onClick() {
-                setResponsePage(ProjectsListPage.class);
-            }
-        };
-        form.add(cancelButton);
+        addButtons(form);
 
         addStringField(form, "title", TITLE_MAXLENGTH);
         addStringField(form, "description", DESCRIPTION_MAXLENGTH);
@@ -110,9 +88,8 @@ public class ProjectPage extends AbstractEntityPage<Project> {
      * Добавляет список задач проекта.
      */
     private void addTaskList() {
-        LoadableDetachableModel<List<Task>> tasks = new TaskListLoadableDetachableModel();
-
-        ListView<Task> taskListView = new TasksInProjectListView(tasks, entityModel, service);
+        ListView<Task> taskListView = new TasksInProjectListView(LoadableDetachableModel.of(() ->
+            this.entityModel.getObject().getTasksList()), entityModel, service);
         add(taskListView);
     }
 
@@ -126,18 +103,30 @@ public class ProjectPage extends AbstractEntityPage<Project> {
         setResponsePage(ProjectsListPage.class);
     }
 
-    private class NewTaskInProject extends TaskPage {
+    /**
+     * Страница создания задачи проекта.
+     */
+    private class NewProjectTask extends TaskPage {
 
-        private Project project;
+        /**
+         * Модель проекта.
+         */
+        private CompoundPropertyModel<Project>  projectModel;
 
-        public NewTaskInProject(CompoundPropertyModel<Task> task, Project project) {
-            super(task);
-            this.project = project;
+        /**
+         * Конструктор.
+         *
+         * @param taskModel модель задачи
+         * @param projectModel модель проекта
+         */
+        private NewProjectTask(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<Project> projectModel) {
+            super(taskModel);
+            this.projectModel = projectModel;
         }
 
         @Override
         protected void onSubmitting() {
-            service.addTask(project, entityModel.getObject());
+            service.addTask(projectModel.getObject(), entityModel.getObject());
         }
 
         @Override
@@ -148,6 +137,25 @@ public class ProjectPage extends AbstractEntityPage<Project> {
         @Override
         protected boolean changeProjectOption() {
             return false;
+        }
+    }
+
+    /**
+     * Форма проекта.
+     */
+    private class ProjectForm extends Form<Project> {
+
+        /**
+         * Конструктор.
+         */
+        public ProjectForm() {
+            super("projectForm", ProjectPage.this.entityModel);
+        }
+
+        @Override
+        protected void onSubmit() {
+            onSubmitting();
+            onChangesSubmitted();
         }
     }
 }

@@ -6,8 +6,8 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
@@ -15,7 +15,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.EmployeeListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
 
@@ -38,17 +37,12 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Сотрудники");
 
-        LoadableDetachableModel <List<Employee>> employees = new EmployeeListLoadableDetachableModel();
-        ListView<Employee> employeeListView = new EmployeeCustomListView(employees, new EmployeeService());
+        CustomListView<Employee> employeeListView =
+            new EmployeeCustomListView(LoadableDetachableModel.of(() -> new EmployeeService().findAll()), service);
         add(employeeListView);
 
-        add(new Link<WebPage>("addEmployee",
-            new Model<>(pageFactory.createPage(CompoundPropertyModel.of(new Employee())))) {
-            @Override
-            public void onClick() {
-                setResponsePage(getModelObject());
-            }
-        });
+        add(new WebPageLink("addEmployee",
+            new Model<>(EmployeesListPage.this.pageFactory.createPage(CompoundPropertyModel.of(new Employee())))));
     }
 
     /**
@@ -81,6 +75,29 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
                 .add(new Label("firstName", employee.getFirstName()))
                 .add(new Label("patronymic", employee.getPatronymic()))
                 .add(new Label("post", employee.getPost()));
+        }
+    }
+
+    /**
+     * Ссылка для перехода на страницу.
+     *
+     * @author Q-YVV
+     */
+    private class WebPageLink extends Link<WebPage> {
+
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         * @param webPageModel модель страницы
+         */
+        public WebPageLink(String id, IModel<WebPage> webPageModel) {
+            super(id, webPageModel);
+        }
+
+        @Override
+        public void onClick() {
+            setResponsePage(getModelObject());
         }
     }
 }

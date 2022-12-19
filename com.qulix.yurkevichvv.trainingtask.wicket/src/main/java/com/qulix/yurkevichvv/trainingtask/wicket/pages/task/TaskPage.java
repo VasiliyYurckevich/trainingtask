@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -9,7 +10,6 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.LambdaChoiceRenderer;
 import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -21,11 +21,8 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.EmployeeListLoadableDetachableModel;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 
@@ -67,11 +64,6 @@ public class TaskPage extends AbstractEntityPage<Task> {
     private static final String TITLE = "title";
 
     /**
-     * Сервис для работы с Task.
-     */
-    protected TaskService taskService = new TaskService();
-
-    /**
      * Конструктор.
      *
      * @param taskModel модель задачи
@@ -99,12 +91,10 @@ public class TaskPage extends AbstractEntityPage<Task> {
 
     @Override
     protected void onSubmitting() {
-        taskService.save(entityModel.getObject());
     }
 
     @Override
     protected void onChangesSubmitted() {
-        setResponsePage(TasksListPage.class);
     }
 
     /**
@@ -125,26 +115,6 @@ public class TaskPage extends AbstractEntityPage<Task> {
         addDateFields(form);
         addProjectDropDownChoice(form);
         addEmployeesDropDownChoice(form);
-    }
-
-    /**
-     * Добавляет кнопки.
-     *
-     * @param form форма для добавления
-     */
-    private void addButtons(Form<Task> form) {
-        NoDoubleClickButton button = new NoDoubleClickButton("submit");
-        form.add(button)
-            .add(new PreventSubmitOnEnterBehavior());
-        form.setDefaultButton(button);
-
-        Link<Void> cancelButton = new Link<>("cancel") {
-            @Override
-            public void onClick() {
-                onChangesSubmitted();
-            }
-        };
-        form.add(cancelButton);
     }
 
     /**
@@ -211,7 +181,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
      * @param form форма для добавления
      */
     private void addProjectDropDownChoice(Form<Task> form) {
-        LoadableDetachableModel<List<Project>> projects = new ProjectListLoadableDetachableModel();
+        LoadableDetachableModel<List<Project>> projects = LoadableDetachableModel.of(()-> new ProjectService().findAll());
         ProjectDropDownModel model = new ProjectDropDownModel(projects, form.getModelObject());
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId", model,
@@ -231,7 +201,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
      */
     private static void addEmployeesDropDownChoice(Form<Task> form) {
 
-        LoadableDetachableModel<List<Employee>> employees = new EmployeeListLoadableDetachableModel();
+        LoadableDetachableModel<List<Employee>> employees = LoadableDetachableModel.of(()-> new EmployeeService().findAll());
         LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
             Employee::getId);
         EmployeeDropDownModel model = new EmployeeDropDownModel(employees, form.getModelObject());

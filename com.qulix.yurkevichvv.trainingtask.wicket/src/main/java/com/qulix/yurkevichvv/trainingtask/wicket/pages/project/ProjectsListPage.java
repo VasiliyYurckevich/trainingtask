@@ -14,7 +14,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.ProjectListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
 
@@ -37,8 +36,8 @@ public class ProjectsListPage extends AbstractListPage<Project> {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Проекты");
 
-        LoadableDetachableModel<List<Project>> projects = new ProjectListLoadableDetachableModel();
-        CustomListView<Project> projectListView = new ProjectCustomListView(projects, service);
+        CustomListView<Project> projectListView =
+            new ProjectCustomListView(LoadableDetachableModel.of(() -> new ProjectService().findAll()), service);
         add(projectListView);
 
         add(new Link<WebPage>("addProject",

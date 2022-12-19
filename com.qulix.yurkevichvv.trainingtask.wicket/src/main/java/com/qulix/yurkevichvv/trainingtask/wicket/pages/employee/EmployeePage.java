@@ -1,13 +1,10 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 
 /**
@@ -47,13 +44,7 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
 
         get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
 
-        Form<Employee> employeeForm = new Form<>(FORM, entityModel) {
-            @Override
-                public void onSubmit() {
-                onSubmitting();
-                onChangesSubmitted();
-                }
-        };
+        Form<Employee> employeeForm = new EmployeeForm();
 
         addFormComponents(employeeForm);
         add(employeeForm);
@@ -71,22 +62,25 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
 
     @Override
     protected void addFormComponents(Form<Employee> form) {
-        NoDoubleClickButton button = new NoDoubleClickButton("submit");
-        form.add(button)
-            .add(new PreventSubmitOnEnterBehavior());
-        form.setDefaultButton(button);
-
-        Link<Void> cancelButton = new Link<>("cancel") {
-            @Override
-            public void onClick() {
-                onChangesSubmitted();
-            }
-        };
-        form.add(cancelButton);
-
+        addButtons(form);
         addStringField(form, "surname", MAXLENGTH);
         addStringField(form, "firstName", MAXLENGTH);
         addStringField(form, "patronymic", MAXLENGTH);
         addStringField(form, "post", MAXLENGTH);
+    }
+
+    /**
+     * Форма сотрудника.
+     */
+    private class EmployeeForm extends Form<Employee> {
+        public EmployeeForm() {
+            super(EmployeePage.FORM, EmployeePage.this.entityModel);
+        }
+
+        @Override
+        public void onSubmit() {
+            onSubmitting();
+            onChangesSubmitted();
+        }
     }
 }

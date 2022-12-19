@@ -12,12 +12,6 @@ import org.apache.wicket.model.Model;
  */
 public class PreventSubmitOnEnterBehavior extends Behavior {
 
-    /**
-     * Конструктор.
-     */
-    public PreventSubmitOnEnterBehavior() {
-    }
-
     @Override
     public void bind(Component component) {
         super.bind(component);

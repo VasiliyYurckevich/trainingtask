@@ -28,23 +28,25 @@ public class Header extends Panel {
     protected void onInitialize() {
         super.onInitialize();
 
-        add(new Link<WebPage>("projectsList") {
-            @Override
-            public void onClick() {
-                setResponsePage(ProjectsListPage.class);
-            }
-        });
-        add(new Link<WebPage>("employeesList") {
-            @Override
-            public void onClick() {
-                setResponsePage(EmployeesListPage.class);
-            }
-        });
-        add(new Link<WebPage>("tasksList") {
-            @Override
-            public void onClick() {
-                setResponsePage(TasksListPage.class);
-            }
-        });
+        add(new WebPageLink("projectsList", ProjectsListPage.class));
+        add(new WebPageLink("employeesList", EmployeesListPage.class));
+        add(new WebPageLink("tasksList", TasksListPage.class));
+    }
+
+    private class WebPageLink<T extends Class<WebPage>> extends Link<WebPage> {
+        /**
+         * Класс страницы для перехода.
+         */
+        T clazz;
+
+        public WebPageLink(String id, T clazz) {
+            super(id);
+            this.clazz = clazz;
+        }
+
+        @Override
+        public void onClick() {
+            setResponsePage(clazz);
+        }
     }
 }

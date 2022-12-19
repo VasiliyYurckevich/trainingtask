@@ -14,7 +14,6 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.models.TaskListLoadableDetachableModel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
 
@@ -37,11 +36,11 @@ public class TasksListPage extends AbstractListPage<Task> {
         super.onInitialize();
         get("pageTitle").setDefaultModelObject("Задачи");
 
-        Link<WebPage> addTask = new AddTaskLink();
+        Link<WebPage> addTask = new AddTaskLink("addTask");
         add(addTask);
 
-        LoadableDetachableModel<List<Task>> tasks = new TaskListLoadableDetachableModel();
-        CustomListView<Task> taskListView = new TaskCustomListView(tasks, service);
+        CustomListView<Task> taskListView =
+            new TaskCustomListView(LoadableDetachableModel.of(() -> new TaskService().findAll()), service);
         add(taskListView);
     }
 
@@ -75,9 +74,20 @@ public class TasksListPage extends AbstractListPage<Task> {
 
     }
 
+    /**
+     * Ссылка добавления задачи.
+     *
+     * @author Q-YVV
+     */
     private class AddTaskLink extends Link<WebPage> {
-        public AddTaskLink() {
-            super("addTask");
+
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         */
+        public AddTaskLink(String id) {
+            super(id);
         }
 
         @Override
@@ -92,14 +102,23 @@ public class TasksListPage extends AbstractListPage<Task> {
         }
     }
 
+    /**
+     * Создает новую задачу.
+     */
     private class NewTaskPage extends TaskPage {
+
+        /**
+         * Конструктор.
+         *
+         * @param taskModel модель задачи.
+         */
         public NewTaskPage(CompoundPropertyModel<Task> taskModel) {
             super(taskModel);
         }
 
         @Override
         protected void onSubmitting() {
-            taskService.save(entityModel.getObject());
+            service.save(entityModel.getObject());
         }
 
         @Override

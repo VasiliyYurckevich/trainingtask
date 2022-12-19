@@ -18,6 +18,8 @@ public interface ITaskTableColumns extends Serializable {
 
     /**
      * Добавляет соответствующие колонки в ListView.
+     *
+     * @param item элемент ListView.
      */
     static void addColumns(ListItem<Task> item) {
         final Task task = item.getModelObject();

@@ -1,12 +1,16 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
+
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
@@ -23,10 +27,17 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
     /**
      * Конструктор.
+     *
+     * @param entityModel модель сущности.
      */
     public AbstractEntityPage(CompoundPropertyModel<T> entityModel) {
         super();
         this.entityModel = entityModel;
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
     }
 
     /**
@@ -61,5 +72,42 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
         FeedbackPanel fieldFeedbackPanel = new FeedbackPanel(name + "FeedbackPanel",
             new ComponentFeedbackMessageFilter(field));
         form.add(fieldFeedbackPanel);
+    }
+
+    /**
+     * Добавляет кнопки.
+     *
+     * @param form форма для добавления
+     */
+    protected void addButtons(Form<T> form) {
+        NoDoubleClickButton button = new NoDoubleClickButton("submit");
+        form.add(button)
+                .add(new PreventSubmitOnEnterBehavior());
+        form.setDefaultButton(button);
+
+        Link<Void> cancelButton = new CancelLink("cancel");
+        form.add(cancelButton);
+    }
+
+    /**
+     * Кнопка отмены сохранения.
+     *
+     * @author Q-YVV
+     */
+    private class CancelLink extends Link<Void> {
+
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         */
+        public CancelLink(String id) {
+            super(id);
+        }
+
+        @Override
+        public void onClick() {
+            onChangesSubmitted();
+        }
     }
 }

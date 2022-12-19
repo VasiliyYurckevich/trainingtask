@@ -10,7 +10,6 @@ html, body {
 
 table {
     border-collapse: collapse;
-    font-size: initial;
     border-top: 1px solid #0A0A0AFF;
     font-family: Tahoma, Verdana, Segoe, sans-serif;
     width: 100%;

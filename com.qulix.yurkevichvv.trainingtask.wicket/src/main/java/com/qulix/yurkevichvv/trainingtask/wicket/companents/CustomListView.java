@@ -40,6 +40,11 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         pageFactory = getPageFactory();
     }
 
+    /**
+     * Создает фабрику страниц сущностей.
+     *
+     * @return фабрика страниц.
+     */
     protected AbstractEntityPageFactory<T> getPageFactory() {
         return null;
     }
