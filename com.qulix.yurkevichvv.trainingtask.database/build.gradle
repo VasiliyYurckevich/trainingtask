@@ -25,10 +25,6 @@ ext {
     className = "org.hsqldb.server.Server"
 }
 
-repositories {
-    mavenCentral()
-}
-
 task startDatabase() {
     outputs.upToDateWhen {
         return !isAvailable()

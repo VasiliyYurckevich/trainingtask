@@ -1,24 +1,5 @@
-
-repositories {
-    mavenCentral()
-}
-
-
-group "com.qulix.yurkevichvv"
-version "1.0-SNAPSHOT"
-
-tasks.withType(Jar).all {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
 dependencies {
-    implementation "org.hsqldb:hsqldb:2.7.0"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
-}
-
-test {
-    useJUnitPlatform()
+   runtimeOnly "org.hsqldb:hsqldb:2.5.1"
 }
 
 

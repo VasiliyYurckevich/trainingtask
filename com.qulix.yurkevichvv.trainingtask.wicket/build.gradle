@@ -2,22 +2,17 @@ plugins {
     id "war"
 }
 
-repositories {
-    mavenCentral()
-}
-
-ext {
-    tomcatAjpPort = 1235
-    rmiPort = 7777
-    context = "wicket"
-}
-
 dependencies {
     implementation "org.apache.wicket:wicket:9.9.1"
     implementation "org.apache.wicket:wicket-core:9.9.1"
     implementation "org.apache.wicket:wicket-extensions:9.9.1"
 }
 
-test {
-    useJUnitPlatform()
+sourceSets {
+    main {
+        resources {
+            srcDirs += ["src/main/java","src/main/webapp"]
+            includes = ["**/*.html","**/*.css"]
+        }
+    }
 }

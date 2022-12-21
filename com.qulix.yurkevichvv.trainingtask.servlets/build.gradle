@@ -2,21 +2,7 @@ plugins {
     id "war"
 }
 
-repositories {
-    mavenCentral()
-}
-
-ext {
-    rmiPort = 18080
-    tomcatAjpPort = 9091
-    context = "servlet"
-}
-
 dependencies {
     runtimeOnly "jstl:jstl:1.2"
     compileOnly "taglibs:standard:1.1.2"
-}
-
-test {
-    useJUnitPlatform()
 }
