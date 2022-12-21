@@ -151,7 +151,7 @@ public class Task implements Entity {
             return false;
         }
         Task task = (Task) o;
-        return id == task.id;
+        return Objects.equals(id, task.id);
     }
 
     @Override

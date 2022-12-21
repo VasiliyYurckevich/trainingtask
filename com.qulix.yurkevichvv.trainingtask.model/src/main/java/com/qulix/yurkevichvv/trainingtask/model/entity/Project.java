@@ -99,7 +99,7 @@ public class Project implements Entity {
             return false;
         }
         Project project = (Project) o;
-        return id == project.id;
+        return Objects.equals(id, project.id);
     }
 
     @Override

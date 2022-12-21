@@ -113,7 +113,7 @@ public class Employee implements Entity {
             return false;
         }
         Employee employee = (Employee) o;
-        return id == employee.id;
+        return Objects.equals(id, employee.id);
     }
 
     @Override
