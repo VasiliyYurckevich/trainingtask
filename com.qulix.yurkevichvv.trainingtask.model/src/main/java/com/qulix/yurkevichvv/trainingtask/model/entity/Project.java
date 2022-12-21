@@ -46,11 +46,6 @@ public class Project implements Entity {
      */
     private String description;
 
-    /**
-     * Задачи проекта.
-     */
-    private List<Task> tasksList = new ArrayList<>();
-
     @Override
     public Integer getId() {
         return id;
@@ -76,18 +71,10 @@ public class Project implements Entity {
         this.description = description;
     }
 
-    public List<Task> getTasksList() {
-        return tasksList;
-    }
-
-    public void setTasksList(List<Task> tasksList) {
-        this.tasksList = tasksList;
-    }
-
     @Override
     public String toString() {
-        return String.format("Project { id= '%s', title='%s', description= '%s', tasksList= '%s'}",
-                id, title, description, tasksList);
+        return String.format("Project { id= '%s', title='%s', description= '%s'}",
+                id, title, description);
     }
 
     @Override
