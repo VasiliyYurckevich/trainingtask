@@ -190,6 +190,23 @@ public class PreparedStatementHelper implements AutoCloseable {
     }
 
     /**
+     * Выполняет SQL-оператор по изменению записей.
+     *
+     * @return сгенерированный идентификатор
+     */
+    protected Integer executeUpdateWithGeneratedKey() {
+        try {
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+            return resultSet.getInt(1);
+        }
+        catch (SQLException e) {
+            throw new DaoException("Error when try executeUpdate() PrepareStatement", e);
+        }
+    }
+
+    /**
      * Возвращает сгенерированный идентификатор.
      *
      * @return сгенерированный идентификатор

@@ -101,13 +101,15 @@ public class TaskDao implements IDao<Task> {
         " employee_id = :employee_id WHERE id = :id;";
 
     @Override
-    public void add(Task task, Connection connection) throws DaoException {
+    public Integer add(Task task, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
 
-            if (preparedStatementHelper.executeUpdate() > 0) {
+            Integer generatedKey = preparedStatementHelper.executeUpdate();
+            if (generatedKey > 0) {
                 LOGGER.log(Level.INFO, "Created new task");
+                return generatedKey;
             }
             else {
                 throw new DaoException("Error when adding a task to the database");
@@ -116,14 +118,16 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public void update(Task task, Connection connection) throws DaoException {
+    public Integer update(Task task, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             preparedStatementHelper.setInt(ID, task.getId());
 
-            if (preparedStatementHelper.executeUpdate() > 0) {
+            Integer updateCount = preparedStatementHelper.executeUpdate();
+            if (updateCount > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
+                return updateCount;
             }
             else {
                 throw new DaoException("Error when updating a task in the database");

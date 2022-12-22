@@ -89,20 +89,16 @@ public class ProjectDao implements IDao<Project> {
      */
     public static final String NOT_FOUND = "A project with such data was not found";
 
-    /**
-     * Сгенерированный Бд ключ при добавлении нового проекта.
-     */
-    private Integer generatedKey = null;
-
     @Override
-    public void add(Project project, Connection connection) throws DaoException {
+    public Integer add(Project project, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
-            if (preparedStatementHelper.executeUpdate() > 0) {
+            Integer generatedKey = preparedStatementHelper.executeUpdateWithGeneratedKey();
+            if (generatedKey > 0) {
                 LOGGER.log(Level.INFO, "Project created");
-                this.generatedKey = preparedStatementHelper.getGeneratedKey();
+                return generatedKey;
             }
             else {
                 throw new DaoException("Error when adding a project to the database");
@@ -111,14 +107,16 @@ public class ProjectDao implements IDao<Project> {
     }
 
     @Override
-    public void update(Project project, Connection connection) throws DaoException {
+    public Integer update(Project project, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
             preparedStatementHelper.setInt(ID, project.getId());
-            if (preparedStatementHelper.executeUpdate() > 0) {
+            Integer updateCount = preparedStatementHelper.executeUpdate();
+            if (updateCount > 0) {
                 LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
+                return updateCount;
             }
             else {
                 throw new DaoException("Error when updating the project in the database");
@@ -196,9 +194,5 @@ public class ProjectDao implements IDao<Project> {
                 throw new DaoException("Error when trying get project from ResultSet", e);
             }
         }
-    }
-
-    public Integer getGeneratedKey() {
-        return generatedKey;
     }
 }

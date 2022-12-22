@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
@@ -39,6 +40,8 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
+import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
+import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -141,9 +144,9 @@ public class TaskController extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
     /**
-     * Переменная доступа к методам работы с сущностями Project.
+     * Переменная доступа к методам работы с задачами проекта.
      */
-    private ProjectService projectService = new ProjectService();
+    private ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
 
     /**
      * Переменная доступа к методам работы с сущностями Task.
@@ -215,6 +218,11 @@ public class TaskController extends HttpServlet {
         throws ServiceException, ServletException, IOException {
 
         final Task task;
+
+        //очищает сессию
+        // req.getSession().getAttributeNames().asIterator().forEachRemaining(s -> req.getSession().removeAttribute(s));
+
+
         if (req.getParameter(TASK_ID) != null) {
             task = taskService.getById(Integer.valueOf(req.getParameter(TASK_ID)));
         }
@@ -241,10 +249,20 @@ public class TaskController extends HttpServlet {
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
+        System.out.println(paramsMap);
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
-            Task task = (Task) req.getSession().getAttribute(TASK);
-            updateTaskData(paramsMap, task);
 
+            String taskId = req.getParameter(TASK_ID);
+
+            Task task;
+            if (taskId.isBlank()) {
+                task = new Task();
+            }
+            else {
+                task = taskService.getById(Integer.valueOf(taskId));
+            }
+
+            updateTaskData(paramsMap, task);
             taskService.save(task);
 
             resp.sendRedirect(TASKS);
@@ -293,17 +311,18 @@ public class TaskController extends HttpServlet {
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             HttpSession session = req.getSession();
-            Project project = (Project) session.getAttribute(PROJECT);
-            Task task = (Task) session.getAttribute(TASK);
+
+            ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT);
             Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
+            Task task = projectTemporaryService.getProjectsTasks(project.getId()).get(taskIndex);
 
             updateTaskData(paramsMap, task);
 
             if (taskIndex != null) {
-                projectService.updateTask(project, taskIndex, task);
+                projectTemporaryService.updateTask(project, taskIndex, task);
             }
             else {
-                projectService.addTask(project, task);
+                projectTemporaryService.addTask(project, task);
             }
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
@@ -363,7 +382,8 @@ public class TaskController extends HttpServlet {
     private void listTasks(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        req.getSession().invalidate();
+        HttpSession session = req.getSession();
+        session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
         Utils.setDataToList(req);
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
@@ -378,6 +398,7 @@ public class TaskController extends HttpServlet {
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
 
         Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put(TASK_ID, req.getParameter(TASK_ID));
         paramsMap.put(STATUS, req.getParameter(STATUS));
         paramsMap.put(TITLE , req.getParameter(TITLE).trim());
         paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());

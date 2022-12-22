@@ -6,8 +6,10 @@ import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionService;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
+import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
 
 /**
  * Сервис для работы с Task.
@@ -21,7 +23,12 @@ public class TaskService implements IService<Task> {
      */
     private final TaskDao taskDao = new TaskDao();
 
-    @Override
+    /**
+     * Добавляет задачи в бд.
+     *
+     * @param task задача
+     * @throws ServiceException возникает при ошибке записи задачи в бд.
+     */
     public void save(Task task) throws ServiceException {
         Connection connection = ConnectionService.getConnection();
 

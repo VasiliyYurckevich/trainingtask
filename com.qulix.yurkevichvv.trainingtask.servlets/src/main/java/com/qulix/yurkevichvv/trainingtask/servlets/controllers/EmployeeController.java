@@ -160,7 +160,7 @@ public class EmployeeController extends HttpServlet {
             employee = new Employee();
         }
 
-        req.getSession().setAttribute(EMPLOYEE, employee);
+        req.setAttribute(EMPLOYEE, employee);
         req.setAttribute(SURNAME, employee.getSurname());
         req.setAttribute(FIRST_NAME, employee.getFirstName());
         req.setAttribute(PATRONYMIC, employee.getPatronymic());
@@ -201,11 +201,16 @@ public class EmployeeController extends HttpServlet {
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
-            Employee employee = (Employee) req.getSession().getAttribute(EMPLOYEE);
+            String employeeId = req.getParameter(EMPLOYEE_ID);
+            Employee employee;
+            if (employeeId.isBlank()) {
+                employee = new Employee();
+            }
+            else {
+                employee = employeeService.getById(Integer.valueOf(employeeId));
+            }
             setEmployeeData(paramsMap, employee);
-
             employeeService.save(employee);
-
             resp.sendRedirect(EMPLOYEES_LIST);
         }
         else {
@@ -252,6 +257,7 @@ public class EmployeeController extends HttpServlet {
     private Map<String, String> getDataFromJsp(HttpServletRequest req) {
 
         Map<String, String> params = new HashMap<>();
+        params.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         params.put(SURNAME, req.getParameter(SURNAME));
         params.put(FIRST_NAME, req.getParameter(FIRST_NAME));
         params.put(PATRONYMIC, req.getParameter(PATRONYMIC));

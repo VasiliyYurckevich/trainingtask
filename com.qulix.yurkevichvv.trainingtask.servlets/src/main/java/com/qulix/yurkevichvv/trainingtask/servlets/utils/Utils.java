@@ -63,7 +63,6 @@ public class Utils {
      * @param task задача
      */
     public static void setTaskDataInJsp(HttpServletRequest req, Task task) {
-        req.getSession().setAttribute("task", task);
         req.setAttribute("taskId", task.getId());
         req.setAttribute("status", task.getStatus().getId());
         req.setAttribute("title", task.getTitle());

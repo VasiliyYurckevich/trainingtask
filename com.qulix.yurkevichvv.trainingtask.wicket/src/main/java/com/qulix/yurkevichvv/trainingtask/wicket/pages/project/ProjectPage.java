@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
+import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListView;
@@ -8,7 +9,6 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 
@@ -32,7 +32,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     /**
      * Сервис для работы с Project.
      */
-    private final ProjectService service = new ProjectService();
+    private final ProjectTemporaryService service = new ProjectTemporaryService();
 
     /**
      * Конструктор.

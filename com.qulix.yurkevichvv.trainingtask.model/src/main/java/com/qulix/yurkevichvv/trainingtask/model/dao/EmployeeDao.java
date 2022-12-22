@@ -77,14 +77,16 @@ public class EmployeeDao implements IDao<Employee> {
     private static final String ID = "id";
 
     @Override
-    public void add(Employee employee, Connection connection) throws DaoException {
+    public Integer add(Employee employee, Connection connection) throws DaoException {
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_EMPLOYEE_SQL, connection)) {
             preparedStatementHelper.setString(SURNAME, employee.getSurname());
             preparedStatementHelper.setString(FIRST_NAME, employee.getFirstName());
             preparedStatementHelper.setString(PATRONYMIC, employee.getPatronymic());
             preparedStatementHelper.setString(POST, employee.getPost());
-            if (preparedStatementHelper.executeUpdate() > 0) {
+            Integer generatedKey = preparedStatementHelper.executeUpdate();
+            if (generatedKey > 0) {
                 LOGGER.log(Level.INFO, "Created employee");
+                return generatedKey;
             }
             else {
                 throw new DaoException("Error when adding a new employee to the database");
@@ -93,7 +95,7 @@ public class EmployeeDao implements IDao<Employee> {
     }
 
     @Override
-    public void update(Employee employee, Connection connection) throws DaoException {
+    public Integer update(Employee employee, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_CLIENT_SQL, connection)) {
             preparedStatementHelper.setString(SURNAME, employee.getSurname());
@@ -101,8 +103,10 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatementHelper.setString(PATRONYMIC, employee.getPatronymic());
             preparedStatementHelper.setString(POST, employee.getPost());
             preparedStatementHelper.setInt(ID, employee.getId());
-            if (preparedStatementHelper.executeUpdate() > 0) {
+            Integer updatesCount = preparedStatementHelper.executeUpdate();
+            if (updatesCount > 0) {
                 LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
+                return updatesCount;
             }
             else {
                 throw new DaoException("Error when trying to change employee data");

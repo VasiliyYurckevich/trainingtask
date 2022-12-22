@@ -21,7 +21,12 @@ public class EmployeeService implements IService<Employee> {
      */
     private final EmployeeDao employeeDao = new EmployeeDao();
 
-    @Override
+    /**
+     * Добавляет сотрудника в бд.
+     *
+     * @param employee сотрудник
+     * @throws ServiceException возникает при ошибке записи сотрудника в бд.
+     */
     public void save(Employee employee) throws ServiceException {
         Connection connection = ConnectionService.getConnection();
 

@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 import java.io.Serializable;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -32,7 +33,7 @@ class TasksInProjectListView extends ListView<Task> {
     /**
      * Сервис для работы с проектом.
      */
-    private final ProjectService service;
+    private final ProjectTemporaryService service;
 
     /**
      * Конструктор.
@@ -42,7 +43,7 @@ class TasksInProjectListView extends ListView<Task> {
      * @param service      сервис для работ с проектом
      */
     public TasksInProjectListView(LoadableDetachableModel<List<Task>> tasks, CompoundPropertyModel<Project> projectModel,
-        ProjectService service) {
+                                  ProjectTemporaryService service) {
 
         super("tasks", tasks);
         this.projectModel = projectModel;
@@ -99,7 +100,7 @@ class TasksInProjectListView extends ListView<Task> {
         /**
          * Сервис для работы с проектом.
          */
-        private ProjectService service = new ProjectService();
+        private ProjectTemporaryService service = new ProjectTemporaryService();
 
         /**
          * Конструктор.

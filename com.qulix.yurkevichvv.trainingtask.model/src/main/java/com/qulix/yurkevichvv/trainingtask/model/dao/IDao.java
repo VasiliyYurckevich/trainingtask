@@ -19,7 +19,7 @@ public interface IDao<T extends Entity> extends Serializable {
      * @param object Сущность для добавления.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    void add(T object, Connection connection) throws DaoException;
+    Integer add(T object, Connection connection) throws DaoException;
 
     /**
      * Обновляет сущность в БД.
@@ -27,7 +27,7 @@ public interface IDao<T extends Entity> extends Serializable {
      * @param object Сущность для обновления.
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
-    void update(T object, Connection connection) throws DaoException;
+    Integer update(T object, Connection connection) throws DaoException;
 
     /**
      * Удаляет сущность из БД.

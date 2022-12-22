@@ -13,13 +13,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 public interface IService<T extends Entity> extends Serializable {
 
     /**
-     * Сохраняет сущность в БД.
-     *
-     * @param entity сущность.
-     */
-    void save(T entity) throws ServiceException;
-
-    /**
      * Удаляет сущность из БД по идентификатору.
      *
      * @param id идентификатор.
