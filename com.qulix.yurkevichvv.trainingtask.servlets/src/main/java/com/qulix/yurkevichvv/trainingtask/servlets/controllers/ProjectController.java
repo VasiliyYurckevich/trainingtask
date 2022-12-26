@@ -216,7 +216,7 @@ public class ProjectController extends HttpServlet {
             task = new Task();
             task.setProjectId(projectTemporaryData.getId());
 
-            req.getSession().setAttribute(TASK_INDEX, null);
+            req.getSession().setAttribute(TASK_INDEX, 0);
         }
         return task;
     }
@@ -252,9 +252,11 @@ public class ProjectController extends HttpServlet {
      * @param existingProject проект
      */
     private static void setDataAboutProject(HttpSession session, Project existingProject) {
-        session.setAttribute(PROJECT, new ProjectTemporaryData(existingProject));
-        session.setAttribute(TITLE_OF_PROJECT, existingProject.getTitle());
-        session.setAttribute(DESCRIPTION, existingProject.getDescription());
+        ProjectTemporaryData projectTemporaryData = new ProjectTemporaryData(existingProject);
+        session.setAttribute(PROJECT,projectTemporaryData);
+        //???????? нужно ли?
+        session.setAttribute(TITLE_OF_PROJECT, projectTemporaryData.getTitle());
+        session.setAttribute(DESCRIPTION, projectTemporaryData.getDescription());
     }
 
     /**
@@ -266,8 +268,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServiceException ошибка при попытке удаления проекта
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServiceException {
-        Integer projectId = Integer.valueOf(req.getParameter(PROJECT_ID));
-        projectService.delete(projectId);
+        projectService.delete(Integer.valueOf(req.getParameter(PROJECT_ID)));
 
         resp.sendRedirect(PROJECTS);
     }

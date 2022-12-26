@@ -32,12 +32,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
@@ -219,7 +216,7 @@ public class TaskController extends HttpServlet {
 
         final Task task;
 
-        //очищает сессию
+        //очищает сессию от аттрибутов
         // req.getSession().getAttributeNames().asIterator().forEachRemaining(s -> req.getSession().removeAttribute(s));
 
 
@@ -249,7 +246,6 @@ public class TaskController extends HttpServlet {
         Map<String, String> paramsMap = getDataFromForm(req);
         Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
 
-        System.out.println(paramsMap);
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
             String taskId = req.getParameter(TASK_ID);
@@ -314,10 +310,14 @@ public class TaskController extends HttpServlet {
 
             ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT);
             Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
-            Task task = projectTemporaryService.getProjectsTasks(project.getId()).get(taskIndex);
+            Task task;
+            if (taskIndex != 0) {
+                task = projectTemporaryService.getProjectsTasks(project.getId()).get(taskIndex);
+            } else {
+                task = new Task();
+            }
 
             updateTaskData(paramsMap, task);
-
             if (taskIndex != null) {
                 projectTemporaryService.updateTask(project, taskIndex, task);
             }
@@ -344,7 +344,6 @@ public class TaskController extends HttpServlet {
 
         String taskId = req.getParameter(TASK_ID);
         taskService.delete(Integer.parseInt(taskId));
-
         resp.sendRedirect(TASKS);
     }
 
@@ -362,11 +361,10 @@ public class TaskController extends HttpServlet {
         req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
         req.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
         req.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
-        if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
-            req.setAttribute(EMPLOYEE_ID, Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
-        }
-        else {
+        if (paramsMap.get(EMPLOYEE_ID).isEmpty()) {
             req.setAttribute(EMPLOYEE_ID, "");
+        } else {
+            req.setAttribute(EMPLOYEE_ID, Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
         }
     }
 
@@ -408,8 +406,8 @@ public class TaskController extends HttpServlet {
             paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
         }
         else {
-            Task task = (Task) req.getSession().getAttribute(TASK);
-            paramsMap.put(PROJECT_ID, task.getProjectId().toString());
+            ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
+            paramsMap.put(PROJECT_ID, null);
         }
         paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         return paramsMap;

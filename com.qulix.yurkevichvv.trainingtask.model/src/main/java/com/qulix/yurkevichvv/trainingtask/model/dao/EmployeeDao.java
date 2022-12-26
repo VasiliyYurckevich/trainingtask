@@ -95,7 +95,7 @@ public class EmployeeDao implements IDao<Employee> {
     }
 
     @Override
-    public Integer update(Employee employee, Connection connection) throws DaoException {
+    public void update(Employee employee, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_CLIENT_SQL, connection)) {
             preparedStatementHelper.setString(SURNAME, employee.getSurname());
@@ -103,10 +103,8 @@ public class EmployeeDao implements IDao<Employee> {
             preparedStatementHelper.setString(PATRONYMIC, employee.getPatronymic());
             preparedStatementHelper.setString(POST, employee.getPost());
             preparedStatementHelper.setInt(ID, employee.getId());
-            Integer updatesCount = preparedStatementHelper.executeUpdate();
-            if (updatesCount > 0) {
+            if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
-                return updatesCount;
             }
             else {
                 throw new DaoException("Error when trying to change employee data");

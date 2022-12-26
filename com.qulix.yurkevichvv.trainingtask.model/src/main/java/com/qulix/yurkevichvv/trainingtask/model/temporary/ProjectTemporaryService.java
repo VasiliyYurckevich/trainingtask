@@ -23,16 +23,17 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
             connection.setAutoCommit(false);
 
             ProjectDao projectDao = new ProjectDao();
-            Integer generatedKey;
+
+            Integer projectId;
             if (projectTemporaryData.getId() == null) {
-                generatedKey = projectDao.add(projectTemporaryData.getProject(), connection);
-                projectTemporaryData.setId(generatedKey);
+                projectId = projectDao.add(projectTemporaryData.getProject(), connection);
+                projectTemporaryData.setId(projectId);
             }
             else {
                 projectDao.update(projectTemporaryData.getProject(), connection);
-                generatedKey = projectTemporaryData.getId();
+                projectId = projectTemporaryData.getId();
             }
-            updateTasks(projectTemporaryData,connection, generatedKey);
+            updateTasks(projectTemporaryData, connection, projectId);
             ConnectionService.commitConnection(connection);
         }
         catch (SQLException | DaoException e) {
@@ -96,7 +97,7 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
      * @param project проект
      * @param connection соединение
      */
-    private void updateTasks(ProjectTemporaryData project, Connection connection, Integer generatedKey) {
+    private void updateTasks(ProjectTemporaryData project, Connection connection, Integer projectId) {
 
         List<Task> tasksToDelete = taskDao.getProjectTasksInDB(project.getId(), connection);
         tasksToDelete.removeAll(project.getTasksList());
@@ -104,7 +105,7 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
 
         project.getTasksList().forEach(task -> {
 
-            task.setProjectId(generatedKey);
+            task.setProjectId(projectId);
             if (task.getId() == null) {
                 taskDao.add(task, connection);
             }

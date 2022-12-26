@@ -17,15 +17,16 @@
         <div class="chief">
             <div id="container" class="main">
                 <h3>Редактировать сотрудника</h3>
-                <form action="employees" method="post">
-                    <input type="hidden" name="action" value="/save"/>
+                <form action="employees">
                     <input type="hidden" name="employeeId" value="${employeeId}"/>
 
                     <div>
-                        <input type="submit" value="Сохранить"
-                               name="submitButton" id="submitButton" class="add-button">
-                        <button id="cancelButton" name="cancelButton" onclick="location.href='employees.jsp'"
-                                type="button" class="add-button">
+                        <button formmethod="post" id="submitButton" name="cancelButton" formaction="employees" value="/list"
+                                type="submit" class="add-button">
+                            Сохранить
+                        </button>
+                        <button formmethod="get" id="cancelButton" name="cancelButton" formaction="employees" value="/list"
+                                type="submit" class="add-button">
                             Отмена
                         </button>
                     </div>

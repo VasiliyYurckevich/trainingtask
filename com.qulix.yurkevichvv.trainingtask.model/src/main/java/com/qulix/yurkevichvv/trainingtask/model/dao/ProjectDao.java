@@ -107,16 +107,14 @@ public class ProjectDao implements IDao<Project> {
     }
 
     @Override
-    public Integer update(Project project, Connection connection) throws DaoException {
+    public void update(Project project, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_PROJECT_SQL, connection)) {
             preparedStatementHelper.setString(TITLE, project.getTitle());
             preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
             preparedStatementHelper.setInt(ID, project.getId());
-            Integer updateCount = preparedStatementHelper.executeUpdate();
-            if (updateCount > 0) {
+            if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
-                return updateCount;
             }
             else {
                 throw new DaoException("Error when updating the project in the database");

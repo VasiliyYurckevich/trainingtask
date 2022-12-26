@@ -118,16 +118,13 @@ public class TaskDao implements IDao<Task> {
     }
 
     @Override
-    public Integer update(Task task, Connection connection) throws DaoException {
+    public void update(Task task, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
             preparedStatementHelper.setInt(ID, task.getId());
-
-            Integer updateCount = preparedStatementHelper.executeUpdate();
-            if (updateCount > 0) {
+            if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
-                return updateCount;
             }
             else {
                 throw new DaoException("Error when updating a task in the database");

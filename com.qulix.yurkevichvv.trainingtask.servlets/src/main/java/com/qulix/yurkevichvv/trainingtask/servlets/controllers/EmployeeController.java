@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -96,7 +97,8 @@ public class EmployeeController extends HttpServlet {
 
         try {
             String action = req.getParameter(ACTION);
-
+            System.out.println(Collections.list(req.getAttributeNames()).size());
+            req.getParameterMap().forEach((x, y) -> System.out.println("par" + x + " : " + y));
             if (action.equals("/save")) {
                 saveEmployee(req, resp);
             }
@@ -194,7 +196,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void saveEmployee(HttpServletRequest req, HttpServletResponse resp)
+    private void    saveEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = getDataFromJsp(req);
