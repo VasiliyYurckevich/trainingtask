@@ -23,14 +23,17 @@
 
                 <h3>Редактировать проект</h3>
 
-                <form action="projects" method="post">
-                    <input type="hidden" name="action" value="/save" />
+                <form action="projects">
+                    <input type="hidden" name="action"/>
                     <input type="hidden" name="projectId" value="${project.id}"/>
 
                     <div>
-                        <input type="submit" value="Сохранить" name="submitButton" id="submitButton" class="add-button">
-                        <button id="cancelButton" name="cancelButton" onclick="location.href='projects'"
-                                type="button" class="add-button">
+                        <button formmethod="post" id="submitButton" name="submitButton"
+                                onclick="action.value='/save'" type="submit" class="add-button">
+                            Сохранить
+                        </button>
+                        <button formmethod="get" id="cancelButton" name="cancelButton"
+                                onclick="action.value='/list'" type="submit" class="add-button">
                             Отмена
                         </button>
                     </div>
@@ -114,6 +117,5 @@
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="blocker.js"></script>
     </body>
 </html>

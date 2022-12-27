@@ -17,14 +17,19 @@
         <div class="chief">
             <div id="container" class="main">
                 <h3>Редактировать задачу</h3>
-                <form action="tasks" method="post" id ="form">
-                    <input type="hidden" name="action" value="/save" />
+                <form action="tasks" id ="form">
+                    <input type="hidden" name="action"/>
                     <input type="hidden" name="taskId" value="${taskId}" />
-                    <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
-                    <button id="cancelButton" name="cancelButton"
-                            onclick="location.href='tasks'" type="button" class="add-button">
-                        Отмена
-                    </button>
+                    <div>
+                        <button formmethod="post" id="submitButton" name="submitButton"
+                                onclick="action.value='/save'" type="submit" class="add-button">
+                            Сохранить
+                        </button>
+                        <button formmethod="get" id="cancelButton" name="cancelButton"
+                                onclick="action.value='/list'" type="submit" class="add-button">
+                            Отмена
+                        </button>
+                    </div>
 
                     <div class="field">
                         <label>Статус:</label>
@@ -86,6 +91,5 @@
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="blocker.js"></script>
     </body>
 </html>

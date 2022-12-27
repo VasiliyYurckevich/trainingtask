@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -20,7 +20,7 @@
                 <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/saveTaskInProject" />
-                    <input type="hidden" name="taskIndex" value="${tas}" />
+                    <input type="hidden" name="taskIndex" value="${taskIndex}" />
                     <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
                     <button id="cancelButton" name="cancelButton"
                             onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${project.id}'"
@@ -31,11 +31,11 @@
                     <div class="field">
                         <label>Статус:</label>
                         <select name="status">
-                            <c:forEach items="${STATUS_LIST}" var="statuses">
-                                <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(statuses.getStatusTitle())}
-                                </option>
-                            </c:forEach>
+                                <c:forEach items="${STATUS_LIST}" var="statuses">
+                                    <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
+                                            ${fn:escapeXml(statuses.getStatusTitle())}
+                                    </option>
+                                </c:forEach>
                         </select>
                         <br>
                         <a class="feedback">${ERRORS.get("status")}</a>
@@ -94,6 +94,5 @@
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="blocker.js"></script>
     </body>
 </html>

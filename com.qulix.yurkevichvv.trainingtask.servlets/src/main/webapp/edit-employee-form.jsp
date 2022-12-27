@@ -18,15 +18,15 @@
             <div id="container" class="main">
                 <h3>Редактировать сотрудника</h3>
                 <form action="employees">
-                    <input type="hidden" name="employeeId" value="${employeeId}"/>
-
+                    <input type="hidden" name="employeeId" value="${employee.id}"/>
+                    <input name="action" type="hidden" value="/save">
                     <div>
-                        <button formmethod="post" id="submitButton" name="cancelButton" formaction="employees" value="/list"
-                                type="submit" class="add-button">
+                        <button formmethod="post" id="submitButton" name="submitButton"
+                                onclick="action.value='/save'" type="submit" class="add-button">
                             Сохранить
                         </button>
-                        <button formmethod="get" id="cancelButton" name="cancelButton" formaction="employees" value="/list"
-                                type="submit" class="add-button">
+                        <button formmethod="get" id="cancelButton" name="cancelButton"
+                                onclick="action.value='/list'" type="submit" class="add-button">
                             Отмена
                         </button>
                     </div>
@@ -61,6 +61,5 @@
                 </form>
             </div>
         </div>
-        <script type="text/javascript" src="blocker.js"></script>
     </body>
 </html>
