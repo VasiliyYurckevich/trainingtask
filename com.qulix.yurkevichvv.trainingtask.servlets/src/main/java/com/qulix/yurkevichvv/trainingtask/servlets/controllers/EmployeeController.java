@@ -5,8 +5,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -85,7 +89,11 @@ public class EmployeeController extends HttpServlet {
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
-
+    static {
+        Handler handler = new StreamHandler(System.out, new SimpleFormatter());
+        handler.setLevel(Level.ALL);
+        LOGGER.addHandler(handler);
+    }
     /**
      * Сервис для работы с Employee.
      */
@@ -97,8 +105,6 @@ public class EmployeeController extends HttpServlet {
 
         try {
             String action = req.getParameter(ACTION);
-            System.out.println(Collections.list(req.getAttributeNames()).size());
-            req.getParameterMap().forEach((x, y) -> System.out.println("par" + x + " : " + y));
             if (action.equals("/save")) {
                 saveEmployee(req, resp);
             }
@@ -156,9 +162,11 @@ public class EmployeeController extends HttpServlet {
 
         Employee employee;
         if (req.getParameter(EMPLOYEE_ID) != null) {
+            System.out.println(EMPLOYEE_ID + ":" + req.getParameter(EMPLOYEE_ID));
             employee = employeeService.getById(Integer.valueOf(req.getParameter(EMPLOYEE_ID)));
         }
         else {
+            System.out.println(EMPLOYEE_ID + ":" + "null");
             employee = new Employee();
         }
 
@@ -196,7 +204,7 @@ public class EmployeeController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException ошибка при работе сервиса с сущностью
      */
-    private void    saveEmployee(HttpServletRequest req, HttpServletResponse resp)
+    private void saveEmployee(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = getDataFromJsp(req);
@@ -204,6 +212,7 @@ public class EmployeeController extends HttpServlet {
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             String employeeId = req.getParameter(EMPLOYEE_ID);
+            System.out.println(EMPLOYEE_ID + ":" +req.getParameter(EMPLOYEE_ID));
             Employee employee;
             if (employeeId.isBlank()) {
                 employee = new Employee();
