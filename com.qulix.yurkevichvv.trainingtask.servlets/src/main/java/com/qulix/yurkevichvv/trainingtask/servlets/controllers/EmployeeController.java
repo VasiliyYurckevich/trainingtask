@@ -159,18 +159,10 @@ public class EmployeeController extends HttpServlet {
      */
     private void editForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
+        System.out.println(req.getParameter(EMPLOYEE_ID));
+        Employee employee = getEmployee(req.getParameter(EMPLOYEE_ID));
 
-        Employee employee;
-        if (req.getParameter(EMPLOYEE_ID) != null) {
-            System.out.println(EMPLOYEE_ID + ":" + req.getParameter(EMPLOYEE_ID));
-            employee = employeeService.getById(Integer.valueOf(req.getParameter(EMPLOYEE_ID)));
-        }
-        else {
-            System.out.println(EMPLOYEE_ID + ":" + "null");
-            employee = new Employee();
-        }
-
-        req.setAttribute(EMPLOYEE, employee);
+        req.setAttribute(EMPLOYEE_ID, employee.getId());
         req.setAttribute(SURNAME, employee.getSurname());
         req.setAttribute(FIRST_NAME, employee.getFirstName());
         req.setAttribute(PATRONYMIC, employee.getPatronymic());
@@ -211,15 +203,7 @@ public class EmployeeController extends HttpServlet {
         Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
-            String employeeId = req.getParameter(EMPLOYEE_ID);
-            System.out.println(EMPLOYEE_ID + ":" +req.getParameter(EMPLOYEE_ID));
-            Employee employee;
-            if (employeeId.isBlank()) {
-                employee = new Employee();
-            }
-            else {
-                employee = employeeService.getById(Integer.valueOf(employeeId));
-            }
+            Employee employee = getEmployee(req.getParameter(EMPLOYEE_ID));
             setEmployeeData(paramsMap, employee);
             employeeService.save(employee);
             resp.sendRedirect(EMPLOYEES_LIST);
@@ -228,6 +212,17 @@ public class EmployeeController extends HttpServlet {
             setDataToJsp(req, paramsMap, errorsMap);
             req.getRequestDispatcher(EDIT_EMPLOYEE_FORM_JSP).forward(req, resp);
         }
+    }
+
+    private Employee getEmployee(String employeeId) {
+        Employee employee;
+        if (employeeId.isBlank()) {
+            employee = new Employee();
+        }
+        else {
+            employee = employeeService.getById(Integer.valueOf(employeeId));
+        }
+        return employee;
     }
 
     /**

@@ -76,7 +76,7 @@ class TasksInProjectListView extends ListView<Task> {
 
         @Override
         public void onClick() {
-            service.deleteTask(projectModel.getObject(), taskModel.getObject());
+            //service.deleteTask(projectModel.getObject(), taskModel.getObject());
         }
     }
 

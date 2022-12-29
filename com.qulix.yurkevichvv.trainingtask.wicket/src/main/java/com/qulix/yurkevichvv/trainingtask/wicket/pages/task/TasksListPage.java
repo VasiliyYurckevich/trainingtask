@@ -118,7 +118,7 @@ public class TasksListPage extends AbstractListPage<Task> {
 
         @Override
         protected void onSubmitting() {
-            service.save(entityModel.getObject());
+            //service.save(entityModel.getObject());
         }
 
         @Override
