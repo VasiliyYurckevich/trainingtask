@@ -26,6 +26,7 @@ ext {
 }
 
 task startDatabase() {
+    logging.captureStandardOutput(LogLevel.LIFECYCLE)
     outputs.upToDateWhen {
         return !isAvailable()
     }
