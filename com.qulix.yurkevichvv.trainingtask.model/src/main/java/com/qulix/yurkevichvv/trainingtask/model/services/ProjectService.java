@@ -7,9 +7,7 @@ import java.util.List;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionService;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
-import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 /**
  * Сервис для работы с Project.

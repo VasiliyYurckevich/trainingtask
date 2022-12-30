@@ -202,7 +202,7 @@ public class PreparedStatementHelper implements AutoCloseable {
             return resultSet.getInt(1);
         }
         catch (SQLException e) {
-            throw new DaoException("Error when try executeUpdate() PrepareStatement", e);
+            throw new DaoException("Error when try executeUpdateWithGeneratedKey() PrepareStatement", e);
         }
     }
 

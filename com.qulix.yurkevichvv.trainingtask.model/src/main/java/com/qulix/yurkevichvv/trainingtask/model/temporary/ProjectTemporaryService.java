@@ -11,6 +11,11 @@ import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 
+/**
+ * Сервис для работы с временными данными проекта.
+ *
+ * @author Q-YVV
+ */
 public class  ProjectTemporaryService implements IProjectTemporaryService {
 
     private TaskDao taskDao = new TaskDao();

@@ -1,12 +1,16 @@
 package com.qulix.yurkevichvv.trainingtask.model.temporary;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
-
 import java.io.Serializable;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
+
+/**
+ * Обобщает основные методы для редактирования проекта и связанных с ним данных.
+ *
+ * @author Q-YVV
+ */
 public interface IProjectTemporaryService extends Serializable {
 
     /**
@@ -19,7 +23,7 @@ public interface IProjectTemporaryService extends Serializable {
     /**
      * Возвращает список задач проекта.
      *
-     * @param Integer проект
+     * @param id проект
      * @return список задач
      */
     List<Task> getProjectsTasks(Integer id) throws ServiceException;

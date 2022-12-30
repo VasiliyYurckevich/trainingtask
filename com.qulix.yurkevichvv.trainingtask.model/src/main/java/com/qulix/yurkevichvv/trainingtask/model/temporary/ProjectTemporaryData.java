@@ -1,10 +1,15 @@
 package com.qulix.yurkevichvv.trainingtask.model.temporary;
 
+import java.util.List;
+
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
-import java.util.List;
-
+/**
+ * Данные связанные с проектом при его редактировании.
+ *
+ * @author Q-YVV
+ */
 public class ProjectTemporaryData {
 
     private Integer id;
@@ -15,6 +20,11 @@ public class ProjectTemporaryData {
 
     private List<Task> tasksList;
 
+    /**
+     * Конструктор.
+     *
+     * @param project проект
+     */
     public ProjectTemporaryData(Project project) {
         this.id = project.getId();
         this.title = project.getTitle();
@@ -59,7 +69,7 @@ public class ProjectTemporaryData {
      *
      * @return проект с новыми данными
      */
-    public Project getProject(){
+    public Project getProject() {
         Project project = new Project();
         project.setId(id);
         project.setTitle(title);

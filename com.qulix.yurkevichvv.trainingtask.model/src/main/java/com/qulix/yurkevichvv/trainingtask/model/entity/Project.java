@@ -19,8 +19,6 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
