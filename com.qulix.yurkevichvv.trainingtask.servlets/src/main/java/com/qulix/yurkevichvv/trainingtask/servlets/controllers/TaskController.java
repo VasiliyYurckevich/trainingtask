@@ -311,7 +311,7 @@ public class TaskController extends HttpServlet {
             ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT);
             Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
             Task task;
-            if (taskIndex != 0) {
+            if (taskIndex != null) {
                 task = projectTemporaryService.getProjectsTasks(project.getId()).get(taskIndex);
             } else {
                 task = new Task();
@@ -407,7 +407,7 @@ public class TaskController extends HttpServlet {
         }
         else {
             ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
-            paramsMap.put(PROJECT_ID, null);
+            paramsMap.put(PROJECT_ID, String.valueOf(project.getId()));
         }
         paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         return paramsMap;

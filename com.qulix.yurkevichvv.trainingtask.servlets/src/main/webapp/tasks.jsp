@@ -10,12 +10,12 @@
 <html lang="ru">
     <head>
         <link type="text/css" rel="stylesheet" href="css/style.css">
-        <title></title>
+        <title>Задачи</title>
     </head>
 
     <body>
 
-        <my:mainMenu></my:mainMenu>
+        <my:mainMenu/>
 
         <div class="chief">
             <div class="header">

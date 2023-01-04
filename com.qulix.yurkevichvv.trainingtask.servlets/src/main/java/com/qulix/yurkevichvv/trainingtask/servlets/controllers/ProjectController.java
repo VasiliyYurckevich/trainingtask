@@ -201,7 +201,7 @@ public class ProjectController extends HttpServlet {
      * Находит или создает новую задачу в проекте.
      *
      * @param req запрос
-     * @param project проект
+     * @param projectTemporaryData данные проект
      * @return задача проекта для редактирования
      */
     private Task getTask(HttpServletRequest req, ProjectTemporaryData projectTemporaryData) {
@@ -216,7 +216,7 @@ public class ProjectController extends HttpServlet {
             task = new Task();
             task.setProjectId(projectTemporaryData.getId());
 
-            req.getSession().setAttribute(TASK_INDEX, 0);
+            //req.getSession().setAttribute(TASK_INDEX, null);
         }
         return task;
     }
@@ -233,6 +233,12 @@ public class ProjectController extends HttpServlet {
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
+        Project project = getProjectData(req);
+        setDataAboutProject(req.getSession(), project);
+        req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+    }
+
+    private Project getProjectData(HttpServletRequest req) {
         Project project;
 
         if (req.getParameter(PROJECT_ID) != null) {
@@ -241,8 +247,7 @@ public class ProjectController extends HttpServlet {
         else {
             project = new Project();
         }
-        setDataAboutProject(req.getSession(), project);
-        req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+        return project;
     }
 
     /**

@@ -28,30 +28,13 @@
                     <input type="hidden" name="projectId" value="${project.id}"/>
 
                     <div>
-                        <button formmethod="post" id="submitButton" name="submitButton"
-                                onclick="action.value='/save'" type="submit" class="add-button">
-                            Сохранить
-                        </button>
-                        <button formmethod="get" id="cancelButton" name="cancelButton"
-                                onclick="action.value='/list'" type="submit" class="add-button">
-                            Отмена
-                        </button>
+                        <my:buttons/>
                     </div>
 
                     <div class="main">
-                        <div class="field">
-                            <label>Наименование:</label>
-                            <input id="titleProject" name="titleProject" value="${fn:escapeXml(titleProject)}">
-                            <br>
-                            <a class="feedback">${ERRORS.get("titleProject")}</a>
-                        </div>
+                        <my:textField id="titleProject" name="Наименование" value="${titleProject}"/>
 
-                        <div class="field">
-                            <label>Описание:</label>
-                            <input id="description" name="description" value="${fn:escapeXml(description)}">
-                            <br>
-                            <a class="feedback">${ERRORS.get("description")}</a>
-                        </div>
+                        <my:textField id="description" name="Описание" value="${description}"/>
                     </div>
 
                     <div class="header">

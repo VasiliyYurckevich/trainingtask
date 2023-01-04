@@ -1,13 +1,12 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <html lang="ru">
     <head>
         <title>Редактировать задачу</title>
-
         <link type="text/css" rel="stylesheet" href="css/style.css">
     </head>
 
@@ -31,43 +30,23 @@
                     <div class="field">
                         <label>Статус:</label>
                         <select name="status">
-                                <c:forEach items="${STATUS_LIST}" var="statuses">
-                                    <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
-                                            ${fn:escapeXml(statuses.getStatusTitle())}
-                                    </option>
-                                </c:forEach>
+                            <c:forEach items="${STATUS_LIST}" var="statuses">
+                                <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
+                                        ${fn:escapeXml(statuses.getStatusTitle())}
+                                </option>
+                            </c:forEach>
                         </select>
                         <br>
                         <a class="feedback">${ERRORS.get("status")}</a>
                     </div>
 
-                    <div class="field">
-                        <label>Наименование:</label>
-                        <input id="title" name="title" value="${fn:escapeXml(title)}">
-                        <br>
-                        <a class="feedback">${ERRORS.get("title")}</a>
-                    </div>
+                    <my:textField name="Наименование" id="title" value="${title}"/>
 
-                    <div class="field">
-                        <label>Работа:</label>
-                        <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}">
-                        <br>
-                        <a class="feedback">${ERRORS.get("workTime")}</a>
-                    </div>
+                    <my:textField name="Работа" id="workTime" value="${workTime}"/>
 
-                    <div class="field">
-                        <label>Дата начала(ГГГГ-ММ-ДД):</label>
-                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}">
-                        <br>
-                        <a class="feedback">${ERRORS.get("beginDate")}</a>
-                    </div>
+                    <my:textField name="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
 
-                    <div class="field">
-                        <label>Дата окончания(ГГГГ-ММ-ДД):</label>
-                        <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}">
-                        <br>
-                        <a class="feedback">${ERRORS.get("endDate")}</a>
-                    </div>
+                    <my:textField name="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
 
                     <div class="field">
                         <label>Наименование проекта:</label>

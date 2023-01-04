@@ -21,14 +21,7 @@
                     <input type="hidden" name="action"/>
                     <input type="hidden" name="taskId" value="${taskId}" />
                     <div>
-                        <button formmethod="post" id="submitButton" name="submitButton"
-                                onclick="action.value='/save'" type="submit" class="add-button">
-                            Сохранить
-                        </button>
-                        <button formmethod="get" id="cancelButton" name="cancelButton"
-                                onclick="action.value='/list'" type="submit" class="add-button">
-                            Отмена
-                        </button>
+                        <my:buttons/>
                     </div>
 
                     <div class="field">
@@ -43,30 +36,15 @@
                         <br>
                         <a class="feedback">${ERRORS.get("status")}</a>
                     </div>
-                    <div class="field">
-                        <label>Наименование:</label>
-                        <input id="title" name="title" value="${fn:escapeXml(title)}"/>
-                        <br>
-                        <a class="feedback">${ERRORS.get("title")}</a>
-                    </div>
-                    <div class="field">
-                        <label>Работа:</label>
-                        <input id="workTime" name="workTime" value="${fn:escapeXml(workTime)}"/>
-                        <br>
-                        <a class="feedback">${ERRORS.get("workTime")}</a>
-                    </div>
-                    <div class="field">
-                        <label>Дата начала(ГГГГ-ММ-ДД):</label>
-                        <input id="beginDate" name="beginDate" value="${fn:escapeXml(beginDate)}"/>
-                        <br>
-                        <a class="feedback">${ERRORS.get("beginDate")}</a>
-                    </div>
-                    <div class="field">
-                        <label>Дата окончания(ГГГГ-ММ-ДД):</label>
-                        <input id="endDate" name="endDate" value="${fn:escapeXml(endDate)}"/>
-                        <br>
-                        <a class="feedback">${ERRORS.get("endDate")}</a>
-                    </div>
+
+                    <my:textField name="Наименование" id="title" value="${title}"/>
+
+                    <my:textField name="Работа" id="workTime" value="${workTime}"/>
+
+                    <my:textField name="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
+
+                    <my:textField name="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
+
                     <div class="field">
                         <label>Наименование проекта:</label>
                         <select name="projectId">

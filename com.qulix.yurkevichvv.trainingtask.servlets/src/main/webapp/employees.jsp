@@ -9,7 +9,7 @@
 
     <head>
         <link type="text/css" rel="stylesheet" href="css/style.css">
-        <title></title>
+        <title>Сотрудники</title>
     </head>
 
     <body>
