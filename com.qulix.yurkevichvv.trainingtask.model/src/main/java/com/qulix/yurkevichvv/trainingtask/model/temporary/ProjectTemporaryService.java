@@ -18,6 +18,9 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
  */
 public class  ProjectTemporaryService implements IProjectTemporaryService {
 
+    /**
+     * DAO для работы с БД задач.
+     */
     private TaskDao taskDao = new TaskDao();
 
     @Override
