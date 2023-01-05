@@ -45,6 +45,7 @@ public class Utils {
      * @param req запрос
      * @throws ServiceException если произошла ошибка при работе с сущностями
      */
+/*
     public static void setDataToList(HttpServletRequest req) throws ServiceException {
         List<Employee> employees = new EmployeeService().findAll();
         List<Project> projects = new ProjectService().findAll();
@@ -55,6 +56,7 @@ public class Utils {
         req.getSession().setAttribute("STATUS_LIST", Status.values());
         req.getSession().setAttribute("TASKS_LIST", tasks);
     }
+*/
 
     /**
      * Заносит начальные данные в поля формы для Задачи.

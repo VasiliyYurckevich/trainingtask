@@ -24,7 +24,8 @@
                         <my:buttons/>
                     </div>
 
-                    <div class="field">
+                    <my:dropDownChoice label="Статус" id="status" list="${StatusList}" selectedId="${status}"/>
+                    <%--<div class="field">
                         <label>Статус:</label>
                         <select name="status">
                             <c:forEach items="${STATUS_LIST}" var="statuses">
@@ -35,17 +36,21 @@
                         </select>
                         <br>
                         <a class="feedback">${ERRORS.get("status")}</a>
-                    </div>
+                    </div>--%>
 
-                    <my:textField name="Наименование" id="title" value="${title}"/>
+                    <my:textField label="Наименование" id="title" value="${title}"/>
 
-                    <my:textField name="Работа" id="workTime" value="${workTime}"/>
+                    <my:textField label="Работа" id="workTime" value="${workTime}"/>
 
-                    <my:textField name="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
+                    <my:textField label="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
 
-                    <my:textField name="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
+                    <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
 
-                    <div class="field">
+                    <my:dropDownChoice label="Наименование проекта" id="projectId" list="${ProjectList}" selectedId="${projectId}"/>
+
+                    <my:dropDownChoice label="Сотрудник" id="projectId" list="${EmployeeList}" selectedId="${employeeId}"/>
+
+                   <%-- <div class="field">
                         <label>Наименование проекта:</label>
                         <select name="projectId">
                             <c:forEach items="${PROJECT_LIST}" var="projects">
@@ -64,7 +69,7 @@
                                         ${fn:escapeXml(employees.fullName)}
                                 </option>
                             </c:forEach>
-                        </select>
+                        </select>--%>
                     </div>
                 </form>
             </div>

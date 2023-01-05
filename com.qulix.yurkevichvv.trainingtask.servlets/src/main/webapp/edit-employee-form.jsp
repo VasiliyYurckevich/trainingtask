@@ -20,7 +20,7 @@
             <div id="container">
                 <h3>Редактировать сотрудника</h3>
                 <form action="employees">
-                    <input type="hidden" name="employeeId" value="${employee.id}"/>
+                    <input type="hidden" name="employeeId" value="${employeeId}"/>
                     <input name="action" type="hidden">
 
                     <div>
@@ -28,13 +28,13 @@
                     </div>
 
                     <div class="main">
-                        <my:textField name="Имя" id="surname" value="${surname}"/>
+                        <my:textField label="Имя" id="surname" value="${surname}"/>
 
-                        <my:textField name="Фамилия" id="firstName" value="${firstName}"/>
+                        <my:textField label="Фамилия" id="firstName" value="${firstName}"/>
 
-                        <my:textField name="Отчество" id="patronymic" value="${patronymic}"/>
+                        <my:textField label="Отчество" id="patronymic" value="${patronymic}"/>
 
-                        <my:textField name="Должность" id="post" value="${post}"/>
+                        <my:textField label="Должность" id="post" value="${post}"/>
                     </div>
 
                 </form>

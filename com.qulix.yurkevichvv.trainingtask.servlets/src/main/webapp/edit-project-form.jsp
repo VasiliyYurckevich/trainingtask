@@ -1,5 +1,4 @@
 <%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.ProjectService" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.model.entity.Project" %>
 <%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService" %>
 <%@ page import="com.qulix.yurkevichvv.trainingtask.model.entity.Task" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -32,9 +31,9 @@
                     </div>
 
                     <div class="main">
-                        <my:textField id="titleProject" name="Наименование" value="${titleProject}"/>
+                        <my:textField id="titleProject" label="Наименование" value="${titleProject}"/>
 
-                        <my:textField id="description" name="Описание" value="${description}"/>
+                        <my:textField id="description" label="Описание" value="${description}"/>
                     </div>
 
                     <div class="header">

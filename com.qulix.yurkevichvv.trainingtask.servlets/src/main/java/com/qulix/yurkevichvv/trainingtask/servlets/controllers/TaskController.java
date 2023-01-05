@@ -21,9 +21,12 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+Гimport java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,10 +38,12 @@ import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
+import com.qulix.yurkevichvv.trainingtask.servlets.DropDownListItem;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -150,6 +155,12 @@ public class TaskController extends HttpServlet {
      */
     private TaskService taskService = new TaskService();
 
+
+    /**
+     * Переменная доступа к методам работы с сущностями Project.
+     */
+    private ProjectService projectService = new ProjectService();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -226,7 +237,7 @@ public class TaskController extends HttpServlet {
         else {
             task = new Task();
         }
-
+        req.setAttribute("ProjectList", new ArrayList<DropDownListItem>().addAll();
         Utils.setTaskDataInJsp(req, task);
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
@@ -382,7 +393,8 @@ public class TaskController extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
-        Utils.setDataToList(req);
+        req.getSession().setAttribute("TASKS_LIST", taskService.findAll());
+        //Utils.setDataToList(req);
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
     }
