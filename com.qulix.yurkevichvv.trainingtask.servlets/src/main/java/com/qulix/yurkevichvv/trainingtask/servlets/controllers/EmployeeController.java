@@ -159,7 +159,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void editForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
-        System.out.println(req.getParameter(EMPLOYEE_ID));
+
         Employee employee = getEmployee(req.getParameter(EMPLOYEE_ID));
 
         req.setAttribute(EMPLOYEE_ID, employee.getId());
@@ -215,14 +215,13 @@ public class EmployeeController extends HttpServlet {
     }
 
     private Employee getEmployee(String employeeId) {
-        Employee employee;
+        System.out.println("employeeId" + employeeId);
         if (employeeId.isBlank()) {
-            employee = new Employee();
+            return new Employee();
         }
         else {
-            employee = employeeService.getById(Integer.valueOf(employeeId));
+           return employeeService.getById(Integer.valueOf(employeeId));
         }
-        return employee;
     }
 
     /**
@@ -231,7 +230,6 @@ public class EmployeeController extends HttpServlet {
      * @param paramsMap список параметров
      */
     private static void setEmployeeData(Map<String, String> paramsMap, Employee employee) {
-
         employee.setSurname(paramsMap.get(SURNAME));
         employee.setFirstName(paramsMap.get(FIRST_NAME));
         employee.setPatronymic(paramsMap.get(PATRONYMIC));
@@ -284,7 +282,7 @@ public class EmployeeController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         req.getSession().invalidate();
-        Utils.setDataToList(req);
+        req.getSession().setAttribute("EMPLOYEE_LIST", employeeService.findAll());
 
         req.getRequestDispatcher("/employees.jsp").forward(req, resp);
     }

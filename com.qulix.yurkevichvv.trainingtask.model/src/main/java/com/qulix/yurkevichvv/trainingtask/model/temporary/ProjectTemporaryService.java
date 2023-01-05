@@ -77,26 +77,12 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
 
     @Override
     public void addTask(ProjectTemporaryData project, Task task) throws ServiceException {
-        Connection connection = ConnectionService.getConnection();
-
-        try (connection) {
-            project.getTasksList().add(task);
-        }
-        catch (SQLException | DaoException e) {
-            throw new ServiceException("Error during adding project task", e);
-        }
+        project.getTasksList().add(task);
     }
 
     @Override
     public void updateTask(ProjectTemporaryData project, Integer index, Task task) throws ServiceException {
-        Connection connection = ConnectionService.getConnection();
-
-        try (connection) {
-            project.getTasksList().set(index, task);
-        }
-        catch (SQLException | DaoException e) {
-            throw new ServiceException("Error during updating project task", e);
-        }
+        project.getTasksList().set(index, task);
     }
 
     /**

@@ -189,9 +189,7 @@ public class ProjectController extends HttpServlet {
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
 
-        HttpSession session = req.getSession();
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT);
-
+        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
         Utils.setTaskDataInJsp(req, getTask(req, projectTemporaryData));
 
         req.getRequestDispatcher(EDIT_TASK_IN_PROJECT_JSP).forward(req, resp);
@@ -205,20 +203,17 @@ public class ProjectController extends HttpServlet {
      * @return задача проекта для редактирования
      */
     private Task getTask(HttpServletRequest req, ProjectTemporaryData projectTemporaryData) {
-        Task task;
         if (req.getParameter(TASK_INDEX) != null) {
             int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
-            task = projectTemporaryData.getTasksList().get(taskIndex);
-
             req.getSession().setAttribute(TASK_INDEX, taskIndex);
+            return projectTemporaryData.getTasksList().get(taskIndex);
         }
         else {
-            task = new Task();
+            Task task = new Task();
             task.setProjectId(projectTemporaryData.getId());
-
-            //req.getSession().setAttribute(TASK_INDEX, null);
+            req.getSession().setAttribute(TASK_INDEX, null);
+            return task;
         }
-        return task;
     }
 
     /**
@@ -239,15 +234,13 @@ public class ProjectController extends HttpServlet {
     }
 
     private Project getProjectData(HttpServletRequest req) {
-        Project project;
 
         if (req.getParameter(PROJECT_ID) != null) {
-            project = projectService.getById(Integer.valueOf(req.getParameter(PROJECT_ID)));
+            return projectService.getById(Integer.valueOf(req.getParameter(PROJECT_ID)));
         }
         else {
-            project = new Project();
+            return new Project();
         }
-        return project;
     }
 
     /**
@@ -274,7 +267,6 @@ public class ProjectController extends HttpServlet {
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServiceException {
         projectService.delete(Integer.valueOf(req.getParameter(PROJECT_ID)));
-
         resp.sendRedirect(PROJECTS);
     }
 
@@ -290,8 +282,9 @@ public class ProjectController extends HttpServlet {
     private void listProjects(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        req.getSession().invalidate();
-        Utils.setDataToList(req);
+        HttpSession session = req.getSession();
+        session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
+        req.getSession().setAttribute("PROJECT_LIST", projectService.findAll());
 
         req.getRequestDispatcher("/projects.jsp").forward(req, resp);
     }
