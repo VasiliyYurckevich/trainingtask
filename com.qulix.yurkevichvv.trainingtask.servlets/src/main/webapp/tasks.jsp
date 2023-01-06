@@ -5,6 +5,8 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
+<jsp:useBean id="TASKS_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.TaskView>"/>
+
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -48,14 +50,6 @@
 
                         <c:forEach var="tempTask" items="${TASKS_LIST}">
 
-                            <%
-                                Task task = (Task) pageContext.getAttribute("tempTask");
-                                pageContext.setAttribute("projectTitle",
-                                    new ProjectService().getById(task.getProjectId()).getTitle());
-                                pageContext.setAttribute("employeeFullName", task.getEmployeeId() != null ?
-                                    new EmployeeService().getById(task.getEmployeeId()).getFullName() : "");
-                            %>
-
                             <c:url var="editLink" value="/tasks">
                                 <c:param name="action" value="/edit"/>
                                 <c:param name="taskId" value="${tempTask.id}"/>
@@ -66,13 +60,13 @@
                             </c:url>
 
                             <tr>
-                                <td> ${fn:escapeXml(tempTask.status.getStatusTitle())}</td>
+                                <td> ${fn:escapeXml(tempTask.statusTitle)}</td>
                                 <td> ${fn:escapeXml(tempTask.title)} </td>
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)}</td>
-                                <td> ${fn:escapeXml(projectTitle)}</td>
-                                <td> ${fn:escapeXml(employeeFullName)}</td>
+                                <td> ${fn:escapeXml(tempTask.projectTitle)}</td>
+                                <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}"

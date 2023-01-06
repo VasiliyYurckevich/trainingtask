@@ -25,18 +25,6 @@
                     </div>
 
                     <my:dropDownChoice label="Статус" id="status" list="${StatusList}" selectedId="${status}"/>
-                    <%--<div class="field">
-                        <label>Статус:</label>
-                        <select name="status">
-                            <c:forEach items="${STATUS_LIST}" var="statuses">
-                                <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(statuses.getStatusTitle())}
-                                </option>
-                            </c:forEach>
-                        </select>
-                        <br>
-                        <a class="feedback">${ERRORS.get("status")}</a>
-                    </div>--%>
 
                     <my:textField label="Наименование" id="title" value="${title}"/>
 
@@ -48,28 +36,8 @@
 
                     <my:dropDownChoice label="Наименование проекта" id="projectId" list="${ProjectList}" selectedId="${projectId}"/>
 
-                    <my:dropDownChoice label="Сотрудник" id="projectId" list="${EmployeeList}" selectedId="${employeeId}"/>
+                    <my:dropDownChoice label="Сотрудник" id="employeeId" isNullOption="true" list="${EmployeeList}" selectedId="${employeeId}"/>
 
-                   <%-- <div class="field">
-                        <label>Наименование проекта:</label>
-                        <select name="projectId">
-                            <c:forEach items="${PROJECT_LIST}" var="projects">
-                                <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(projects.title)}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Сотрудник:</label>
-                        <select name="employeeId">
-                            <option value=""> </option>
-                            <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                                <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(employees.fullName)}
-                                </option>
-                            </c:forEach>
-                        </select>--%>
                     </div>
                 </form>
             </div>

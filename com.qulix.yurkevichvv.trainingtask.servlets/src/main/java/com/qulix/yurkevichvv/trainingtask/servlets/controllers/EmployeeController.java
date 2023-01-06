@@ -215,7 +215,6 @@ public class EmployeeController extends HttpServlet {
     }
 
     private Employee getEmployee(String employeeId) {
-        System.out.println("employeeId" + employeeId);
         if (employeeId.isBlank()) {
             return new Employee();
         }

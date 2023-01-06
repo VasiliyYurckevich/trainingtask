@@ -21,12 +21,10 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
-Гimport java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,12 +36,16 @@ import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.servlets.DropDownListItem;
+import com.qulix.yurkevichvv.trainingtask.servlets.TaskView;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.EmployeeConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.ProjectConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.StatusConverter;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -155,7 +157,6 @@ public class TaskController extends HttpServlet {
      */
     private TaskService taskService = new TaskService();
 
-
     /**
      * Переменная доступа к методам работы с сущностями Project.
      */
@@ -224,22 +225,28 @@ public class TaskController extends HttpServlet {
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServiceException, ServletException, IOException {
-
-        final Task task;
-
         //очищает сессию от аттрибутов
         // req.getSession().getAttributeNames().asIterator().forEachRemaining(s -> req.getSession().removeAttribute(s));
 
-
-        if (req.getParameter(TASK_ID) != null) {
-            task = taskService.getById(Integer.valueOf(req.getParameter(TASK_ID)));
-        }
-        else {
-            task = new Task();
-        }
-        req.setAttribute("ProjectList", new ArrayList<DropDownListItem>().addAll();
+        final Task task = getTask(req);
+        setDropDownLists(req);
         Utils.setTaskDataInJsp(req, task);
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
+    }
+
+    private void setDropDownLists(HttpServletRequest req) {
+        req.setAttribute("ProjectList", new ProjectConverter().convertToDropDownList(projectService.findAll()));
+        req.setAttribute("StatusList", new StatusConverter().convertToDropDownList(List.of(Status.values())));
+        req.setAttribute("EmployeeList", new EmployeeConverter().convertToDropDownList(new EmployeeService().findAll()));
+    }
+
+    private Task getTask(HttpServletRequest req) {
+        if (req.getParameter(TASK_ID) != null) {
+            return taskService.getById(Integer.valueOf(req.getParameter(TASK_ID)));
+        }
+        else {
+            return new Task();
+        }
     }
 
     /**
@@ -275,6 +282,7 @@ public class TaskController extends HttpServlet {
             resp.sendRedirect(TASKS);
         }
         else {
+            setDropDownLists(req);
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
             req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
@@ -338,6 +346,7 @@ public class TaskController extends HttpServlet {
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
         else {
+            setDropDownLists(req);
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
@@ -365,7 +374,7 @@ public class TaskController extends HttpServlet {
      */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
         Map<String, String> paramsMap, Map<String, String> errorsMap) {
-
+        
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(STATUS, paramsMap.get(STATUS));
         req.setAttribute(TITLE, paramsMap.get(TITLE));
@@ -393,7 +402,7 @@ public class TaskController extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
-        req.getSession().setAttribute("TASKS_LIST", taskService.findAll());
+        req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()));
         //Utils.setDataToList(req);
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);

@@ -8,7 +8,7 @@
 
     <head>
         <link type="text/css" rel="stylesheet" href="css/style.css">
-        <title></title>
+        <title>Приложение для управления задачами</title>
     </head>
 
     <body>
