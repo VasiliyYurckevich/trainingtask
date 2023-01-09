@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -174,8 +176,7 @@ public class ProjectController extends HttpServlet {
 
         projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP);
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 
     /**
@@ -211,7 +212,6 @@ public class ProjectController extends HttpServlet {
         else {
             Task task = new Task();
             task.setProjectId(projectTemporaryData.getId());
-            req.getSession().setAttribute(TASK_INDEX, null);
             return task;
         }
     }
@@ -252,9 +252,7 @@ public class ProjectController extends HttpServlet {
     private static void setDataAboutProject(HttpSession session, Project existingProject) {
         ProjectTemporaryData projectTemporaryData = new ProjectTemporaryData(existingProject);
         session.setAttribute(PROJECT,projectTemporaryData);
-        //???????? нужно ли?
-        session.setAttribute(TITLE_OF_PROJECT, projectTemporaryData.getTitle());
-        session.setAttribute(DESCRIPTION, projectTemporaryData.getDescription());
+        session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
     }
 
     /**
@@ -338,9 +336,12 @@ public class ProjectController extends HttpServlet {
      */
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
         Map<String, String> paramsMap = new HashMap<>();
-
-        paramsMap.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
-        paramsMap.put(DESCRIPTION, req.getParameter(DESCRIPTION));
+        HttpSession session = req.getSession();
+        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT);
+        projectTemporaryData.setTitle(req.getParameter(TITLE_OF_PROJECT));
+        projectTemporaryData.setDescription(req.getParameter(DESCRIPTION));
+        paramsMap.put(TITLE_OF_PROJECT, projectTemporaryData.getTitle());
+        paramsMap.put(DESCRIPTION, projectTemporaryData.getDescription());
         return paramsMap;
     }
 

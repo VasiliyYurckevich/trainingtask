@@ -27,49 +27,21 @@
                         Отмена
                     </button>
 
-                    <div class="field">
-                        <label>Статус:</label>
-                        <select name="status">
-                            <c:forEach items="${STATUS_LIST}" var="statuses">
-                                <option value="${statuses.getId()}" ${statuses.getId() == status ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(statuses.getStatusTitle())}
-                                </option>
-                            </c:forEach>
-                        </select>
-                        <br>
-                        <a class="feedback">${ERRORS.get("status")}</a>
-                    </div>
+                    <my:dropDownChoice label="Статус" id="status" list="${StatusList}" selectedId="${status}"/>
 
-                    <my:textField name="Наименование" id="title" value="${title}"/>
+                    <my:textField label="Наименование" id="title" value="${title}"/>
 
-                    <my:textField name="Работа" id="workTime" value="${workTime}"/>
+                    <my:textField label="Работа" id="workTime" value="${workTime}"/>
 
-                    <my:textField name="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
+                    <my:textField label="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
 
-                    <my:textField name="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
+                    <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
 
-                    <div class="field">
-                        <label>Наименование проекта:</label>
-                        <select disabled="disabled" name="projectId">
-                            <c:forEach items="${PROJECT_LIST}" var="projects">
-                                <option value="${projects.id}" ${projects.id == projectId ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(projects.title)}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
+                    <my:dropDownChoice label="Наименование проекта" id="projectId" list="${ProjectList}"
+                        selectedId="${projectId}" isDisabled="true" isNullOption="true"/>
 
-                    <div class="field">
-                        <label>Сотрудник:</label>
-                        <select name="employeeId">
-                            <option value=""> </option>
-                            <c:forEach items="${EMPLOYEE_LIST}" var="employees">
-                                <option value="${employees.id}" ${employees.id == employeeId ? 'selected="selected"' : ''}>
-                                        ${fn:escapeXml(employees.fullName)}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
+                    <my:dropDownChoice label="Сотрудник" id="employeeId" list="${EmployeeList}"
+                        selectedId="${employeeId}" isNullOption="true"/>
                 </form>
             </div>
         </div>

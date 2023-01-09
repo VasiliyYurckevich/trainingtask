@@ -24,7 +24,7 @@
                     <input name="action" type="hidden">
 
                     <div>
-                        <my:buttons/>
+                        <my:buttons saveAction="/save" cancelAction="/list"/>
                     </div>
 
                     <div class="main">

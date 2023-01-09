@@ -9,14 +9,13 @@ public interface DropDownItemConverter<T> {
 
     T convert(DropDownListItem dropDownListItem);
 
-    default List<T> convertToEntityList(List<DropDownListItem> list){
-         return  list.stream()
+    default List<T> convertDropDownList(List<DropDownListItem> list) {
+        return list.stream()
                 .map(item -> convert(item))
                 .collect(Collectors.toList());
 
     };
-
-    default List<DropDownListItem> convertToDropDownList(List<T> list){
+    default List<DropDownListItem> convertList(List<T> list) {
         return  list.stream()
                 .map(item -> convert(item))
                 .collect(Collectors.toList());

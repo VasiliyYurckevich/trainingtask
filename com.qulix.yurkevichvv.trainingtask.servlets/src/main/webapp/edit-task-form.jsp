@@ -21,7 +21,7 @@
                     <input type="hidden" name="action"/>
                     <input type="hidden" name="taskId" value="${taskId}" />
                     <div>
-                        <my:buttons/>
+                        <my:buttons saveAction="/save" cancelAction="/list"/>
                     </div>
 
                     <my:dropDownChoice label="Статус" id="status" list="${StatusList}" selectedId="${status}"/>

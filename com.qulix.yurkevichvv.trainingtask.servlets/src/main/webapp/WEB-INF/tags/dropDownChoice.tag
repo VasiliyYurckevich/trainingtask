@@ -7,10 +7,13 @@
 	required="true" %>
 <%@ attribute name="selectedId" type="java.lang.Integer" required="false" %>
 <%@ attribute name="isNullOption" type="java.lang.Boolean" required="false" %>
+<%@ attribute name="isDisabled" type="java.lang.Boolean" required="false" %>
+
 
 <div class="field">
 	<label>${label}:</label>
-	<select name="${id}">
+	<label>${selectedId}</label>>
+	<select ${isDisabled ? "disabled = 'disabled'" : ""} name="${id}">
 		${isNullOption ? '<option value=""> </option>' : ''}
 		<c:forEach items="${list}" var="item">
 			<option value="${item.id}" ${item.id == selectedId ? 'selected="selected"' : ''}>

@@ -5,7 +5,7 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
-<jsp:useBean id="TASKS_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.TaskView>"/>
+<jsp:useBean id="TASKS_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView>"/>
 
 
 <!DOCTYPE html>

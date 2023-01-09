@@ -1,10 +1,12 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.ProjectService" %>
 <%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService" %>
 <%@ page import="com.qulix.yurkevichvv.trainingtask.model.entity.Task" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
+<jsp:useBean id="project" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData"/>
+<jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView>"/>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -27,18 +29,25 @@
                     <input type="hidden" name="projectId" value="${project.id}"/>
 
                     <div>
-                        <my:buttons/>
+                        <my:buttons saveAction="/save" cancelAction="/list"/>
                     </div>
 
                     <div class="main">
-                        <my:textField id="titleProject" label="Наименование" value="${titleProject}"/>
+                        <my:textField id="titleProject" label="Наименование" value="${project.title}"/>
 
-                        <my:textField id="description" label="Описание" value="${description}"/>
+                        <my:textField id="description" label="Описание" value="${project.description}"/>
                     </div>
 
                     <div class="header">
                         <h3>Задачи проекта</h3>
                     </div>
+
+                    <c:url var="addLink" value="/projects">
+                        <c:param name="action" value="/editTask"/>
+                        <c:param name="projectId" value="${project.id}"/>
+                    </c:url>
+
+                    <a href="${addLink}" type="add-button">Добавить задачу</a>
 
                     <table>
                         <tr>
@@ -52,20 +61,7 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:url var="addLink" value="/projects">
-                            <c:param name="action" value="/editTask"/>
-                            <c:param name="projectId" value="${project.id}"/>
-                        </c:url>
-
-                        <c:forEach var="tempTask" items="${project.tasksList}" varStatus="theCount">
-
-                            <%
-                                Task task = (Task) pageContext.getAttribute("tempTask");
-                                pageContext.setAttribute("projectTitle",
-                                        new ProjectService().getById(task.getProjectId()).getTitle());
-                                pageContext.setAttribute("employeeFullName", task.getEmployeeId() != null ?
-                                        new EmployeeService().getById(task.getEmployeeId()).getFullName() : "");
-                            %>
+                        <c:forEach var="tempTask" items="${TASK_LIST}" varStatus="theCount">
 
                             <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/editTask"/>
@@ -79,13 +75,13 @@
                             </c:url>
 
                             <tr>
-                                <td> ${tempTask.status.getStatusTitle()}</td>
+                                <td> ${tempTask.statusTitle}</td>
                                 <td> ${fn:escapeXml(tempTask.title)} </td>
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)} </td>
-                                <td> ${fn:escapeXml(projectTitle)}</td>
-                                <td> ${fn:escapeXml(employeeFullName)}</td>
+                                <td> ${fn:escapeXml(tempTask.projectTitle)}</td>
+                                <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
@@ -94,7 +90,6 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                        <a href="${addLink}">Добавить задачу</a>
                     </table>
                 </form>
             </div>

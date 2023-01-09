@@ -23,14 +23,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
-import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.EmployeeConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.ProjectConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.StatusConverter;
 
 /**
  * Утилиты для классов модуля.
@@ -65,6 +65,7 @@ public class Utils {
      * @param task задача
      */
     public static void setTaskDataInJsp(HttpServletRequest req, Task task) {
+        setDropDownLists(req);
         req.setAttribute("taskId", task.getId());
         req.setAttribute("status", task.getStatus().getId());
         req.setAttribute("title", task.getTitle());
@@ -73,5 +74,11 @@ public class Utils {
         req.setAttribute("endDate", task.getEndDate());
         req.setAttribute("projectId", task.getProjectId());
         req.setAttribute("employeeId", task.getEmployeeId());
+    }
+
+    public static void setDropDownLists(HttpServletRequest req) {
+        req.setAttribute("ProjectList", new ProjectConverter().convertList(new ProjectService().findAll()));
+        req.setAttribute("StatusList", new StatusConverter().convertList(List.of(Status.values())));
+        req.setAttribute("EmployeeList", new EmployeeConverter().convertList(new EmployeeService().findAll()));
     }
 }

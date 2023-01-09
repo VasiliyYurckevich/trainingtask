@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets;
+package com.qulix.yurkevichvv.trainingtask.servlets.dropdown;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
@@ -58,7 +58,8 @@ public class TaskView {
         this.beginDate = task.getBeginDate().toString();
         this.endDate = task.getEndDate().toString();
         this.projectTitle = new ProjectService().getById(task.getProjectId()).getTitle();
-        this.employeeFullName = new EmployeeService().getById(task.getEmployeeId()).getFullName();
+        this.employeeFullName = (task.getEmployeeId() != null) ?
+            new EmployeeService().getById(task.getEmployeeId()).getFullName() : "";
     }
 
     public static List<TaskView> convertTasksList(List<Task> taskList){

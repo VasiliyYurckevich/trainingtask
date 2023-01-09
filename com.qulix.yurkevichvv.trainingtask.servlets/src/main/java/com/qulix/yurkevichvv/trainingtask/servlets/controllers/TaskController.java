@@ -22,7 +22,6 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -36,18 +35,16 @@ import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.servlets.TaskView;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.EmployeeConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.ProjectConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.StatusConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
+
+import static com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils.setDropDownLists;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Задача".
@@ -234,12 +231,6 @@ public class TaskController extends HttpServlet {
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
 
-    private void setDropDownLists(HttpServletRequest req) {
-        req.setAttribute("ProjectList", new ProjectConverter().convertToDropDownList(projectService.findAll()));
-        req.setAttribute("StatusList", new StatusConverter().convertToDropDownList(List.of(Status.values())));
-        req.setAttribute("EmployeeList", new EmployeeConverter().convertToDropDownList(new EmployeeService().findAll()));
-    }
-
     private Task getTask(HttpServletRequest req) {
         if (req.getParameter(TASK_ID) != null) {
             return taskService.getById(Integer.valueOf(req.getParameter(TASK_ID)));
@@ -295,12 +286,13 @@ public class TaskController extends HttpServlet {
      * @param paramsMap поля задачи
      */
     private static void updateTaskData(Map<String, String> paramsMap, Task task) {
+        System.out.println(paramsMap);
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
         task.setTitle(paramsMap.get(TITLE));
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
-        task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
+        //task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
         if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
             task.setEmployeeId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
         }
