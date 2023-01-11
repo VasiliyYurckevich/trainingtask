@@ -170,7 +170,7 @@ public class TaskController extends HttpServlet {
                     saveTask(req, resp);
                     break;
                 case "/saveTaskInProject":
-                    updateTaskInProject(req, resp);
+                    saveTaskInProject(req, resp);
                     break;
                 default:
                     throw new IllegalArgumentException(UNKNOWN_COMMAND_OF_TASK_CONTROLLER + action);
@@ -222,18 +222,17 @@ public class TaskController extends HttpServlet {
      */
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServiceException, ServletException, IOException {
-        //очищает сессию от аттрибутов
-        // req.getSession().getAttributeNames().asIterator().forEachRemaining(s -> req.getSession().removeAttribute(s));
 
-        final Task task = getTask(req);
+        final Task task = getTask(req.getParameter(TASK_ID));
         setDropDownLists(req);
         Utils.setTaskDataInJsp(req, task);
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
 
-    private Task getTask(HttpServletRequest req) {
-        if (req.getParameter(TASK_ID) != null) {
-            return taskService.getById(Integer.valueOf(req.getParameter(TASK_ID)));
+    private Task getTask(String taskId) {
+        if (!taskId.isBlank()) {
+            return taskService.getById(Integer.valueOf(taskId));
+
         }
         else {
             return new Task();
@@ -260,11 +259,12 @@ public class TaskController extends HttpServlet {
             String taskId = req.getParameter(TASK_ID);
 
             Task task;
-            if (taskId.isBlank()) {
-                task = new Task();
+            if (!taskId.isBlank()) {
+                task = taskService.getById(Integer.valueOf(taskId));
+
             }
             else {
-                task = taskService.getById(Integer.valueOf(taskId));
+                task = new Task();
             }
 
             updateTaskData(paramsMap, task);
@@ -286,13 +286,17 @@ public class TaskController extends HttpServlet {
      * @param paramsMap поля задачи
      */
     private static void updateTaskData(Map<String, String> paramsMap, Task task) {
-        System.out.println(paramsMap);
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
         task.setTitle(paramsMap.get(TITLE));
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
-        //task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
+        if (!paramsMap.get(PROJECT_ID).isEmpty()) {
+            task.setProjectId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
+        }
+        else {
+            task.setProjectId(null);
+        }
         if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
             task.setEmployeeId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
         }
@@ -310,7 +314,7 @@ public class TaskController extends HttpServlet {
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      * @throws ServiceException ошибка работы сервисов с сущностью
      */
-    private void updateTaskInProject(HttpServletRequest req, HttpServletResponse resp)
+    private void saveTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = getDataFromForm(req);
@@ -323,18 +327,16 @@ public class TaskController extends HttpServlet {
             Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
             Task task;
             if (taskIndex != null) {
-                task = projectTemporaryService.getProjectsTasks(project.getId()).get(taskIndex);
+                task =project.getTasksList().get(taskIndex);
+                updateTaskData(paramsMap, task);
+                projectTemporaryService.updateTask(project, taskIndex, task);
+
             } else {
                 task = new Task();
-            }
-
-            updateTaskData(paramsMap, task);
-            if (taskIndex != null) {
-                projectTemporaryService.updateTask(project, taskIndex, task);
-            }
-            else {
+                updateTaskData(paramsMap, task);
                 projectTemporaryService.addTask(project, task);
             }
+
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
         else {
@@ -368,6 +370,7 @@ public class TaskController extends HttpServlet {
         Map<String, String> paramsMap, Map<String, String> errorsMap) {
         
         req.setAttribute("ERRORS", errorsMap);
+        req.setAttribute(TASK_ID, paramsMap.get(TASK_ID));
         req.setAttribute(STATUS, paramsMap.get(STATUS));
         req.setAttribute(TITLE, paramsMap.get(TITLE));
         req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
@@ -395,7 +398,6 @@ public class TaskController extends HttpServlet {
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
         req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()));
-        //Utils.setDataToList(req);
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
     }

@@ -228,15 +228,15 @@ public class ProjectController extends HttpServlet {
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        Project project = getProjectData(req);
+        Project project = getProjectData(req.getParameter(PROJECT_ID));
         setDataAboutProject(req.getSession(), project);
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 
-    private Project getProjectData(HttpServletRequest req) {
+    private Project getProjectData(String projectId) {
 
-        if (req.getParameter(PROJECT_ID) != null) {
-            return projectService.getById(Integer.valueOf(req.getParameter(PROJECT_ID)));
+        if (!projectId.isBlank()) {
+            return projectService.getById(Integer.valueOf(projectId));
         }
         else {
             return new Project();

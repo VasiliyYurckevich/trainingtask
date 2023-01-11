@@ -57,13 +57,14 @@ public class TaskView {
         this.workTime = task.getWorkTime().toString();
         this.beginDate = task.getBeginDate().toString();
         this.endDate = task.getEndDate().toString();
-        this.projectTitle = new ProjectService().getById(task.getProjectId()).getTitle();
+        this.projectTitle = (task.getEmployeeId() != null) ?
+            new ProjectService().getById(task.getProjectId()).getTitle() : "";
         this.employeeFullName = (task.getEmployeeId() != null) ?
             new EmployeeService().getById(task.getEmployeeId()).getFullName() : "";
     }
 
     public static List<TaskView> convertTasksList(List<Task> taskList){
-        return  taskList.stream()
+        return taskList.stream()
                 .map(task -> new TaskView(task))
                 .collect(Collectors.toList());
     };

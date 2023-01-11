@@ -12,7 +12,6 @@
 
 <div class="field">
 	<label>${label}:</label>
-	<label>${selectedId}</label>>
 	<select ${isDisabled ? "disabled = 'disabled'" : ""} name="${id}">
 		${isNullOption ? '<option value=""> </option>' : ''}
 		<c:forEach items="${list}" var="item">

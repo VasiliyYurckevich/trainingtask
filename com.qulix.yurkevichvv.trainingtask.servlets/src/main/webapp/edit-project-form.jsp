@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.ProjectService" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.model.entity.Task" %>
+<%@ page import="com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -61,7 +59,7 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:forEach var="tempTask" items="${TASK_LIST}" varStatus="theCount">
+                        <c:forEach var="tempTask" items="${TaskView.convertTasksList(project.tasksList)}" varStatus="theCount">
 
                             <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/editTask"/>
@@ -80,7 +78,7 @@
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)} </td>
-                                <td> ${fn:escapeXml(tempTask.projectTitle)}</td>
+                                <td> ${fn:escapeXml(project.title)}</td>
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>

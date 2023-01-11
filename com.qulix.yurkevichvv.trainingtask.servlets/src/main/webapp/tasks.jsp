@@ -1,6 +1,3 @@
-<%@ page import="com.qulix.yurkevichvv.trainingtask.model.entity.Task" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.ProjectService" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -30,6 +27,7 @@
                 <div>
                     <form action="tasks" method="get">
                         <input type="hidden" name="action" value="/edit" />
+                        <input type="hidden" name="taskId" value="">
                         <input type="submit" value="Добавить" ${PROJECT_LIST.isEmpty() ? 'disabled' : ''} class="add-button">
                         ${PROJECT_LIST.isEmpty() ?
                         '<a class="feedback">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</a>': ''}
