@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
@@ -89,11 +90,7 @@ public class EmployeeController extends HttpServlet {
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
-    static {
-        Handler handler = new StreamHandler(System.out, new SimpleFormatter());
-        handler.setLevel(Level.ALL);
-        LOGGER.addHandler(handler);
-    }
+
     /**
      * Сервис для работы с Employee.
      */
@@ -245,6 +242,7 @@ public class EmployeeController extends HttpServlet {
     private void setDataToJsp(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
 
         req.setAttribute("ERRORS", errorsMap);
+        req.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID));
         req.setAttribute(SURNAME, paramsMap.get(SURNAME).trim());
         req.setAttribute(FIRST_NAME, paramsMap.get(FIRST_NAME).trim());
         req.setAttribute(PATRONYMIC, paramsMap.get(PATRONYMIC).trim());
@@ -280,8 +278,10 @@ public class EmployeeController extends HttpServlet {
     private void listEmployees(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        req.getSession().invalidate();
-        req.getSession().setAttribute("EMPLOYEE_LIST", employeeService.findAll());
+        HttpSession session = req.getSession();
+        session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
+
+       req.setAttribute("EMPLOYEE_LIST", employeeService.findAll());
 
         req.getRequestDispatcher("/employees.jsp").forward(req, resp);
     }
