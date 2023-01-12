@@ -137,7 +137,7 @@ public class Task implements Entity {
 
     @Override
     public String toString() {
-        return String.format("Project { id= '%s', status='%s', title= '%s', workTime= '%s'," +
+        return String.format("Task { id= '%s', status='%s', title= '%s', workTime= '%s'," +
                 " beginDate= '%s', endDate= '%s', projectId= '%s', employeeId= '%s'}",
                 id, status, title, workTime, beginDate, endDate, projectId, employeeId);
     }

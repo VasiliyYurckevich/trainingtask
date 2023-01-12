@@ -101,7 +101,7 @@ public class ProjectController extends HttpServlet {
     /**
      * Переменная доступа к методам работы с задачами проекта.
      */
-    private ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
+    private final ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
 
 
     @Override
@@ -173,7 +173,12 @@ public class ProjectController extends HttpServlet {
         
         int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
         ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
+        req.getParameterMap().forEach((k,v) -> System.out.println(k + " : " + v.toString()));
 
+        projectTemporaryData.setTitle(req.getParameter(TITLE_OF_PROJECT));
+        projectTemporaryData.setDescription(req.getParameter(DESCRIPTION));
+        System.out.println(projectTemporaryData);
+        req.getSession().setAttribute(PROJECT, projectTemporaryData);
         projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
 
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
@@ -191,6 +196,8 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException {
 
         ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
+        projectTemporaryData.setTitle(req.getParameter(TITLE_OF_PROJECT));
+        projectTemporaryData.setDescription(req.getParameter(DESCRIPTION));
         Utils.setTaskDataInJsp(req, getTask(req, projectTemporaryData));
 
         req.getRequestDispatcher(EDIT_TASK_IN_PROJECT_JSP).forward(req, resp);

@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.model.temporary;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
@@ -75,5 +76,28 @@ public class ProjectTemporaryData {
         project.setTitle(title);
         project.setDescription(description);
         return project;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjectTemporaryData that = (ProjectTemporaryData) o;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(tasksList, that.tasksList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, tasksList);
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectTemporaryData{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", tasksList=" + tasksList +
+                '}';
     }
 }

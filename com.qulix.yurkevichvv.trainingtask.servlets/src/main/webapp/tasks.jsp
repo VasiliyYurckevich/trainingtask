@@ -67,8 +67,7 @@
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
-                                    <a href="${deleteLink}"
-                                        onclick="if (!(confirm('Вы уверены?'))) return false">Удалить</a>
+                                    <a href="${deleteLink}">Удалить</a>
                                 </td>
                             </tr>
                         </c:forEach>

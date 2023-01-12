@@ -292,7 +292,7 @@ public class TaskController extends HttpServlet {
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
         if (!paramsMap.get(PROJECT_ID).isEmpty()) {
-            task.setProjectId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
+            task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
         }
         else {
             task.setProjectId(null);
@@ -327,7 +327,7 @@ public class TaskController extends HttpServlet {
             Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
             Task task;
             if (taskIndex != null) {
-                task =project.getTasksList().get(taskIndex);
+                task = project.getTasksList().get(taskIndex);
                 updateTaskData(paramsMap, task);
                 projectTemporaryService.updateTask(project, taskIndex, task);
 

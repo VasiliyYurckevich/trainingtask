@@ -43,6 +43,8 @@
                     <c:url var="addLink" value="/projects">
                         <c:param name="action" value="/editTask"/>
                         <c:param name="projectId" value="${project.id}"/>
+                        <c:param name="titleProject" value="${titleProject}"/>
+                        <c:param name="description" value="${description}"/>
                     </c:url>
 
                     <a href="${addLink}" type="add-button">Добавить задачу</a>
@@ -82,9 +84,7 @@
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
-                                    <a href="${deleteLink}" onclick="if (!(confirm('Вы уверены?'))) return false">
-                                        Удалить
-                                    </a>
+                                    <a href="${deleteLink}">Удалить</a>
                                 </td>
                             </tr>
                         </c:forEach>

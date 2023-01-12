@@ -79,6 +79,11 @@ public enum Status implements Serializable {
             .orElseThrow(() -> new IllegalStateException(String.format("Unsupported status %s.", id)));
     }
 
+    /**
+     * Возвращает название статуса.
+     *
+     * @return название статуса
+     */
     public String getStatusTitle() {
         return statusTitle;
     }
