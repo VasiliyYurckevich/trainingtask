@@ -57,7 +57,7 @@ public class TaskView {
         this.workTime = task.getWorkTime().toString();
         this.beginDate = task.getBeginDate().toString();
         this.endDate = task.getEndDate().toString();
-        this.projectTitle = (task.getEmployeeId() != null) ?
+        this.projectTitle = (task.getProjectId() != null) ?
             new ProjectService().getById(task.getProjectId()).getTitle() : "";
         this.employeeFullName = (task.getEmployeeId() != null) ?
             new EmployeeService().getById(task.getEmployeeId()).getFullName() : "";
