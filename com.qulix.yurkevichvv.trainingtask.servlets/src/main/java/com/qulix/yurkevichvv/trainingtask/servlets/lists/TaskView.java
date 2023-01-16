@@ -1,12 +1,14 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.dropdown;
+package com.qulix.yurkevichvv.trainingtask.servlets.lists;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 
+import java.beans.JavaBean;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JavaBean
 public class TaskView {
 
     /**
@@ -65,7 +67,7 @@ public class TaskView {
 
     public static List<TaskView> convertTasksList(List<Task> taskList){
         return taskList.stream()
-                .map(task -> new TaskView(task))
+                .map(TaskView::new)
                 .collect(Collectors.toList());
     };
 

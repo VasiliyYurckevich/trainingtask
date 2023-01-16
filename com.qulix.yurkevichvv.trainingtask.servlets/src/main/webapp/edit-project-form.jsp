@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView"%>
+<%@ page import="com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="project" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData"/>
-<jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView>"/>
+<jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView>"/>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -83,7 +83,7 @@
                                 <td> ${fn:escapeXml(project.title)}</td>
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
-                                    <a href="${editLink}">Редактировать</a>
+                                    <a onclick="" href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}">Удалить</a>
                                 </td>
                             </tr>

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<jsp:useBean id="StatusList" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Status>"/>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -18,14 +19,10 @@
             <div id="container" class="main">
                 <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" >
-                    <input type="hidden" name="action" value="/saveTaskInProject" />
-                    <input type="hidden" name="taskIndex" value="${taskIndex}" />
-                    <input class="add-button" type="submit" name="submitButton" id="submitButton" value="Сохранить">
-                    <button id="cancelButton" name="cancelButton"
-                            onclick="location.href='${pageContext.request.contextPath}/projects?action=%2fedit&projectId=${project.id}'"
-                            type="button" class="add-button">
-                        Отмена
-                    </button>
+                    <input type="hidden" name="action" value="/saveTaskInProject"/>
+                    <input type="hidden" name="taskIndex" value="${taskIndex}"/>
+
+                    <my:buttons cancelFormAction="projects" cancelAction="/edit" saveAction="/saveTaskInProject"/>
 
                     <my:dropDownChoice label="Статус" id="status" list="${StatusList}" selectedId="${status}"/>
 

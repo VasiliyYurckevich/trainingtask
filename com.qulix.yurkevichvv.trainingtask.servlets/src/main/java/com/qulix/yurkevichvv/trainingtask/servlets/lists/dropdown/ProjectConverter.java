@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.dropdown;
+package com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;

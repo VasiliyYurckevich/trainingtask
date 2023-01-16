@@ -2,6 +2,8 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
+<jsp:useBean id="PROJECT_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Project>"/>
+
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -36,20 +38,20 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:forEach var="tempProject" items="${PROJECT_LIST}">
+                        <c:forEach var="project" items="${PROJECT_LIST}">
 
                             <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/edit"/>
-                                <c:param name="projectId" value="${tempProject.id}"/>
+                                <c:param name="projectId" value="${project.id}"/>
                             </c:url>
                             <c:url var="deleteLink" value="/projects">
                                 <c:param name="action" value="/delete"/>
-                                <c:param name="projectId" value="${tempProject.id}"/>
+                                <c:param name="projectId" value="${project.id}"/>
                             </c:url>
 
                             <tr>
-                                <td> ${fn:escapeXml(tempProject.title)}</td>
-                                <td> ${fn:escapeXml(tempProject.description)} </td>
+                                <td> ${fn:escapeXml(project.title)}</td>
+                                <td> ${fn:escapeXml(project.description)} </td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}">Удалить</a>

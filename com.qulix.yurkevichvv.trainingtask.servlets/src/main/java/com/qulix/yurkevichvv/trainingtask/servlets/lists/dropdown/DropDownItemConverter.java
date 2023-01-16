@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.dropdown;
+package com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown;
 
 import java.util.List;
 import java.util.stream.Collectors;

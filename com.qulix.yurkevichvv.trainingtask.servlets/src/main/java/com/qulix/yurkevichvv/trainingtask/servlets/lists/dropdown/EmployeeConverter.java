@@ -1,8 +1,7 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.dropdown;
+package com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 
 public class EmployeeConverter implements DropDownItemConverter<Employee> {
 

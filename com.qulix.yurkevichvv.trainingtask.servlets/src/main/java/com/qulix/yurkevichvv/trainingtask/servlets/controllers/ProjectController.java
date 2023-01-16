@@ -2,13 +2,11 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +19,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -71,7 +69,7 @@ public class ProjectController extends HttpServlet {
     /**
      * Хранит текст для исключения при выборе неизвестной команды.
      */
-    private static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Employee Controller:";
+    private static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Project Controller:";
 
     /**
      * Хранит название кейса для обозначения списка проектов.
@@ -173,12 +171,8 @@ public class ProjectController extends HttpServlet {
         
         int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
         ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
-        req.getParameterMap().forEach((k,v) -> System.out.println(k + " : " + v.toString()));
-
-        projectTemporaryData.setTitle(req.getParameter(TITLE_OF_PROJECT));
-        projectTemporaryData.setDescription(req.getParameter(DESCRIPTION));
-        System.out.println(projectTemporaryData);
         req.getSession().setAttribute(PROJECT, projectTemporaryData);
+
         projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
 
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
@@ -196,8 +190,6 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException {
 
         ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
-        projectTemporaryData.setTitle(req.getParameter(TITLE_OF_PROJECT));
-        projectTemporaryData.setDescription(req.getParameter(DESCRIPTION));
         Utils.setTaskDataInJsp(req, getTask(req, projectTemporaryData));
 
         req.getRequestDispatcher(EDIT_TASK_IN_PROJECT_JSP).forward(req, resp);
@@ -235,29 +227,30 @@ public class ProjectController extends HttpServlet {
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        Project project = getProjectData(req.getParameter(PROJECT_ID));
+        ProjectTemporaryData project = getProjectData(req);
         setDataAboutProject(req.getSession(), project);
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 
-    private Project getProjectData(String projectId) {
+    private ProjectTemporaryData getProjectData(HttpServletRequest req) {
+        if (req.getSession().getAttribute(PROJECT) != null) {
+            return (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
+        }
 
-        if (!projectId.isBlank()) {
-            return projectService.getById(Integer.valueOf(projectId));
+        if (!req.getParameter(PROJECT_ID).isBlank()) {
+            return new ProjectTemporaryData(projectService.getById(Integer.valueOf(req.getParameter(PROJECT_ID))));
         }
-        else {
-            return new Project();
-        }
+
+        return new ProjectTemporaryData(new Project());
     }
 
     /**
      * Заносит данные о проекте в сессию.
      *
      * @param session сессия
-     * @param existingProject проект
+     * @param projectTemporaryData данные проекта
      */
-    private static void setDataAboutProject(HttpSession session, Project existingProject) {
-        ProjectTemporaryData projectTemporaryData = new ProjectTemporaryData(existingProject);
+    private static void setDataAboutProject(HttpSession session, ProjectTemporaryData projectTemporaryData) {
         session.setAttribute(PROJECT,projectTemporaryData);
         session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
     }
@@ -289,7 +282,7 @@ public class ProjectController extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
-        req.getSession().setAttribute("PROJECT_LIST", projectService.findAll());
+        req.setAttribute("PROJECT_LIST", projectService.findAll());
 
         req.getRequestDispatcher("/projects.jsp").forward(req, resp);
     }
@@ -312,8 +305,8 @@ public class ProjectController extends HttpServlet {
         Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
-            ProjectTemporaryData theProject = getProject(project, paramsMap);
-            projectTemporaryService.save(theProject);
+            ProjectTemporaryData projectTemporaryData = getProject(project, paramsMap);
+            projectTemporaryService.save(projectTemporaryData);
 
             resp.sendRedirect(PROJECTS);
         }

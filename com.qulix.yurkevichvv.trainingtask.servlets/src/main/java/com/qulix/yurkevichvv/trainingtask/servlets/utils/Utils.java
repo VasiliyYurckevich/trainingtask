@@ -27,10 +27,9 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.EmployeeConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.ProjectConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.StatusConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.EmployeeConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.ProjectConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.StatusConverter;
 
 /**
  * Утилиты для классов модуля.
@@ -38,25 +37,6 @@ import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.StatusConverter;
  * @author Q-YVV
  */
 public class Utils {
-
-    /**
-     * Создает и обновляет данные списков сущностей в БД.
-     *
-     * @param req запрос
-     * @throws ServiceException если произошла ошибка при работе с сущностями
-     */
-/*
-    public static void setDataToList(HttpServletRequest req) throws ServiceException {
-        List<Employee> employees = new EmployeeService().findAll();
-        List<Project> projects = new ProjectService().findAll();
-        List<Task> tasks = new TaskService().findAll();
-
-        req.getSession().setAttribute("EMPLOYEE_LIST", employees);
-        req.getSession().setAttribute("PROJECT_LIST", projects);
-        req.getSession().setAttribute("STATUS_LIST", Status.values());
-        req.getSession().setAttribute("TASKS_LIST", tasks);
-    }
-*/
 
     /**
      * Заносит начальные данные в поля формы для Задачи.

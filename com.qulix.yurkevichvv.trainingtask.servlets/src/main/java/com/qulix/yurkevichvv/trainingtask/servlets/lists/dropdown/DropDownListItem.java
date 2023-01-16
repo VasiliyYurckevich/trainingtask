@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.dropdown;
+package com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown;
 
 public class DropDownListItem {
 

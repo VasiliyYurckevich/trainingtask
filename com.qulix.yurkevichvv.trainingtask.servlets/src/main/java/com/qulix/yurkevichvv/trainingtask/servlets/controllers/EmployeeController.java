@@ -281,7 +281,7 @@ public class EmployeeController extends HttpServlet {
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
 
-       req.setAttribute("EMPLOYEE_LIST", employeeService.findAll());
+        req.setAttribute("EMPLOYEE_LIST", employeeService.findAll());
 
         req.getRequestDispatcher("/employees.jsp").forward(req, resp);
     }

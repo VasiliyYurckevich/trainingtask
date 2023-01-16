@@ -40,7 +40,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.TaskView;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
@@ -224,7 +224,6 @@ public class TaskController extends HttpServlet {
         throws ServiceException, ServletException, IOException {
 
         final Task task = getTask(req.getParameter(TASK_ID));
-        setDropDownLists(req);
         Utils.setTaskDataInJsp(req, task);
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
@@ -258,15 +257,7 @@ public class TaskController extends HttpServlet {
 
             String taskId = req.getParameter(TASK_ID);
 
-            Task task;
-            if (!taskId.isBlank()) {
-                task = taskService.getById(Integer.valueOf(taskId));
-
-            }
-            else {
-                task = new Task();
-            }
-
+            Task task = getTask(taskId);
             updateTaskData(paramsMap, task);
             taskService.save(task);
 
@@ -325,17 +316,11 @@ public class TaskController extends HttpServlet {
 
             ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT);
             Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
-            Task task;
-            if (taskIndex != null) {
-                task = project.getTasksList().get(taskIndex);
-                updateTaskData(paramsMap, task);
-                projectTemporaryService.updateTask(project, taskIndex, task);
 
-            } else {
-                task = new Task();
-                updateTaskData(paramsMap, task);
-                projectTemporaryService.addTask(project, task);
-            }
+            Task task = new Task();
+            updateTaskData(paramsMap, task);
+
+            saveTaskInProjectData(task, project, taskIndex);
 
             req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
         }
@@ -343,6 +328,23 @@ public class TaskController extends HttpServlet {
             setDropDownLists(req);
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
+        }
+    }
+
+    /**
+     * Сохраняет новую задачу в данные проекта либо обновляет уже существующую.
+     *
+     * @param task задача
+     * @param project временные данные проекта
+     * @param taskIndex индекс задачи в списке задач проекта
+     */
+    private void saveTaskInProjectData(Task task, ProjectTemporaryData project, Integer taskIndex) {
+        if (taskIndex != null) {
+            task.setId(project.getTasksList().get(taskIndex).getId());
+            projectTemporaryService.updateTask(project, taskIndex, task);
+
+        } else {
+            projectTemporaryService.addTask(project, task);
         }
     }
 
@@ -397,6 +399,7 @@ public class TaskController extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
+        req.setAttribute("PROJECT_NUMBER", projectService.findAll().size());
         req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()));
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
