@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
+import java.beans.JavaBean;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -27,6 +28,8 @@ import java.util.Arrays;
  *
  * @author Q-YVV
  */
+
+@JavaBean
 public enum Status implements Serializable {
 
     /**

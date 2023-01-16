@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
+import java.beans.JavaBean;
 import java.io.Serializable;
 
 /**
@@ -7,6 +8,7 @@ import java.io.Serializable;
  *
  * @author Q-YVV
  */
+@JavaBean
 public interface Entity extends Serializable {
 
     /**

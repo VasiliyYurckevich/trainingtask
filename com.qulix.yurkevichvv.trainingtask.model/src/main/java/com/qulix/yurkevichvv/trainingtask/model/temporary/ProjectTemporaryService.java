@@ -98,7 +98,6 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
         tasksToDelete.forEach(task -> taskDao.delete(task.getId(), connection));
 
         project.getTasksList().forEach(task -> {
-
             task.setProjectId(projectId);
             if (task.getId() == null) {
                 taskDao.add(task, connection);

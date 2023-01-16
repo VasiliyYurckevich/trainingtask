@@ -19,6 +19,7 @@
  */
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
+import java.beans.JavaBean;
 import java.util.Objects;
 
 /**
@@ -26,6 +27,7 @@ import java.util.Objects;
  *
  * @author Q-YVV
  */
+@JavaBean
 public class Employee implements Entity {
 
     /**
