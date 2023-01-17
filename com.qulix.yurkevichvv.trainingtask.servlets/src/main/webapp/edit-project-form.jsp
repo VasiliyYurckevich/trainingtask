@@ -83,8 +83,17 @@
                                 <td> ${fn:escapeXml(project.title)}</td>
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
-                                    <a onclick="" href="${editLink}">Редактировать</a>
-                                    <a href="${deleteLink}">Удалить</a>
+                                    <input type="hidden" name="taskIndex" value="${theCount.index}"/>
+                                    <button formmethod="get" id="submitButton" name="submitButton"
+                                            onclick="action.value='/editTask'" type="submit" class="add-button">
+                                        Редактировать${theCount.index}
+                                    </button>
+                                    <button formmethod="get" id="cancelButton" name="cancelButton"
+                                            onclick="action.value='/deleteTask'" type="submit" class="add-button">
+                                        Удалить
+                                    </button>
+                                   <%-- <a onclick="" href="${editLink}">Редактировать</a>
+                                    <a href="${deleteLink}">Удалить</a>--%>
                                 </td>
                             </tr>
                         </c:forEach>

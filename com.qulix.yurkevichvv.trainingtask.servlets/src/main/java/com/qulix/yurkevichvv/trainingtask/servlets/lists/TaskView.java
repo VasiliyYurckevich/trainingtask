@@ -5,11 +5,12 @@ import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 
 import java.beans.JavaBean;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @JavaBean
-public class TaskView {
+public class TaskView implements Serializable {
 
     /**
      * Идентификатор задачи.

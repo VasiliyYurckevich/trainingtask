@@ -178,8 +178,7 @@ public class EmployeeController extends HttpServlet {
      */
     private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
 
-        Integer employeeId = Integer.parseInt(req.getParameter(EMPLOYEE_ID));
-        employeeService.delete(employeeId);
+        employeeService.delete(Integer.parseInt(req.getParameter(EMPLOYEE_ID)));
 
         resp.sendRedirect(EMPLOYEES_LIST);
     }
@@ -212,12 +211,10 @@ public class EmployeeController extends HttpServlet {
     }
 
     private Employee getEmployee(String employeeId) {
-        if (employeeId.isBlank()) {
-            return new Employee();
+        if (!employeeId.isBlank()) {
+            return employeeService.getById(Integer.valueOf(employeeId));
         }
-        else {
-           return employeeService.getById(Integer.valueOf(employeeId));
-        }
+        return new Employee();
     }
 
     /**
