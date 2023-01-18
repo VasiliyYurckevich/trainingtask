@@ -11,12 +11,11 @@ public class HomePage extends BasePage {
      * Конструктор.
      */
     public HomePage() {
-        super();
+        super("Приложение для управления задачами");
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get("pageTitle").setDefaultModelObject("Приложение для управления задачами");
     }
 }

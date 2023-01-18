@@ -33,12 +33,19 @@ public class Header extends Panel {
         add(new WebPageLink("tasksList", TasksListPage.class));
     }
 
-    private class WebPageLink<T extends Class<WebPage>> extends Link<WebPage> {
+    private static class WebPageLink<T extends Class<WebPage>> extends Link<WebPage> {
+
         /**
          * Класс страницы для перехода.
          */
         T clazz;
 
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         * @param clazz класс для генерации страницы для перехода
+         */
         public WebPageLink(String id, T clazz) {
             super(id);
             this.clazz = clazz;

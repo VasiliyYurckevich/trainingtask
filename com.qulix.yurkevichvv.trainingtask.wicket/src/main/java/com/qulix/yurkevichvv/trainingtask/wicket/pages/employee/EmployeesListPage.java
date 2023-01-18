@@ -29,13 +29,12 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
      * Конструктор.
      */
     public EmployeesListPage() {
-        super(new EmployeePageFactory(), new EmployeeService());
+        super("Сотрудники", new EmployeePageFactory(), new EmployeeService());
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get("pageTitle").setDefaultModelObject("Сотрудники");
 
         CustomListView<Employee> employeeListView =
             new EmployeeCustomListView(LoadableDetachableModel.of(() -> new EmployeeService().findAll()), service);

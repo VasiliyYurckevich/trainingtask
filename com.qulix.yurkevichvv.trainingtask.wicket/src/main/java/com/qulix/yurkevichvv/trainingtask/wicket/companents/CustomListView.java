@@ -25,6 +25,9 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      */
     private final IService service;
 
+    /**
+     * Фабрика для генерации страниц сущностей.
+     */
     private final AbstractEntityPageFactory<T> pageFactory;
 
     /**

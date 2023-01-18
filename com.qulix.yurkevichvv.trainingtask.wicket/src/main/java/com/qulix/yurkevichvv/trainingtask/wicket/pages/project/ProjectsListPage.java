@@ -28,13 +28,12 @@ public class ProjectsListPage extends AbstractListPage<Project> {
      * Конструктор.
      */
     public ProjectsListPage() {
-        super(new ProjectPageFactory(), new ProjectService());
+        super("Проекты", new ProjectPageFactory(), new ProjectService());
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get("pageTitle").setDefaultModelObject("Проекты");
 
         CustomListView<Project> projectListView =
             new ProjectCustomListView(LoadableDetachableModel.of(() -> new ProjectService().findAll()), service);

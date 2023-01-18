@@ -12,11 +12,13 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
  */
 public class BasePage extends WebPage {
 
+    private String pageTitle;
+
     /**
      * Конструктор.
      */
-    public BasePage() {
-        this(new PageParameters());
+    public BasePage(String pageTitle) {
+        this(new PageParameters(), pageTitle);
     }
 
     /**
@@ -24,8 +26,9 @@ public class BasePage extends WebPage {
      *
      * @param parameters Обернутые параметры строки запроса
      */
-    public BasePage(final PageParameters parameters) {
+    public BasePage(final PageParameters parameters, final String pageTitle) {
         super(parameters);
+        this.pageTitle = pageTitle;
     }
 
     @Override
@@ -37,6 +40,6 @@ public class BasePage extends WebPage {
         Header header = new Header("header");
         add(header);
 
-        add(new Label("pageTitle", ""));
+        add(new Label("pageTitle", pageTitle));
     }
 }

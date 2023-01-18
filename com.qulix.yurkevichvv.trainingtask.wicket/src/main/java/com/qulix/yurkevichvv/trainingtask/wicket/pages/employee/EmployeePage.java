@@ -35,14 +35,12 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      * @param employeeModel редактируемый сотрудник
      */
     public EmployeePage(CompoundPropertyModel<Employee> employeeModel) {
-        super(employeeModel);
+        super("Редактировать сотрудника", employeeModel);
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-
-        get("pageTitle").setDefaultModelObject("Редактировать сотрудника");
 
         Form<Employee> employeeForm = new EmployeeForm();
 

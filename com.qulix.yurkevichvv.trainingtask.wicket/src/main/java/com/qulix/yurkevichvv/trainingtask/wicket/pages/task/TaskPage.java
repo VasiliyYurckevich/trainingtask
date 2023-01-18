@@ -69,21 +69,14 @@ public class TaskPage extends AbstractEntityPage<Task> {
      * @param taskModel модель задачи
      */
     public TaskPage(CompoundPropertyModel<Task> taskModel) {
-        super(taskModel);
+        super("Редактировать задачу", taskModel);
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get("pageTitle").setDefaultModelObject("Редактировать задачу");
 
-        Form<Task> form = new Form<>(TASK_FORM, entityModel) {
-            @Override
-            protected void onSubmit() {
-                onSubmitting();
-                onChangesSubmitted();
-            }
-        };
+        Form<Task> form = new TaskForm();
 
         addFormComponents(form);
         add(form);
@@ -231,7 +224,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
         /**
          * Редактируемая задача.
          */
-        private final Task task;
+        private Task task;
 
         /**
          * Конструктор.
@@ -275,7 +268,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
         /**
          * Редактируемая задача.
          */
-        private final Task task;
+        private Task task;
 
         /**
          * Конструктор.
@@ -301,6 +294,18 @@ public class TaskPage extends AbstractEntityPage<Task> {
         @Override
         public void setObject(final Project project) {
             task.setProjectId(project.getId());
+        }
+    }
+
+    private class TaskForm extends Form<Task> {
+        public TaskForm() {
+            super(TaskPage.TASK_FORM, TaskPage.this.entityModel);
+        }
+
+        @Override
+        protected void onSubmit() {
+            onSubmitting();
+            onChangesSubmitted();
         }
     }
 }

@@ -18,22 +18,25 @@ public class TaskPageFactory implements AbstractEntityPageFactory<Task> {
         return new EditTaskPage(entityModel);
     }
 
-
     private static class EditTaskPage extends TaskPage {
 
         /**
          * Сервис для работы с Task.
          */
-        protected TaskService taskService = new TaskService();
+        protected TaskService service = new TaskService();
 
+        /**
+         * Конструктор.
+         *
+         * @param entityModel модель задачи
+         */
         public EditTaskPage(CompoundPropertyModel<Task> entityModel) {
             super(entityModel);
         }
 
         @Override
         protected void onSubmitting() {
-            this.modelChanged();
-            taskService.save(entityModel.getObject());
+            this.service.save(entityModel.getObject());
         }
 
         @Override

@@ -30,8 +30,8 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      *
      * @param entityModel модель сущности.
      */
-    public AbstractEntityPage(CompoundPropertyModel<T> entityModel) {
-        super();
+    public AbstractEntityPage(final String pageTitle, CompoundPropertyModel<T> entityModel) {
+        super(pageTitle);
         this.entityModel = entityModel;
     }
 

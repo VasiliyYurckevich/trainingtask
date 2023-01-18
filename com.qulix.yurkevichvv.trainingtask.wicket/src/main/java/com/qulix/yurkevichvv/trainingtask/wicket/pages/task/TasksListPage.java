@@ -28,13 +28,12 @@ public class TasksListPage extends AbstractListPage<Task> {
      * Конструктор.
      */
     public TasksListPage() {
-        super(new TaskPageFactory(), new TaskService());
+        super("Задачи", new TaskPageFactory(), new TaskService());
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        get("pageTitle").setDefaultModelObject("Задачи");
 
         Link<WebPage> addTask = new AddTaskLink("addTask");
         add(addTask);
@@ -108,6 +107,11 @@ public class TasksListPage extends AbstractListPage<Task> {
     private class NewTaskPage extends TaskPage {
 
         /**
+         * Сервис для работы с проектом.
+         */
+        private TaskService service= new TaskService();
+
+        /**
          * Конструктор.
          *
          * @param taskModel модель задачи.
@@ -118,7 +122,7 @@ public class TasksListPage extends AbstractListPage<Task> {
 
         @Override
         protected void onSubmitting() {
-            //service.save(entityModel.getObject());
+            this.service.save(entityModel.getObject());
         }
 
         @Override

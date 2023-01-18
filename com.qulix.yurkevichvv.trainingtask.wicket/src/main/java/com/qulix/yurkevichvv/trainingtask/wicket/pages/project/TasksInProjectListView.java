@@ -3,7 +3,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 import java.io.Serializable;
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -11,9 +10,9 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
@@ -28,7 +27,7 @@ class TasksInProjectListView extends ListView<Task> {
     /**
      * Модель проекта, связанного с задачами.
      */
-    private final CompoundPropertyModel<Project> projectModel;
+    private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
 
     /**
      * Сервис для работы с проектом.
@@ -42,8 +41,8 @@ class TasksInProjectListView extends ListView<Task> {
      * @param projectModel модель проекта
      * @param service      сервис для работ с проектом
      */
-    public TasksInProjectListView(LoadableDetachableModel<List<Task>> tasks, CompoundPropertyModel<Project> projectModel,
-                                  ProjectTemporaryService service) {
+    public TasksInProjectListView(LoadableDetachableModel<List<Task>> tasks,
+        CompoundPropertyModel<ProjectTemporaryData> projectModel, ProjectTemporaryService service) {
 
         super("tasks", tasks);
         this.projectModel = projectModel;
@@ -76,7 +75,7 @@ class TasksInProjectListView extends ListView<Task> {
 
         @Override
         public void onClick() {
-            //service.deleteTask(projectModel.getObject(), taskModel.getObject());
+            service.deleteTask(projectModel.getObject(), taskModel.getObject());
         }
     }
 
@@ -95,7 +94,7 @@ class TasksInProjectListView extends ListView<Task> {
         /**
          * Модель проекта.
          */
-        private CompoundPropertyModel<Project> projectModel;
+        private CompoundPropertyModel<ProjectTemporaryData> projectModel;
 
         /**
          * Сервис для работы с проектом.
@@ -108,7 +107,9 @@ class TasksInProjectListView extends ListView<Task> {
          * @param taskModel модель задачи
          * @param projectModel модель проекта
          */
-        public EditProjectTaskPage(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<Project> projectModel) {
+        public EditProjectTaskPage(CompoundPropertyModel<Task> taskModel,
+            CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+
             super(taskModel);
             this.projectModel = projectModel;
             this.index = projectModel.getObject().getTasksList().indexOf(taskModel.getObject());
@@ -116,7 +117,6 @@ class TasksInProjectListView extends ListView<Task> {
 
         @Override
         protected void onSubmitting() {
-            this.modelChanged();
             service.updateTask(projectModel.getObject(), index, super.entityModel.getObject());
         }
 
@@ -145,7 +145,7 @@ class TasksInProjectListView extends ListView<Task> {
         /**
          * Модель проекта.
          */
-        private CompoundPropertyModel<Project> projectModel;
+        private CompoundPropertyModel<ProjectTemporaryData> projectModel;
 
         /**
          * Конструктор.
@@ -153,7 +153,9 @@ class TasksInProjectListView extends ListView<Task> {
          * @param taskModel модель задачи
          * @param projectModel модель проекта
          */
-        public EditInProjectLink(String id, CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<Project> projectModel) {
+        public EditInProjectLink(String id, CompoundPropertyModel<Task> taskModel,
+            CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+
             super(id);
             this.taskModel = taskModel;
             this.projectModel = projectModel;
@@ -168,7 +170,7 @@ class TasksInProjectListView extends ListView<Task> {
     private class ProjectTaskPageFactory implements Serializable {
 
         public AbstractEntityPage createPage(CompoundPropertyModel<Task> taskModel,
-            CompoundPropertyModel<Project> propertyModel) {
+            CompoundPropertyModel<ProjectTemporaryData> propertyModel) {
 
             return new EditProjectTaskPage(taskModel, propertyModel);
         }

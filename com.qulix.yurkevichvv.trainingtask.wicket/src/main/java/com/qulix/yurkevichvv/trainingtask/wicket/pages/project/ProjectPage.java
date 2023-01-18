@@ -1,14 +1,15 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
+
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 
@@ -17,7 +18,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
  *
  * @author Q-YVV
  */
-public class ProjectPage extends AbstractEntityPage<Project> {
+public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
 
     /**
      * Максимальная длинна ввода поля наименования.
@@ -39,17 +40,15 @@ public class ProjectPage extends AbstractEntityPage<Project> {
      *
      * @param projectModel редактируемый проект
      */
-    public ProjectPage(CompoundPropertyModel<Project> projectModel) {
-        super(projectModel);
+    public ProjectPage(CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+        super("Редактировать проект", projectModel);
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
 
-        get("pageTitle").setDefaultModelObject("Редактировать проект");
-
-        Form<Project> form = new ProjectForm();
+        Form<ProjectTemporaryData> form = new ProjectForm();
         addFormComponents(form);
         addTaskList();
         add(form);
@@ -69,7 +68,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     }
 
     @Override
-    protected void addFormComponents(Form<Project> form) {
+    protected void addFormComponents(Form<ProjectTemporaryData> form) {
         Link<Void> addTaskLink = new Link<>("addTaskInProject") {
             @Override
             public void onClick() {
@@ -111,7 +110,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
         /**
          * Модель проекта.
          */
-        private CompoundPropertyModel<Project>  projectModel;
+        private CompoundPropertyModel<ProjectTemporaryData>  projectModel;
 
         /**
          * Конструктор.
@@ -119,7 +118,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
          * @param taskModel модель задачи
          * @param projectModel модель проекта
          */
-        private NewProjectTask(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<Project> projectModel) {
+        private NewProjectTask(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<ProjectTemporaryData> projectModel) {
             super(taskModel);
             this.projectModel = projectModel;
         }
@@ -143,7 +142,7 @@ public class ProjectPage extends AbstractEntityPage<Project> {
     /**
      * Форма проекта.
      */
-    private class ProjectForm extends Form<Project> {
+    private class ProjectForm extends Form<ProjectTemporaryData> {
 
         /**
          * Конструктор.
