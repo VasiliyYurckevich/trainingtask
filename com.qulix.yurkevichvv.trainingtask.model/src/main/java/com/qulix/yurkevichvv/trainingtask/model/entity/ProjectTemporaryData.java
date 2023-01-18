@@ -1,24 +1,35 @@
-package com.qulix.yurkevichvv.trainingtask.model.temporary;
+package com.qulix.yurkevichvv.trainingtask.model.entity;
 
 import java.util.List;
 import java.util.Objects;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 
 /**
  * Данные связанные с проектом при его редактировании.
  *
  * @author Q-YVV
  */
-public class ProjectTemporaryData {
+public class ProjectTemporaryData implements Entity {
 
+    /**
+     * Идентификатор.
+     */
     private Integer id;
 
+    /**
+     * Наименование.
+     */
     private String title;
 
+    /**
+     * Описание.
+     */
     private String description;
 
+    /**
+     * Список связанных задач.
+     */
     private List<Task> tasksList;
 
     /**
@@ -33,6 +44,7 @@ public class ProjectTemporaryData {
         this.tasksList = new ProjectTemporaryService().getProjectsTasks(id);
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
@@ -80,10 +92,15 @@ public class ProjectTemporaryData {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ProjectTemporaryData that = (ProjectTemporaryData) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(tasksList, that.tasksList);
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title)
+            && Objects.equals(description, that.description) && Objects.equals(tasksList, that.tasksList);
     }
 
     @Override

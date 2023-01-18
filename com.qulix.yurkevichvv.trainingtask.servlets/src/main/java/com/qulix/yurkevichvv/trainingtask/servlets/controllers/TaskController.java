@@ -33,17 +33,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
-import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
-
 import static com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils.setDropDownLists;
 
 /**
@@ -343,7 +342,8 @@ public class TaskController extends HttpServlet {
             task.setId(project.getTasksList().get(taskIndex).getId());
             projectTemporaryService.updateTask(project, taskIndex, task);
 
-        } else {
+        }
+        else {
             projectTemporaryService.addTask(project, task);
         }
     }
@@ -378,11 +378,7 @@ public class TaskController extends HttpServlet {
         req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
         req.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
         req.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
-        if (paramsMap.get(EMPLOYEE_ID).isEmpty()) {
-            req.setAttribute(EMPLOYEE_ID, "");
-        } else {
-            req.setAttribute(EMPLOYEE_ID, Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
-        }
+        req.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID).isEmpty() ? "" : Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
     }
 
     /**

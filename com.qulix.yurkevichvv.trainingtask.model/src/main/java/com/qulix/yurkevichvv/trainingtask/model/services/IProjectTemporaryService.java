@@ -1,10 +1,10 @@
-package com.qulix.yurkevichvv.trainingtask.model.temporary;
+package com.qulix.yurkevichvv.trainingtask.model.services;
 
 import java.io.Serializable;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 
 /**
  * Обобщает основные методы для редактирования проекта и связанных с ним данных.

@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
-import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryData;
-import com.qulix.yurkevichvv.trainingtask.model.temporary.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
@@ -251,7 +251,7 @@ public class ProjectController extends HttpServlet {
      * @param projectTemporaryData данные проекта
      */
     private static void setDataAboutProject(HttpSession session, ProjectTemporaryData projectTemporaryData) {
-        session.setAttribute(PROJECT,projectTemporaryData);
+        session.setAttribute(PROJECT, projectTemporaryData);
         session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
     }
 

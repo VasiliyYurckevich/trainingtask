@@ -1,14 +1,19 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.lists;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-
 import java.beans.JavaBean;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+
+/**
+ * Визуализация для данных задачи.
+ *
+ * @author Q-YVV
+ */
 @JavaBean
 public class TaskView implements Serializable {
 
@@ -20,7 +25,6 @@ public class TaskView implements Serializable {
     /**
      * Статус задачи.
      */
-
     private String statusTitle;
 
     /**
@@ -44,15 +48,20 @@ public class TaskView implements Serializable {
     private String endDate;
 
     /**
-     * Идентификатор проекта задачи.
+     * Наименование проекта задачи.
      */
     private String projectTitle;
 
     /**
-     * Идентификатор сотрудника задачи.
+     * Полное имя сотрудника задачи.
      */
     private String employeeFullName;
 
+    /**
+     * Конструктор.
+     *
+     * @param task задача.
+     */
     public TaskView(Task task) {
         this.id = task.getId();
         this.statusTitle = task.getStatus().getStatusTitle();
@@ -66,11 +75,17 @@ public class TaskView implements Serializable {
             new EmployeeService().getById(task.getEmployeeId()).getFullName() : "";
     }
 
-    public static List<TaskView> convertTasksList(List<Task> taskList){
+    /**
+     * Конвертирует список задач в список для визуализации.
+     *
+     * @param taskList список задач
+     * @return список объектов для визуализации задач
+     */
+    public static List<TaskView> convertTasksList(List<Task> taskList) {
         return taskList.stream()
                 .map(TaskView::new)
                 .collect(Collectors.toList());
-    };
+    }
 
     public Integer getId() {
         return id;

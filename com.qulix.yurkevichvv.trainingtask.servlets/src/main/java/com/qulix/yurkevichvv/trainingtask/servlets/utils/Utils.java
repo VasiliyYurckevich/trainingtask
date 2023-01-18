@@ -56,6 +56,11 @@ public class Utils {
         req.setAttribute("employeeId", task.getEmployeeId());
     }
 
+    /**
+     * Вносит данные в выпадающие списки.
+     *
+     * @param req запрос
+     */
     public static void setDropDownLists(HttpServletRequest req) {
         req.setAttribute("ProjectList", new ProjectConverter().convertList(new ProjectService().findAll()));
         req.setAttribute("StatusList", new StatusConverter().convertList(List.of(Status.values())));

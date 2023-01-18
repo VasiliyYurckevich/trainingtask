@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.model.temporary;
+package com.qulix.yurkevichvv.trainingtask.model.services;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionService;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
 import com.qulix.yurkevichvv.trainingtask.model.dao.ProjectDao;
 import com.qulix.yurkevichvv.trainingtask.model.dao.TaskDao;
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 
 /**
  * Сервис для работы с временными данными проекта.

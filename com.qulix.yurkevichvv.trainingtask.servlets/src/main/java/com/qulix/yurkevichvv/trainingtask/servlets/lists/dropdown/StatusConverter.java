@@ -2,6 +2,11 @@ package com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 
+/**
+ * Конвертер в элемент выпадающего списка для статуса.
+ *
+ * @author Q-YVV
+ */
 public class StatusConverter implements DropDownItemConverter<Status> {
 
     @Override
