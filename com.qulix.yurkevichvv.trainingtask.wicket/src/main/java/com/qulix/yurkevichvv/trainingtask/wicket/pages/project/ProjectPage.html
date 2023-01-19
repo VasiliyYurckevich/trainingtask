@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
-    <body>
-        <wicket:extend>
-        <div class="chief">
-            <div class="container">
-                <div class="main">
-                    <form wicket:id="projectForm">
-                        <input wicket:id="submit" type="submit" class="add-button" value="Сохранить"/>
-                        <button class="add-button" wicket:id = "cancel">Отмена</button>
+<body>
+<wicket:extend>
+    <div class="chief">
+        <div class="container">
+            <div class="main">
+                <form wicket:id="projectForm">
+                    <input class="add-button" type="submit" value="Сохранить" wicket:id="submit"/>
+                    <button class="add-button" wicket:id="cancel">Отмена</button>
 
-                        <div class="field">
-                            <label>Наименование:</label>
-                            <input type="text" wicket:id="title"/>
-                            <br>
-                            <a class = "feedback" wicket:id="titleFeedbackPanel">
-                            </a>
-                        </div>
-
-                        <div class="field">
-                            <label>Описание:</label>
-                            <input type="text" wicket:id="description"/>
-                            <br>
-                            <a class = "feedback" wicket:id="descriptionFeedbackPanel">
-                            </a>
-                        </div>
-                    </form>
-                    <div>
-                        <button class="add-button" value="" wicket:id = "addTaskInProject">Добавить задачу</button>
+                    <div class="field">
+                        <label>Наименование:</label>
+                        <input type="text" wicket:id="title"/>
+                        <br>
+                        <a class="feedback" wicket:id="titleFeedbackPanel">
+                        </a>
                     </div>
+
+                    <div class="field">
+                        <label>Описание:</label>
+                        <input type="text" wicket:id="description"/>
+                        <br>
+                        <a class="feedback" wicket:id="descriptionFeedbackPanel">
+                        </a>
+                    </div>
+                </form>
+                <div>
+                    <button class="add-button" value="" wicket:id="addTaskInProject">Добавить задачу</button>
                 </div>
-
-                <div class="header">
-                    <h3>Задачи проекта</h3>
-                </div>
-
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Статус</th>
-                            <th>Наименование</th>
-                            <th>Работа</th>
-                            <th>Дата начала</th>
-                            <th>Дата окончания</th>
-                            <th>Проект</th>
-                            <th>Исполнитель</th>
-                            <th>Действия</th>
-                        </tr>
-
-                        <tr wicket:id="tasks">
-                            <td wicket:id="status"></td>
-                            <td wicket:id="task_title"></td>
-                            <td wicket:id="workTime"></td>
-                            <td wicket:id="beginDate"></td>
-                            <td wicket:id="endDate"></td>
-                            <td wicket:id="projectTitle"></td>
-                            <td wicket:id="employeeName"></td>
-                            <td>
-                                <a href wicket:id="editLink">Редактировать</a>
-                                <a href wicket:id="deleteLink">Удалить</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
+
+            <div class="header">
+                <h3>Задачи проекта</h3>
+            </div>
+
+            <table>
+                <tbody>
+                <tr>
+                    <th>Статус</th>
+                    <th>Наименование</th>
+                    <th>Работа</th>
+                    <th>Дата начала</th>
+                    <th>Дата окончания</th>
+                    <th>Проект</th>
+                    <th>Исполнитель</th>
+                    <th>Действия</th>
+                </tr>
+
+                <tr wicket:id="tasks">
+                    <td wicket:id="status"></td>
+                    <td wicket:id="task_title"></td>
+                    <td wicket:id="workTime"></td>
+                    <td wicket:id="beginDate"></td>
+                    <td wicket:id="endDate"></td>
+                    <td wicket:id="projectTitle"></td>
+                    <td wicket:id="employeeName"></td>
+                    <td>
+                        <a href wicket:id="editLink">Редактировать</a>
+                        <a href wicket:id="deleteLink">Удалить</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </wicket:extend>
-    </body>
+    </div>
+</wicket:extend>
+</body>
 </html>

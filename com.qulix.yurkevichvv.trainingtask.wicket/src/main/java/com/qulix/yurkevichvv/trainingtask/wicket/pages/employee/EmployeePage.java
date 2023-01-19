@@ -15,11 +15,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 public class EmployeePage extends AbstractEntityPage<Employee> {
 
     /**
-     * Идентификатор элемента формы.
-     */
-    private static final String FORM = "form";
-
-    /**
      * Максимальная длинна ввода полей.
      */
     private static final int MAXLENGTH = 50;
@@ -42,7 +37,7 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
     protected void onInitialize() {
         super.onInitialize();
 
-        Form<Employee> employeeForm = new EmployeeForm();
+        Form<Employee> employeeForm = new EmployeeForm("form", entityModel);
 
         addFormComponents(employeeForm);
         add(employeeForm);
@@ -71,8 +66,8 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      * Форма сотрудника.
      */
     private class EmployeeForm extends Form<Employee> {
-        public EmployeeForm() {
-            super(EmployeePage.FORM, EmployeePage.this.entityModel);
+        public EmployeeForm(String id, CompoundPropertyModel<Employee> model) {
+            super(id, model);
         }
 
         @Override

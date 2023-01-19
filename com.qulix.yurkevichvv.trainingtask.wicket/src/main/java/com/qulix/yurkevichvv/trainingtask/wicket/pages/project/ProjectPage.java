@@ -110,12 +110,12 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         /**
          * Модель проекта.
          */
-        private final CompoundPropertyModel<ProjectTemporaryData>  projectModel;
+        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
 
         /**
          * Конструктор.
          *
-         * @param taskModel модель задачи
+         * @param taskModel    модель задачи
          * @param projectModel модель проекта
          */
         private NewProjectTask(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<ProjectTemporaryData> projectModel) {

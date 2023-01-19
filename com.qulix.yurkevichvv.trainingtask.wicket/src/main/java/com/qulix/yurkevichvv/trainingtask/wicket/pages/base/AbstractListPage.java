@@ -25,7 +25,7 @@ public abstract class AbstractListPage<T extends Entity> extends BasePage {
      * Конструктор.
      *
      * @param pageFactory фабрика для создания страниц
-     * @param service сервис для работы с сущностями
+     * @param service     сервис для работы с сущностями
      */
     public AbstractListPage(final String pageTitle, AbstractEntityPageFactory<T> pageFactory, IService service) {
         super(pageTitle);

@@ -60,8 +60,8 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
     /**
      * Добавляет поле и фидбек панель.
      *
-     * @param form форма для добавления
-     * @param name имя поля
+     * @param form      форма для добавления
+     * @param name      имя поля
      * @param maxLength максимальная длинна ввода
      */
     protected void addStringField(Form<T> form, String name, Integer maxLength) {

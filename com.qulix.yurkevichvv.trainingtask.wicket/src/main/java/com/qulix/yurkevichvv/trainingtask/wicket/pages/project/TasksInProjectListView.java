@@ -54,7 +54,7 @@ class TasksInProjectListView extends ListView<Task> {
         ITaskTableColumns.addColumns(item);
 
         item.add(new DeleteInProjectLink(item.getModel()))
-            .add(new EditInProjectLink("editLink", CompoundPropertyModel.of(item.getModel()), projectModel));
+                .add(new EditInProjectLink("editLink", CompoundPropertyModel.of(item.getModel()), projectModel));
     }
 
     /**
@@ -104,7 +104,7 @@ class TasksInProjectListView extends ListView<Task> {
         /**
          * Конструктор.
          *
-         * @param taskModel модель задачи
+         * @param taskModel    модель задачи
          * @param projectModel модель проекта
          */
         public EditProjectTaskPage(CompoundPropertyModel<Task> taskModel,
@@ -150,7 +150,7 @@ class TasksInProjectListView extends ListView<Task> {
         /**
          * Конструктор.
          *
-         * @param taskModel модель задачи
+         * @param taskModel    модель задачи
          * @param projectModel модель проекта
          */
         public EditInProjectLink(String id, CompoundPropertyModel<Task> taskModel,

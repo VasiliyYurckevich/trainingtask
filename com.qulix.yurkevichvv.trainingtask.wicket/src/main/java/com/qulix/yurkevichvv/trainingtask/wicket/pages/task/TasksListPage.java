@@ -53,7 +53,7 @@ public class TasksListPage extends AbstractListPage<Task> {
         /**
          * Конструктор.
          *
-         * @param tasks модель списка задач
+         * @param tasks   модель списка задач
          * @param service сервис для работы с сущностями
          */
         public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService service) {

@@ -15,7 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 public interface AbstractEntityPageFactory<T extends Entity> extends Serializable {
 
     /**
-     *  Создает страницу редактирования сущностей.
+     * Создает страницу редактирования сущностей.
      *
      * @param entityModel модель сущности
      * @return страница редактирования сущности

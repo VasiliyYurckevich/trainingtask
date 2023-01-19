@@ -58,7 +58,7 @@ public class ProjectsListPage extends AbstractListPage<Project> {
         /**
          * Конструктор.
          *
-         * @param projects модель списка проектов
+         * @param projects       модель списка проектов
          * @param projectService сервис для работы с проектами
          */
         public ProjectCustomListView(LoadableDetachableModel<List<Project>> projects, IService projectService) {
@@ -75,7 +75,7 @@ public class ProjectsListPage extends AbstractListPage<Project> {
             super.populateItem(item);
             final Project project = item.getModelObject();
             item.add(new Label("title", project.getTitle()))
-                .add(new Label("description", project.getDescription()));
+                    .add(new Label("description", project.getDescription()));
         }
     }
 }

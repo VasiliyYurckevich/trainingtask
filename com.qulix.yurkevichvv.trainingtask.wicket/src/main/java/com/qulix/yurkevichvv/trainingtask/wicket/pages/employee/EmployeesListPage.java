@@ -22,7 +22,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
  * Страница списка сотрудников.
  *
  * @author Q-YVV
-*/
+ */
 public class EmployeesListPage extends AbstractListPage<Employee> {
 
     /**
@@ -55,7 +55,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
          * Конструктор.
          *
          * @param employees модель списка сотрудников
-         * @param service сервис для работы с сущностями
+         * @param service   сервис для работы с сущностями
          */
         public EmployeeCustomListView(LoadableDetachableModel<List<Employee>> employees, IService service) {
             super("employees", employees, service);
@@ -71,9 +71,9 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
             super.populateItem(item);
             final Employee employee = item.getModelObject();
             item.add(new Label("surname", employee.getSurname()))
-                .add(new Label("firstName", employee.getFirstName()))
-                .add(new Label("patronymic", employee.getPatronymic()))
-                .add(new Label("post", employee.getPost()));
+                    .add(new Label("firstName", employee.getFirstName()))
+                    .add(new Label("patronymic", employee.getPatronymic()))
+                    .add(new Label("post", employee.getPost()));
         }
     }
 
@@ -87,7 +87,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         /**
          * Конструктор.
          *
-         * @param id идентификатор
+         * @param id           идентификатор
          * @param webPageModel модель страницы
          */
         public WebPageLink(String id, IModel<WebPage> webPageModel) {

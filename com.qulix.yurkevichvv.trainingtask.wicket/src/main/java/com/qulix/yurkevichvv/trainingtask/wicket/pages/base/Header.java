@@ -33,6 +33,11 @@ public class Header extends Panel {
         add(new WebPageLink("tasksList", TasksListPage.class));
     }
 
+    /**
+     * Ссылка для перехода на статичные страницы.
+     *
+     * @param <T> класс страницы
+     */
     private static class WebPageLink<T extends Class<WebPage>> extends Link<WebPage> {
 
         /**
@@ -43,7 +48,7 @@ public class Header extends Panel {
         /**
          * Конструктор.
          *
-         * @param id идентификатор
+         * @param id    идентификатор
          * @param clazz класс для генерации страницы для перехода
          */
         public WebPageLink(String id, T clazz) {
