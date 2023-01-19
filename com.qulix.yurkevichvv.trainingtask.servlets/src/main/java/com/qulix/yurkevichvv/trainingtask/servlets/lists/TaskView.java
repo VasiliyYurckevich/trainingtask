@@ -57,6 +57,7 @@ public class TaskView implements Serializable {
      */
     private String employeeFullName;
 
+
     /**
      * Конструктор.
      *
