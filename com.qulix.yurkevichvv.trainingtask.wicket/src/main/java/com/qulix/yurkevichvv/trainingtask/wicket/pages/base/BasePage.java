@@ -12,7 +12,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
  */
 public class BasePage extends WebPage {
 
-    private String pageTitle;
+    private final String pageTitle;
 
     /**
      * Конструктор.

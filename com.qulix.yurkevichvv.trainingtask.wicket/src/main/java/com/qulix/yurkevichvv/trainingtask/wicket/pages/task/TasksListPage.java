@@ -91,7 +91,7 @@ public class TasksListPage extends AbstractListPage<Task> {
 
         @Override
         public void onClick() {
-            setResponsePage(new NewTaskPage(CompoundPropertyModel.of(new Task())));
+            setResponsePage(new EditTaskPage(CompoundPropertyModel.of(new Task())));
         }
 
         @Override
@@ -101,33 +101,4 @@ public class TasksListPage extends AbstractListPage<Task> {
         }
     }
 
-    /**
-     * Создает новую задачу.
-     */
-    private class NewTaskPage extends TaskPage {
-
-        /**
-         * Сервис для работы с проектом.
-         */
-        private TaskService service= new TaskService();
-
-        /**
-         * Конструктор.
-         *
-         * @param taskModel модель задачи.
-         */
-        public NewTaskPage(CompoundPropertyModel<Task> taskModel) {
-            super(taskModel);
-        }
-
-        @Override
-        protected void onSubmitting() {
-            this.service.save(entityModel.getObject());
-        }
-
-        @Override
-        protected void onChangesSubmitted() {
-            setResponsePage(TasksListPage.class);
-        }
-    }
 }

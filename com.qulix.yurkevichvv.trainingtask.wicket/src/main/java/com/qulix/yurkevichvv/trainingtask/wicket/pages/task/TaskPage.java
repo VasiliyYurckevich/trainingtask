@@ -34,29 +34,14 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
 public class TaskPage extends AbstractEntityPage<Task> {
 
     /**
-     * Идентификатор элемента формы.
-     */
-    private static final String TASK_FORM = "taskForm";
-
-    /**
      * Максимальная длинна ввода полей.
      */
     private static final int MAXLENGTH = 50;
 
     /**
-     * Идентификатор поля начала работы.
-     */
-    private static final String BEGIN_DATE = "beginDate";
-
-    /**
      * Паттерн для дат.
      */
-    private static final String PATTERN = "yyyy-MM-dd";
-
-    /**
-     * Идентификатор поля начала работы.
-     */
-    private static final String END_DATE = "endDate";
+    private static final String DATA_FORMAT = "yyyy-MM-dd";
 
     /**
      * Идентификатор поля наименования.
@@ -76,7 +61,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
     protected void onInitialize() {
         super.onInitialize();
 
-        Form<Task> form = new TaskForm();
+        Form<Task> form = new TaskForm("taskForm", entityModel);
 
         addFormComponents(form);
         add(form);
@@ -115,16 +100,42 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @param form форма для добавления
      */
-    private static void addStatusesDropDownChoice(Form<Task> form) {
+    private void addStatusesDropDownChoice(Form<Task> form) {
         DropDownChoice<Status> statusesDropDownChoice =
-            new DropDownChoice<>("statuses", new PropertyModel<>(form.getModelObject(), "status"),
+            new DropDownChoice<>("statuses", new PropertyModel<>(entityModel, "status"),
             List.of(Status.values()), new ChoiceRenderer<>("statusTitle"));
+
         statusesDropDownChoice.setRequired(true);
 
-        FeedbackPanel employeesFeedbackPanel = new FeedbackPanel("statusesFeedbackPanel",
+        FeedbackPanel statusesFeedbackPanel = new FeedbackPanel("statusesFeedbackPanel",
             new ComponentFeedbackMessageFilter(statusesDropDownChoice));
-        form.add(employeesFeedbackPanel);
+        form.add(statusesFeedbackPanel);
         form.add(statusesDropDownChoice);
+    }
+
+    /**
+     * Добавляет поле даты начала работы в форму задачи.
+     *
+     * @param form форма для добавления
+     */
+    private static void addDateFields(Form<Task> form) {
+        LocalDateTextField beginDateField = new LocalDateTextField("beginDate", DATA_FORMAT);
+        form.add(beginDateField.setRequired(true));
+        beginDateField.setRequired(true);
+
+        FeedbackPanel beginDateFeedbackPanel = new FeedbackPanel("beginDateFeedbackPanel",
+            new ComponentFeedbackMessageFilter(beginDateField));
+        form.add(beginDateFeedbackPanel);
+
+        LocalDateTextField endDateTextField = new LocalDateTextField("endDate", DATA_FORMAT);
+        endDateTextField.setRequired(true);
+        form.add(endDateTextField);
+
+        FeedbackPanel endDateFeedbackPanel = new FeedbackPanel("endDateFeedbackPanel",
+            new ComponentFeedbackMessageFilter(endDateTextField));
+        form.add(endDateFeedbackPanel);
+
+        form.add(new DateValidator(beginDateField, endDateTextField));
     }
 
     /**
@@ -143,30 +154,28 @@ public class TaskPage extends AbstractEntityPage<Task> {
     }
 
     /**
-     * Добавляет поле даты начала работы в форму задачи.
+     * Добавляет выпадающий список сотрудников в форму задачи.
      *
      * @param form форма для добавления
      */
-    private static void addDateFields(Form<Task> form) {
-        LocalDateTextField beginDateField = new LocalDateTextField(BEGIN_DATE, PATTERN);
-        form.add(beginDateField.setRequired(true));
-        beginDateField.setRequired(true);
+    private void addEmployeesDropDownChoice(Form<Task> form) {
 
-        FeedbackPanel beginDateFeedbackPanel = new FeedbackPanel("beginDateFeedbackPanel",
-            new ComponentFeedbackMessageFilter(beginDateField));
-        form.add(beginDateFeedbackPanel);
+        LoadableDetachableModel<List<Employee>> employees = LoadableDetachableModel.of(()-> new EmployeeService().findAll());
+        LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
+            Employee::getId);
+        EmployeeDropDownModel employeeDropDownModel = new EmployeeDropDownModel(employees);
 
-        LocalDateTextField endDateTextField = new LocalDateTextField(END_DATE,
-            new PropertyModel<>(form.getModelObject(), END_DATE), PATTERN);
-        endDateTextField.setRequired(true);
-        form.add(endDateTextField);
+        DropDownChoice<Employee> employeesDropDownChoice = new DropDownChoice<>("employeeId", employeeDropDownModel,
+            employees, employeeChoiceRenderer);
+        employeesDropDownChoice.setNullValid(true);
 
-        FeedbackPanel endDateFeedbackPanel = new FeedbackPanel("endDateFeedbackPanel",
-            new ComponentFeedbackMessageFilter(endDateTextField));
-        form.add(endDateFeedbackPanel);
+        form.add(employeesDropDownChoice);
 
-        form.add(new DateValidator(beginDateField, endDateTextField));
+        FeedbackPanel employeesFeedbackPanel = new FeedbackPanel("employeesFeedbackPanel",
+            new ComponentFeedbackMessageFilter(employeesDropDownChoice));
+        form.add(employeesFeedbackPanel);
     }
+
 
     /**
      * Добавляет выпадающий список проектов в форму задачи.
@@ -175,38 +184,16 @@ public class TaskPage extends AbstractEntityPage<Task> {
      */
     private void addProjectDropDownChoice(Form<Task> form) {
         LoadableDetachableModel<List<Project>> projects = LoadableDetachableModel.of(()-> new ProjectService().findAll());
-        ProjectDropDownModel model = new ProjectDropDownModel(projects, form.getModelObject());
+        ProjectDropDownModel model = new ProjectDropDownModel(projects);
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId", model,
             projects, new ChoiceRenderer<>(TITLE));
         projectDropDownChoice.setRequired(true).setEnabled(changeProjectOption());
         form.add(projectDropDownChoice);
 
-        FeedbackPanel workTimeFeedbackPanel = new FeedbackPanel("projectFeedbackPanel",
+        FeedbackPanel projectFeedbackPanel = new FeedbackPanel("projectFeedbackPanel",
             new ComponentFeedbackMessageFilter(projectDropDownChoice));
-        form.add(workTimeFeedbackPanel);
-    }
-
-    /**
-     * Добавляет выпадающий список сотрудников в форму задачи.
-     *
-     * @param form форма для добавления
-     */
-    private static void addEmployeesDropDownChoice(Form<Task> form) {
-
-        LoadableDetachableModel<List<Employee>> employees = LoadableDetachableModel.of(()-> new EmployeeService().findAll());
-        LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
-            Employee::getId);
-        EmployeeDropDownModel model = new EmployeeDropDownModel(employees, form.getModelObject());
-
-        DropDownChoice<Employee> employeesDropDownChoice = new DropDownChoice<>("employeeId" , model, employees,
-            employeeChoiceRenderer);
-        employeesDropDownChoice.setNullValid(true);
-        form.add(employeesDropDownChoice);
-
-        FeedbackPanel employeesFeedbackPanel = new FeedbackPanel("employeesFeedbackPanel",
-            new ComponentFeedbackMessageFilter(employeesDropDownChoice));
-        form.add(employeesFeedbackPanel);
+        form.add(projectFeedbackPanel);
     }
 
     /**
@@ -214,7 +201,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @author Q-YVV
      */
-    static class EmployeeDropDownModel implements IModel<Employee> {
+    private class EmployeeDropDownModel implements IModel<Employee> {
 
         /**
          * Список сотрудников.
@@ -222,25 +209,18 @@ public class TaskPage extends AbstractEntityPage<Task> {
         private final LoadableDetachableModel<List<Employee>> list;
 
         /**
-         * Редактируемая задача.
-         */
-        private Task task;
-
-        /**
          * Конструктор.
          *
          * @param list список сотрудников
-         * @param task редактируемая задача
          */
-        public EmployeeDropDownModel(LoadableDetachableModel<List<Employee>> list, Task task) {
+        public EmployeeDropDownModel(LoadableDetachableModel<List<Employee>> list) {
             this.list = list;
-            this.task = task;
         }
 
         @Override
         public Employee getObject() {
             for (Employee employee : list.getObject()) {
-                if (employee.getId().equals(task.getEmployeeId())) {
+                if (employee.getId().equals(entityModel.getObject().getEmployeeId())) {
                     return employee;
                 }
             }
@@ -248,8 +228,8 @@ public class TaskPage extends AbstractEntityPage<Task> {
         }
 
         @Override
-        public void setObject(final Employee employee) {
-            task.setEmployeeId(employee != null ? employee.getId() : null);
+        public void setObject(Employee employee) {
+            entityModel.getObject().setEmployeeId(employee != null ? employee.getId() : null);
         }
     }
 
@@ -258,7 +238,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @author Q-YVV
      */
-    static class ProjectDropDownModel implements IModel<Project> {
+    private class ProjectDropDownModel implements IModel<Project> {
 
         /**
          * Список проектов.
@@ -266,25 +246,18 @@ public class TaskPage extends AbstractEntityPage<Task> {
         private final LoadableDetachableModel<List<Project>> list;
 
         /**
-         * Редактируемая задача.
-         */
-        private Task task;
-
-        /**
          * Конструктор.
          *
          * @param list список проектов
-         * @param task редактируемая задача
          */
-        public ProjectDropDownModel(LoadableDetachableModel<List<Project>> list, Task task) {
+        public ProjectDropDownModel(LoadableDetachableModel<List<Project>> list) {
             this.list = list;
-            this.task = task;
         }
 
         @Override
         public Project getObject() {
             for (Project project : list.getObject()) {
-                if (project.getId().equals(task.getProjectId())) {
+                if (project.getId().equals(entityModel.getObject().getProjectId())) {
                     return project;
                 }
             }
@@ -292,14 +265,14 @@ public class TaskPage extends AbstractEntityPage<Task> {
         }
 
         @Override
-        public void setObject(final Project project) {
-            task.setProjectId(project.getId());
+        public void setObject(Project project) {
+            entityModel.getObject().setProjectId(project.getId());
         }
     }
 
     private class TaskForm extends Form<Task> {
-        public TaskForm() {
-            super(TaskPage.TASK_FORM, TaskPage.this.entityModel);
+        public TaskForm(String id, CompoundPropertyModel<Task> entityModel) {
+            super(id, entityModel);
         }
 
         @Override

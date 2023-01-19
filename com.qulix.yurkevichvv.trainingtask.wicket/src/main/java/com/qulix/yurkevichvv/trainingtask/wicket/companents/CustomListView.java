@@ -40,7 +40,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
     public CustomListView(String id, LoadableDetachableModel<? extends List<T>> model, IService service) {
         super(id, model);
         this.service = service;
-        pageFactory = getPageFactory();
+        this.pageFactory = getPageFactory();
     }
 
     /**
@@ -68,7 +68,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         /**
          * Сервис для работы с сущностями.
          */
-        private final IService service;
+        private final IService<T> service;
 
         /**
          * Элемент ListView.

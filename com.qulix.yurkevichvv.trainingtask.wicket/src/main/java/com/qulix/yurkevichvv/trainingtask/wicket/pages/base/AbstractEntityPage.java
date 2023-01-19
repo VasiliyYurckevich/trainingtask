@@ -30,7 +30,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      *
      * @param entityModel модель сущности.
      */
-    public AbstractEntityPage(final String pageTitle, CompoundPropertyModel<T> entityModel) {
+    protected AbstractEntityPage(final String pageTitle, CompoundPropertyModel<T> entityModel) {
         super(pageTitle);
         this.entityModel = entityModel;
     }
@@ -64,7 +64,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      * @param name имя поля
      * @param maxLength максимальная длинна ввода
      */
-    protected static void addStringField(Form form, String name, Integer maxLength) {
+    protected void addStringField(Form<T> form, String name, Integer maxLength) {
         RequiredTextField<String> field = new RequiredTextField<>(name);
         field.add(new CustomStringValidator(maxLength));
         form.add(field);

@@ -94,12 +94,12 @@ class TasksInProjectListView extends ListView<Task> {
         /**
          * Модель проекта.
          */
-        private CompoundPropertyModel<ProjectTemporaryData> projectModel;
+        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
 
         /**
          * Сервис для работы с проектом.
          */
-        private ProjectTemporaryService service = new ProjectTemporaryService();
+        private final ProjectTemporaryService service = new ProjectTemporaryService();
 
         /**
          * Конструктор.
@@ -139,13 +139,13 @@ class TasksInProjectListView extends ListView<Task> {
         /**
          * Модель задачи.
          */
-        private CompoundPropertyModel<Task> taskModel;
+        private final CompoundPropertyModel<Task> taskModel;
 
 
         /**
          * Модель проекта.
          */
-        private CompoundPropertyModel<ProjectTemporaryData> projectModel;
+        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
 
         /**
          * Конструктор.
