@@ -37,8 +37,6 @@
                     <my:dropDownChoice label="Наименование проекта" id="projectId" list="${ProjectList}" selectedId="${projectId}"/>
 
                     <my:dropDownChoice label="Сотрудник" id="employeeId" isNullOption="true" list="${EmployeeList}" selectedId="${employeeId}"/>
-
-                    </div>
                 </form>
             </div>
         </div>

@@ -36,18 +36,17 @@ cargo {
     port = tomcatHttpPort
 
 
-
     deployable {
         context = "servlets"
         file = file("${rootDir}/${group}.${context}/build/libs/${group}.${context}-${version}.war")
     }
 
-/*
+
     deployable {
         context = "wicket"
         file = file("${rootDir}//${group}.${context}/build/libs/${group}.${context}-${version}.war")
     }
-*/
+
 
     local {
         installer {
@@ -69,7 +68,7 @@ subprojects {
         configFile = rootProject.file("checkstyle/checkstyle.xml")
     }
 
-    task checkstyle(type: Checkstyle) {
+    tasks.register('checkstyle', Checkstyle) {
         source "src/main/java"
         include "**/*.java"
 
@@ -87,8 +86,10 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+        }
     }
 }
 
@@ -106,7 +107,7 @@ gradle.projectsEvaluated {
     }
 }
 
-task startServer(type: CargoRunLocal) {
+tasks.register('startServer', CargoRunLocal) {
     dependsOn cargoConfigureLocal
     finalizedBy {
         println "http://localhost:${project.ext.tomcatHttpPort}/servlets"
@@ -114,6 +115,6 @@ task startServer(type: CargoRunLocal) {
     }
 }
 
-task stopServer(type: CargoStopLocal) {
+tasks.register('stopServer', CargoStopLocal) {
 }
 

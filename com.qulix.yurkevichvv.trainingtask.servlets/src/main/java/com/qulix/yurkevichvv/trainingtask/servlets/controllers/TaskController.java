@@ -54,74 +54,69 @@ import static com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils.setDropDow
 public class TaskController extends HttpServlet {
 
     /**
-     * Хранит название кейса для выбора списка задач.
+     * Кейс списка задач.
      */
     public static final String LIST = "/list";
 
     /**
-     * Хранит название JSP редактирования задачи.
+     * JSP редактирования задачи.
      */
     private static final String EDIT_TASK_FORM_JSP = "/edit-task-form.jsp";
 
     /**
-     * Хранит константу для обозначения действия сервлета.
+     * Обозначение действия сервлета.
      */
     private static final String ACTION = "action";
 
     /**
-     * Хранит константу для обозначения ID задачи.
+     * Обозначение ID задачи.
      */
     private static final String TASK_ID = "taskId";
 
     /**
-     * Хранит константу для обозначения статуса задачи.
+     * Обозначение статуса задачи.
      */
     private static final String STATUS = "status";
 
     /**
-     * Хранит константу для обозначения названия задачи.
+     * Обозначение названия задачи.
      */
     private static final String TITLE = "title";
 
     /**
-     * Хранит константу для обозначения ID проекта задачи.
+     * Обозначение ID проекта задачи.
      */
     private static final String PROJECT_ID = "projectId";
 
     /**
-     * Хранит константу для обозначения времени на выполнение задачи.
+     * Обозначение времени на выполнение задачи.
      */
     private static final String WORK_TIME = "workTime";
 
     /**
-     * Хранит константу для обозначения даты начала выполнения задачи.
+     * Обозначение даты начала выполнения задачи.
      */
     private static final String BEGIN_DATE = "beginDate";
 
     /**
-     * Хранит константу для обозначения даты окончания выполнения задачи.
+     * Обозначение даты окончания выполнения задачи.
      */
     private static final String END_DATE = "endDate";
 
     /**
-     * Хранит константу для обозначения ID сотрудника, ответственного за задачу.
+     * Обозначение ID сотрудника, ответственного за задачу.
      */
     private static final String EMPLOYEE_ID = "employeeId";
 
     /**
-     * Хранит константу для порядкового номера задачи в списке задач проекта.
+     * Порядковый номер задачи в списке задач проекта.
      */
     private static final String TASK_INDEX = "taskIndex";
 
     /**
-     * Хранит текст для исключения при выборе неизвестной команды.
+     * Сообщение при выборе неизвестной команды.
      */
     public static final String UNKNOWN_COMMAND_OF_TASK_CONTROLLER = "Unknown command of Task Controller:";
-
-    /**
-     * Хранит название JSP редактирования проекта.
-     */
-    private static final String EDIT_PROJECT_JSP = "/edit-project-form.jsp";
 
     /**
      * Хранит константу для страницы списка задач.
@@ -134,11 +129,6 @@ public class TaskController extends HttpServlet {
     private static final String PROJECT = "project";
 
     /**
-     * Хранит константу для задачи.
-     */
-    private static final String TASK = "task";
-
-    /**
      * Логгер для записи событий.
      */
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
@@ -146,17 +136,17 @@ public class TaskController extends HttpServlet {
     /**
      * Переменная доступа к методам работы с задачами проекта.
      */
-    private ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
+    private final ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
 
     /**
      * Переменная доступа к методам работы с сущностями Task.
      */
-    private TaskService taskService = new TaskService();
+    private final TaskService taskService = new TaskService();
 
     /**
      * Переменная доступа к методам работы с сущностями Project.
      */
-    private ProjectService projectService = new ProjectService();
+    private final ProjectService projectService = new ProjectService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -321,7 +311,7 @@ public class TaskController extends HttpServlet {
 
             saveTaskInProjectData(task, project, taskIndex);
 
-            req.getRequestDispatcher(EDIT_PROJECT_JSP).forward(req, resp);
+            req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
         }
         else {
             setDropDownLists(req);
@@ -394,7 +384,7 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
-        session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
+        session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
         req.setAttribute("PROJECT_NUMBER", projectService.findAll().size());
         req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()));
 

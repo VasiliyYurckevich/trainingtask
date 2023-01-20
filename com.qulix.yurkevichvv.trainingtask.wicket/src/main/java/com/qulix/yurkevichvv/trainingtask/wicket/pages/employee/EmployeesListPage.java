@@ -41,7 +41,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         add(employeeListView);
 
         add(new WebPageLink("addEmployee",
-            new Model<>(EmployeesListPage.this.pageFactory.createPage(CompoundPropertyModel.of(new Employee())))));
+                new Model<>(EmployeesListPage.this.pageFactory.createPage(CompoundPropertyModel.of(new Employee())))));
     }
 
     /**
@@ -57,7 +57,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
          * @param employees модель списка сотрудников
          * @param service   сервис для работы с сущностями
          */
-        public EmployeeCustomListView(LoadableDetachableModel<List<Employee>> employees, IService service) {
+        public EmployeeCustomListView(LoadableDetachableModel<List<Employee>> employees, IService<Employee> service) {
             super("employees", employees, service);
         }
 
@@ -82,7 +82,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
      *
      * @author Q-YVV
      */
-    private class WebPageLink extends Link<WebPage> {
+    private static class WebPageLink extends Link<WebPage> {
 
         /**
          * Конструктор.

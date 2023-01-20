@@ -33,57 +33,57 @@ import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
 public class ValidationService {
     
     /**
-     * Хранит константу для обозначения статуса задачи.
+     * Обозначение статуса задачи.
      */
     private static final String STATUS = "status";
 
     /**
-     * Хранит константу для обозначения названия задачи.
+     * Обозначение названия задачи.
      */
     private static final String TITLE = "title";
     
     /**
-     * Хранит константу для обозначения времени на выполнение задачи.
+     * Обозначение времени на выполнение задачи.
      */
     private static final String WORK_TIME = "workTime";
 
     /**
-     * Хранит константу для обозначения название проекта.
+     * Обозначение название проекта.
      */
     private static final String TITLE_OF_PROJECT = "titleProject";
 
     /**
-     * Хранит константу для обозначения описание проекта.
+     * Обозначение описание проекта.
      */
     private static final String DESCRIPTION = "description";
 
     /**
-     * Хранит константу для обозначения фамилии сотрудника.
+     * Обозначение фамилии сотрудника.
      */
     private static final String SURNAME = "surname";
 
     /**
-     * Хранит константу для обозначения даты начала выполнения задачи.
+     * Обозначение даты начала выполнения задачи.
      */
     private static final String BEGIN_DATE = "beginDate";
 
     /**
-     * Хранит константу для обозначения даты окончания выполнения задачи.
+     * Обозначение даты окончания выполнения задачи.
      */
     private static final String END_DATE = "endDate";
 
     /**
-     * Хранит константу для обозначения имени сотрудника.
+     * Обозначение имени сотрудника.
      */
     private static final String FIRST_NAME = "firstName";
 
     /**
-     * Хранит константу для обозначения отчества сотрудника.
+     * Обозначение отчества сотрудника.
      */
     private static final String PATRONYMIC = "patronymic";
 
     /**
-     * Хранит константу для обозначения должности сотрудника.
+     * Обозначение должности сотрудника.
      */
     private static final String POST = "post";
     

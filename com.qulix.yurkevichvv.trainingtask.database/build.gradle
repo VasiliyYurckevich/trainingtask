@@ -25,7 +25,7 @@ ext {
     className = "org.hsqldb.server.Server"
 }
 
-task startDatabase() {
+tasks.register('startDatabase') {
     logging.captureStandardOutput(LogLevel.LIFECYCLE)
     outputs.upToDateWhen {
         return !isAvailable()
@@ -67,7 +67,7 @@ def wait(Process process) {
     }
 }
 
-task dropDatabase() {
+tasks.register('dropDatabase') {
     outputs.upToDateWhen {
         return isAvailable()
     }
@@ -76,7 +76,7 @@ task dropDatabase() {
     }
 }
 
-task fillDatabase() {
+tasks.register('fillDatabase') {
     outputs.upToDateWhen {
         return isAvailable()
     }
@@ -85,7 +85,7 @@ task fillDatabase() {
     }
 }
 
-task stopDatabase() {
+tasks.register('stopDatabase') {
     outputs.upToDateWhen {
         return isAvailable()
     }

@@ -13,9 +13,4 @@ public class StatusConverter implements DropDownItemConverter<Status> {
     public DropDownListItem convert(Status status) {
         return new DropDownListItem(status.getId(), status.getStatusTitle());
     }
-
-    @Override
-    public Status convert(DropDownListItem dropDownListItem) {
-        return Status.getStatusById(dropDownListItem.getId());
-    }
 }

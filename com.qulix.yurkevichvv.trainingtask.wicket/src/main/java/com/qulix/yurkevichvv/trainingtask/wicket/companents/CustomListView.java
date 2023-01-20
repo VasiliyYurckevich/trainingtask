@@ -23,7 +23,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
     /**
      * Сервис для работы с сущностями.
      */
-    private final IService service;
+    private final IService<T> service;
 
     /**
      * Фабрика для генерации страниц сущностей.
@@ -37,7 +37,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      * @param model модель списка
      * @param service сервис для удаления элементов списка
      */
-    public CustomListView(String id, LoadableDetachableModel<? extends List<T>> model, IService service) {
+    public CustomListView(String id, LoadableDetachableModel<? extends List<T>> model, IService<T> service) {
         super(id, model);
         this.service = service;
         this.pageFactory = getPageFactory();
@@ -54,7 +54,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
 
     @Override
     protected void populateItem(ListItem<T> item) {
-        item.add(new EditLink("editLink", pageFactory, item.getModel()))
+        item.add(new EditLink<>("editLink", pageFactory, item.getModel()))
             .add(new DeleteLink<>("deleteLink", service, item.getModel()));
     }
 
@@ -63,7 +63,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @author Q-YVV
      */
-    private class DeleteLink<T extends Entity> extends Link<T> {
+    private static class DeleteLink<T extends Entity> extends Link<T> {
 
         /**
          * Сервис для работы с сущностями.
@@ -81,7 +81,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
          * @param id идентификатор
          * @param entityModel элемент ListView
          */
-        public DeleteLink(String id, IService service, IModel<T> entityModel) {
+        public DeleteLink(String id, IService<T> service, IModel<T> entityModel) {
             super(id);
             this.entityModel = entityModel;
             this.service = service;
@@ -90,7 +90,6 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         @Override
         public void onClick() {
             service.delete(entityModel.getObject().getId());
-            CustomListView.this.getModel().detach();
         }
     }
 }

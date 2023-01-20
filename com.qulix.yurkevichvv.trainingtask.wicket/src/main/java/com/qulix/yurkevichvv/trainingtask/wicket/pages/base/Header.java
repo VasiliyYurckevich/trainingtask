@@ -43,7 +43,7 @@ public class Header extends Panel {
         /**
          * Класс страницы для перехода.
          */
-        T clazz;
+        final T clazz;
 
         /**
          * Конструктор.

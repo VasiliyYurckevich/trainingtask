@@ -39,8 +39,7 @@ public class ProjectService implements IService<Project> {
         Connection connection = ConnectionService.getConnection();
 
         try (connection) {
-            List<Project> projects = projectDao.getAll(connection);
-            return projects;
+            return projectDao.getAll(connection);
         }
         catch (SQLException e) {
             throw new ServiceException("Error during getting all project", e);
@@ -52,8 +51,7 @@ public class ProjectService implements IService<Project> {
         Connection connection = ConnectionService.getConnection();
 
         try (connection) {
-            Project project = projectDao.getById(id, connection);
-            return project;
+            return projectDao.getById(id, connection);
         }
         catch (SQLException e) {
             throw new ServiceException("Error during getting project by id", e);

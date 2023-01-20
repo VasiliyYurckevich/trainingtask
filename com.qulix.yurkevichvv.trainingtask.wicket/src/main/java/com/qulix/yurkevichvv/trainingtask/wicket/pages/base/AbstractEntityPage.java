@@ -23,7 +23,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
     /**
      * Модель сущности.
      */
-    protected CompoundPropertyModel<T> entityModel;
+    protected final CompoundPropertyModel<T> entityModel;
 
     /**
      * Конструктор.
@@ -33,11 +33,6 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
     protected AbstractEntityPage(final String pageTitle, CompoundPropertyModel<T> entityModel) {
         super(pageTitle);
         this.entityModel = entityModel;
-    }
-
-    @Override
-    protected void onInitialize() {
-        super.onInitialize();
     }
 
     /**

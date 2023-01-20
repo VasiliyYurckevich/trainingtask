@@ -32,57 +32,52 @@ import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 public class ProjectController extends HttpServlet {
 
     /**
-     * Хранит название кейса для выбора списка проектов.
+     * Список проектов.
      */
     private static final String LIST = "/list";
 
     /**
-     * Хранит название JSP редактирования проекта.
+     * JSP редактирования проекта.
      */
     private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
-
+    
     /**
-     * Хранит название JSP редактирования задачи проекта.
-     */
-    public static final String EDIT_TASK_IN_PROJECT_JSP = "/edit-task-in-project.jsp";
-
-    /**
-     * Хранит константу для обозначения ID проекта.
+     * Обозначение ID проекта.
      */
     private static final String PROJECT_ID = "projectId";
 
     /**
-     * Хранит константу для обозначения название проекта.
+     * Обозначение название проекта.
      */
     private static final String TITLE_OF_PROJECT = "titleProject";
 
     /**
-     * Хранит константу для обозначения описание проекта.
+     * Обозначение описание проекта.
      */
     private static final String DESCRIPTION = "description";
 
     /**
-     * Хранит константу для обозначения действия сервлета.
+     * Обозначение действия сервлета.
      */
     private static final String ACTION = "action";
 
     /**
-     * Хранит текст для исключения при выборе неизвестной команды.
+     * Сообщение при выборе неизвестной команды.
      */
     private static final String UNKNOWN_COMMAND_OF_PROJECT_CONTROLLER = "Unknown command of Project Controller:";
 
     /**
-     * Хранит название кейса для обозначения списка проектов.
+     * Обозначение списка проектов.
      */
     private static final String PROJECTS = "projects";
 
     /**
-     * Хранит константу для обозначения проекта, при редактировании проекта.
+     * Обозначение проекта, при редактировании проекта.
      */
     private static final String PROJECT = "project";
 
     /**
-     * Хранит константу для обозначения индекса задачи в списке проекта.
+     * Обозначение индекса задачи в списке проекта.
      */
     private static final String TASK_INDEX = "taskIndex";
 
@@ -192,7 +187,7 @@ public class ProjectController extends HttpServlet {
         ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
         Utils.setTaskDataInJsp(req, getTask(req, projectTemporaryData));
 
-        req.getRequestDispatcher(EDIT_TASK_IN_PROJECT_JSP).forward(req, resp);
+        req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
     }
 
     /**
@@ -226,12 +221,23 @@ public class ProjectController extends HttpServlet {
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
-
-        ProjectTemporaryData project = getProjectData(req);
-        setDataAboutProject(req.getSession(), project);
+        
+        HttpSession session = req.getSession();
+        
+        ProjectTemporaryData projectTemporaryData = getProjectData(req);
+        
+        session.setAttribute(PROJECT, projectTemporaryData);
+        session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
+        
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 
+    /**
+     * Возвращает временные данные проекта.
+     *
+     * @param req запрос
+     * @return временные данные проекта
+     */
     private ProjectTemporaryData getProjectData(HttpServletRequest req) {
         if (req.getSession().getAttribute(PROJECT) != null) {
             return (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
@@ -242,17 +248,6 @@ public class ProjectController extends HttpServlet {
         }
 
         return new ProjectTemporaryData(new Project());
-    }
-
-    /**
-     * Заносит данные о проекте в сессию.
-     *
-     * @param session сессия
-     * @param projectTemporaryData данные проекта
-     */
-    private static void setDataAboutProject(HttpSession session, ProjectTemporaryData projectTemporaryData) {
-        session.setAttribute(PROJECT, projectTemporaryData);
-        session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
     }
 
     /**
@@ -281,10 +276,10 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
-        session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
+        session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
         req.setAttribute("PROJECT_LIST", projectService.findAll());
 
-        req.getRequestDispatcher("/projects.jsp").forward(req, resp);
+        req.getRequestDispatcher("projects.jsp").forward(req, resp);
     }
 
     /**
@@ -305,8 +300,9 @@ public class ProjectController extends HttpServlet {
         Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
-            ProjectTemporaryData projectTemporaryData = getProject(project, paramsMap);
-            projectTemporaryService.save(projectTemporaryData);
+            
+            setProjectTemporaryData(project, paramsMap);
+            projectTemporaryService.save(project);
 
             resp.sendRedirect(PROJECTS);
         }
@@ -320,12 +316,10 @@ public class ProjectController extends HttpServlet {
      * Создает проект с полученными данными.
      *
      * @param paramsMap данные из формы
-     * @return проект
      */
-    private static ProjectTemporaryData getProject(ProjectTemporaryData projectTemporaryData, Map<String, String> paramsMap) {
+    private static void setProjectTemporaryData(ProjectTemporaryData projectTemporaryData, Map<String, String> paramsMap) {
         projectTemporaryData.setTitle(paramsMap.get(TITLE_OF_PROJECT));
         projectTemporaryData.setDescription(paramsMap.get(DESCRIPTION));
-        return projectTemporaryData;
     }
 
     /**
@@ -337,9 +331,11 @@ public class ProjectController extends HttpServlet {
     private Map<String, String> getDataFromForm(HttpServletRequest req) {
         Map<String, String> paramsMap = new HashMap<>();
         HttpSession session = req.getSession();
+        
         ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT);
         projectTemporaryData.setTitle(req.getParameter(TITLE_OF_PROJECT));
         projectTemporaryData.setDescription(req.getParameter(DESCRIPTION));
+        
         paramsMap.put(TITLE_OF_PROJECT, projectTemporaryData.getTitle());
         paramsMap.put(DESCRIPTION, projectTemporaryData.getDescription());
         return paramsMap;

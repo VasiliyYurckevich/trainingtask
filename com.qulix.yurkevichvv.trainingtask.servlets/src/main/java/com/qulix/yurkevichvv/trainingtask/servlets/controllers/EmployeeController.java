@@ -36,37 +36,37 @@ public class EmployeeController extends HttpServlet {
     private static final String EDIT_EMPLOYEE_FORM_JSP = "/edit-employee-form.jsp";
 
     /**
-     * Хранит константу для обозначения действия сервлета.
+     * Обозначение действия сервлета.
      */
     private static final String ACTION = "action";
 
     /**
-     * Хранит константу для обозначения ID сотрудника.
+     * Обозначение ID сотрудника.
      */
     private static final String EMPLOYEE_ID = "employeeId";
 
     /**
-     * Хранит константу для обозначения фамилии сотрудника.
+     * Обозначение фамилии сотрудника.
      */
     private static final String SURNAME = "surname";
 
     /**
-     * Хранит константу для обозначения имени сотрудника.
+     * Обозначение имени сотрудника.
      */
     private static final String FIRST_NAME = "firstName";
 
     /**
-     * Хранит константу для обозначения отчества сотрудника.
+     * Обозначение отчества сотрудника.
      */
     private static final String PATRONYMIC = "patronymic";
 
     /**
-     * Хранит константу для обозначения должности сотрудника.
+     * Обозначение должности сотрудника.
      */
     private static final String POST = "post";
 
     /**
-     * Хранит константу для обозначения списка сотрудников.
+     * Обозначение списка сотрудников.
      */
     private static final String EMPLOYEES_LIST = "employees";
     
@@ -74,11 +74,6 @@ public class EmployeeController extends HttpServlet {
      * Хранит текст для исключения при выборе неизвестной команды.
      */
     private static final String UNKNOWN_COMMAND_OF_EMPLOYEE_CONTROLLER = "Unknown command of Employee Controller:";
-
-    /**
-     * Хранит название для хранения сотрудника.
-     */
-    private static final String EMPLOYEE = "employee";
 
     /**
      * Логгер для записи событий.
@@ -270,7 +265,7 @@ public class EmployeeController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
-        session.getAttributeNames().asIterator().forEachRemaining(name -> session.removeAttribute(name));
+        session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
 
         req.setAttribute("EMPLOYEE_LIST", employeeService.findAll());
 

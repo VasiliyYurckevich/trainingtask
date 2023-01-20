@@ -13,9 +13,4 @@ public class HomePage extends BasePage {
     public HomePage() {
         super("Приложение для управления задачами");
     }
-
-    @Override
-    protected void onInitialize() {
-        super.onInitialize();
-    }
 }

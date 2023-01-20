@@ -14,7 +14,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFa
 public class EmployeePageFactory implements AbstractEntityPageFactory<Employee> {
 
     @Override
-    public AbstractEntityPage createPage(CompoundPropertyModel<Employee> entityModel) {
+    public AbstractEntityPage<Employee> createPage(CompoundPropertyModel<Employee> entityModel) {
         return new EmployeePage(entityModel);
     }
 }

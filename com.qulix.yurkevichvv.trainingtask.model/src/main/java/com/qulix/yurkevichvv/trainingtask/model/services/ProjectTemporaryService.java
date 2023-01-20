@@ -21,7 +21,7 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
     /**
      * DAO для работы с БД задач.
      */
-    private TaskDao taskDao = new TaskDao();
+    private final TaskDao taskDao = new TaskDao();
 
     @Override
     public void save(ProjectTemporaryData projectTemporaryData) throws ServiceException {
@@ -55,8 +55,7 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
         Connection connection = ConnectionService.getConnection();
 
         try (connection) {
-            List<Task> projects = taskDao.getProjectTasksInDB(id, connection);
-            return projects;
+            return taskDao.getProjectTasksInDB(id, connection);
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during getting project tasks", e);

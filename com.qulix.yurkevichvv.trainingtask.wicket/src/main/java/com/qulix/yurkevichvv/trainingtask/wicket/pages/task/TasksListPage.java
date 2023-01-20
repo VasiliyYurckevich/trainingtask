@@ -78,7 +78,7 @@ public class TasksListPage extends AbstractListPage<Task> {
      *
      * @author Q-YVV
      */
-    private class AddTaskLink extends Link<WebPage> {
+    private static class AddTaskLink extends Link<WebPage> {
 
         /**
          * Конструктор.

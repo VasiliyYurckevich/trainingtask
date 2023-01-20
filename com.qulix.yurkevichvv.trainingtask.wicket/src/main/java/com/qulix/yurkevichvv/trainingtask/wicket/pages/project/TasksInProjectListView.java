@@ -54,7 +54,7 @@ class TasksInProjectListView extends ListView<Task> {
         ITaskTableColumns.addColumns(item);
 
         item.add(new DeleteInProjectLink(item.getModel()))
-                .add(new EditInProjectLink("editLink", CompoundPropertyModel.of(item.getModel()), projectModel));
+                .add(new EditInProjectLink(CompoundPropertyModel.of(item.getModel()), projectModel));
     }
 
     /**
@@ -84,7 +84,7 @@ class TasksInProjectListView extends ListView<Task> {
      *
      * @author Q-YVV
      */
-    protected class EditProjectTaskPage extends TaskPage {
+    protected static class EditProjectTaskPage extends TaskPage {
 
         /**
          * Индекс в списке задач проекта.
@@ -153,10 +153,10 @@ class TasksInProjectListView extends ListView<Task> {
          * @param taskModel    модель задачи
          * @param projectModel модель проекта
          */
-        public EditInProjectLink(String id, CompoundPropertyModel<Task> taskModel,
+        public EditInProjectLink(CompoundPropertyModel<Task> taskModel,
             CompoundPropertyModel<ProjectTemporaryData> projectModel) {
 
-            super(id);
+            super("editLink");
             this.taskModel = taskModel;
             this.projectModel = projectModel;
         }
@@ -167,7 +167,7 @@ class TasksInProjectListView extends ListView<Task> {
         }
     }
 
-    private class ProjectTaskPageFactory implements Serializable {
+    private static class ProjectTaskPageFactory implements Serializable {
 
         public AbstractEntityPage createPage(CompoundPropertyModel<Task> taskModel,
             CompoundPropertyModel<ProjectTemporaryData> propertyModel) {
