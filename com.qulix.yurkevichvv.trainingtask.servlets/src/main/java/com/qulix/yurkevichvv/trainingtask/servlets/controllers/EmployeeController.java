@@ -244,6 +244,7 @@ public class EmployeeController extends HttpServlet {
     private Map<String, String> getDataFromJsp(HttpServletRequest req) {
 
         Map<String, String> params = new HashMap<>();
+
         params.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         params.put(SURNAME, req.getParameter(SURNAME));
         params.put(FIRST_NAME, req.getParameter(FIRST_NAME));
