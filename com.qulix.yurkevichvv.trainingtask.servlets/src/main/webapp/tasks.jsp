@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 <jsp:useBean id="TASKS_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView>"/>
-<jsp:useBean id="PROJECT_NUMBER" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="IS_ZERO_PROJECTS" scope="request" type="java.lang.Boolean"/>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -28,8 +28,8 @@
                     <form action="tasks" method="get">
                         <input type="hidden" name="action" value="/edit" />
                         <input type="hidden" name="taskId" value="">
-                        <input type="submit" value="Добавить" ${PROJECT_NUMBER == 0 ? 'disabled' : ''} class="add-button">
-                        ${PROJECT_NUMBER == 0 ?
+                        <input type="submit" value="Добавить" ${IS_ZERO_PROJECTS ? 'disabled' : ''} class="add-button">
+                        ${IS_ZERO_PROJECTS ?
                         '<a class="feedback">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</a>': ''}
                     </form>
 

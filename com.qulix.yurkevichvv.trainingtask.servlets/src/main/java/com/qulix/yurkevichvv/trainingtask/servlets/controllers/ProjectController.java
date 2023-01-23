@@ -163,12 +163,15 @@ public class ProjectController extends HttpServlet {
      */
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
-        
+
         int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
-        req.getSession().setAttribute(PROJECT, projectTemporaryData);
+        HttpSession session = req.getSession();
+        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT);
 
         projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
+
+        session.setAttribute(PROJECT, projectTemporaryData);
+
 
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }

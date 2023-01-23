@@ -12,7 +12,7 @@
 
     <body>
 
-        <my:mainMenu></my:mainMenu>
+        <my:mainMenu/>
 
         <div class="chief">
             <div id="container" class="main">

@@ -22,6 +22,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -385,8 +386,9 @@ public class TaskController extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
-        req.setAttribute("PROJECT_NUMBER", projectService.findAll().size());
-        req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()));
+
+        req.setAttribute("IS_ZERO_PROJECTS", projectService.findAll().isEmpty());
+        req.setAttribute("TASKS_LIST",TaskView.convertTasksList(taskService.findAll()) );
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
     }

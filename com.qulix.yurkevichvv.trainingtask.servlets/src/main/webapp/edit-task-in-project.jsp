@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="StatusList" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Status>"/>
 
@@ -13,7 +13,7 @@
 
     <body>
 
-        <my:mainMenu></my:mainMenu>
+        <my:mainMenu/>
 
         <div class="chief">
             <div id="container" class="main">

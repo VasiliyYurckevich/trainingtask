@@ -15,7 +15,7 @@
 
     <body>
 
-        <my:mainMenu></my:mainMenu>
+        <my:mainMenu/>
 
         <div class="chief">
             <div id="container">
@@ -25,6 +25,7 @@
                 <form action="projects">
                     <input type="hidden" name="action"/>
                     <input type="hidden" name="projectId" value="${project.id}"/>
+                    <input type="hidden" name="taskIndex"/>
 
                     <div>
                         <my:buttons saveAction="/save" cancelAction="/list"/>
@@ -43,8 +44,6 @@
                     <c:url var="addLink" value="/projects">
                         <c:param name="action" value="/editTask"/>
                         <c:param name="projectId" value="${project.id}"/>
-                        <c:param name="titleProject" value="${titleProject}"/>
-                        <c:param name="description" value="${description}"/>
                     </c:url>
 
                     <a href="${addLink}" type="add-button">Добавить задачу</a>
@@ -83,17 +82,14 @@
                                 <td> ${fn:escapeXml(project.title)}</td>
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
-                                    <input type="hidden" name="taskIndex" value="${theCount.index}"/>
                                     <button formmethod="get" id="submitButton" name="submitButton"
-                                            onclick="action.value='/editTask'" type="submit" class="add-button">
-                                        Редактировать${theCount.index}
+                                            onclick="action.value='/editTask'; taskIndex.value = '${theCount.index}'" type="submit" class="add-button">
+                                        Редактировать
                                     </button>
                                     <button formmethod="get" id="cancelButton" name="cancelButton"
-                                            onclick="action.value='/deleteTask'" type="submit" class="add-button">
+                                            onclick="action.value='/deleteTask'; taskIndex.value = '${theCount.index}'" type="submit" class="add-button">
                                         Удалить
                                     </button>
-                                   <%-- <a onclick="" href="${editLink}">Редактировать</a>
-                                    <a href="${deleteLink}">Удалить</a>--%>
                                 </td>
                             </tr>
                         </c:forEach>
