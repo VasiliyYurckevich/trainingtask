@@ -64,24 +64,17 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
 
     @Override
     public void deleteTask(ProjectTemporaryData project, Task task) throws ServiceException {
-        Connection connection = ConnectionService.getConnection();
-
-        try (connection) {
-            project.getTasksList().remove(task);
-        }
-        catch (SQLException | DaoException e) {
-            throw new ServiceException("Error during deleting project task", e);
-        }
+        project.getTasksList().remove(task);
     }
 
     @Override
-    public void addTask(ProjectTemporaryData project, Task task) throws ServiceException {
-        project.getTasksList().add(task);
+    public void addTask(ProjectTemporaryData projectTemporaryData, Task task) throws ServiceException {
+        projectTemporaryData.getTasksList().add(task);
     }
 
     @Override
-    public void updateTask(ProjectTemporaryData project, Integer index, Task task) throws ServiceException {
-        project.getTasksList().set(index, task);
+    public void updateTask(ProjectTemporaryData projectTemporaryData, Integer index, Task task) throws ServiceException {
+        projectTemporaryData.getTasksList().set(index, task);
     }
 
     /**

@@ -34,7 +34,7 @@ public interface IProjectTemporaryService extends Serializable {
      * @param project проект
      * @param task задача
      */
-    void deleteTask(ProjectTemporaryData project, Task task) throws ServiceException;
+    void deleteTask(ProjectTemporaryData projectTemporaryData, Task task) throws ServiceException;
 
     /**
      * Добавляет задачу в проект.
@@ -42,7 +42,7 @@ public interface IProjectTemporaryService extends Serializable {
      * @param project проект.
      * @param task задача.
      */
-    void addTask(ProjectTemporaryData project, Task task) throws ServiceException;
+    void addTask(ProjectTemporaryData projectTemporaryData, Task task) throws ServiceException;
 
     /**
      * Редактирует задачу в проекте.
@@ -51,5 +51,5 @@ public interface IProjectTemporaryService extends Serializable {
      * @param index номер задачи в списке
      * @param task задача
      */
-    void updateTask(ProjectTemporaryData project, Integer index, Task task) throws ServiceException;
+    void updateTask(ProjectTemporaryData projectTemporaryData, Integer index, Task task) throws ServiceException;
 }
