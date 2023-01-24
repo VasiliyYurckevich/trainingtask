@@ -16,7 +16,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
  *
  * @author Q-YVV
  */
-public class  ProjectTemporaryService implements IProjectTemporaryService {
+public class ProjectTemporaryService implements IProjectTemporaryService {
 
     /**
      * DAO для работы с БД задач.
@@ -33,13 +33,13 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
             ProjectDao projectDao = new ProjectDao();
 
             Integer projectId;
-            if (projectTemporaryData.getId() == null) {
+            if (projectTemporaryData.getProject().getId() == null) {
                 projectId = projectDao.add(projectTemporaryData.getProject(), connection);
-                projectTemporaryData.setId(projectId);
+                projectTemporaryData.getProject().setId(projectId);
             }
             else {
                 projectDao.update(projectTemporaryData.getProject(), connection);
-                projectId = projectTemporaryData.getId();
+                projectId = projectTemporaryData.getProject().getId();
             }
             updateTasks(projectTemporaryData, connection, projectId);
             ConnectionService.commitConnection(connection);
@@ -85,7 +85,7 @@ public class  ProjectTemporaryService implements IProjectTemporaryService {
      */
     private void updateTasks(ProjectTemporaryData project, Connection connection, Integer projectId) {
 
-        List<Task> tasksToDelete = taskDao.getProjectTasksInDB(project.getId(), connection);
+        List<Task> tasksToDelete = taskDao.getProjectTasksInDB(project.getProject().getId(), connection);
         tasksToDelete.removeAll(project.getTasksList());
         tasksToDelete.forEach(task -> taskDao.delete(task.getId(), connection));
 

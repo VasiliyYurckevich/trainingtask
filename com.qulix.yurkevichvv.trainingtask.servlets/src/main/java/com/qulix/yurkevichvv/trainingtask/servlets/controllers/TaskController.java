@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -127,7 +128,7 @@ public class TaskController extends HttpServlet {
     /**
      * Хранит константу для проекта.
      */
-    private static final String PROJECT = "project";
+    private static final String PROJECT_TEMPORARY_DATA = "projectTemporaryData";
 
     /**
      * Логгер для записи событий.
@@ -254,7 +255,6 @@ public class TaskController extends HttpServlet {
             resp.sendRedirect(TASKS);
         }
         else {
-            setDropDownLists(req);
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
             req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
@@ -304,10 +304,17 @@ public class TaskController extends HttpServlet {
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             HttpSession session = req.getSession();
 
-            ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT);
-            Integer taskIndex = (Integer) session.getAttribute(TASK_INDEX);
-
-            Task task = new Task();
+            ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
+            Integer taskIndex;
+            Task task;
+            if (req.getParameter(TASK_INDEX).isBlank()){
+                taskIndex = null;
+                task = new Task();
+            }
+            else {
+                taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
+                task = project.getTasksList().get(taskIndex);
+            }
             updateTaskData(paramsMap, task);
 
             saveTaskInProjectData(task, project, taskIndex);
@@ -315,7 +322,6 @@ public class TaskController extends HttpServlet {
             req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
         }
         else {
-            setDropDownLists(req);
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
@@ -361,7 +367,8 @@ public class TaskController extends HttpServlet {
      */
     private void setDataAboutTaskInJsp(HttpServletRequest req,
         Map<String, String> paramsMap, Map<String, String> errorsMap) {
-        
+
+        Utils.setDropDownLists(req);
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(TASK_ID, paramsMap.get(TASK_ID));
         req.setAttribute(STATUS, paramsMap.get(STATUS));
@@ -412,7 +419,7 @@ public class TaskController extends HttpServlet {
             paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
         }
         else {
-            ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT);
+            ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
             paramsMap.put(PROJECT_ID, String.valueOf(project.getId()));
         }
         paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));

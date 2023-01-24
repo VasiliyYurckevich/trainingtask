@@ -12,20 +12,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService
  */
 public class ProjectTemporaryData implements Entity {
 
-    /**
-     * Идентификатор.
-     */
-    private Integer id;
-
-    /**
-     * Наименование.
-     */
-    private String title;
-
-    /**
-     * Описание.
-     */
-    private String description;
+    private Project project;
 
     /**
      * Список связанных задач.
@@ -38,35 +25,21 @@ public class ProjectTemporaryData implements Entity {
      * @param project проект
      */
     public ProjectTemporaryData(Project project) {
-        this.id = project.getId();
-        this.title = project.getTitle();
-        this.description = project.getDescription();
-        this.tasksList = new ProjectTemporaryService().getProjectsTasks(id);
+        this.project = project;
+        this.tasksList = new ProjectTemporaryService().getProjectsTasks(project.getId());
     }
 
     @Override
     public Integer getId() {
-        return id;
+        return project.getId();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public Project getProject() {
+        return project;
     }
 
     public List<Task> getTasksList() {
@@ -77,18 +50,6 @@ public class ProjectTemporaryData implements Entity {
         this.tasksList = tasksList;
     }
 
-    /**
-     * Возвращает проект с новыми данными.
-     *
-     * @return проект с новыми данными
-     */
-    public Project getProject() {
-        Project project = new Project();
-        project.setId(id);
-        project.setTitle(title);
-        project.setDescription(description);
-        return project;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -99,21 +60,18 @@ public class ProjectTemporaryData implements Entity {
             return false;
         }
         ProjectTemporaryData that = (ProjectTemporaryData) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title)
-            && Objects.equals(description, that.description) && Objects.equals(tasksList, that.tasksList);
+        return Objects.equals(project, that.project) && Objects.equals(tasksList, that.tasksList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, tasksList);
+        return Objects.hash(project, tasksList);
     }
 
     @Override
     public String toString() {
         return "ProjectTemporaryData{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
+                "project = " + project.toString() +
                 ", tasksList=" + tasksList +
                 '}';
     }

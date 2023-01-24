@@ -20,9 +20,11 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.utils;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
@@ -37,6 +39,8 @@ import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.StatusConverte
  * @author Q-YVV
  */
 public class Utils {
+
+    private static final String TASK_INDEX = "taskIndex";
 
     /**
      * Заносит начальные данные в поля формы для Задачи.

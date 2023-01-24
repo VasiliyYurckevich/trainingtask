@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<jsp:useBean id="project" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData"/>
+<jsp:useBean id="projectTemporaryData" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData"/>
 <jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView>"/>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@
 
                 <form action="projects">
                     <input type="hidden" name="action"/>
-                    <input type="hidden" name="projectId" value="${project.id}"/>
+                    <input type="hidden" name="projectId" value="${projectTemporaryData.project.id}"/>
                     <input type="hidden" name="taskIndex"/>
 
                     <div>
@@ -32,21 +32,19 @@
                     </div>
 
                     <div class="main">
-                        <my:textField id="titleProject" label="Наименование" value="${project.title}"/>
+                        <my:textField id="titleProject" label="Наименование" value="${projectTemporaryData.project.title}"/>
 
-                        <my:textField id="description" label="Описание" value="${project.description}"/>
+                        <my:textField id="description" label="Описание" value="${projectTemporaryData.project.description}"/>
                     </div>
 
                     <div class="header">
                         <h3>Задачи проекта</h3>
                     </div>
 
-                    <c:url var="addLink" value="/projects">
-                        <c:param name="action" value="/editTask"/>
-                        <c:param name="projectId" value="${project.id}"/>
-                    </c:url>
-
-                    <a href="${addLink}" type="add-button">Добавить задачу</a>
+                    <button formmethod="get" id="addButton" name="addButton"
+                            onclick="action.value='/editTask'" type="submit" class="add-button">
+                        Добавить задачу
+                    </button>
 
                     <table>
                         <tr>
@@ -60,11 +58,11 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:forEach var="tempTask" items="${TaskView.convertTasksList(project.tasksList)}" varStatus="theCount">
+                        <c:forEach var="tempTask" items="${TaskView.convertTasksList(projectTemporaryData.tasksList)}" varStatus="theCount">
 
                             <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/editTask"/>
-                                <c:param name="projectId" value="${project.id}"/>
+                                <c:param name="projectId" value="${projectTemporaryData.id}"/>
                                 <c:param name="taskIndex" value="${theCount.index}"/>
                             </c:url>
 
@@ -79,7 +77,7 @@
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)} </td>
-                                <td> ${fn:escapeXml(project.title)}</td>
+                                <td> ${fn:escapeXml(projectTemporaryData.project.title)}</td>
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <button formmethod="get" id="submitButton" name="submitButton"
