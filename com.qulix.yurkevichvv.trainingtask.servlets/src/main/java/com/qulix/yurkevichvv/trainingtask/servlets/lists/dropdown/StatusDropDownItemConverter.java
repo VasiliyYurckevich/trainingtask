@@ -7,7 +7,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
  *
  * @author Q-YVV
  */
-public class StatusConverter implements DropDownItemConverter<Status> {
+public class StatusDropDownItemConverter implements DropDownItemConverter<Status> {
 
     @Override
     public DropDownListItem convert(Status status) {

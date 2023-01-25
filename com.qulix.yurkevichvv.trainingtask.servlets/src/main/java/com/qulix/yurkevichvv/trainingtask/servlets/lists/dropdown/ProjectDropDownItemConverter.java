@@ -7,7 +7,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
  *
  * @author Q-YVV
  */
-public class ProjectConverter implements DropDownItemConverter<Project> {
+public class ProjectDropDownItemConverter implements DropDownItemConverter<Project> {
 
     @Override
     public DropDownListItem convert(Project project) {

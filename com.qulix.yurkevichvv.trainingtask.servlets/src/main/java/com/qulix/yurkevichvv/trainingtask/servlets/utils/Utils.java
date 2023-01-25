@@ -20,18 +20,16 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.utils;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.EmployeeConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.ProjectConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.StatusConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.EmployeeDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.ProjectDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.StatusDropDownItemConverter;
 
 /**
  * Утилиты для классов модуля.
@@ -49,6 +47,8 @@ public class Utils {
      * @param task задача
      */
     public static void setTaskDataInJsp(HttpServletRequest req, Task task) {
+
+        System.out.println(task);
         setDropDownLists(req);
         req.setAttribute("taskId", task.getId());
         req.setAttribute("status", task.getStatus().getId());
@@ -66,8 +66,8 @@ public class Utils {
      * @param req запрос
      */
     public static void setDropDownLists(HttpServletRequest req) {
-        req.setAttribute("ProjectList", new ProjectConverter().convertList(new ProjectService().findAll()));
-        req.setAttribute("StatusList", new StatusConverter().convertList(List.of(Status.values())));
-        req.setAttribute("EmployeeList", new EmployeeConverter().convertList(new EmployeeService().findAll()));
+        req.setAttribute("ProjectList", new ProjectDropDownItemConverter().convertList(new ProjectService().findAll()));
+        req.setAttribute("StatusList", new StatusDropDownItemConverter().convertList(List.of(Status.values())));
+        req.setAttribute("EmployeeList", new EmployeeDropDownItemConverter().convertList(new EmployeeService().findAll()));
     }
 }

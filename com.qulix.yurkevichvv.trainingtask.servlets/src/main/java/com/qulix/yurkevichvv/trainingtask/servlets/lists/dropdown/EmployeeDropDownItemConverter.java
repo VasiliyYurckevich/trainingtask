@@ -7,7 +7,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
  *
  * @author Q-YVV
  */
-public class EmployeeConverter implements DropDownItemConverter<Employee> {
+public class EmployeeDropDownItemConverter implements DropDownItemConverter<Employee> {
 
     @Override
     public DropDownListItem convert(Employee employee) {

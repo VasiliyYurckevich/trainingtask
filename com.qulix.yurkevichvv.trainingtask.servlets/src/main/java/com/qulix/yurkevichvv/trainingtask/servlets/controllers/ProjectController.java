@@ -201,7 +201,8 @@ public class ProjectController extends HttpServlet {
      * @return задача проекта для редактирования
      */
     private Task getTask(HttpServletRequest req, ProjectTemporaryData projectTemporaryData) {
-        if (req.getParameter(TASK_INDEX).isBlank()) {
+
+        if (!req.getParameter(TASK_INDEX).isBlank()) {
             int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
             req.setAttribute(TASK_INDEX, taskIndex);
             return projectTemporaryData.getTasksList().get(taskIndex);

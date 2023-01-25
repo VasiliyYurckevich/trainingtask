@@ -21,6 +21,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -267,12 +268,13 @@ public class TaskController extends HttpServlet {
      * @param paramsMap поля задачи
      */
     private static void updateTaskData(Map<String, String> paramsMap, Task task) {
+        paramsMap.forEach((k, v) -> System.out.println(k +" : " + v));
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
         task.setTitle(paramsMap.get(TITLE));
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
-        if (!paramsMap.get(PROJECT_ID).isEmpty()) {
+        if (paramsMap.get(PROJECT_ID) != null ){
             task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
         }
         else {
@@ -303,7 +305,7 @@ public class TaskController extends HttpServlet {
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             HttpSession session = req.getSession();
-
+            req.getParameterMap().forEach((k, v) -> System.out.println(k+" : " + Arrays.asList(v)));
             ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
             Integer taskIndex;
             Task task;
@@ -323,6 +325,7 @@ public class TaskController extends HttpServlet {
         }
         else {
             setDataAboutTaskInJsp(req, paramsMap, errorsMap);
+            req.setAttribute(TASK_INDEX,req.getParameter(TASK_INDEX));
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
     }
@@ -415,13 +418,7 @@ public class TaskController extends HttpServlet {
         paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
         paramsMap.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
         paramsMap.put(END_DATE, req.getParameter(END_DATE).trim());
-        if (req.getParameter(PROJECT_ID) != null) {
-            paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
-        }
-        else {
-            ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
-            paramsMap.put(PROJECT_ID, String.valueOf(project.getId()));
-        }
+        paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
         paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
         return paramsMap;
     }
