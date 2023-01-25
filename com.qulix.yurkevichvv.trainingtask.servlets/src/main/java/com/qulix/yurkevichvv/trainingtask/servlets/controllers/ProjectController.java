@@ -1,7 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -20,7 +19,8 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
-import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.ProjectPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.TaskPageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
 
 /**
@@ -40,21 +40,11 @@ public class ProjectController extends HttpServlet {
      * JSP редактирования проекта.
      */
     private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
-    
+
     /**
      * Обозначение ID проекта.
      */
     private static final String PROJECT_ID = "projectId";
-
-    /**
-     * Обозначение название проекта.
-     */
-    private static final String TITLE_OF_PROJECT = "titleProject";
-
-    /**
-     * Обозначение описание проекта.
-     */
-    private static final String DESCRIPTION = "description";
 
     /**
      * Обозначение действия сервлета.
@@ -95,6 +85,13 @@ public class ProjectController extends HttpServlet {
      * Переменная доступа к методам работы с задачами проекта.
      */
     private final ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
+
+    /**
+     *
+     */
+    private final TaskPageDataService taskPageDataService = new TaskPageDataService();
+
+    private final ProjectPageDataService projectPageDataService = new ProjectPageDataService();
 
 
     @Override
@@ -187,10 +184,22 @@ public class ProjectController extends HttpServlet {
     private void editTaskInProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
 
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
-        Utils.setTaskDataInJsp(req, getTask(req, projectTemporaryData));
+        Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
+        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
 
-        req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
+        if (errorsMap.values().stream().allMatch(Objects::isNull)) {
+
+            ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+            projectPageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
+
+            taskPageDataService.setDataToPage(req, getTaskInProjectDataByIndex(req, projectTemporaryData));
+
+            req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
+        }
+        else {
+            projectPageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
+            req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+        }
     }
 
     /**
@@ -200,7 +209,7 @@ public class ProjectController extends HttpServlet {
      * @param projectTemporaryData данные проект
      * @return задача проекта для редактирования
      */
-    private Task getTask(HttpServletRequest req, ProjectTemporaryData projectTemporaryData) {
+    private Task getTaskInProjectDataByIndex(HttpServletRequest req, ProjectTemporaryData projectTemporaryData) {
 
         if (!req.getParameter(TASK_INDEX).isBlank()) {
             int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
@@ -228,30 +237,12 @@ public class ProjectController extends HttpServlet {
         
         HttpSession session = req.getSession();
         
-        ProjectTemporaryData projectTemporaryData = getProjectData(req);
+        ProjectTemporaryData projectTemporaryData = projectPageDataService.getEntity(req);
         
         session.setAttribute(PROJECT_TEMPORARY_DATA, projectTemporaryData);
         session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
         
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
-    }
-
-    /**
-     * Возвращает временные данные проекта.
-     *
-     * @param req запрос
-     * @return временные данные проекта
-     */
-    private ProjectTemporaryData getProjectData(HttpServletRequest req) {
-        if (req.getSession().getAttribute(PROJECT_TEMPORARY_DATA) != null) {
-            return (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
-        }
-
-        if (!req.getParameter(PROJECT_ID).isBlank()) {
-            return new ProjectTemporaryData(projectService.getById(Integer.valueOf(req.getParameter(PROJECT_ID))));
-        }
-
-        return new ProjectTemporaryData(new Project());
     }
 
     /**
@@ -280,6 +271,7 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         HttpSession session = req.getSession();
+
         session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
         req.setAttribute("PROJECT_LIST", projectService.findAll());
 
@@ -298,65 +290,22 @@ public class ProjectController extends HttpServlet {
     private void updateProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
 
-        Map<String, String> paramsMap = getDataFromForm(req);
+        Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
         Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
-            
-            setProjectTemporaryData(project, paramsMap);
+
+            ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+
+            projectPageDataService.setOutputDataToEntity(paramsMap, project);
             projectTemporaryService.save(project);
 
             resp.sendRedirect(PROJECTS);
         }
         else {
-            setDataToJspAfterValidation(req, paramsMap, errorsMap);
+            projectPageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
             req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
         }
-    }
-
-    /**
-     * Создает проект с полученными данными.
-     *
-     * @param paramsMap данные из формы
-     */
-    private static void setProjectTemporaryData(ProjectTemporaryData projectTemporaryData, Map<String, String> paramsMap) {
-        projectTemporaryData.getProject().setTitle(paramsMap.get(TITLE_OF_PROJECT));
-        projectTemporaryData.getProject().setDescription(paramsMap.get(DESCRIPTION));
-    }
-
-    /**
-     * Получает данные из формы.
-     *
-     * @param req запрос
-     * @return список данных
-     */
-    private Map<String, String> getDataFromForm(HttpServletRequest req) {
-        Map<String, String> paramsMap = new HashMap<>();
-        HttpSession session = req.getSession();
-        
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
-        projectTemporaryData.getProject().setTitle(req.getParameter(TITLE_OF_PROJECT));
-        projectTemporaryData.getProject().setDescription(req.getParameter(DESCRIPTION));
-        
-        paramsMap.put(TITLE_OF_PROJECT, projectTemporaryData.getProject().getTitle());
-        paramsMap.put(DESCRIPTION, projectTemporaryData.getProject().getDescription());
-        return paramsMap;
-    }
-
-    /**
-     * Вносит в форму введенные данные и сообщения об ошибках.
-     *
-     * @param req запрос
-     * @param paramsMap данные из формы
-     * @param errorsMap сообщения об ошибках
-     */
-    private void setDataToJspAfterValidation(HttpServletRequest req,
-        Map<String, String> paramsMap, Map<String, String> errorsMap) {
-
-        req.setAttribute("ERRORS", errorsMap);
-        req.setAttribute(TITLE_OF_PROJECT, paramsMap.get(TITLE_OF_PROJECT).trim());
-        req.setAttribute(DESCRIPTION, paramsMap.get(DESCRIPTION).trim());
     }
 }

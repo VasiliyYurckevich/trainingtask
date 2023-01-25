@@ -18,5 +18,7 @@ public interface PageDataService<T extends Entity> {
 
     Map<String, String> getDataFromPage(HttpServletRequest req);
 
-    T getEntity(String id);
+    void setDataToPage(HttpServletRequest req, T entity);
+
+    T getEntity(HttpServletRequest req);
 }

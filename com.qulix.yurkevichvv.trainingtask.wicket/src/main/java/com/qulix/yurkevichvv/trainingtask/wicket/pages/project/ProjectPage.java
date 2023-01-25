@@ -48,7 +48,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
     protected void onInitialize() {
         super.onInitialize();
 
-        Form<ProjectTemporaryData> form = new ProjectForm();
+        Form<ProjectTemporaryData> form = new ProjectForm(entityModel);
         addFormComponents(form);
         addTaskList();
         add(form);
@@ -87,9 +87,8 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
      * Добавляет список задач проекта.
      */
     private void addTaskList() {
-        ListView<Task> taskListView = new TasksInProjectListView(LoadableDetachableModel.of(() ->
-            this.entityModel.getObject().getTasksList()), entityModel, service);
-        add(taskListView);
+        add(new TasksInProjectListView(LoadableDetachableModel.of(() ->
+            this.entityModel.getObject().getTasksList()), entityModel, service));
     }
 
     @Override
@@ -147,8 +146,8 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         /**
          * Конструктор.
          */
-        public ProjectForm() {
-            super("projectForm", ProjectPage.this.entityModel);
+        public ProjectForm(CompoundPropertyModel<ProjectTemporaryData> entityModel) {
+            super("projectForm", entityModel);
         }
 
         @Override

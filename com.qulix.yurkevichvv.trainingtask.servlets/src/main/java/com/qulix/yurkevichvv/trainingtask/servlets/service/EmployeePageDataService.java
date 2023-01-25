@@ -72,7 +72,18 @@ public class EmployeePageDataService implements PageDataService<Employee> {
     }
 
     @Override
-    public Employee getEntity(String employeeId) {
+    public void setDataToPage(HttpServletRequest req, Employee entity) {
+        req.setAttribute(EMPLOYEE_ID, entity.getId());
+        req.setAttribute(SURNAME, entity.getSurname());
+        req.setAttribute(FIRST_NAME, entity.getFirstName());
+        req.setAttribute(PATRONYMIC, entity.getPatronymic());
+        req.setAttribute(POST, entity.getPost());
+    }
+
+    @Override
+    public Employee getEntity(HttpServletRequest req) {
+        String employeeId = req.getParameter("employeeId");
+
         if (!employeeId.isBlank()) {
             return employeeService.getById(Integer.valueOf(employeeId));
         }

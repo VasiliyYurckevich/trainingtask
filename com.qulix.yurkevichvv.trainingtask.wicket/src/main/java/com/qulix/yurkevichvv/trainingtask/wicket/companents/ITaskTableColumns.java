@@ -25,7 +25,7 @@ public interface ITaskTableColumns extends Serializable {
         final Task task = item.getModelObject();
 
         item.add(new Label("status", task.getStatus().getStatusTitle()))
-            .add(new Label("task_title", task.getTitle()))
+            .add(new Label("taskTitle", task.getTitle()))
             .add(new Label("workTime", task.getWorkTime()))
             .add(new Label("beginDate", task.getBeginDate().toString()))
             .add(new Label("endDate", task.getEndDate().toString()))

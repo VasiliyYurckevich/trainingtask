@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
@@ -44,9 +45,9 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
-import com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.PageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.TaskPageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
-import static com.qulix.yurkevichvv.trainingtask.servlets.utils.Utils.setDropDownLists;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Задача".
@@ -151,6 +152,9 @@ public class TaskController extends HttpServlet {
      */
     private final ProjectService projectService = new ProjectService();
 
+    private final PageDataService<Task> pageDataService = new TaskPageDataService();
+
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -215,20 +219,11 @@ public class TaskController extends HttpServlet {
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServiceException, ServletException, IOException {
 
-        final Task task = getTask(req.getParameter(TASK_ID));
-        Utils.setTaskDataInJsp(req, task);
+        pageDataService.setDataToPage(req,  pageDataService.getEntity(req));
+
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
 
-    private Task getTask(String taskId) {
-        if (!taskId.isBlank()) {
-            return taskService.getById(Integer.valueOf(taskId));
-
-        }
-        else {
-            return new Task();
-        }
-    }
 
     /**
      * Сохраняет изменения в задаче в БД.
@@ -247,16 +242,14 @@ public class TaskController extends HttpServlet {
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
-            String taskId = req.getParameter(TASK_ID);
-
-            Task task = getTask(taskId);
+            Task task = pageDataService.getEntity(req);
             updateTaskData(paramsMap, task);
             taskService.save(task);
 
             resp.sendRedirect(TASKS);
         }
         else {
-            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
+            pageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
             req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
             req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
         }
@@ -305,7 +298,6 @@ public class TaskController extends HttpServlet {
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             HttpSession session = req.getSession();
-            req.getParameterMap().forEach((k, v) -> System.out.println(k+" : " + Arrays.asList(v)));
             ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
             Integer taskIndex;
             Task task;
@@ -324,7 +316,7 @@ public class TaskController extends HttpServlet {
             req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
         }
         else {
-            setDataAboutTaskInJsp(req, paramsMap, errorsMap);
+            pageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
             req.setAttribute(TASK_INDEX,req.getParameter(TASK_INDEX));
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
@@ -361,25 +353,6 @@ public class TaskController extends HttpServlet {
         String taskId = req.getParameter(TASK_ID);
         taskService.delete(Integer.parseInt(taskId));
         resp.sendRedirect(TASKS);
-    }
-
-    /**
-     * Вносит данные о задаче в форму.
-     *
-     * @param paramsMap список данных из формы
-     */
-    private void setDataAboutTaskInJsp(HttpServletRequest req,
-        Map<String, String> paramsMap, Map<String, String> errorsMap) {
-
-        Utils.setDropDownLists(req);
-        req.setAttribute("ERRORS", errorsMap);
-        req.setAttribute(TASK_ID, paramsMap.get(TASK_ID));
-        req.setAttribute(STATUS, paramsMap.get(STATUS));
-        req.setAttribute(TITLE, paramsMap.get(TITLE));
-        req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
-        req.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
-        req.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
-        req.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID).isEmpty() ? "" : Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
     }
 
     /**
