@@ -40,10 +40,10 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Задача".
@@ -150,6 +150,8 @@ public class TaskController extends HttpServlet {
 
     private final PageDataService<Task> pageDataService = new TaskPageDataService();
 
+    private ProjectPageDataService projectPageDataService = new ProjectPageDataService();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -234,7 +236,7 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = getDataFromForm(req);
-        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
+        Map<String, String> errorsMap = ValidationService1.checkTaskData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
@@ -263,7 +265,7 @@ public class TaskController extends HttpServlet {
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
-        if (paramsMap.get(PROJECT_ID).equals("") ){
+        if (paramsMap.get(PROJECT_ID) != null ){
             task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
         }
         else {
@@ -290,11 +292,11 @@ public class TaskController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = getDataFromForm(req);
-        Map<String, String> errorsMap = ValidationService.checkTaskData(paramsMap);
+        Map<String, String> errorsMap = ValidationService1.checkTaskData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             HttpSession session = req.getSession();
-            ProjectTemporaryData project = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
+            ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
             Integer taskIndex;
             Task task;
             if (req.getParameter(TASK_INDEX).isBlank()){
@@ -303,11 +305,11 @@ public class TaskController extends HttpServlet {
             }
             else {
                 taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
-                task = project.getTasksList().get(taskIndex);
+                task = projectTemporaryData.getTasksList().get(taskIndex);
             }
             updateTaskData(paramsMap, task);
-
-            saveTaskInProjectData(task, project, taskIndex);
+            projectPageDataService.setDataToPage(req, projectTemporaryData);
+            saveTaskInProjectData(task, projectTemporaryData, taskIndex);
 
             req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
         }
@@ -389,6 +391,7 @@ public class TaskController extends HttpServlet {
         paramsMap.put(END_DATE, req.getParameter(END_DATE).trim());
         paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
         paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
+        paramsMap.forEach((k, v) -> System.out.println(k+" : "+ v));
         return paramsMap;
     }
 }

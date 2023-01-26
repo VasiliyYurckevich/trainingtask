@@ -32,9 +32,9 @@
                     </div>
 
                     <div class="main">
-                        <my:textField id="titleProject" label="Наименование" value="${projectTemporaryData.project.title}"/>
+                        <my:textField id="titleProject" label="Наименование" value="${titleProject}"/>
 
-                        <my:textField id="description" label="Описание" value="${projectTemporaryData.project.description}"/>
+                        <my:textField id="description" label="Описание" value="${description}"/>
                     </div>
 
                     <div class="header">

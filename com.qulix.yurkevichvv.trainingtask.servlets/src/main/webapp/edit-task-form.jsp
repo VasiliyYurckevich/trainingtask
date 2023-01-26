@@ -24,7 +24,7 @@
                         <my:buttons saveAction="/save" cancelAction="/list"/>
                     </div>
 
-                    <my:dropDownChoice label="Статус" id="status" list="${StatusList}" selectedId="${status}"/>
+                    <my:dropDownChoice label="Статус" name="status" list="${StatusList}" selectedId="${status}"/>
 
                     <my:textField label="Наименование" id="title" value="${title}"/>
 
@@ -34,9 +34,9 @@
 
                     <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
 
-                    <my:dropDownChoice label="Наименование проекта" id="projectId" list="${ProjectList}" selectedId="${projectId}"/>
+                    <my:dropDownChoice label="Наименование проекта" name="projectId" list="${ProjectList}" selectedId="${projectId}"/>
 
-                    <my:dropDownChoice label="Сотрудник" id="employeeId" isNullOption="true" list="${EmployeeList}" selectedId="${employeeId}"/>
+                    <my:dropDownChoice label="Сотрудник" name="employeeId" isNullOption="true" list="${EmployeeList}" selectedId="${employeeId}"/>
                 </form>
             </div>
         </div>

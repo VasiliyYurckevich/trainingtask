@@ -18,10 +18,8 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Проект".
@@ -162,16 +160,14 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
-        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
-        paramsMap.forEach((k, v) -> System.out.println(k+ " : "+v));
+        Map<String, String> errorsMap = ValidationService1.checkProjectData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
+
             int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
-            HttpSession session = req.getSession();
-
-            ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
+            ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
             projectPageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
-
+            projectPageDataService.setDataToPage(req, projectTemporaryData);
             projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
 
             req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
@@ -194,15 +190,13 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException {
 
         Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
-        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
+        Map<String, String> errorsMap = ValidationService1.checkProjectData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
             ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
             projectPageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
-
             taskPageDataService.setDataToPage(req, getTaskInProjectDataByIndex(req, projectTemporaryData));
-
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
         else {
@@ -243,14 +237,9 @@ public class ProjectController extends HttpServlet {
      */
     private void editProjectForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
-        
-        HttpSession session = req.getSession();
-        
+
         ProjectTemporaryData projectTemporaryData = projectPageDataService.getEntity(req);
-        
-        session.setAttribute(PROJECT_TEMPORARY_DATA, projectTemporaryData);
-        session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
-        
+        projectPageDataService.setDataToPage(req,projectTemporaryData);
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 
@@ -301,7 +290,7 @@ public class ProjectController extends HttpServlet {
 
 
         Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
-        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
+        Map<String, String> errorsMap = ValidationService1.checkProjectData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 

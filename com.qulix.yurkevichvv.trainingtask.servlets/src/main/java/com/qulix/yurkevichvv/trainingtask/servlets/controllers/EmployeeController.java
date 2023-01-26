@@ -17,7 +17,6 @@ import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.EmployeePageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".
@@ -164,7 +163,7 @@ public class EmployeeController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = pageDataService.getDataFromPage(req);
-        Map<String, String> errorsMap = ValidationService.checkEmployeeData(paramsMap);
+        Map<String, String> errorsMap = ValidationService1.checkEmployeeData(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             Employee employee = pageDataService.getEntity(req);
