@@ -14,31 +14,34 @@ import java.util.Map;
 public class ProjectPageDataService implements PageDataService<ProjectTemporaryData>{
 
     /**
-     * Обозначение ID проекта.
+     * ID проекта.
      */
     private static final String PROJECT_ID = "projectId";
 
     /**
-     * Обозначение проекта, при редактировании проекта.
+     * Данные проекта.
      */
     private static final String PROJECT_TEMPORARY_DATA = "projectTemporaryData";
 
     /**
-     * Обозначение название проекта.
+     * Название проекта.
      */
     private static final String TITLE_OF_PROJECT = "titleProject";
 
     /**
-     * Обозначение описание проекта.
+     * Описание проекта.
      */
     private static final String DESCRIPTION = "description";
 
-    private final ProjectTemporaryService projectTemporaryService;
+    /**
+     * Список задач проекта.
+     */
+    public static final String TASK_LIST = "TASK_LIST";
+
     private final ProjectService projectService;
 
     public ProjectPageDataService() {
         this.projectService = new ProjectService();
-        this.projectTemporaryService = new ProjectTemporaryService();
     }
 
     @Override
@@ -50,8 +53,8 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
     @Override
     public void setValidatedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
         req.setAttribute("ERRORS", errorsMap);
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
-        setOutputDataToEntity(paramsMap, projectTemporaryData);
+        req.setAttribute(TITLE_OF_PROJECT, paramsMap.get(TITLE_OF_PROJECT));
+        req.setAttribute(DESCRIPTION, paramsMap.get(DESCRIPTION));
     }
 
     @Override
@@ -66,10 +69,11 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
     public void setDataToPage(HttpServletRequest req, ProjectTemporaryData entity) {
         HttpSession session = req.getSession();
 
-        ProjectTemporaryData projectTemporaryData = getEntity(req);
+        session.setAttribute(PROJECT_TEMPORARY_DATA, entity);
+        session.setAttribute(TASK_LIST, TaskView.convertTasksList(entity.getTasksList()));
 
-        session.setAttribute(PROJECT_TEMPORARY_DATA, projectTemporaryData);
-        session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
+        req.setAttribute(TITLE_OF_PROJECT, entity.getProject().getTitle());
+        req.setAttribute(DESCRIPTION, entity.getProject().getDescription());
     }
 
     @Override
