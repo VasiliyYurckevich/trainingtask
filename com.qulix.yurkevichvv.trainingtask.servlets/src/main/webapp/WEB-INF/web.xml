@@ -12,7 +12,7 @@
     </context-param>
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.utils.EncodingFilter</filter-class>
+        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>

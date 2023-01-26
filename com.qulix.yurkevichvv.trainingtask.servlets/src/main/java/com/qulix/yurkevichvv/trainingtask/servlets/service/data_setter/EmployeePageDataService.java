@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.service;
+package com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;

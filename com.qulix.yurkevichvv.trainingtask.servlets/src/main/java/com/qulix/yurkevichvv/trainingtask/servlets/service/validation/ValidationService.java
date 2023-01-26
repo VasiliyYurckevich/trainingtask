@@ -17,7 +17,7 @@
  * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
  * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
  */
-package com.qulix.yurkevichvv.trainingtask.servlets.validation;
+package com.qulix.yurkevichvv.trainingtask.servlets.service.validation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,14 +105,11 @@ public class ValidationService {
      */
     public static Map<String, String> checkEmployeeData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
-        errorList.compute(SURNAME, (k, v) ->
-            FieldsValidation.checkString(paramsMap.get(SURNAME), SHORT_LENGTH));
-        errorList.compute(FIRST_NAME, (k, v) ->
-            FieldsValidation.checkString(paramsMap.get(FIRST_NAME), SHORT_LENGTH));
-        errorList.compute(PATRONYMIC, (k, v) ->
-            FieldsValidation.checkString(paramsMap.get(PATRONYMIC), SHORT_LENGTH));
-        errorList.compute(POST,
-            (k, v) -> FieldsValidation.checkString(paramsMap.get(POST), SHORT_LENGTH));
+
+        errorList.put(SURNAME, FieldsValidation.checkString(paramsMap.get(SURNAME), SHORT_LENGTH));
+        errorList.put(FIRST_NAME, FieldsValidation.checkString(paramsMap.get(FIRST_NAME), SHORT_LENGTH));
+        errorList.put(PATRONYMIC, FieldsValidation.checkString(paramsMap.get(PATRONYMIC), SHORT_LENGTH));
+        errorList.put(POST, FieldsValidation.checkString(paramsMap.get(POST), SHORT_LENGTH));
         return errorList;
     }
 
@@ -124,9 +121,9 @@ public class ValidationService {
      */
     public static Map<String, String> checkProjectData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
-        errorList.compute(TITLE_OF_PROJECT, (k, v) ->
+        errorList.put(TITLE_OF_PROJECT,
             FieldsValidation.checkString(paramsMap.get(TITLE_OF_PROJECT), SHORT_LENGTH));
-        errorList.compute(DESCRIPTION, (k, v) ->
+        errorList.put(DESCRIPTION,
             FieldsValidation.checkString(paramsMap.get(DESCRIPTION), LONG_LENGTH));
         return errorList;
     }
@@ -139,12 +136,9 @@ public class ValidationService {
      */
     public static Map<String, String> checkTaskData(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>();
-        errorList.compute(STATUS, (k, v) ->
-            FieldsValidation.checkString(paramsMap.get(STATUS), SHORT_LENGTH));
-        errorList.compute(TITLE, (k, v) ->
-            FieldsValidation.checkString(paramsMap.get(TITLE), SHORT_LENGTH));
-        errorList.compute(WORK_TIME, (k, v) ->
-            FieldsValidation.checkNumber(paramsMap.get(WORK_TIME)));
+        errorList.put(STATUS, FieldsValidation.checkString(paramsMap.get(STATUS), SHORT_LENGTH));
+        errorList.put(TITLE, FieldsValidation.checkString(paramsMap.get(TITLE), SHORT_LENGTH));
+        errorList.put(WORK_TIME, FieldsValidation.checkNumber(paramsMap.get(WORK_TIME)));
         errorList.putAll(FieldsValidation.checkDate(paramsMap.get(BEGIN_DATE), paramsMap.get(END_DATE)));
         return errorList;
     }

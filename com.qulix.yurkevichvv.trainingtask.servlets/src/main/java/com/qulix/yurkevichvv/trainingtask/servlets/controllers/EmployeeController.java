@@ -1,7 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -16,9 +15,9 @@ import javax.servlet.http.HttpSession;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.EmployeePageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.PageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.EmployeePageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Сотрудник".

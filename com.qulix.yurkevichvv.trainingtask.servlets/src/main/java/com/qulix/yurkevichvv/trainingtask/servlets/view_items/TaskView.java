@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.lists;
+package com.qulix.yurkevichvv.trainingtask.servlets.view_items;
 
 import java.beans.JavaBean;
 import java.io.Serializable;

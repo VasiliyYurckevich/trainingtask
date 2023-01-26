@@ -21,22 +21,18 @@ package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
@@ -44,10 +40,10 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.PageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.TaskPageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Задача".
@@ -267,7 +263,7 @@ public class TaskController extends HttpServlet {
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
-        if (paramsMap.get(PROJECT_ID) != null ){
+        if (paramsMap.get(PROJECT_ID).equals("") ){
             task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
         }
         else {

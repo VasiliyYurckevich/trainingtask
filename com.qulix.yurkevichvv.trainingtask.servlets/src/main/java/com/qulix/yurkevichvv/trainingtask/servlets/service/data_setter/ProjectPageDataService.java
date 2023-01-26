@@ -1,11 +1,10 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.service;
+package com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,8 +50,8 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
     @Override
     public void setValidatedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
         req.setAttribute("ERRORS", errorsMap);
-        req.setAttribute(TITLE_OF_PROJECT, paramsMap.get(TITLE_OF_PROJECT).trim());
-        req.setAttribute(DESCRIPTION, paramsMap.get(DESCRIPTION).trim());
+        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+        setOutputDataToEntity(paramsMap, projectTemporaryData);
     }
 
     @Override
@@ -71,7 +70,6 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
 
         session.setAttribute(PROJECT_TEMPORARY_DATA, projectTemporaryData);
         session.setAttribute("TASK_LIST", TaskView.convertTasksList(projectTemporaryData.getTasksList()));
-
     }
 
     @Override
@@ -84,5 +82,6 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
             return new ProjectTemporaryData(projectService.getById(Integer.valueOf(req.getParameter(PROJECT_ID))));
         }
 
-        return new ProjectTemporaryData(new Project());    }
+        return new ProjectTemporaryData(new Project());
+    }
 }

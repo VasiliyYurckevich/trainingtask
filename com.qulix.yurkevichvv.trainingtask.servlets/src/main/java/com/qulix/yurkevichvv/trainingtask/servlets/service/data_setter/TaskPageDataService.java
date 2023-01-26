@@ -1,13 +1,13 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.service;
+package com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.EmployeeDropDownItemConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.ProjectDropDownItemConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown.StatusDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.EmployeeDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.ProjectDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.StatusDropDownItemConverter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

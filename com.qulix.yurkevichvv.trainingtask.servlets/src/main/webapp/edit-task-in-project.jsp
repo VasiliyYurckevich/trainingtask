@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="StatusList" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Status>"/>
+<jsp:useBean id="projectTemporaryData" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData"/>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -35,7 +36,8 @@
                     <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
 
                     <my:dropDownChoice label="Наименование проекта" id="projectId" list="${ProjectList}"
-                        selectedId="${projectId}" isDisabled="true" isNullOption="true"/>
+                        selectedId="${projectId}" isDisabled="true" isNullOption="true"
+                        nullOption="${projectTemporaryData.project.title}"/>
 
                     <my:dropDownChoice label="Сотрудник" id="employeeId" list="${EmployeeList}"
                         selectedId="${employeeId}" isNullOption="true"/>

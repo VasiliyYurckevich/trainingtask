@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.lists.dropdown;
+package com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 

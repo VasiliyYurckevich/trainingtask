@@ -18,10 +18,10 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
-import com.qulix.yurkevichvv.trainingtask.servlets.lists.TaskView;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.ProjectPageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.TaskPageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.validation.ValidationService;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Проект".
@@ -161,16 +161,25 @@ public class ProjectController extends HttpServlet {
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
-        HttpSession session = req.getSession();
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
+        Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
+        Map<String, String> errorsMap = ValidationService.checkProjectData(paramsMap);
+        paramsMap.forEach((k, v) -> System.out.println(k+ " : "+v));
 
-        projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
+        if (errorsMap.values().stream().allMatch(Objects::isNull)) {
+            int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
+            HttpSession session = req.getSession();
 
-        session.setAttribute(PROJECT_TEMPORARY_DATA, projectTemporaryData);
+            ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) session.getAttribute(PROJECT_TEMPORARY_DATA);
+            projectPageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
 
+            projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
 
-        req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+            req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+        }
+        else {
+            projectPageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
+            req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+        }
     }
 
     /**
@@ -296,10 +305,11 @@ public class ProjectController extends HttpServlet {
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
-            ProjectTemporaryData project = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+            ProjectTemporaryData projectTemporaryData =
+                (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
 
-            projectPageDataService.setOutputDataToEntity(paramsMap, project);
-            projectTemporaryService.save(project);
+            projectPageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
+            projectTemporaryService.save(projectTemporaryData);
 
             resp.sendRedirect(PROJECTS);
         }
