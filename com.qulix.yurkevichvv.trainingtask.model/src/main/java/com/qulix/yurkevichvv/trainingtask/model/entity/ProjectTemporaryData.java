@@ -12,6 +12,9 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService
  */
 public class ProjectTemporaryData implements Entity {
 
+    /**
+     * Проект.
+     */
     private Project project;
 
     /**
