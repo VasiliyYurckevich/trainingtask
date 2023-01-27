@@ -1,27 +1,7 @@
-/*
- * Copyright 2007 Qulix Systems, Inc. All rights reserved.
- * QULIX SYSTEMS PROPRIETARY/CONFIDENTIAL. Use is subject to license
- * terms.
- * Copyright (c) 2003-2007 Qulix Systems, Inc. All Rights Reserved.
- *
- * This software is the confidential and proprietary information of
- * Qulix Systems. ("Confidential Information"). You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Sun.
- *
- * QULIX MAKES NO REPRESENTATIONS OR WARRANTIES ABOUT THE SUITABILITY OF
- * THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
- * TO THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. SUN SHALL NOT BE LIABLE FOR
- * ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
- * DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
- */
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -41,6 +21,8 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.TaskValidation;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
@@ -148,10 +130,11 @@ public class TaskController extends HttpServlet {
      */
     private final ProjectService projectService = new ProjectService();
 
-    private final PageDataService<Task> pageDataService = new TaskPageDataService();
+    private final PageDataService<Task> taskPageDataService = new TaskPageDataService();
 
-    private ProjectPageDataService projectPageDataService = new ProjectPageDataService();
+    private final PageDataService<ProjectTemporaryData> projectPageDataService = new ProjectPageDataService();
 
+    private final ValidationService validationService = new TaskValidation();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -217,7 +200,7 @@ public class TaskController extends HttpServlet {
     private void editTaskForm(HttpServletRequest req, HttpServletResponse resp)
         throws ServiceException, ServletException, IOException {
 
-        pageDataService.setDataToPage(req,  pageDataService.getEntity(req));
+        taskPageDataService.setDataToPage(req,  taskPageDataService.getEntity(req));
 
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }
@@ -235,19 +218,19 @@ public class TaskController extends HttpServlet {
     private void saveTask(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        Map<String, String> paramsMap = getDataFromForm(req);
-        Map<String, String> errorsMap = ValidationService1.checkTaskData(paramsMap);
+        Map<String, String> paramsMap = taskPageDataService.getDataFromPage(req);
+        Map<String, String> errorsMap = validationService.validate(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
-            Task task = pageDataService.getEntity(req);
+            Task task = taskPageDataService.getEntity(req);
             updateTaskData(paramsMap, task);
             taskService.save(task);
 
             resp.sendRedirect(TASKS);
         }
         else {
-            pageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
+            taskPageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
             req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
             req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
         }
@@ -291,8 +274,8 @@ public class TaskController extends HttpServlet {
     private void saveTaskInProject(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException, ServiceException {
 
-        Map<String, String> paramsMap = getDataFromForm(req);
-        Map<String, String> errorsMap = ValidationService1.checkTaskData(paramsMap);
+        Map<String, String> paramsMap = taskPageDataService.getDataFromPage(req);
+        Map<String, String> errorsMap = validationService.validate(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
             HttpSession session = req.getSession();
@@ -314,7 +297,7 @@ public class TaskController extends HttpServlet {
             req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
         }
         else {
-            pageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
+            taskPageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
             req.setAttribute(TASK_INDEX,req.getParameter(TASK_INDEX));
             req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
         }
@@ -372,26 +355,5 @@ public class TaskController extends HttpServlet {
         req.setAttribute("TASKS_LIST",TaskView.convertTasksList(taskService.findAll()) );
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
-    }
-
-    /**
-     * Вносит задачу из формы в список.
-     *
-     * @param req запрос
-     * @return список данных из формы
-     */
-    private Map<String, String> getDataFromForm(HttpServletRequest req) {
-
-        Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put(TASK_ID, req.getParameter(TASK_ID));
-        paramsMap.put(STATUS, req.getParameter(STATUS));
-        paramsMap.put(TITLE , req.getParameter(TITLE).trim());
-        paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
-        paramsMap.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
-        paramsMap.put(END_DATE, req.getParameter(END_DATE).trim());
-        paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
-        paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
-        paramsMap.forEach((k, v) -> System.out.println(k+" : "+ v));
-        return paramsMap;
     }
 }

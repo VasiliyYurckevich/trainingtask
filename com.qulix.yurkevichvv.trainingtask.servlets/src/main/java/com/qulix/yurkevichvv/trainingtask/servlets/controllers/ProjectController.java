@@ -20,6 +20,9 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService
 import com.qulix.yurkevichvv.trainingtask.model.services.ServiceException;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.EmployeeValidation;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ProjectValidation;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Проект".
@@ -91,6 +94,8 @@ public class ProjectController extends HttpServlet {
 
     private final ProjectPageDataService projectPageDataService = new ProjectPageDataService();
 
+    private final ValidationService validationService = new ProjectValidation();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -160,7 +165,7 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException, ServiceException {
 
         Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
-        Map<String, String> errorsMap = ValidationService1.checkProjectData(paramsMap);
+        Map<String, String> errorsMap = validationService.validate(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
@@ -190,7 +195,7 @@ public class ProjectController extends HttpServlet {
         throws ServletException, IOException {
 
         Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
-        Map<String, String> errorsMap = ValidationService1.checkProjectData(paramsMap);
+        Map<String, String> errorsMap = validationService.validate(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
@@ -290,7 +295,7 @@ public class ProjectController extends HttpServlet {
 
 
         Map<String, String> paramsMap = projectPageDataService.getDataFromPage(req);
-        Map<String, String> errorsMap = ValidationService1.checkProjectData(paramsMap);
+        Map<String, String> errorsMap = validationService.validate(paramsMap);
 
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 

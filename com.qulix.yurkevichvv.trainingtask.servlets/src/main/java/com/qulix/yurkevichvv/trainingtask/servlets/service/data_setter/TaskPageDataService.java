@@ -10,6 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.ProjectDr
 import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.StatusDropDownItemConverter;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,8 +85,17 @@ public class TaskPageDataService implements PageDataService<Task> {
 
     @Override
     public Map<String, String> getDataFromPage(HttpServletRequest req) {
-        return null;
-    }
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put(TASK_ID, req.getParameter(TASK_ID));
+        paramsMap.put(STATUS, req.getParameter(STATUS));
+        paramsMap.put(TITLE , req.getParameter(TITLE).trim());
+        paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
+        paramsMap.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
+        paramsMap.put(END_DATE, req.getParameter(END_DATE).trim());
+        paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
+        paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
+        paramsMap.forEach((k, v) -> System.out.println(k+" : "+ v));
+        return paramsMap;    }
 
     @Override
     public void setDataToPage(HttpServletRequest req, Task entity) {

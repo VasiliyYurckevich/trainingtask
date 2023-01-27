@@ -41,6 +41,7 @@ public class TaskValidation implements ValidationService {
     public Map<String, String> validate(Map<String, String> paramsMap) {
 
         Map<String, String> errorList = new HashMap<>();
+
         errorList.put(STATUS, FieldsValidation.checkString(paramsMap.get(STATUS), SHORT_LENGTH));
         errorList.put(TITLE, FieldsValidation.checkString(paramsMap.get(TITLE), SHORT_LENGTH));
         errorList.put(WORK_TIME, FieldsValidation.checkNumber(paramsMap.get(WORK_TIME)));
