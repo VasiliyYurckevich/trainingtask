@@ -10,6 +10,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.ProjectDr
 import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.StatusDropDownItemConverter;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,24 @@ public class TaskPageDataService implements PageDataService<Task> {
 
     
     @Override
-    public void setOutputDataToEntity(Map<String, String> paramsMap, Task entity) {
+    public void setOutputDataToEntity(Map<String, String> paramsMap, Task task) {
+        task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
+        task.setTitle(paramsMap.get(TITLE));
+        task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
+        task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
+        task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
+        if (paramsMap.get(PROJECT_ID) != null ){
+            task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
+        }
+        else {
+            task.setProjectId(null);
+        }
+        if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
+            task.setEmployeeId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
+        }
+        else {
+            task.setEmployeeId(null);
+        }
 
     }
 

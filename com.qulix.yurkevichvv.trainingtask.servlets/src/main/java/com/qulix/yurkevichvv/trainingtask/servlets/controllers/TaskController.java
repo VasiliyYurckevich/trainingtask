@@ -1,7 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
@@ -56,39 +54,9 @@ public class TaskController extends HttpServlet {
     private static final String TASK_ID = "taskId";
 
     /**
-     * Обозначение статуса задачи.
-     */
-    private static final String STATUS = "status";
-
-    /**
-     * Обозначение названия задачи.
-     */
-    private static final String TITLE = "title";
-
-    /**
      * Обозначение ID проекта задачи.
      */
     private static final String PROJECT_ID = "projectId";
-
-    /**
-     * Обозначение времени на выполнение задачи.
-     */
-    private static final String WORK_TIME = "workTime";
-
-    /**
-     * Обозначение даты начала выполнения задачи.
-     */
-    private static final String BEGIN_DATE = "beginDate";
-
-    /**
-     * Обозначение даты окончания выполнения задачи.
-     */
-    private static final String END_DATE = "endDate";
-
-    /**
-     * Обозначение ID сотрудника, ответственного за задачу.
-     */
-    private static final String EMPLOYEE_ID = "employeeId";
 
     /**
      * Порядковый номер задачи в списке задач проекта.
@@ -224,7 +192,8 @@ public class TaskController extends HttpServlet {
         if (errorsMap.values().stream().allMatch(Objects::isNull)) {
 
             Task task = taskPageDataService.getEntity(req);
-            updateTaskData(paramsMap, task);
+
+            taskPageDataService.setOutputDataToEntity(paramsMap, task);
             taskService.save(task);
 
             resp.sendRedirect(TASKS);
@@ -233,32 +202,6 @@ public class TaskController extends HttpServlet {
             taskPageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
             req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
             req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
-        }
-    }
-
-    /**
-     * Заполняет поля задачи.
-     *
-     * @param paramsMap поля задачи
-     */
-    private static void updateTaskData(Map<String, String> paramsMap, Task task) {
-        paramsMap.forEach((k, v) -> System.out.println(k +" : " + v));
-        task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
-        task.setTitle(paramsMap.get(TITLE));
-        task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
-        task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
-        task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
-        if (paramsMap.get(PROJECT_ID) != null ){
-            task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
-        }
-        else {
-            task.setProjectId(null);
-        }
-        if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
-            task.setEmployeeId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
-        }
-        else {
-            task.setEmployeeId(null);
         }
     }
 
@@ -290,7 +233,7 @@ public class TaskController extends HttpServlet {
                 taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
                 task = projectTemporaryData.getTasksList().get(taskIndex);
             }
-            updateTaskData(paramsMap, task);
+            taskPageDataService.setOutputDataToEntity(paramsMap, task);
             projectPageDataService.setDataToPage(req, projectTemporaryData);
             saveTaskInProjectData(task, projectTemporaryData, taskIndex);
 
