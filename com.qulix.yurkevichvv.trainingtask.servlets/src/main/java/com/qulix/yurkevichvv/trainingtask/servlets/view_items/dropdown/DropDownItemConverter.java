@@ -26,7 +26,7 @@ public interface DropDownItemConverter<T> {
      * @return список элементов выпадающего списка
      */
     default List<DropDownListItem> convertList(List<T> list) {
-        return  list.stream()
+        return list.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
 

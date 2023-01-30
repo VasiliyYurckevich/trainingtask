@@ -1,9 +1,9 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 
 /**
  * Конвертер в элемент выпадающего списка для проекта.
@@ -16,9 +16,10 @@ public class ProjectDropDownItemConverter implements DropDownItemConverter<Proje
     public DropDownListItem convert(Project project) {
         return new DropDownListItem(project.getId(), project.getTitle());
     }
+
     @Override
     public List<DropDownListItem> convertList(List<Project> list) {
-        return  list.stream()
+        return list.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
 

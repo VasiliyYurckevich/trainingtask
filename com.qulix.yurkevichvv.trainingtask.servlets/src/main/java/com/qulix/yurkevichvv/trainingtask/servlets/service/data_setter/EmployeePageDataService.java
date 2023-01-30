@@ -1,12 +1,18 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
+
+/**
+ * Отвечает за взаимодействие данных {@link Employee} и визуализации на странице.
+ *
+ * @author Q-YVV
+ */
 public class EmployeePageDataService implements PageDataService<Employee> {
 
     /**
@@ -34,8 +40,14 @@ public class EmployeePageDataService implements PageDataService<Employee> {
      */
     private static final String POST = "post";
 
+    /**
+     * Переменная доступа к методам работы с сущностями {@link Employee}.
+     */
     private final EmployeeService employeeService;
 
+    /**
+     * Конструктор.
+     */
     public EmployeePageDataService() {
         this.employeeService = new EmployeeService();
     }
@@ -49,7 +61,7 @@ public class EmployeePageDataService implements PageDataService<Employee> {
     }
 
     @Override
-    public void setValidatedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
+    public void setFailedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID));
         req.setAttribute(SURNAME, paramsMap.get(SURNAME).trim());
@@ -61,14 +73,14 @@ public class EmployeePageDataService implements PageDataService<Employee> {
     @Override
     public Map<String, String> getDataFromPage(HttpServletRequest req) {
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> paramsMap = new HashMap<>();
 
-        params.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
-        params.put(SURNAME, req.getParameter(SURNAME));
-        params.put(FIRST_NAME, req.getParameter(FIRST_NAME));
-        params.put(PATRONYMIC, req.getParameter(PATRONYMIC));
-        params.put(POST, req.getParameter(POST));
-        return params;
+        paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
+        paramsMap.put(SURNAME, req.getParameter(SURNAME));
+        paramsMap.put(FIRST_NAME, req.getParameter(FIRST_NAME));
+        paramsMap.put(PATRONYMIC, req.getParameter(PATRONYMIC));
+        paramsMap.put(POST, req.getParameter(POST));
+        return paramsMap;
     }
 
     @Override
@@ -82,7 +94,7 @@ public class EmployeePageDataService implements PageDataService<Employee> {
 
     @Override
     public Employee getEntity(HttpServletRequest req) {
-        String employeeId = req.getParameter("employeeId");
+        String employeeId = req.getParameter(EMPLOYEE_ID);
 
         if (!employeeId.isBlank()) {
             return employeeService.getById(Integer.valueOf(employeeId));

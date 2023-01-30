@@ -1,17 +1,22 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProjectPageDataService implements PageDataService<ProjectTemporaryData>{
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
+
+/**
+ * Отвечает за взаимодействие данных {@link ProjectTemporaryData} и визуализации на странице.
+ *
+ * @author Q-YVV
+ */
+public class ProjectPageDataService implements PageDataService<ProjectTemporaryData> {
 
     /**
      * ID проекта.
@@ -36,10 +41,16 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
     /**
      * Список задач проекта.
      */
-    public static final String TASK_LIST = "TASK_LIST";
+    private static final String TASK_LIST = "TASK_LIST";
 
+    /**
+     * Переменная доступа к методам работы с сущностями {@link Project}.
+     */
     private final ProjectService projectService;
 
+    /**
+     * Конструктор.
+     */
     public ProjectPageDataService() {
         this.projectService = new ProjectService();
     }
@@ -51,7 +62,7 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
     }
 
     @Override
-    public void setValidatedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
+    public void setFailedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(TITLE_OF_PROJECT, paramsMap.get(TITLE_OF_PROJECT));
         req.setAttribute(DESCRIPTION, paramsMap.get(DESCRIPTION));

@@ -1,34 +1,40 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.service.validation;
 
-import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
+
+/**
+ * Валидация данных {@link Employee}.
+ *
+ * @author Q-YVV
+ */
 public class EmployeeValidation implements ValidationService {
 
     /**
-     * Обозначение фамилии сотрудника.
+     * Фамилия {@link Employee}.
      */
     private static final String SURNAME = "surname";
 
     /**
-     * Обозначение имени сотрудника.
+     * Имя {@link Employee}.
      */
     private static final String FIRST_NAME = "firstName";
 
     /**
-     * Обозначение отчества сотрудника.
+     * Отчество {@link Employee}.
      */
     private static final String PATRONYMIC = "patronymic";
 
     /**
-     * Обозначение должности сотрудника.
+     * Должность {@link Employee}.
      */
     private static final String POST = "post";
 
     /**
-     * Хранит константу длинны короткой строки.
+     * Длинна короткой строки.
      */
     private static final int SHORT_LENGTH = 50;
 

@@ -1,10 +1,16 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.service.validation;
 
-import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+
+/**
+ * Валидация данных {@link Project}.
+ *
+ * @author Q-YVV
+ */
 public class ProjectValidation implements ValidationService {
 
     /**
