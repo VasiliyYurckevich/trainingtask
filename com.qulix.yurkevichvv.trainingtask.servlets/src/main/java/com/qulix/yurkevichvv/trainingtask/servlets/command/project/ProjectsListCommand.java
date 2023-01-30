@@ -1,22 +1,31 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.project;
 
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
+
+/**
+ * Открывает список существующих в базе данных {@link Project}.
+ *
+ * @author Q-YVV
+ */
 public class ProjectsListCommand implements Command {
 
     /**
-     * Сервис для работы с Project.
+     * Сервис для работы с {@link Project}.
      */
     private final ProjectService projectService = new ProjectService();
 
-
+    /**
+     * Конструктор.
+     */
     public ProjectsListCommand() {
     }
 

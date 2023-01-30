@@ -35,7 +35,6 @@
 
                         <my:textField label="Должность" id="post" value="${post}"/>
                     </div>
-
                 </form>
             </div>
         </div>

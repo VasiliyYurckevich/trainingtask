@@ -1,14 +1,19 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.project;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
+/**
+ * Удаляет {@link Project} из базы данных.
+ *
+ * @author Q-YVV
+ */
 public class DeleteProjectCommand implements Command {
 
     /**
@@ -16,8 +21,14 @@ public class DeleteProjectCommand implements Command {
      */
     private final ProjectService projectService = new ProjectService();
 
+    /**
+     * Конструктор.
+     */
+    public DeleteProjectCommand() {
+    }
+
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         projectService.delete(Integer.valueOf(req.getParameter("projectId")));
         resp.sendRedirect("projects");
     }

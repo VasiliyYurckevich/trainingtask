@@ -1,20 +1,33 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.employee;
 
-import com.qulix.yurkevichvv.trainingtask.model.dao.EmployeeDao;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
+/**
+ * Удаление {@link Employee}.
+ *
+ * @author Q-YVV
+ */
 public class DeleteEmployeeCommand implements Command {
 
+    /**
+     * Сервис для управления {@link Employee}.
+     */
     private final EmployeeService employeeService = new EmployeeService();
 
+    /**
+     * Конструктор.
+     */
+    public DeleteEmployeeCommand() {
+    }
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         employeeService.delete(Integer.parseInt(req.getParameter("employeeId")));
 

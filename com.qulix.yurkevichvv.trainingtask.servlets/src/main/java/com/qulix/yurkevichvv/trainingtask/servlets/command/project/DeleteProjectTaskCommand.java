@@ -1,33 +1,40 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.project;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.IProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
-import com.qulix.yurkevichvv.trainingtask.servlets.command.CommandWithValidation;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
+import com.qulix.yurkevichvv.trainingtask.servlets.command.CommandWithValidation;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ProjectValidation;
+
+/**
+ * Удаляет {@link Task} из списка задач {@link ProjectTemporaryData}.
+ *
+ * @author Q-YVV
+ */
 public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTemporaryData> {
 
-
+    /**
+     * Путь на страницу редактирования проекта.
+     */
     private static final String EDIT_PROJECT_FORM_JSP = "/edit-project-form.jsp";
 
+    /**
+     * Сервис для работы с {@link ProjectTemporaryData}.
+     */
     private final ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
 
     /**
      * Конструктор.
-     *
-     * @param validationService сервис валидации
-     * @param pageDataService   сервис взаимодействия сущностей модели и данных со страниц
      */
-    public DeleteProjectTaskCommand(ValidationService validationService, PageDataService<ProjectTemporaryData> pageDataService) {
-        super(validationService, pageDataService);
+    public DeleteProjectTaskCommand() {
+        super(new ProjectValidation(), new ProjectPageDataService());
     }
 
     @Override
@@ -47,7 +54,7 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
 
     @Override
     protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
+        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
         req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
     }
 }

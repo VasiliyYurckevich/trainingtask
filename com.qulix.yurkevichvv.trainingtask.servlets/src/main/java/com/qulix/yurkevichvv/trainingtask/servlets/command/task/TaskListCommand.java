@@ -1,30 +1,33 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.task;
 
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
+import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
+import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView;
 
 /**
- * Команда отображающая список задач
+ * Команда отображающая список задач.
  *
  * @author Q-YVV
  */
 public class TaskListCommand implements Command {
 
     /**
-     * Переменная доступа к методам работы с сущностями Task.
+     * Переменная доступа к методам работы с сущностями {@link Task}.
      */
     private final TaskService taskService = new TaskService();
 
     /**
-     * Переменная доступа к методам работы с сущностями Project.
+     * Переменная доступа к методам работы с сущностями {@link Project}.
      */
     private final ProjectService projectService = new ProjectService();
 
@@ -32,6 +35,7 @@ public class TaskListCommand implements Command {
      * Конструктор.
      */
     public TaskListCommand() {
+
     }
 
     @Override
@@ -41,7 +45,7 @@ public class TaskListCommand implements Command {
         session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
 
         req.setAttribute("IS_ZERO_PROJECTS", projectService.findAll().isEmpty());
-        req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()) );
+        req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()));
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
     }

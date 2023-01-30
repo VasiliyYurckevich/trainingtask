@@ -1,22 +1,22 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.task;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
-import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
-import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.servlets.command.CommandWithValidation;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.TaskValidation;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
+import com.qulix.yurkevichvv.trainingtask.servlets.command.CommandWithValidation;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
+import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.TaskValidation;
+
+/**
+ * Сохраняет изменения {@link Task} в базе данных.
+ *
+ * @author Q-YVV
+ */
 public class SaveTaskCommand extends CommandWithValidation<Task> {
 
     /**
@@ -41,12 +41,9 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
 
     /**
      * Конструктор.
-     *
-     * @param validationService сервис валидации
-     * @param pageDataService сервис взаимодействия сущностей модели и данных со страниц
      */
-    public SaveTaskCommand(ValidationService validationService, PageDataService<Task> pageDataService) {
-        super(validationService, pageDataService);
+    public SaveTaskCommand() {
+        super(new TaskValidation(), new TaskPageDataService());
 
     }
 
@@ -62,7 +59,7 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
 
     @Override
     protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setValidatedDataToPage(req, paramsMap, errorsMap);
+        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
         req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
         req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
     }

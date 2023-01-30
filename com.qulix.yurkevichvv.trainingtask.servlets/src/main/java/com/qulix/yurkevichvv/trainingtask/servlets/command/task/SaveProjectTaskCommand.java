@@ -1,5 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.task;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
@@ -8,15 +14,12 @@ import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataS
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.ProjectPageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.TaskPageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.TaskValidation;
-import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-
-public class SaveTaskInProjectCommand extends CommandWithValidation<Task> {
+/** Сохраняет изменения {@link Task} в списке задач {@link ProjectTemporaryData}.
+*
+* @author Q-YVV
+*/
+public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
 
     /**
      * Порядковый номер задачи в списке задач проекта.
@@ -24,10 +27,13 @@ public class SaveTaskInProjectCommand extends CommandWithValidation<Task> {
     private static final String TASK_INDEX = "taskIndex";
 
     /**
-     * Хранит константу для проекта.
+     * Данные проекта({@link ProjectTemporaryData}).
      */
     private static final String PROJECT_TEMPORARY_DATA = "projectTemporaryData";
 
+    /**
+     * Сервис для работы с данными проекта при передаче между страницей и сервером.
+     */
     private final PageDataService<ProjectTemporaryData> projectPageDataService = new ProjectPageDataService();
 
     /**
@@ -38,9 +44,8 @@ public class SaveTaskInProjectCommand extends CommandWithValidation<Task> {
     /**
      * Конструктор.
      */
-    public SaveTaskInProjectCommand() {
+    public SaveProjectTaskCommand() {
         super(new TaskValidation(), new TaskPageDataService());
-
     }
 
     @Override
@@ -48,7 +53,7 @@ public class SaveTaskInProjectCommand extends CommandWithValidation<Task> {
         ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
         Integer taskIndex;
         Task task;
-        if (req.getParameter(TASK_INDEX).isBlank()){
+        if (req.getParameter(TASK_INDEX).isBlank()) {
             taskIndex = null;
             task = new Task();
         }
@@ -65,7 +70,9 @@ public class SaveTaskInProjectCommand extends CommandWithValidation<Task> {
 
     @Override
     protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.failedAction(req, resp);
+        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
+        req.setAttribute(TASK_INDEX, req.getParameter(TASK_INDEX));
+        req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
     }
 
     /**

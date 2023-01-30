@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- *  Интерфейс Команда.
+ * Интерфейс Команда.
  *
  * @author Q-YVV
  */
