@@ -63,7 +63,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @author Q-YVV
      */
-    private static class DeleteLink<T extends Entity> extends Link<T> {
+    private class DeleteLink<T extends Entity> extends Link<T> {
 
         /**
          * Сервис для работы с сущностями.
@@ -90,6 +90,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         @Override
         public void onClick() {
             service.delete(entityModel.getObject().getId());
+            getPage().detach();
         }
     }
 }

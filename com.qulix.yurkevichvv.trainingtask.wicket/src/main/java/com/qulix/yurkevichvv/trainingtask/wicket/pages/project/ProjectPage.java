@@ -78,8 +78,8 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
 
         addButtons(form);
 
-        addStringField(form, "title", TITLE_MAXLENGTH);
-        addStringField(form, "description", DESCRIPTION_MAXLENGTH);
+        addStringField(form, "project.title", TITLE_MAXLENGTH);
+        addStringField(form, "project.description", DESCRIPTION_MAXLENGTH);
     }
 
     /**

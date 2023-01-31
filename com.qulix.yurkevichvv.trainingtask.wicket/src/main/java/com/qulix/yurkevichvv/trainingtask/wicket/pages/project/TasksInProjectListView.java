@@ -63,6 +63,7 @@ class TasksInProjectListView extends ListView<Task> {
      * @author Q-YVV
      */
     private class DeleteInProjectLink extends Link<Void> {
+
         /**
          * Модель задачи.
          */
@@ -70,11 +71,13 @@ class TasksInProjectListView extends ListView<Task> {
 
         public DeleteInProjectLink(IModel<Task> taskModel) {
             super("deleteLink");
+
             this.taskModel = taskModel;
         }
 
         @Override
         public void onClick() {
+            projectModel.detach();
             service.deleteTask(projectModel.getObject(), taskModel.getObject());
         }
     }
@@ -163,6 +166,7 @@ class TasksInProjectListView extends ListView<Task> {
 
         @Override
         public void onClick() {
+            projectModel.detach();
             setResponsePage(new ProjectTaskPageFactory().createPage(CompoundPropertyModel.of(taskModel), projectModel));
         }
     }
