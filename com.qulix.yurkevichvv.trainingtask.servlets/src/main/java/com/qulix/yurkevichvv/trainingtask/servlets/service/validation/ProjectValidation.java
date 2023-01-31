@@ -24,12 +24,12 @@ public class ProjectValidation implements ValidationService {
     private static final String DESCRIPTION = "description";
 
     /**
-     * Хранит константу длинны короткой строки.
+     * Длинна короткой строки.
      */
     private static final int SHORT_LENGTH = 50;
 
     /**
-     * Хранит константу длинны короткой строки.
+     * Длинна короткой строки.
      */
     private static final int LONG_LENGTH = 250;
 

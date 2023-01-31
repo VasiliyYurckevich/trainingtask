@@ -50,8 +50,6 @@ cargo {
 
     local {
         installer {
-            outputFile = file("${buildDir}/tomcat/logs.txt")
-            logFile = file("${buildDir}/tomcat/logs2.txt")
             installConfiguration = configurations.tomcat
             downloadDir = file("${buildDir}/tomcat")
             extractDir = file("${buildDir}/tomcat")
@@ -117,4 +115,3 @@ tasks.register('startServer', CargoRunLocal) {
 
 tasks.register('stopServer', CargoStopLocal) {
 }
-

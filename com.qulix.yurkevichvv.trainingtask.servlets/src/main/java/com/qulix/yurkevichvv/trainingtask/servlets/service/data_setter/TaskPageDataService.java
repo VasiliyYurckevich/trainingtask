@@ -66,15 +66,8 @@ public class TaskPageDataService implements PageDataService<Task> {
     /**
      * Переменная доступа к методам работы с сущностями {@link Task}.
      */
-    private final TaskService taskService;
+    private final TaskService taskService = new TaskService();
 
-    /**
-     * Конструктор.
-     */
-    public TaskPageDataService() {
-        this.taskService = new TaskService();
-    }
-    
     @Override
     public void setOutputDataToEntity(Map<String, String> paramsMap, Task task) {
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));

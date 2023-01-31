@@ -3,7 +3,6 @@ package com.qulix.yurkevichvv.trainingtask.model.entity;
 import java.beans.JavaBean;
 import java.util.Objects;
 
-
 /**
  * Сущность "Проект".
  *

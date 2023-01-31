@@ -14,22 +14,22 @@ import java.util.logging.Logger;
 public class ConnectionService {
 
     /**
-     * Хранит константу названия драйвера JDBC.
+     * Имя драйвера JDBC.
      */
     private static final String JDBC_DRIVER = "org.hsqldb.jdbc.JDBCDriver";
 
     /**
-     * Хранит константу пути к БД.
+     * Путь к БД.
      */
     private static final String PATH = "jdbc:hsqldb:hsql://localhost/mydb;ifexists=true;sql.syntax_mys=true";
 
     /**
-     * Хранит константу имени пользователя БД.
+     * Имя пользователя БД.
      */
     private static final String USER = "SA";
 
     /**
-     * Хранит константу пароля к БД.
+     * Пароль к БД.
      */
     private static final String PASS = "";
 
@@ -58,7 +58,7 @@ public class ConnectionService {
     /**
      * Отправляет транзакцию в БД.
      *
-     * @param connection соединение
+     * @param connection соединение {@link Connection}
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public static void commitConnection(Connection connection) throws DaoException {
@@ -74,7 +74,7 @@ public class ConnectionService {
     /**
      * Отменяет все изменения в транзакции.
      *
-     * @param connection соединение
+     * @param connection соединение {@link Connection}
      * @throws DaoException если произошла ошибка при записи/получении данных из БД
      */
     public static void rollbackConnection(Connection connection) throws DaoException {

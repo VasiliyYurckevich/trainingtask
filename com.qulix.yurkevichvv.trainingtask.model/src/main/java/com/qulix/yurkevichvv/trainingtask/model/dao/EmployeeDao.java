@@ -20,22 +20,27 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 public class EmployeeDao implements IDao<Employee> {
 
     /**
-     * Хранит константу для колонки фамилии сотрудника в БД.
+     * ID сотрудника в БД.
+     */
+    private static final String ID = "id";
+
+    /**
+     * Фамилия сотрудника в БД.
      */
     private static final String SURNAME = "surname";
 
     /**
-     * Хранит константу для колонки имени сотрудника в БД.
+     * Имя сотрудника в БД.
      */
     private static final String FIRST_NAME = "first_name";
 
     /**
-     * Хранит константу для колонки отчества сотрудника в БД.
+     * Отчество сотрудника в БД.
      */
     private static final String PATRONYMIC = "patronymic";
 
     /**
-     * Хранит константу для колонки должности сотрудника в БД.
+     * Должность сотрудника в БД.
      */
     private static final String POST = "post";
 
@@ -45,36 +50,31 @@ public class EmployeeDao implements IDao<Employee> {
     private static final Logger LOGGER = Logger.getLogger(EmployeeDao.class.getName());
 
     /**
-     * Константа для запроса на добавление нового сотрудника в БД.
+     * Запрос на добавление нового сотрудника в БД.
      */
     private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +
         " VALUES (:surname, :first_name, :patronymic, :post);";
 
     /**
-     * Константа для запроса на получение всех сотрудников из БД.
+     * Запрос на получение всех сотрудников из БД.
      */
     private static final String SELECT_ALL_CLIENT = "SELECT * FROM EMPLOYEE;";
 
     /**
-     * Константа для запроса на получение сотрудника по его ID из БД.
+     * Запрос на получение сотрудника по его ID из БД.
      */
     private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM EMPLOYEE WHERE id = :id;";
 
     /**
-     * Константа для запроса на удаление данных сотрудника в БД.
+     * Запрос на удаление данных сотрудника в БД.
      */
     private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE id = :id;";
 
     /**
-     * Константа для запроса на обновление данных сотрудника в БД.
+     * Запрос на обновление данных сотрудника в БД.
      */
     private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE" +
         " SET surname = :surname, first_name = :first_name, patronymic = :patronymic, post = :post WHERE id = :id;";
-
-    /**
-     * Хранит константу для колонки ID сотрудника в БД.
-     */
-    private static final String ID = "id";
 
     @Override
     public Integer add(Employee employee, Connection connection) throws DaoException {

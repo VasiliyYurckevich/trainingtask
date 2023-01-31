@@ -44,7 +44,7 @@ public enum EmployeeCommandRegister {
     /**
      * Перечисление команд связанных с {@link EmployeeController}.
      *
-     * @param command объект {@link Command}.
+     * @param command объект {@link Command}
      * @param actionName имя команды, полученное из запроса
      */
     EmployeeCommandRegister(Command command, String actionName) {

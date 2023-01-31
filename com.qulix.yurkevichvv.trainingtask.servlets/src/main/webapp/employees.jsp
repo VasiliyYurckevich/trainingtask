@@ -4,7 +4,6 @@
 <%@ page contentType="text/html;charset=utf-8" %>
 <jsp:useBean id="EMPLOYEE_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Employee>"/>
 
-
 <!DOCTYPE html>
 <html lang="ru">
     <meta charset="UTF-8">

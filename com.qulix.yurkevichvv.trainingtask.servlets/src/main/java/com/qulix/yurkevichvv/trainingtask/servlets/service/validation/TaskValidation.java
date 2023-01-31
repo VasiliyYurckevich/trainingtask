@@ -14,32 +14,32 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 public class TaskValidation implements ValidationService {
 
     /**
-     * Обозначение статуса задачи.
+     * Статуса задачи.
      */
     private static final String STATUS = "status";
 
     /**
-     * Обозначение названия задачи.
+     * Название задачи.
      */
     private static final String TITLE = "title";
 
     /**
-     * Обозначение времени на выполнение задачи.
+     * Время выполнение задачи.
      */
     private static final String WORK_TIME = "workTime";
 
     /**
-     * Хранит константу длинны короткой строки.
+     * Длинна короткой строки.
      */
     private static final int SHORT_LENGTH = 50;
 
     /**
-     * Обозначение даты начала выполнения задачи.
+     * Дата начала выполнения задачи.
      */
     private static final String BEGIN_DATE = "beginDate";
 
     /**
-     * Обозначение даты окончания выполнения задачи.
+     * Дата окончания выполнения задачи.
      */
     private static final String END_DATE = "endDate";
 

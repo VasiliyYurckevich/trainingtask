@@ -23,12 +23,6 @@ public class ProjectsListCommand implements Command {
      */
     private final ProjectService projectService = new ProjectService();
 
-    /**
-     * Конструктор.
-     */
-    public ProjectsListCommand() {
-    }
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession();

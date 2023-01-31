@@ -21,17 +21,17 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 public class ProjectDao implements IDao<Project> {
 
     /**
-     * Хранит константу для колонки ID проекта в БД.
+     * ID проекта в БД.
      */
     private static final String ID = "id";
 
     /**
-     * Хранит константу для колонки названия проекта в БД.
+     * Название проекта в БД.
      */
     private static final String TITLE = "title";
 
     /**
-     * Хранит константу для колонки описания сотрудника в БД.
+     * Описание сотрудника в БД.
      */
     private static final String DESCRIPTION = "description";
 
@@ -41,35 +41,30 @@ public class ProjectDao implements IDao<Project> {
     private static final Logger LOGGER = Logger.getLogger(ProjectDao.class.getName());
 
     /**
-     * Константа для запроса добавления проекта в БД.
+     * Запрос добавления проекта в БД.
      */
     private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (:title, :description);";
 
     /**
-     * Константа для запроса всех проектов из БД.
+     * Запрос всех проектов из БД.
      */
     private static final String SELECT_ALL_PROJECTS = "SELECT * FROM PROJECT;";
 
     /**
-     * Константа для запроса получения проекта по его ID.
+     * Запрос получения проекта по его ID.
      */
     private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE id = :id;";
 
     /**
-     * Константа для запроса удаления проекта по его ID.
+     * Запрос удаления проекта по его ID.
      */
     private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE id = :id;";
 
     /**
-     * Константа для запроса обновления проекта в БД.
+     * Запрос обновления проекта в БД.
      */
     private static final String UPDATE_PROJECT_SQL =
         "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
-
-    /**
-     * Сообщение при отсутствии проекта.
-     */
-    public static final String NOT_FOUND = "A project with such data was not found";
 
     @Override
     public Integer add(Project project, Connection connection) throws DaoException {
@@ -120,7 +115,6 @@ public class ProjectDao implements IDao<Project> {
 
     @Override
     public List<Project> getAll(Connection connection) throws DaoException {
-        TaskDao taskDao = new TaskDao();
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_ALL_PROJECTS, connection);
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
@@ -167,7 +161,7 @@ public class ProjectDao implements IDao<Project> {
                     return getProjectFromDB(resultSet);
                 }
                 else {
-                    throw new DaoException(NOT_FOUND);
+                    throw new DaoException("A project with such data was not found");
                 }
             }
             catch (SQLException e) {

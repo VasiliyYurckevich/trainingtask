@@ -206,22 +206,6 @@ public class PreparedStatementHelper implements AutoCloseable {
         }
     }
 
-    /**
-     * Возвращает сгенерированный идентификатор.
-     *
-     * @return сгенерированный идентификатор
-     */
-    protected Integer getGeneratedKey() {
-        try {
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            resultSet.next();
-            return resultSet.getInt(1);
-        }
-        catch (SQLException e) {
-            throw new DaoException("Error when try get generated keys of PrepareStatement", e);
-        }
-    }
-
     @Override
     public void close() {
         try {

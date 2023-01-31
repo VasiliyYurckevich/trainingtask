@@ -23,12 +23,6 @@ public class EditProjectCommand implements Command {
      */
     private final ProjectPageDataService projectPageDataService = new ProjectPageDataService();
 
-    /**
-     * Конструктор.
-     */
-    public EditProjectCommand() {
-    }
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         projectPageDataService.setDataToPage(req, projectPageDataService.getEntity(req));

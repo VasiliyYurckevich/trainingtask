@@ -23,12 +23,6 @@ public class EmployeeListCommand implements Command {
      */
     private final EmployeeService employeeService = new EmployeeService();
 
-    /**
-     * Конструктор.
-     */
-    public EmployeeListCommand() {
-    }
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession();

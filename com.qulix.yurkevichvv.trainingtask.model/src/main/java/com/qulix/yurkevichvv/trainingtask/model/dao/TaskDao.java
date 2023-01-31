@@ -22,42 +22,42 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 public class TaskDao implements IDao<Task> {
 
     /**
-     * Хранит константу для имени колонки ID проекта в БД.
+     * Имя колонки ID проекта в БД.
      */
     private static final String ID = "id";
 
     /**
-     * Хранит константу для имени колонки статуса проекта в БД.
+     * Статус проекта в БД.
      */
     private static final String STATUS = "status";
 
     /**
-     * Хранит константу для имени колонки названия задачи в БД.
+     * Название задачи в БД.
      */
     private static final String TITLE = "title";
 
     /**
-     * Хранит константу для имени колонки проекта, в который входит задача, в БД.
+     *  Проект, в который входит задача, в БД.
      */
     private static final String PROJECT_ID = "project_id";
 
     /**
-     * Хранит константу для имени колонки времени работы над задачей в БД.
+     * Время работы над задачей в БД.
      */
     private static final String WORK_TIME = "work_time";
 
     /**
-     * Хранит константу для имени колонки даты начала работы над задачей в БД.
+     * Дата начала работы над задачей в БД.
      */
     private static final String BEGIN_DATE = "begin_date";
 
     /**
-     * Хранит константу для имени колонки даты конца работы над задачей в БД.
+     * Дата конца работы над задачей в БД.
      */
     private static final String END_DATE = "end_date";
 
     /**
-     * Хранит константу для имени колонки привязанного к задаче сотрудника в БД.
+     * Привязанный к задаче сотрудника в БД.
      */
     private static final String EMPLOYEE_ID = "employee_id";
 
@@ -67,34 +67,34 @@ public class TaskDao implements IDao<Task> {
     private static final Logger LOGGER = Logger.getLogger(TaskDao.class.getName());
 
     /**
-     * Константа для запроса добавления задачи в БД.
+     * Запрос добавления задачи в БД.
      */
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +
         " (status, title, work_time, begin_date,end_date, project_id, employee_id)" +
         " VALUES (:status, :title, :work_time, :begin_date, :end_date, :project_id, :employee_id);";
 
     /**
-     * Константа для запроса получения задач из БД.
+     * Запрос получения задач из БД.
      */
     private static final String SELECT_ALL_TASK = "SELECT * FROM TASK;";
 
     /**
-     * Константа для запроса получения задачи из БД по идентификатору.
+     * Запрос получения задачи из БД по идентификатору.
      */
     private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK WHERE id = :id;";
 
     /**
-     * Константа для запроса получения задач из БД по проекту.
+     * Запрос получения задач из БД по проекту.
      */
     private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM TASK WHERE project_id = :project_id;";
 
     /**
-     * Константа для запроса удаления задачи из БД по идентификатору.
+     * Запрос удаления задачи из БД по идентификатору.
      */
     private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = :id;";
 
     /**
-     * Константа для запроса обновления задачи в БД.
+     * Запрос обновления задачи в БД.
      */
     private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = :status, title = :title," +
         " work_time = :work_time, begin_date = :begin_date, end_date = :end_date, project_id = :project_id," +

@@ -46,14 +46,7 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
     /**
      * Переменная доступа к методам работы с сущностями {@link Project}.
      */
-    private final ProjectService projectService;
-
-    /**
-     * Конструктор.
-     */
-    public ProjectPageDataService() {
-        this.projectService = new ProjectService();
-    }
+    private final ProjectService projectService = new ProjectService();
 
     @Override
     public void setOutputDataToEntity(Map<String, String> paramsMap, ProjectTemporaryData entity) {

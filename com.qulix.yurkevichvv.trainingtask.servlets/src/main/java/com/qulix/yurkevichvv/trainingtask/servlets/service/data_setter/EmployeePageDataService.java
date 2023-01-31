@@ -43,14 +43,7 @@ public class EmployeePageDataService implements PageDataService<Employee> {
     /**
      * Переменная доступа к методам работы с сущностями {@link Employee}.
      */
-    private final EmployeeService employeeService;
-
-    /**
-     * Конструктор.
-     */
-    public EmployeePageDataService() {
-        this.employeeService = new EmployeeService();
-    }
+    private final EmployeeService employeeService = new EmployeeService();
 
     @Override
     public void setOutputDataToEntity(Map<String, String> paramsMap, Employee entity) {

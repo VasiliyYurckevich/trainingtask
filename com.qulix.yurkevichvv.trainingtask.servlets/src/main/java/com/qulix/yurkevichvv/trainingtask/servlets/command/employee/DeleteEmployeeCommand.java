@@ -21,12 +21,6 @@ public class DeleteEmployeeCommand implements Command {
      */
     private final EmployeeService employeeService = new EmployeeService();
 
-    /**
-     * Конструктор.
-     */
-    public DeleteEmployeeCommand() {
-    }
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 

@@ -22,12 +22,6 @@ public class EditEmployeeCommand implements Command {
      */
     private final EmployeePageDataService pageDataService = new EmployeePageDataService();
 
-    /**
-     * Конструктор.
-     */
-    public EditEmployeeCommand() {
-    }
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 

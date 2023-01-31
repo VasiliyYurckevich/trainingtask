@@ -88,6 +88,7 @@ public class CommandWithValidation<T extends Entity> implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         paramsMap = pageDataService.getDataFromPage(req);
         errorsMap = validationService.validate(paramsMap);
+        errorsMap.forEach((k, v) -> System.out.println(k+" : "+v));
         if (isValid()) {
             successesAction(req, resp);
         }

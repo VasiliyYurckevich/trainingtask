@@ -21,7 +21,6 @@ public class DeleteTaskCommand implements Command {
      */
     private final TaskService taskService = new TaskService();
 
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String taskId = req.getParameter("taskId");

@@ -4,6 +4,7 @@ package com.qulix.yurkevichvv.trainingtask.model.dao;
  * Описывает исключение, возникающее при ошибке выполнения запроса к базе данных.
  *
  * @author Q-YVV
+ * @see java.lang.RuntimeException
  */
 public class DaoException extends RuntimeException {
 

@@ -21,12 +21,6 @@ public class DeleteProjectCommand implements Command {
      */
     private final ProjectService projectService = new ProjectService();
 
-    /**
-     * Конструктор.
-     */
-    public DeleteProjectCommand() {
-    }
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         projectService.delete(Integer.valueOf(req.getParameter("projectId")));

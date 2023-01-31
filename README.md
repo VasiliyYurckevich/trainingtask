@@ -20,17 +20,7 @@
 
 2. Запустить сервер
 
-   - для обеих версий
-
-     `./gradlew startServer`
-
-   - для jsp/servlet-версии
-   
-       `./gradlew com.qulix.yurkevichvv.trainingtask.servlets:startServer`
-
-   - для wicket-версии
-
-       `./gradlew com.qulix.yurkevichvv.trainingtask.wicket:startServer`
+    `./gradlew startServer --info`
 
 3. Перейти по ссылке  
 
