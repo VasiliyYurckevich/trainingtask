@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -71,13 +72,13 @@ class TasksInProjectListView extends ListView<Task> {
 
         public DeleteInProjectLink(IModel<Task> taskModel) {
             super("deleteLink");
-
             this.taskModel = taskModel;
         }
 
         @Override
         public void onClick() {
-            projectModel.detach();
+            Form<ProjectTemporaryData> form = (Form<ProjectTemporaryData>) getParent().getParent().getParent();
+            form.modelChanged();
             service.deleteTask(projectModel.getObject(), taskModel.getObject());
         }
     }
@@ -116,6 +117,7 @@ class TasksInProjectListView extends ListView<Task> {
             super(taskModel);
             this.projectModel = projectModel;
             this.index = projectModel.getObject().getTasksList().indexOf(taskModel.getObject());
+
         }
 
         @Override
@@ -125,7 +127,7 @@ class TasksInProjectListView extends ListView<Task> {
 
         @Override
         protected void onChangesSubmitted() {
-            setResponsePage(new ProjectPage(projectModel));
+            setResponsePage(new ProjectPage());
         }
 
         @Override
@@ -137,13 +139,12 @@ class TasksInProjectListView extends ListView<Task> {
     /**
      * Ссылка для редактирования задачи в проекте.
      */
-    private class EditInProjectLink extends Link<Task> {
+    private static class EditInProjectLink extends Link<Task> {
 
         /**
          * Модель задачи.
          */
         private final CompoundPropertyModel<Task> taskModel;
-
 
         /**
          * Модель проекта.
@@ -166,7 +167,9 @@ class TasksInProjectListView extends ListView<Task> {
 
         @Override
         public void onClick() {
-            projectModel.detach();
+            Form<ProjectTemporaryData> form = (Form<ProjectTemporaryData>) getParent().getParent().getParent();
+            form.detachModels();
+
             setResponsePage(new ProjectTaskPageFactory().createPage(CompoundPropertyModel.of(taskModel), projectModel));
         }
     }

@@ -66,6 +66,7 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      * Форма сотрудника.
      */
     private class EmployeeForm extends Form<Employee> {
+
         public EmployeeForm(String id, CompoundPropertyModel<Employee> model) {
             super(id, model);
         }

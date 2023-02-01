@@ -13,22 +13,18 @@
                         <label>Наименование:</label>
                         <input type="text" wicket:id="project.title"/>
                         <br>
-                        <a class="feedback" wicket:id="project.titleFeedbackPanel">
-                        </a>
+                        <div class="feedback" wicket:id="project.titleFeedbackPanel"/>
                     </div>
 
                     <div class="field">
                         <label>Описание:</label>
                         <input type="text" wicket:id="project.description"/>
                         <br>
-                        <a class="feedback" wicket:id="project.descriptionFeedbackPanel">
-                        </a>
+                        <div class="feedback" wicket:id="project.descriptionFeedbackPanel"/>
                     </div>
-                </form>
                 <div>
                     <button class="add-button" value="" wicket:id="addTaskInProject">Добавить задачу</button>
                 </div>
-            </div>
 
             <div class="header">
                 <h3>Задачи проекта</h3>
@@ -62,6 +58,8 @@
                 </tr>
                 </tbody>
             </table>
+            </form>
+        </div>
         </div>
     </div>
 </wicket:extend>

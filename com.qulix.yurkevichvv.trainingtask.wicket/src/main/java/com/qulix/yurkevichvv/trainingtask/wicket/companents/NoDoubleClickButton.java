@@ -25,7 +25,6 @@ public class NoDoubleClickButton extends Button {
         return PreventDoubleClickBehaviorButtons.getEnableDisableJavascript(NoDoubleClickButton.this);
     }
 
-
     /**
      * Поведение кнопки, решающее проблему двойной отправки формы.
      *

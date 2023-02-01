@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
@@ -16,6 +17,7 @@ public class ProjectPageFactory implements AbstractEntityPageFactory<Project> {
 
     @Override
     public AbstractEntityPage createPage(CompoundPropertyModel<Project> entityModel) {
-        return new ProjectPage(new CompoundPropertyModel<>(new ProjectTemporaryData(entityModel.getObject())));
+        Session.get().setAttribute("projectTemporaryData", CompoundPropertyModel.of(new ProjectTemporaryData(entityModel.getObject())));
+        return new ProjectPage();
     }
 }

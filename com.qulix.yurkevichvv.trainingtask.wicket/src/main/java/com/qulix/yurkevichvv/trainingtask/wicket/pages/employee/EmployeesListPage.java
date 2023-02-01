@@ -41,7 +41,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         add(employeeListView);
 
         add(new WebPageLink("addEmployee",
-            new Model<>(EmployeesListPage.this.pageFactory.createPage(CompoundPropertyModel.of(new Employee())))));
+            new Model<>(pageFactory.createPage(CompoundPropertyModel.of(new Employee())))));
     }
 
     /**

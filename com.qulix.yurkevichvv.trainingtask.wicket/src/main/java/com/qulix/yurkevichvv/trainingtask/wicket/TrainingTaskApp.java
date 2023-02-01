@@ -15,7 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.HomePage;
  *
  * @author Q-YVV
  */
-public class    TrainingTaskApp extends WebApplication {
+public class TrainingTaskApp extends WebApplication {
 
     @Override
     public Class<? extends Page> getHomePage() {

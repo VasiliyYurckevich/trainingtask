@@ -1,6 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -36,11 +36,9 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
 
     /**
      * Конструктор.
-     *
-     * @param projectModel редактируемый проект
      */
-    public ProjectPage(CompoundPropertyModel<ProjectTemporaryData> projectModel) {
-        super("Редактировать проект", projectModel);
+    public ProjectPage() {
+        super("Редактировать проект", (CompoundPropertyModel<ProjectTemporaryData>) Session.get().getAttribute("projectTemporaryData"));
     }
 
     @Override
@@ -49,9 +47,10 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
 
         Form<ProjectTemporaryData> form = new ProjectForm(entityModel);
         addFormComponents(form);
-        addTaskList();
+        addTaskList(form);
         add(form);
     }
+
 
     /**
      * Генерирует страницу редактирования задачи.
@@ -63,7 +62,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
 
         task.setProjectId(entityModel.getObject().getId());
 
-        return new NewProjectTask(CompoundPropertyModel.of(task), entityModel);
+        return new NewProjectTaskPage(CompoundPropertyModel.of(task), entityModel);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
                 setResponsePage(getNewTaskPage(new Task()));
             }
         };
-        add(addTaskLink);
+       form.add(addTaskLink);
 
         addButtons(form);
 
@@ -85,8 +84,8 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
     /**
      * Добавляет список задач проекта.
      */
-    private void addTaskList() {
-        add(new TasksInProjectListView(LoadableDetachableModel.of(() ->
+    private void addTaskList(Form<ProjectTemporaryData> form) {
+        form.add(new TasksInProjectListView(LoadableDetachableModel.of(() ->
             this.entityModel.getObject().getTasksList()), entityModel, service));
     }
 
@@ -103,7 +102,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
     /**
      * Страница создания задачи проекта.
      */
-    private class NewProjectTask extends TaskPage {
+    private class NewProjectTaskPage extends TaskPage {
 
         /**
          * Модель проекта.
@@ -116,7 +115,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
          * @param taskModel    модель задачи
          * @param projectModel модель проекта
          */
-        private NewProjectTask(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+        private NewProjectTaskPage(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<ProjectTemporaryData> projectModel) {
             super(taskModel);
             this.projectModel = projectModel;
         }

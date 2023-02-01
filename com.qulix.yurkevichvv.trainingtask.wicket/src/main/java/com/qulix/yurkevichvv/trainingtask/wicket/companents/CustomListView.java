@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
@@ -13,7 +14,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 
 /**
- * Обобщенный ListView для сущностей.
+ * Обобщенный {@link ListView} для сущностей.
  *
  * @param <T> класс сущностей
  * @author Q-YVV
@@ -34,7 +35,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      * Конструктор.
      *
      * @param id идентификатор
-     * @param model модель списка
+     * @param model {@link LoadableDetachableModel} списка сущностей
      * @param service сервис для удаления элементов списка
      */
     public CustomListView(String id, LoadableDetachableModel<? extends List<T>> model, IService<T> service) {
@@ -63,25 +64,25 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @author Q-YVV
      */
-    private class DeleteLink<T extends Entity> extends Link<T> {
+    private static class DeleteLink<E extends Entity> extends Link<E> {
 
         /**
          * Сервис для работы с сущностями.
          */
-        private final IService<T> service;
+        private final IService<E> service;
 
         /**
          * Элемент ListView.
          */
-        private final IModel<T> entityModel;
+        private final IModel<E> entityModel;
 
         /**
          * Конструктор.
          *
          * @param id идентификатор
-         * @param entityModel элемент ListView
+         * @param entityModel элемент {@link ListView}
          */
-        public DeleteLink(String id, IService<T> service, IModel<T> entityModel) {
+        public DeleteLink(String id, IService<E> service, IModel<E> entityModel) {
             super(id);
             this.entityModel = entityModel;
             this.service = service;
@@ -90,7 +91,42 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         @Override
         public void onClick() {
             service.delete(entityModel.getObject().getId());
-            getPage().detach();
+        }
+    }
+
+    /**
+     * Ссылка для редактирования сущности.
+     *
+     * @author Q-YVV
+     */
+    public static class EditLink<T extends Entity> extends Link<T> {
+
+        /**
+         * Модель сущности.
+         */
+        private final IModel<T> model;
+
+        /**
+         * Фабрика для генерации страниц сущностей.
+         */
+        private final AbstractEntityPageFactory<T> pageFactory;
+
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         * @param pageFactory фабрика страниц
+         * @param model модель
+         */
+        public EditLink(String id, AbstractEntityPageFactory<T> pageFactory, IModel<T> model) {
+            super(id);
+            this.model = model;
+            this.pageFactory = pageFactory;
+        }
+
+        @Override
+        public void onClick() {
+            setResponsePage(pageFactory.createPage(CompoundPropertyModel.of(model)));
         }
     }
 }
