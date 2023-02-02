@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 import java.util.List;
 
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -31,7 +32,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
  *
  * @author Q-YVV
  */
-public class TaskPage extends AbstractEntityPage<Task> {
+public abstract class TaskPage extends AbstractEntityPage<Task> {
 
     /**
      * Максимальная длинна ввода полей.
@@ -53,66 +54,54 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @param taskModel модель задачи
      */
-    public TaskPage(CompoundPropertyModel<Task> taskModel) {
-        super("Редактировать задачу", taskModel);
+    public TaskPage(CompoundPropertyModel<Task> taskModel, AbstractEntityForm<Task> form) {
+        super("Редактировать задачу", taskModel, form);
     }
 
     /**
      * Добавляет поле даты начала работы в форму задачи.
-     *
-     * @param form форма для добавления
      */
-    private static void addDateFields(Form<Task> form) {
+    private void addDateFields() {
         LocalDateTextField beginDateField = new LocalDateTextField("beginDate", DATA_FORMAT);
-        form.add(beginDateField.setRequired(true));
+        getForm().add(beginDateField.setRequired(true));
         beginDateField.setRequired(true);
 
         FeedbackPanel beginDateFeedbackPanel = new FeedbackPanel("beginDateFeedbackPanel",
             new ComponentFeedbackMessageFilter(beginDateField));
-        form.add(beginDateFeedbackPanel);
+        getForm().add(beginDateFeedbackPanel);
 
         LocalDateTextField endDateTextField = new LocalDateTextField("endDate", DATA_FORMAT);
         endDateTextField.setRequired(true);
-        form.add(endDateTextField);
+        getForm().add(endDateTextField);
 
         FeedbackPanel endDateFeedbackPanel = new FeedbackPanel("endDateFeedbackPanel",
             new ComponentFeedbackMessageFilter(endDateTextField));
-        form.add(endDateFeedbackPanel);
+        getForm().add(endDateFeedbackPanel);
 
-        form.add(new DateValidator(beginDateField, endDateTextField));
+        getForm().add(new DateValidator(beginDateField, endDateTextField));
     }
 
     /**
      * Добавляет поле времени работы в форму задачи.
-     *
-     * @param form форма для добавления
      */
-    private static void addWorkTimeField(Form<Task> form) {
+    private void addWorkTimeField() {
         RequiredTextField<Integer> workTimeField = new RequiredTextField<>("workTime");
         workTimeField.add(new RangeValidator<>(0, Integer.MAX_VALUE));
-        form.add(workTimeField);
+        getForm().add(workTimeField);
 
         FeedbackPanel workTimeFeedbackPanel = new FeedbackPanel("workTimeFeedbackPanel",
             new ComponentFeedbackMessageFilter(workTimeField));
-        form.add(workTimeFeedbackPanel);
+        getForm().add(workTimeFeedbackPanel);
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
 
-        Form<Task> form = new TaskForm("taskForm", entityModel);
+        Form<Task> form = new TaskForm("taskForm", getEntityModel());
 
-        addFormComponents(form);
+        addFormComponents();
         add(form);
-    }
-
-    @Override
-    protected void onSubmitting() {
-    }
-
-    @Override
-    protected void onChangesSubmitted() {
     }
 
     /**
@@ -121,44 +110,40 @@ public class TaskPage extends AbstractEntityPage<Task> {
      * @return true если изменение возможно, иначе false
      */
     protected boolean changeProjectOption() {
-        return true;
+        return true;//тоже перенести в форму
     }
 
     @Override
-    protected void addFormComponents(Form<Task> form) {
-        addButtons(form);
-        addStatusesDropDownChoice(form);
-        addStringField(form, TITLE, MAXLENGTH);
-        addWorkTimeField(form);
-        addDateFields(form);
-        addProjectDropDownChoice(form);
-        addEmployeesDropDownChoice(form);
+    protected void addFormComponents() {
+        addButtons();
+        addStatusesDropDownChoice();
+        addStringField(TITLE, MAXLENGTH);
+        addWorkTimeField();
+        addDateFields();
+        addProjectDropDownChoice();
+        addEmployeesDropDownChoice();
     }
 
     /**
      * Добавляет выпадающий список статусов в форму задачи.
-     *
-     * @param form форма для добавления
      */
-    private void addStatusesDropDownChoice(Form<Task> form) {
+    private void addStatusesDropDownChoice() {
         DropDownChoice<Status> statusesDropDownChoice =
-            new DropDownChoice<>("statuses", new PropertyModel<>(entityModel, "status"),
+            new DropDownChoice<>("statuses", new PropertyModel<>(getEntityModel(), "status"),
             List.of(Status.values()), new ChoiceRenderer<>("statusTitle"));
 
         statusesDropDownChoice.setRequired(true);
 
         FeedbackPanel statusesFeedbackPanel = new FeedbackPanel("statusesFeedbackPanel",
             new ComponentFeedbackMessageFilter(statusesDropDownChoice));
-        form.add(statusesFeedbackPanel);
-        form.add(statusesDropDownChoice);
+        getForm().add(statusesFeedbackPanel);
+        getForm().add(statusesDropDownChoice);
     }
 
     /**
      * Добавляет выпадающий список сотрудников в форму задачи.
-     *
-     * @param form форма для добавления
      */
-    private void addEmployeesDropDownChoice(Form<Task> form) {
+    private void addEmployeesDropDownChoice() {
 
         LoadableDetachableModel<List<Employee>> employees = LoadableDetachableModel.of(() -> new EmployeeService().findAll());
         LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
@@ -169,31 +154,29 @@ public class TaskPage extends AbstractEntityPage<Task> {
             employees, employeeChoiceRenderer);
         employeesDropDownChoice.setNullValid(true);
 
-        form.add(employeesDropDownChoice);
+        getForm().add(employeesDropDownChoice);
 
         FeedbackPanel employeesFeedbackPanel = new FeedbackPanel("employeesFeedbackPanel",
             new ComponentFeedbackMessageFilter(employeesDropDownChoice));
-        form.add(employeesFeedbackPanel);
+        getForm().add(employeesFeedbackPanel);
     }
 
 
     /**
      * Добавляет выпадающий список проектов в форму задачи.
-     *
-     * @param form форма для добавления
      */
-    private void addProjectDropDownChoice(Form<Task> form) {
+    private void addProjectDropDownChoice() {
         LoadableDetachableModel<List<Project>> projects = LoadableDetachableModel.of(() -> new ProjectService().findAll());
         ProjectDropDownModel model = new ProjectDropDownModel(projects);
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId", model,
             projects, new ChoiceRenderer<>(TITLE));
         projectDropDownChoice.setRequired(true).setEnabled(changeProjectOption());
-        form.add(projectDropDownChoice);
+        getForm().add(projectDropDownChoice);
 
         FeedbackPanel projectFeedbackPanel = new FeedbackPanel("projectFeedbackPanel",
             new ComponentFeedbackMessageFilter(projectDropDownChoice));
-        form.add(projectFeedbackPanel);
+        getForm().add(projectFeedbackPanel);
     }
 
     /**
@@ -220,7 +203,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
         @Override
         public Employee getObject() {
             for (Employee employee : list.getObject()) {
-                if (employee.getId().equals(entityModel.getObject().getEmployeeId())) {
+                if (employee.getId().equals(getEntityModel().getObject().getEmployeeId())) {
                     return employee;
                 }
             }
@@ -229,7 +212,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public void setObject(Employee employee) {
-            entityModel.getObject().setEmployeeId(employee != null ? employee.getId() : null);
+            getEntityModel().getObject().setEmployeeId(employee != null ? employee.getId() : null);
         }
     }
 
@@ -257,7 +240,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
         @Override
         public Project getObject() {
             for (Project project : list.getObject()) {
-                if (project.getId().equals(entityModel.getObject().getProjectId())) {
+                if (project.getId().equals(getEntityModel().getObject().getProjectId())) {
                     return project;
                 }
             }
@@ -266,7 +249,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public void setObject(Project project) {
-            entityModel.getObject().setProjectId(project.getId());
+            getEntityModel().getObject().setProjectId(project.getId());
         }
     }
 
@@ -275,7 +258,7 @@ public class TaskPage extends AbstractEntityPage<Task> {
      *
      * @author Q-YVV
      */
-    private class TaskForm extends Form<Task> {
+    private class TaskForm extends AbstractEntityForm<Task> {
 
         /**
          * Конструктор.
@@ -291,6 +274,14 @@ public class TaskPage extends AbstractEntityPage<Task> {
         protected void onSubmit() {
             onSubmitting();
             onChangesSubmitted();
+        }
+
+        @Override
+        protected void onSubmitting() {
+        }
+
+        @Override
+        protected void onChangesSubmitted() {
         }
     }
 }

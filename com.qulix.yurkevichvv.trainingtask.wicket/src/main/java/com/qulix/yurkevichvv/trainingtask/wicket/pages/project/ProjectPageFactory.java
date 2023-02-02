@@ -17,7 +17,6 @@ public class ProjectPageFactory implements AbstractEntityPageFactory<Project> {
 
     @Override
     public AbstractEntityPage createPage(CompoundPropertyModel<Project> entityModel) {
-        Session.get().setAttribute("projectTemporaryData", CompoundPropertyModel.of(new ProjectTemporaryData(entityModel.getObject())));
-        return new ProjectPage();
+        return new ProjectPage(CompoundPropertyModel.of(new ProjectTemporaryData(entityModel.getObject())));
     }
 }

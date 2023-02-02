@@ -36,13 +36,13 @@ public class ProjectsListPage extends AbstractListPage<Project> {
         super.onInitialize();
 
         CustomListView<Project> projectListView =
-            new ProjectCustomListView(LoadableDetachableModel.of(() -> new ProjectService().findAll()), service);
+            new ProjectCustomListView(LoadableDetachableModel.of(() -> new ProjectService().findAll()), getService());
         add(projectListView);
 
         add(new Link<WebPage>("addProject") {
             @Override
             public void onClick() {
-                setResponsePage(pageFactory.createPage(CompoundPropertyModel.of(new Project())));
+                setResponsePage(getPageFactory().createPage(CompoundPropertyModel.of(new Project())));
             }
         });
     }

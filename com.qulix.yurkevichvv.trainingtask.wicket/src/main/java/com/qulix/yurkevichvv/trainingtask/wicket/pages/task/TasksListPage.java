@@ -39,7 +39,7 @@ public class TasksListPage extends AbstractListPage<Task> {
         add(addTask);
 
         CustomListView<Task> taskListView =
-            new TaskCustomListView(LoadableDetachableModel.of(() -> new TaskService().findAll()), service);
+            new TaskCustomListView(LoadableDetachableModel.of(() -> new TaskService().findAll()), getService());
         add(taskListView);
     }
 
@@ -56,7 +56,7 @@ public class TasksListPage extends AbstractListPage<Task> {
          * @param tasks   модель списка задач
          * @param service сервис для работы с сущностями
          */
-        public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService service) {
+        public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService<Task> service) {
             super("tasks", tasks, service);
         }
 
@@ -70,7 +70,6 @@ public class TasksListPage extends AbstractListPage<Task> {
             super.populateItem(item);
             ITaskTableColumns.addColumns(item);
         }
-
     }
 
     /**
@@ -100,5 +99,4 @@ public class TasksListPage extends AbstractListPage<Task> {
             this.setEnabled(!new ProjectService().findAll().isEmpty());
         }
     }
-
 }

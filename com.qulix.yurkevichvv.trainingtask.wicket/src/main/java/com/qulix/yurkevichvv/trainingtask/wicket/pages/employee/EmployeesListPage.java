@@ -37,11 +37,11 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         super.onInitialize();
 
         CustomListView<Employee> employeeListView =
-            new EmployeeCustomListView(LoadableDetachableModel.of(() -> new EmployeeService().findAll()), service);
+            new EmployeeCustomListView(LoadableDetachableModel.of(() -> new EmployeeService().findAll()), getService());
         add(employeeListView);
 
         add(new WebPageLink("addEmployee",
-            new Model<>(pageFactory.createPage(CompoundPropertyModel.of(new Employee())))));
+            new Model<>(getPageFactory().createPage(CompoundPropertyModel.of(new Employee())))));
     }
 
     /**

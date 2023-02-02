@@ -1,0 +1,41 @@
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
+
+import org.apache.wicket.model.CompoundPropertyModel;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
+
+/**
+ * Форма проекта.
+ */
+class ProjectForm extends AbstractEntityForm<ProjectTemporaryData> {
+
+    /**
+     * Сервис для работы с Project.
+     */
+    private final ProjectTemporaryService service = new ProjectTemporaryService();
+
+    /**
+     * Конструктор.
+     */
+    public ProjectForm(String id, CompoundPropertyModel<ProjectTemporaryData> entityModel) {
+        super(id, entityModel);
+    }
+
+    @Override
+    protected void onSubmit() {
+        onSubmitting();
+        onChangesSubmitted();
+    }
+
+    @Override
+    protected final void onSubmitting() {
+        service.save(getModelObject());
+    }
+
+    @Override
+    protected final void onChangesSubmitted() {
+        setResponsePage(ProjectsListPage.class);
+    }
+}

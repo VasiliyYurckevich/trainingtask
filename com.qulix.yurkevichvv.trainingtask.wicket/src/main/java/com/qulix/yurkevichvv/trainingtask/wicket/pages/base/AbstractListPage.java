@@ -14,12 +14,12 @@ public abstract class AbstractListPage<T extends Entity> extends BasePage {
     /**
      * Фабрика для создания страниц.
      */
-    protected final AbstractEntityPageFactory<T> pageFactory;
+    private final AbstractEntityPageFactory<T> pageFactory;
 
     /**
      * Сервис для работы с сущностями.
      */
-    protected final IService<T> service;
+    private final IService<T> service;
 
     /**
      * Конструктор.
@@ -31,5 +31,13 @@ public abstract class AbstractListPage<T extends Entity> extends BasePage {
         super(pageTitle);
         this.pageFactory = pageFactory;
         this.service = service;
+    }
+
+    public AbstractEntityPageFactory<T> getPageFactory() {
+        return pageFactory;
+    }
+
+    public IService<T> getService() {
+        return service;
     }
 }

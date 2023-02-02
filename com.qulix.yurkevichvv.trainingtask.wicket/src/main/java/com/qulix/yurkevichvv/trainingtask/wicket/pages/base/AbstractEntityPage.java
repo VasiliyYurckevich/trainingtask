@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -23,43 +22,34 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
     /**
      * Модель сущности.
      */
-    protected final CompoundPropertyModel<T> entityModel;
+    private final CompoundPropertyModel<T> entityModel;
+
+    private AbstractEntityForm<T> form;
 
     /**
      * Конструктор.
      *
-     * @param entityModel модель сущности.
+     * @param entityModel модель сущности
+     * @param form форма страницы
      */
-    protected AbstractEntityPage(final String pageTitle, CompoundPropertyModel<T> entityModel) {
+    protected AbstractEntityPage(final String pageTitle, CompoundPropertyModel<T> entityModel, AbstractEntityForm<T> form) {
         super(pageTitle);
         this.entityModel = entityModel;
+        this.form = form;
     }
 
     /**
-     * Выполняет отправку формы.
-     */
-    protected abstract void onSubmitting();
-
-    /**
-     * Выполнят переадресацию страницу после отправки формы или отмены редактирования.
-     */
-    protected abstract void onChangesSubmitted();
-
-    /**
      * Добавляет компоненты в форму.
-     *
-     * @param form форма для добавления
      */
-    protected abstract void addFormComponents(Form<T> form);
+    protected abstract void addFormComponents();
 
     /**
      * Добавляет поле и фидбек панель.
      *
-     * @param form      форма для добавления
      * @param name      имя поля
      * @param maxLength максимальная длинна ввода
      */
-    protected void addStringField(Form<T> form, String name, Integer maxLength) {
+    protected void addStringField(String name, Integer maxLength) {
         RequiredTextField<String> field = new RequiredTextField<>(name);
         field.add(new CustomStringValidator(maxLength));
         form.add(field);
@@ -71,10 +61,8 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
     /**
      * Добавляет кнопки.
-     *
-     * @param form форма для добавления
      */
-    protected void addButtons(Form<T> form) {
+    protected void addButtons() {
         NoDoubleClickButton button = new NoDoubleClickButton("submit");
         form.add(button)
                 .add(new PreventSubmitOnEnterBehavior());
@@ -82,6 +70,18 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
         Link<Void> cancelButton = new CancelLink("cancel");
         form.add(cancelButton);
+    }
+
+    public CompoundPropertyModel<T> getEntityModel() {
+        return entityModel;
+    }
+
+    public AbstractEntityForm<T> getForm() {
+        return form;
+    }
+
+    public void setForm(AbstractEntityForm<T> form) {
+        this.form = form;
     }
 
     /**
@@ -102,7 +102,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
         @Override
         public void onClick() {
-            onChangesSubmitted();
+            form.onChangesSubmitted();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
@@ -23,10 +24,20 @@ public class EditTaskPage extends TaskPage {
      * @param entityModel модель задачи
      */
     public EditTaskPage(CompoundPropertyModel<Task> entityModel) {
-        super(entityModel);
+        super(entityModel, new AbstractEntityForm<Task>("", entityModel) {
+            @Override
+            protected void onSubmitting() {
+
+            }
+
+            @Override
+            protected void onChangesSubmitted() {
+
+            }
+        });
     }
 
-    @Override
+/*    @Override
     protected void onSubmitting() {
         service.save(entityModel.getObject());
     }
@@ -34,5 +45,5 @@ public class EditTaskPage extends TaskPage {
     @Override
     protected void onChangesSubmitted() {
         setResponsePage(TasksListPage.class);
-    }
+    }*/
 }

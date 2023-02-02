@@ -19,10 +19,6 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      */
     private static final int MAXLENGTH = 50;
 
-    /**
-     * Сервис для работы с Employee.
-     */
-    private final EmployeeService service = new EmployeeService();
 
     /**
      * Конструктор.
@@ -30,19 +26,15 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      * @param employeeModel редактируемый сотрудник
      */
     public EmployeePage(CompoundPropertyModel<Employee> employeeModel) {
-        super("Редактировать сотрудника", employeeModel);
+        super("Редактировать сотрудника", employeeModel,  new EmployeeForm("form", employeeModel));
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-
-        Form<Employee> employeeForm = new EmployeeForm("form", entityModel);
-
-        addFormComponents(employeeForm);
-        add(employeeForm);
+        addFormComponents();
     }
-
+/*
     @Override
     protected final void onSubmitting() {
         service.save(entityModel.getObject());
@@ -51,30 +43,16 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
     @Override
     protected final void onChangesSubmitted() {
         setResponsePage(EmployeesListPage.class);
-    }
+    }*/
 
     @Override
-    protected void addFormComponents(Form<Employee> form) {
-        addButtons(form);
-        addStringField(form, "surname", MAXLENGTH);
-        addStringField(form, "firstName", MAXLENGTH);
-        addStringField(form, "patronymic", MAXLENGTH);
-        addStringField(form, "post", MAXLENGTH);
+    protected void addFormComponents() {
+        addButtons();
+        addStringField("surname", MAXLENGTH);
+        addStringField("firstName", MAXLENGTH);
+        addStringField("patronymic", MAXLENGTH);
+        addStringField("post", MAXLENGTH);
+        add(getForm());
     }
 
-    /**
-     * Форма сотрудника.
-     */
-    private class EmployeeForm extends Form<Employee> {
-
-        public EmployeeForm(String id, CompoundPropertyModel<Employee> model) {
-            super(id, model);
-        }
-
-        @Override
-        public void onSubmit() {
-            onSubmitting();
-            onChangesSubmitted();
-        }
-    }
 }

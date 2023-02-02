@@ -3,6 +3,10 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 import java.io.Serializable;
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.EditTaskPage;
+import org.apache.wicket.Session;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -39,16 +43,16 @@ class TasksInProjectListView extends ListView<Task> {
      * Конструктор.
      *
      * @param tasks        модель списка задач
-     * @param projectModel модель проекта
      * @param service      сервис для работ с проектом
      */
-    public TasksInProjectListView(LoadableDetachableModel<List<Task>> tasks,
-        CompoundPropertyModel<ProjectTemporaryData> projectModel, ProjectTemporaryService service) {
+    public TasksInProjectListView(LoadableDetachableModel<List<Task>> tasks, ProjectTemporaryService service) {
 
         super("tasks", tasks);
-        this.projectModel = projectModel;
         this.service = service;
+        this.projectModel = CompoundPropertyModel.of(new ProjectTemporaryData(new Project()));
+        setReuseItems(true);
     }
+
 
     @Override
     protected void populateItem(ListItem<Task> item) {
@@ -63,7 +67,7 @@ class TasksInProjectListView extends ListView<Task> {
      *
      * @author Q-YVV
      */
-    private class DeleteInProjectLink extends Link<Void> {
+    private class DeleteInProjectLink extends Button {
 
         /**
          * Модель задачи.
@@ -76,9 +80,7 @@ class TasksInProjectListView extends ListView<Task> {
         }
 
         @Override
-        public void onClick() {
-            Form<ProjectTemporaryData> form = (Form<ProjectTemporaryData>) getParent().getParent().getParent();
-            form.modelChanged();
+        public void onSubmit() {
             service.deleteTask(projectModel.getObject(), taskModel.getObject());
         }
     }
@@ -88,53 +90,53 @@ class TasksInProjectListView extends ListView<Task> {
      *
      * @author Q-YVV
      */
-    protected static class EditProjectTaskPage extends TaskPage {
-
-        /**
-         * Индекс в списке задач проекта.
-         */
-        private final Integer index;
-
-        /**
-         * Модель проекта.
-         */
-        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
-
-        /**
-         * Сервис для работы с проектом.
-         */
-        private final ProjectTemporaryService service = new ProjectTemporaryService();
-
-        /**
-         * Конструктор.
-         *
-         * @param taskModel    модель задачи
-         * @param projectModel модель проекта
-         */
-        public EditProjectTaskPage(CompoundPropertyModel<Task> taskModel,
-            CompoundPropertyModel<ProjectTemporaryData> projectModel) {
-
-            super(taskModel);
-            this.projectModel = projectModel;
-            this.index = projectModel.getObject().getTasksList().indexOf(taskModel.getObject());
-
-        }
-
-        @Override
-        protected void onSubmitting() {
-            service.updateTask(projectModel.getObject(), index, super.entityModel.getObject());
-        }
-
-        @Override
-        protected void onChangesSubmitted() {
-            setResponsePage(new ProjectPage());
-        }
-
-        @Override
-        protected boolean changeProjectOption() {
-            return false;
-        }
-    }
+//    protected static class EditProjectTaskPage extends TaskPage {
+//
+//        /**
+//         * Индекс в списке задач проекта.
+//         */
+//        private final Integer index;
+//
+//        /**
+//         * Модель проекта.
+//         */
+//        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
+//
+//        /**
+//         * Сервис для работы с проектом.
+//         */
+//        private final ProjectTemporaryService service = new ProjectTemporaryService();
+//
+//        /**
+//         * Конструктор.
+//         *
+//         * @param taskModel    модель задачи
+//         * @param projectModel модель проекта
+//         */
+//        public EditProjectTaskPage(CompoundPropertyModel<Task> taskModel,
+//            CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+//
+//            super(taskModel);
+//            this.projectModel = projectModel;
+//            this.index = projectModel.getObject().getTasksList().indexOf(taskModel.getObject());
+//
+//        }
+//
+//        @Override
+//        protected void onSubmitting() {
+//            service.updateTask(projectModel.getObject(), index, super.entityModel.getObject());
+//        }
+//
+//        @Override
+//        protected void onChangesSubmitted() {
+//            setResponsePage(new ProjectPage());
+//        }
+//
+//        @Override
+//        protected boolean changeProjectOption() {
+//            return false;
+//        }
+//    }
 
     /**
      * Ссылка для редактирования задачи в проекте.
@@ -167,9 +169,6 @@ class TasksInProjectListView extends ListView<Task> {
 
         @Override
         public void onClick() {
-            Form<ProjectTemporaryData> form = (Form<ProjectTemporaryData>) getParent().getParent().getParent();
-            form.detachModels();
-
             setResponsePage(new ProjectTaskPageFactory().createPage(CompoundPropertyModel.of(taskModel), projectModel));
         }
     }
@@ -179,7 +178,7 @@ class TasksInProjectListView extends ListView<Task> {
         public AbstractEntityPage createPage(CompoundPropertyModel<Task> taskModel,
             CompoundPropertyModel<ProjectTemporaryData> propertyModel) {
 
-            return new EditProjectTaskPage(taskModel, propertyModel);
+            return new EditTaskPage(taskModel);
         }
     }
 }

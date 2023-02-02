@@ -1,6 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import org.apache.wicket.Session;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.EditTaskPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -30,27 +30,19 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
     private static final int DESCRIPTION_MAXLENGTH = 250;
 
     /**
-     * Сервис для работы с Project.
-     */
-    private final ProjectTemporaryService service = new ProjectTemporaryService();
-
-    /**
      * Конструктор.
      */
-    public ProjectPage() {
-        super("Редактировать проект", (CompoundPropertyModel<ProjectTemporaryData>) Session.get().getAttribute("projectTemporaryData"));
+    public ProjectPage(CompoundPropertyModel<ProjectTemporaryData> propertyModel) {
+        super("Редактировать проект", propertyModel, new ProjectForm("projectForm", propertyModel));
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-
-        Form<ProjectTemporaryData> form = new ProjectForm(entityModel);
-        addFormComponents(form);
-        addTaskList(form);
-        add(form);
+        addFormComponents();
+        addTaskList();
+        add(getForm());
     }
-
 
     /**
      * Генерирует страницу редактирования задачи.
@@ -59,37 +51,38 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
      * @return страницу редактирования задачи
      */
     protected TaskPage getNewTaskPage(Task task) {
+//переделать
+        task.setProjectId(getEntityModel().getObject().getId());
 
-        task.setProjectId(entityModel.getObject().getId());
-
-        return new NewProjectTaskPage(CompoundPropertyModel.of(task), entityModel);
+        return new EditTaskPage(CompoundPropertyModel.of(task)/*, getEntityModel()*/);
     }
 
     @Override
-    protected void addFormComponents(Form<ProjectTemporaryData> form) {
-        Link<Void> addTaskLink = new Link<>("addTaskInProject") {
+    protected void addFormComponents() {
+      /*  Link<Void> addTaskLink = new Link<>("addTaskInProject",) {
             @Override
             public void onClick() {
                 setResponsePage(getNewTaskPage(new Task()));
             }
         };
-       form.add(addTaskLink);
+        getForm().add(addTaskLink);*/
 
-        addButtons(form);
+        addButtons();
 
-        addStringField(form, "project.title", TITLE_MAXLENGTH);
-        addStringField(form, "project.description", DESCRIPTION_MAXLENGTH);
+        addStringField("project.title", TITLE_MAXLENGTH);
+        addStringField("project.description", DESCRIPTION_MAXLENGTH);
     }
 
     /**
      * Добавляет список задач проекта.
      */
-    private void addTaskList(Form<ProjectTemporaryData> form) {
-        form.add(new TasksInProjectListView(LoadableDetachableModel.of(() ->
-            this.entityModel.getObject().getTasksList()), entityModel, service));
+    private void addTaskList() {
+        //Исправить сервис
+        getForm().add(new TasksInProjectListView(LoadableDetachableModel.of(() ->
+            this.getEntityModel().getObject().getTasksList()), new ProjectTemporaryService()));
     }
 
-    @Override
+/*    @Override
     protected final void onSubmitting() {
         service.save(entityModel.getObject());
     }
@@ -97,61 +90,42 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
     @Override
     protected final void onChangesSubmitted() {
         setResponsePage(ProjectsListPage.class);
-    }
+    }*/
 
     /**
      * Страница создания задачи проекта.
      */
-    private class NewProjectTaskPage extends TaskPage {
-
-        /**
-         * Модель проекта.
-         */
-        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
-
-        /**
-         * Конструктор.
-         *
-         * @param taskModel    модель задачи
-         * @param projectModel модель проекта
-         */
-        private NewProjectTaskPage(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<ProjectTemporaryData> projectModel) {
-            super(taskModel);
-            this.projectModel = projectModel;
-        }
-
-        @Override
-        protected void onSubmitting() {
-            service.addTask(projectModel.getObject(), entityModel.getObject());
-        }
-
-        @Override
-        protected void onChangesSubmitted() {
-            setResponsePage(ProjectPage.this);
-        }
-
-        @Override
-        protected boolean changeProjectOption() {
-            return false;
-        }
-    }
-
-    /**
-     * Форма проекта.
-     */
-    private class ProjectForm extends Form<ProjectTemporaryData> {
-
-        /**
-         * Конструктор.
-         */
-        public ProjectForm(CompoundPropertyModel<ProjectTemporaryData> entityModel) {
-            super("projectForm", entityModel);
-        }
-
-        @Override
-        protected void onSubmit() {
-            onSubmitting();
-            onChangesSubmitted();
-        }
-    }
+//    private class NewProjectTaskPage extends TaskPage {
+//
+//        *
+//         * Модель проекта.
+//
+//        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
+//
+//        *
+//         * Конструктор.
+//         *
+//         * @param taskModel    модель задачи
+//         * @param projectModel модель проекта
+//
+//        private NewProjectTaskPage(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+//            super(taskModel);
+//            this.projectModel = projectModel;
+//        }
+//
+//        @Override
+//        protected void onSubmitting() {
+//            service.addTask(projectModel.getObject(), entityModel.getObject());
+//        }
+//
+//        @Override
+//        protected void onChangesSubmitted() {
+//                setResponsePage(ProjectPage.this);
+//        }
+//
+//        @Override
+//        protected boolean changeProjectOption() {
+//            return false;
+//        }
+//    }
 }
