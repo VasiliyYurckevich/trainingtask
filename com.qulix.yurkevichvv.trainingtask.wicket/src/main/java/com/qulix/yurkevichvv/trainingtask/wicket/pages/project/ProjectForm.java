@@ -8,11 +8,13 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
 
 /**
  * Форма проекта.
+ *
+ * @author Q-YVV
  */
 class ProjectForm extends AbstractEntityForm<ProjectTemporaryData> {
 
     /**
-     * Сервис для работы с Project.
+     * Сервис для работы с {@link ProjectTemporaryData}.
      */
     private final ProjectTemporaryService service = new ProjectTemporaryService();
 
@@ -21,12 +23,6 @@ class ProjectForm extends AbstractEntityForm<ProjectTemporaryData> {
      */
     public ProjectForm(String id, CompoundPropertyModel<ProjectTemporaryData> entityModel) {
         super(id, entityModel);
-    }
-
-    @Override
-    protected void onSubmit() {
-        onSubmitting();
-        onChangesSubmitted();
     }
 
     @Override

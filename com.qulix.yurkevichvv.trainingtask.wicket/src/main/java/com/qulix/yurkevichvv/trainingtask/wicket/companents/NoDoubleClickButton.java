@@ -37,13 +37,6 @@ public class NoDoubleClickButton extends Button {
          */
         private static final String JAVASCRIPT_POINTER_EVENTS = ";$('#%s').css('pointer-events', '%s');";
 
-        /**
-         * Конструктор.
-         */
-        public PreventDoubleClickBehaviorButtons() {
-            super();
-        }
-
         @Override
         public CharSequence getBeforeHandler(Component component) {
             return getEnableDisableJavascript(component);

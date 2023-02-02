@@ -32,7 +32,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.validation.DateValidator;
  *
  * @author Q-YVV
  */
-public abstract class TaskPage extends AbstractEntityPage<Task> {
+public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
 
     /**
      * Максимальная длинна ввода полей.
@@ -54,7 +54,7 @@ public abstract class TaskPage extends AbstractEntityPage<Task> {
      *
      * @param taskModel модель задачи
      */
-    public TaskPage(CompoundPropertyModel<Task> taskModel, AbstractEntityForm<Task> form) {
+    public AbstractTaskPage(CompoundPropertyModel<Task> taskModel, AbstractEntityForm<Task> form) {
         super("Редактировать задачу", taskModel, form);
     }
 
@@ -98,10 +98,8 @@ public abstract class TaskPage extends AbstractEntityPage<Task> {
     protected void onInitialize() {
         super.onInitialize();
 
-        Form<Task> form = new TaskForm("taskForm", getEntityModel());
-
         addFormComponents();
-        add(form);
+        add(getForm());
     }
 
     /**
@@ -253,35 +251,4 @@ public abstract class TaskPage extends AbstractEntityPage<Task> {
         }
     }
 
-    /**
-     * Форма редактирования задачи.
-     *
-     * @author Q-YVV
-     */
-    private class TaskForm extends AbstractEntityForm<Task> {
-
-        /**
-         * Конструктор.
-         *
-         * @param id идентификатор
-         * @param entityModel модель задачи
-         */
-        public TaskForm(String id, CompoundPropertyModel<Task> entityModel) {
-            super(id, entityModel);
-        }
-
-        @Override
-        protected void onSubmit() {
-            onSubmitting();
-            onChangesSubmitted();
-        }
-
-        @Override
-        protected void onSubmitting() {
-        }
-
-        @Override
-        protected void onChangesSubmitted() {
-        }
-    }
 }

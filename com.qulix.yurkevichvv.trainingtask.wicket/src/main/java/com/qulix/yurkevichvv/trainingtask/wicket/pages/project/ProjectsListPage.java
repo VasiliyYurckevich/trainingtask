@@ -60,7 +60,7 @@ public class ProjectsListPage extends AbstractListPage<Project> {
          * @param projects       модель списка проектов
          * @param projectService сервис для работы с проектами
          */
-        public ProjectCustomListView(LoadableDetachableModel<List<Project>> projects, IService projectService) {
+        public ProjectCustomListView(LoadableDetachableModel<List<Project>> projects, IService<Project> projectService) {
             super("projects", projects, projectService);
         }
 

@@ -32,7 +32,7 @@ public abstract class AbstractListPage<T extends Entity> extends BasePage {
         this.pageFactory = pageFactory;
         this.service = service;
     }
-
+    
     public AbstractEntityPageFactory<T> getPageFactory() {
         return pageFactory;
     }

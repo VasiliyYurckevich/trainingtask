@@ -20,12 +20,6 @@ class EmployeeForm extends AbstractEntityForm<Employee> {
     }
 
     @Override
-    public void onSubmit() {
-        onSubmitting();
-        onChangesSubmitted();
-    }
-
-    @Override
     protected final void onSubmitting() {
         service.save(getModelObject());
     }

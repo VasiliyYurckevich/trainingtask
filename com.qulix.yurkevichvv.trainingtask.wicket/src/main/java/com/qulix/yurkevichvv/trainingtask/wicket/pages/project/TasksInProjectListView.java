@@ -5,9 +5,7 @@ import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.EditTaskPage;
-import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -20,7 +18,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 
 /**
  * Реализует CustomListView для задач проекта.
@@ -90,7 +87,7 @@ class TasksInProjectListView extends ListView<Task> {
      *
      * @author Q-YVV
      */
-//    protected static class EditProjectTaskPage extends TaskPage {
+//    protected static class EditProjectTaskPage extends AbstractTaskPage {
 //
 //        /**
 //         * Индекс в списке задач проекта.

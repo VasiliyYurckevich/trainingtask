@@ -19,14 +19,13 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
      */
     private static final int MAXLENGTH = 50;
 
-
     /**
      * Конструктор.
      *
      * @param employeeModel редактируемый сотрудник
      */
     public EmployeePage(CompoundPropertyModel<Employee> employeeModel) {
-        super("Редактировать сотрудника", employeeModel,  new EmployeeForm("form", employeeModel));
+        super("Редактировать сотрудника", employeeModel, new EmployeeForm("employeeForm", employeeModel));
     }
 
     @Override
@@ -34,16 +33,6 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
         super.onInitialize();
         addFormComponents();
     }
-/*
-    @Override
-    protected final void onSubmitting() {
-        service.save(entityModel.getObject());
-    }
-
-    @Override
-    protected final void onChangesSubmitted() {
-        setResponsePage(EmployeesListPage.class);
-    }*/
 
     @Override
     protected void addFormComponents() {

@@ -1,8 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.AbstractTaskPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.EditTaskPage;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
@@ -10,7 +9,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TaskPage;
 
 /**
  * Страница добавления проекта.
@@ -50,7 +48,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
      * @param task задача
      * @return страницу редактирования задачи
      */
-    protected TaskPage getNewTaskPage(Task task) {
+    protected AbstractTaskPage getNewTaskPage(Task task) {
 //переделать
         task.setProjectId(getEntityModel().getObject().getId());
 
@@ -95,7 +93,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
     /**
      * Страница создания задачи проекта.
      */
-//    private class NewProjectTaskPage extends TaskPage {
+//    private class NewProjectTaskPage extends AbstractTaskPage {
 //
 //        *
 //         * Модель проекта.

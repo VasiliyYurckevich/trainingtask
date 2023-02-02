@@ -13,10 +13,10 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFa
  *
  * @author Q-YVV
  */
-public class ProjectPageFactory implements AbstractEntityPageFactory<Project> {
+public class ProjectPageFactory implements AbstractEntityPageFactory<ProjectTemporaryData> {
 
     @Override
-    public AbstractEntityPage createPage(CompoundPropertyModel<Project> entityModel) {
-        return new ProjectPage(CompoundPropertyModel.of(new ProjectTemporaryData(entityModel.getObject())));
+    public AbstractEntityPage<ProjectTemporaryData> createPage(CompoundPropertyModel<ProjectTemporaryData> entityModel) {
+        return new ProjectPage(CompoundPropertyModel.of(entityModel.getObject()));
     }
 }

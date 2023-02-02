@@ -11,7 +11,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
  *
  * @author Q-YVV
  */
-public class EditTaskPage extends TaskPage {
+public class EditTaskPage extends AbstractTaskPage {
 
     /**
      * Сервис для работы с задачами.
@@ -24,7 +24,7 @@ public class EditTaskPage extends TaskPage {
      * @param entityModel модель задачи
      */
     public EditTaskPage(CompoundPropertyModel<Task> entityModel) {
-        super(entityModel, new AbstractEntityForm<Task>("", entityModel) {
+        super(entityModel, new AbstractEntityForm<>("", entityModel) {
             @Override
             protected void onSubmitting() {
 
