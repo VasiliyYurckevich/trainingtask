@@ -64,7 +64,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @author Q-YVV
      */
-    private static class DeleteLink<E extends Entity> extends Link<E> {
+    private class DeleteLink<E extends Entity> extends Link<E> {
 
         /**
          * Сервис для работы с сущностями.
@@ -91,6 +91,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         @Override
         public void onClick() {
             service.delete(entityModel.getObject().getId());
+            CustomListView.this.getModel().detach();
         }
     }
 
@@ -104,7 +105,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
         /**
          * Модель сущности.
          */
-        private final IModel<T> model;
+        private final IModel<T> entityModel;
 
         /**
          * Фабрика для генерации страниц сущностей.
@@ -116,17 +117,17 @@ public class CustomListView<T extends Entity> extends ListView<T> {
          *
          * @param id идентификатор
          * @param pageFactory фабрика страниц
-         * @param model модель
+         * @param entityModel модель
          */
-        public EditLink(String id, AbstractEntityPageFactory<T> pageFactory, IModel<T> model) {
+        public EditLink(String id, AbstractEntityPageFactory<T> pageFactory, IModel<T> entityModel) {
             super(id);
-            this.model = model;
+            this.entityModel = entityModel;
             this.pageFactory = pageFactory;
         }
 
         @Override
         public void onClick() {
-            setResponsePage(pageFactory.createPage(CompoundPropertyModel.of(model)));
+            setResponsePage(pageFactory.createPage(CompoundPropertyModel.of(entityModel)));
         }
     }
 }
