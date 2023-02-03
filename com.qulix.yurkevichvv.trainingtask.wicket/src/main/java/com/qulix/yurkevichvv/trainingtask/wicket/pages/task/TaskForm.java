@@ -28,6 +28,12 @@ class TaskForm extends AbstractEntityForm<Task> {
     }
 
     @Override
+    protected void onSubmit() {
+        onSubmitting();
+        onChangesSubmitted();
+    }
+
+    @Override
     protected void onSubmitting() {
         service.save(getModelObject());
     }

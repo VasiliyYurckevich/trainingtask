@@ -14,7 +14,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFa
 public class TaskPageFactory implements AbstractEntityPageFactory<Task> {
 
     @Override
-    public AbstractEntityPage<Task> createPage(CompoundPropertyModel<Task> entityModel) {
+    public AbstractEntityPage createPage(CompoundPropertyModel<Task> entityModel) {
         return new EditTaskPage(entityModel);
     }
 }

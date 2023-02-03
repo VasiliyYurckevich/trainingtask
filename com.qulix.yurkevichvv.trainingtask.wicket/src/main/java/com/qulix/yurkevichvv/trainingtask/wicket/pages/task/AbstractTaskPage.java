@@ -97,9 +97,6 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-
-        addFormComponents();
-        add(getForm());
     }
 
     /**
@@ -120,6 +117,7 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
         addDateFields();
         addProjectDropDownChoice();
         addEmployeesDropDownChoice();
+        add(getForm());
     }
 
     /**

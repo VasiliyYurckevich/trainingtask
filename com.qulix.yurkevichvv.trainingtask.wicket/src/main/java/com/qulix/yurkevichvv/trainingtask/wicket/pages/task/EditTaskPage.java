@@ -14,36 +14,17 @@ import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 public class EditTaskPage extends AbstractTaskPage {
 
     /**
-     * Сервис для работы с задачами.
-     */
-    private final TaskService service = new TaskService();
-
-    /**
      * Конструктор.
      *
      * @param entityModel модель задачи
      */
     public EditTaskPage(CompoundPropertyModel<Task> entityModel) {
-        super(entityModel, new AbstractEntityForm<>("", entityModel) {
-            @Override
-            protected void onSubmitting() {
-
-            }
-
-            @Override
-            protected void onChangesSubmitted() {
-
-            }
-        });
-    }
-
-/*    @Override
-    protected void onSubmitting() {
-        service.save(entityModel.getObject());
+        super(entityModel, new TaskForm("taskForm", entityModel));
     }
 
     @Override
-    protected void onChangesSubmitted() {
-        setResponsePage(TasksListPage.class);
-    }*/
+    protected void onInitialize() {
+        super.onInitialize();
+        addFormComponents();
+    }
 }

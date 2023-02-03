@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -16,6 +17,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
+import org.apache.wicket.model.Model;
 
 /**
  * Страница списка задач.
@@ -35,13 +37,14 @@ public class TasksListPage extends AbstractListPage<Task> {
     protected void onInitialize() {
         super.onInitialize();
 
-        Link<WebPage> addTask = new AddTaskLink("addTask");
+        EntityEditPageLink<Task> addTask = new TaskEntityEditPageLink("addTask", TasksListPage.this.getPageFactory(), new Model<>(new Task()));
         add(addTask);
 
         CustomListView<Task> taskListView =
             new TaskCustomListView(LoadableDetachableModel.of(() -> new TaskService().findAll()), getService());
         add(taskListView);
     }
+
 
     /**
      * Реализует CustomListView для задач.
@@ -72,31 +75,16 @@ public class TasksListPage extends AbstractListPage<Task> {
         }
     }
 
-    /**
-     * Ссылка добавления задачи.
-     *
-     * @author Q-YVV
-     */
-    private static class AddTaskLink extends Link<WebPage> {
-
-        /**
-         * Конструктор.
-         *
-         * @param id идентификатор
-         */
-        public AddTaskLink(String id) {
-            super(id);
-        }
-
-        @Override
-        public void onClick() {
-            setResponsePage(new EditTaskPage(CompoundPropertyModel.of(new Task())));
+    private static class TaskEntityEditPageLink extends EntityEditPageLink<Task> {
+        public TaskEntityEditPageLink(String id, AbstractEntityPageFactory<Task> pageFactory, Model<Task> taskModel) {
+            super(id, pageFactory,taskModel);
         }
 
         @Override
         protected void onConfigure() {
             super.onConfigure();
-            this.setEnabled(!new ProjectService().findAll().isEmpty());
+            setEnabled(!new ProjectService().findAll().isEmpty());
         }
     }
+
 }

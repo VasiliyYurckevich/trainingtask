@@ -1,11 +1,13 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
+import org.apache.wicket.model.CompoundPropertyModel;
+
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPageFactory;
-import org.apache.wicket.model.CompoundPropertyModel;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
+
 
 public class ProjectTaskForm extends AbstractEntityForm<Task> {
 
@@ -20,11 +22,10 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
      * Конструктор.
      *  @param id идентификатор
      * @param entityModel модель сущности {@link Task}
-     * @param projectTemporaryDataModel
-     * @param index
+     * @param projectTemporaryDataModel модель данных проекта задачи
      */
     public ProjectTaskForm(String id, CompoundPropertyModel<Task> entityModel,
-                           CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel, int index) {
+        CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel) {
 
         super(id, entityModel);
         this.projectTemporaryDataModel = projectTemporaryDataModel;
@@ -44,6 +45,6 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
 
     @Override
     protected void onChangesSubmitted() {
-        setResponsePage(new ProjectPageFactory().createPage(projectTemporaryDataModel));
+        setResponsePage(new ProjectPage(projectTemporaryDataModel));
     }
 }
