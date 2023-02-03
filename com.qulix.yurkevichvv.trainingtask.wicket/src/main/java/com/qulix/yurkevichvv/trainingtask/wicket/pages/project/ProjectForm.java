@@ -23,6 +23,11 @@ class ProjectForm extends AbstractEntityForm<ProjectTemporaryData> {
      */
     public ProjectForm(String id, CompoundPropertyModel<ProjectTemporaryData> entityModel) {
         super(id, entityModel);
+        System.out.println( id);
+    }
+
+    @Override
+    protected void onSubmit() {
     }
 
     @Override

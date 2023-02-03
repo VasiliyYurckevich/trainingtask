@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org"  >
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
 <body>
 <wicket:extend>
     <div class="chief">
@@ -11,19 +11,19 @@
 
                     <div class="field">
                         <label>Наименование:</label>
-                        <input type="text" wicket:id="project.title"/>
+                        <input type="text" wicket:id="title"/>
                         <br>
-                        <div class="feedback" wicket:id="project.titleFeedbackPanel"/>
+                        <div class="feedback" wicket:id="titleFeedbackPanel"/>
                     </div>
 
                     <div class="field">
                         <label>Описание:</label>
-                        <input type="text" wicket:id="project.description"/>
+                        <input type="text" wicket:id="description"/>
                         <br>
-                        <div class="feedback" wicket:id="project.descriptionFeedbackPanel"/>
+                        <div class="feedback" wicket:id="descriptionFeedbackPanel"/>
                     </div>
                 <div>
-                    <button class="add-button" value="" wicket:id="addTaskInProject">Добавить задачу</button>
+                    <button class="add-button" wicket:id="addTaskLink">Добавить задачу</button>
                 </div>
 
             <div class="header">
@@ -52,8 +52,8 @@
                     <td wicket:id="projectTitle"></td>
                     <td wicket:id="employeeName"></td>
                     <td>
-                        <a href wicket:id="editLink">Редактировать</a>
-                        <a href wicket:id="deleteLink">Удалить</a>
+                        <button type="submit" class="add-button"  wicket:id="editLink">Редактировать</button>
+                        <button type="submit" class="add-button"  wicket:id="deleteLink">Удалить</button>
                     </td>
                 </tr>
                 </tbody>

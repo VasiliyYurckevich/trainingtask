@@ -1,14 +1,22 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
-
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.AbstractTaskPage;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.EditTaskPage;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.ProjectTaskPageFactory;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+import org.apache.wicket.model.Model;
+
+import java.util.List;
 
 /**
  * Страница добавления проекта.
@@ -27,103 +35,139 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
      */
     private static final int DESCRIPTION_MAXLENGTH = 250;
 
+    private final ProjectTaskPageFactory pageFactory = new ProjectTaskPageFactory(getEntityModel());
+
     /**
      * Конструктор.
      */
-    public ProjectPage(CompoundPropertyModel<ProjectTemporaryData> propertyModel) {
-        super("Редактировать проект", propertyModel, new ProjectForm("projectForm", propertyModel));
+    public ProjectPage(CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+        super("Редактировать проект", projectModel, new ProjectForm("projectForm", projectModel));
+    }
+
+    @Override
+    protected void addFormComponents() {
+        addButtons();
+
+        addStringField("title", TITLE_MAXLENGTH);
+        addStringField("description", DESCRIPTION_MAXLENGTH);
+
+        getForm().add(new EntityEditPageLink<>("addTaskLink", pageFactory, Model.of(new Task())));
+        addTaskList();
+        add(getForm());
     }
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
         addFormComponents();
-        addTaskList();
-        add(getForm());
-    }
-
-    /**
-     * Генерирует страницу редактирования задачи.
-     *
-     * @param task задача
-     * @return страницу редактирования задачи
-     */
-    protected AbstractTaskPage getNewTaskPage(Task task) {
-//переделать
-        task.setProjectId(getEntityModel().getObject().getId());
-
-        return new EditTaskPage(CompoundPropertyModel.of(task)/*, getEntityModel()*/);
-    }
-
-    @Override
-    protected void addFormComponents() {
-      /*  Link<Void> addTaskLink = new Link<>("addTaskInProject",) {
-            @Override
-            public void onClick() {
-                setResponsePage(getNewTaskPage(new Task()));
-            }
-        };
-        getForm().add(addTaskLink);*/
-
-        addButtons();
-
-        addStringField("project.title", TITLE_MAXLENGTH);
-        addStringField("project.description", DESCRIPTION_MAXLENGTH);
     }
 
     /**
      * Добавляет список задач проекта.
      */
     private void addTaskList() {
-        //Исправить сервис
-        getForm().add(new TasksInProjectListView(LoadableDetachableModel.of(() ->
-            this.getEntityModel().getObject().getTasksList()), new ProjectTemporaryService()));
+        getForm().add(new ProjectTasksListView(LoadableDetachableModel.of(() ->
+            getForm().getModelObject().getTasksList()), new ProjectTemporaryService(), pageFactory, getEntityModel()));
     }
-
-/*    @Override
-    protected final void onSubmitting() {
-        service.save(entityModel.getObject());
-    }
-
-    @Override
-    protected final void onChangesSubmitted() {
-        setResponsePage(ProjectsListPage.class);
-    }*/
 
     /**
-     * Страница создания задачи проекта.
+     * Реализует CustomListView для задач проекта.
+     *
+     * @author Q-YVV
      */
-//    private class NewProjectTaskPage extends AbstractTaskPage {
-//
-//        *
-//         * Модель проекта.
-//
-//        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
-//
-//        *
-//         * Конструктор.
-//         *
-//         * @param taskModel    модель задачи
-//         * @param projectModel модель проекта
-//
-//        private NewProjectTaskPage(CompoundPropertyModel<Task> taskModel, CompoundPropertyModel<ProjectTemporaryData> projectModel) {
-//            super(taskModel);
-//            this.projectModel = projectModel;
-//        }
-//
-//        @Override
-//        protected void onSubmitting() {
-//            service.addTask(projectModel.getObject(), entityModel.getObject());
-//        }
-//
-//        @Override
-//        protected void onChangesSubmitted() {
-//                setResponsePage(ProjectPage.this);
-//        }
-//
-//        @Override
-//        protected boolean changeProjectOption() {
-//            return false;
-//        }
-//    }
+    static class ProjectTasksListView extends ListView<Task> {
+
+        /**
+         * Модель проекта, связанного с задачами.
+         */
+        private final CompoundPropertyModel<ProjectTemporaryData> projectModel;
+
+        /**
+         * Сервис для работы с проектом.
+         */
+        private final ProjectTemporaryService service;
+
+        private final AbstractEntityPageFactory<Task> pageFactory;
+
+        /**
+         * Конструктор.
+         *
+         * @param tasks   модель списка задач
+         * @param service сервис для работ с проектом
+         */
+        public ProjectTasksListView(LoadableDetachableModel<List<Task>> tasks, ProjectTemporaryService service,
+            AbstractEntityPageFactory<Task> pageFactory, CompoundPropertyModel<ProjectTemporaryData> projectModel) {
+
+            super("tasks", tasks);
+            this.service = service;
+            this.pageFactory = pageFactory;
+            this.projectModel = projectModel;
+        }
+
+        @Override
+        protected void populateItem(ListItem<Task> item) {
+            ITaskTableColumns.addColumns(item);
+
+            item.add(new DeleteInProjectLink("deleteLink", item.getModel()))
+                    .add(new EditInProjectButton("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory));
+        }
+
+        /**
+         * Реализует DeleteLink для задач проекта.
+         *
+         * @author Q-YVV
+         */
+        private class DeleteInProjectLink extends Button {
+
+            /**
+             * Модель {@link Task}.
+             */
+            private final IModel<Task> taskModel;
+
+            public DeleteInProjectLink(String id, IModel<Task> taskModel) {
+                super(id);
+                this.taskModel = taskModel;
+            }
+
+            @Override
+            public void onSubmit() {
+                service.deleteTask(projectModel.getObject(), taskModel.getObject());
+            }
+        }
+
+        /**
+         * Ссылка для редактирования задачи в проекте.
+         */
+        private class EditInProjectButton extends Button {
+
+            /**
+             * Модель задачи.
+             */
+            private final CompoundPropertyModel<Task> taskModel;
+
+            /**
+             * Фабрика для генерации страницы редактирования задачи проекта.
+             */
+            private final AbstractEntityPageFactory<Task> pageFactory;
+
+            /**
+             * Конструктор.
+             *
+             * @param taskModel модель задачи
+             * @param pageFactory фабрика для генерации страницы редактирования задачи проекта
+             */
+            public EditInProjectButton(String id, CompoundPropertyModel<Task> taskModel,
+                AbstractEntityPageFactory<Task> pageFactory) {
+
+                super(id);
+                this.taskModel = taskModel;
+                this.pageFactory = pageFactory;
+            }
+
+            @Override
+            public void onSubmit() {
+                setResponsePage(pageFactory.createPage(taskModel));
+            }
+        }
+    }
 }

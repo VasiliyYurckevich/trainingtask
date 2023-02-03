@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeesListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectsListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TasksListPage;
+import org.apache.wicket.request.component.IRequestablePage;
 
 /**
  * Верхняя панель для переключения между страницами.
@@ -38,7 +39,7 @@ public class Header extends Panel {
      *
      * @param <T> класс страницы
      */
-    private static class WebPageLink<T extends Class<WebPage>> extends Link<WebPage> {
+    private static class WebPageLink<T extends Class<WebPage>> extends Link<Void> {
 
         /**
          * Класс страницы для перехода.

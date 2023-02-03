@@ -1,6 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
-import org.apache.wicket.markup.html.form.Form;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
@@ -44,4 +44,40 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
         add(getForm());
     }
 
+    /**
+     * Форма сотрудника.
+     */
+    static class EmployeeForm extends AbstractEntityForm<Employee> {
+
+        /**
+         * Сервис для работы с Employee.
+         */
+        private final EmployeeService service = new EmployeeService();
+
+        /**
+         * Конструктор.
+         *
+         * @param id
+         * @param entityModel
+         */
+        public EmployeeForm(String id, CompoundPropertyModel<Employee> entityModel) {
+            super(id, entityModel);
+        }
+
+        @Override
+        protected void onSubmit() {
+            onSubmitting();
+            onChangesSubmitted();
+        }
+
+        @Override
+        protected final void onSubmitting() {
+            service.save(getModelObject());
+        }
+
+        @Override
+        protected final void onChangesSubmitted() {
+            setResponsePage(EmployeesListPage.class);
+        }
+    }
 }

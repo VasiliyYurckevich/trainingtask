@@ -17,12 +17,6 @@ public abstract class AbstractEntityForm<T extends Entity> extends Form<T> {
         super(id, entityModel);
     }
 
-    @Override
-    protected void onSubmit() {
-        onSubmitting();
-        onChangesSubmitted();
-    }
-
     /**
      * Выполняет отправку формы.
      */

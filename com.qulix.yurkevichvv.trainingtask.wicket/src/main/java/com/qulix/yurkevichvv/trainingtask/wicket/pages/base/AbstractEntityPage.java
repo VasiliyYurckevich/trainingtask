@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
 
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -9,7 +10,6 @@ import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.PreventSubmitOnEnterBehavior;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
@@ -24,7 +24,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      */
     private final CompoundPropertyModel<T> entityModel;
 
-    private AbstractEntityForm<T> form;
+    private final AbstractEntityForm<T> form;
 
     /**
      * Конструктор.
@@ -64,11 +64,10 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      */
     protected void addButtons() {
         NoDoubleClickButton button = new NoDoubleClickButton("submit");
-        form.add(button)
-                .add(new PreventSubmitOnEnterBehavior());
+        form.add(button);
         form.setDefaultButton(button);
 
-        Link<Void> cancelButton = new CancelLink("cancel");
+        Button cancelButton = new CancelLink("cancel");
         form.add(cancelButton);
     }
 
@@ -80,16 +79,12 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
         return form;
     }
 
-    public void setForm(AbstractEntityForm<T> form) {
-        this.form = form;
-    }
-
     /**
      * Кнопка отмены сохранения.
      *
      * @author Q-YVV
      */
-    private class CancelLink extends Link<Void> {
+    private class CancelLink extends Button {
 
         /**
          * Конструктор.
@@ -101,7 +96,13 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
         }
 
         @Override
-        public void onClick() {
+        protected void onConfigure() {
+            super.onConfigure();
+            setDefaultFormProcessing(false);
+        }
+
+        @Override
+        public void onSubmit() {
             form.onChangesSubmitted();
         }
     }

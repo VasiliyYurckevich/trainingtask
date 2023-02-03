@@ -20,5 +20,5 @@ public interface AbstractEntityPageFactory<T extends Entity> extends Serializabl
      * @param entityModel модель сущности
      * @return страница редактирования сущности
      */
-    AbstractEntityPage<T> createPage(CompoundPropertyModel<T> entityModel);
+    AbstractEntityPage<?> createPage(CompoundPropertyModel<T> entityModel);
 }

@@ -2,13 +2,12 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import org.apache.wicket.markup.html.WebPage;
+import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
@@ -16,6 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
+import org.apache.wicket.model.Model;
 
 /**
  * Список проектов.
@@ -34,17 +34,10 @@ public class ProjectsListPage extends AbstractListPage<Project> {
     @Override
     protected void onInitialize() {
         super.onInitialize();
+        add(new ProjectCustomListView("projects", LoadableDetachableModel.of(() -> new ProjectService().findAll()),
+            getService()));
 
-        CustomListView<Project> projectListView =
-            new ProjectCustomListView(LoadableDetachableModel.of(() -> new ProjectService().findAll()), getService());
-        add(projectListView);
-
-        add(new Link<WebPage>("addProject") {
-            @Override
-            public void onClick() {
-                setResponsePage(getPageFactory().createPage(CompoundPropertyModel.of(new Project())));
-            }
-        });
+        add(new EntityEditPageLink<>("addProject", getPageFactory(), Model.of(new Project())));
     }
 
     /**
@@ -59,9 +52,10 @@ public class ProjectsListPage extends AbstractListPage<Project> {
          *
          * @param projects       модель списка проектов
          * @param projectService сервис для работы с проектами
+         * @param id
          */
-        public ProjectCustomListView(LoadableDetachableModel<List<Project>> projects, IService<Project> projectService) {
-            super("projects", projects, projectService);
+        public ProjectCustomListView(String id, LoadableDetachableModel<List<Project>> projects, IService<Project> projectService) {
+            super(id, projects, projectService);
         }
 
         @Override
