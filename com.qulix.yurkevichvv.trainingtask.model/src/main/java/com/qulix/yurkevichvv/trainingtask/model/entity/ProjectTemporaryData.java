@@ -15,12 +15,12 @@ public class ProjectTemporaryData implements Entity {
     /**
      * Проект.
      */
-    private Project project;
+    private final Project project;
 
     /**
      * Список связанных задач.
      */
-    private List<Task> tasksList;
+    private final List<Task> tasksList;
 
     /**
      * Конструктор.
@@ -37,22 +37,32 @@ public class ProjectTemporaryData implements Entity {
         return project.getId();
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setId(Integer id){
+        project.setId(id);
     }
 
     public Project getProject() {
         return project;
     }
 
+    public String getTitle(){
+        return project.getTitle();
+    }
+
+    public String getDescription(){
+        return project.getDescription();
+    }
+
+    public void setTitle(String title){
+        project.setTitle(title);
+    }
+
+    public void setDescription(String description){
+        project.setDescription(description);
+    }
     public List<Task> getTasksList() {
         return tasksList;
     }
-
-    public void setTasksList(List<Task> tasksList) {
-        this.tasksList = tasksList;
-    }
-
 
     @Override
     public boolean equals(Object o) {

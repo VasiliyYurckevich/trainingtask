@@ -24,7 +24,7 @@
 
                 <form action="projects">
                     <input type="hidden" name="action"/>
-                    <input type="hidden" name="projectId" value="${projectTemporaryData.project.id}"/>
+                    <input type="hidden" name="projectId" value="${projectTemporaryData.id}"/>
                     <input type="hidden" name="taskIndex"/>
 
                     <div>
@@ -77,7 +77,7 @@
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)} </td>
-                                <td> ${fn:escapeXml(projectTemporaryData.project.title)}</td>
+                                <td> ${fn:escapeXml(projectTemporaryData.title)}</td>
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <button formmethod="get" id="submitButton" name="submitButton"

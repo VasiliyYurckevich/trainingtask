@@ -33,13 +33,13 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
             ProjectDao projectDao = new ProjectDao();
 
             Integer projectId;
-            if (projectTemporaryData.getProject().getId() == null) {
+            if (projectTemporaryData.getId() == null) {
                 projectId = projectDao.add(projectTemporaryData.getProject(), connection);
-                projectTemporaryData.getProject().setId(projectId);
+                projectTemporaryData.setId(projectId);
             }
             else {
                 projectDao.update(projectTemporaryData.getProject(), connection);
-                projectId = projectTemporaryData.getProject().getId();
+                projectId = projectTemporaryData.getId();
             }
             updateTasks(projectTemporaryData, connection, projectId);
             ConnectionService.commitConnection(connection);
@@ -63,8 +63,8 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
     }
 
     @Override
-    public void deleteTask(ProjectTemporaryData project, Task task) throws ServiceException {
-        project.getTasksList().remove(task);
+    public void deleteTask(ProjectTemporaryData projectTemporaryData, Task task) throws ServiceException {
+        projectTemporaryData.getTasksList().remove(task);
     }
 
     @Override
@@ -80,16 +80,16 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
     /**
      * Обновляет задачи связанные с проектом.
      *
-     * @param project проект
+     * @param projectTemporaryData проект
      * @param connection соединение
      */
-    private void updateTasks(ProjectTemporaryData project, Connection connection, Integer projectId) {
+    private void updateTasks(ProjectTemporaryData projectTemporaryData, Connection connection, Integer projectId) {
 
-        List<Task> tasksToDelete = taskDao.getProjectTasksInDB(project.getProject().getId(), connection);
-        tasksToDelete.removeAll(project.getTasksList());
+        List<Task> tasksToDelete = taskDao.getProjectTasksInDB(projectTemporaryData.getId(), connection);
+        tasksToDelete.removeAll(projectTemporaryData.getTasksList());
         tasksToDelete.forEach(task -> taskDao.delete(task.getId(), connection));
 
-        project.getTasksList().forEach(task -> {
+        projectTemporaryData.getTasksList().forEach(task -> {
             task.setProjectId(projectId);
             if (task.getId() == null) {
                 taskDao.add(task, connection);

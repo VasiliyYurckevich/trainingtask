@@ -39,7 +39,7 @@
 
                     <my:dropDownChoice label="Наименование проекта" name="projectId" list="${ProjectList}"
                         selectedId="${projectId}" isDisabled="true" isNullOption="true"
-                        basicOption="${projectTemporaryData.project.title}"/>
+                        basicOption="${projectTemporaryData.title}"/>
 
                     <my:dropDownChoice label="Сотрудник" name="employeeId" list="${EmployeeList}"
                         selectedId="${employeeId}" isNullOption="true"/>

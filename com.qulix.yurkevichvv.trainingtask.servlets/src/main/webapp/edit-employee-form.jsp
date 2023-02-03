@@ -27,9 +27,9 @@
                     </div>
 
                     <div class="main">
-                        <my:textField label="Имя" id="surname" value="${surname}"/>
+                        <my:textField label="Фамилия" id="surname" value="${surname}"/>
 
-                        <my:textField label="Фамилия" id="firstName" value="${firstName}"/>
+                        <my:textField label="Имя" id="firstName" value="${firstName}"/>
 
                         <my:textField label="Отчество" id="patronymic" value="${patronymic}"/>
 

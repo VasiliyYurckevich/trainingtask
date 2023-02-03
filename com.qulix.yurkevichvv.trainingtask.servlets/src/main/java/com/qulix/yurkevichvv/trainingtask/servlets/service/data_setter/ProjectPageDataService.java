@@ -50,8 +50,8 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
 
     @Override
     public void setOutputDataToEntity(Map<String, String> paramsMap, ProjectTemporaryData entity) {
-        entity.getProject().setTitle(paramsMap.get(TITLE_OF_PROJECT));
-        entity.getProject().setDescription(paramsMap.get(DESCRIPTION));
+        entity.setTitle(paramsMap.get(TITLE_OF_PROJECT));
+        entity.setDescription(paramsMap.get(DESCRIPTION));
     }
 
     @Override
@@ -76,8 +76,8 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
         session.setAttribute(PROJECT_TEMPORARY_DATA, entity);
         session.setAttribute(TASK_LIST, TaskView.convertTasksList(entity.getTasksList()));
 
-        req.setAttribute(TITLE_OF_PROJECT, entity.getProject().getTitle());
-        req.setAttribute(DESCRIPTION, entity.getProject().getDescription());
+        req.setAttribute(TITLE_OF_PROJECT, entity.getTitle());
+        req.setAttribute(DESCRIPTION, entity.getDescription());
     }
 
     @Override
