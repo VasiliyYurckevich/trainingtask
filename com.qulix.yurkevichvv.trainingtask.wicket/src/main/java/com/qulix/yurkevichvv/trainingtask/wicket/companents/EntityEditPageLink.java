@@ -1,10 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+
+import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 
 public class EntityEditPageLink<T extends Entity> extends Link<Void> {
 
@@ -19,7 +20,6 @@ public class EntityEditPageLink<T extends Entity> extends Link<Void> {
 
     @Override
     public void onClick() {
-        System.out.println("ЫЫЫЫЫ СОздал");
         setResponsePage(pageFactory.createPage(CompoundPropertyModel.of(entityModel)));
     }
 }

@@ -7,7 +7,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.employee.EmployeesListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectsListPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.TasksListPage;
-import org.apache.wicket.request.component.IRequestablePage;
 
 /**
  * Верхняя панель для переключения между страницами.
@@ -29,30 +28,30 @@ public class Header extends Panel {
     protected void onInitialize() {
         super.onInitialize();
 
-        add(new WebPageLink("projectsList", ProjectsListPage.class));
-        add(new WebPageLink("employeesList", EmployeesListPage.class));
-        add(new WebPageLink("tasksList", TasksListPage.class));
+        add(new WebPageLink<>("projectsList", ProjectsListPage.class));
+        add(new WebPageLink<>("employeesList", EmployeesListPage.class));
+        add(new WebPageLink<>("tasksList", TasksListPage.class));
     }
 
     /**
      * Ссылка для перехода на статичные страницы.
      *
-     * @param <T> класс страницы
+     * @param <T> страница для пререхода
      */
-    private static class WebPageLink<T extends Class<WebPage>> extends Link<Void> {
+    private static class WebPageLink<T extends WebPage> extends Link<Void> {
 
         /**
          * Класс страницы для перехода.
          */
-        final T clazz;
+        private final Class<T> clazz;
 
         /**
          * Конструктор.
          *
-         * @param id    идентификатор
+         * @param id идентификатор
          * @param clazz класс для генерации страницы для перехода
          */
-        public WebPageLink(String id, T clazz) {
+        public WebPageLink(String id, Class<T> clazz) {
             super(id);
             this.clazz = clazz;
         }
