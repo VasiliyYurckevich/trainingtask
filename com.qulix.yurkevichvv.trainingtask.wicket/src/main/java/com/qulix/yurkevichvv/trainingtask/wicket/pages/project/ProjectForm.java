@@ -1,7 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.IFormSubmitter;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
@@ -33,18 +31,12 @@ class ProjectForm extends AbstractEntityForm<ProjectTemporaryData> {
     }
 
     @Override
-    protected void onSubmit() {
-/*        onSubmitting();
-        onChangesSubmitted();*/
-    }
-
-    @Override
-    protected final void onSubmitting() {
+    public final void onSubmitting() {
         service.save(getModelObject());
     }
 
     @Override
-    protected final void onChangesSubmitted() {
+    public final void onChangesSubmitted() {
         setResponsePage(ProjectsListPage.class);
     }
 }
