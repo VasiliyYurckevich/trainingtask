@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Q-YVV
  */
-public class Controller extends HttpServlet {
+public abstract class Controller extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,6 +32,6 @@ public class Controller extends HttpServlet {
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
+    protected abstract void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+        IOException;
 }

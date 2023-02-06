@@ -18,10 +18,13 @@
         <my:mainMenu/>
 
         <div class="chief">
-            <div id="container">
+            <div class="header">
+                <div>
+                    <h2>Редактировать проект</h2>
+                </div>
+            </div>
 
-                <h3>Редактировать проект</h3>
-
+            <div id="container" class="main">
                 <form action="projects">
                     <input type="hidden" name="action"/>
                     <input type="hidden" name="projectId" value="${projectTemporaryData.id}"/>

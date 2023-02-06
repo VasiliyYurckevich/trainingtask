@@ -16,8 +16,13 @@
         <my:mainMenu/>
 
         <div class="chief">
-            <div id="container">
-                <h3>Редактировать сотрудника</h3>
+            <div class="header">
+                <div>
+                    <h2>Редактировать сотрудника</h2>
+                </div>
+            </div>
+
+            <div id="container" class="main">
                 <form action="employees">
                     <input type="hidden" name="employeeId" value="${employeeId}"/>
                     <input name="action" type="hidden">

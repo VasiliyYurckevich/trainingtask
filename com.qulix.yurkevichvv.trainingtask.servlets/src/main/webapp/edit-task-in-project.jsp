@@ -19,8 +19,13 @@
         <my:mainMenu/>
 
         <div class="chief">
+            <div class="header">
+                <div>
+                    <h2>Редактировать задачу</h2>
+                </div>
+            </div>
+
             <div id="container" class="main">
-                <h3>Редактировать задачу</h3>
                 <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/saveTaskInProject"/>
                     <input type="hidden" name="taskIndex" value="${taskIndex}"/>

@@ -1,6 +1,6 @@
 <%@ tag pageEncoding="UTF-8" %>
 
-<ul>
+<ul class="nav-panel">
 	<li>
 		<a href="projects">Проекты</a>
 	</li>
