@@ -1,10 +1,16 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+
+/**
+ * Форма редактирования сущности.
+ *
+ * @param <T> сущность {@link Entity}
+ * @author Q-YVV
+ */
 public abstract class AbstractEntityForm<T extends Entity> extends Form<T> {
 
     /**
@@ -18,12 +24,12 @@ public abstract class AbstractEntityForm<T extends Entity> extends Form<T> {
     }
 
     /**
-     * Выполняет отправку формы.
+     * Выполняет действия при валидной отправке формы.
      */
-    protected abstract void onSubmitting();
+    public abstract void onSubmitting();
 
     /**
      * Выполнят переадресацию страницу после отправки формы или отмены редактирования.
      */
-    protected abstract void onChangesSubmitted();
+    public abstract void onChangesSubmitted();
 }

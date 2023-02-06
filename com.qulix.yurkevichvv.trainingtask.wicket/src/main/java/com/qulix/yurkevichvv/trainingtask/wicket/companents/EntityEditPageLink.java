@@ -7,6 +7,12 @@ import org.apache.wicket.model.IModel;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 
+/**
+ * Ссылка для перехода на страницу редактирования сущности.
+ *
+ * @param <T> сущность
+ * @author Q-YVV
+ */
 public class EntityEditPageLink<T extends Entity> extends Link<Void> {
 
     private final AbstractEntityPageFactory<T> pageFactory;

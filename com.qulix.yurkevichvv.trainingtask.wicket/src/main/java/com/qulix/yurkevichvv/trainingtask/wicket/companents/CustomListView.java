@@ -41,7 +41,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
     public CustomListView(String id, LoadableDetachableModel<? extends List<T>> model, IService<T> service) {
         super(id, model);
         this.service = service;
-        this.pageFactory = getPageFactory();
+        this.pageFactory = generatePageFactory();
     }
 
     /**
@@ -49,8 +49,8 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @return фабрика страниц.
      */
-    protected AbstractEntityPageFactory<T> getPageFactory() {
-        return pageFactory;
+    protected AbstractEntityPageFactory<T> generatePageFactory() {
+        return null;
     }
 
     @Override
