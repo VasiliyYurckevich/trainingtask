@@ -65,12 +65,23 @@ public class Project implements Entity {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         Project project = (Project) o;
-        return Objects.equals(id, project.id);
+
+        if (!Objects.equals(id, project.id)) {
+            return false;
+        }
+        if (!Objects.equals(title, project.title)) {
+            return false;
+        }
+        return Objects.equals(description, project.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
     }
 }

@@ -37,7 +37,12 @@ public class ProjectTemporaryData implements Entity {
         return project.getId();
     }
 
-    public void setId(Integer id){
+    /**
+     * Устанавливает ID проекта.
+     *
+     * @param id идентификатор
+     */
+    public void setId(Integer id) {
         project.setId(id);
     }
 
@@ -45,21 +50,32 @@ public class ProjectTemporaryData implements Entity {
         return project;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return project.getTitle();
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return project.getDescription();
     }
 
-    public void setTitle(String title){
+    /**
+     * Устанавливает наименование проекта.
+     *
+     * @param title идентификатор
+     */
+    public void setTitle(String title) {
         project.setTitle(title);
     }
 
-    public void setDescription(String description){
+    /**
+     * Устанавливает описание проекта.
+     *
+     * @param description идентификатор
+     */
+    public void setDescription(String description) {
         project.setDescription(description);
     }
+
     public List<Task> getTasksList() {
         return tasksList;
     }
@@ -72,20 +88,25 @@ public class ProjectTemporaryData implements Entity {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         ProjectTemporaryData that = (ProjectTemporaryData) o;
-        return Objects.equals(project, that.project) && Objects.equals(tasksList, that.tasksList);
+
+        if (!project.equals(that.project)) {
+            return false;
+        }
+        return Objects.equals(tasksList, that.tasksList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(project, tasksList);
+        int result = 21 * project.hashCode();
+        result = 31 * result + (tasksList != null ? tasksList.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
-        return "ProjectTemporaryData{" +
-                "project = " + project.toString() +
-                ", tasksList=" + tasksList +
-                '}';
+        return String.format("ProjectTemporaryData{ project= '%s', tasksList= '%s'}",
+                project.toString(), tasksList);
     }
 }

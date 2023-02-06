@@ -134,11 +134,29 @@ public class Task implements Entity {
             return false;
         }
         Task task = (Task) o;
-        return Objects.equals(id, task.id);
+
+        if (!Objects.equals(id, task.id)) {
+            return false;
+        }
+        if (status != task.status) {
+            return false;
+        }
+        if (!Objects.equals(title, task.title)) {
+            return false;
+        }
+        if (!Objects.equals(projectId, task.projectId)) {
+            return false;
+        }
+        return Objects.equals(employeeId, task.employeeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, title, workTime, beginDate, endDate);
+        int result = id != null ? id.hashCode() : 0;
+        result = 21 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (projectId != null ? projectId.hashCode() : 0);
+        result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
+        return result;
     }
 }

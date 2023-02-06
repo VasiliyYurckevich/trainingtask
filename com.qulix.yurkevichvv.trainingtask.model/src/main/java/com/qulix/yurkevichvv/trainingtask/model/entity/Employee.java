@@ -95,12 +95,31 @@ public class Employee implements Entity {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id);
+
+        if (!Objects.equals(id, employee.id)) {
+            return false;
+        }
+        if (!Objects.equals(surname, employee.surname)) {
+            return false;
+        }
+        if (!Objects.equals(firstName, employee.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(patronymic, employee.patronymic)) {
+            return false;
+        }
+        return Objects.equals(post, employee.post);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, surname, firstName, patronymic, post);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (patronymic != null ? patronymic.hashCode() : 0);
+        result = 31 * result + (post != null ? post.hashCode() : 0);
+        return result;
     }
 }
