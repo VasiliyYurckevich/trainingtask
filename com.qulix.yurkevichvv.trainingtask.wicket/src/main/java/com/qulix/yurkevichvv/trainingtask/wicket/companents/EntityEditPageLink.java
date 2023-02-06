@@ -12,6 +12,13 @@ public class EntityEditPageLink<T extends Entity> extends Link<Void> {
     private final AbstractEntityPageFactory<T> pageFactory;
     private final IModel<T> entityModel;
 
+    /**
+     * Конструктор.
+     *
+     * @param id идентификатор
+     * @param pageFactory фабрика страниц
+     * @param entityModel модель {@link Entity}
+     */
     public EntityEditPageLink(String id, AbstractEntityPageFactory<T> pageFactory, IModel<T> entityModel) {
         super(id);
         this.pageFactory = pageFactory;

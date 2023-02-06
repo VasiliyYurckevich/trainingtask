@@ -1,5 +1,6 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.AbstractTaskPage;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
@@ -21,5 +22,10 @@ public class ProjectTaskPage extends AbstractTaskPage {
     protected void onInitialize() {
         super.onInitialize();
         addFormComponents();
+    }
+
+    @Override
+    protected boolean changeProjectOption() {
+        return false;
     }
 }

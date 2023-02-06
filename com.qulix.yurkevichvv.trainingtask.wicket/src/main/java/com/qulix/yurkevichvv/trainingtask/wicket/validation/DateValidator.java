@@ -14,7 +14,6 @@ import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
  *
  * @author Q-YVV
  */
-@SuppressWarnings("rawtypes")
 public class DateValidator extends AbstractFormValidator {
 
     /**

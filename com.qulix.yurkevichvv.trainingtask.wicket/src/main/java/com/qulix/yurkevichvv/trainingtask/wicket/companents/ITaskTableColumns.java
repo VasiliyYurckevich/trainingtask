@@ -29,8 +29,7 @@ public interface ITaskTableColumns extends Serializable {
             .add(new Label("workTime", task.getWorkTime()))
             .add(new Label("beginDate", task.getBeginDate().toString()))
             .add(new Label("endDate", task.getEndDate().toString()))
-            .add(new Label("projectTitle", new ProjectService().getById(task.getProjectId()).getTitle()))
             .add(new Label("employeeName", task.getEmployeeId() != null ?
-            new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""));
+                new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""));
     }
 }

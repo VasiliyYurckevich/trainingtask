@@ -2,12 +2,12 @@ package com.qulix.yurkevichvv.trainingtask.wicket;
 
 import java.util.Locale;
 
-import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.BasePage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.HomePage;
 
 /**
@@ -18,7 +18,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.HomePage;
 public class TrainingTaskApp extends WebApplication {
 
     @Override
-    public Class<? extends Page> getHomePage() {
+    public Class<? extends BasePage> getHomePage() {
         return HomePage.class;
     }
 

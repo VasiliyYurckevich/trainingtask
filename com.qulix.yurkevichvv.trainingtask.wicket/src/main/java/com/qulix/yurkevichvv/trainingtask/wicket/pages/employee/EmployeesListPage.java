@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -36,12 +37,11 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
     protected void onInitialize() {
         super.onInitialize();
 
+        add(new EntityEditPageLink<>("addEmployee", getPageFactory(), new Model<>(new Employee())));
+
         CustomListView<Employee> employeeListView =
             new EmployeeCustomListView(LoadableDetachableModel.of(() -> new EmployeeService().findAll()), getService());
         add(employeeListView);
-
-        add(new WebPageLink("addEmployee",
-            new Model<>(getPageFactory().createPage(CompoundPropertyModel.of(new Employee())))));
     }
 
     /**
@@ -60,11 +60,11 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         public EmployeeCustomListView(LoadableDetachableModel<List<Employee>> employees, IService<Employee> service) {
             super("employees", employees, service);
         }
-
+/*
         @Override
         protected AbstractEntityPageFactory<Employee> getPageFactory() {
             return new EmployeePageFactory();
-        }
+        }*/
 
         @Override
         protected void populateItem(ListItem<Employee> item) {
@@ -74,29 +74,6 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
                     .add(new Label("firstName", employee.getFirstName()))
                     .add(new Label("patronymic", employee.getPatronymic()))
                     .add(new Label("post", employee.getPost()));
-        }
-    }
-
-    /**
-     * Ссылка для перехода на страницу.
-     *
-     * @author Q-YVV
-     */
-    private static class WebPageLink extends Link<WebPage> {
-
-        /**
-         * Конструктор.
-         *
-         * @param id           идентификатор
-         * @param webPageModel модель страницы
-         */
-        public WebPageLink(String id, IModel<WebPage> webPageModel) {
-            super(id, webPageModel);
-        }
-
-        @Override
-        public void onClick() {
-            setResponsePage(getModelObject());
         }
     }
 }

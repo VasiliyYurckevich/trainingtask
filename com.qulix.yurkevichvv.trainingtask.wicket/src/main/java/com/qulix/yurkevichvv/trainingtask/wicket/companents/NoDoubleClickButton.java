@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.markup.html.form.Button;
@@ -23,6 +24,13 @@ public class NoDoubleClickButton extends Button {
     @Override
     protected String getOnClickScript() {
         return PreventDoubleClickBehaviorButtons.getEnableDisableJavascript(NoDoubleClickButton.this);
+    }
+
+    @Override
+    public void onSubmit() {
+        super.onSubmit();
+        AbstractEntityForm form = (AbstractEntityForm) getForm();
+        //form.onSubmitting();
     }
 
     /**

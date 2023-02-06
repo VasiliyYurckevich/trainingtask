@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -72,6 +73,7 @@ public class TasksListPage extends AbstractListPage<Task> {
         protected void populateItem(ListItem<Task> item) {
             super.populateItem(item);
             ITaskTableColumns.addColumns(item);
+            item.add(new Label("projectTitle", new ProjectService().getById(item.getModelObject().getProjectId()).getTitle()));
         }
     }
 

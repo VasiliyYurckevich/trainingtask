@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task;
 
 import org.apache.wicket.model.CompoundPropertyModel;
 
@@ -6,8 +6,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPage;
-
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPageFactory;
 
 public class ProjectTaskForm extends AbstractEntityForm<Task> {
 
@@ -16,7 +15,6 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
     private final CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel;
 
     private final int index;
-
 
     /**
      * Конструктор.
@@ -34,6 +32,13 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
     }
 
     @Override
+    protected void onSubmit() {
+        super.onSubmit();
+        onSubmitting();
+        onChangesSubmitted();
+    }
+
+    @Override
     protected void onSubmitting() {
         if (index < 0){
             projectTemporaryDataService.addTask(projectTemporaryDataModel.getObject(), getModelObject());
@@ -45,6 +50,6 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
 
     @Override
     protected void onChangesSubmitted() {
-        setResponsePage(new ProjectPage(projectTemporaryDataModel));
+        setResponsePage(new ProjectPageFactory().createPageByWrappedData(projectTemporaryDataModel));
     }
 }

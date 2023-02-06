@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
+package com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;

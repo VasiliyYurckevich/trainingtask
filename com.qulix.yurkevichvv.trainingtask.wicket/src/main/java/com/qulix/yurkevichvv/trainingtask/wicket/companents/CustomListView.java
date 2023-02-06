@@ -50,7 +50,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      * @return фабрика страниц.
      */
     protected AbstractEntityPageFactory<T> getPageFactory() {
-        return null;
+        return pageFactory;
     }
 
     @Override

@@ -99,12 +99,12 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
     }
 
     /**
- * Определяет возможность изменения задачи проекта.
- *
+     * Определяет возможность изменения задачи проекта.
+     *
      * @return true если изменение возможно, иначе false
      */
     protected boolean changeProjectOption() {
-        return true;//тоже перенести в форму
+        return true;
     }
 
     @Override

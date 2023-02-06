@@ -1,22 +1,26 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.ProjectTaskPageFactory;
+
+import java.util.List;
+
+import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
-import org.apache.wicket.model.Model;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task.ProjectTaskPageFactory;
 
-import java.util.List;
 
 /**
  * Страница добавления проекта.
@@ -48,11 +52,13 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
     protected void addFormComponents() {
         addButtons();
 
+        getForm().getDefaultButton().onSubmit();
         addStringField("title", TITLE_MAXLENGTH);
         addStringField("description", DESCRIPTION_MAXLENGTH);
 
         getForm().add(new EntityEditPageLink<>("addTaskLink", pageFactory, Model.of(new Task())));
         addTaskList();
+
         add(getForm());
     }
 
@@ -108,8 +114,9 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         protected void populateItem(ListItem<Task> item) {
             ITaskTableColumns.addColumns(item);
 
-            item.add(new DeleteInProjectLink("deleteLink", item.getModel()))
-                    .add(new EditInProjectButton("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory));
+            item.add(new Label("projectTitle", projectModel.getObject().getTitle()))
+                    .add(new DeleteProjectTaskButton("deleteLink", item.getModel()))
+                    .add(new EditProjectTaskButton("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory));
         }
 
         /**
@@ -117,28 +124,35 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
          *
          * @author Q-YVV
          */
-        private class DeleteInProjectLink extends Button {
+        private class DeleteProjectTaskButton extends Button {
 
             /**
              * Модель {@link Task}.
              */
             private final IModel<Task> taskModel;
 
-            public DeleteInProjectLink(String id, IModel<Task> taskModel) {
+            public DeleteProjectTaskButton(String id, IModel<Task> taskModel) {
                 super(id);
                 this.taskModel = taskModel;
             }
 
             @Override
+            protected void onConfigure() {
+                super.onConfigure();
+                setDefaultFormProcessing(false);
+            }
+
+            @Override
             public void onSubmit() {
                 service.deleteTask(projectModel.getObject(), taskModel.getObject());
+                getForm().detachModels();
             }
         }
 
         /**
          * Ссылка для редактирования задачи в проекте.
          */
-        private class EditInProjectButton extends Button {
+        private class EditProjectTaskButton extends Button {
 
             /**
              * Модель задачи.
@@ -156,12 +170,18 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
              * @param taskModel модель задачи
              * @param pageFactory фабрика для генерации страницы редактирования задачи проекта
              */
-            public EditInProjectButton(String id, CompoundPropertyModel<Task> taskModel,
+            public EditProjectTaskButton(String id, CompoundPropertyModel<Task> taskModel,
                 AbstractEntityPageFactory<Task> pageFactory) {
 
                 super(id);
                 this.taskModel = taskModel;
                 this.pageFactory = pageFactory;
+            }
+
+            @Override
+            protected void onConfigure() {
+                super.onConfigure();
+                setDefaultFormProcessing(false);
             }
 
             @Override
