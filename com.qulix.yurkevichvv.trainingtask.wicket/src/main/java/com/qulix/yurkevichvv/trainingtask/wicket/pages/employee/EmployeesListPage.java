@@ -2,13 +2,8 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
@@ -16,6 +11,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
 
@@ -60,11 +56,11 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
         public EmployeeCustomListView(LoadableDetachableModel<List<Employee>> employees, IService<Employee> service) {
             super("employees", employees, service);
         }
-/*
+
         @Override
-        protected AbstractEntityPageFactory<Employee> getPageFactory() {
+        protected AbstractEntityPageFactory<Employee> generatePageFactory() {
             return new EmployeePageFactory();
-        }*/
+        }
 
         @Override
         protected void populateItem(ListItem<Employee> item) {

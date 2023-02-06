@@ -1,12 +1,12 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
-import org.apache.wicket.model.Model;
 
 /**
  * Список проектов.
@@ -25,9 +25,8 @@ public class ProjectsListPage extends AbstractListPage<Project> {
     @Override
     protected void onInitialize() {
         super.onInitialize();
+        add(new EntityEditPageLink<>("addProject", getPageFactory(), Model.of(new Project())));
         add(new ProjectCustomListView("projects", LoadableDetachableModel.of(() -> new ProjectService().findAll()),
             getService()));
-
-        add(new EntityEditPageLink<>("addProject", getPageFactory(), Model.of(new Project())));
     }
 }

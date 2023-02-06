@@ -2,23 +2,20 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.IService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.EntityEditPageLink;
 import com.qulix.yurkevichvv.trainingtask.wicket.companents.ITaskTableColumns;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractListPage;
-import org.apache.wicket.model.Model;
 
 /**
  * Страница списка задач.
@@ -38,7 +35,8 @@ public class TasksListPage extends AbstractListPage<Task> {
     protected void onInitialize() {
         super.onInitialize();
 
-        EntityEditPageLink<Task> addTask = new TaskEntityEditPageLink("addTask", TasksListPage.this.getPageFactory(), new Model<>(new Task()));
+        EntityEditPageLink<Task> addTask = new TaskEntityEditPageLink("addTask",
+            TasksListPage.this.getPageFactory(), new Model<>(new Task()));
         add(addTask);
 
         CustomListView<Task> taskListView =
@@ -65,7 +63,7 @@ public class TasksListPage extends AbstractListPage<Task> {
         }
 
         @Override
-        protected AbstractEntityPageFactory<Task> getPageFactory() {
+        protected AbstractEntityPageFactory<Task> generatePageFactory() {
             return new TaskPageFactory();
         }
 
@@ -79,7 +77,7 @@ public class TasksListPage extends AbstractListPage<Task> {
 
     private static class TaskEntityEditPageLink extends EntityEditPageLink<Task> {
         public TaskEntityEditPageLink(String id, AbstractEntityPageFactory<Task> pageFactory, Model<Task> taskModel) {
-            super(id, pageFactory,taskModel);
+            super(id, pageFactory, taskModel);
         }
 
         @Override

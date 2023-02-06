@@ -1,14 +1,15 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
-import com.qulix.yurkevichvv.trainingtask.model.services.IService;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
+import java.util.List;
+
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import java.util.List;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import com.qulix.yurkevichvv.trainingtask.model.services.IService;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.CustomListView;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 
 /**
  * Реализует CustomListView для проектов.
@@ -20,16 +21,16 @@ class ProjectCustomListView extends CustomListView<Project> {
     /**
      * Конструктор.
      *
-     * @param projects       модель списка проектов
+     * @param id идентификатор
+     * @param projects модель списка проектов
      * @param projectService сервис для работы с проектами
-     * @param id
      */
     public ProjectCustomListView(String id, LoadableDetachableModel<List<Project>> projects, IService<Project> projectService) {
         super(id, projects, projectService);
     }
 
     @Override
-    protected AbstractEntityPageFactory<Project> getPageFactory() {
+    protected AbstractEntityPageFactory<Project> generatePageFactory() {
         return new ProjectPageFactory();
     }
 
