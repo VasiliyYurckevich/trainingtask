@@ -8,12 +8,26 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectTemporaryService
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.project.ProjectPageFactory;
 
+/**
+ * Форма задачи связанной с определенным проектом.
+ *
+ * @author Q-YVV
+ */
 public class ProjectTaskForm extends AbstractEntityForm<Task> {
 
+    /**
+     * Сервис для выполнения бизнес-логики {@link ProjectTemporaryData}.
+     */
     private final ProjectTemporaryService projectTemporaryDataService = new ProjectTemporaryService();
 
+    /**
+     * Модель {@link ProjectTemporaryData}.
+     */
     private final CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel;
 
+    /**
+     * Индекс задачи в списке задач.
+     */
     private final int index;
 
     /**
@@ -28,19 +42,12 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
         super(id, entityModel);
         this.projectTemporaryDataModel = projectTemporaryDataModel;
         this.index = projectTemporaryDataModel.getObject().getTasksList().indexOf(getModelObject());
-
     }
 
-    @Override
-    protected void onSubmit() {
-        super.onSubmit();
-        onSubmitting();
-        onChangesSubmitted();
-    }
 
     @Override
-    protected void onSubmitting() {
-        if (index < 0){
+    public void onSubmitting() {
+        if (index < 0) {
             projectTemporaryDataService.addTask(projectTemporaryDataModel.getObject(), getModelObject());
         }
         else {
@@ -49,7 +56,7 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
     }
 
     @Override
-    protected void onChangesSubmitted() {
+    public void onChangesSubmitted() {
         setResponsePage(new ProjectPageFactory().createPageByWrappedData(projectTemporaryDataModel));
     }
 }

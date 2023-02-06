@@ -1,10 +1,11 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task;
 
+import org.apache.wicket.model.CompoundPropertyModel;
+
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
-import org.apache.wicket.model.CompoundPropertyModel;
 
 /**
  * Генерирует страницу редактирования {@link Task}, связанной с {@link ProjectTemporaryData}.
@@ -14,7 +15,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 public class ProjectTaskPageFactory implements AbstractEntityPageFactory<Task> {
 
     /**
-     *  Модель {@link ProjectTemporaryData}
+     *  Модель {@link ProjectTemporaryData}.
      */
     private final CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel;
 
@@ -29,6 +30,6 @@ public class ProjectTaskPageFactory implements AbstractEntityPageFactory<Task> {
 
     @Override
     public AbstractEntityPage<?> createPage(CompoundPropertyModel<Task> entityModel) {
-        return new ProjectTaskPage(entityModel,projectTemporaryDataModel);
+        return new ProjectTaskPage(entityModel, projectTemporaryDataModel);
     }
 }

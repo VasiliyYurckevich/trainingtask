@@ -1,11 +1,16 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.AbstractTaskPage;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.AbstractTaskPage;
 
+/**
+ * Страница задачи, связанной с данными проекта.
+ *
+ * @author Q-YVV
+ */
 public class ProjectTaskPage extends AbstractTaskPage {
 
     /**

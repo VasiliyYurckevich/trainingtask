@@ -2,69 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
 <body>
 <wicket:extend>
-    <div class="chief">
-        <div class="container">
-            <div class="main">
-                <form wicket:id="projectForm">
-                    <input class="add-button" type="submit" value="Сохранить" wicket:id="submit"/>
-                    <button class="add-button" wicket:id="cancel">Отмена</button>
+    <div class="main">
+        <form wicket:id="projectForm">
+            <input class="add-button" type="submit" value="Сохранить" wicket:id="submit"/>
+            <button class="add-button" wicket:id="cancel">Отмена</button>
 
-                    <div class="field">
-                        <label>Наименование:</label>
-                        <label>
-                            <input type="text" wicket:id="title"/>
-                        </label>
-                        <br>
-                        <div class="feedback" wicket:id="titleFeedbackPanel"/>
-                    </div>
-
-                    <div class="field">
-                        <label>Описание:</label>
-                        <label>
-                            <input type="text" wicket:id="description"/>
-                        </label>
-                        <br>
-                        <div class="feedback" wicket:id="descriptionFeedbackPanel"/>
-                    </div>
-                    <div>
-                        <button class="add-button" wicket:id="addTaskLink">Добавить задачу</button>
-                    </div>
-
-                    <div class="header">
-                        <h3>Задачи проекта</h3>
-                    </div>
-
-                    <table>
-                        <tbody>
-                        <tr>
-                            <th>Статус</th>
-                            <th>Наименование</th>
-                            <th>Работа</th>
-                            <th>Дата начала</th>
-                            <th>Дата окончания</th>
-                            <th>Проект</th>
-                            <th>Исполнитель</th>
-                            <th>Действия</th>
-                        </tr>
-
-                        <tr wicket:id="tasks">
-                            <td wicket:id="status"></td>
-                            <td wicket:id="taskTitle"></td>
-                            <td wicket:id="workTime"></td>
-                            <td wicket:id="beginDate"></td>
-                            <td wicket:id="endDate"></td>
-                            <td wicket:id="projectTitle"></td>
-                            <td wicket:id="employeeName"></td>
-                            <td>
-                                <button type="submit" class="add-button"  wicket:id="editLink">Редактировать</button>
-                                <button type="submit" class="add-button"  wicket:id="deleteLink">Удалить</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
+            <div class="field">
+                <label>Наименование:</label>
+                <input  type="text" wicket:id="title"/>
+                <br>
+                <div class="feedback" wicket:id="titleFeedbackPanel"></div>
             </div>
-        </div>
+
+            <div class="field">
+                <label>Описание:</label>
+                <input type="text" wicket:id="description"/>
+                <br>
+                <div class="feedback" wicket:id="descriptionFeedbackPanel"></div>
+            </div>
+
+            <div class="field">
+                <button class="add-button" wicket:id="addTaskLink">Добавить задачу</button>
+            </div>
+
+            <div class="header">
+                <h3>Задачи проекта</h3>
+            </div>
+
+            <table>
+                <tbody>
+                <tr>
+                    <th>Статус</th>
+                    <th>Наименование</th>
+                    <th>Работа</th>
+                    <th>Дата начала</th>
+                    <th>Дата окончания</th>
+                    <th>Проект</th>
+                    <th>Исполнитель</th>
+                    <th>Действия</th>
+                </tr>
+
+                <tr wicket:id="tasks">
+                    <td wicket:id="status"></td>
+                    <td wicket:id="taskTitle"></td>
+                    <td wicket:id="workTime"></td>
+                    <td wicket:id="beginDate"></td>
+                    <td wicket:id="endDate"></td>
+                    <td wicket:id="projectTitle"></td>
+                    <td wicket:id="employeeName"></td>
+                    <td>
+                        <button type="submit" class="add-button"  wicket:id="editLink">Редактировать</button>
+                        <button type="submit" class="add-button"  wicket:id="deleteLink">Удалить</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
 </wicket:extend>
 </body>
