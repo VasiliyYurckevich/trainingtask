@@ -12,7 +12,7 @@ sourceSets {
     main {
         resources {
             srcDirs += ["src/main/java","src/main/webapp"]
-            includes = ["**/*.html","**/*.css"]
+            includes = ["**/*.html","**/*.css","**/*.properties"]
         }
     }
 }
