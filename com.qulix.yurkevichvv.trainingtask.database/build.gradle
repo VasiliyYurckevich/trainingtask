@@ -108,7 +108,7 @@ boolean isAvailable() {
 def executeSql(String query){
     ClassLoader loader = Sql.class.classLoader
     project.buildscript.configurations.classpath.each { File file ->
-        loader.addURL(file.toURI().toURL())
+        loader.addURL(file.toURI())
     }
 
     Sql sql = Sql.newInstance(this.dbUrl, this.dbUser, this.dbPassword, this.dbDrive) as Sql

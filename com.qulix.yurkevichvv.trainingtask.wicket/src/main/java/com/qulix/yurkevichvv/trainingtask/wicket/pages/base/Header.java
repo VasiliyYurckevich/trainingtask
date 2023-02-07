@@ -36,7 +36,7 @@ public class Header extends Panel {
     /**
      * Ссылка для перехода на статичные страницы.
      *
-     * @param <T> страница для пререхода
+     * @param <T> страница для перехода
      */
     private static class WebPageLink<T extends WebPage> extends Link<Void> {
 

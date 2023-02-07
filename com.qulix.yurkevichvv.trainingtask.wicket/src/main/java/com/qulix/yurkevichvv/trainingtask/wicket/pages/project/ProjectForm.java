@@ -26,11 +26,6 @@ class ProjectForm extends AbstractEntityForm<ProjectTemporaryData> {
     }
 
     @Override
-    protected void onInitialize() {
-        super.onInitialize();
-    }
-
-    @Override
     public final void onSubmitting() {
         service.save(getModelObject());
     }
