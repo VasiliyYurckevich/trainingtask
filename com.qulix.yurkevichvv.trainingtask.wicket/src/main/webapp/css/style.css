@@ -116,6 +116,10 @@ li a:hover:not(.active) {
     background-color: #E37676E5;
 }
 
+.single {
+    clear: both;
+}
+
 .start-page {
     font-size: 45px;
     text-align: center;

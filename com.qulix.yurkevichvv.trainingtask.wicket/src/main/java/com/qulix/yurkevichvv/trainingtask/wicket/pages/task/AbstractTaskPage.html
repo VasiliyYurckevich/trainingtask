@@ -2,64 +2,64 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org" lang="ru-RU">
     <body>
         <wicket:extend>
-        <div class="main" id="container">
-            <form wicket:id="taskForm">
+            <div class="main" id="container">
+                <form wicket:id="taskForm">
 
-                <div>
-                    <button class="add-button" type="submit" wicket:id="submit">Сохранить</button>
-                    <button class="add-button" wicket:id="cancel">Отмена</button>
-                </div>
+                    <div>
+                        <button class="add-button" type="submit" wicket:id="submit">Сохранить</button>
+                        <button class="add-button" wicket:id="cancel">Отмена</button>
+                    </div>
 
-                <div class="field">
-                    <label>Статус :</label>
-                    <select wicket:id="statuses"></select>
-                    <br>
-                    <span class="feedback" wicket:id="statusesFeedbackPanel"></span>
-                </div>
+                    <div class="field">
+                        <label>Статус :</label>
+                        <select wicket:id="statuses"></select>
+                        <br>
+                        <span class="feedback" wicket:id="statusesFeedbackPanel"></span>
+                    </div>
 
-                <div class="field">
-                    <label>Наименование :</label>
-                    <input type="text" wicket:id="title"/>
-                    <br>
-                    <span class="feedback" wicket:id="titleFeedbackPanel"></span>
-                </div>
+                    <div class="field">
+                        <label>Наименование :</label>
+                        <input type="text" wicket:id="title"/>
+                        <br>
+                        <span class="feedback" wicket:id="titleFeedbackPanel"></span>
+                    </div>
 
-                <div class="field">
-                    <label>Работа :</label>
-                    <input type="text" wicket:id="workTime"/>
-                    <br>
-                    <span class="feedback" wicket:id="workTimeFeedbackPanel"></span>
-                </div>
+                    <div class="field">
+                        <label>Работа :</label>
+                        <input type="text" wicket:id="workTime"/>
+                        <br>
+                        <span class="feedback" wicket:id="workTimeFeedbackPanel"></span>
+                    </div>
 
-                <div class="field">
-                    <label>Дата начала(ГГГГ-ММ-ДД) :</label>
-                    <input type="text" wicket:id="beginDate"/>
-                    <br>
-                    <span class="feedback" wicket:id="beginDateFeedbackPanel"></span>
-                </div>
+                    <div class="field">
+                        <label>Дата начала(ГГГГ-ММ-ДД) :</label>
+                        <input type="text" wicket:id="beginDate"/>
+                        <br>
+                        <span class="feedback" wicket:id="beginDateFeedbackPanel"></span>
+                    </div>
 
-                <div class="field">
-                    <label>Дата окончания(ГГГГ-ММ-ДД) :</label>
-                    <input type="text" wicket:id="endDate"/>
-                    <br>
-                    <span class="feedback" wicket:id="endDateFeedbackPanel"></span>
-                </div>
+                    <div class="field">
+                        <label>Дата окончания(ГГГГ-ММ-ДД) :</label>
+                        <input type="text" wicket:id="endDate"/>
+                        <br>
+                        <span class="feedback" wicket:id="endDateFeedbackPanel"></span>
+                    </div>
 
-                <div class="field">
-                    <label>Наименование проекта :</label>
-                    <select wicket:id="projectId"></select>
-                    <br>
-                    <span class="feedback" wicket:id="projectFeedbackPanel"></span>
-                </div>
+                    <div class="field">
+                        <label>Наименование проекта :</label>
+                        <select wicket:id="projectId"></select>
+                        <br>
+                        <span class="feedback" wicket:id="projectFeedbackPanel"></span>
+                    </div>
 
-                <div class="field">
-                    <label>Сотрудник :</label>
-                    <select wicket:id="employeeId"></select>
-                    <br>
-                    <span class="feedback" wicket:id="employeesFeedbackPanel"></span>
-                </div>
-            </form>
-        </div>
+                    <div class="field">
+                        <label>Сотрудник :</label>
+                        <select wicket:id="employeeId"></select>
+                        <br>
+                        <span class="feedback" wicket:id="employeesFeedbackPanel"></span>
+                    </div>
+                </form>
+            </div>
         </wicket:extend>
     </body>
 </html>

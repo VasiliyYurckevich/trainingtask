@@ -42,11 +42,12 @@
                         <h3>Задачи проекта</h3>
                     </div>
 
-                    <button formmethod="get" id="addButton" name="addButton"
-                            onclick="action.value='/editTask'" type="submit" class="add-button">
-                        Добавить задачу
-                    </button>
-
+                    <div class="single">
+                        <button formmethod="get" id="addButton" name="addButton"
+                                onclick="action.value='/editTask'" type="submit" class="add-button">
+                            Добавить задачу
+                        </button>
+                    </div>
                     <table>
                         <tr>
                             <th>Статус</th>
