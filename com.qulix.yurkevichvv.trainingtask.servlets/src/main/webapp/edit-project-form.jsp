@@ -15,7 +15,7 @@
 
     <body>
 
-        <my:mainMenu/>
+        <my:header/>
 
         <div class="chief">
             <div class="header">
@@ -30,9 +30,7 @@
                     <input type="hidden" name="projectId" value="${projectTemporaryData.id}"/>
                     <input type="hidden" name="taskIndex"/>
 
-                    <div>
-                        <my:buttons saveAction="/save" cancelAction="/list"/>
-                    </div>
+                    <my:buttons saveAction="/save" cancelAction="/list"/>
 
                     <div class="main">
                         <my:textField id="titleProject" label="Наименование" value="${titleProject}"/>

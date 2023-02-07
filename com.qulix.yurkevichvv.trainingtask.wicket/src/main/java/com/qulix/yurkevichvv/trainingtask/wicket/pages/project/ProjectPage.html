@@ -4,30 +4,33 @@
 <wicket:extend>
     <div class="main">
         <form wicket:id="projectForm">
-            <input class="add-button" type="submit" value="Сохранить" wicket:id="submit"/>
-            <button class="add-button" wicket:id="cancel">Отмена</button>
 
-            <div class="field">
-                <label>Наименование:</label>
-                <input  type="text" wicket:id="title"/>
-                <br>
-                <div class="feedback" wicket:id="titleFeedbackPanel"></div>
+            <div>
+                <button class="add-button" type="submit" wicket:id="submit">Сохранить</button>
+                <button class="add-button" wicket:id="cancel">Отмена</button>
             </div>
 
-            <div class="field">
-                <label>Описание:</label>
-                <input type="text" wicket:id="description"/>
-                <br>
-                <div class="feedback" wicket:id="descriptionFeedbackPanel"></div>
-            </div>
+            <div class="main">
+                <div class="field">
+                    <label>Наименование :</label>
+                    <input  type="text" wicket:id="title"/>
+                    <br>
+                    <div class="feedback" wicket:id="titleFeedbackPanel"></div>
+                </div>
 
-            <div class="field">
-                <button class="add-button" wicket:id="addTaskLink">Добавить задачу</button>
+                <div class="field">
+                    <label>Описание :</label>
+                    <input type="text" wicket:id="description"/>
+                    <br>
+                    <div class="feedback" wicket:id="descriptionFeedbackPanel"></div>
+                </div>
             </div>
 
             <div class="header">
                 <h3>Задачи проекта</h3>
             </div>
+
+            <button class="add-button" wicket:id="addTaskLink">Добавить задачу</button>
 
             <table>
                 <tbody>

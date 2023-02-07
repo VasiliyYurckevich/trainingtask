@@ -23,11 +23,11 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <servlet>
-        <servlet-name>EmployeeServlet</servlet-name>
+        <servlet-name>EmployeeController</servlet-name>
         <servlet-class>com.qulix.yurkevichvv.trainingtask.servlets.controllers.EmployeeController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>EmployeeServlet</servlet-name>
+        <servlet-name>EmployeeController</servlet-name>
         <url-pattern>/employees</url-pattern>
     </servlet-mapping>
     <servlet>

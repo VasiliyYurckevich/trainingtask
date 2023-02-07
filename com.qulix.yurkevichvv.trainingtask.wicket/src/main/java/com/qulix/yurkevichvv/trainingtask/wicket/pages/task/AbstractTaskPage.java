@@ -61,15 +61,13 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
      */
     private void addDateFields() {
         LocalDateTextField beginDateField = new LocalDateTextField("beginDate", DATA_FORMAT);
-        getForm().add(beginDateField.setRequired(true));
-        beginDateField.setRequired(true);
+        getForm().add(beginDateField);
 
         FeedbackPanel beginDateFeedbackPanel = new FeedbackPanel("beginDateFeedbackPanel",
             new ComponentFeedbackMessageFilter(beginDateField));
         getForm().add(beginDateFeedbackPanel);
 
         LocalDateTextField endDateTextField = new LocalDateTextField("endDate", DATA_FORMAT);
-        endDateTextField.setRequired(true);
         getForm().add(endDateTextField);
 
         FeedbackPanel endDateFeedbackPanel = new FeedbackPanel("endDateFeedbackPanel",

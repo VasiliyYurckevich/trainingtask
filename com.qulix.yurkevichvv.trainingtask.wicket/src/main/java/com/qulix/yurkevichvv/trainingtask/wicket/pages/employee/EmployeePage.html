@@ -4,32 +4,35 @@
 <wicket:extend>
     <div class="main" id="container">
         <form wicket:id="employeeForm">
-            <input class="add-button" type="submit" value="Сохранить" wicket:id="submit"/>
-            <button class="add-button" wicket:id="cancel">Отмена</button>
+
+            <div>
+                <button class="add-button" type="submit" wicket:id="submit">Сохранить</button>
+                <button class="add-button" wicket:id="cancel">Отмена</button>
+            <div>
 
             <div class="field">
-                <label>Фамилия:</label>
+                <label>Фамилия :</label>
                 <input type="text" wicket:id="surname"/>
                 <br>
                 <div class="feedback" wicket:id="surnameFeedbackPanel"/>
             </div>
 
             <div class="field">
-                <label>Имя:</label>
+                <label>Имя :</label>
                 <input type="text" wicket:id="firstName"/>
                 <br>
                 <div class="feedback" wicket:id="firstNameFeedbackPanel"/>
             </div>
 
             <div class="field">
-                <label>Отчество:</label>
+                <label>Отчество :</label>
                 <input type="text" wicket:id="patronymic"/>
                 <br>
                 <div class="feedback" wicket:id="patronymicFeedbackPanel"/>
             </div>
 
             <div class="field">
-                <label>Должность:</label>
+                <label>Должность :</label>
                 <input type="text" wicket:id="post"/>
                 <br>
                 <div class="feedback" wicket:id="postFeedbackPanel"/>

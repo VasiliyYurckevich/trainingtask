@@ -13,7 +13,7 @@
 
     <body>
 
-        <my:mainMenu/>
+        <my:header/>
 
         <div class="chief">
             <div class="header">
@@ -27,9 +27,7 @@
                     <input type="hidden" name="employeeId" value="${employeeId}"/>
                     <input name="action" type="hidden">
 
-                    <div>
-                        <my:buttons saveAction="/save" cancelAction="/list"/>
-                    </div>
+                    <my:buttons saveAction="/save" cancelAction="/list"/>
 
                     <div class="main">
                         <my:textField label="Фамилия" id="surname" value="${surname}"/>

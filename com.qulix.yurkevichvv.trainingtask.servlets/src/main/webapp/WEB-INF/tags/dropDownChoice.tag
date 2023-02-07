@@ -13,7 +13,7 @@
 
 
 <div class="field">
-	<label>${label}:</label>
+	<label>${label} :</label>
 	<select ${isDisabled ? "disabled = 'disabled'" : ""} name="${name}">
 		${isNullOption ? '<option value="">'.concat(basicOption).concat('</option>') : ''}
 		<c:forEach items="${list}" var="item">

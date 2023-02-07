@@ -8,5 +8,9 @@
 	<label>${label} :</label>
 	<input id="${id}" name="${id}" value="${fn:escapeXml(value)}"/>
 	<br>
-	<a class="feedback">${ERRORS.get(id)}</a>
+	<ul class="feedbackPanel">
+		<li>
+			<span class="feedback">${ERRORS.get(id)}</span>
+		</li>
+	</ul>
 </div>

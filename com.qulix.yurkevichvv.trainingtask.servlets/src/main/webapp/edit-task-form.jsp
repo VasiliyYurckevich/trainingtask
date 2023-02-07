@@ -15,7 +15,7 @@
 
     <body>
 
-        <my:mainMenu/>
+        <my:header/>
 
         <div class="chief">
             <div class="header">
@@ -27,10 +27,9 @@
             <div id="container" class="main">
                 <form action="tasks" id ="form">
                     <input type="hidden" name="action"/>
-                    <input type="hidden" name="taskId" value="${taskId}" />
-                    <div>
-                        <my:buttons saveAction="/save" cancelAction="/list"/>
-                    </div>
+                    <input type="hidden" name="taskId" value="${taskId}"/>
+
+                    <my:buttons saveAction="/save" cancelAction="/list"/>
 
                     <my:dropDownChoice label="Статус" name="status" list="${StatusList}" selectedId="${status}"/>
 

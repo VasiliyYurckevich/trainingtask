@@ -14,7 +14,7 @@
 
     <body>
 
-        <my:mainMenu/>
+        <my:header/>
 
         <div class="chief">
             <div class="header">

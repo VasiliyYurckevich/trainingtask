@@ -63,6 +63,7 @@ input {
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 300;
+    display: run-in;
     color: #DC143CFF;
 }
 
@@ -82,8 +83,21 @@ body {
     border: 1px solid #6E6D6DFF;
 }
 
-li {
+ul.nav-panel li.nav-panel-item{
     float: left;
+}
+
+.feedbackPanel {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    empty-cells: hide;
+}
+
+ul.feedbackPanel li.feedbackPanelERROR {
+    display: run-in;
+    float: right;
+    list-style: none;
 }
 
 li a {
@@ -110,6 +124,7 @@ li a:hover:not(.active) {
 }
 
 label {
+    font-size: 14px;
     float:left;
 }
 
@@ -118,9 +133,6 @@ label {
 }
 
 .header {
-    /*
-    clear:both;
-    */
     text-align:center;
 }
 
