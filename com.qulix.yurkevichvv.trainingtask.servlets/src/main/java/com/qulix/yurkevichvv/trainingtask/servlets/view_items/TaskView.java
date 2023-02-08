@@ -18,45 +18,19 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 public class TaskView implements Serializable {
 
     /**
-     * Идентификатор задачи.
+     * Задача.
      */
-    private Integer id;
-
-    /**
-     * Статус задачи.
-     */
-    private String statusTitle;
-
-    /**
-     * Название задачи.
-     */
-    private String title;
-
-    /**
-     * Время на задачу.
-     */
-    private String workTime;
-
-    /**
-     * Дата начала задачи.
-     */
-    private String beginDate;
-
-    /**
-     * Дата окончания задачи.
-     */
-    private String endDate;
+    private final Task task;
 
     /**
      * Наименование проекта задачи.
      */
-    private String projectTitle;
+    private final String projectTitle;
 
     /**
      * Полное имя сотрудника задачи.
      */
-    private String employeeFullName;
-
+    private final String employeeFullName;
 
     /**
      * Конструктор.
@@ -64,12 +38,7 @@ public class TaskView implements Serializable {
      * @param task задача.
      */
     public TaskView(Task task) {
-        this.id = task.getId();
-        this.statusTitle = task.getStatus().getStatusTitle();
-        this.title = task.getTitle();
-        this.workTime = task.getWorkTime().toString();
-        this.beginDate = task.getBeginDate().toString();
-        this.endDate = task.getEndDate().toString();
+        this.task = task;
         this.projectTitle = (task.getProjectId() != null) ?
             new ProjectService().getById(task.getProjectId()).getTitle() : "";
         this.employeeFullName = (task.getEmployeeId() != null) ?
@@ -88,67 +57,40 @@ public class TaskView implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getId() {
+        return task.getId();
     }
 
     public String getStatusTitle() {
-        return statusTitle;
-    }
-
-    public void setStatusTitle(String statusTitle) {
-        this.statusTitle = statusTitle;
+        return task.getStatus().getStatusTitle();
     }
 
     public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        return task.getTitle();
     }
 
     public String getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(String workTime) {
-        this.workTime = workTime;
+        return task.getWorkTime().toString();
     }
 
     public String getBeginDate() {
-        return beginDate;
-    }
-
-    public void setBeginDate(String beginDate) {
-        this.beginDate = beginDate;
+        return this.task.getBeginDate().toString();
     }
 
     public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+        return this.task.getEndDate().toString();
     }
 
     public String getProjectTitle() {
         return projectTitle;
     }
 
-    public void setProjectTitle(String projectTitle) {
-        this.projectTitle = projectTitle;
-    }
-
     public String getEmployeeFullName() {
         return employeeFullName;
     }
 
-    public void setEmployeeFullName(String employeeFullName) {
-        this.employeeFullName = employeeFullName;
+    public Task getTask() {
+        return task;
     }
 }

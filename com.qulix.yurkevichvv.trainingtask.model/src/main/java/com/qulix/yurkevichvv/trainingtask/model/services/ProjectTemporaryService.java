@@ -55,7 +55,7 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
         Connection connection = ConnectionService.getConnection();
 
         try (connection) {
-            return taskDao.getProjectTasksInDB(id, connection);
+            return taskDao.getProjectTasks(id, connection);
         }
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during getting project tasks", e);
@@ -85,10 +85,15 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
      */
     private void updateTasks(ProjectTemporaryData projectTemporaryData, Connection connection, Integer projectId) {
 
-        List<Task> tasksToDelete = taskDao.getProjectTasksInDB(projectTemporaryData.getId(), connection);
-        tasksToDelete.removeAll(projectTemporaryData.getTasksList());
+        List<Task> tasksToDelete = taskDao.getProjectTasks(projectTemporaryData.getId(), connection);
+
+        //очищает список для удаления от содержащихся в обновленном списке задач проекта
+        tasksToDelete.removeIf(existingTask -> projectTemporaryData.getTasksList()
+            .stream().anyMatch(updatedTask -> existingTask.getId().equals(updatedTask.getId())));
+
         tasksToDelete.forEach(task -> taskDao.delete(task.getId(), connection));
 
+        //добавление/обновление задач проекта
         projectTemporaryData.getTasksList().forEach(task -> {
             task.setProjectId(projectId);
             if (task.getId() == null) {

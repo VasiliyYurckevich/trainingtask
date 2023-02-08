@@ -36,7 +36,7 @@ public class TaskListCommand implements Command {
         HttpSession session = req.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
 
-        req.setAttribute("IS_ZERO_PROJECTS", projectService.findAll().isEmpty());
+        req.setAttribute("IS_NO_PROJECTS", projectService.findAll().isEmpty());
         req.setAttribute("TASKS_LIST", TaskView.convertTasksList(taskService.findAll()));
 
         req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
