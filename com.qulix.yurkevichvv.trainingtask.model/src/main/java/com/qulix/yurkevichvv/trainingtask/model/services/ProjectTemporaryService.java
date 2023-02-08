@@ -41,6 +41,7 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
                 projectDao.update(projectTemporaryData.getProject(), connection);
                 projectId = projectTemporaryData.getId();
             }
+
             updateTasks(projectTemporaryData, connection, projectId);
             ConnectionService.commitConnection(connection);
         }

@@ -15,7 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFa
 public class ProjectTaskPageFactory implements AbstractEntityPageFactory<Task> {
 
     /**
-     *  Модель {@link ProjectTemporaryData}.
+     * Модель {@link ProjectTemporaryData}.
      */
     private final CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel;
 

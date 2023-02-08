@@ -37,7 +37,7 @@ public class TaskDao implements IDao<Task> {
     private static final String TITLE = "title";
 
     /**
-     *  Проект, в который входит задача, в БД.
+     * Проект, в который входит задача, в БД.
      */
     private static final String PROJECT_ID = "project_id";
 

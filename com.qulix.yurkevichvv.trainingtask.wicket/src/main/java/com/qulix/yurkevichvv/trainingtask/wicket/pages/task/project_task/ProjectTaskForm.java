@@ -32,7 +32,8 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
 
     /**
      * Конструктор.
-     *  @param id идентификатор
+     *
+     * @param id идентификатор
      * @param entityModel модель сущности {@link Task}
      * @param projectTemporaryDataModel модель данных проекта задачи
      */
