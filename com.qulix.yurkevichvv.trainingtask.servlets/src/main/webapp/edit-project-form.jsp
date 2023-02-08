@@ -60,7 +60,8 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:forEach var="tempTask" items="${TaskView.convertTasksList(projectTemporaryData.tasksList)}" varStatus="theCount">
+                        <c:forEach var="tempTask" items="${TaskView.convertTasksList(projectTemporaryData.tasksList)}"
+                            varStatus="theCount">
 
                             <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/editTask"/>

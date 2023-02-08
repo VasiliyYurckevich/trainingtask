@@ -2,7 +2,8 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
-<jsp:useBean id="TASKS_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView>"/>
+<jsp:useBean id="TASKS_LIST" scope="request"
+    type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView>"/>
 <jsp:useBean id="IS_NO_PROJECTS" scope="request" type="java.lang.Boolean"/>
 
 <!DOCTYPE html>
@@ -43,7 +44,6 @@
                             <th>Проект</th>
                             <th>Исполнитель</th>
                             <th>Действия</th>
-
                         </tr>
 
                         <c:forEach var="taskView" items="${TASKS_LIST}">
