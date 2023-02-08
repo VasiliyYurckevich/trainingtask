@@ -40,9 +40,12 @@ public class EditProjectTaskCommand extends CommandWithValidation<ProjectTempora
 
     @Override
     protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute("projectTemporaryData");
+        ProjectTemporaryData projectTemporaryData =
+            (ProjectTemporaryData) req.getSession().getAttribute("projectTemporaryData");
+
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
         req.setAttribute(TASK_INDEX, req.getParameter(TASK_INDEX));
+
         taskPageDataService.setDataToPage(req, getTaskInProjectDataByIndex(req, projectTemporaryData));
         req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
     }
@@ -61,11 +64,11 @@ public class EditProjectTaskCommand extends CommandWithValidation<ProjectTempora
      * @return {@link Task} с данным индексом либо новая задача.
      */
     private Task getTaskInProjectDataByIndex(HttpServletRequest req, ProjectTemporaryData projectTemporaryData) {
-
         if (!req.getParameter(TASK_INDEX).isBlank()) {
             int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
             return projectTemporaryData.getTasksList().get(taskIndex);
         }
+
         Task task = new Task();
         task.setProjectId(projectTemporaryData.getId());
         return task;

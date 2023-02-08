@@ -45,6 +45,7 @@ cargo {
     deployable {
         context = "wicket"
         file = file("${rootDir}//${group}.${context}/build/libs/${group}.${context}-${version}.war")
+
     }
 
 

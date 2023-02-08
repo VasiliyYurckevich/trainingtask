@@ -39,7 +39,6 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
 
     @Override
     protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-
         int taskIndex = Integer.parseInt(req.getParameter("taskIndex"));
         ProjectTemporaryData projectTemporaryData =
             (ProjectTemporaryData) req.getSession().getAttribute("projectTemporaryData");

@@ -24,7 +24,6 @@ public class EditTaskCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-
         taskPageDataService.setDataToPage(req, taskPageDataService.getEntity(req));
         req.getRequestDispatcher("/edit-task-form.jsp").forward(req, resp);
     }

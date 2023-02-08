@@ -41,7 +41,6 @@ public class EmployeeValidation implements ValidationService {
     @Override
     public Map<String, String> validate(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
-
         errorList.put(SURNAME, FieldsValidation.checkString(paramsMap.get(SURNAME), SHORT_LENGTH));
         errorList.put(FIRST_NAME, FieldsValidation.checkString(paramsMap.get(FIRST_NAME), SHORT_LENGTH));
         errorList.put(PATRONYMIC, FieldsValidation.checkString(paramsMap.get(PATRONYMIC), SHORT_LENGTH));

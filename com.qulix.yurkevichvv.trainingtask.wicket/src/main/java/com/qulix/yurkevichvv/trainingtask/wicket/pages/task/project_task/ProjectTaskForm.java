@@ -44,7 +44,6 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
         this.index = projectTemporaryDataModel.getObject().getTasksList().indexOf(getModelObject());
     }
 
-
     @Override
     public void onSubmitting() {
         if (index < 0) {

@@ -23,9 +23,7 @@ public class DeleteEmployeeCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         employeeService.delete(Integer.parseInt(req.getParameter("employeeId")));
-
         resp.sendRedirect("employees");
     }
 }

@@ -18,7 +18,6 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFactory;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task.ProjectTaskPageFactory;
 
-
 /**
  * Страница добавления проекта.
  *
@@ -95,7 +94,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         /**
          * Конструктор.
          *
-         * @param tasks   модель списка задач
+         * @param tasks модель списка задач
          * @param service сервис для работ с проектом
          */
         public ProjectTasksListView(LoadableDetachableModel<List<Task>> tasks, ProjectTemporaryService service,

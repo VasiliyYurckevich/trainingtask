@@ -50,7 +50,9 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
 
     @Override
     protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        ProjectTemporaryData projectTemporaryData = (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+        ProjectTemporaryData projectTemporaryData =
+            (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+
         Integer taskIndex;
         Task task;
         if (req.getParameter(TASK_INDEX).isBlank()) {
@@ -61,6 +63,7 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
             taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
             task = projectTemporaryData.getTasksList().get(taskIndex);
         }
+
         pageDataService.setOutputDataToEntity(paramsMap, task);
         projectPageDataService.setDataToPage(req, projectTemporaryData);
         saveTaskInProjectData(task, projectTemporaryData, taskIndex);

@@ -92,7 +92,6 @@ public class TaskPageDataService implements PageDataService<Task> {
     @Override
     public void setFailedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
         setDropDownLists(req);
-
         req.setAttribute("ERRORS", errorsMap);
         req.setAttribute(TASK_ID, paramsMap.get(TASK_ID));
         req.setAttribute(STATUS, paramsMap.get(STATUS));

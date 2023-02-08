@@ -51,7 +51,7 @@ public class EmployeesListPage extends AbstractListPage<Employee> {
          * Конструктор.
          *
          * @param employees модель списка сотрудников
-         * @param service   сервис для работы с сущностями
+         * @param service сервис для работы с сущностями
          */
         public EmployeeCustomListView(LoadableDetachableModel<List<Employee>> employees, IService<Employee> service) {
             super("employees", employees, service);

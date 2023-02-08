@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -8,7 +7,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.NoDoubleClickButton;
+import com.qulix.yurkevichvv.trainingtask.wicket.companents.SubmitButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
@@ -23,6 +22,9 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      */
     private final CompoundPropertyModel<T> entityModel;
 
+    /**
+     * Форма страницы.
+     */
     private final AbstractEntityForm<T> form;
 
     /**
@@ -45,7 +47,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
     /**
      * Добавляет поле и фидбек панель.
      *
-     * @param name      имя поля
+     * @param name имя поля
      * @param maxLength максимальная длинна ввода
      */
     protected void addStringField(String name, Integer maxLength) {
@@ -62,7 +64,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      * Добавляет кнопки.
      */
     protected void addButtons() {
-        NoDoubleClickButton button = new NoDoubleClickButton("submit");
+        SubmitButton button = new SubmitButton("submit");
         form.add(button);
         form.setDefaultButton(button);
 

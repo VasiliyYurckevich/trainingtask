@@ -65,7 +65,6 @@ public class EmployeePageDataService implements PageDataService<Employee> {
 
     @Override
     public Map<String, String> getDataFromPage(HttpServletRequest req) {
-
         Map<String, String> paramsMap = new HashMap<>();
 
         paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));

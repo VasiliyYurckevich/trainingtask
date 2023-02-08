@@ -44,7 +44,6 @@ public class TasksListPage extends AbstractListPage<Task> {
         add(taskListView);
     }
 
-
     /**
      * Реализует CustomListView для задач.
      *
@@ -75,7 +74,13 @@ public class TasksListPage extends AbstractListPage<Task> {
         }
     }
 
+    /**
+     * Ссылка для перехода на страницу редактирования новой задачи.
+     *
+     * @author Q-YVV
+     */
     private static class TaskEntityEditPageLink extends EntityEditPageLink<Task> {
+
         public TaskEntityEditPageLink(String id, AbstractEntityPageFactory<Task> pageFactory, Model<Task> taskModel) {
             super(id, pageFactory, taskModel);
         }

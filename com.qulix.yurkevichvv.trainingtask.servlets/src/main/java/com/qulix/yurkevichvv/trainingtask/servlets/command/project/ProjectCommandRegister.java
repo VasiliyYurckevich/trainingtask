@@ -70,9 +70,9 @@ public enum ProjectCommandRegister {
      * @return объект {@link Command}
      */
     public static Command getCommand(String name) {
-        for (ProjectCommandRegister register : values()) {
-            if (register.actionName.equalsIgnoreCase(name)) {
-                return register.command;
+        for (ProjectCommandRegister registerItem : values()) {
+            if (registerItem.actionName.equalsIgnoreCase(name)) {
+                return registerItem.command;
             }
         }
         return PROJECT_LIST.command;

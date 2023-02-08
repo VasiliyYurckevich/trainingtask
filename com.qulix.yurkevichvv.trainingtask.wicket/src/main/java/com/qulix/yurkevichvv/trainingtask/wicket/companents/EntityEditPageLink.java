@@ -15,7 +15,14 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFa
  */
 public class EntityEditPageLink<T extends Entity> extends Link<Void> {
 
+    /**
+     * Фабрика страниц.
+     */
     private final AbstractEntityPageFactory<T> pageFactory;
+
+    /**
+     * Модель {@link Entity}.
+     */
     private final IModel<T> entityModel;
 
     /**

@@ -23,8 +23,7 @@ public class DeleteTaskCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String taskId = req.getParameter("taskId");
-        taskService.delete(Integer.parseInt(taskId));
+        taskService.delete(Integer.parseInt(req.getParameter("taskId")));
         resp.sendRedirect("tasks");
     }
 }

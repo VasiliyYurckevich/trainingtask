@@ -59,9 +59,9 @@ public enum EmployeeCommandRegister {
      * @return объект {@link Command}
      */
     public static Command getCommand(String name) {
-        for (EmployeeCommandRegister register : values()) {
-            if (register.actionName.equalsIgnoreCase(name)) {
-                return register.command;
+        for (EmployeeCommandRegister registerItem : values()) {
+            if (registerItem.actionName.equalsIgnoreCase(name)) {
+                return registerItem.command;
             }
         }
         return EMPLOYEE_LIST.command;
