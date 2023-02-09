@@ -38,7 +38,7 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
     private static final int MAXLENGTH = 50;
 
     /**
-     * Паттерн для дат.
+     * Формат дат.
      */
     private static final String DATA_FORMAT = "yyyy-MM-dd";
 

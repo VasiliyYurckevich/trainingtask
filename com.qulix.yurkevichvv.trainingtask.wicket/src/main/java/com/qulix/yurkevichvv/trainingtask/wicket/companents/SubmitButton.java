@@ -23,6 +23,7 @@ public class SubmitButton extends Button {
     @Override
     public void onSubmit() {
         super.onSubmit();
+
         AbstractEntityForm<?> form = (AbstractEntityForm<?>) getForm();
         form.onSubmitting();
         form.onChangesSubmitted();

@@ -89,6 +89,9 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
          */
         private final ProjectTemporaryService service;
 
+        /**
+         * Фабрика дял генерации страницы сущности.
+         */
         private final AbstractEntityPageFactory<Task> pageFactory;
 
         /**
@@ -127,6 +130,12 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
              */
             private final IModel<Task> taskModel;
 
+            /**
+             * Конструктор.
+             *
+             * @param id идентификатор
+             * @param taskModel модель {@link Task}
+             */
             public DeleteProjectTaskButton(String id, IModel<Task> taskModel) {
                 super(id);
                 this.taskModel = taskModel;

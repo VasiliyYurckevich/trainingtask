@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 <jsp:useBean id="TASKS_LIST" scope="request"
-    type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView>"/>
+    type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper>"/>
 <jsp:useBean id="IS_NO_PROJECTS" scope="request" type="java.lang.Boolean"/>
 
 <!DOCTYPE html>

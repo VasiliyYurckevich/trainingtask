@@ -20,7 +20,7 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
     /**
      * Конструктор.
      *
-     * @param employeeModel редактируемый сотрудник
+     * @param employeeModel модель редактируемого сотрудника
      */
     public EmployeePage(CompoundPropertyModel<Employee> employeeModel) {
         super("Редактировать сотрудника", employeeModel, new EmployeeForm("employeeForm", employeeModel));

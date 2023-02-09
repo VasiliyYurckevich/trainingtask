@@ -12,7 +12,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter.PageDataService;
 import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ValidationService;
 
-
 /**
  * Команда с предварительной валидацией полученных данных.
  *
@@ -54,10 +53,10 @@ public class CommandWithValidation<T extends Entity> implements Command {
     /**
      * Действия при отсутствии ошибок.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param req  {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
      * @param resp {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException      если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 

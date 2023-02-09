@@ -9,7 +9,6 @@ import java.util.Arrays;
  *
  * @author Q-YVV
  */
-
 @JavaBean
 public enum Status implements Serializable {
 

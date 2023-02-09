@@ -11,7 +11,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
  *
  * @author Q-YVV
  */
-public class TaskValidation implements ValidationService {
+public final class TaskValidation implements ValidationService {
 
     /**
      * Статуса задачи.

@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView"%>
+<%@ page import="com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="projectTemporaryData" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData"/>
-<jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskView>"/>
+<jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper>"/>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -60,7 +60,7 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:forEach var="tempTask" items="${TaskView.convertTasksList(projectTemporaryData.tasksList)}"
+                        <c:forEach var="tempTask" items="${TaskWrapper.convertTasksList(projectTemporaryData.tasksList)}"
                             varStatus="theCount">
 
                             <c:url var="editLink" value="/projects">

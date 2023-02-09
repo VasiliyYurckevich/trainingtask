@@ -48,6 +48,12 @@ public enum TaskCommandRegister {
      */
     private final String actionName;
 
+    /**
+     * Конструктор.
+     *
+     * @param command команда
+     * @param actionName имя команды
+     */
     TaskCommandRegister(Command command, String actionName) {
         this.command = command;
         this.actionName = actionName;

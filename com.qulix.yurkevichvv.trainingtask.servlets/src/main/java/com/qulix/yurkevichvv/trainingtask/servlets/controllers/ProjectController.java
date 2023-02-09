@@ -12,7 +12,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
 import com.qulix.yurkevichvv.trainingtask.servlets.command.project.ProjectCommandRegister;
 
-
 /**
  * Содержит сервлеты для выполнения действий объектов класса "Проект".
  *

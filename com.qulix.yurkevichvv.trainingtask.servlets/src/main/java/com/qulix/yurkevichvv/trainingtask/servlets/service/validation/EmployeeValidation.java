@@ -11,7 +11,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
  *
  * @author Q-YVV
  */
-public class EmployeeValidation implements ValidationService {
+public final class EmployeeValidation implements ValidationService {
 
     /**
      * Фамилия {@link Employee}.

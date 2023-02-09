@@ -44,7 +44,6 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
      */
     public SaveTaskCommand() {
         super(new TaskValidation(), new TaskPageDataService());
-
     }
 
     @Override

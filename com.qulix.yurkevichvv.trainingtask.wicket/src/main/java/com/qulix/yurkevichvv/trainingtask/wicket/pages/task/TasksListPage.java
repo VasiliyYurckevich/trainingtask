@@ -81,6 +81,13 @@ public class TasksListPage extends AbstractListPage<Task> {
      */
     private static class TaskEntityEditPageLink extends EntityEditPageLink<Task> {
 
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         * @param pageFactory фабрика для генерации страницы
+         * @param taskModel модель {@link Task}
+         */
         public TaskEntityEditPageLink(String id, AbstractEntityPageFactory<Task> pageFactory, Model<Task> taskModel) {
             super(id, pageFactory, taskModel);
         }

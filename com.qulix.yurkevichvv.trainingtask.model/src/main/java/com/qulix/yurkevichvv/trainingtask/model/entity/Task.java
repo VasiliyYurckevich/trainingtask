@@ -20,7 +20,6 @@ public class Task implements Entity {
     /**
      * Статус.
      */
-
     private Status status = Status.NOTSTARTED;
 
     /**

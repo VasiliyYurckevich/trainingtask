@@ -15,7 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
  * @author Q-YVV
  */
 @JavaBean
-public class TaskView implements Serializable {
+public class TaskWrapper implements Serializable {
 
     /**
      * Задача.
@@ -37,7 +37,7 @@ public class TaskView implements Serializable {
      *
      * @param task задача.
      */
-    public TaskView(Task task) {
+    public TaskWrapper(Task task) {
         this.task = task;
         this.projectTitle = (task.getProjectId() != null) ?
             new ProjectService().getById(task.getProjectId()).getTitle() : "";
@@ -51,9 +51,9 @@ public class TaskView implements Serializable {
      * @param taskList список задач
      * @return список объектов для визуализации задач
      */
-    public static List<TaskView> convertTasksList(List<Task> taskList) {
+    public static List<TaskWrapper> convertTasksList(List<Task> taskList) {
         return taskList.stream()
-                .map(TaskView::new)
+                .map(TaskWrapper::new)
                 .collect(Collectors.toList());
     }
 

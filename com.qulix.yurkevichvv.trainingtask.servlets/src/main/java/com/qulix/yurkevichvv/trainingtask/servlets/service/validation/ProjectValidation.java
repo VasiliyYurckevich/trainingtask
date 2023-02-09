@@ -11,7 +11,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
  *
  * @author Q-YVV
  */
-public class ProjectValidation implements ValidationService {
+public final class ProjectValidation implements ValidationService {
 
     /**
      * Обозначение название проекта.

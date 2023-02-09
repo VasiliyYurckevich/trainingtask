@@ -12,12 +12,14 @@ import org.apache.wicket.markup.html.basic.Label;
 public class BasePage extends WebPage {
 
     /**
-     * Название страницы.
+     * Заголовок страницы.
      */
     private final String pageTitle;
 
     /**
      * Конструктор.
+     *
+     * @param pageTitle заголовок страницы
      */
     public BasePage(String pageTitle) {
         super();

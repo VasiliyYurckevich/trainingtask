@@ -20,6 +20,9 @@ class ProjectForm extends AbstractEntityForm<ProjectTemporaryData> {
 
     /**
      * Конструктор.
+     *
+     * @param id идентификатор
+     * @param entityModel модель {@link ProjectTemporaryData}
      */
     public ProjectForm(String id, CompoundPropertyModel<ProjectTemporaryData> entityModel) {
         super(id, entityModel);

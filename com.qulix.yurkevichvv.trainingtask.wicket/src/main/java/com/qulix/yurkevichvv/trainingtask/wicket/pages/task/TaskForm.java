@@ -29,12 +29,12 @@ class TaskForm extends AbstractEntityForm<Task> {
     }
 
     @Override
-    public void onSubmitting() {
+    public final void onSubmitting() {
         service.save(getModelObject());
     }
 
     @Override
-    public void onChangesSubmitted() {
+    public final void onChangesSubmitted() {
         setResponsePage(TasksListPage.class);
     }
 }
