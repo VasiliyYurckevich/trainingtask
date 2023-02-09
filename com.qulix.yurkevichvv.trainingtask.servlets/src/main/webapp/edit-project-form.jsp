@@ -75,7 +75,7 @@
                             </c:url>
 
                             <tr>
-                                <td> ${tempTask.statusTitle}</td>
+                                <td> ${fn:escapeXml(tempTask.statusTitle)}</td>
                                 <td> ${fn:escapeXml(tempTask.title)} </td>
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
