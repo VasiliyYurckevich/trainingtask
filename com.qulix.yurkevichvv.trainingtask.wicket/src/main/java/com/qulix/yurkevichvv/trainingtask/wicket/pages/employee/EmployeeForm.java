@@ -28,8 +28,6 @@ class EmployeeForm extends AbstractEntityForm<Employee> {
 
     @Override
     protected void onSubmit() {
-        onSubmitting();
-        onChangesSubmitted();
     }
 
     @Override
