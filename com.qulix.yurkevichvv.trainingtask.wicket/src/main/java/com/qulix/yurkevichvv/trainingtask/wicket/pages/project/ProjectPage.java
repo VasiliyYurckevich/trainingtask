@@ -51,8 +51,10 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         addStringField("title", TITLE_MAXLENGTH);
         addStringField("description", DESCRIPTION_MAXLENGTH);
 
-        getForm().add(new ProjectTasksListView.EditProjectTaskButton("addTaskLink",
-            CompoundPropertyModel.of(new Task()), pageFactory));
+        Task task = new Task();
+        task.setProjectId(getForm().getModelObject().getId());
+        getForm().add(new EditProjectTaskButton("addTaskLink",
+            CompoundPropertyModel.of(task), pageFactory));
         addTaskList();
 
         add(getForm());
@@ -97,7 +99,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         /**
          * Конструктор.
          *
-         * @param tasks модель списка задач
+         * @param tasks   модель списка задач
          * @param service сервис для работ с проектом
          */
         public ProjectTasksListView(LoadableDetachableModel<List<Task>> tasks, ProjectTemporaryService service,
@@ -133,7 +135,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
             /**
              * Конструктор.
              *
-             * @param id идентификатор
+             * @param id        идентификатор
              * @param taskModel модель {@link Task}
              */
             public DeleteProjectTaskButton(String id, IModel<Task> taskModel) {
@@ -147,40 +149,40 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
                 getForm().detachModels();
             }
         }
+    }
 
         /**
          * Ссылка для редактирования задачи в проекте.
          */
-        private static class EditProjectTaskButton extends Button {
+    private static class EditProjectTaskButton extends Button {
 
-            /**
-             * Модель задачи.
-             */
-            private final CompoundPropertyModel<Task> taskModel;
+        /**
+         * Модель задачи.
+         */
+        private final CompoundPropertyModel<Task> taskModel;
 
-            /**
-             * Фабрика для генерации страницы редактирования задачи проекта.
-             */
-            private final AbstractEntityPageFactory<Task> pageFactory;
+        /**
+         * Фабрика для генерации страницы редактирования задачи проекта.
+         */
+        private final AbstractEntityPageFactory<Task> pageFactory;
 
-            /**
-             * Конструктор.
-             *
-             * @param taskModel модель задачи
-             * @param pageFactory фабрика для генерации страницы редактирования задачи проекта
-             */
-            public EditProjectTaskButton(String id, CompoundPropertyModel<Task> taskModel,
-                AbstractEntityPageFactory<Task> pageFactory) {
+        /**
+         * Конструктор.
+         *
+         * @param taskModel модель задачи
+         * @param pageFactory фабрика для генерации страницы редактирования задачи проекта
+         */
+        public EditProjectTaskButton(String id, CompoundPropertyModel<Task> taskModel,
+            AbstractEntityPageFactory<Task> pageFactory) {
 
-                super(id);
-                this.taskModel = taskModel;
-                this.pageFactory = pageFactory;
-            }
+            super(id);
+            this.taskModel = taskModel;
+            this.pageFactory = pageFactory;
+        }
 
-            @Override
-            public void onSubmit() {
-                setResponsePage(pageFactory.createPage(taskModel));
-            }
+        @Override
+        public void onSubmit() {
+            setResponsePage(pageFactory.createPage(taskModel));
         }
     }
 }
