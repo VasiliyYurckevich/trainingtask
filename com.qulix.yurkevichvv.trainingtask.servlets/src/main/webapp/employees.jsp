@@ -28,6 +28,7 @@
                 <div>
                     <form action="employees" method="get">
                         <input type="hidden" name="action" value="/edit"/>
+                        <input type="hidden" name="token" value="${token}">
                         <input type="hidden" name="employeeId" value="">
                         <input type="submit" value="Добавить" class="add-button">
                     </form>

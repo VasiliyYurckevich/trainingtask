@@ -28,6 +28,7 @@
                 <form action="tasks" id ="form">
                     <input type="hidden" name="action"/>
                     <input type="hidden" name="taskId" value="${taskId}"/>
+                    <input type="hidden" name="token" value="${token}">
 
                     <my:buttons saveAction="/save" cancelAction="/list"/>
 

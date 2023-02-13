@@ -22,6 +22,18 @@
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>PreventReplaySubmitFilter</filter-name>
+        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.PreventReplaySubmitFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>PreventReplaySubmitFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>EmployeeController</servlet-name>
         <servlet-class>com.qulix.yurkevichvv.trainingtask.servlets.controllers.EmployeeController</servlet-class>

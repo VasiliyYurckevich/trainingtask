@@ -28,6 +28,7 @@
             <div id="container" class="main">
                 <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/saveTaskInProject"/>
+                    <input type="hidden" name="token" value="${token}">
                     <input type="hidden" name="taskIndex" value="${taskIndex}"/>
 
                     <my:buttons cancelFormAction="projects" cancelAction="/edit" saveAction="/saveTaskInProject"/>

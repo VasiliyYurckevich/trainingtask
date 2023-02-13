@@ -26,9 +26,11 @@ public class EmployeeListCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession();
-        session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
+        //session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
 
         req.setAttribute("EMPLOYEE_LIST", employeeService.findAll());
+
+        generateToken(req);
 
         req.getRequestDispatcher("/employees.jsp").forward(req, resp);
     }

@@ -24,6 +24,7 @@ public class DeleteProjectCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         projectService.delete(Integer.valueOf(req.getParameter("projectId")));
+        generateToken(req);
         resp.sendRedirect("projects");
     }
 }

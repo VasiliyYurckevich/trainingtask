@@ -88,6 +88,7 @@ public class CommandWithValidation<T extends Entity> implements Command {
         paramsMap = pageDataService.getDataFromPage(req);
         errorsMap = validationService.validate(paramsMap);
         if (isValid()) {
+            generateToken(req);
             successesAction(req, resp);
         }
         else {

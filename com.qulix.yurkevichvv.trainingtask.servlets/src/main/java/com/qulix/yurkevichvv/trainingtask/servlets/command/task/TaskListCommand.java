@@ -34,7 +34,7 @@ public class TaskListCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession();
-        session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
+        //session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
 
         req.setAttribute("IS_NO_PROJECTS", projectService.findAll().isEmpty());
         req.setAttribute("TASKS_LIST", TaskWrapper.convertTasksList(taskService.findAll()));

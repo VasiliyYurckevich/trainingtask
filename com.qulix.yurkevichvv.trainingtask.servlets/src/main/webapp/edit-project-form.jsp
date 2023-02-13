@@ -28,6 +28,7 @@
                 <form action="projects">
                     <input type="hidden" name="action"/>
                     <input type="hidden" name="projectId" value="${projectTemporaryData.id}"/>
+                    <input type="hidden" name="token" value="${token}">
                     <input type="hidden" name="taskIndex"/>
 
                     <my:buttons saveAction="/save" cancelAction="/list"/>

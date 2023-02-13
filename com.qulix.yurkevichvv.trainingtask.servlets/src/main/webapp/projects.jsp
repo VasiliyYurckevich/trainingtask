@@ -28,6 +28,7 @@
                     <form action="projects" method="get">
                         <input type="hidden" name="action" value="/edit"/>
                         <input type="hidden" name="projectId" value="">
+                        <input type="hidden" name="token" value="${token}">
                         <input type="submit" value="Добавить" class="add-button">
                     </form>
 

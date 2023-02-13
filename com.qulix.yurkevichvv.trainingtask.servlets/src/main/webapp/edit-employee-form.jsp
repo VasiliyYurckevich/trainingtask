@@ -25,6 +25,7 @@
             <div id="container" class="main">
                 <form action="employees">
                     <input type="hidden" name="employeeId" value="${employeeId}"/>
+                    <input type="hidden" name="token" value="${token}">
                     <input name="action" type="hidden">
 
                     <my:buttons saveAction="/save" cancelAction="/list"/>
