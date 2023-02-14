@@ -26,7 +26,12 @@ public class ProjectsListCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession();
-
+        session.getAttributeNames().asIterator().forEachRemaining(attribute -> {
+            if (!attribute.equals("TOKEN_LIST")) {
+                session.removeAttribute(attribute);
+            }
+        }
+        );
         session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
         req.setAttribute("PROJECT_LIST", projectService.findAll());
 

@@ -1,12 +1,10 @@
 package com.qulix.yurkevichvv.trainingtask.model;
 
 import java.io.Serializable;
-import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 

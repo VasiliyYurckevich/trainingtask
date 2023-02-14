@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets;
+package com.qulix.yurkevichvv.trainingtask.servlets.filter;
 
 import java.io.IOException;
 
@@ -31,7 +31,6 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        System.out.println(filterConfig.toString());
         String encodingParam = filterConfig.getInitParameter("encoding");
         if (encodingParam != null) {
             encoding = encodingParam;

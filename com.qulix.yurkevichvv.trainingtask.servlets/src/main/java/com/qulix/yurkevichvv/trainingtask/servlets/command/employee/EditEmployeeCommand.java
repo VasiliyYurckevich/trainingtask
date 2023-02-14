@@ -25,7 +25,6 @@ public class EditEmployeeCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         pageDataService.setDataToPage(req, pageDataService.getEntity(req));
-        generateToken(req);
         req.getRequestDispatcher("/edit-employee-form.jsp").forward(req, resp);
     }
 }

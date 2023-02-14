@@ -12,7 +12,7 @@
     </context-param>
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.EncodingFilter</filter-class>
+        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.filter.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -23,12 +23,16 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter>
+        <filter-name>TokenizationFilter</filter-name>
+        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.filter.TokenizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TokenizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
         <filter-name>PreventReplaySubmitFilter</filter-name>
-        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.PreventReplaySubmitFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
+        <filter-class>com.qulix.yurkevichvv.trainingtask.servlets.filter.PreventReplaySubmitFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>PreventReplaySubmitFilter</filter-name>

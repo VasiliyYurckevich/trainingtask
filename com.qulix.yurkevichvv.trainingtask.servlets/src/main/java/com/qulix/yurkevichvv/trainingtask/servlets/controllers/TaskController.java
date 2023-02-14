@@ -1,8 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
