@@ -151,9 +151,9 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         }
     }
 
-        /**
-         * Ссылка для редактирования задачи в проекте.
-         */
+    /**
+     * Ссылка для редактирования задачи в проекте.
+     */
     private static class EditProjectTaskButton extends Button {
 
         /**
