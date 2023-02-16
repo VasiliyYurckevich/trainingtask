@@ -20,8 +20,4 @@ public interface Command {
      * @param resp the {@link HttpServletResponse} объект, содержащий ответ, который сервлет возвращает клиенту
      */
     void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException;
-
-
-
-
 }

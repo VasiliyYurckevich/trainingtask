@@ -1,10 +1,10 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.filter;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -31,11 +31,6 @@ public class TokenizationFilter implements Filter {
      */
     private static final String TOKEN = "token";
 
-    /**
-     * Длина токена.
-     */
-    private static final int TOKEN_LENGTH = 25;
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
@@ -43,22 +38,22 @@ public class TokenizationFilter implements Filter {
         final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         final HttpSession session = httpServletRequest.getSession();
 
-        List<String> tokenList = (List<String>) session.getAttribute(TOKEN_LIST);
-        if (tokenList == null) {
-            session.setAttribute(TOKEN_LIST, new ArrayList<>());
-        }
-        generateToken(httpServletRequest);
+        List<String> tokenList = Optional.ofNullable((List<String>) session.getAttribute(TOKEN_LIST)).orElse(new ArrayList<>());
+
+        generateToken(httpServletRequest, tokenList);
+        session.setAttribute(TOKEN_LIST, tokenList);
         chain.doFilter(request, response);
     }
 
-    private void generateToken(HttpServletRequest req) {
-        byte[] randomBytes = new byte[TOKEN_LENGTH];
-        new SecureRandom().nextBytes(randomBytes);
-        String token = Base64.getUrlEncoder().encodeToString(randomBytes);
-
-        List<String> tokenList = (List<String>) req.getSession().getAttribute(TOKEN_LIST);
-        tokenList.add(token);
-
+    /**
+     * Генерирует токен и добавляет его в список.
+     *
+     * @param req запрос
+     * @param tokenList список токенов
+     */
+    private void generateToken(HttpServletRequest req, List<String> tokenList) {
+        String token = UUID.randomUUID().toString();
         req.setAttribute(TOKEN, token);
+        tokenList.add(token);
     }
 }

@@ -19,32 +19,30 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class PreventReplaySubmitFilter implements Filter {
 
-    /**
-     * Логгер.
-     */
-    private static final Logger LOGGER = Logger.getLogger(PreventReplaySubmitFilter.class.getName());
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
 
         final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        if(httpServletRequest.getMethod().equals("POST")){
+            List<String> tokenList = (List<String>) httpServletRequest.getSession().getAttribute("TOKEN_LIST");
 
-        List<String> submissionTokenList = (List<String>) httpServletRequest.getSession().getAttribute("TOKEN_LIST");
-
-        String pageToken = httpServletRequest.getParameter("token");
-        if (pageToken == null || "".equals(pageToken)) {
-            chain.doFilter(request, response);
+            String pageToken = httpServletRequest.getParameter("token");
+            if (pageToken == null || "".equals(pageToken)) {
+                chain.doFilter(request, response);
+                return;
+            }
+            System.out.println(tokenList);
+            if (tokenList.contains(pageToken)) {
+                chain.doFilter(httpServletRequest, httpServletResponse);
+            }
+            else {
+                httpServletResponse.sendRedirect(httpServletRequest.getRequestURI());
+            }
+            tokenList.remove(pageToken);
             return;
         }
-
-        if (submissionTokenList.contains(pageToken)) {
-            chain.doFilter(httpServletRequest, httpServletResponse);
-        }
-        else {
-            httpServletResponse.sendRedirect(httpServletRequest.getRequestURI());
-        }
-        submissionTokenList.remove(pageToken);
+        chain.doFilter(request, response);
     }
 }
