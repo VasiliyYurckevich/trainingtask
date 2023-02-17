@@ -55,39 +55,39 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
     }
 
     @Override
-    public void setFailedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
-        req.setAttribute("ERRORS", errorsMap);
-        req.setAttribute(TITLE_OF_PROJECT, paramsMap.get(TITLE_OF_PROJECT));
-        req.setAttribute(DESCRIPTION, paramsMap.get(DESCRIPTION));
+    public void setFailedDataToPage(HttpServletRequest request, Map<String, String> paramsMap, Map<String, String> errorsMap) {
+        request.setAttribute("ERRORS", errorsMap);
+        request.setAttribute(TITLE_OF_PROJECT, paramsMap.get(TITLE_OF_PROJECT));
+        request.setAttribute(DESCRIPTION, paramsMap.get(DESCRIPTION));
     }
 
     @Override
-    public Map<String, String> getDataFromPage(HttpServletRequest req) {
+    public Map<String, String> getDataFromPage(HttpServletRequest request) {
         Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put(TITLE_OF_PROJECT, req.getParameter(TITLE_OF_PROJECT));
-        paramsMap.put(DESCRIPTION, req.getParameter(DESCRIPTION));
+        paramsMap.put(TITLE_OF_PROJECT, request.getParameter(TITLE_OF_PROJECT));
+        paramsMap.put(DESCRIPTION, request.getParameter(DESCRIPTION));
         return paramsMap;
     }
 
     @Override
-    public void setDataToPage(HttpServletRequest req, ProjectTemporaryData entity) {
-        HttpSession session = req.getSession();
+    public void setDataToPage(HttpServletRequest request, ProjectTemporaryData entity) {
+        HttpSession session = request.getSession();
 
         session.setAttribute(PROJECT_TEMPORARY_DATA, entity);
         session.setAttribute(TASK_LIST, TaskWrapper.convertTasksList(entity.getTasksList()));
 
-        req.setAttribute(TITLE_OF_PROJECT, entity.getTitle());
-        req.setAttribute(DESCRIPTION, entity.getDescription());
+        request.setAttribute(TITLE_OF_PROJECT, entity.getTitle());
+        request.setAttribute(DESCRIPTION, entity.getDescription());
     }
 
     @Override
-    public ProjectTemporaryData getEntity(HttpServletRequest req) {
-        if (req.getSession().getAttribute(PROJECT_TEMPORARY_DATA) != null) {
-            return (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+    public ProjectTemporaryData getEntity(HttpServletRequest request) {
+        if (request.getSession().getAttribute(PROJECT_TEMPORARY_DATA) != null) {
+            return (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
         }
 
-        if (!req.getParameter(PROJECT_ID).isBlank()) {
-            return new ProjectTemporaryData(projectService.getById(Integer.valueOf(req.getParameter(PROJECT_ID))));
+        if (!request.getParameter(PROJECT_ID).isBlank()) {
+            return new ProjectTemporaryData(projectService.getById(Integer.valueOf(request.getParameter(PROJECT_ID))));
         }
 
         return new ProjectTemporaryData(new Project());

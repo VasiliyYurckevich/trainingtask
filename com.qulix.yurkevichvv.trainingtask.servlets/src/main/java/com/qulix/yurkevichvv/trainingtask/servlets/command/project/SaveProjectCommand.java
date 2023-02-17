@@ -33,19 +33,19 @@ public class SaveProjectCommand extends CommandWithValidation<ProjectTemporaryDa
     }
 
     @Override
-    protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ProjectTemporaryData projectTemporaryData =
-            (ProjectTemporaryData) req.getSession().getAttribute("projectTemporaryData");
+            (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
         projectTemporaryService.save(projectTemporaryData);
 
-        resp.sendRedirect("projects");
+        response.sendRedirect("projects");
     }
 
     @Override
-    protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
-        req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
+    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        pageDataService.setFailedDataToPage(request, paramsMap, errorsMap);
+        request.getRequestDispatcher("/edit-project-form.jsp").forward(request, response);
     }
 }

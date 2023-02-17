@@ -23,8 +23,8 @@ public class EmployeeListCommand implements Command {
     private final EmployeeService employeeService = new EmployeeService();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.setAttribute("EMPLOYEE_LIST", employeeService.findAll());
-        req.getRequestDispatcher("/employees.jsp").forward(req, resp);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setAttribute("EMPLOYEE_LIST", employeeService.findAll());
+        request.getRequestDispatcher("/employees.jsp").forward(request, response);
     }
 }

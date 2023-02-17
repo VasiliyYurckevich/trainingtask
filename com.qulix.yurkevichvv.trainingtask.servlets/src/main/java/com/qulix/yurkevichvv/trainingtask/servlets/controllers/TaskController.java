@@ -26,10 +26,10 @@ public class TaskController extends Controller {
     private static final Logger LOGGER = Logger.getLogger(TaskController.class.getName());
 
     @Override
-    protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Command command = TaskCommandRegister.getCommand(req.getParameter("action"));
-            command.execute(req, resp);
+            Command command = TaskCommandRegister.getCommand(request.getParameter("action"));
+            command.execute(request, response);
         }
         catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, "Problem in Project Controller", e);

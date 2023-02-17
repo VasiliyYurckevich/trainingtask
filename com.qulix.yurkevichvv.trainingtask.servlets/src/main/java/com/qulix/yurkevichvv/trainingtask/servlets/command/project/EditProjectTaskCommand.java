@@ -39,33 +39,33 @@ public class EditProjectTaskCommand extends CommandWithValidation<ProjectTempora
     }
 
     @Override
-    protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ProjectTemporaryData projectTemporaryData =
-            (ProjectTemporaryData) req.getSession().getAttribute("projectTemporaryData");
+            (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
-        req.setAttribute(TASK_INDEX, req.getParameter(TASK_INDEX));
+        request.setAttribute(TASK_INDEX, request.getParameter(TASK_INDEX));
 
-        taskPageDataService.setDataToPage(req, getTaskInProjectDataByIndex(req, projectTemporaryData));
-        req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
+        taskPageDataService.setDataToPage(request, getTaskInProjectDataByIndex(request, projectTemporaryData));
+        request.getRequestDispatcher("/edit-task-in-project.jsp").forward(request, response);
     }
 
     @Override
-    protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
-        req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
+    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        pageDataService.setFailedDataToPage(request, paramsMap, errorsMap);
+        request.getRequestDispatcher("/edit-project-form.jsp").forward(request, response);
     }
 
     /**
      * Получает {@link Task} из списка задач {@link ProjectTemporaryData} либо создает новую.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param request {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
      * @param projectTemporaryData текущий объект {@link ProjectTemporaryData}, содержащий данные проекта
      * @return {@link Task} с данным индексом либо новая задача.
      */
-    private Task getTaskInProjectDataByIndex(HttpServletRequest req, ProjectTemporaryData projectTemporaryData) {
-        if (!req.getParameter(TASK_INDEX).isBlank()) {
-            int taskIndex = Integer.parseInt(req.getParameter(TASK_INDEX));
+    private Task getTaskInProjectDataByIndex(HttpServletRequest request, ProjectTemporaryData projectTemporaryData) {
+        if (!request.getParameter(TASK_INDEX).isBlank()) {
+            int taskIndex = Integer.parseInt(request.getParameter(TASK_INDEX));
             return projectTemporaryData.getTasksList().get(taskIndex);
         }
 

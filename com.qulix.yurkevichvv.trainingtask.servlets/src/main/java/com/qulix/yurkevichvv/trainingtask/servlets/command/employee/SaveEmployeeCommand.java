@@ -33,16 +33,16 @@ public class SaveEmployeeCommand extends CommandWithValidation<Employee> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Employee employee = pageDataService.getEntity(req);
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Employee employee = pageDataService.getEntity(request);
         pageDataService.setOutputDataToEntity(paramsMap, employee);
         employeeService.save(employee);
-        resp.sendRedirect("employees");
+        response.sendRedirect("employees");
     }
 
     @Override
-    protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
-        req.getRequestDispatcher("/edit-employee-form.jsp").forward(req, resp);
+    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        pageDataService.setFailedDataToPage(request, paramsMap, errorsMap);
+        request.getRequestDispatcher("/edit-employee-form.jsp").forward(request, response);
     }
 }

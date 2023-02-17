@@ -1,8 +1,9 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.filter;
 
+import com.qulix.yurkevichvv.trainingtask.servlets.controllers.CSRFTokenHandler;
+
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 
 /**
  * Фильтр множественной отправки запроса.
@@ -25,24 +27,11 @@ public class PreventReplaySubmitFilter implements Filter {
 
         final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        if(httpServletRequest.getMethod().equals("POST")){
-            List<String> tokenList = (List<String>) httpServletRequest.getSession().getAttribute("TOKEN_LIST");
 
-            String pageToken = httpServletRequest.getParameter("token");
-            if (pageToken == null || "".equals(pageToken)) {
-                chain.doFilter(request, response);
-                return;
-            }
-            System.out.println(tokenList);
-            if (tokenList.contains(pageToken)) {
-                chain.doFilter(httpServletRequest, httpServletResponse);
-            }
-            else {
-                httpServletResponse.sendRedirect(httpServletRequest.getRequestURI());
-            }
-            tokenList.remove(pageToken);
+        if (new CSRFTokenHandler().handleRequestToken(httpServletRequest)) {
+            chain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
-        chain.doFilter(request, response);
+        httpServletResponse.sendRedirect(httpServletRequest.getRequestURI());
     }
 }

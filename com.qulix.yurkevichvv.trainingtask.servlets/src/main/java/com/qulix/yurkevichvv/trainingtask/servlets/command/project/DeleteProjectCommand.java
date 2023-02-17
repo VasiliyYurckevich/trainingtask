@@ -22,8 +22,8 @@ public class DeleteProjectCommand implements Command {
     private final ProjectService projectService = new ProjectService();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        projectService.delete(Integer.valueOf(req.getParameter("projectId")));
-        resp.sendRedirect("projects");
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        projectService.delete(Integer.valueOf(request.getParameter("projectId")));
+        response.sendRedirect("projects");
     }
 }

@@ -31,10 +31,10 @@ public class TaskListCommand implements Command {
     private final ProjectService projectService = new ProjectService();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.setAttribute("IS_NO_PROJECTS", projectService.findAll().isEmpty());
-        req.setAttribute("TASKS_LIST", TaskWrapper.convertTasksList(taskService.findAll()));
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setAttribute("IS_NO_PROJECTS", projectService.findAll().isEmpty());
+        request.setAttribute("TASKS_LIST", TaskWrapper.convertTasksList(taskService.findAll()));
 
-        req.getRequestDispatcher("/tasks.jsp").forward(req, resp);
+        request.getRequestDispatcher("/tasks.jsp").forward(request, response);
     }
 }

@@ -38,22 +38,22 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
     }
 
     @Override
-    protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int taskIndex = Integer.parseInt(req.getParameter("taskIndex"));
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        int taskIndex = Integer.parseInt(request.getParameter("taskIndex"));
         ProjectTemporaryData projectTemporaryData =
-            (ProjectTemporaryData) req.getSession().getAttribute("projectTemporaryData");
+            (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
-        pageDataService.setDataToPage(req, projectTemporaryData);
+        pageDataService.setDataToPage(request, projectTemporaryData);
 
         projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
 
-        req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+        request.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(request, response);
     }
 
     @Override
-    protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
-        req.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(req, resp);
+    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        pageDataService.setFailedDataToPage(request, paramsMap, errorsMap);
+        request.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(request, response);
     }
 }

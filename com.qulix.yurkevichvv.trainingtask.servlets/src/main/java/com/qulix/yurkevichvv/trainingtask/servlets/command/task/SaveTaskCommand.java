@@ -47,19 +47,19 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Task task = pageDataService.getEntity(req);
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Task task = pageDataService.getEntity(request);
 
         pageDataService.setOutputDataToEntity(paramsMap, task);
         taskService.save(task);
 
-        resp.sendRedirect(TASKS);
+        response.sendRedirect(TASKS);
     }
 
     @Override
-    protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
-        req.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
-        req.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(req, resp);
+    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        pageDataService.setFailedDataToPage(request, paramsMap, errorsMap);
+        request.setAttribute(PROJECT_ID, Integer.parseInt(paramsMap.get(PROJECT_ID)));
+        request.getRequestDispatcher(EDIT_TASK_FORM_JSP).forward(request, response);
     }
 }

@@ -26,10 +26,10 @@ public class ProjectController extends Controller {
     private static final Logger LOGGER = Logger.getLogger(ProjectController.class.getName());
 
     @Override
-    protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Command command = ProjectCommandRegister.getCommand(req.getParameter("action"));
-            command.execute(req, resp);
+            Command command = ProjectCommandRegister.getCommand(request.getParameter("action"));
+            command.execute(request, response);
         }
         catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, "Problem in Project Controller", e);

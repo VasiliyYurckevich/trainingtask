@@ -23,8 +23,8 @@ public class EditEmployeeCommand implements Command {
     private final EmployeePageDataService pageDataService = new EmployeePageDataService();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        pageDataService.setDataToPage(req, pageDataService.getEntity(req));
-        req.getRequestDispatcher("/edit-employee-form.jsp").forward(req, resp);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        pageDataService.setDataToPage(request, pageDataService.getEntity(request));
+        request.getRequestDispatcher("/edit-employee-form.jsp").forward(request, response);
     }
 }

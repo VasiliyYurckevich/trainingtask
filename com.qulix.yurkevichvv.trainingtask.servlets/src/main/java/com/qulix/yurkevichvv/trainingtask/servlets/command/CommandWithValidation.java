@@ -53,24 +53,24 @@ public class CommandWithValidation<T extends Entity> implements Command {
     /**
      * Действия при отсутствии ошибок.
      *
-     * @param req  {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
-     * @param resp {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
+     * @param request  {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param response {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException      если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
     }
 
     /**
      * Действия при наличии ошибок.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
-     * @param resp {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
+     * @param request {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param response {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
@@ -84,14 +84,14 @@ public class CommandWithValidation<T extends Entity> implements Command {
     }
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        paramsMap = pageDataService.getDataFromPage(req);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        paramsMap = pageDataService.getDataFromPage(request);
         errorsMap = validationService.validate(paramsMap);
         if (isValid()) {
-            successesAction(req, resp);
+            successesAction(request, response);
         }
         else {
-            failedAction(req, resp);
+            failedAction(request, response);
         }
     }
 }

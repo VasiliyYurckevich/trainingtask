@@ -23,8 +23,8 @@ public class EditTaskCommand implements Command {
     private final TaskPageDataService taskPageDataService = new TaskPageDataService();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        taskPageDataService.setDataToPage(req, taskPageDataService.getEntity(req));
-        req.getRequestDispatcher("/edit-task-form.jsp").forward(req, resp);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        taskPageDataService.setDataToPage(request, taskPageDataService.getEntity(request));
+        request.getRequestDispatcher("/edit-task-form.jsp").forward(request, response);
     }
 }

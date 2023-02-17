@@ -22,11 +22,10 @@ public class EncodingFilter implements Filter {
     private String encoding = "utf-8";
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
         throws IOException, ServletException {
-
-        req.setCharacterEncoding(encoding);
-        filterChain.doFilter(req, resp);
+        request.setCharacterEncoding(encoding);
+        filterChain.doFilter(request, response);
     }
 
     @Override

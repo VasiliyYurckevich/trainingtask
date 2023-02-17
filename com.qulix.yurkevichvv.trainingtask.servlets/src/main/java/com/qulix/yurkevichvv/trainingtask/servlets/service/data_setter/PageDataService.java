@@ -25,33 +25,33 @@ public interface PageDataService<T extends Entity> {
     /**
      * Помещает данные не прошедшие валидацию на страницу.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
+     * @param request {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
      * @param paramsMap {@link Map} с данными полученными от клиента
      * @param errorsMap {@link Map} с сообщениями об ошибках
      */
-    void setFailedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap);
+    void setFailedDataToPage(HttpServletRequest request, Map<String, String> paramsMap, Map<String, String> errorsMap);
 
     /**
      * Создает объект {@link Map} с данными сущности, введенными клиентом.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
+     * @param request {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
      * @return {@link Map} с данными полученными от клиента
      */
-    Map<String, String> getDataFromPage(HttpServletRequest req);
+    Map<String, String> getDataFromPage(HttpServletRequest request);
 
     /**
      * Помещает данные полученные из {@link Entity} на страницу.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
+     * @param request {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
      * @param entity сущность с требуемыми данными
      */
-    void setDataToPage(HttpServletRequest req, T entity);
+    void setDataToPage(HttpServletRequest request, T entity);
 
     /**
      * Возвращает сущность с требуемым ID либо создает новую.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
+     * @param request {@link HttpServletRequest} объект, содержащий данные запроса клиента к серверу
      * @return сущность с требуемыми данными
      */
-    T getEntity(HttpServletRequest req);
+    T getEntity(HttpServletRequest request);
 }

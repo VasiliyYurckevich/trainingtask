@@ -90,48 +90,48 @@ public class TaskPageDataService implements PageDataService<Task> {
     }
 
     @Override
-    public void setFailedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
-        setDropDownLists(req);
-        req.setAttribute("ERRORS", errorsMap);
-        req.setAttribute(TASK_ID, paramsMap.get(TASK_ID));
-        req.setAttribute(STATUS, paramsMap.get(STATUS));
-        req.setAttribute(TITLE, paramsMap.get(TITLE));
-        req.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
-        req.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
-        req.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
-        req.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID).isEmpty() ? "" : Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
+    public void setFailedDataToPage(HttpServletRequest request, Map<String, String> paramsMap, Map<String, String> errorsMap) {
+        setDropDownLists(request);
+        request.setAttribute("ERRORS", errorsMap);
+        request.setAttribute(TASK_ID, paramsMap.get(TASK_ID));
+        request.setAttribute(STATUS, paramsMap.get(STATUS));
+        request.setAttribute(TITLE, paramsMap.get(TITLE));
+        request.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
+        request.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
+        request.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
+        request.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID).isEmpty() ? "" : Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
     }
 
     @Override
-    public Map<String, String> getDataFromPage(HttpServletRequest req) {
+    public Map<String, String> getDataFromPage(HttpServletRequest request) {
         Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put(TASK_ID, req.getParameter(TASK_ID));
-        paramsMap.put(STATUS, req.getParameter(STATUS));
-        paramsMap.put(TITLE , req.getParameter(TITLE).trim());
-        paramsMap.put(WORK_TIME, req.getParameter(WORK_TIME).trim());
-        paramsMap.put(BEGIN_DATE, req.getParameter(BEGIN_DATE).trim());
-        paramsMap.put(END_DATE, req.getParameter(END_DATE).trim());
-        paramsMap.put(PROJECT_ID, req.getParameter(PROJECT_ID));
-        paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
+        paramsMap.put(TASK_ID, request.getParameter(TASK_ID));
+        paramsMap.put(STATUS, request.getParameter(STATUS));
+        paramsMap.put(TITLE , request.getParameter(TITLE).trim());
+        paramsMap.put(WORK_TIME, request.getParameter(WORK_TIME).trim());
+        paramsMap.put(BEGIN_DATE, request.getParameter(BEGIN_DATE).trim());
+        paramsMap.put(END_DATE, request.getParameter(END_DATE).trim());
+        paramsMap.put(PROJECT_ID, request.getParameter(PROJECT_ID));
+        paramsMap.put(EMPLOYEE_ID, request.getParameter(EMPLOYEE_ID));
         return paramsMap;
     }
 
     @Override
-    public void setDataToPage(HttpServletRequest req, Task entity) {
-        setDropDownLists(req);
-        req.setAttribute(TASK_ID, entity.getId());
-        req.setAttribute(STATUS, entity.getStatus().getId());
-        req.setAttribute(TITLE, entity.getTitle());
-        req.setAttribute(WORK_TIME, entity.getWorkTime());
-        req.setAttribute(BEGIN_DATE, entity.getBeginDate());
-        req.setAttribute(END_DATE, entity.getEndDate());
-        req.setAttribute(PROJECT_ID, entity.getProjectId());
-        req.setAttribute(EMPLOYEE_ID, entity.getEmployeeId());
+    public void setDataToPage(HttpServletRequest request, Task entity) {
+        setDropDownLists(request);
+        request.setAttribute(TASK_ID, entity.getId());
+        request.setAttribute(STATUS, entity.getStatus().getId());
+        request.setAttribute(TITLE, entity.getTitle());
+        request.setAttribute(WORK_TIME, entity.getWorkTime());
+        request.setAttribute(BEGIN_DATE, entity.getBeginDate());
+        request.setAttribute(END_DATE, entity.getEndDate());
+        request.setAttribute(PROJECT_ID, entity.getProjectId());
+        request.setAttribute(EMPLOYEE_ID, entity.getEmployeeId());
     }
 
     @Override
-    public Task getEntity(HttpServletRequest req) {
-        String id = req.getParameter(TASK_ID);
+    public Task getEntity(HttpServletRequest request) {
+        String id = request.getParameter(TASK_ID);
         if (!id.isBlank()) {
             return taskService.getById(Integer.valueOf(id));
 
@@ -142,11 +142,11 @@ public class TaskPageDataService implements PageDataService<Task> {
     /**
      * Вносит данные в выпадающие списки.
      *
-     * @param req запрос
+     * @param request запрос
      */
-    public static void setDropDownLists(HttpServletRequest req) {
-        req.setAttribute("ProjectList", new ProjectDropDownItemConverter().convertList(new ProjectService().findAll()));
-        req.setAttribute("StatusList", new StatusDropDownItemConverter().convertList(List.of(Status.values())));
-        req.setAttribute("EmployeeList", new EmployeeDropDownItemConverter().convertList(new EmployeeService().findAll()));
+    public static void setDropDownLists(HttpServletRequest request) {
+        request.setAttribute("ProjectList", new ProjectDropDownItemConverter().convertList(new ProjectService().findAll()));
+        request.setAttribute("StatusList", new StatusDropDownItemConverter().convertList(List.of(Status.values())));
+        request.setAttribute("EmployeeList", new EmployeeDropDownItemConverter().convertList(new EmployeeService().findAll()));
     }
 }

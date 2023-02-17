@@ -16,8 +16,8 @@ public interface Command {
     /**
      * Основной метод команды для выполнения действия.
      *
-     * @param req the {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
-     * @param resp the {@link HttpServletResponse} объект, содержащий ответ, который сервлет возвращает клиенту
+     * @param request the {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param response the {@link HttpServletResponse} объект, содержащий ответ, который сервлет возвращает клиенту
      */
-    void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException;
+    void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
 }

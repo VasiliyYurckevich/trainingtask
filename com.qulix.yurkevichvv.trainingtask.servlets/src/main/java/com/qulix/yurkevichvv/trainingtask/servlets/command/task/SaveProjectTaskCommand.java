@@ -49,33 +49,35 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void successesAction(HttpServletRequest request,
+        HttpServletResponse response) throws IOException, ServletException {
+
         ProjectTemporaryData projectTemporaryData =
-            (ProjectTemporaryData) req.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+            (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
 
         Integer taskIndex;
         Task task;
-        if (req.getParameter(TASK_INDEX).isBlank()) {
+        if (request.getParameter(TASK_INDEX).isBlank()) {
             taskIndex = null;
             task = new Task();
         }
         else {
-            taskIndex = Integer.valueOf(req.getParameter(TASK_INDEX));
+            taskIndex = Integer.valueOf(request.getParameter(TASK_INDEX));
             task = projectTemporaryData.getTasksList().get(taskIndex);
         }
 
         pageDataService.setOutputDataToEntity(paramsMap, task);
-        projectPageDataService.setDataToPage(req, projectTemporaryData);
+        projectPageDataService.setDataToPage(request, projectTemporaryData);
         saveTaskInProjectData(task, projectTemporaryData, taskIndex);
 
-        req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
+        request.getRequestDispatcher("/edit-project-form.jsp").forward(request, response);
     }
 
     @Override
-    protected void failedAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        pageDataService.setFailedDataToPage(req, paramsMap, errorsMap);
-        req.setAttribute(TASK_INDEX, req.getParameter(TASK_INDEX));
-        req.getRequestDispatcher("/edit-task-in-project.jsp").forward(req, resp);
+    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        pageDataService.setFailedDataToPage(request, paramsMap, errorsMap);
+        request.setAttribute(TASK_INDEX, request.getParameter(TASK_INDEX));
+        request.getRequestDispatcher("/edit-task-in-project.jsp").forward(request, response);
     }
 
     /**

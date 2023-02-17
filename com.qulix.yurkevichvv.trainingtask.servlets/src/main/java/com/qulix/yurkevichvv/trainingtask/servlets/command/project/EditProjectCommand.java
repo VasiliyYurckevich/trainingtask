@@ -24,8 +24,8 @@ public class EditProjectCommand implements Command {
     private final ProjectPageDataService projectPageDataService = new ProjectPageDataService();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        projectPageDataService.setDataToPage(req, projectPageDataService.getEntity(req));
-        req.getRequestDispatcher("/edit-project-form.jsp").forward(req, resp);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        projectPageDataService.setDataToPage(request, projectPageDataService.getEntity(request));
+        request.getRequestDispatcher("/edit-project-form.jsp").forward(request, response);
     }
 }

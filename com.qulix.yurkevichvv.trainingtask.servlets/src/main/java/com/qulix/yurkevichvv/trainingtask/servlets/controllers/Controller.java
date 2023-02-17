@@ -14,24 +14,28 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class Controller extends HttpServlet {
 
+    CSRFTokenHandler csrfTokenHandler =  new CSRFTokenHandler();
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        csrfTokenHandler.addRequestToken(request);
+        processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        csrfTokenHandler.addRequestToken(request);
+        processRequest(request, response);
     }
 
     /**
      * Контролирует и выполняет команды полученные от клиента.
      *
-     * @param req {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
-     * @param resp {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
+     * @param request {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param response {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    protected abstract void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException,
         IOException;
 }

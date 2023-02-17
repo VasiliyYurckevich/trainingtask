@@ -54,39 +54,39 @@ public class EmployeePageDataService implements PageDataService<Employee> {
     }
 
     @Override
-    public void setFailedDataToPage(HttpServletRequest req, Map<String, String> paramsMap, Map<String, String> errorsMap) {
-        req.setAttribute("ERRORS", errorsMap);
-        req.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID));
-        req.setAttribute(SURNAME, paramsMap.get(SURNAME).trim());
-        req.setAttribute(FIRST_NAME, paramsMap.get(FIRST_NAME).trim());
-        req.setAttribute(PATRONYMIC, paramsMap.get(PATRONYMIC).trim());
-        req.setAttribute(POST, paramsMap.get(POST).trim());
+    public void setFailedDataToPage(HttpServletRequest request, Map<String, String> paramsMap, Map<String, String> errorsMap) {
+        request.setAttribute("ERRORS", errorsMap);
+        request.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID));
+        request.setAttribute(SURNAME, paramsMap.get(SURNAME).trim());
+        request.setAttribute(FIRST_NAME, paramsMap.get(FIRST_NAME).trim());
+        request.setAttribute(PATRONYMIC, paramsMap.get(PATRONYMIC).trim());
+        request.setAttribute(POST, paramsMap.get(POST).trim());
     }
 
     @Override
-    public Map<String, String> getDataFromPage(HttpServletRequest req) {
+    public Map<String, String> getDataFromPage(HttpServletRequest request) {
         Map<String, String> paramsMap = new HashMap<>();
 
-        paramsMap.put(EMPLOYEE_ID, req.getParameter(EMPLOYEE_ID));
-        paramsMap.put(SURNAME, req.getParameter(SURNAME));
-        paramsMap.put(FIRST_NAME, req.getParameter(FIRST_NAME));
-        paramsMap.put(PATRONYMIC, req.getParameter(PATRONYMIC));
-        paramsMap.put(POST, req.getParameter(POST));
+        paramsMap.put(EMPLOYEE_ID, request.getParameter(EMPLOYEE_ID));
+        paramsMap.put(SURNAME, request.getParameter(SURNAME));
+        paramsMap.put(FIRST_NAME, request.getParameter(FIRST_NAME));
+        paramsMap.put(PATRONYMIC, request.getParameter(PATRONYMIC));
+        paramsMap.put(POST, request.getParameter(POST));
         return paramsMap;
     }
 
     @Override
-    public void setDataToPage(HttpServletRequest req, Employee entity) {
-        req.setAttribute(EMPLOYEE_ID, entity.getId());
-        req.setAttribute(SURNAME, entity.getSurname());
-        req.setAttribute(FIRST_NAME, entity.getFirstName());
-        req.setAttribute(PATRONYMIC, entity.getPatronymic());
-        req.setAttribute(POST, entity.getPost());
+    public void setDataToPage(HttpServletRequest request, Employee entity) {
+        request.setAttribute(EMPLOYEE_ID, entity.getId());
+        request.setAttribute(SURNAME, entity.getSurname());
+        request.setAttribute(FIRST_NAME, entity.getFirstName());
+        request.setAttribute(PATRONYMIC, entity.getPatronymic());
+        request.setAttribute(POST, entity.getPost());
     }
 
     @Override
-    public Employee getEntity(HttpServletRequest req) {
-        String employeeId = req.getParameter(EMPLOYEE_ID);
+    public Employee getEntity(HttpServletRequest request) {
+        String employeeId = request.getParameter(EMPLOYEE_ID);
 
         if (!employeeId.isBlank()) {
             return employeeService.getById(Integer.valueOf(employeeId));

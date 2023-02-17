@@ -24,17 +24,16 @@ public class ProjectsListCommand implements Command {
     private final ProjectService projectService = new ProjectService();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        HttpSession session = req.getSession();
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
         session.getAttributeNames().asIterator().forEachRemaining(attribute -> {
             if (!attribute.equals("TOKEN_LIST")) {
                 session.removeAttribute(attribute);
             }
         }
         );
-        session.getAttributeNames().asIterator().forEachRemaining(session::removeAttribute);
-        req.setAttribute("PROJECT_LIST", projectService.findAll());
+        request.setAttribute("PROJECT_LIST", projectService.findAll());
 
-        req.getRequestDispatcher("projects.jsp").forward(req, resp);
+        request.getRequestDispatcher("projects.jsp").forward(request, response);
     }
 }

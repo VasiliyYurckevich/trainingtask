@@ -24,10 +24,10 @@ public class EmployeeController extends Controller {
     private static final Logger LOGGER = Logger.getLogger(EmployeeController.class.getName());
 
     @Override
-    protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Command command = EmployeeCommandRegister.getCommand(req.getParameter("action"));
-            command.execute(req, resp);
+            Command command = EmployeeCommandRegister.getCommand(request.getParameter("action"));
+            command.execute(request, response);
         }
         catch (IOException | ServletException e) {
             LOGGER.log(Level.SEVERE, "Problem in Employee Controller", e);
