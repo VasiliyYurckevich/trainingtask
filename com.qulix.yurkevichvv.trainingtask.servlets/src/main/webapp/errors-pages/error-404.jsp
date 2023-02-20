@@ -13,7 +13,7 @@
                 <h2>Ошибка!</h2>
                 <h2>Status Code: ${pageContext.errorData.statusCode} </h2>
                 <h2>Страница не найдена</h2>
-                <button class="add-button" onclick="window.location.href='index.jsp'">На главную</button>
+                <a class="add-button" href="index.jsp">На главную</a>
             </div>
         </div>
     </body>

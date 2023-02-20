@@ -38,16 +38,22 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
         int taskIndex = Integer.parseInt(request.getParameter("taskIndex"));
         ProjectTemporaryData projectTemporaryData =
             (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
-        pageDataService.setDataToPage(request, projectTemporaryData);
+
 
         projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
+    }
 
+    @Override
+    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        ProjectTemporaryData projectTemporaryData =
+                (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
+        pageDataService.setDataToPage(request, projectTemporaryData);
         request.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(request, response);
     }
 

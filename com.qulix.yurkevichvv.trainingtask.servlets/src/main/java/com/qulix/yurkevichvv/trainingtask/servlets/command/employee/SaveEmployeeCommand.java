@@ -37,6 +37,10 @@ public class SaveEmployeeCommand extends CommandWithValidation<Employee> {
         Employee employee = pageDataService.getEntity(request);
         pageDataService.setOutputDataToEntity(paramsMap, employee);
         employeeService.save(employee);
+    }
+
+    @Override
+    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.sendRedirect("employees");
     }
 

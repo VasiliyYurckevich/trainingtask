@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.task;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -49,8 +50,7 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request,
-        HttpServletResponse response) throws IOException, ServletException {
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
 
         ProjectTemporaryData projectTemporaryData =
             (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
@@ -67,11 +67,18 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
         }
 
         pageDataService.setOutputDataToEntity(paramsMap, task);
-        projectPageDataService.setDataToPage(request, projectTemporaryData);
         saveTaskInProjectData(task, projectTemporaryData, taskIndex);
 
+    }
+
+    @Override
+    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        ProjectTemporaryData projectTemporaryData =
+                (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
+        projectPageDataService.setDataToPage(request, projectTemporaryData);
         request.getRequestDispatcher("/edit-project-form.jsp").forward(request, response);
     }
+
 
     @Override
     protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

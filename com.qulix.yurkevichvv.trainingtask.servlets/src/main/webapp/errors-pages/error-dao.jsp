@@ -12,7 +12,7 @@
             <div class="start-page">
                 <h2>Ошибка!</h2>
                 <h2>БД временно недоступна. Повторите попытку позже</h2>
-                <button class="add-button" onclick="window.location.href='index.jsp'">На главную</button>
+                <a class="add-button" href="index.jsp">На главную</a>
             </div>
         </div>
     </body>

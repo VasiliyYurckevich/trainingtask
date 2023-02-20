@@ -44,10 +44,12 @@
                             <c:url var="editLink" value="/projects">
                                 <c:param name="action" value="/edit"/>
                                 <c:param name="projectId" value="${project.id}"/>
+                                <c:param name="token" value="${token}"/>
                             </c:url>
                             <c:url var="deleteLink" value="/projects">
                                 <c:param name="action" value="/delete"/>
                                 <c:param name="projectId" value="${project.id}"/>
+                                <c:param name="token" value="${token}"/>
                             </c:url>
 
                             <tr>

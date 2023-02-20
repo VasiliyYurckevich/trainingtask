@@ -14,7 +14,6 @@
     <body>
 
         <my:header/>
-
         <div class="chief">
             <div class="header">
                 <h2>Приложение для управления задачами</h2>

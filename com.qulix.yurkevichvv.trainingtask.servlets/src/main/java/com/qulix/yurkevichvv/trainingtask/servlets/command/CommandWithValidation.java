@@ -63,6 +63,18 @@ public class CommandWithValidation<T extends Entity> implements Command {
     }
 
     /**
+     * Действия при отсутствии ошибок.
+     *
+     * @param request  {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param response {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
+     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
+     * @throws IOException      если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     */
+    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException {
+    }
+
+    /**
      * Действия при наличии ошибок.
      *
      * @param request {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
@@ -88,7 +100,10 @@ public class CommandWithValidation<T extends Entity> implements Command {
         paramsMap = pageDataService.getDataFromPage(request);
         errorsMap = validationService.validate(paramsMap);
         if (isValid()) {
-            successesAction(request, response);
+            if((boolean) request.getAttribute("isFirstRequest")){
+               successesAction(request, response);
+            }
+            redirectAfterSuccessesAction(request, response);
         }
         else {
             failedAction(request, response);

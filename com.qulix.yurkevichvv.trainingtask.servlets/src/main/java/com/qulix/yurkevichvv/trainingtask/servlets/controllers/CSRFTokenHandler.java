@@ -1,11 +1,12 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class CSRFTokenHandler {
 
@@ -28,14 +29,15 @@ public class CSRFTokenHandler {
         session.setAttribute(TOKEN_LIST, tokenList);
     }
 
-    public boolean handleRequestToken(HttpServletRequest request) {
+    public void handleRequestToken(HttpServletRequest request) {
         List<String> tokenList = (List<String>) request.getSession().getAttribute("TOKEN_LIST");
 
         String pageToken = request.getParameter("token");
 
         if (pageToken == null) {
-            return true;
+            request.setAttribute("isFirstRequest", true);
+            return;
         }
-        return tokenList.remove(pageToken);
+        request.setAttribute("isFirstRequest", tokenList.remove(pageToken));
     }
 }

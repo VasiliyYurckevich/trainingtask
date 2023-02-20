@@ -30,7 +30,7 @@
                         <input type="hidden" name="action" value="/edit"/>
                         <input type="hidden" name="token" value="${token}">
                         <input type="hidden" name="employeeId" value="">
-                        <input type="submit" value="Добавить" class="add-button">
+                        <button type="submit" class="add-button">Добавить</button>
                     </form>
                     <table id="table" class="table table-striped">
                         <tr>
@@ -45,10 +45,12 @@
                             <c:url var="editLink" value="employees">
                                 <c:param name="action" value="/edit"/>
                                 <c:param name="employeeId" value="${employee.id}"/>
+                                <c:param name="token" value="${token}"/>
                             </c:url>
                             <c:url var="deleteLink" value="employees">
                                 <c:param name="action" value="/delete"/>
                                 <c:param name="employeeId" value="${employee.id}"/>
+                                <c:param name="token" value="${token}"/>
                             </c:url>
 
                             <tr>

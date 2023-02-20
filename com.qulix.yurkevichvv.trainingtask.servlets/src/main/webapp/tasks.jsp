@@ -52,10 +52,12 @@
                             <c:url var="editLink" value="/tasks">
                                 <c:param name="action" value="/edit"/>
                                 <c:param name="taskId" value="${taskView.id}"/>
+                                <c:param name="token" value="${token}"/>
                             </c:url>
                             <c:url var="deleteLink" value="/tasks">
                                 <c:param name="action" value="/delete"/>
                                 <c:param name="taskId" value="${taskView.id}"/>
+                                <c:param name="token" value="${token}"/>
                             </c:url>
 
                             <tr>

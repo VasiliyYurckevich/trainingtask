@@ -53,6 +53,10 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
         pageDataService.setOutputDataToEntity(paramsMap, task);
         taskService.save(task);
 
+    }
+
+    @Override
+    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect(TASKS);
     }
 

@@ -11,7 +11,7 @@
         <div class="chief">
             <div class="start-page">
                 <h2>Непредвиденная ошибка. Что-то пошло не так. Повторите позже</h2>
-                <button class="add-button" onclick="window.location.href='index.jsp'">На главную</button>
+                <a class="add-button" href="index.jsp">На главную</a>
             </div>
         </div>
     </body>

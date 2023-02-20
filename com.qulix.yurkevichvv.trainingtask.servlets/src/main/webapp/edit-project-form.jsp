@@ -85,11 +85,13 @@
                                 <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
                                 <td>
                                     <button formmethod="get" id="submitButton" name="submitButton"
-                                            onclick="action.value='/editTask'; taskIndex.value = '${theCount.index}'" type="submit" class="add-button">
+                                        onclick="action.value='/editTask'; taskIndex.value = '${theCount.index}'"
+                                        type="submit" class="add-button">
                                         Редактировать
                                     </button>
                                     <button formmethod="get" id="cancelButton" name="cancelButton"
-                                            onclick="action.value='/deleteTask'; taskIndex.value = '${theCount.index}'" type="submit" class="add-button">
+                                        onclick="action.value='/deleteTask'; taskIndex.value = '${theCount.index}'"
+                                        type="submit" class="add-button">
                                         Удалить
                                     </button>
                                 </td>
