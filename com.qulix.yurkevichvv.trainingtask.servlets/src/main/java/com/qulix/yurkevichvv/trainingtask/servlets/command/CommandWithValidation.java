@@ -17,7 +17,7 @@ import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.Validation
  *
  * @author Q-YVV
  */
-public class CommandWithValidation<T extends Entity> implements Command {
+public abstract class CommandWithValidation<T extends Entity> implements Command {
 
     /**
      * {@link ValidationService} для валидации {@link Entity}.
@@ -58,9 +58,7 @@ public class CommandWithValidation<T extends Entity> implements Command {
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException      если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-    }
+    protected abstract void successesAction(HttpServletRequest request, HttpServletResponse response);
 
     /**
      * Действия при отсутствии ошибок.
@@ -70,9 +68,8 @@ public class CommandWithValidation<T extends Entity> implements Command {
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException      если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
-    }
+    protected abstract void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException;
 
     /**
      * Действия при наличии ошибок.
@@ -100,8 +97,8 @@ public class CommandWithValidation<T extends Entity> implements Command {
         paramsMap = pageDataService.getDataFromPage(request);
         errorsMap = validationService.validate(paramsMap);
         if (isValid()) {
-            if((boolean) request.getAttribute("isFirstRequest")){
-               successesAction(request, response);
+            if ((boolean) request.getAttribute("isFirstRequest")) {
+                successesAction(request, response);
             }
             redirectAfterSuccessesAction(request, response);
         }

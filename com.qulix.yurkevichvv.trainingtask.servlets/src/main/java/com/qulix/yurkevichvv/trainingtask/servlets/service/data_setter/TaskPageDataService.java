@@ -99,7 +99,8 @@ public class TaskPageDataService implements PageDataService<Task> {
         request.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
         request.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
         request.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
-        request.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID).isEmpty() ? "" : Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
+        request.setAttribute(EMPLOYEE_ID,
+            paramsMap.get(EMPLOYEE_ID).isEmpty() ? "" : Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
     }
 
     @Override

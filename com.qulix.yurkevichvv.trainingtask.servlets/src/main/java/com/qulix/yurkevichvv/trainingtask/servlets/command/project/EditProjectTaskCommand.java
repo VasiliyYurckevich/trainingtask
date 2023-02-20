@@ -43,9 +43,11 @@ public class EditProjectTaskCommand extends CommandWithValidation<ProjectTempora
     }
 
     @Override
-    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException {
+
         ProjectTemporaryData projectTemporaryData =
-                (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
+            (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
         request.setAttribute(TASK_INDEX, request.getParameter(TASK_INDEX));

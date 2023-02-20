@@ -47,7 +47,7 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
         Task task = pageDataService.getEntity(request);
 
         pageDataService.setOutputDataToEntity(paramsMap, task);
@@ -56,7 +56,7 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
     }
 
     @Override
-    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect(TASKS);
     }
 

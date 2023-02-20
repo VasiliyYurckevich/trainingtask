@@ -20,6 +20,11 @@ import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ProjectVal
  */
 public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTemporaryData> {
 
+
+    /**
+     * Данные проекта в сессии.
+     */
+    public static final String PROJECT_TEMPORARY_DATA = "projectTemporaryData";
     /**
      * Путь на страницу редактирования проекта.
      */
@@ -29,6 +34,7 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
      * Сервис для работы с {@link ProjectTemporaryData}.
      */
     private final ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
+
 
     /**
      * Конструктор.
@@ -41,7 +47,7 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
     protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
         int taskIndex = Integer.parseInt(request.getParameter("taskIndex"));
         ProjectTemporaryData projectTemporaryData =
-            (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
+            (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
 
@@ -50,9 +56,11 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
     }
 
     @Override
-    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException {
+
         ProjectTemporaryData projectTemporaryData =
-                (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
+            (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
         pageDataService.setDataToPage(request, projectTemporaryData);
         request.getRequestDispatcher(EDIT_PROJECT_FORM_JSP).forward(request, response);
     }

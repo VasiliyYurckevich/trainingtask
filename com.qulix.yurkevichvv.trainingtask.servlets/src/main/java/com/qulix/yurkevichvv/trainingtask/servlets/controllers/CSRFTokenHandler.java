@@ -8,6 +8,11 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Обработчик токенов страниц.
+ *
+ * @author Q-YVV
+ */
 public class CSRFTokenHandler {
 
     /**
@@ -20,6 +25,16 @@ public class CSRFTokenHandler {
      */
     private static final String TOKEN = "token";
 
+    /**
+     * Флаг, предотвращающий двойное выполнение действия.
+     */
+    public static final String IS_FIRST_REQUEST = "isFirstRequest";
+
+    /**
+     * Добавляет токен на страницу.
+     *
+     * @param request запрос, объект {@link HttpServletRequest}
+     */
     public void addRequestToken(HttpServletRequest request) {
         HttpSession session = request.getSession();
         List<String> tokenList = Optional.ofNullable((List<String>) session.getAttribute(TOKEN_LIST)).orElse(new ArrayList<>());
@@ -29,15 +44,20 @@ public class CSRFTokenHandler {
         session.setAttribute(TOKEN_LIST, tokenList);
     }
 
+    /**
+     * Проверяет токен на странице и записывает результат в запрос.
+     *
+     * @param request запрос, объект {@link HttpServletRequest}
+     */
     public void handleRequestToken(HttpServletRequest request) {
-        List<String> tokenList = (List<String>) request.getSession().getAttribute("TOKEN_LIST");
+        List<String> tokenList = (List<String>) request.getSession().getAttribute(TOKEN_LIST);
 
-        String pageToken = request.getParameter("token");
+        String pageToken = request.getParameter(TOKEN);
 
         if (pageToken == null) {
-            request.setAttribute("isFirstRequest", true);
+            request.setAttribute(IS_FIRST_REQUEST, true);
             return;
         }
-        request.setAttribute("isFirstRequest", tokenList.remove(pageToken));
+        request.setAttribute(IS_FIRST_REQUEST, tokenList.remove(pageToken));
     }
 }

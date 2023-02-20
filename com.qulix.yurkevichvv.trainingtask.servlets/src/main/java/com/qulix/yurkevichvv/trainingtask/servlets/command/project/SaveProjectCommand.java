@@ -38,13 +38,12 @@ public class SaveProjectCommand extends CommandWithValidation<ProjectTemporaryDa
             (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
-        System.out.println(projectTemporaryData);
         projectTemporaryService.save(projectTemporaryData);
     }
 
 
     @Override
-    public void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("projects");
     }
 

@@ -19,6 +19,10 @@ import com.qulix.yurkevichvv.trainingtask.servlets.controllers.CSRFTokenHandler;
  * @author Q-YVV
  */
 public class PreventReplaySubmitFilter implements Filter {
+
+    /**
+     * Обработчик токенов.
+     */
     private CSRFTokenHandler tokenHandler;
 
     @Override
