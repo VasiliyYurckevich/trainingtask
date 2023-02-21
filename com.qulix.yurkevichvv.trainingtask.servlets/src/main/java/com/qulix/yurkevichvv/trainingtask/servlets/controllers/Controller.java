@@ -14,17 +14,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class Controller extends HttpServlet {
 
-    CSRFTokenHandler csrfTokenHandler =  new CSRFTokenHandler();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        csrfTokenHandler.addRequestToken(request);
+        CSRFTokenHandler.addRequestToken(request);
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        csrfTokenHandler.addRequestToken(request);
+        CSRFTokenHandler.addRequestToken(request);
         processRequest(request, response);
     }
 

@@ -1,9 +1,13 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.employee;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Страница добавления/редактирования сотрудников.
@@ -39,6 +43,6 @@ public class EmployeePage extends AbstractEntityPage<Employee> {
         addStringField("firstName", MAXLENGTH);
         addStringField("patronymic", MAXLENGTH);
         addStringField("post", MAXLENGTH);
-        add(getForm());
+        super.addFormComponents();
     }
 }

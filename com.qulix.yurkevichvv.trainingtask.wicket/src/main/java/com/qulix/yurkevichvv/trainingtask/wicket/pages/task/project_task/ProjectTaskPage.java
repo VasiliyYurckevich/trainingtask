@@ -24,12 +24,6 @@ public class ProjectTaskPage extends AbstractTaskPage {
     }
 
     @Override
-    protected void onInitialize() {
-        super.onInitialize();
-        addFormComponents();
-    }
-
-    @Override
     protected boolean changeProjectOption() {
         return false;
     }

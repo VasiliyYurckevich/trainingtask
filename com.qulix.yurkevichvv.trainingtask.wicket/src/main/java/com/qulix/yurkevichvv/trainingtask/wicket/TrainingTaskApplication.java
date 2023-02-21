@@ -12,7 +12,6 @@ import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.HomePage;
-import org.apache.wicket.settings.RequestCycleSettings;
 
 /**
  * Базовый класс приложения.
@@ -30,7 +29,6 @@ public class TrainingTaskApplication extends WebApplication {
     protected void init() {
         super.init();
         getCspSettings().blocking().add(CSPDirective.STYLE_SRC, CSPDirectiveSrcValue.SELF);
-        getRequestCycleSettings().setRenderStrategy(RequestCycleSettings.RenderStrategy.REDIRECT_TO_RENDER);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class CSRFTokenHandler {
      *
      * @param request запрос, объект {@link HttpServletRequest}
      */
-    public void addRequestToken(HttpServletRequest request) {
+    public static void addRequestToken(HttpServletRequest request) {
         HttpSession session = request.getSession();
         List<String> tokenList = Optional.ofNullable((List<String>) session.getAttribute(TOKEN_LIST)).orElse(new ArrayList<>());
         String token = UUID.randomUUID().toString();
@@ -49,7 +49,7 @@ public class CSRFTokenHandler {
      *
      * @param request запрос, объект {@link HttpServletRequest}
      */
-    public void handleRequestToken(HttpServletRequest request) {
+    public static void handleRequestToken(HttpServletRequest request) {
         List<String> tokenList = (List<String>) request.getSession().getAttribute(TOKEN_LIST);
 
         String pageToken = request.getParameter(TOKEN);

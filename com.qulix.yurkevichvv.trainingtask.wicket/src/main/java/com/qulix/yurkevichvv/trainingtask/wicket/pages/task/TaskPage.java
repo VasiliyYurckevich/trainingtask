@@ -19,10 +19,4 @@ public class TaskPage extends AbstractTaskPage {
     public TaskPage(CompoundPropertyModel<Task> entityModel) {
         super(entityModel, new TaskForm("taskForm", entityModel));
     }
-
-    @Override
-    protected void onInitialize() {
-        super.onInitialize();
-        addFormComponents();
-    }
 }

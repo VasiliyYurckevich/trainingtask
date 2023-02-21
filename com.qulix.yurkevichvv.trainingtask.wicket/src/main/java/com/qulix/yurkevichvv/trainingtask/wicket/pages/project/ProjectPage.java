@@ -57,7 +57,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
             CompoundPropertyModel.of(task), pageFactory));
         addTaskList();
 
-        add(getForm());
+        super.addFormComponents();
     }
 
     @Override

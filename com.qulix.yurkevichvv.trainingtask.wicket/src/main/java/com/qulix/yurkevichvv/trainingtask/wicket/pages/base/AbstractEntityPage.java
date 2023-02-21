@@ -1,5 +1,6 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
+import com.qulix.yurkevichvv.trainingtask.wicket.TokenHandler;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -7,7 +8,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
-import com.qulix.yurkevichvv.trainingtask.wicket.companents.SubmitButton;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
@@ -42,7 +42,9 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
     /**
      * Добавляет компоненты в форму.
      */
-    protected abstract void addFormComponents();
+    protected void addFormComponents() {
+        add(form);
+    }
 
     /**
      * Добавляет поле и фидбек панель.
@@ -104,6 +106,34 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
         @Override
         public void onSubmit() {
+            form.onChangesSubmitted();
+        }
+    }
+
+    /**
+     * Кнопка предотвращающая двойного щелчок.
+     *
+     * @author Q-YVV
+     */
+    private class SubmitButton extends Button {
+
+        /**
+         * Конструктор.
+         *
+         * @param id идентификатор
+         */
+        public SubmitButton(String id) {
+            super(id);
+        }
+
+        @Override
+        public void onSubmit() {
+            super.onSubmit();
+            AbstractEntityForm<?> form = (AbstractEntityForm<?>) getForm();
+
+            if (TokenHandler.isFirstCommit(getPage().getPageParameters())) {
+                form.onSubmitting();
+            }
             form.onChangesSubmitted();
         }
     }
