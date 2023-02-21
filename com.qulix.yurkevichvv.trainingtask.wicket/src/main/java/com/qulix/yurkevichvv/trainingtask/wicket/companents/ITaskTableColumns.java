@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import java.io.Serializable;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 
@@ -22,13 +23,13 @@ public interface ITaskTableColumns extends Serializable {
      */
     static void addColumns(ListItem<Task> item) {
         final Task task = item.getModelObject();
-
         item.add(new Label("status", task.getStatus().getStatusTitle()))
             .add(new Label("taskTitle", task.getTitle()))
             .add(new Label("workTime", task.getWorkTime()))
             .add(new Label("beginDate", task.getBeginDate().toString()))
             .add(new Label("endDate", task.getEndDate().toString()))
-            .add(new Label("employeeName", task.getEmployeeId() != null ?
-            new EmployeeService().getById(task.getEmployeeId()).getFullName() : ""));
+            .add(new Label("employeeName", task.getEmployee().getFullName()))
+            .add(new Label("projectTitle", task.getProject().getTitle()));
+
     }
 }

@@ -96,7 +96,7 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
 
         //добавление/обновление задач проекта
         projectTemporaryData.getTasksList().forEach(task -> {
-            task.setProjectId(projectId);
+            task.getProject().setId(projectId);
             if (task.getId() == null) {
                 taskDao.add(task, connection);
             }

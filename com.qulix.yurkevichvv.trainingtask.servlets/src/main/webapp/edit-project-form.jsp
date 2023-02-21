@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="projectTemporaryData" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData"/>
-<jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper>"/>
+<jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Task>"/>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -61,7 +60,7 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:forEach var="tempTask" items="${TaskWrapper.convertTasksList(projectTemporaryData.tasksList)}"
+                        <c:forEach var="tempTask" items="${projectTemporaryData.tasksList}"
                             varStatus="theCount">
 
                             <c:url var="editLink" value="/projects">
@@ -76,13 +75,13 @@
                             </c:url>
 
                             <tr>
-                                <td> ${fn:escapeXml(tempTask.statusTitle)}</td>
+                                <td> ${fn:escapeXml(tempTask.status.statusTitle)}</td>
                                 <td> ${fn:escapeXml(tempTask.title)} </td>
                                 <td> ${fn:escapeXml(tempTask.workTime)} </td>
                                 <td> ${fn:escapeXml(tempTask.beginDate)}</td>
                                 <td> ${fn:escapeXml(tempTask.endDate)} </td>
                                 <td> ${fn:escapeXml(projectTemporaryData.title)}</td>
-                                <td> ${fn:escapeXml(tempTask.employeeFullName)}</td>
+                                <td> ${fn:escapeXml(tempTask.employee.fullName)}</td>
                                 <td>
                                     <button formmethod="get" id="submitButton" name="submitButton"
                                         onclick="action.value='/editTask'; taskIndex.value = '${theCount.index}'"

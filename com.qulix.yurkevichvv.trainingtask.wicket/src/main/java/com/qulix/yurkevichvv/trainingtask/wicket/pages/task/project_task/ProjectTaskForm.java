@@ -42,6 +42,7 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
 
         super(id, entityModel);
         this.projectTemporaryDataModel = projectTemporaryDataModel;
+        System.out.println("create");
         this.index = projectTemporaryDataModel.getObject().getTasksList().indexOf(getModelObject());
     }
 
@@ -49,14 +50,14 @@ public class ProjectTaskForm extends AbstractEntityForm<Task> {
     public void onSubmitting() {
         if (index < 0) {
             projectTemporaryDataService.addTask(projectTemporaryDataModel.getObject(), getModelObject());
+            return;
         }
-        else {
-            projectTemporaryDataService.updateTask(projectTemporaryDataModel.getObject(), index, getModelObject());
-        }
+        projectTemporaryDataService.updateTask(projectTemporaryDataModel.getObject(), index, getModelObject());
     }
 
     @Override
     public void onChangesSubmitted() {
+        System.out.println(projectTemporaryDataModel);
         setResponsePage(new ProjectPageFactory().createPageByWrappedData(projectTemporaryDataModel));
     }
 }

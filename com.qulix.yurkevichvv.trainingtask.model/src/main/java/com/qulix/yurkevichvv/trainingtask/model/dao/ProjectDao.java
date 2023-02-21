@@ -23,17 +23,17 @@ public class ProjectDao implements IDao<Project> {
     /**
      * ID проекта в БД.
      */
-    private static final String ID = "id";
+    private static final String ID = "project.id";
 
     /**
      * Название проекта в БД.
      */
-    private static final String TITLE = "title";
+    private static final String TITLE = "project.title";
 
     /**
      * Описание сотрудника в БД.
      */
-    private static final String DESCRIPTION = "description";
+    private static final String DESCRIPTION = "project.description";
 
     /**
      * Логгер для ведения журнала действий.
@@ -43,7 +43,7 @@ public class ProjectDao implements IDao<Project> {
     /**
      * Запрос добавления проекта в БД.
      */
-    private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (:title, :description);";
+    private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (:project.title, :project.description);";
 
     /**
      * Запрос всех проектов из БД.
@@ -53,18 +53,18 @@ public class ProjectDao implements IDao<Project> {
     /**
      * Запрос получения проекта по его ID.
      */
-    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE id = :id;";
+    private static final String SELECT_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE id = :project.id;";
 
     /**
      * Запрос удаления проекта по его ID.
      */
-    private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE id = :id;";
+    private static final String DELETE_PROJECT_SQL = "DELETE FROM PROJECT WHERE id = :project.id;";
 
     /**
      * Запрос обновления проекта в БД.
      */
     private static final String UPDATE_PROJECT_SQL =
-        "UPDATE PROJECT SET title = :title, description = :description WHERE id = :id;";
+        "UPDATE PROJECT SET title = :project.title, description = :project.description WHERE id = :project.id;";
 
     @Override
     public Integer add(Project project, Connection connection) throws DaoException {
@@ -136,7 +136,7 @@ public class ProjectDao implements IDao<Project> {
      * @param resultSet результирующий набор данных
      * @return проект
      */
-    private static Project getProjectFromDB(ResultSet resultSet) {
+    protected static Project getProjectFromDB(ResultSet resultSet) {
 
         try {
             Project project = new Project();

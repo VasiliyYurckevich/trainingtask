@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
@@ -24,42 +25,42 @@ public class TaskDao implements IDao<Task> {
     /**
      * Имя колонки ID проекта в БД.
      */
-    private static final String ID = "id";
+    private static final String ID = "task.id";
 
     /**
      * Статус проекта в БД.
      */
-    private static final String STATUS = "status";
+    private static final String STATUS = "task.status";
 
     /**
      * Название задачи в БД.
      */
-    private static final String TITLE = "title";
+    private static final String TITLE = "task.title";
 
     /**
      * Проект, в который входит задача, в БД.
      */
-    private static final String PROJECT_ID = "project_id";
+    private static final String PROJECT_ID = "task.project_id";
 
     /**
      * Время работы над задачей в БД.
      */
-    private static final String WORK_TIME = "work_time";
+    private static final String WORK_TIME = "task.work_time";
 
     /**
      * Дата начала работы над задачей в БД.
      */
-    private static final String BEGIN_DATE = "begin_date";
+    private static final String BEGIN_DATE = "task.begin_date";
 
     /**
      * Дата конца работы над задачей в БД.
      */
-    private static final String END_DATE = "end_date";
+    private static final String END_DATE = "task.end_date";
 
     /**
      * Привязанный к задаче сотрудника в БД.
      */
-    private static final String EMPLOYEE_ID = "employee_id";
+    private static final String EMPLOYEE_ID = "task.employee_id";
 
     /**
      * Логгер для записи логов.
@@ -71,34 +72,76 @@ public class TaskDao implements IDao<Task> {
      */
     private static final String INSERT_TASK_SQL = "INSERT INTO TASK" +
         " (status, title, work_time, begin_date,end_date, project_id, employee_id)" +
-        " VALUES (:status, :title, :work_time, :begin_date, :end_date, :project_id, :employee_id);";
+        " VALUES (:task.status, :task.title, :task.work_time, :task.begin_date, :task.end_date," +
+        " :task.project_id, :task.employee_id);";
+
+//    /**
+//     * Запрос получения задач из БД.
+//     */
+//    private static final String SELECT_ALL_TASK = "SELECT * FROM TASK;";
 
     /**
      * Запрос получения задач из БД.
      */
-    private static final String SELECT_ALL_TASK = "SELECT * FROM TASK;";
+    private static final String SELECT_ALL_TASK = "SELECT" +
+        " task.*, " +
+        " project.*, " +
+        " employee.*" +
+        " FROM task" +
+        " LEFT JOIN project ON  project.id = project_id" +
+        " LEFT JOIN EMPLOYEE" +
+        " ON employee.id = task.employee_id;";
 
-    /**
-     * Запрос получения задачи из БД по идентификатору.
-     */
-    private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK WHERE id = :id;";
+    private static final String SELECT_TASK_BY_ID = "SELECT" +
+        " task.*, " +
+        " project.*," +
+        " employee.*" +
+        " FROM task" +
+        " LEFT JOIN project ON  project.id = project_id" +
+        " LEFT JOIN EMPLOYEE" +
+        " ON employee.id = task.employee_id"+
+        " WHERE id = :id;";
+
+
+//    /**
+//     * Запрос получения задачи из БД по идентификатору.
+//     */
+    // private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK ";
 
     /**
      * Запрос получения задач из БД по проекту.
      */
-    private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM TASK WHERE project_id = :project_id;";
+    private static final String SELECT_TASK_BY_PROJECT = "SELECT" +
+        " task.*, " +
+        " project.* , " +
+        " employee.*" +
+        " FROM task" +
+        " LEFT JOIN project ON  project.id = project_id" +
+        " LEFT JOIN EMPLOYEE" +
+        " ON employee.id = task.employee_id" +
+        " WHERE task.project_id = :task.project_id;";
+
+//    /**
+//     * Запрос получения задачи из БД по идентификатору.
+//     */
+//    private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK WHERE id = :id;";
+//
+//    /**
+//     * Запрос получения задач из БД по проекту.
+//     */
+//    private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM TASK WHERE project_id = :project_id;";
 
     /**
      * Запрос удаления задачи из БД по идентификатору.
      */
-    private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = :id;";
+    private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = :task.id;";
 
     /**
      * Запрос обновления задачи в БД.
      */
-    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = :status, title = :title," +
-        " work_time = :work_time, begin_date = :begin_date, end_date = :end_date, project_id = :project_id," +
-        " employee_id = :employee_id WHERE id = :id;";
+    private static final String UPDATE_TASK_SQL = "UPDATE TASK SET status = :task.status, title = :task.title," +
+        " work_time = :task.work_time, begin_date = :task.begin_date, end_date = :task.end_date, project_id = :task.project_id," +
+        " employee_id = :task.employee_id WHERE id = :task.id;";
 
     @Override
     public Integer add(Task task, Connection connection) throws DaoException {
@@ -145,8 +188,8 @@ public class TaskDao implements IDao<Task> {
         preparedStatementHelper.setInt(WORK_TIME, task.getWorkTime());
         preparedStatementHelper.setDate(BEGIN_DATE, task.getBeginDate());
         preparedStatementHelper.setDate(END_DATE, task.getEndDate());
-        preparedStatementHelper.setInt(PROJECT_ID, task.getProjectId());
-        preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployeeId());
+        preparedStatementHelper.setInt(PROJECT_ID, task.getProject().getId());
+        preparedStatementHelper.setInt(EMPLOYEE_ID,  task.getEmployee() == null ? null : task.getEmployee().getId());
     }
 
     @Override
@@ -257,8 +300,9 @@ public class TaskDao implements IDao<Task> {
             task.setWorkTime(resultSet.getInt(WORK_TIME));
             task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
             task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
-            task.setProjectId(resultSet.getObject(PROJECT_ID, Integer.class));
-            task.setEmployeeId(resultSet.getObject(EMPLOYEE_ID, Integer.class));
+            task.setProject(ProjectDao.getProjectFromDB(resultSet));
+            task.setEmployee(resultSet.getString("task.employee_id") != null ?
+                EmployeeDao.getEmployeeFromDB(resultSet) : new Employee());
         }
         catch (SQLException e) {
             throw new DaoException("Error when retrieving task data from the database", e);

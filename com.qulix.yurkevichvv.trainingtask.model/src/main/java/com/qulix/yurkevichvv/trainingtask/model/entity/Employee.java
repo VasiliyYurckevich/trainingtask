@@ -14,27 +14,27 @@ public class Employee implements Entity {
     /**
      * Идентификатор сотрудника.
      */
-    private Integer id;
+    private Integer id = null;
 
     /**
      * Имя сотрудника.
      */
-    private String surname;
+    private String surname = "";
 
     /**
      * Фамилия сотрудника.
      */
-    private String firstName;
+    private String firstName = "";
 
     /**
      * Отчество сотрудника.
      */
-    private String patronymic;
+    private String patronymic = "";
 
     /**
      * Должность сотрудника.
      */
-    private String post;
+    private String post = "";
 
     @Override
     public Integer getId() {

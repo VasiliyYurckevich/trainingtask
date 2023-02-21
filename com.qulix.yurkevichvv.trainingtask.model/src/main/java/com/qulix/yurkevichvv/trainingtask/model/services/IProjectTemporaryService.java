@@ -40,7 +40,7 @@ public interface IProjectTemporaryService extends Serializable {
      * Добавляет задачу в проект.
      *
      * @param projectTemporaryData данные проекта
-     * @param task задача
+     * @param task                 задача
      */
     void addTask(ProjectTemporaryData projectTemporaryData, Task task) throws ServiceException;
 

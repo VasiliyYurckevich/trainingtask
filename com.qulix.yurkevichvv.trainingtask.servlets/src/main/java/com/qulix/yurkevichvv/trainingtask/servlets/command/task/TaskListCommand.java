@@ -11,7 +11,6 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
 import com.qulix.yurkevichvv.trainingtask.servlets.command.Command;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper;
 
 /**
  * Команда отображающая список задач.
@@ -33,7 +32,7 @@ public class TaskListCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setAttribute("IS_NO_PROJECTS", projectService.findAll().isEmpty());
-        request.setAttribute("TASKS_LIST", TaskWrapper.convertTasksList(taskService.findAll()));
+        request.setAttribute("TASKS_LIST", taskService.findAll());
 
         request.getRequestDispatcher("/tasks.jsp").forward(request, response);
     }

@@ -70,7 +70,6 @@ public class TasksListPage extends AbstractListPage<Task> {
         protected void populateItem(ListItem<Task> item) {
             super.populateItem(item);
             ITaskTableColumns.addColumns(item);
-            item.add(new Label("projectTitle", new ProjectService().getById(item.getModelObject().getProjectId()).getTitle()));
         }
     }
 

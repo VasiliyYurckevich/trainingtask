@@ -45,12 +45,12 @@ public class Task implements Entity {
     /**
      * Идентификатор проекта.
      */
-    private Integer projectId;
+    private Project project = new Project();
 
     /**
      * Идентификатор сотрудника.
      */
-    private Integer employeeId;
+    private Employee employee = new Employee();
 
     @Override
     public Integer getId() {
@@ -77,12 +77,12 @@ public class Task implements Entity {
         this.title = title;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public LocalDate getBeginDate() {
@@ -109,19 +109,19 @@ public class Task implements Entity {
         this.workTime = workTime;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override
     public String toString() {
         return String.format("Task { id= '%s', status='%s', title= '%s', workTime= '%s'," +
-                " beginDate= '%s', endDate= '%s', projectId= '%s', employeeId= '%s'}",
-                id, status, title, workTime, beginDate, endDate, projectId, employeeId);
+                " beginDate= '%s', endDate= '%s', project= '%s', employee= '%s'}",
+                id, status, title, workTime, beginDate, endDate, project, employee);
     }
 
     @Override
@@ -143,10 +143,10 @@ public class Task implements Entity {
         if (!Objects.equals(title, task.title)) {
             return false;
         }
-        if (!Objects.equals(projectId, task.projectId)) {
+        if (!Objects.equals(project.getId(), task.project.getId())) {
             return false;
         }
-        return Objects.equals(employeeId, task.employeeId);
+        return Objects.equals(employee.getId(), task.employee.getId());
     }
 
     @Override
@@ -154,8 +154,8 @@ public class Task implements Entity {
         int result = id != null ? id.hashCode() : 0;
         result = 21 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (projectId != null ? projectId.hashCode() : 0);
-        result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
+        result = 31 * result + (project != null ? project.hashCode() : 0);
+        result = 31 * result + (employee != null ? employee.hashCode() : 0);
         return result;
     }
 }

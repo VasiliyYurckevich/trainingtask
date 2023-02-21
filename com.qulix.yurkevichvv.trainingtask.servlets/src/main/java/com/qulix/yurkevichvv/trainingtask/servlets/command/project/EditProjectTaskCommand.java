@@ -76,7 +76,7 @@ public class EditProjectTaskCommand extends CommandWithValidation<ProjectTempora
         }
 
         Task task = new Task();
-        task.setProjectId(projectTemporaryData.getId());
+        task.setProject(projectTemporaryData.getProject());
         return task;
     }
 }

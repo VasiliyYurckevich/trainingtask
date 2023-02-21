@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper;
 
 /**
  * Отвечает за взаимодействие данных {@link ProjectTemporaryData} и визуализации на странице.
@@ -74,7 +73,7 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
         HttpSession session = request.getSession();
 
         session.setAttribute(PROJECT_TEMPORARY_DATA, entity);
-        session.setAttribute(TASK_LIST, TaskWrapper.convertTasksList(entity.getTasksList()));
+        session.setAttribute(TASK_LIST, entity.getTasksList());
 
         request.setAttribute(TITLE_OF_PROJECT, entity.getTitle());
         request.setAttribute(DESCRIPTION, entity.getDescription());

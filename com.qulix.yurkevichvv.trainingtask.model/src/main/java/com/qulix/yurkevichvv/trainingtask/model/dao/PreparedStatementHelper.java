@@ -23,7 +23,7 @@ public class PreparedStatementHelper implements AutoCloseable {
     /**
      * Regex для поиска имени переменной.
      */
-    private static final String REGEX = "(:(\\w+))";
+    private static final String REGEX = "(:(\\w+))[^,;\\s]?(\\w+)";
 
     /**
      * SQL-запрос.

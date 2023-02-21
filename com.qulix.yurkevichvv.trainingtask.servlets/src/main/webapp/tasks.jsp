@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 <jsp:useBean id="TASKS_LIST" scope="request"
-    type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.TaskWrapper>"/>
+    type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Task>"/>
 <jsp:useBean id="IS_NO_PROJECTS" scope="request" type="java.lang.Boolean"/>
 
 <!DOCTYPE html>
@@ -61,13 +61,13 @@
                             </c:url>
 
                             <tr>
-                                <td> ${fn:escapeXml(taskView.statusTitle)}</td>
+                                <td> ${fn:escapeXml(taskView.status.statusTitle)}</td>
                                 <td> ${fn:escapeXml(taskView.title)} </td>
                                 <td> ${fn:escapeXml(taskView.workTime)} </td>
                                 <td> ${fn:escapeXml(taskView.beginDate)}</td>
                                 <td> ${fn:escapeXml(taskView.endDate)}</td>
-                                <td> ${fn:escapeXml(taskView.projectTitle)}</td>
-                                <td> ${fn:escapeXml(taskView.employeeFullName)}</td>
+                                <td> ${fn:escapeXml(taskView.project.title)}</td>
+                                <td> ${fn:escapeXml(taskView.employee.fullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}">Удалить</a>

@@ -22,8 +22,9 @@ public class TokenHandler {
         return token;
     }
 
-    public static boolean isFirstCommit(PageParameters pageParameters){
-        ArrayList<String> tokenList = (ArrayList<String>) Session.get().getAttribute("TOKEN_LIST");
+    public static boolean isFirstSubmit(PageParameters pageParameters){
+        ArrayList<String> tokenList = (ArrayList<String>) Session.get().getAttribute(TOKEN_LIST);
+        tokenList.forEach(s -> System.out.println("session token " + s));
         String token = String.valueOf(pageParameters.get("token"));
         return tokenList.remove(token);
     }

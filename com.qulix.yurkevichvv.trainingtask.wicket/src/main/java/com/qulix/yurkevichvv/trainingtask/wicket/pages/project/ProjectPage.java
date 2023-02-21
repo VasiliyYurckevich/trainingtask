@@ -52,7 +52,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         addStringField("description", DESCRIPTION_MAXLENGTH);
 
         Task task = new Task();
-        task.setProjectId(getForm().getModelObject().getId());
+        task.setProject(getForm().getModelObject().getProject());
         getForm().add(new EditProjectTaskButton("addTaskLink",
             CompoundPropertyModel.of(task), pageFactory));
         addTaskList();
@@ -115,9 +115,8 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         protected void populateItem(ListItem<Task> item) {
             ITaskTableColumns.addColumns(item);
 
-            item.add(new Label("projectTitle", projectModel.getObject().getTitle()))
-                    .add(new DeleteProjectTaskButton("deleteLink", item.getModel()))
-                    .add(new EditProjectTaskButton("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory));
+            item.add(new DeleteProjectTaskButton("deleteLink", item.getModel()))
+                .add(new EditProjectTaskButton("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory));
         }
 
         /**

@@ -28,7 +28,7 @@ public class ProjectPageFactory implements AbstractEntityPageFactory<Project> {
     public AbstractEntityPage<ProjectTemporaryData> createPageByWrappedData(
         CompoundPropertyModel<ProjectTemporaryData> entityModel) {
 
-        return new ProjectPage(CompoundPropertyModel.of(entityModel.getObject()));
+        return new ProjectPage(entityModel);
     }
 }
 

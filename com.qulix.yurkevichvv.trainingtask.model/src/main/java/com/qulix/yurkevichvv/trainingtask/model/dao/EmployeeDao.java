@@ -22,27 +22,27 @@ public class EmployeeDao implements IDao<Employee> {
     /**
      * ID сотрудника в БД.
      */
-    private static final String ID = "id";
+    private static final String ID = "employee.id";
 
     /**
      * Фамилия сотрудника в БД.
      */
-    private static final String SURNAME = "surname";
+    private static final String SURNAME = "employee.surname";
 
     /**
      * Имя сотрудника в БД.
      */
-    private static final String FIRST_NAME = "first_name";
+    private static final String FIRST_NAME = "employee.first_name";
 
     /**
      * Отчество сотрудника в БД.
      */
-    private static final String PATRONYMIC = "patronymic";
+    private static final String PATRONYMIC = "employee.patronymic";
 
     /**
      * Должность сотрудника в БД.
      */
-    private static final String POST = "post";
+    private static final String POST = "employee.post";
 
     /**
      * Логгер для записи событий.
@@ -53,7 +53,7 @@ public class EmployeeDao implements IDao<Employee> {
      * Запрос на добавление нового сотрудника в БД.
      */
     private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO EMPLOYEE (surname, first_name, patronymic, post)" +
-        " VALUES (:surname, :first_name, :patronymic, :post);";
+        " VALUES (:employee.surname, :employee.first_name, :employee.patronymic, :employee.post);";
 
     /**
      * Запрос на получение всех сотрудников из БД.
@@ -63,18 +63,19 @@ public class EmployeeDao implements IDao<Employee> {
     /**
      * Запрос на получение сотрудника по его ID из БД.
      */
-    private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM EMPLOYEE WHERE id = :id;";
+    private static final String SELECT_EMPLOYEE_BY_ID = "SELECT * FROM EMPLOYEE WHERE id = :employee.id;";
 
     /**
      * Запрос на удаление данных сотрудника в БД.
      */
-    private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE id = :id;";
+    private static final String DELETE_EMPLOYEE_SQL = "DELETE FROM EMPLOYEE WHERE id = :employee.id;";
 
     /**
      * Запрос на обновление данных сотрудника в БД.
      */
     private static final String UPDATE_CLIENT_SQL = "UPDATE EMPLOYEE" +
-        " SET surname = :surname, first_name = :first_name, patronymic = :patronymic, post = :post WHERE id = :id;";
+        " SET surname = :employee.surname, first_name = :employee.first_name, patronymic = :employee.patronymic," +
+        " post = :employee.post WHERE id = :employee.id;";
 
     @Override
     public Integer add(Employee employee, Connection connection) throws DaoException {
@@ -174,7 +175,7 @@ public class EmployeeDao implements IDao<Employee> {
      * @param resultSet результирующий набор данных
      * @return сотрудник
      */
-    private static Employee getEmployeeFromDB(ResultSet resultSet) {
+    protected static Employee getEmployeeFromDB(ResultSet resultSet) {
 
         try {
             Employee employee = new Employee();

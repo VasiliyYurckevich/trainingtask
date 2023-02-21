@@ -111,7 +111,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
     }
 
     /**
-     * Кнопка предотвращающая двойного щелчок.
+     * Кнопка отправки формы, предотвращающая двойной щелчок.
      *
      * @author Q-YVV
      */
@@ -130,8 +130,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
         public void onSubmit() {
             super.onSubmit();
             AbstractEntityForm<?> form = (AbstractEntityForm<?>) getForm();
-
-            if (TokenHandler.isFirstCommit(getPage().getPageParameters())) {
+            if (TokenHandler.isFirstSubmit(getPage().getPageParameters())) {
                 form.onSubmitting();
             }
             form.onChangesSubmitted();

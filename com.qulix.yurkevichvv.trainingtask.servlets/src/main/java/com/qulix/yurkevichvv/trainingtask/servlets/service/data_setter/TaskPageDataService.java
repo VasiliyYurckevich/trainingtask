@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
@@ -76,16 +77,16 @@ public class TaskPageDataService implements PageDataService<Task> {
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
         if (paramsMap.get(PROJECT_ID) != null) {
-            task.setProjectId(Integer.valueOf(paramsMap.get(PROJECT_ID)));
+            task.setProject(new ProjectService().getById(Integer.valueOf(paramsMap.get(PROJECT_ID))));
         }
         else {
-            task.setProjectId(null);
+            task.setProject(null);
         }
         if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
-            task.setEmployeeId(Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
+            task.setEmployee(new EmployeeService().getById(Integer.valueOf(paramsMap.get(EMPLOYEE_ID))));
         }
         else {
-            task.setEmployeeId(null);
+            task.setEmployee(null);
         }
     }
 
@@ -126,8 +127,8 @@ public class TaskPageDataService implements PageDataService<Task> {
         request.setAttribute(WORK_TIME, entity.getWorkTime());
         request.setAttribute(BEGIN_DATE, entity.getBeginDate());
         request.setAttribute(END_DATE, entity.getEndDate());
-        request.setAttribute(PROJECT_ID, entity.getProjectId());
-        request.setAttribute(EMPLOYEE_ID, entity.getEmployeeId());
+        request.setAttribute(PROJECT_ID, entity.getProject().getId());
+        request.setAttribute(EMPLOYEE_ID, entity.getEmployee().getId());
     }
 
     @Override
