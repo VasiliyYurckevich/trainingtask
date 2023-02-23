@@ -1,13 +1,14 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
@@ -71,6 +72,7 @@ public class TaskPageDataService implements PageDataService<Task> {
 
     @Override
     public void setOutputDataToEntity(Map<String, String> paramsMap, Task task) {
+        task.setId(paramsMap.get(TASK_ID).isEmpty() ? null : Integer.parseInt(paramsMap.get(TASK_ID)));
         task.setStatus(Status.getStatusById(Integer.parseInt(paramsMap.get(STATUS))));
         task.setTitle(paramsMap.get(TITLE));
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
@@ -107,6 +109,7 @@ public class TaskPageDataService implements PageDataService<Task> {
     @Override
     public Map<String, String> getDataFromPage(HttpServletRequest request) {
         Map<String, String> paramsMap = new HashMap<>();
+        request.getParameterMap().forEach((x, y) -> System.out.println(x + " : " + Arrays.toString(y)));
         paramsMap.put(TASK_ID, request.getParameter(TASK_ID));
         paramsMap.put(STATUS, request.getParameter(STATUS));
         paramsMap.put(TITLE , request.getParameter(TITLE).trim());
@@ -115,12 +118,14 @@ public class TaskPageDataService implements PageDataService<Task> {
         paramsMap.put(END_DATE, request.getParameter(END_DATE).trim());
         paramsMap.put(PROJECT_ID, request.getParameter(PROJECT_ID));
         paramsMap.put(EMPLOYEE_ID, request.getParameter(EMPLOYEE_ID));
+
         return paramsMap;
     }
 
     @Override
     public void setDataToPage(HttpServletRequest request, Task entity) {
         setDropDownLists(request);
+        System.out.println(entity);
         request.setAttribute(TASK_ID, entity.getId());
         request.setAttribute(STATUS, entity.getStatus().getId());
         request.setAttribute(TITLE, entity.getTitle());

@@ -43,7 +43,8 @@ public class ProjectDao implements IDao<Project> {
     /**
      * Запрос добавления проекта в БД.
      */
-    private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description) VALUES (:project.title, :project.description);";
+    private static final String INSERT_PROJECT_SQL = "INSERT INTO PROJECT (title, description)" +
+        " VALUES (:project.title, :project.description);";
 
     /**
      * Запрос всех проектов из БД.

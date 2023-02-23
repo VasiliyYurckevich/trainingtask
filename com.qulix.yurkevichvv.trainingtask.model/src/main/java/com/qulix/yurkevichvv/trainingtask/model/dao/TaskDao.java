@@ -75,66 +75,31 @@ public class TaskDao implements IDao<Task> {
         " VALUES (:task.status, :task.title, :task.work_time, :task.begin_date, :task.end_date," +
         " :task.project_id, :task.employee_id);";
 
-//    /**
-//     * Запрос получения задач из БД.
-//     */
-//    private static final String SELECT_ALL_TASK = "SELECT * FROM TASK;";
+    /**
+     * Объединяет таблицы для получения данных задачи.
+     */
+    public static final String SELECT_ALL_INFO = "SELECT task.*, project.* , employee.* FROM task " +
+        "LEFT JOIN project ON project.id = project_id LEFT JOIN EMPLOYEE ON employee.id = task.employee_id";
 
     /**
-     * Запрос получения задач из БД.
+     * Все задачи из БД.
      */
-    private static final String SELECT_ALL_TASK = "SELECT" +
-        " task.*, " +
-        " project.*, " +
-        " employee.*" +
-        " FROM task" +
-        " LEFT JOIN project ON  project.id = project_id" +
-        " LEFT JOIN EMPLOYEE" +
-        " ON employee.id = task.employee_id;";
-
-    private static final String SELECT_TASK_BY_ID = "SELECT" +
-        " task.*, " +
-        " project.*," +
-        " employee.*" +
-        " FROM task" +
-        " LEFT JOIN project ON  project.id = project_id" +
-        " LEFT JOIN EMPLOYEE" +
-        " ON employee.id = task.employee_id"+
-        " WHERE id = :id;";
-
-
-//    /**
-//     * Запрос получения задачи из БД по идентификатору.
-//     */
-    // private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK ";
+    private static final String SELECT_ALL_TASK = SELECT_ALL_INFO + ";";
 
     /**
-     * Запрос получения задач из БД по проекту.
+     * Задача из БД по идентификатору.
      */
-    private static final String SELECT_TASK_BY_PROJECT = "SELECT" +
-        " task.*, " +
-        " project.* , " +
-        " employee.*" +
-        " FROM task" +
-        " LEFT JOIN project ON  project.id = project_id" +
-        " LEFT JOIN EMPLOYEE" +
-        " ON employee.id = task.employee_id" +
-        " WHERE task.project_id = :task.project_id;";
+    private static final String SELECT_TASK_BY_ID = SELECT_ALL_INFO + " WHERE task.id = :task.id;";
 
-//    /**
-//     * Запрос получения задачи из БД по идентификатору.
-//     */
-//    private static final String SELECT_TASK_BY_ID = "SELECT * FROM TASK WHERE id = :id;";
-//
-//    /**
-//     * Запрос получения задач из БД по проекту.
-//     */
-//    private static final String SELECT_TASK_BY_PROJECT = "SELECT * FROM TASK WHERE project_id = :project_id;";
+    /**
+     * Задачи из БД по проекту.
+     */
+    private static final String SELECT_TASK_BY_PROJECT = SELECT_ALL_INFO + " WHERE task.project_id = :task.project_id;";
 
     /**
      * Запрос удаления задачи из БД по идентификатору.
      */
-    private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE id = :task.id;";
+    private static final String DELETE_TASK_SQL = "DELETE FROM TASK WHERE task.id = :task.id;";
 
     /**
      * Запрос обновления задачи в БД.
@@ -189,7 +154,7 @@ public class TaskDao implements IDao<Task> {
         preparedStatementHelper.setDate(BEGIN_DATE, task.getBeginDate());
         preparedStatementHelper.setDate(END_DATE, task.getEndDate());
         preparedStatementHelper.setInt(PROJECT_ID, task.getProject().getId());
-        preparedStatementHelper.setInt(EMPLOYEE_ID,  task.getEmployee() == null ? null : task.getEmployee().getId());
+        preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployee() == null ? null : task.getEmployee().getId());
     }
 
     @Override
@@ -301,7 +266,7 @@ public class TaskDao implements IDao<Task> {
             task.setBeginDate(LocalDate.parse(resultSet.getString(BEGIN_DATE)));
             task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
             task.setProject(ProjectDao.getProjectFromDB(resultSet));
-            task.setEmployee(resultSet.getString("task.employee_id") != null ?
+            task.setEmployee(resultSet.getString(EMPLOYEE_ID) != null ?
                 EmployeeDao.getEmployeeFromDB(resultSet) : new Employee());
         }
         catch (SQLException e) {

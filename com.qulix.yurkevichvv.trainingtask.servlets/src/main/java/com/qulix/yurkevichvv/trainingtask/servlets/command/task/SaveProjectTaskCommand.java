@@ -49,7 +49,7 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
+    protected void successesAction(HttpServletRequest request) {
 
         ProjectTemporaryData projectTemporaryData =
             (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
@@ -67,7 +67,6 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
 
         pageDataService.setOutputDataToEntity(paramsMap, task);
         saveTaskInProjectData(task, projectTemporaryData, taskIndex);
-
     }
 
     @Override
@@ -80,7 +79,6 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
         projectPageDataService.setDataToPage(request, projectTemporaryData);
         request.getRequestDispatcher("/edit-project-form.jsp").forward(request, response);
     }
-
 
     @Override
     protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -98,7 +96,7 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
      */
     private void saveTaskInProjectData(Task task, ProjectTemporaryData project, Integer taskIndex) {
         if (taskIndex != null) {
-            task.setId(project.getTasksList().get(taskIndex).getId());
+      //      task.setId(project.getTasksList().get(taskIndex).getId());
             projectTemporaryService.updateTask(project, taskIndex, task);
 
         }

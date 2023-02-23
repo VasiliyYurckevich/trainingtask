@@ -21,7 +21,7 @@ class TaskForm extends AbstractEntityForm<Task> {
     /**
      * Конструктор.
      *
-     * @param id          идентификатор
+     * @param id идентификатор
      * @param entityModel модель {@link Task}
      */
     public TaskForm(String id, CompoundPropertyModel<Task> entityModel) {

@@ -53,20 +53,17 @@ public abstract class CommandWithValidation<T extends Entity> implements Command
     /**
      * Действия при отсутствии ошибок.
      *
-     * @param request  {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
-     * @param response {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
-     * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException      если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @param request {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
      */
-    protected abstract void successesAction(HttpServletRequest request, HttpServletResponse response);
+    protected abstract void successesAction(HttpServletRequest request);
 
     /**
      * Действия при отсутствии ошибок.
      *
-     * @param request  {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
+     * @param request {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
      * @param response {@link HttpServletResponse} объект, содержащий ответ сервлета клиенту
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
-     * @throws IOException      если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
+     * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
     protected abstract void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException;
@@ -98,7 +95,7 @@ public abstract class CommandWithValidation<T extends Entity> implements Command
         errorsMap = validationService.validate(paramsMap);
         if (isValid()) {
             if ((boolean) request.getAttribute("isFirstRequest")) {
-                successesAction(request, response);
+                successesAction(request);
             }
             redirectAfterSuccessesAction(request, response);
         }

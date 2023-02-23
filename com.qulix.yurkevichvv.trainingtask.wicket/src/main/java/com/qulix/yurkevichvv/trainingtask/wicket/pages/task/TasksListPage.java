@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -54,7 +53,7 @@ public class TasksListPage extends AbstractListPage<Task> {
         /**
          * Конструктор.
          *
-         * @param tasks   модель списка задач
+         * @param tasks модель списка задач
          * @param service сервис для работы с сущностями
          */
         public TaskCustomListView(LoadableDetachableModel<List<Task>> tasks, IService<Task> service) {

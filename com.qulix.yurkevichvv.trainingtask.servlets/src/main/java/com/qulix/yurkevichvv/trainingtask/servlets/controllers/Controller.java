@@ -16,13 +16,13 @@ public abstract class Controller extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CSRFTokenHandler.addRequestToken(request);
+        TokenHandler.addRequestToken(request);
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CSRFTokenHandler.addRequestToken(request);
+        TokenHandler.addRequestToken(request);
         processRequest(request, response);
     }
 

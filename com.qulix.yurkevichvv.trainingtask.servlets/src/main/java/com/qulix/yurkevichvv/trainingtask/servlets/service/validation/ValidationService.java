@@ -3,7 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.service.validation;
 import java.util.Map;
 
 /**
- * Валидирует данные полученные от клиента.
+ * Проверяет данные полученные от клиента.
  *
  * @author Q-YVV
  */

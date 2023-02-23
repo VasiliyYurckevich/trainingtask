@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Q-YVV
  */
-public class CSRFTokenHandler {
+public class TokenHandler {
 
     /**
      * Список активных токенов.

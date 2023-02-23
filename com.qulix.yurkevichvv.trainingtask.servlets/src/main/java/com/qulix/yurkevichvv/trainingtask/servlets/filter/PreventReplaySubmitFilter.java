@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qulix.yurkevichvv.trainingtask.servlets.controllers.CSRFTokenHandler;
+import com.qulix.yurkevichvv.trainingtask.servlets.controllers.TokenHandler;
 
 /**
  * Фильтр множественной отправки запроса.
@@ -26,7 +26,7 @@ public class PreventReplaySubmitFilter implements Filter {
         final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        CSRFTokenHandler.handleRequestToken(httpServletRequest);
+        TokenHandler.handleRequestToken(httpServletRequest);
         chain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

@@ -33,7 +33,7 @@ public class SaveEmployeeCommand extends CommandWithValidation<Employee> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
+    protected void successesAction(HttpServletRequest request) {
         Employee employee = pageDataService.getEntity(request);
         pageDataService.setOutputDataToEntity(paramsMap, employee);
         employeeService.save(employee);

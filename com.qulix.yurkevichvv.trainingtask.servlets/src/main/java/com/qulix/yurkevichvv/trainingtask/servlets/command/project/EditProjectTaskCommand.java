@@ -39,7 +39,7 @@ public class EditProjectTaskCommand extends CommandWithValidation<ProjectTempora
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
+    protected void successesAction(HttpServletRequest request) {
     }
 
     @Override

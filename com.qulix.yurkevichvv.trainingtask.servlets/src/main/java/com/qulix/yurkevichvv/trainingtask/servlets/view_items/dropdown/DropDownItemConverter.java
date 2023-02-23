@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * @param <T> класс сущности
  * @author Q-YVV
  */
-public interface    DropDownItemConverter<T> {
+public interface DropDownItemConverter<T> {
 
     /**
      * Конвертирует сущность в элемент выпадающего списка.

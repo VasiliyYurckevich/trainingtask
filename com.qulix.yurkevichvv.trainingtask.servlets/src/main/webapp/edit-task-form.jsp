@@ -42,7 +42,8 @@
 
                     <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
 
-                    <my:dropDownChoice label="Наименование проекта" name="projectId" list="${ProjectList}" selectedId="${projectId}"/>
+                    <my:dropDownChoice label="Наименование проекта" name="projectId" list="${ProjectList}"
+                        selectedId="${projectId}"/>
 
                     <my:dropDownChoice label="Сотрудник" name="employeeId" isNullOption="true"
                         list="${EmployeeList}" selectedId="${employeeId}"/>

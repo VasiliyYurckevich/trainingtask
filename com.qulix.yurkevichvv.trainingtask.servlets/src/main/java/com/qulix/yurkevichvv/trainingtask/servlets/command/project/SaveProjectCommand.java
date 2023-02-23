@@ -33,7 +33,7 @@ public class SaveProjectCommand extends CommandWithValidation<ProjectTemporaryDa
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
+    protected void successesAction(HttpServletRequest request) {
         ProjectTemporaryData projectTemporaryData =
             (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 

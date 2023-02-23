@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -99,7 +98,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         /**
          * Конструктор.
          *
-         * @param tasks   модель списка задач
+         * @param tasks модель списка задач
          * @param service сервис для работ с проектом
          */
         public ProjectTasksListView(LoadableDetachableModel<List<Task>> tasks, ProjectTemporaryService service,
@@ -134,7 +133,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
             /**
              * Конструктор.
              *
-             * @param id        идентификатор
+             * @param id идентификатор
              * @param taskModel модель {@link Task}
              */
             public DeleteProjectTaskButton(String id, IModel<Task> taskModel) {

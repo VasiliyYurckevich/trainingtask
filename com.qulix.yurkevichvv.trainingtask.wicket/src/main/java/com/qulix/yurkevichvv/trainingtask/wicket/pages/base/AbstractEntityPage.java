@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-import com.qulix.yurkevichvv.trainingtask.wicket.TokenHandler;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -8,6 +7,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
+import com.qulix.yurkevichvv.trainingtask.wicket.TokenHandler;
 import com.qulix.yurkevichvv.trainingtask.wicket.validation.CustomStringValidator;
 
 /**
@@ -115,7 +115,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      *
      * @author Q-YVV
      */
-    private class SubmitButton extends Button {
+    private static class SubmitButton extends Button {
 
         /**
          * Конструктор.

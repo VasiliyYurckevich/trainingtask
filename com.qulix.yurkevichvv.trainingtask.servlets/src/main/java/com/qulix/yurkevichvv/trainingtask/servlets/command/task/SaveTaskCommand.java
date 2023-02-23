@@ -47,7 +47,7 @@ public class SaveTaskCommand extends CommandWithValidation<Task> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request, HttpServletResponse response) {
+    protected void successesAction(HttpServletRequest request) {
         Task task = pageDataService.getEntity(request);
 
         pageDataService.setOutputDataToEntity(paramsMap, task);

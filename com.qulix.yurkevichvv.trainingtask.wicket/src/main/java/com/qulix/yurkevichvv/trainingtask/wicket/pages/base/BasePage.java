@@ -1,13 +1,10 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.base;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
-import com.qulix.yurkevichvv.trainingtask.wicket.TokenHandler;
-import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+
+import com.qulix.yurkevichvv.trainingtask.wicket.TokenHandler;
 
 /**
  * Шаблонная страница приложения.
@@ -36,6 +33,7 @@ public class BasePage extends WebPage {
         super.onInitialize();
 
         getPageParameters().add("token", TokenHandler.addToken());
+
         WebMarkupContainer css = new WebMarkupContainer("style");
         add(css);
 

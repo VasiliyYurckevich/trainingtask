@@ -2,12 +2,10 @@ package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import java.io.Serializable;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
-import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 
 /**
  * Добавляет соответствующие колонки в ListView.

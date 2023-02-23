@@ -70,11 +70,13 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
 
     @Override
     public void addTask(ProjectTemporaryData projectTemporaryData, Task task) throws ServiceException {
+        task.setProject(projectTemporaryData.getProject());
         projectTemporaryData.getTasksList().add(task);
     }
 
     @Override
     public void updateTask(ProjectTemporaryData projectTemporaryData, Integer index, Task task) throws ServiceException {
+        task.setProject(projectTemporaryData.getProject());
         projectTemporaryData.getTasksList().set(index, task);
     }
 

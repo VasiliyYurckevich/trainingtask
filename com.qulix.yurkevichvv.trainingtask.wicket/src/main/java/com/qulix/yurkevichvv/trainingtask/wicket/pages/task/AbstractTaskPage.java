@@ -205,7 +205,8 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public void setObject(Employee employee) {
-            getEntityModel().getObject().setEmployee(employee != null ? new EmployeeService().getById(employee.getId()): new Employee());
+            getEntityModel().getObject().setEmployee(employee != null ?
+                new EmployeeService().getById(employee.getId()) : new Employee());
         }
     }
 
@@ -232,6 +233,7 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public Project getObject() {
+
             for (Project project : list.getObject()) {
                 if (project.getId().equals(getEntityModel().getObject().getProject().getId())) {
                     return project;
@@ -242,7 +244,9 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public void setObject(Project project) {
-            getEntityModel().getObject().setProject(project.getId() != null ? new ProjectService().getById(project.getId()) : null);
+
+            getEntityModel().getObject().setProject(project.getId() != null ?
+                new ProjectService().getById(project.getId()) : null);
         }
     }
 

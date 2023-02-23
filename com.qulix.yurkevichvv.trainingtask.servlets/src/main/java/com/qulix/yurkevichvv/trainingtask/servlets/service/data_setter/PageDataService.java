@@ -15,7 +15,7 @@ import com.qulix.yurkevichvv.trainingtask.model.entity.Entity;
 public interface PageDataService<T extends Entity> {
 
     /**
-     * Обновляет данные {@link Entity} из списка валидированных параметров.
+     * Обновляет данные {@link Entity} из списка проверенных параметров.
      *
      * @param paramsMap {@link Map} с данными полученными от клиента
      * @param entity сущность для обновления данных
