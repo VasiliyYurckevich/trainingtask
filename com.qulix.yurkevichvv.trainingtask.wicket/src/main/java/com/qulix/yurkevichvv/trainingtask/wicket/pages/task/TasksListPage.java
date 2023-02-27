@@ -35,9 +35,7 @@ public class TasksListPage extends AbstractListPage<Task> {
     protected void onInitialize() {
         super.onInitialize();
 
-        EntityEditPageLink<Task> addTask = new TaskEntityEditPageLink("addTask",
-            TasksListPage.this.getPageFactory(), new Model<>(new Task()));
-        add(addTask);
+        add(new TaskEntityEditPageLink("addTask", getPageFactory(), new Model<>(new Task())));
 
         CustomListView<Task> taskListView =
             new TaskCustomListView(LoadableDetachableModel.of(() -> new TaskService().findAll()), getService());

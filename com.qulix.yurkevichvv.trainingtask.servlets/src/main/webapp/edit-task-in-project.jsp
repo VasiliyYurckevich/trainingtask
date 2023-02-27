@@ -44,8 +44,8 @@
 
                     <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
 
-                    <my:dropDownChoice label="Наименование проекта" name="projectId" list="${ProjectList}"
-                        selectedId="${projectId}" isNullOption="true"
+                    <my:dropDownChoice label="Наименование проекта" name="projectIdDropDown" list="${ProjectList}"
+                        selectedId="${projectId}" isNullOption="true" isDisabled="true"
                         basicOption="${fn:escapeXml(projectTemporaryData.title)}"/>
 
                     <my:dropDownChoice label="Сотрудник" name="employeeId" list="${EmployeeList}"

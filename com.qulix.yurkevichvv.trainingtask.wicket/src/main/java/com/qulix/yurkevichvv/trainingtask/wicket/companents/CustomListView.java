@@ -64,17 +64,17 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @author Q-YVV
      */
-    private class DeleteLink<E extends Entity> extends Link<Void> {
+    private class DeleteLink<V extends Entity> extends Link<Void> {
 
         /**
          * Сервис для работы с сущностями.
          */
-        private final IService<E> service;
+        private final IService<V> service;
 
         /**
          * Элемент ListView.
          */
-        private final IModel<E> entityModel;
+        private final IModel<V> entityModel;
 
         /**
          * Конструктор.
@@ -82,7 +82,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
          * @param id идентификатор
          * @param entityModel элемент {@link ListView}
          */
-        public DeleteLink(String id, IService<E> service, IModel<E> entityModel) {
+        public DeleteLink(String id, IService<V> service, IModel<V> entityModel) {
             super(id);
             this.entityModel = entityModel;
             this.service = service;
@@ -100,17 +100,17 @@ public class CustomListView<T extends Entity> extends ListView<T> {
      *
      * @author Q-YVV
      */
-    public static class EditLink<V extends Entity> extends Link<Void> {
+    public static class EditLink<T extends Entity> extends Link<Void> {
 
         /**
          * Модель сущности.
          */
-        private final IModel<V> entityModel;
+        private final IModel<T> entityModel;
 
         /**
          * Фабрика для генерации страниц сущностей.
          */
-        private final AbstractEntityPageFactory<V> pageFactory;
+        private final AbstractEntityPageFactory<T> pageFactory;
 
         /**
          * Конструктор.
@@ -119,7 +119,7 @@ public class CustomListView<T extends Entity> extends ListView<T> {
          * @param pageFactory фабрика страниц
          * @param entityModel модель
          */
-        public EditLink(String id, AbstractEntityPageFactory<V> pageFactory, IModel<V> entityModel) {
+        public EditLink(String id, AbstractEntityPageFactory<T> pageFactory, IModel<T> entityModel) {
             super(id);
             this.entityModel = entityModel;
             this.pageFactory = pageFactory;

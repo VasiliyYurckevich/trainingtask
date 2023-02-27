@@ -97,8 +97,8 @@ public class EmployeeDao implements IDao<Employee> {
     public void update(Employee employee, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_CLIENT_SQL, connection)) {
-            preparedStatementHelper.setString(SURNAME, Optional.ofNullable(employee.getSurname()));
             setDataAboutEmployee(employee, preparedStatementHelper);
+            preparedStatementHelper.setInt(ID, Optional.ofNullable(employee.getId()));
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
             }
@@ -109,16 +109,16 @@ public class EmployeeDao implements IDao<Employee> {
     }
 
     /**
-     * Добавляет данные о сотруднике в {@link PreparedStatementHelper}
+     * Добавляет данные о сотруднике в {@link PreparedStatementHelper}.
      *
      * @param employee сотрудник
      * @param preparedStatementHelper объект {@link PreparedStatementHelper}, для обращения к БД
      */
     private static void setDataAboutEmployee(Employee employee, PreparedStatementHelper preparedStatementHelper) {
+        preparedStatementHelper.setString(SURNAME, Optional.ofNullable(employee.getSurname()));
         preparedStatementHelper.setString(FIRST_NAME, Optional.ofNullable(employee.getFirstName()));
         preparedStatementHelper.setString(PATRONYMIC, Optional.ofNullable(employee.getPatronymic()));
         preparedStatementHelper.setString(POST, Optional.ofNullable(employee.getPost()));
-        preparedStatementHelper.setInt(ID, Optional.ofNullable(employee.getId()));
     }
 
     @Override

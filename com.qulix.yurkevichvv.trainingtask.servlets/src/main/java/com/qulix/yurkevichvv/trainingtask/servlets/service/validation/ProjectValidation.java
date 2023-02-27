@@ -33,7 +33,6 @@ public final class ProjectValidation implements ValidationService {
      */
     private static final int LONG_LENGTH = 250;
 
-
     @Override
     public Map<String, String> validate(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());

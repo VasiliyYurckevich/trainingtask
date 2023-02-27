@@ -20,11 +20,11 @@ import com.qulix.yurkevichvv.trainingtask.servlets.service.validation.ProjectVal
  */
 public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTemporaryData> {
 
-
     /**
      * Данные проекта в сессии.
      */
     public static final String PROJECT_TEMPORARY_DATA = "projectTemporaryData";
+
     /**
      * Путь на страницу редактирования проекта.
      */
@@ -34,7 +34,6 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
      * Сервис для работы с {@link ProjectTemporaryData}.
      */
     private final ProjectTemporaryService projectTemporaryService = new ProjectTemporaryService();
-
 
     /**
      * Конструктор.

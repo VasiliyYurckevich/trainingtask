@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ attribute name="label" type="java.lang.String" required="true" %>
 <%@ attribute name="name" type="java.lang.String" required="true" %>
-<%@ attribute name="list" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.DropDownListItem>"
+<%@ attribute name="list" type="java.util.List<com.qulix.yurkevichvv.trainingtask.servlets.dropdown.DropDownListItem>"
 	required="true" %>
 <%@ attribute name="selectedId" type="java.lang.Integer" required="false" %>
 <%@ attribute name="isNullOption" type="java.lang.Boolean" required="false" %>

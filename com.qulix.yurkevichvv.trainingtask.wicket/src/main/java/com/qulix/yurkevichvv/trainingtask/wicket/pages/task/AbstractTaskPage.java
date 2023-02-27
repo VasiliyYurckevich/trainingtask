@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.wicket.extensions.markup.html.form.datetime.LocalDateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
@@ -154,7 +155,6 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
         getForm().add(employeesFeedbackPanel);
     }
 
-
     /**
      * Добавляет выпадающий список проектов в форму задачи.
      */
@@ -195,9 +195,13 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public Employee getObject() {
+            Employee currentEmployee = getEntityModel().getObject().getEmployee();
+
             for (Employee employee : list.getObject()) {
-                if (employee.getId().equals(getEntityModel().getObject().getEmployee().getId())) {
-                    return employee;
+                if (Optional.ofNullable(currentEmployee).isPresent()
+                    && employee.getId().equals(currentEmployee.getId())) {
+
+                    return getEntityModel().getObject().getEmployee();
                 }
             }
             return null;
@@ -206,7 +210,7 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
         @Override
         public void setObject(Employee employee) {
             getEntityModel().getObject().setEmployee(employee != null ?
-                new EmployeeService().getById(employee.getId()) : new Employee());
+                new EmployeeService().getById(employee.getId()) : null);
         }
     }
 
@@ -234,8 +238,12 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
         @Override
         public Project getObject() {
 
+            Project currentProject = getEntityModel().getObject().getProject();
+
             for (Project project : list.getObject()) {
-                if (project.getId().equals(getEntityModel().getObject().getProject().getId())) {
+                if (Optional.ofNullable(currentProject).isPresent()
+                    && project.getId().equals(currentProject.getId())) {
+
                     return project;
                 }
             }
@@ -249,5 +257,4 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
                 new ProjectService().getById(project.getId()) : null);
         }
     }
-
 }

@@ -43,12 +43,12 @@ public class Task implements Entity {
     /**
      * Идентификатор проекта.
      */
-    private Project project = new Project();
+    private Project project;
 
     /**
      * Идентификатор сотрудника.
      */
-    private Employee employee = new Employee();
+    private Employee employee;
 
     @Override
     public Integer getId() {

@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
-import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -36,6 +35,9 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
      */
     private static final int DESCRIPTION_MAXLENGTH = 250;
 
+    /**
+     * Фабрика для генерации страниц задач проекта.
+     */
     private final ProjectTaskPageFactory pageFactory = new ProjectTaskPageFactory(getEntityModel());
 
     /**
@@ -54,8 +56,8 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
 
         Task task = new Task();
         task.setProject(getForm().getModelObject().getProject());
-        getForm().add(new EditProjectTaskButton("addTaskLink",
-            CompoundPropertyModel.of(task), pageFactory));
+        getForm().add(new EditProjectTaskButton("addTaskLink", CompoundPropertyModel.of(task), pageFactory));
+
         addTaskList();
 
         super.addFormComponents();

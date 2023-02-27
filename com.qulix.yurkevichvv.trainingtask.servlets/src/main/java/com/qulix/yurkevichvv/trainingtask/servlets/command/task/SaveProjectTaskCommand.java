@@ -1,6 +1,7 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.command.task;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +67,7 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
         }
 
         pageDataService.setOutputDataToEntity(paramsMap, task);
-        saveTaskInProjectData(task, projectTemporaryData, taskIndex);
+        saveTaskInProjectData(task, projectTemporaryData, Optional.ofNullable(taskIndex));
     }
 
     @Override
@@ -94,10 +95,9 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
      * @param project временные данные проекта
      * @param taskIndex индекс задачи в списке задач проекта
      */
-    private void saveTaskInProjectData(Task task, ProjectTemporaryData project, Integer taskIndex) {
-        if (taskIndex != null) {
-      //      task.setId(project.getTasksList().get(taskIndex).getId());
-            projectTemporaryService.updateTask(project, taskIndex, task);
+    private void saveTaskInProjectData(Task task, ProjectTemporaryData project, Optional<Integer> taskIndex) {
+        if (taskIndex.isPresent()) {
+            projectTemporaryService.updateTask(project, taskIndex.get(), task);
 
         }
         else {

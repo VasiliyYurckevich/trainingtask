@@ -1,22 +1,23 @@
 package com.qulix.yurkevichvv.trainingtask.servlets.service.data_setter;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Status;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.model.services.EmployeeService;
 import com.qulix.yurkevichvv.trainingtask.model.services.ProjectService;
 import com.qulix.yurkevichvv.trainingtask.model.services.TaskService;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.EmployeeDropDownItemConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.ProjectDropDownItemConverter;
-import com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown.StatusDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.EmployeeDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.ProjectDropDownItemConverter;
+import com.qulix.yurkevichvv.trainingtask.servlets.dropdown.StatusDropDownItemConverter;
 
 /**
  * Отвечает за взаимодействие данных {@link Task} и визуализации на странице.
@@ -78,18 +79,10 @@ public class TaskPageDataService implements PageDataService<Task> {
         task.setWorkTime(Integer.valueOf(paramsMap.get(WORK_TIME)));
         task.setBeginDate(LocalDate.parse(paramsMap.get(BEGIN_DATE)));
         task.setEndDate(LocalDate.parse(paramsMap.get(END_DATE)));
-        if (paramsMap.get(PROJECT_ID) != null) {
-            task.setProject(new ProjectService().getById(Integer.valueOf(paramsMap.get(PROJECT_ID))));
-        }
-        else {
-            task.setProject(null);
-        }
-        if (!paramsMap.get(EMPLOYEE_ID).isEmpty()) {
-            task.setEmployee(new EmployeeService().getById(Integer.valueOf(paramsMap.get(EMPLOYEE_ID))));
-        }
-        else {
-            task.setEmployee(null);
-        }
+        task.setProject(paramsMap.get(PROJECT_ID) != null ?
+            new ProjectService().getById(Integer.valueOf(paramsMap.get(PROJECT_ID))) : null);
+        task.setEmployee(!paramsMap.get(EMPLOYEE_ID).isEmpty() ?
+            new EmployeeService().getById(Integer.valueOf(paramsMap.get(EMPLOYEE_ID))) : null);
     }
 
     @Override
@@ -102,14 +95,12 @@ public class TaskPageDataService implements PageDataService<Task> {
         request.setAttribute(WORK_TIME, paramsMap.get(WORK_TIME));
         request.setAttribute(BEGIN_DATE, paramsMap.get(BEGIN_DATE).trim());
         request.setAttribute(END_DATE, paramsMap.get(END_DATE).trim());
-        request.setAttribute(EMPLOYEE_ID,
-            paramsMap.get(EMPLOYEE_ID).isEmpty() ? "" : Integer.valueOf(paramsMap.get(EMPLOYEE_ID)));
+        request.setAttribute(EMPLOYEE_ID, paramsMap.get(EMPLOYEE_ID));
     }
 
     @Override
     public Map<String, String> getDataFromPage(HttpServletRequest request) {
         Map<String, String> paramsMap = new HashMap<>();
-        request.getParameterMap().forEach((x, y) -> System.out.println(x + " : " + Arrays.toString(y)));
         paramsMap.put(TASK_ID, request.getParameter(TASK_ID));
         paramsMap.put(STATUS, request.getParameter(STATUS));
         paramsMap.put(TITLE , request.getParameter(TITLE).trim());
@@ -125,15 +116,14 @@ public class TaskPageDataService implements PageDataService<Task> {
     @Override
     public void setDataToPage(HttpServletRequest request, Task entity) {
         setDropDownLists(request);
-        System.out.println(entity);
         request.setAttribute(TASK_ID, entity.getId());
         request.setAttribute(STATUS, entity.getStatus().getId());
         request.setAttribute(TITLE, entity.getTitle());
         request.setAttribute(WORK_TIME, entity.getWorkTime());
         request.setAttribute(BEGIN_DATE, entity.getBeginDate());
         request.setAttribute(END_DATE, entity.getEndDate());
-        request.setAttribute(PROJECT_ID, entity.getProject().getId());
-        request.setAttribute(EMPLOYEE_ID, entity.getEmployee().getId());
+        request.setAttribute(PROJECT_ID, Optional.ofNullable(entity.getProject()).map(Project::getId).orElse(null));
+        request.setAttribute(EMPLOYEE_ID, Optional.ofNullable(entity.getEmployee()).map(Employee::getId).orElse(null));
     }
 
     @Override
@@ -141,7 +131,6 @@ public class TaskPageDataService implements PageDataService<Task> {
         String id = request.getParameter(TASK_ID);
         if (!id.isBlank()) {
             return taskService.getById(Integer.valueOf(id));
-
         }
         return new Task();
     }

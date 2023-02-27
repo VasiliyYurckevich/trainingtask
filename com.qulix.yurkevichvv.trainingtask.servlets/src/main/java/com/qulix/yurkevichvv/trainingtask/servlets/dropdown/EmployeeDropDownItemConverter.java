@@ -1,4 +1,4 @@
-package com.qulix.yurkevichvv.trainingtask.servlets.view_items.dropdown;
+package com.qulix.yurkevichvv.trainingtask.servlets.dropdown;
 
 import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 

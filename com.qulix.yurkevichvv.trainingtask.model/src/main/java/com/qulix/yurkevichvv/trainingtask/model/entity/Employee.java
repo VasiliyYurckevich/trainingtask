@@ -32,7 +32,7 @@ public class Employee implements Entity {
     /**
      * Должность сотрудника.
      */
-    private String post = "";
+    private String post;
 
     @Override
     public Integer getId() {

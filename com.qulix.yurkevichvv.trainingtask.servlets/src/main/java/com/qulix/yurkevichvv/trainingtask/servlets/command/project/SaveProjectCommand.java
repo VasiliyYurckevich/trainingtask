@@ -41,7 +41,6 @@ public class SaveProjectCommand extends CommandWithValidation<ProjectTemporaryDa
         projectTemporaryService.save(projectTemporaryData);
     }
 
-
     @Override
     protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("projects");

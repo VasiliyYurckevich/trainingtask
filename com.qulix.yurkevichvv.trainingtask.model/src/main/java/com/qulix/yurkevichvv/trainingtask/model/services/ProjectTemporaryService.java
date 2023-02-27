@@ -3,6 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.model.services;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import com.qulix.yurkevichvv.trainingtask.model.dao.ConnectionService;
 import com.qulix.yurkevichvv.trainingtask.model.dao.DaoException;
@@ -39,10 +40,9 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
             }
             else {
                 projectDao.update(projectTemporaryData.getProject(), connection);
-                projectId = projectTemporaryData.getId();
             }
 
-            updateTasks(projectTemporaryData, connection, projectId);
+            updateTasks(projectTemporaryData, connection);
             ConnectionService.commitConnection(connection);
         }
         catch (SQLException | DaoException e) {
@@ -86,7 +86,7 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
      * @param projectTemporaryData проект
      * @param connection соединение
      */
-    private void updateTasks(ProjectTemporaryData projectTemporaryData, Connection connection, Integer projectId) {
+    private void updateTasks(ProjectTemporaryData projectTemporaryData, Connection connection) {
 
         List<Task> tasksToDelete = taskDao.getProjectTasks(projectTemporaryData.getId(), connection);
 
@@ -98,8 +98,7 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
 
         //добавление/обновление задач проекта
         projectTemporaryData.getTasksList().forEach(task -> {
-            task.getProject().setId(projectId);
-            if (task.getId() == null) {
+            if (Optional.ofNullable(task.getId()).isEmpty()) {
                 taskDao.add(task, connection);
             }
             else {
