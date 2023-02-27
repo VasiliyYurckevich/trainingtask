@@ -1,11 +1,15 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.companents;
 
 import java.io.Serializable;
+import java.util.Optional;
+
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Employee;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
+import org.apache.wicket.model.IModel;
 
 /**
  * Добавляет соответствующие колонки в ListView.
@@ -26,8 +30,6 @@ public interface ITaskTableColumns extends Serializable {
             .add(new Label("workTime", task.getWorkTime()))
             .add(new Label("beginDate", task.getBeginDate().toString()))
             .add(new Label("endDate", task.getEndDate().toString()))
-            .add(new Label("employeeName", task.getEmployee().getFullName()))
-            .add(new Label("projectTitle", task.getProject().getTitle()));
-
+            .add(new Label("employeeName", Optional.ofNullable(task.getEmployee()).map(Employee::getFullName).orElse("")));
     }
 }

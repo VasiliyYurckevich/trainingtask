@@ -10,6 +10,7 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -97,13 +98,13 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    protected void setInt(String name, Integer value) {
+    protected void setInt(String name, Optional<Integer> value) {
         try {
-            if (value == null) {
+            if (value.isEmpty()) {
                 this.preparedStatement.setNull(getIndex(name), Types.INTEGER);
             }
             else {
-                this.preparedStatement.setInt(getIndex(name), value);
+                this.preparedStatement.setInt(getIndex(name), value.get());
             }
         }
         catch (SQLException e) {
@@ -117,13 +118,13 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    protected void setString(String name, String value) {
+    protected void setString(String name, Optional<String> value) {
         try {
-            if (value == null) {
+            if (value.isEmpty()) {
                 this.preparedStatement.setNull(getIndex(name), Types.VARCHAR);
             }
             else {
-                this.preparedStatement.setString(getIndex(name), value);
+                this.preparedStatement.setString(getIndex(name), value.get());
             }
         }
         catch (SQLException e) {
@@ -137,13 +138,13 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    protected void setDate(String name, LocalDate value) {
+    protected void setDate(String name, Optional<LocalDate> value) {
         try {
-            if (value == null) {
+            if (value.isEmpty()) {
                 this.preparedStatement.setNull(getIndex(name), Types.DATE);
             }
             else {
-                this.preparedStatement.setDate(getIndex(name), Date.valueOf(value));
+                this.preparedStatement.setDate(getIndex(name), Date.valueOf(value.get()));
             }
         }
         catch (SQLException e) {

@@ -37,7 +37,7 @@ public class TokenHandler {
      */
     public static void addRequestToken(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        List<String> tokenList = Optional.ofNullable((List<String>) session.getAttribute(TOKEN_LIST)).orElse(new ArrayList<>());
+        List<String> tokenList = Optional.of((List<String>) session.getAttribute(TOKEN_LIST)).orElse(new ArrayList<>());
         String token = UUID.randomUUID().toString();
         request.setAttribute(TOKEN, token);
         tokenList.add(token);

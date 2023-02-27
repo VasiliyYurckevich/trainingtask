@@ -2,6 +2,8 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.project;
 
 import java.util.List;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -114,7 +116,8 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
         protected void populateItem(ListItem<Task> item) {
             ITaskTableColumns.addColumns(item);
 
-            item.add(new DeleteProjectTaskButton("deleteLink", item.getModel()))
+            item.add(new Label("projectTitle", projectModel.getObject().getTitle()))
+                .add(new DeleteProjectTaskButton("deleteLink", item.getModel()))
                 .add(new EditProjectTaskButton("editLink", CompoundPropertyModel.of(item.getModel()), pageFactory));
         }
 

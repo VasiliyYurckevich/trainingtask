@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,8 +72,8 @@ public class ProjectDao implements IDao<Project> {
     public Integer add(Project project, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_PROJECT_SQL, connection)) {
-            preparedStatementHelper.setString(TITLE, project.getTitle());
-            preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
+            preparedStatementHelper.setString(TITLE, Optional.ofNullable(project.getTitle()));
+            preparedStatementHelper.setString(DESCRIPTION, Optional.ofNullable(project.getDescription()));
             Integer generatedKey = preparedStatementHelper.executeUpdateWithGeneratedKey();
             if (generatedKey > 0) {
                 LOGGER.log(Level.INFO, "Project created");
@@ -88,9 +89,9 @@ public class ProjectDao implements IDao<Project> {
     public void update(Project project, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_PROJECT_SQL, connection)) {
-            preparedStatementHelper.setString(TITLE, project.getTitle());
-            preparedStatementHelper.setString(DESCRIPTION, project.getDescription());
-            preparedStatementHelper.setInt(ID, project.getId());
+            preparedStatementHelper.setString(TITLE, Optional.ofNullable(project.getTitle()));
+            preparedStatementHelper.setString(DESCRIPTION, Optional.ofNullable(project.getDescription()));
+            preparedStatementHelper.setInt(ID, Optional.ofNullable(project.getId()));
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Project with id {0} updated", project.getId());
             }
@@ -104,7 +105,7 @@ public class ProjectDao implements IDao<Project> {
     public void delete(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_PROJECT_SQL, connection)) {
-            preparedStatementHelper.setInt(ID, id);
+            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Project with id {0} deleted", id);
             }
@@ -155,7 +156,7 @@ public class ProjectDao implements IDao<Project> {
     public Project getById(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_PROJECT_BY_ID, connection)) {
-            preparedStatementHelper.setInt(ID, id);
+            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
 
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
                 if (resultSet.next()) {

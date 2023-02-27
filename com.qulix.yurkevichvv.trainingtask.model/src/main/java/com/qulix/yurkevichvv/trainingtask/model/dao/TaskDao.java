@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -130,7 +131,7 @@ public class TaskDao implements IDao<Task> {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
-            preparedStatementHelper.setInt(ID, task.getId());
+            preparedStatementHelper.setInt(ID, Optional.ofNullable(task.getId()));
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
             }
@@ -144,24 +145,23 @@ public class TaskDao implements IDao<Task> {
      * Внесение данных о задаче в выражение SQL.
      *
      * @param task объект класса "Задача"
-     * @param preparedStatementHelper выражение SQL
-     * @throws DaoException если произошла ошибка при записи/получении данных из БД
+     * @param preparedStatementHelper объект {@link PreparedStatementHelper}, для обращения к БД
      */
-    private void setDataInToStatement(Task task, PreparedStatementHelper preparedStatementHelper) throws DaoException {
-        preparedStatementHelper.setInt(STATUS, task.getStatus().getId());
-        preparedStatementHelper.setString(TITLE, task.getTitle());
-        preparedStatementHelper.setInt(WORK_TIME, task.getWorkTime());
-        preparedStatementHelper.setDate(BEGIN_DATE, task.getBeginDate());
-        preparedStatementHelper.setDate(END_DATE, task.getEndDate());
-        preparedStatementHelper.setInt(PROJECT_ID, task.getProject().getId());
-        preparedStatementHelper.setInt(EMPLOYEE_ID, task.getEmployee() == null ? null : task.getEmployee().getId());
+    private void setDataInToStatement(Task task, PreparedStatementHelper preparedStatementHelper) {
+        preparedStatementHelper.setInt(STATUS, Optional.of(task.getStatus().getId()));
+        preparedStatementHelper.setString(TITLE, Optional.of(task.getTitle()));
+        preparedStatementHelper.setInt(WORK_TIME, Optional.of(task.getWorkTime()));
+        preparedStatementHelper.setDate(BEGIN_DATE, Optional.of(task.getBeginDate()));
+        preparedStatementHelper.setDate(END_DATE, Optional.of(task.getEndDate()));
+        preparedStatementHelper.setInt(PROJECT_ID, Optional.of(task.getProject().getId()));
+        preparedStatementHelper.setInt(EMPLOYEE_ID, Optional.ofNullable(task.getEmployee()).map(Employee::getId));
     }
 
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_TASK_SQL, connection)) {
-            preparedStatementHelper.setInt(ID, id);
+            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
 
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
@@ -182,7 +182,7 @@ public class TaskDao implements IDao<Task> {
     public List<Task> getProjectTasks(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection)) {
-            preparedStatementHelper.setInt(PROJECT_ID, id);
+            preparedStatementHelper.setInt(PROJECT_ID, Optional.ofNullable(id));
 
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
                 return getList(resultSet);
@@ -233,7 +233,7 @@ public class TaskDao implements IDao<Task> {
     public Task getById(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection)) {
-            preparedStatementHelper.setInt(ID, id);
+            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
 
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
                 if (resultSet.next()) {
@@ -267,7 +267,7 @@ public class TaskDao implements IDao<Task> {
             task.setEndDate(LocalDate.parse(resultSet.getString(END_DATE)));
             task.setProject(ProjectDao.getProjectFromDB(resultSet));
             task.setEmployee(resultSet.getString(EMPLOYEE_ID) != null ?
-                EmployeeDao.getEmployeeFromDB(resultSet) : new Employee());
+                EmployeeDao.getEmployeeFromDB(resultSet) : null);
         }
         catch (SQLException e) {
             throw new DaoException("Error when retrieving task data from the database", e);

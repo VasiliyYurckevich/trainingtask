@@ -2,6 +2,7 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task;
 
 import java.util.List;
 
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -69,6 +70,7 @@ public class TasksListPage extends AbstractListPage<Task> {
         protected void populateItem(ListItem<Task> item) {
             super.populateItem(item);
             ITaskTableColumns.addColumns(item);
+            item.add(new Label("projectTitle", item.getModelObject().getProject().getTitle()));
         }
     }
 
