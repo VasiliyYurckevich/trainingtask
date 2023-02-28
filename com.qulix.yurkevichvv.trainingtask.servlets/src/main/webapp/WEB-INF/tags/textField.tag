@@ -10,7 +10,7 @@
 	<br>
 	<ul class="feedbackPanel">
 		<li>
-			<span class="feedback">${ERRORS.get(id)}</span>
+			<span class="feedback">${requestScope.ERRORS.get(id)}</span>
 		</li>
 	</ul>
 </div>

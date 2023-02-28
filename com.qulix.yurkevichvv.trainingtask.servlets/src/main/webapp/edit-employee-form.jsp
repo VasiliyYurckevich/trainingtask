@@ -24,20 +24,20 @@
 
             <div id="container" class="main">
                 <form action="employees">
-                    <input type="hidden" name="employeeId" value="${employeeId}"/>
-                    <input type="hidden" name="token" value="${token}">
+                    <input type="hidden" name="employeeId" value="${requestScope.employeeId}"/>
+                    <input type="hidden" name="token" value="${requestScope.token}">
                     <input name="action" type="hidden">
 
                     <my:buttons saveAction="/save" cancelAction="/list"/>
 
                     <div class="main">
-                        <my:textField label="Фамилия" id="surname" value="${surname}"/>
+                        <my:textField label="Фамилия" id="surname" value="${requestScope.surname}"/>
 
-                        <my:textField label="Имя" id="firstName" value="${firstName}"/>
+                        <my:textField label="Имя" id="firstName" value="${requestScope.firstName}"/>
 
-                        <my:textField label="Отчество" id="patronymic" value="${patronymic}"/>
+                        <my:textField label="Отчество" id="patronymic" value="${requestScope.patronymic}"/>
 
-                        <my:textField label="Должность" id="post" value="${post}"/>
+                        <my:textField label="Должность" id="post" value="${requestScope.post}"/>
                     </div>
                 </form>
             </div>

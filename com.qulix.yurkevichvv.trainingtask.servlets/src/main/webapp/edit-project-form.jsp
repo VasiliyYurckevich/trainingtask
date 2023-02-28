@@ -27,15 +27,15 @@
                 <form action="projects">
                     <input type="hidden" name="action"/>
                     <input type="hidden" name="projectId" value="${projectTemporaryData.id}"/>
-                    <input type="hidden" name="token" value="${token}">
+                    <input type="hidden" name="token" value="${requestScope.token}">
                     <input type="hidden" name="taskIndex"/>
 
                     <my:buttons saveAction="/save" cancelAction="/list"/>
 
                     <div class="main">
-                        <my:textField id="titleProject" label="Наименование" value="${titleProject}"/>
+                        <my:textField id="titleProject" label="Наименование" value="${requestScope.titleProject}"/>
 
-                        <my:textField id="description" label="Описание" value="${description}"/>
+                        <my:textField id="description" label="Описание" value="${requestScope.description}"/>
                     </div>
 
                     <div class="header">

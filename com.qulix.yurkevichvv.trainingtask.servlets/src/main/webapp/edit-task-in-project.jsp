@@ -28,28 +28,28 @@
             <div id="container" class="main">
                 <form action="tasks" method="post" >
                     <input type="hidden" name="action" value="/saveTaskInProject"/>
-                    <input type="hidden" name="token" value="${token}"/>
-                    <input type="hidden" name="taskId" value="${taskId}"/>
-                    <input type="hidden" name="taskIndex" value="${taskIndex}"/>
+                    <input type="hidden" name="token" value="${requestScope.token}"/>
+                    <input type="hidden" name="taskId" value="${requestScope.taskId}"/>
+                    <input type="hidden" name="taskIndex" value="${requestScope.taskIndex}"/>
 
                     <my:buttons cancelFormAction="projects" cancelAction="/edit" saveAction="/saveTaskInProject"/>
 
-                    <my:dropDownChoice label="Статус" name="status" list="${StatusList}" selectedId="${status}"/>
+                    <my:dropDownChoice label="Статус" name="status" list="${StatusList}" selectedId="${requestScope.status}"/>
 
-                    <my:textField label="Наименование" id="title" value="${title}"/>
+                    <my:textField label="Наименование" id="title" value="${requestScope.title}"/>
 
-                    <my:textField label="Работа" id="workTime" value="${workTime}"/>
+                    <my:textField label="Работа" id="workTime" value="${requestScope.workTime}"/>
 
-                    <my:textField label="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
+                    <my:textField label="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${requestScope.beginDate}"/>
 
-                    <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
+                    <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${requestScope.endDate}"/>
 
                     <my:dropDownChoice label="Наименование проекта" name="projectIdDropDown" list="${ProjectList}"
-                        selectedId="${projectId}" isNullOption="true" isDisabled="true"
+                        selectedId="${requestScope.projectId}" isNullOption="true" isDisabled="true"
                         basicOption="${fn:escapeXml(projectTemporaryData.title)}"/>
 
                     <my:dropDownChoice label="Сотрудник" name="employeeId" list="${EmployeeList}"
-                        selectedId="${employeeId}" isNullOption="true"/>
+                        selectedId="${requestScope.employeeId}" isNullOption="true"/>
                 </form>
             </div>
         </div>

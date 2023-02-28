@@ -27,26 +27,26 @@
             <div id="container" class="main">
                 <form action="tasks" id ="form">
                     <input type="hidden" name="action"/>
-                    <input type="hidden" name="taskId" value="${taskId}"/>
-                    <input type="hidden" name="token" value="${token}">
+                    <input type="hidden" name="taskId" value="${requestScope.taskId}"/>
+                    <input type="hidden" name="token" value="${requestScope.token}">
 
                     <my:buttons saveAction="/save" cancelAction="/list"/>
 
-                    <my:dropDownChoice label="Статус" name="status" list="${StatusList}" selectedId="${status}"/>
+                    <my:dropDownChoice label="Статус" name="status" list="${StatusList}" selectedId="${requestScope.status}"/>
 
-                    <my:textField label="Наименование" id="title" value="${title}"/>
+                    <my:textField label="Наименование" id="title" value="${requestScope.title}"/>
 
-                    <my:textField label="Работа" id="workTime" value="${workTime}"/>
+                    <my:textField label="Работа" id="workTime" value="${requestScope.workTime}"/>
 
-                    <my:textField label="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${beginDate}"/>
+                    <my:textField label="Дата начала(ГГГГ-ММ-ДД)" id="beginDate" value="${requestScope.beginDate}"/>
 
-                    <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${endDate}"/>
+                    <my:textField label="Дата окончания(ГГГГ-ММ-ДД)" id="endDate" value="${requestScope.endDate}"/>
 
                     <my:dropDownChoice label="Наименование проекта" name="projectId" list="${ProjectList}"
-                        selectedId="${projectId}"/>
+                        selectedId="${requestScope.projectId}"/>
 
                     <my:dropDownChoice label="Сотрудник" name="employeeId" isNullOption="true"
-                        list="${EmployeeList}" selectedId="${employeeId}"/>
+                        list="${EmployeeList}" selectedId="${requestScope.employeeId}"/>
                 </form>
             </div>
         </div>

@@ -29,7 +29,7 @@
                     <form action="tasks" method="get">
                         <input type="hidden" name="action" value="/edit" />
                         <input type="hidden" name="taskId" value="">
-                        <input type="hidden" name="token" value="${token}">
+                        <input type="hidden" name="token" value="${requestScope.token}">
                         <input type="submit" value="Добавить" ${IS_NO_PROJECTS ? 'disabled' : ''} class="add-button">
                         ${IS_NO_PROJECTS ?
                         '<a class="feedback">Отсутствуют проекты в которые можно добавить задачу! Создайте хотя бы один проект</a>': ''}
@@ -47,27 +47,27 @@
                             <th>Действия</th>
                         </tr>
 
-                        <c:forEach var="taskView" items="${TASKS_LIST}">
+                        <c:forEach var="task" items="${TASKS_LIST}">
 
                             <c:url var="editLink" value="/tasks">
                                 <c:param name="action" value="/edit"/>
-                                <c:param name="taskId" value="${taskView.id}"/>
-                                <c:param name="token" value="${token}"/>
+                                <c:param name="taskId" value="${task.id}"/>
+                                <c:param name="token" value="${requestScope.token}"/>
                             </c:url>
                             <c:url var="deleteLink" value="/tasks">
                                 <c:param name="action" value="/delete"/>
-                                <c:param name="taskId" value="${taskView.id}"/>
-                                <c:param name="token" value="${token}"/>
+                                <c:param name="taskId" value="${task.id}"/>
+                                <c:param name="token" value="${requestScope.token}"/>
                             </c:url>
 
                             <tr>
-                                <td> ${fn:escapeXml(taskView.status.statusTitle)}</td>
-                                <td> ${fn:escapeXml(taskView.title)} </td>
-                                <td> ${fn:escapeXml(taskView.workTime)} </td>
-                                <td> ${fn:escapeXml(taskView.beginDate)}</td>
-                                <td> ${fn:escapeXml(taskView.endDate)}</td>
-                                <td> ${fn:escapeXml(taskView.project.title)}</td>
-                                <td> ${fn:escapeXml(taskView.employee.fullName)}</td>
+                                <td> ${fn:escapeXml(task.status.statusTitle)}</td>
+                                <td> ${fn:escapeXml(task.title)} </td>
+                                <td> ${fn:escapeXml(task.workTime)} </td>
+                                <td> ${fn:escapeXml(task.beginDate)}</td>
+                                <td> ${fn:escapeXml(task.endDate)}</td>
+                                <td> ${fn:escapeXml(task.project.title)}</td>
+                                <td> ${fn:escapeXml(task.employee.fullName)}</td>
                                 <td>
                                     <a href="${editLink}">Редактировать</a>
                                     <a href="${deleteLink}">Удалить</a>

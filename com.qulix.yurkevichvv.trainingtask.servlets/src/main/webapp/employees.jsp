@@ -28,7 +28,7 @@
                 <div>
                     <form action="employees" method="get">
                         <input type="hidden" name="action" value="/edit"/>
-                        <input type="hidden" name="token" value="${token}">
+                        <input type="hidden" name="token" value="${requestScope.token}">
                         <input type="hidden" name="employeeId" value="">
                         <button type="submit" class="add-button">Добавить</button>
                     </form>
@@ -45,12 +45,12 @@
                             <c:url var="editLink" value="employees">
                                 <c:param name="action" value="/edit"/>
                                 <c:param name="employeeId" value="${employee.id}"/>
-                                <c:param name="token" value="${token}"/>
+                                <c:param name="token" value="${requestScope.token}"/>
                             </c:url>
                             <c:url var="deleteLink" value="employees">
                                 <c:param name="action" value="/delete"/>
                                 <c:param name="employeeId" value="${employee.id}"/>
-                                <c:param name="token" value="${token}"/>
+                                <c:param name="token" value="${requestScope.token}"/>
                             </c:url>
 
                             <tr>
