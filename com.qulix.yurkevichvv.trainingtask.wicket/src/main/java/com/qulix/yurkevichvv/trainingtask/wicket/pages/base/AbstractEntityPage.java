@@ -87,7 +87,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      *
      * @author Q-YVV
      */
-    private class CancelLink extends Button {
+    protected class CancelLink extends Button {
 
         /**
          * Конструктор.
@@ -115,7 +115,7 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      *
      * @author Q-YVV
      */
-    private static class SubmitButton extends Button {
+    protected static class SubmitButton extends Button {
 
         /**
          * Конструктор.
