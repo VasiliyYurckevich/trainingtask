@@ -2,7 +2,6 @@ package com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task;
 
 import java.util.List;
 
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
@@ -47,13 +46,8 @@ public class ProjectTaskPage extends AbstractTaskPage {
     }
 
     @Override
-    protected void addButtons() {
-        SubmitButton button = new SaveProjectTaskButton("submit");
-        getForm().add(button);
-        getForm().setDefaultButton(button);
-
-        Button cancelButton = new CancelLink("cancel");
-        getForm().add(cancelButton);
+    protected SubmitButton getSubmitButton() {
+        return new SaveProjectTaskButton("submit");
     }
 
     /**

@@ -66,12 +66,16 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
      * Добавляет кнопки.
      */
     protected void addButtons() {
-        SubmitButton button = new SubmitButton("submit");
+        SubmitButton button = getSubmitButton();
         form.add(button);
         form.setDefaultButton(button);
 
         Button cancelButton = new CancelLink("cancel");
         form.add(cancelButton);
+    }
+
+    protected SubmitButton getSubmitButton() {
+        return new SubmitButton("submit");
     }
 
     public CompoundPropertyModel<T> getEntityModel() {
