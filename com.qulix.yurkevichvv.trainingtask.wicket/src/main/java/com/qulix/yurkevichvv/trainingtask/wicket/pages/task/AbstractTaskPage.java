@@ -159,7 +159,7 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
      * Добавляет выпадающий список проектов в форму задачи.
      */
     private void addProjectDropDownChoice() {
-        LoadableDetachableModel<List<Project>> projects = LoadableDetachableModel.of(() -> new ProjectService().findAll());
+        LoadableDetachableModel<List<Project>> projects = getProjectListLoadableDetachableModel();
         ProjectDropDownModel model = new ProjectDropDownModel(projects);
 
         DropDownChoice<Project> projectDropDownChoice = new DropDownChoice<>("projectId", model,
@@ -170,6 +170,15 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
         FeedbackPanel projectFeedbackPanel = new FeedbackPanel("projectFeedbackPanel",
             new ComponentFeedbackMessageFilter(projectDropDownChoice));
         getForm().add(projectFeedbackPanel);
+    }
+
+    /**
+     * Загружает список проектов в выпадающий список.
+     *
+     * @return список текущих проектов
+     */
+    protected LoadableDetachableModel<List<Project>> getProjectListLoadableDetachableModel() {
+        return LoadableDetachableModel.of(() -> new ProjectService().findAll());
     }
 
     /**
@@ -241,8 +250,8 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
             Project currentProject = getEntityModel().getObject().getProject();
 
             for (Project project : list.getObject()) {
-                if (Optional.ofNullable(currentProject).isPresent()
-                    && project.getId().equals(currentProject.getId())) {
+                if (project.getId() == null || (Optional.ofNullable(currentProject).isPresent()
+                    && project.getId().equals(currentProject.getId()))) {
 
                     return project;
                 }

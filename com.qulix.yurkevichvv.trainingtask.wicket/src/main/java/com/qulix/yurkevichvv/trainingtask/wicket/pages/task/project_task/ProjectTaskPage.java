@@ -1,8 +1,12 @@
 package com.qulix.yurkevichvv.trainingtask.wicket.pages.task.project_task;
 
+import java.util.List;
+
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
+import com.qulix.yurkevichvv.trainingtask.model.entity.Project;
 import com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
@@ -16,6 +20,11 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.task.AbstractTaskPage;
 public class ProjectTaskPage extends AbstractTaskPage {
 
     /**
+     * Модель {@link ProjectTemporaryData}.
+     */
+    private final CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel;
+
+    /**
      * Конструктор.
      *
      * @param taskModel модель задачи
@@ -23,11 +32,18 @@ public class ProjectTaskPage extends AbstractTaskPage {
     public ProjectTaskPage(CompoundPropertyModel<Task> taskModel,
         CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel) {
         super(taskModel, new ProjectTaskForm("taskForm", taskModel, projectTemporaryDataModel));
+        this.projectTemporaryDataModel = projectTemporaryDataModel;
     }
 
     @Override
     protected boolean changeProjectOption() {
         return false;
+    }
+
+    @Override
+    protected LoadableDetachableModel<List<Project>> getProjectListLoadableDetachableModel() {
+        return LoadableDetachableModel.of(
+            () -> ProjectListService.getProjectListWithNew(projectTemporaryDataModel.getObject().getProject()));
     }
 
     @Override
