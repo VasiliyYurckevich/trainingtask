@@ -1,4 +1,3 @@
-
 package com.qulix.yurkevichvv.trainingtask.model.dao;
 
 import java.sql.Connection;

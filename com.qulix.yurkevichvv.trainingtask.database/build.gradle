@@ -105,7 +105,7 @@ boolean isAvailable() {
     }
 }
 
-def executeSql(String query){
+def executeSql(String query) {
     ClassLoader loader = Sql.class.classLoader
     project.buildscript.configurations.classpath.each { File file ->
         loader.addURL(file.toURI().toURL())

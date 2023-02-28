@@ -31,7 +31,6 @@ public class ProjectService implements IService<Project> {
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during deleting project by id", e);
         }
-
     }
 
     @Override

@@ -82,7 +82,7 @@ public class ProjectPage extends AbstractEntityPage<ProjectTemporaryData> {
      *
      * @author Q-YVV
      */
-    static class ProjectTasksListView extends ListView<Task> {
+    private static class ProjectTasksListView extends ListView<Task> {
 
         /**
          * Модель проекта, связанного с задачами.
