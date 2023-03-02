@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.validation.IValidationError;
 
-import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.FieldValidation;
 
 /**
  * Валидатор полей на логичность последовательности даты начала и даты окончания.
@@ -50,7 +50,7 @@ public class DateValidator extends AbstractFormValidator {
     public void validate(Form form) {
         final FormComponent beginDate = components[0];
         final FormComponent endDate = components[1];
-        final Map<String, String> errorMessage = FieldsValidation.checkDate(beginDate.getInput(), endDate.getInput());
+        final Map<String, String> errorMessage = FieldValidation.checkDate(beginDate.getInput(), endDate.getInput());
         if (errorMessage.get(BEGIN_DATE) != null) {
             beginDate.error((IValidationError) messageSource -> errorMessage.get(BEGIN_DATE));
         }

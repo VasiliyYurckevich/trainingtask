@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Q-YVV
  */
-public class FieldsValidation implements Serializable {
+public class FieldValidation implements Serializable {
 
     /**
      * Идентификатор даты начала работы.

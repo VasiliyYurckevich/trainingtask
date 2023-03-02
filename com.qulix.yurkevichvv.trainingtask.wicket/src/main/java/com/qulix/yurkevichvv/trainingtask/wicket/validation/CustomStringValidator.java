@@ -4,7 +4,7 @@ import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 
-import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.FieldValidation;
 
 /**
  * Валидатор текстового ввода.
@@ -30,7 +30,7 @@ public class CustomStringValidator implements IValidator<String> {
     @Override
     public void validate(IValidatable<String> validatable) {
         final String string = validatable.getValue();
-        final String errorMessage = FieldsValidation.checkString(string, maxlength);
+        final String errorMessage = FieldValidation.checkString(string, maxlength);
         if (errorMessage != null) {
             newError(validatable, errorMessage);
         }

@@ -67,7 +67,7 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
         }
 
         pageDataService.setOutputDataToEntity(paramsMap, task);
-        saveTaskInProjectData(task, projectTemporaryData, Optional.ofNullable(taskIndex));
+        saveTaskInProjectData(task, projectTemporaryData, taskIndex);
     }
 
     @Override
@@ -95,9 +95,9 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
      * @param project временные данные проекта
      * @param taskIndex индекс задачи в списке задач проекта
      */
-    private void saveTaskInProjectData(Task task, ProjectTemporaryData project, Optional<Integer> taskIndex) {
-        if (taskIndex.isPresent()) {
-            projectTemporaryService.updateTask(project, taskIndex.get(), task);
+    private void saveTaskInProjectData(Task task, ProjectTemporaryData project, Integer taskIndex) {
+        if (Optional.ofNullable(taskIndex).isPresent()) {
+            projectTemporaryService.updateTask(project, taskIndex, task);
             return;
         }
         projectTemporaryService.addTask(project, task);

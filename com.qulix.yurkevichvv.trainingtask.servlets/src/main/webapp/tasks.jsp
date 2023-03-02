@@ -27,7 +27,7 @@
             <div>
                 <div>
                     <form action="tasks" method="get">
-                        <input type="hidden" name="action" value="/edit" />
+                        <input type="hidden" name="action" value="/edit"/>
                         <input type="hidden" name="taskId" value="">
                         <input type="hidden" name="token" value="${requestScope.token}">
                         <input type="submit" value="Добавить" ${IS_NO_PROJECTS ? 'disabled' : ''} class="add-button">

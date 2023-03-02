@@ -42,11 +42,11 @@ tasks.register('startDatabase') {
 }
 
 def buildProcess(className, filePath, dbName) {
-    def javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java"
-    def classpath = project.buildscript.configurations.classpath.asPath
+    String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java"
+    String classpath = project.buildscript.configurations.classpath.asPath
 
-    def builder = new ProcessBuilder(javaBin, "-cp", classpath, className,
-            "--database.0", filePath, "--dbname.0", dbName as String)
+    def builder = new ProcessBuilder(javaBin, "-cp", classpath, className as String,
+            "--database.0", filePath as String, "--dbname.0", dbName as String)
 
     builder.redirectErrorStream(true)
     builder.directory(projectDir)
@@ -60,7 +60,7 @@ def wait(Process process) {
 
     def line
     while ((line = reader.readLine()) != null) {
-        logger.quiet line
+        logger.quiet line as String
         if (line.contains(ready)) {
             break
         }

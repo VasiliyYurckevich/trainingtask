@@ -1,4 +1,4 @@
-<%@ tag pageEncoding="UTF-8" %>
+<%@ tag pageEncoding="UTF-8"%>
 
 <ul class="nav-panel">
 	<li class="nav-panel-item">

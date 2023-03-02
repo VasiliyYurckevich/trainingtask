@@ -3,7 +3,7 @@ package com.qulix.yurkevichvv.trainingtask.servlets.service.validation;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.qulix.yurkevichvv.trainingtask.model.FieldsValidation;
+import com.qulix.yurkevichvv.trainingtask.model.FieldValidation;
 import com.qulix.yurkevichvv.trainingtask.model.entity.Task;
 
 /**
@@ -46,10 +46,10 @@ public final class TaskValidation implements ValidationService {
     @Override
     public Map<String, String> validate(Map<String, String> paramsMap) {
         Map<String, String> errorList = new HashMap<>(paramsMap.size());
-        errorList.put(STATUS, FieldsValidation.checkString(paramsMap.get(STATUS), SHORT_LENGTH));
-        errorList.put(TITLE, FieldsValidation.checkString(paramsMap.get(TITLE), SHORT_LENGTH));
-        errorList.put(WORK_TIME, FieldsValidation.checkNumber(paramsMap.get(WORK_TIME)));
-        errorList.putAll(FieldsValidation.checkDate(paramsMap.get(BEGIN_DATE), paramsMap.get(END_DATE)));
+        errorList.put(STATUS, FieldValidation.checkString(paramsMap.get(STATUS), SHORT_LENGTH));
+        errorList.put(TITLE, FieldValidation.checkString(paramsMap.get(TITLE), SHORT_LENGTH));
+        errorList.put(WORK_TIME, FieldValidation.checkNumber(paramsMap.get(WORK_TIME)));
+        errorList.putAll(FieldValidation.checkDate(paramsMap.get(BEGIN_DATE), paramsMap.get(END_DATE)));
         return errorList;
     }
 }
