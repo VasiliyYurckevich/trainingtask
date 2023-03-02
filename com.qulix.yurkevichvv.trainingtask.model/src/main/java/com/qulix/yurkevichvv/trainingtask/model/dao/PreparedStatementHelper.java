@@ -98,13 +98,13 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    protected void setInt(String name, Optional<Integer> value) {
+    protected void setInt(String name, Integer value) {
         try {
-            if (value.isEmpty()) {
+            if (Optional.ofNullable(value).isEmpty()) {
                 this.preparedStatement.setNull(getIndex(name), Types.INTEGER);
             }
             else {
-                this.preparedStatement.setInt(getIndex(name), value.get());
+                this.preparedStatement.setInt(getIndex(name), value);
             }
         }
         catch (SQLException e) {
@@ -118,13 +118,13 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    protected void setString(String name, Optional<String> value) {
+    protected void setString(String name, String value) {
         try {
-            if (value.isEmpty()) {
+            if (Optional.ofNullable(value).isEmpty()) {
                 this.preparedStatement.setNull(getIndex(name), Types.VARCHAR);
             }
             else {
-                this.preparedStatement.setString(getIndex(name), value.get());
+                this.preparedStatement.setString(getIndex(name), value);
             }
         }
         catch (SQLException e) {
@@ -138,13 +138,13 @@ public class PreparedStatementHelper implements AutoCloseable {
      * @param name имя параметра
      * @param value значение параметра
      */
-    protected void setDate(String name, Optional<LocalDate> value) {
+    protected void setDate(String name, LocalDate value) {
         try {
-            if (value.isEmpty()) {
+            if (Optional.ofNullable(value).isEmpty()) {
                 this.preparedStatement.setNull(getIndex(name), Types.DATE);
             }
             else {
-                this.preparedStatement.setDate(getIndex(name), Date.valueOf(value.get()));
+                this.preparedStatement.setDate(getIndex(name), Date.valueOf(value));
             }
         }
         catch (SQLException e) {

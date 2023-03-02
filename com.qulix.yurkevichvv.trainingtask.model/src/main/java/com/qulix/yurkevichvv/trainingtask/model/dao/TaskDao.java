@@ -131,7 +131,7 @@ public class TaskDao implements IDao<Task> {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_TASK_SQL, connection)) {
             setDataInToStatement(task, preparedStatementHelper);
-            preparedStatementHelper.setInt(ID, Optional.ofNullable(task.getId()));
+            preparedStatementHelper.setInt(ID, task.getId());
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was updated", task.getId());
             }
@@ -148,20 +148,20 @@ public class TaskDao implements IDao<Task> {
      * @param preparedStatementHelper объект {@link PreparedStatementHelper}, для обращения к БД
      */
     private void setDataInToStatement(Task task, PreparedStatementHelper preparedStatementHelper) {
-        preparedStatementHelper.setInt(STATUS, Optional.of(task.getStatus().getId()));
-        preparedStatementHelper.setString(TITLE, Optional.of(task.getTitle()));
-        preparedStatementHelper.setInt(WORK_TIME, Optional.of(task.getWorkTime()));
-        preparedStatementHelper.setDate(BEGIN_DATE, Optional.of(task.getBeginDate()));
-        preparedStatementHelper.setDate(END_DATE, Optional.of(task.getEndDate()));
-        preparedStatementHelper.setInt(PROJECT_ID, Optional.of(task.getProject().getId()));
-        preparedStatementHelper.setInt(EMPLOYEE_ID, Optional.ofNullable(task.getEmployee()).map(Employee::getId));
+        preparedStatementHelper.setInt(STATUS, task.getStatus().getId());
+        preparedStatementHelper.setString(TITLE, task.getTitle());
+        preparedStatementHelper.setInt(WORK_TIME, task.getWorkTime());
+        preparedStatementHelper.setDate(BEGIN_DATE, task.getBeginDate());
+        preparedStatementHelper.setDate(END_DATE, task.getEndDate());
+        preparedStatementHelper.setInt(PROJECT_ID, task.getProject().getId());
+        preparedStatementHelper.setInt(EMPLOYEE_ID, Optional.ofNullable(task.getEmployee()).map(Employee::getId).orElse(null));
     }
 
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_TASK_SQL, connection)) {
-            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
+            preparedStatementHelper.setInt(ID, id);
 
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Task with id {0} was deleted", id);
@@ -182,7 +182,7 @@ public class TaskDao implements IDao<Task> {
     public List<Task> getProjectTasks(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_PROJECT, connection)) {
-            preparedStatementHelper.setInt(PROJECT_ID, Optional.ofNullable(id));
+            preparedStatementHelper.setInt(PROJECT_ID, id);
 
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
                 return getList(resultSet);
@@ -233,7 +233,7 @@ public class TaskDao implements IDao<Task> {
     public Task getById(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_TASK_BY_ID, connection)) {
-            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
+            preparedStatementHelper.setInt(ID, id);
 
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
                 if (resultSet.next()) {

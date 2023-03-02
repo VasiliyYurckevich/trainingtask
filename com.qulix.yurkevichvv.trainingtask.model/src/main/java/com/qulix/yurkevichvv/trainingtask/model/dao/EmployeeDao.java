@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -99,7 +98,7 @@ public class EmployeeDao implements IDao<Employee> {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(UPDATE_CLIENT_SQL, connection)) {
             setDataAboutEmployee(employee, preparedStatementHelper);
-            preparedStatementHelper.setInt(ID, Optional.ofNullable(employee.getId()));
+            preparedStatementHelper.setInt(ID, employee.getId());
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Employee with id {0} updated", employee.getId());
             }
@@ -116,17 +115,17 @@ public class EmployeeDao implements IDao<Employee> {
      * @param preparedStatementHelper объект {@link PreparedStatementHelper}, для обращения к БД
      */
     private static void setDataAboutEmployee(Employee employee, PreparedStatementHelper preparedStatementHelper) {
-        preparedStatementHelper.setString(SURNAME, Optional.ofNullable(employee.getSurname()));
-        preparedStatementHelper.setString(FIRST_NAME, Optional.ofNullable(employee.getFirstName()));
-        preparedStatementHelper.setString(PATRONYMIC, Optional.ofNullable(employee.getPatronymic()));
-        preparedStatementHelper.setString(POST, Optional.ofNullable(employee.getPost()));
+        preparedStatementHelper.setString(SURNAME, employee.getSurname());
+        preparedStatementHelper.setString(FIRST_NAME, employee.getFirstName());
+        preparedStatementHelper.setString(PATRONYMIC, employee.getPatronymic());
+        preparedStatementHelper.setString(POST, employee.getPost());
     }
 
     @Override
     public void delete(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(DELETE_EMPLOYEE_SQL, connection)) {
-            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
+            preparedStatementHelper.setInt(ID, id);
             if (preparedStatementHelper.executeUpdate() > 0) {
                 LOGGER.log(Level.INFO, "Employee with id {0} deleted", id);
             }
@@ -161,7 +160,7 @@ public class EmployeeDao implements IDao<Employee> {
     public Employee getById(Integer id, Connection connection) throws DaoException {
 
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(SELECT_EMPLOYEE_BY_ID, connection)) {
-            preparedStatementHelper.setInt(ID, Optional.ofNullable(id));
+            preparedStatementHelper.setInt(ID, id);
 
             try (ResultSet resultSet = preparedStatementHelper.executeQuery()) {
 
