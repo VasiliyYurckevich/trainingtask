@@ -98,10 +98,8 @@ public class SaveProjectTaskCommand extends CommandWithValidation<Task> {
     private void saveTaskInProjectData(Task task, ProjectTemporaryData project, Optional<Integer> taskIndex) {
         if (taskIndex.isPresent()) {
             projectTemporaryService.updateTask(project, taskIndex.get(), task);
-
+            return;
         }
-        else {
-            projectTemporaryService.addTask(project, task);
-        }
+        projectTemporaryService.addTask(project, task);
     }
 }

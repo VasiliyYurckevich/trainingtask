@@ -61,6 +61,7 @@ public class FieldsValidation implements Serializable {
         if (string.isBlank()) {
             return EMPTY_FIELD_MASSAGE;
         }
+
         try {
             Integer.parseInt(string.trim());
             return null;

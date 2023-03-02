@@ -96,5 +96,4 @@ public class TasksListPage extends AbstractListPage<Task> {
             setEnabled(!new ProjectService().findAll().isEmpty());
         }
     }
-
 }

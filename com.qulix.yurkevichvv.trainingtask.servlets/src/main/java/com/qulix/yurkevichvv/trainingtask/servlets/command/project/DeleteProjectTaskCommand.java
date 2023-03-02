@@ -50,7 +50,6 @@ public class DeleteProjectTaskCommand extends CommandWithValidation<ProjectTempo
 
         pageDataService.setOutputDataToEntity(paramsMap, projectTemporaryData);
 
-
         projectTemporaryService.deleteTask(projectTemporaryData, projectTemporaryData.getTasksList().get(taskIndex));
     }
 

@@ -30,6 +30,7 @@ public class ProjectTaskPage extends AbstractTaskPage {
      */
     public ProjectTaskPage(CompoundPropertyModel<Task> taskModel,
         CompoundPropertyModel<ProjectTemporaryData> projectTemporaryDataModel) {
+
         super(taskModel, new ProjectTaskForm("taskForm", taskModel, projectTemporaryDataModel));
         this.projectTemporaryDataModel = projectTemporaryDataModel;
     }

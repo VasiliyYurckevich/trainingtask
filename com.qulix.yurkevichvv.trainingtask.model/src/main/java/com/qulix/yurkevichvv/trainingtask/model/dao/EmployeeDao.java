@@ -80,6 +80,7 @@ public class EmployeeDao implements IDao<Employee> {
 
     @Override
     public Integer add(Employee employee, Connection connection) throws DaoException {
+
         try (PreparedStatementHelper preparedStatementHelper = new PreparedStatementHelper(INSERT_EMPLOYEE_SQL, connection)) {
             setDataAboutEmployee(employee, preparedStatementHelper);
             Integer generatedKey = preparedStatementHelper.executeUpdate();

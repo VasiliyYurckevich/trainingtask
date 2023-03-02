@@ -10,7 +10,7 @@
 <html lang="ru">
     <head>
         <title>Редактировать задачу</title>
-        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 
     <body>

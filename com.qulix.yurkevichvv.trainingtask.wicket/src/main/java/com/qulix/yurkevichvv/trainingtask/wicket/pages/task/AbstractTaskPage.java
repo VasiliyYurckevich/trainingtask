@@ -138,7 +138,6 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
      * Добавляет выпадающий список сотрудников в форму задачи.
      */
     private void addEmployeesDropDownChoice() {
-
         LoadableDetachableModel<List<Employee>> employees = LoadableDetachableModel.of(() -> new EmployeeService().findAll());
         LambdaChoiceRenderer<Employee> employeeChoiceRenderer = new LambdaChoiceRenderer<>(Employee::getFullName,
             Employee::getId);
@@ -246,7 +245,6 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public Project getObject() {
-
             Project currentProject = getEntityModel().getObject().getProject();
 
             for (Project project : list.getObject()) {
@@ -261,7 +259,6 @@ public abstract class AbstractTaskPage extends AbstractEntityPage<Task> {
 
         @Override
         public void setObject(Project project) {
-
             getEntityModel().getObject().setProject(project.getId() != null ?
                 new ProjectService().getById(project.getId()) : null);
         }

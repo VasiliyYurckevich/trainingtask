@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <jsp:useBean id="projectTemporaryData" scope="session" type="com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData"/>
 <jsp:useBean id="TASK_LIST" scope="session" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Task>"/>
 
@@ -9,7 +9,7 @@
 <html lang="ru">
     <head>
         <title>Редактировать проект</title>
-        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 
     <body>

@@ -27,6 +27,7 @@ public class TaskController extends Controller {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         try {
             Command command = TaskCommandRegister.getCommand(request.getParameter("action"));
             command.execute(request, response);

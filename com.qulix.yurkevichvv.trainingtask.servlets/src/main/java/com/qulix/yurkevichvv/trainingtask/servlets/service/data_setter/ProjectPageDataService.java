@@ -81,6 +81,7 @@ public class ProjectPageDataService implements PageDataService<ProjectTemporaryD
 
     @Override
     public ProjectTemporaryData getEntity(HttpServletRequest request) {
+
         if (request.getSession().getAttribute(PROJECT_TEMPORARY_DATA) != null) {
             return (ProjectTemporaryData) request.getSession().getAttribute(PROJECT_TEMPORARY_DATA);
         }

@@ -27,6 +27,7 @@ public class ProjectController extends Controller {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         try {
             Command command = ProjectCommandRegister.getCommand(request.getParameter("action"));
             command.execute(request, response);

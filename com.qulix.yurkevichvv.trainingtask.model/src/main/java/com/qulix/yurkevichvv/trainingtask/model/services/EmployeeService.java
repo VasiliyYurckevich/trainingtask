@@ -53,7 +53,6 @@ public class EmployeeService implements IService<Employee> {
         catch (SQLException | DaoException e) {
             throw new ServiceException("Error during deleting employee by id", e);
         }
-
     }
 
     @Override

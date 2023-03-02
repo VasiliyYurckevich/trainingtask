@@ -36,11 +36,13 @@ public class TokenHandler {
      * @param request запрос, объект {@link HttpServletRequest}
      */
     public static void addRequestToken(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        List<String> tokenList = Optional.ofNullable((List<String>) session.getAttribute(TOKEN_LIST)).orElse(new ArrayList<>());
         String token = UUID.randomUUID().toString();
         request.setAttribute(TOKEN, token);
+
+        HttpSession session = request.getSession();
+        List<String> tokenList = Optional.ofNullable((List<String>) session.getAttribute(TOKEN_LIST)).orElse(new ArrayList<>());
         tokenList.add(token);
+
         session.setAttribute(TOKEN_LIST, tokenList);
     }
 

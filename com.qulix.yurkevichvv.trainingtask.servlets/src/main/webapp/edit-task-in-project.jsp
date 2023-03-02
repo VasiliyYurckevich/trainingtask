@@ -1,17 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 <jsp:useBean id="projectTemporaryData" scope="session"
     type="com.qulix.yurkevichvv.trainingtask.model.entity.ProjectTemporaryData"/>
 <jsp:useBean id="StatusList" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Status>"/>
 <jsp:useBean id="ProjectList" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Project>"/>
 <jsp:useBean id="EmployeeList" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Employee>"/>
+
 <!DOCTYPE html>
 <html lang="ru">
     <head>
         <title>Редактировать задачу</title>
-        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
 
     <body>

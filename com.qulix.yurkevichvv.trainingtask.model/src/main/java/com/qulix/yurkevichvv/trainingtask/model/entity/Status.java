@@ -1,6 +1,5 @@
 package com.qulix.yurkevichvv.trainingtask.model.entity;
 
-import java.beans.JavaBean;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -9,13 +8,12 @@ import java.util.Arrays;
  *
  * @author Q-YVV
  */
-@JavaBean
 public enum Status implements Serializable {
 
     /**
      * Статус "Не начата".
      */
-    NOTSTARTED(1, "Не начата"),
+    NOT_STARTED(1, "Не начата"),
 
     /**
      * Статус "В процессе".

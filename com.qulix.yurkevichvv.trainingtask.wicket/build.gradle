@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation "org.apache.wicket:wicket:9.9.1"
-    implementation "org.apache.wicket:wicket-core:9.9.1"
-    implementation "org.apache.wicket:wicket-extensions:9.9.1"
+    implementation "org.apache.wicket:wicket:9.12.0"
+    implementation "org.apache.wicket:wicket-core:9.12.0"
+    implementation "org.apache.wicket:wicket-extensions:9.12.0"
 }
 
 sourceSets {

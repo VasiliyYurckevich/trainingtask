@@ -121,8 +121,7 @@ public class ProjectDao implements IDao<Project> {
             ResultSet resultSet = preparedStatementHelper.executeQuery()) {
             List<Project> projects = new ArrayList<>();
             while (resultSet.next()) {
-                Project project = getProjectFromDB(resultSet);
-                projects.add(project);
+                projects.add(getProjectFromDB(resultSet));
             }
             return projects;
         }

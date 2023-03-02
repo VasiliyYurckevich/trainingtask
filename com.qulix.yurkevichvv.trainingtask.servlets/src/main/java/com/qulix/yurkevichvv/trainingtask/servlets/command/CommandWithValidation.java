@@ -76,8 +76,8 @@ public abstract class CommandWithValidation<T extends Entity> implements Command
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    protected void failedAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
+    protected abstract void failedAction(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException;
 
     /**
      * Проверяет наличие ошибок, полученных от валидатора.
@@ -97,9 +97,8 @@ public abstract class CommandWithValidation<T extends Entity> implements Command
                 successesAction(request);
             }
             redirectAfterSuccessesAction(request, response);
+            return;
         }
-        else {
-            failedAction(request, response);
-        }
+        failedAction(request, response);
     }
 }

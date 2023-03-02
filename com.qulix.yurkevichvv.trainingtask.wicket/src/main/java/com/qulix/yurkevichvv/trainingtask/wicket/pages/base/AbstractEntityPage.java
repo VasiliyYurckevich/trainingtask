@@ -132,7 +132,6 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
 
         @Override
         public void onSubmit() {
-            super.onSubmit();
             AbstractEntityForm<?> form = (AbstractEntityForm<?>) getForm();
             if (TokenHandler.isFirstSubmit(getPage().getPageParameters())) {
                 form.onSubmitting();

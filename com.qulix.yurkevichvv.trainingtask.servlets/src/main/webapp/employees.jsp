@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page contentType="text/html;charset=utf-8" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page contentType="text/html;charset=utf-8"%>
 <jsp:useBean id="EMPLOYEE_LIST" scope="request" type="java.util.List<com.qulix.yurkevichvv.trainingtask.model.entity.Employee>"/>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
 
     <head>
-        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
         <title>Сотрудники</title>
     </head>
 

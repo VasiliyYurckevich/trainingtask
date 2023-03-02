@@ -33,9 +33,8 @@ public class ProjectTemporaryService implements IProjectTemporaryService {
 
             ProjectDao projectDao = new ProjectDao();
 
-            Integer projectId;
             if (projectTemporaryData.getId() == null) {
-                projectId = projectDao.add(projectTemporaryData.getProject(), connection);
+                Integer projectId = projectDao.add(projectTemporaryData.getProject(), connection);
                 projectTemporaryData.setId(projectId);
             }
             else {

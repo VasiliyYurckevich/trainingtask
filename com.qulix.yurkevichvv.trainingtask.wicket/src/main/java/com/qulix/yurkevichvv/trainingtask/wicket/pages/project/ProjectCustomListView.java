@@ -16,7 +16,7 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityPageFa
  *
  * @author Q-YVV
  */
-class ProjectCustomListView extends CustomListView<Project> {
+public class ProjectCustomListView extends CustomListView<Project> {
 
     /**
      * Конструктор.
