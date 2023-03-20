@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  servlet:
+    image: servlet:latest
+    restart: always
+    container_name: servlet_container
+    environment:
+      APP_NAME: 'servlet'
+      HSQLDB_HOST: hsqldb
+      HSQLDB_USER: SA
+      HSQLDB_PASSWORD:
+    build:
+      context: com.qulix.yurkevichvv.trainingtask.servlets
+    ports:
+      - "80:8080"
+    depends_on:
+      - hsqldb
+
+  wicket:
+    image: wicket:latest
+    restart: always
+    container_name: wicket_container
+    environment:
+      APP_NAME: 'wicket'
+      HSQLDB_HOST: hsqldb
+      HSQLDB_USER: SA
+      HSQLDB_PASSWORD:
+    build:
+      context: com.qulix.yurkevichvv.trainingtask.wicket
+    ports:
+      - "81:8080"
+    depends_on:
+      - hsqldb
+
+  hsqldb:
+    image: hsqldb:latest
+    restart: always
+    container_name: hsqldb_container
+    environment:
+      APP_NAME: 'hsqldb'
+      HSQLDB_USER: SA
+      HSQLDB_PASSWORD:
+    build:
+      context: com.qulix.yurkevichvv.trainingtask.database
+    ports:
+      - "82:8080"

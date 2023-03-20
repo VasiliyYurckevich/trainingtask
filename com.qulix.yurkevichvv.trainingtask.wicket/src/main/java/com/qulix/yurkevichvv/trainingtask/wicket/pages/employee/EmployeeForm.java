@@ -8,8 +8,10 @@ import com.qulix.yurkevichvv.trainingtask.wicket.pages.base.AbstractEntityForm;
 
 /**
  * Форма сотрудника.
+ *
+ * @author Q-YVV
  */
-class EmployeeForm extends AbstractEntityForm<Employee> {
+public class EmployeeForm extends AbstractEntityForm<Employee> {
 
     /**
      * Сервис для работы с Employee.

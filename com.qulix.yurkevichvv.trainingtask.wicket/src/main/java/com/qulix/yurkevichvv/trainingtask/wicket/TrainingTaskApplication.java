@@ -33,7 +33,8 @@ public class TrainingTaskApplication extends WebApplication {
 
     @Override
     public Session newSession(Request request, Response response) {
-        return super.newSession(request, response).setLocale(new Locale("ru", "RU"))
+        return super.newSession(request, response)
+            .setLocale(new Locale("ru", "RU"))
             .setAttribute("TOKEN_LIST", new ArrayList<String>());
     }
 }

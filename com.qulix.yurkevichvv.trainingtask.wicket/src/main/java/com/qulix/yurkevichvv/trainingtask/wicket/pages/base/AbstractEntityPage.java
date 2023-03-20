@@ -74,6 +74,11 @@ public abstract class AbstractEntityPage<T extends Entity> extends BasePage {
         form.add(cancelButton);
     }
 
+    /**
+     * Создает кнопку отправки формы.
+     *
+     * @return кнопку отправки формы
+     */
     protected SubmitButton getSubmitButton() {
         return new SubmitButton("submit");
     }
