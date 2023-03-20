@@ -39,11 +39,11 @@ public class EditProjectTaskCommand extends CommandWithValidation<ProjectTempora
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request) {
+    protected void successfulAction(HttpServletRequest request) {
     }
 
     @Override
-    protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
+    protected void redirectAfterSuccessfulAction(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
 
         ProjectTemporaryData projectTemporaryData =

@@ -33,14 +33,14 @@ public class SaveEmployeeCommand extends CommandWithValidation<Employee> {
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request) {
+    protected void successfulAction(HttpServletRequest request) {
         Employee employee = pageDataService.getEntity(request);
         pageDataService.setOutputDataToEntity(paramsMap, employee);
         employeeService.save(employee);
     }
 
     @Override
-    protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void redirectAfterSuccessfulAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("employees");
     }
 

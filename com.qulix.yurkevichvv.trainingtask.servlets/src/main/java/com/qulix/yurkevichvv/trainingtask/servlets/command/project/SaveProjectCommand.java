@@ -33,7 +33,7 @@ public class SaveProjectCommand extends CommandWithValidation<ProjectTemporaryDa
     }
 
     @Override
-    protected void successesAction(HttpServletRequest request) {
+    protected void successfulAction(HttpServletRequest request) {
         ProjectTemporaryData projectTemporaryData =
             (ProjectTemporaryData) request.getSession().getAttribute("projectTemporaryData");
 
@@ -42,7 +42,7 @@ public class SaveProjectCommand extends CommandWithValidation<ProjectTemporaryDa
     }
 
     @Override
-    protected void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void redirectAfterSuccessfulAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("projects");
     }
 

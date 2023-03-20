@@ -29,6 +29,5 @@ public interface DropDownItemConverter<T> {
         return list.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
-
     }
 }

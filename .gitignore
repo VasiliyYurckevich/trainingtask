@@ -2,7 +2,7 @@
 /../build/
 /.gradle
 /.idea
-/TrainingTask.iml
+/*.iml
 /com.qulix.yurkevichvv.trainingtask.database/mydb.tmp/
 /com.qulix.yurkevichvv.trainingtask.database/mydb.lck
 /com.qulix.yurkevichvv.trainingtask.database/mydb.log

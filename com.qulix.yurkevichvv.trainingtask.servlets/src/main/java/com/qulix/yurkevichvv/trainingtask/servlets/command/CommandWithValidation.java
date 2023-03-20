@@ -55,7 +55,7 @@ public abstract class CommandWithValidation<T extends Entity> implements Command
      *
      * @param request {@link HttpServletRequest} объект, содержащий запрос клиента к сервлету
      */
-    protected abstract void successesAction(HttpServletRequest request);
+    protected abstract void successfulAction(HttpServletRequest request);
 
     /**
      * Действия при отсутствии ошибок.
@@ -65,7 +65,7 @@ public abstract class CommandWithValidation<T extends Entity> implements Command
      * @throws ServletException определяет общее исключение, которое сервлет может выдать при возникновении затруднений
      * @throws IOException если обнаружена ошибка ввода или вывода, когда сервлет обрабатывает запрос GET
      */
-    protected abstract void redirectAfterSuccessesAction(HttpServletRequest request, HttpServletResponse response)
+    protected abstract void redirectAfterSuccessfulAction(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException;
 
     /**
@@ -92,13 +92,13 @@ public abstract class CommandWithValidation<T extends Entity> implements Command
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         paramsMap = pageDataService.getDataFromPage(request);
         errorsMap = validationService.validate(paramsMap);
-        if (isValid()) {
-            if ((boolean) request.getAttribute("isFirstRequest")) {
-                successesAction(request);
-            }
-            redirectAfterSuccessesAction(request, response);
+        if (!isValid()) {
+            failedAction(request, response);
             return;
         }
-        failedAction(request, response);
+        if ((boolean) request.getAttribute("isFirstRequest")) {
+            successfulAction(request);
+        }
+        redirectAfterSuccessfulAction(request, response);
     }
 }

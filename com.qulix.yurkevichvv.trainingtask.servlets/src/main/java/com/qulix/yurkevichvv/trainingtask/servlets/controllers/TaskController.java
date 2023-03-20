@@ -33,7 +33,7 @@ public class TaskController extends Controller {
             command.execute(request, response);
         }
         catch (IOException | ServletException e) {
-            LOGGER.log(Level.SEVERE, "Problem in Project Controller", e);
+            LOGGER.log(Level.SEVERE, "Problem in Task Controller", e);
             throw e;
         }
     }
