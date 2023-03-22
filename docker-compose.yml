@@ -36,13 +36,17 @@ services:
 
   hsqldb:
     image: hsqldb:latest
-    restart: always
     container_name: hsqldb_container
+    volumes:
+      - ./com.qulix.yurkevichvv.trainingtask.database/database:/usr/local/hsqldb
+      - ./com.qulix.yurkevichvv.trainingtask.database/sql-scripts:/usr/local/scripts
     environment:
       APP_NAME: 'hsqldb'
+      HSQLDB_DATABASE_NAME: mydb
+      HSQLDB_DATABASE_ALIAS: mydb
       HSQLDB_USER: SA
       HSQLDB_PASSWORD:
     build:
       context: com.qulix.yurkevichvv.trainingtask.database
     ports:
-      - "82:8080"
+      - "9001:9001"
