@@ -35,18 +35,15 @@ services:
       - hsqldb
 
   hsqldb:
-    image: hsqldb:latest
+    image: hsqldb
     container_name: hsqldb_container
     volumes:
-      - ./com.qulix.yurkevichvv.trainingtask.database/database:/usr/local/hsqldb
-      - ./com.qulix.yurkevichvv.trainingtask.database/sql-scripts:/usr/local/scripts
-    environment:
-      APP_NAME: 'hsqldb'
-      HSQLDB_DATABASE_NAME: mydb
-      HSQLDB_DATABASE_ALIAS: mydb
-      HSQLDB_USER: SA
-      HSQLDB_PASSWORD:
+      - ./com.qulix.yurkevichvv.trainingtask.database/database:/opt/local/hsqldb
+      - ./com.qulix.yurkevichvv.trainingtask.database/sql-scripts:/scripts
     build:
       context: com.qulix.yurkevichvv.trainingtask.database
+    env_file:
+      - ./com.qulix.yurkevichvv.trainingtask.database/hsqldb-compose.env
     ports:
       - "9001:9001"
+    tty: true
